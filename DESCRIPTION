@@ -1,0 +1,17 @@
+Package: qdatr
+Title: Quantum Data for the 21st Century
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "James",
+           family = "Hollway",
+           role = c("aut", "cre"),
+           email = "james.hollway@graduateinstitute.ch",
+           comment = c(ORCID = "0000-0002-8361-9647")),
+      person("Henrique", "Sposito", role = "ctb"))
+Description: Collection, correction, and connection.
+License: `use_mit_license()`, `use_gpl3_license()` or friends to
+    pick a license
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
