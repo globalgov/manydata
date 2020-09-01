@@ -7,6 +7,10 @@
 #' as well as trimming all white space from the starts and ends of the strings.
 #' @return A capitalised, trimmed string
 #' @import textclean
+#' @import english
+#' @import stringr
+#' @importFrom utils as.roman
+#' @importFrom dplyr if_else
 #' @examples
 #' \dontrun{
 #' e <- entitle("A treaty concerning things")

@@ -21,4 +21,7 @@ RoxygenNote: 7.1.1
 Suggests: 
     testthat
 Imports: 
-    textclean
+    textclean,
+    stringr,
+    english,
+    dplyr
