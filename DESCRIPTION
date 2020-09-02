@@ -24,4 +24,5 @@ Imports:
     stringr,
     english,
     dplyr,
-    roxygen2
+    roxygen2,
+    covr
