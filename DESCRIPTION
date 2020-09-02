@@ -23,4 +23,5 @@ Imports:
     textclean,
     stringr,
     english,
-    dplyr
+    dplyr,
+    roxygen2
