@@ -13,7 +13,7 @@ Closes #(issue no.)
 - [ ] I have commented my code in-line, particularly in hard-to-understand areas
 - [ ] My code follows the style guidelines of this project
 - [ ] I have added tests that prove my fix is effective or that my feature works
-- [ ] I have documented any functions or data in the corresponding .R scripts
+- [ ] I have documented any functions or data in the corresponding .R scripts so that roxygen can create documentation
 - [ ] The package builds on my OS without issues
 - [ ] My changes generate no new warnings
 - [ ] PR checks all pass for latest commit
