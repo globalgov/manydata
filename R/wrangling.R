@@ -17,7 +17,7 @@
 transmutate <- function( .data, ... ){
 
   # Helper functions
-  requireNamespace(tidyverse)
+  require(tidyverse)
   getAST <- function( ee ) { as.list(ee) %>% map_if(is.call, getAST) }
   getSyms <- function( ee ) { getAST(ee) %>% unlist %>% map_chr(deparse) }
 
