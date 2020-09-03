@@ -6,8 +6,8 @@
 #' @return Data frame with mutated variables
 #' and none of the variables used in the mutations,
 #' but (unlike the transmute() function in dplyr) all other unnamed variables.
-#' @import purrr
-#' @import rlang
+#' @importFrom purrr map
+#' @importFrom rlang get_expr
 #' @source https://stackoverflow.com/questions/51428156/dplyr-mutate-transmute-drop-only-the-columns-used-in-the-formula
 #' @examples
 #' \dontrun{
@@ -17,7 +17,7 @@
 transmutate <- function( .data, ... ){
 
   # Helper functions
-  require(tidyverse)
+  requireNamespace(tidyverse)
   getAST <- function( ee ) { as.list(ee) %>% map_if(is.call, getAST) }
   getSyms <- function( ee ) { getAST(ee) %>% unlist %>% map_chr(deparse) }
 
