@@ -6,7 +6,7 @@
 #' @return Data frame with mutated variables
 #' and none of the variables used in the mutations,
 #' but (unlike the transmute() function in dplyr) all other unnamed variables.
-#' @import rlang
+#' @import purrr
 #' @source https://stackoverflow.com/questions/51428156/dplyr-mutate-transmute-drop-only-the-columns-used-in-the-formula
 #' @examples
 #' \dontrun{
