@@ -26,5 +26,4 @@ Imports:
     dplyr,
     roxygen2,
     covr,
-    rlang,
-    purrr
+    rlang
