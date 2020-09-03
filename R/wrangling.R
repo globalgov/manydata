@@ -7,7 +7,8 @@
 #' and none of the variables used in the mutations,
 #' but (unlike the transmute() function in dplyr) all other unnamed variables.
 #' @importFrom purrr map
-#' @importFrom rlang get_expr
+#' @import rlang
+#' @import dplyr
 #' @source https://stackoverflow.com/questions/51428156/dplyr-mutate-transmute-drop-only-the-columns-used-in-the-formula
 #' @examples
 #' \dontrun{
@@ -17,12 +18,12 @@
 transmutate <- function( .data, ... ){
 
   # Helper functions
-  require(tidyverse)
-  getAST <- function( ee ) { as.list(ee) %>% map_if(is.call, getAST) }
-  getSyms <- function( ee ) { getAST(ee) %>% unlist %>% map_chr(deparse) }
+  # require(tidyverse)
+  getAST <- function( ee ) { as.list(ee) %>% purrr::map_if(is.call, getAST) }
+  getSyms <- function( ee ) { getAST(ee) %>% unlist %>% purrr::map_chr(deparse) }
 
   ## Capture the provided expressions and retrieve their symbols
-  vSyms <- enquos(...) %>% purrr::map( ~getSyms(rlang::get_expr(.x)) )
+  vSyms <- rlang::enquos(...) %>% purrr::map( ~getSyms(rlang::get_expr(.x)) )
 
   ## Identify symbols that are in common with the provided dataset
   ## These columns are to be removed
@@ -30,6 +31,6 @@ transmutate <- function( .data, ... ){
 
   ## Pass on the expressions to mutate to do the work
   ## Remove the identified columns from the result
-  mutate( .data, ... ) %>% select( -one_of(vToRemove) )
+  dplyr::mutate( .data, ... ) %>% dplyr::select( -dplyr::one_of(vToRemove) )
 }
 
