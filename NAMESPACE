@@ -2,10 +2,11 @@
 
 export(entitle)
 export(transmutate)
+import(dplyr)
 import(english)
+import(rlang)
 import(stringr)
 import(textclean)
 importFrom(dplyr,if_else)
 importFrom(purrr,map)
-importFrom(rlang,get_expr)
 importFrom(utils,as.roman)
