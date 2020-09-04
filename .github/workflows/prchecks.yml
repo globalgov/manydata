@@ -61,8 +61,8 @@ jobs:
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
 
-      - name: Document
-        run: Rscript -e 'roxygen2::roxygenise()'
+      - name:#Document
+        run: #Rscript -e 'roxygen2::roxygenise()'
 
       - name: Check
         env:
