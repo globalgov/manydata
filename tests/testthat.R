@@ -1,4 +1,4 @@
 library(testthat)
-library(qdatr)
+library(qDatr)
 
-test_check("qdatr")
+test_check("qDatr")
