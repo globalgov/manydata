@@ -107,9 +107,3 @@ jobs:
           dir.create("cp")
           file.copy(CP, "cp")
         shell: Rscript {0}
-        
-      - name: Save CP
-        uses: actions/upload-cp@v1
-        with:
-          name: ${{ matrix.config.asset_name }}
-          path: cp/
