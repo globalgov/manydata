@@ -23,6 +23,7 @@ Imports:
     textclean,
     stringr,
     english,
+    lubridate,
     dplyr,
     roxygen2,
     covr,
