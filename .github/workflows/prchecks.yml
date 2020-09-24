@@ -100,10 +100,10 @@ jobs:
         run: lintr::lint_package()
         shell: Rscript {0}
         
-      - name: CP
+      - name: GP
         run: |
-          goodpractice::cp()
-          cp <- goodpractice::cp()
-          dir.create("cp")
-          file.copy(CP, "cp")
+          goodpractice::gp()
+          cp <- goodpractice::gp()
+          dir.create("gp")
+          file.copy(GP, "gp")
         shell: Rscript {0}
