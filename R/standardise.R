@@ -45,7 +45,7 @@ entitle <- function(s, strict = FALSE) {
   out <- textclean::mgsub(out,
                           paste0("(?<!\\w)", ords, "(?!\\w)"),
                           as.numeric(1:100),
-                          safe = TRUE, perl = TRUE, 
+                          safe = TRUE, perl = TRUE,
                           ignore.case = TRUE, fixed = FALSE)
   out
 }
