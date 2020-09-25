@@ -58,3 +58,39 @@ reunite <- function(..., sep = "_"){
   out
 }
 
+
+#' Moving variables relative to others
+#'
+#' Moves variables (columns) of a data frame to positions
+#' relative to other variables in the data frame.
+#' @param data First variable to be used, required.
+#' @param tomove Variable(s) to be moved
+#' @param where String that dictates position in relation to
+#' reference variable. Can be one of: "last", "first", "before", or "after".
+#' @param ba Optional string identifying reference variable
+#' By default this is the system date, but can be specified.
+#' @return The data frame given by 'data' with the variables repositioned
+#' @examples
+#' \dontrun{
+#' gneva.treat <- rearrange(gneva.treat, "L", "after", "X")
+#' gneva.treat <- rearrange(gneva.treat, c("Cites","Amends","Supersedes"), "before", "Amended.by")
+#' }
+#' @export
+rearrange <- function(data, tomove, where = "last", ba = NULL) {
+  temp <- setdiff(names(data), tomove)
+  x <- switch(
+    where,
+    first = data[c(tomove, temp)],
+    last = data[c(temp, tomove)],
+    before = {
+      if (is.null(ba)) stop("must specify ba column")
+      if (length(ba) > 1) stop("ba must be a single character string")
+      data[append(temp, values = tomove, after = (match(ba, temp)-1))]
+    },
+    after = {
+      if (is.null(ba)) stop("must specify ba column")
+      if (length(ba) > 1) stop("ba must be a single character string")
+      data[append(temp, values = tomove, after = (match(ba, temp)))]
+    })
+  x
+}
