@@ -67,7 +67,7 @@ reunite <- function(..., sep = "_"){
 #' @param tomove Variable(s) to be moved
 #' @param where String that dictates position in relation to
 #' reference variable. Can be one of: "last", "first", "before", or "after".
-#' @param ba Optional string identifying reference variable
+#' @param refva Optional string identifying reference variable
 #' By default this is the system date, but can be specified.
 #' @return The data frame given by 'data' with the variables repositioned
 #' @examples
@@ -76,21 +76,21 @@ reunite <- function(..., sep = "_"){
 #' gneva.treat <- rearrange(gneva.treat, c("Cites","Amends","Supersedes"), "before", "Amended.by")
 #' }
 #' @export
-rearrange <- function(data, tomove, where = "last", ba = NULL) {
+rearrange <- function(data, tomove, where = "last", refva = NULL) {
   temp <- setdiff(names(data), tomove)
   x <- switch(
     where,
     first = data[c(tomove, temp)],
     last = data[c(temp, tomove)],
     before = {
-      if (is.null(ba)) stop("must specify ba column")
-      if (length(ba) > 1) stop("ba must be a single character string")
-      data[append(temp, values = tomove, after = (match(ba, temp)-1))]
+      if (is.null(refva)) stop("must specify refva column")
+      if (length(refva) > 1) stop("refva must be a single character string")
+      data[append(temp, values = tomove, after = (match(refva, temp)-1))]
     },
     after = {
-      if (is.null(ba)) stop("must specify ba column")
-      if (length(ba) > 1) stop("ba must be a single character string")
-      data[append(temp, values = tomove, after = (match(ba, temp)))]
+      if (is.null(refva)) stop("must specify refva column")
+      if (length(refva) > 1) stop("refva must be a single character string")
+      data[append(temp, values = tomove, after = (match(refva, temp)))]
     })
   x
 }

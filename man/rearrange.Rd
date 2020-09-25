@@ -4,7 +4,7 @@
 \alias{rearrange}
 \title{Moving variables relative to others}
 \usage{
-rearrange(data, tomove, where = "last", ba = NULL)
+rearrange(data, tomove, where = "last", refva = NULL)
 }
 \arguments{
 \item{data}{First variable to be used, required.}
@@ -14,7 +14,7 @@ rearrange(data, tomove, where = "last", ba = NULL)
 \item{where}{String that dictates position in relation to
 reference variable. Can be one of: "last", "first", "before", or "after".}
 
-\item{ba}{Optional string identifying reference variable
+\item{refva}{Optional string identifying reference variable
 By default this is the system date, but can be specified.}
 }
 \value{
