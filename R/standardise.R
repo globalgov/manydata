@@ -33,7 +33,7 @@ entitle <- function(s, strict = FALSE) {
   out <- textclean::add_comma_space(out)
   
   out <- textclean::mgsub(out,
-                          paste0("(?<!\\w)", as.roman(1:100),"(?!\\w)"),
+                          paste0("(?<!\\w)", as.roman(1:100), "(?!\\w)"),
                           as.numeric(1:100),
                           safe = TRUE, perl = TRUE)
   
@@ -42,9 +42,9 @@ entitle <- function(s, strict = FALSE) {
                  if_else(stringr::str_count(ords, "\\S+")==2,
                          paste0("|",gsub(" ", "-", as.character(ords))),
                          ""))
-  out <- textclean::mgsub(out,
-                          paste0("(?<!\\w)", ords,"(?!\\w)"),
-                          as.numeric(1:100),
+  out <- textclean::mgsub(out, 
+                          paste0("(?<!\\w)", ords, "(?!\\w)"), 
+                          as.numeric(1:100), 
                           safe = TRUE, perl = TRUE, ignore.case = TRUE, fixed = FALSE)
   
   out
