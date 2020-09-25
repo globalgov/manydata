@@ -103,7 +103,4 @@ jobs:
       - name: Goodpractice
         run: |
           goodpractice::gp()
-          gp <- goodpractice::gp()
-          dir.create("gp")
-          file.copy(GP, "gp")
         shell: Rscript {0}
