@@ -20,7 +20,9 @@
 entitle <- function(s, strict = FALSE) {
   cap <- function(s) paste(toupper(substring(s, 1, 1)),
                            {
-                             s <- substring(s, 2); if (strict) tolower(s) else s},
+                            s <- substring(s, 2);
+                            if (strict) tolower(s) else s
+                            },
                            sep = "", collapse = " ")
   out <- sapply(strsplit(s, split = " "), cap, USE.NAMES = !is.null(names(s)))
   out[out == "NANA"] <- NA
@@ -39,11 +41,12 @@ entitle <- function(s, strict = FALSE) {
   ords <- english::ordinal(1:100)
   ords <- paste0(ords,
                  if_else(stringr::str_count(ords, "\\S+") == 2,
-                         paste0("|", gsub(" ", "-", as.character(ords))), 
+                         paste0("|", gsub(" ", "-", as.character(ords))),
                          ""))
-  out <- textclean::mgsub(out, 
-                          paste0("(?<!\\w)", ords, "(?!\\w)"), 
-                          as.numeric(1:100), 
-                          safe = TRUE, perl = TRUE, ignore.case = TRUE, fixed = FALSE)
+  out <- textclean::mgsub(out,
+                          paste0("(?<!\\w)", ords, "(?!\\w)"),
+                          as.numeric(1:100),
+                          safe = TRUE, perl = TRUE, 
+                          ignore.case = TRUE, fixed = FALSE)
   out
 }
