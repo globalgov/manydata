@@ -29,3 +29,5 @@ Imports:
     covr,
     purrr,
     rlang
+URL: https://github.com/jhollway/qDatr
+BugReports: https://github.com/jhollway/qDatr/issues
