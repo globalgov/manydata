@@ -9,14 +9,14 @@ test_that("columns ordered correctly",{
   expect_equal(rearrange(data, "colours", "first"), data[,c(3,1,2)])
 })
 
-test_that("refva specified when necessary",{
-  expect_error(rearrange(data, "letters", "after"), "must specify refva column")
-  expect_error(rearrange(data, "letters", "before"), "must specify refva column")
+test_that("ref specified when necessary",{
+  expect_error(rearrange(data, "letters", "after"), "must specify ref column")
+  expect_error(rearrange(data, "letters", "before"), "must specify ref column")
 })
 
-test_that("refva specified correctly",{
+test_that("ref specified correctly",{
   expect_error(rearrange(data, "letters", "after", c("numbers", "colours")),
-               "refva must be a single character string")
+               "ref must be a single character string")
   expect_error(rearrange(data, "letters", "before", c("numbers", "colours")),
-               "refva must be a single character string")
+               "ref must be a single character string")
 })
