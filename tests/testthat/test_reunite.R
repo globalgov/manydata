@@ -1,5 +1,3 @@
-context("reunite")
-
 data <- data.frame(fir=c(NA, "two", "three", NA),
                    sec=c("one", NA, "three", NA), stringsAsFactors = F)
 dat2 <-  data.frame(single=c("one", "two", "three", NA), stringsAsFactors = F)
