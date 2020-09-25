@@ -34,3 +34,27 @@ transmutate <- function( .data, ... ){
   dplyr::mutate( .data, ... ) %>% dplyr::select( -dplyr::one_of(vToRemove) )
 }
 
+#' Pastes unique string vectors
+#'
+#' A vectorised function for use with dplyr's mutate, etc
+#' @param ... Variables to pass to the function,
+#' currently only two at a time
+#' @param sep Separator when vectors reunited, by default "_"
+#' @return A single vector with unique non-missing information
+#' @examples
+#' \dontrun{
+#' data <- data.frame(fir=c(NA, "two", "three", NA),
+#'   sec=c("one", NA, "three", NA), stringsAsFactors = F)
+#' transmutate(data, single = reunite(fir, sec))
+#' }
+#' @export
+reunite <- function(..., sep = "_"){
+  out <- cbind(...)
+  out[out[,1]==out[,2], 2] <- NA
+  out <- na_if(
+    gsub(paste0("NA", sep), "",
+         gsub(paste0(sep, "NA"), "",
+    apply(out, 1, paste, collapse = sep))), "NA")
+  out
+}
+
