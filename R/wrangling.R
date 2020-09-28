@@ -58,17 +58,14 @@ reunite <- function(..., sep = "_"){
   out
 }
 
-
 #' Moving variables relative to others
 #'
-#' Moves variables (columns) of a data frame to positions
-#' relative to other variables in the data frame.
 #' @param data First variable to be used, required.
 #' @param tomove Variable(s) to be moved
-#' @param where String that dictates position in relation to
-#' reference variable. Can be one of: "last", "first", "before", or "after".
+#' @param where String that dictates position in relation to reference variable. Can be one of: "last", "first", "before", or "after".
 #' @param ref Optional string identifying reference variable
-#' By default this is the system date, but can be specified.
+#' @details Moves variables (columns) of a data frame to positions
+#' relative to other variables in the data frame.
 #' @return The data frame given by 'data' with the variables repositioned
 #' @examples
 #' \dontrun{
@@ -94,3 +91,4 @@ rearrange <- function(data, tomove, where = "last", ref = NULL) {
     })
   x
 }
+
