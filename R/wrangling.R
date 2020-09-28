@@ -92,3 +92,19 @@ rearrange <- function(data, tomove, where = "last", ref = NULL) {
   x
 }
 
+#' Pastes unique string vectors
+#'
+#' For use with dplyr::summarise, for example
+#' @param x A vector
+#' @return A single value
+#' @details This function operates similarly to reunite,
+#' but instead of operating on columns/observations,
+#' it pastes together unique rows/observations.
+#' @examples
+#' \dontrun{
+#' }
+#' @export
+recollect <- function(x, collapse = "_"){
+  na_if(paste(unique(na.omit(x)), collapse = collapse),"")
+}
+

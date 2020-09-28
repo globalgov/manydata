@@ -3,6 +3,7 @@
 export(entitle)
 export(qpackage_create)
 export(rearrange)
+export(recollect)
 export(reunite)
 export(transmutate)
 import(dplyr)
