@@ -1,6 +1,6 @@
 Package: qDatr
 Title: Quantum Data for the 21st Century
-Version: 0.0.2
+Version: 0.0.3
 Authors@R: 
     c(person(given = "James",
              family = "Hollway",
@@ -23,8 +23,11 @@ Imports:
     textclean,
     stringr,
     english,
+    lubridate,
     dplyr,
     roxygen2,
     covr,
     purrr,
     rlang
+URL: https://github.com/jhollway/qDatr
+BugReports: https://github.com/jhollway/qDatr/issues

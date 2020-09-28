@@ -10,6 +10,7 @@ jobs:
   build:
     name: Build for ${{ matrix.config.os }}
     runs-on: ${{ matrix.config.os }}
+    if: "!contains(github.event.head_commit.message, '[skip-ci]')"
     strategy:
       fail-fast: false
       matrix:

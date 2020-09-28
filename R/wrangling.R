@@ -34,3 +34,63 @@ transmutate <- function( .data, ... ){
   dplyr::mutate( .data, ... ) %>% dplyr::select( -dplyr::one_of(vToRemove) )
 }
 
+#' Pastes unique string vectors
+#'
+#' A vectorised function for use with dplyr's mutate, etc
+#' @param ... Variables to pass to the function,
+#' currently only two at a time
+#' @param sep Separator when vectors reunited, by default "_"
+#' @return A single vector with unique non-missing information
+#' @examples
+#' \dontrun{
+#' data <- data.frame(fir=c(NA, "two", "three", NA),
+#'   sec=c("one", NA, "three", NA), stringsAsFactors = F)
+#' transmutate(data, single = reunite(fir, sec))
+#' }
+#' @export
+reunite <- function(..., sep = "_"){
+  out <- cbind(...)
+  out[out[,1]==out[,2], 2] <- NA
+  out <- na_if(
+    gsub(paste0("NA", sep), "",
+         gsub(paste0(sep, "NA"), "",
+    apply(out, 1, paste, collapse = sep))), "NA")
+  out
+}
+
+
+#' Moving variables relative to others
+#'
+#' Moves variables (columns) of a data frame to positions
+#' relative to other variables in the data frame.
+#' @param data First variable to be used, required.
+#' @param tomove Variable(s) to be moved
+#' @param where String that dictates position in relation to
+#' reference variable. Can be one of: "last", "first", "before", or "after".
+#' @param ref Optional string identifying reference variable
+#' By default this is the system date, but can be specified.
+#' @return The data frame given by 'data' with the variables repositioned
+#' @examples
+#' \dontrun{
+#' gneva.treat <- rearrange(gneva.treat, "L", "after", "X")
+#' gneva.treat <- rearrange(gneva.treat, c("Cites","Amends","Supersedes"), "before", "Amended.by")
+#' }
+#' @export
+rearrange <- function(data, tomove, where = "last", ref = NULL) {
+  temp <- setdiff(names(data), tomove)
+  x <- switch(
+    where,
+    first = data[c(tomove, temp)],
+    last = data[c(temp, tomove)],
+    before = {
+      if (is.null(ref)) stop("must specify ref column")
+      if (length(ref) > 1) stop("ref must be a single character string")
+      data[append(temp, values = tomove, after = (match(ref, temp)-1))]
+    },
+    after = {
+      if (is.null(ref)) stop("must specify ref column")
+      if (length(ref) > 1) stop("ref must be a single character string")
+      data[append(temp, values = tomove, after = (match(ref, temp)))]
+    })
+  x
+}
