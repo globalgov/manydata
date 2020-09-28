@@ -22,5 +22,9 @@ it pastes together unique rows/observations.
 }
 \examples{
 \dontrun{
+data1 <- data.frame(ID = c(1,2,3,3,2,1),
+data1 <- data.frame(ID = c(1,2,3,3,2,1),
+                   One = c(1,NA,3,NA,2,NA))
+recollect(data1$One)
 }
 }
