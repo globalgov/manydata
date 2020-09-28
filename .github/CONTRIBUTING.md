@@ -1,6 +1,6 @@
 # Contributing to qdatr
 
-This outlines how to propose a change to qdatr. 
+This outlines how to propose a change to `qdatr`. 
 For more detailed info about contributing to this, and other tidyverse packages, please see the
 [**development contributing guide**](https://rstd.io/tidy-contrib). 
 
@@ -15,6 +15,10 @@ You can find the `.R` file that generates the `.Rd` by reading the comment in th
 If you want to make a bigger change, it's a good idea to first file an issue and make sure someone from the team agrees that it’s needed. 
 If you’ve found a bug, please file an issue that illustrates the bug with a minimal 
 [reprex](https://www.tidyverse.org/help/#reprex) (this will also help you write a unit test, if needed).
+
+Another way to raise an issue, if you are already making changes to the code,
+is to annotate a todo directly in the code.
+More details can be found out about how to write these here: https://todo.jasonet.co
 
 ### Pull request process
 
