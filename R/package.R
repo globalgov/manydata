@@ -5,7 +5,6 @@
 #' @param packageAuthor A string, list or vector giving the package author(s), required
 #' @details The function establishes many of the required files and folder structures
 #' required for a qDatr-consistent data package.
-#' @import usethis
 #' @return A new package structure 
 #' @examples
 #' \dontrun{
