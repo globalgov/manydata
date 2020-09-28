@@ -23,6 +23,6 @@ required for a qDatr-consistent data package.
 }
 \examples{
 \dontrun{
-qpackage_create("qSates", c("James Hollway", "Henrique Sposito"))
+qpackage_create("qStates", c("James Hollway", "Henrique Sposito"))
 }
 }
