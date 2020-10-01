@@ -68,8 +68,6 @@ entitle <- function(s, strict = FALSE) {
 #' @export
 resequence <- function(data, vars, unity = "_"){
 
-  require(lubridate)
-
   len <- length(vars)
 
   out <- apply(data[,vars], 1, function(x) {
@@ -83,8 +81,8 @@ resequence <- function(data, vars, unity = "_"){
       if (sum((!grepl("-01-01", dates))*1)>=len) dates <- dates[!grepl("-01-01",dates)]
       if (sum((!grepl("9999", dates))*1)>=len) dates <- dates[!grepl("9999",dates)]
 
-      dmax <- max(as.duration(interval(dates[1:(length(dates)-1)],dates[2:(length(dates))])))
-      dmax <- which(as.duration(interval(dates[1:(length(dates)-1)],dates[2:(length(dates))]))==as.duration(dmax))
+      dmax <- max(lubridate::as.duration(interval(dates[1:(length(dates)-1)],dates[2:(length(dates))])))
+      dmax <- which(lubridate::as.duration(interval(dates[1:(length(dates)-1)],dates[2:(length(dates))]))==as.duration(dmax))
       dates <- dates[c(1,dmax+1)]
     }
 
