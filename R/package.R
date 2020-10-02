@@ -21,9 +21,9 @@
 create_qpackage <- function(packageName,
                             packageAuthor,
                             update = TRUE) {
-  if(is.null(packageName)) stop ("Please declare a package name")
-  if(!startsWith(packageName, "q")) stop ("Package name must start with a 'q'")
-  if(is.null(packageAuthor)) stop ("Please declare at least one author")
+  if (is.null(packageName)) stop("Please declare a package name")
+  if (!startsWith(packageName, "q")) stop("Package name must start with a 'q'")
+  if (is.null(packageAuthor)) stop("Please declare at least one author")
   usethis::create_tidy_package(getwd(), name = packageName)
   # usethis::use_code_of_conduct()
   # usethis::use_ccby_license()
