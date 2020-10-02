@@ -101,6 +101,7 @@ rearrange <- function(data, tomove, where = "last", ref = NULL) {
 #' @details This function operates similarly to reunite,
 #' but instead of operating on columns/observations,
 #' it pastes together unique rows/observations.
+#' @importFrom stats na.omit
 #' @examples
 #' \dontrun{
 #' data1 <- data.frame(ID = c(1,2,3,3,2,1),

@@ -59,6 +59,7 @@ entitle <- function(s, strict = FALSE) {
 #' By default, tidyr::unite() glues using the underscore "_".
 #' @return a dataframe/columns
 #' @import lubridate
+#' @importFrom stats na.omit
 #' @examples
 #' \dontrun{
 #' data <- data.frame(Sign = c("2000-01-01", "2001-01-01", "2001-01-01_2000-01-01", "2000-01-01", NA),
