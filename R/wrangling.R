@@ -58,17 +58,14 @@ reunite <- function(..., sep = "_"){
   out
 }
 
-
 #' Moving variables relative to others
 #'
-#' Moves variables (columns) of a data frame to positions
-#' relative to other variables in the data frame.
 #' @param data First variable to be used, required.
 #' @param tomove Variable(s) to be moved
-#' @param where String that dictates position in relation to
-#' reference variable. Can be one of: "last", "first", "before", or "after".
+#' @param where String that dictates position in relation to reference variable. Can be one of: "last", "first", "before", or "after".
 #' @param ref Optional string identifying reference variable
-#' By default this is the system date, but can be specified.
+#' @details Moves variables (columns) of a data frame to positions
+#' relative to other variables in the data frame.
 #' @return The data frame given by 'data' with the variables repositioned
 #' @examples
 #' \dontrun{
@@ -94,3 +91,56 @@ rearrange <- function(data, tomove, where = "last", ref = NULL) {
     })
   x
 }
+
+#' Pastes unique string vectors
+#'
+#' For use with dplyr::summarise, for example
+#' @param x A vector
+#' @param collapse String indicating how elements separated
+#' @return A single value
+#' @details This function operates similarly to reunite,
+#' but instead of operating on columns/observations,
+#' it pastes together unique rows/observations.
+#' @importFrom stats na.omit
+#' @examples
+#' \dontrun{
+#' data1 <- data.frame(ID = c(1,2,3,3,2,1),
+#'data1 <- data.frame(ID = c(1,2,3,3,2,1),
+#'                    One = c(1,NA,3,NA,2,NA))
+#' recollect(data1$One)
+#' }
+#' @export
+recollect <- function(x, collapse = "_"){
+  na_if(paste(unique(na.omit(x)), collapse = collapse),"")
+}
+
+#' Interleaving two vectors by position
+#'
+#' Resets the century of (unlikely) future events
+#' @param vect Main vector
+#' @param pos Positions to be inserted
+#' @param elems Elements to be inserted at those positions.
+#' By default, these are NAs (missing values).
+#' @return A vector the length of the sum of \code{vect}
+#' and \code{pos}.
+#' @examples
+#' \dontrun{
+#' interleave(1:5, c(2,4))
+#' }
+#' @export
+interleave <- function(vect, pos, elems = NA) {
+
+  l <- length(vect)
+  j <- 0
+  for (i in 1:length(pos)){
+    if (pos[i] == 1)
+      vect <- c(elems[j+1], vect)
+    else if (pos[i] == length(vect)+1)
+      vect <- c(vect, elems[j+1])
+    else
+      vect <- c(vect[1:(pos[i]-1)], elems[j+1], vect[(pos[i]):length(vect)])
+    j <- j+1
+  }
+  return(vect)
+}
+

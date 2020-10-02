@@ -11,16 +11,17 @@ rearrange(data, tomove, where = "last", ref = NULL)
 
 \item{tomove}{Variable(s) to be moved}
 
-\item{where}{String that dictates position in relation to
-reference variable. Can be one of: "last", "first", "before", or "after".}
+\item{where}{String that dictates position in relation to reference variable. Can be one of: "last", "first", "before", or "after".}
 
-\item{ref}{Optional string identifying reference variable
-By default this is the system date, but can be specified.}
+\item{ref}{Optional string identifying reference variable}
 }
 \value{
 The data frame given by 'data' with the variables repositioned
 }
 \description{
+Moving variables relative to others
+}
+\details{
 Moves variables (columns) of a data frame to positions
 relative to other variables in the data frame.
 }
