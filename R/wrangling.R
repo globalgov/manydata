@@ -96,6 +96,7 @@ rearrange <- function(data, tomove, where = "last", ref = NULL) {
 #'
 #' For use with dplyr::summarise, for example
 #' @param x A vector
+#' @param collapse String indicating how elements separated
 #' @return A single value
 #' @details This function operates similarly to reunite,
 #' but instead of operating on columns/observations,

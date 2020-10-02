@@ -8,6 +8,8 @@ recollect(x, collapse = "_")
 }
 \arguments{
 \item{x}{A vector}
+
+\item{collapse}{String indicating how elements separated}
 }
 \value{
 A single value
