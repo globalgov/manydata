@@ -29,6 +29,8 @@ Imports:
     covr,
     purrr,
     rlang,
-    usethis
+    usethis,
+    pkgdown, 
+    desc
 URL: https://github.com/jhollway/qDatr
 BugReports: https://github.com/jhollway/qDatr/issues
