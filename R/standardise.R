@@ -121,3 +121,81 @@ repaint <- function(df, id, var){
   df
 }
 
+#' Resetting century of future events
+#'
+#' Resets the century of (unlikely) future events
+#' @param dates First variable to be used, required.
+#' Can be a character or date variable.
+#' @param sep Year from which to make a cut-off and return the last century.
+#' By default this is the system date, but can be specified.
+#' @return A vector the same length as \code{dates}
+#' @details This function will use the system date as the cut-off
+#' for identifying past or future events.
+#' It is geared towards numeric dates (i.e. "12") not named dates (i.e. "Dec"),
+#' though these dates should be correctly parsed regardless of order or separator.
+#' It will return any datestamps of "9999-12-31",
+#' which may be interpreted as unknown/future date, as is.
+#' Please note that different types of separators in the same vector,
+#' for example c("2004-12-12","12/12/2004", "12.12.2004"),
+#' may confuse the algorithm.
+#' In other words, this function is built for internally consistent codes.
+#' @examples
+#' \dontrun{
+#' recent(head(tfd_agree$Sign))
+#' }
+#' @export
+recent <- function(dates, sep = NULL){
+
+  miss <- which(is.na(dates))
+  if(length(miss)>0) dates <- dates[-miss]
+
+  # get separator
+  if(is.null(sep)) sep <- substr(gsub("\\d","",dates),1,1)[1]
+  if(sep==".") sep <- "\\."
+  # get threshold
+  thresh <- as.numeric(substr(Sys.Date(),1,4))
+  # get elements
+  x <- matrix(as.numeric(unlist(strsplit(dates, sep))), ncol=3, byrow = T)
+
+  # order
+  ypos <- which(apply(x, 2, function(y) any(y>31) | any(nchar(y)==4)))
+  if(length(ypos)!=1) ypos <- 3
+  dpos <- setdiff(which(apply(x, 2, function(y) any(y>12) & all(y<32))), ypos)
+  if(length(dpos)==0) dpos <- setdiff(c(1,3), ypos)
+  mpos <- setdiff(setdiff(1:3, ypos), dpos)
+
+  if(nrow(x)==1){
+    y <- ifelse(nchar(x[ypos])>2,
+                ifelse(x[ypos] > thresh & x[ypos]!="9999",
+                       paste0("19", x[ypos] %% 100),
+                       formatC(x[ypos], width = 4, flag = "0")), # if 4, keep or correct
+                ifelse(x[ypos] > (thresh %% 100),
+                       paste0("19", formatC(x[ypos], width = 2, flag = "0")), # if more than now, likely last century
+                       paste0("20", formatC(x[ypos], width = 2, flag = "0")))) # if less than now, likely this century
+    m <- formatC(x[mpos], width = 2, flag = "0")
+    if(m=="00") m <- "01"
+    d <- formatC(x[dpos], width = 2, flag = "0")
+    if(d=="00") d <- "01"
+    out <- paste(y,m,d,sep = "-")
+  } else {
+    out <- apply(x, 1, function(x){
+      y <- ifelse(nchar(x[ypos])>2,
+                  ifelse(x[ypos] > thresh & x[ypos]!="9999",
+                         paste0("19",x[ypos] %% 100),
+                         formatC(x[ypos], width = 4, flag = "0")), # if 4, keep or correct
+                  ifelse(as.numeric(x[ypos]) > (thresh %% 100),
+                         paste0("19", formatC(x[ypos], width = 2, flag = "0")), # if more than now, likely last century
+                         paste0("20", formatC(x[ypos], width = 2, flag = "0")))) # if less than now, likely this century
+      m <- formatC(as.numeric(x[mpos]), width = 2, flag = "0")
+      if(m=="00") m <- "01"
+      d <- formatC(as.numeric(x[dpos]), width = 2, flag = "0")
+      if(d=="00") d <- "01"
+      paste(y,m,d,sep = "-")
+    })
+    out <- gsub("NA-NA-NA", NA_character_, out)
+  }
+
+  if(length(miss)>0) out <- interleave(out, miss) # intersperse NAs back in
+  out
+}
+
