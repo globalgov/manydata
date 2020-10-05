@@ -144,3 +144,21 @@ interleave <- function(vect, pos, elems = NA) {
   return(vect)
 }
 
+#' Get first non-missing
+#'
+#' For use with dplyr::summarise, for example
+#' @param x A vector
+#' @return A single value
+#' @details This function operates similarly to coalesce for columns,
+#' that is picking the first non-missing observation,
+#' but on observations rather than variables.
+#' @source https://stackoverflow.com/questions/40515180/dplyr-how-to-find-the-first-non-missing-string-by-groups
+#' @examples
+#' \dontrun{
+#' summarise(mtcars, consolidate(.))
+#' }
+#' @export
+consolidate <- function(x){
+  x[which(!is.na(x))[1]]
+}
+
