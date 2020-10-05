@@ -12,8 +12,6 @@
 #' folder structures required for a qDatr-consistent data package.
 #' @return A new package structure
 #' @importFrom usethis create_tidy_package
-#' @import pkgdown
-#' @import desc
 #' @examples
 #' \dontrun{
 #' qpackage_create("qStates",
@@ -115,6 +113,7 @@ qpackage <- function(path, copyright_holder = NULL) {
     use_ccby_license()
     use_tidy_description()
     use_namespace()
+    use_news_md()
     
     use_readme_rmd(open = FALSE)
     use_read_md (open = FALSE)
@@ -134,6 +133,7 @@ qpackage <- function(path, copyright_holder = NULL) {
 
 # Create a basic testthat folder, taken from usethis. 
 
+#' @export
 use_testthat <- function(edition = NULL) {
   use_testthat_impl(edition)
   
@@ -184,7 +184,7 @@ use_license_template <- function(license, data = list()) {
   )
 }  
 
-#' @export
+
 use_template <- function(template,
                          save_as = template,
                          data = list(),
@@ -228,7 +228,7 @@ use_github <- function() {
 
 # Path to our COC template in qDatr
 
-#' @export 
+#' 
 use_coc <- function(path = NULL) {
   if (!is.null(path)) {
     use_directory(path, ignore = is_package())
@@ -256,7 +256,7 @@ use_coc <- function(path = NULL) {
   invisible(new)
 }
 
-#' @export
+
 use_contributing <- function(path = NULL) {
   if (!is.null(path)) {
     use_directory(path, ignore = is_package())
@@ -275,13 +275,13 @@ use_contributing <- function(path = NULL) {
   invisible(newc)
 }
 
-#' @export
+
 use_dot_github <- function(ignore = TRUE) {
   use_directory(".github", ignore = ignore)
   use_git_ignore("*.html", directory = ".github")
 }
 
-#' @export
+
 use_pr_template <-  function(path = NULL) {
   if (!is.null(path)) {
     use_directory(path, ignore = is_package())
