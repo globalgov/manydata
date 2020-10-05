@@ -438,3 +438,14 @@ use_namespace <- function(roxygen = TRUE) {
 # usethis::use_tibble()
 
 
+#' @export
+use_qData_raw <- function(...){
+  
+  # Step one: take a data file from anywhere on your harddrive and move/copy it to a new data-raw folder
+  usethis::use_data_raw()
+  
+  # Step two: open up a script containing a template for how to convert raw data to qDatr consistent (hopefully) data objects
+  usethis::use_template()
+
+}
+  
