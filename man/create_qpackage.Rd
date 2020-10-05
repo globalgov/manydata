@@ -7,11 +7,14 @@
 create_qpackage(packageName, packageAuthor, update = TRUE)
 }
 \arguments{
-\item{packageName}{A string giving the desired name of the package, must start with "q"}
+\item{packageName}{A string giving the desired name of the package,
+must start with "q"}
 
-\item{packageAuthor}{A string, list or vector giving the package author(s), required}
+\item{packageAuthor}{A string, list or vector giving the package
+author(s), required}
 
-\item{update}{A logical indicating whether existing files should be overwritten, by default TRUE.
+\item{update}{A logical indicating whether existing files should be
+overwritten, by default TRUE.
 TODO: do these checks internally and smartly...}
 }
 \value{
@@ -21,11 +24,12 @@ A new package structure
 Creates a new package in and consistent with the qDatr ecosystem
 }
 \details{
-The function establishes many of the required files and folder structures
-required for a qDatr-consistent data package.
+The function establishes many of the required files and
+folder structures required for a qDatr-consistent data package.
 }
 \examples{
 \dontrun{
-qpackage_create("qStates", c("James Hollway", "Henrique Sposito"))
+qpackage_create("qStates",
+c("James Hollway", "Henrique Sposito"))
 }
 }
