@@ -18,14 +18,52 @@
 #' c("James Hollway", "Henrique Sposito"))
 #' }
 #' @export
-create_qpackage <- function(packageName,
+create_qPackage <- function(packageName,
                             packageAuthor,
                             update = TRUE) {
+  
+  # Checks to see whether inputs are correct
   if (is.null(packageName)) stop("Please declare a package name")
   if (!startsWith(packageName, "q")) stop("Package name must start with a 'q'")
   if (is.null(packageAuthor)) stop("Please declare at least one author")
   
-  qpackage() 
+  # Checks to see whether path already contains files or is empty
+  path <- usethis::create_package(path, rstudio = TRUE, open = FALSE)
+  old_project <- usethis::proj_set(path)
+  on.exit(usethis::proj_set(old_project), add = TRUE)
+  
+  # Step one: ensure/create package/project structure
+  usethis::use_readme_rmd(open = FALSE)
+  usethis::use_read_md (open = FALSE)
+  
+  # Step two: ensure/create core package files
+  usethis::use_ccby_license()
+  usethis::use_tidy_description()
+  usethis::use_namespace()
+  usethis::use_news_md()
+  
+  # Step three: ensure/create github files 
+  usethis::use_github()
+  usethis::use_dot_github()
+  usethis::use_coc()
+  usethis::use_contributing()
+
+  usethis::use_issue_template()
+  usethis::use_github_action_prcommands()
+  usethis::use_github_action_prchecks()
+  usethis::use_github_action_pushrelease()
+  
+  usethis::ui_todo("In the new package, remember to do:")
+  usethis::ui_todo("{ui_code('use_git()')}")
+  usethis::ui_todo("{ui_code('use_github()')}")
+  usethis::ui_todo("{ui_code('use_tidy_github_actions()')}")
+  usethis::ui_todo("{ui_code('use_pkgdown()')}")
+  
+  # Step four: ensure/create additional files
+  usethis::use_testthat()
+  
+  usethis::proj_activate(path)
+  
 }
   
 # Similar to usethis::create_tidy_package(getwd(), name = packageName) but set up to specific parameters. 
@@ -103,88 +141,6 @@ create_project <- function(path,
   invisible(proj_get())
 }  
 
-#' @export
-qpackage <- function(path, copyright_holder = NULL) {
-    path <- create_package(path, rstudio = TRUE, open = FALSE)
-    old_project <- proj_set(path)
-    on.exit(proj_set(old_project), add = TRUE)
-    
-    use_testthat()
-    use_ccby_license()
-    use_tidy_description()
-    use_namespace()
-    use_news_md()
-    
-    use_readme_rmd(open = FALSE)
-    use_read_md (open = FALSE)
-    use_github_action_prcommands()
-    use_github_action_prchecks()
-    use_github_action_pushrelease()
-    
-    use_github()
-    ui_todo("In the new package, remember to do:")
-    ui_todo("{ui_code('use_git()')}")
-    ui_todo("{ui_code('use_github()')}")
-    ui_todo("{ui_code('use_tidy_github_actions()')}")
-    ui_todo("{ui_code('use_pkgdown()')}")
-    
-    proj_activate(path)
-}  
-
-# Create a basic testthat folder, taken from usethis. 
-
-#' @export
-use_testthat <- function(edition = NULL) {
-  use_testthat_impl(edition)
-  
-  ui_todo(
-    "Call {ui_code('use_test()')} to initialize a basic test file and open it \\
-    for editing."
-  )
-}
-
-use_testthat_impl <- function(edition = NULL) {
-  check_installed("testthat")
-  if (utils::packageVersion("testthat") < "2.1.0") {
-    ui_stop("testthat 2.1.0 or greater needed. Please install before re-trying")
-  }
-  
-  if (is_package()) {
-    use_dependency("testthat", "Suggests")
-    
-    edition <- check_edition(edition)
-    use_description_field("Config/testthat/edition", edition)
-  }
-  
-  use_directory(path("tests", "testthat"))
-  use_template(
-    "testthat.R",
-    save_as = path("tests", "testthat.R"),
-    data = list(name = project_name())
-  )
-}
-
-# License, taken from usethis. 
-
-#' @export
-use_ccby_license <- function() {
-  if (is_package()) {
-    use_description_field("License", "CC BY 4.0", overwrite = TRUE)
-  }
-  use_license_template("ccby-4")
-}
-
-use_license_template <- function(license, data = list()) {
-  license_template <- glue("license-{license}.md")
-  
-  use_template(license_template,
-               save_as = "LICENSE.md",
-               data = data,
-               ignore = TRUE
-  )
-}  
-
-
 use_template <- function(template,
                          save_as = template,
                          data = list(),
@@ -217,14 +173,6 @@ use_tidy_description <- function() {
 }
 
 # Set contributing, issue template and github modified from usethis.  
-
-#' @export
-use_github <- function() {
-  use_dot_github()
-  use_coc()
-  use_contributing()
-  use_issue_template()
-}
 
 # Path to our COC template in qDatr
 
@@ -274,13 +222,6 @@ use_contributing <- function(path = NULL) {
   cref <- paste0(href, "/Contributing.txt")
   invisible(newc)
 }
-
-
-use_dot_github <- function(ignore = TRUE) {
-  use_directory(".github", ignore = ignore)
-  use_git_ignore("*.html", directory = ".github")
-}
-
 
 use_pr_template <-  function(path = NULL) {
   if (!is.null(path)) {
@@ -338,20 +279,6 @@ use_readme_md <- function(open = rlang::is_interactive()) {
     data = project_data(),
     open = open
   )
-}
-
-# Adding news.md from usethis. 
-#' @export
-use_news_md <- function(open = rlang::is_interactive()) {
-  check_no_uncommitted_changes()
-  
-  use_template(
-    "NEWS.md",
-    data = package_data(),
-    open = open
-  )
-  
-  git_ask_commit("Add NEWS.md", untracked = TRUE, paths = "NEWS.md")
 }
 
 package_data <- function(base_path = proj_get()) {
