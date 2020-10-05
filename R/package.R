@@ -12,6 +12,7 @@
 #' folder structures required for a qDatr-consistent data package.
 #' @return A new package structure
 #' @importFrom usethis create_tidy_package
+#' @import pkgdown
 #' @examples
 #' \dontrun{
 #' qpackage_create("qStates",
@@ -24,10 +25,60 @@ create_qpackage <- function(packageName,
   if (is.null(packageName)) stop("Please declare a package name")
   if (!startsWith(packageName, "q")) stop("Package name must start with a 'q'")
   if (is.null(packageAuthor)) stop("Please declare at least one author")
+  
   usethis::create_tidy_package(getwd(), name = packageName)
-  # usethis::use_code_of_conduct()
-  # usethis::use_ccby_license()
-  # usethis::use_readme_rmd()
+  
+  if (!is.null(path)) {
+      use_directory(path, ignore = is_package())
+    }
+    save_as <- pkgdown::path_join(c(path, "CODE_OF_CONDUCT.md"))
+    
+    new <- use_template(
+      "CODE_OF_CONDUCT.md",
+      save_as = save_as,
+      ignore = is_package() && is.null(path)
+    )
+    
+    href <- pkgdown_url(pedantic = TRUE) %||%
+      "https://raw.githubusercontent.com/globalgov/qDatr/main/.github/CODE_OF_CONDUCT.md"
+    href <- paste0(href, "/CODE_OF_CONDUCT.txt")
+    
+    ui_todo("Don't forget to describe the code of conduct in your README:")
+    ui_code_block("
+    ## Code of Conduct
+    Please note that the {project_name()} project is released with a \\
+    [Contributor Code of Conduct]({href}). By contributing to this project, \\
+    you agree to abide by its terms."
+    )
+    
+    invisible(new)
+    
+    usethis::use_ccby_license()
+  
+#  if (!is.null(path)) { 
+#  use_directory(path, ignore = is_package()) 
+#  }
+#   save_as <- pkgdown::path_join(c(path, "README.rmd"))
+#    (open = rlang::is_interactive())
+#   librarian::check_installed("rmarkdown")
+#   read <- pkgdown_url(pedantic = TRUE) %||%
+#            "https://raw.githubusercontent.com/globalgov/qDatr/main/README.md"
+#   read <- paste0(read, "/README.txt")
+#   data = read
+#   data$Rmd <- TRUE
+#    
+#   new <- usethis::use_template(
+#   if (!is.null(path)) "package-README" else "project-README",
+#     "README.Rmd",
+#     data = read,
+#      open = open,
+#      save_as = save_as
+#    )
+#    if (!new) {
+#      return(invisible(FALSE))
+#    }
+#    invisible(TRUE)
+    
   # usethis::use_description()
   # usethis::use_github_actions()
   # usethis::use_github_actions_badge()
