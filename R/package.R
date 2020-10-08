@@ -21,7 +21,6 @@
 create_qPackage <- function(packageName,
                             packageAuthor,
                             update = TRUE) {
-  
   # Checks to see whether inputs are correct
   if (is.null(packageName)) stop("Please declare a package name")
   if (!startsWith(packageName, "q")) stop("Package name must start with a 'q'")
