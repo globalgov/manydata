@@ -9,7 +9,7 @@ use_qData_raw(name = "DATASET", open = rlang::is_interactive())
 \arguments{
 \item{name}{name of dataset saved}
 
-\item{open}{}
+\item{open}{load data in environemnt}
 }
 \value{
 A dataraw folder

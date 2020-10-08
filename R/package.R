@@ -160,8 +160,7 @@ create_qPackage <- function(packageName,
 #'
 #' Creates a dataraw file and provides templates that make it consistent with the qDatr ecosystem
 #' @param name name of dataset saved
-#' @param open 
-#'
+#' @param open load data in environemnt
 #' @details The function loads raw data into a q package
 #' @return A dataraw folder
 #' @importFrom usethis create_tidy_package
@@ -176,7 +175,7 @@ use_qData_raw <- function(name = "DATASET", open = rlang::is_interactive()) {
   usethis::use_data_raw()
   
   # Step two: open up a script containing a template for how to convert raw data to qDatr consistent (hopefully) data objects
-  qtemplate(qdataraw)
+  qtemplate("qdataraw")
 
 }
 
@@ -210,8 +209,7 @@ use_qData <- function(..., internal = FALSE,
                       version = 2){
   
   # Step one: take object created from raw-data and save as data to be lazy loaded in the package
-  usethis::use_data()
-  qtemplate(qdata)
+  usethis::use_data(...)
   
   # Step one: make sure that testthat is set up correctly for the package
   usethis::use_testthat()
@@ -219,8 +217,8 @@ use_qData <- function(..., internal = FALSE,
   
   # Step three: create the right kind of test script for the type of object it is
   # TODO: decide on what kinds of objects can be contained in qDatr packagess (actors, agreements, relations, etc)
-  usethis::use_template()
-
+  qtemplate("qdata")
+  
 }
 
 # set use_template to qDatr package template files and not usthis ...
