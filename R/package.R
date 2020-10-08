@@ -225,7 +225,6 @@ use_qData <- function(..., internal = FALSE,
 
 # set use_template to qDatr package template files and not usthis ...
 
-#' @export
 qtemplate <- function(template,
                          save_as = template,
                          data = list(),
