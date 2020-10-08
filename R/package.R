@@ -25,29 +25,26 @@ create_qPackage <- function(packageName,
   if (is.null(packageName)) stop("Please declare a package name")
   if (!startsWith(packageName, "q")) stop("Package name must start with a 'q'")
   if (is.null(packageAuthor)) stop("Please declare at least one author")
-  
   # Checks to see whether path already contains files or is empty
   path <- usethis::create_package(path, rstudio = TRUE, open = FALSE)
   old_project <- usethis::proj_set(path)
   on.exit(usethis::proj_set(old_project), add = TRUE)
-  
   # Step one: ensure/create package/project structure
-  usethis::use_readme_rmd(open = FALSE) # There is no need for usethis::use_read_md (open = FALSE), .md is created automatically.
-  
+  usethis::use_readme_rmd(open = FALSE) # There is no need for usethis::use_read_md (open = FALSE), 
+  #read.md is created automatically.
   # Step two: ensure/create core package files
   usethis::use_ccby_license()
   usethis::use_tidy_description()
   usethis::use_namespace()
   usethis::use_news_md()
-  
   # Step three: ensure/create github files 
-  usethis::use_tidy_github() # This saves a tidy COC, contributing and issue template to the .github file automatically.  
-  # However, if we want to our own templates here, use_coc() creates a COC based on our template. 
-  # As well, we can use our contributing with use_contributing() and our PR template with use_pr_template(). 
-  # To do so we also have to modify what is included in the use_tidy_github() call. 
-
+  usethis::use_tidy_github() # This saves a tidy COC, contributing and issue template
+  # to the .github file automatically.However, if we want to our own templates here,
+  # use_coc() creates a COC based on our template.
+  # As well, we can use our contributing with use_contributing() and our PR template with use_pr_template().
+  # To do so we also have to modify what is included in the use_tidy_github() call.
   usethis::use_github_actions_badge()
-  usethis::use_github_action_check_standard() #May be redundant....
+  usethis::use_github_action_check_standard() #May be redundant...
   usethis::use_github_action(prchecks,
                              url = "https://raw.githubusercontent.com/globalgov/qDatr/main/.github/workflows/prchecks.yml",
                              save_as = NULL,
@@ -63,28 +60,21 @@ create_qPackage <- function(packageName,
                              save_as = NULL,
                              ignore = TRUE,
                              open = FALSE)
-  # If we want to use tidy templates for actions, and not ours, the usethis::use_tidy_github_actions() can be used. 
-  
+  # If we want to use tidy templates for actions, and not ours, the usethis::use_tidy_github_actions() can be used.
   usethis::ui_todo("In the new package, remember to do:")
   usethis::ui_todo("{ui_code('use_git()')}")
   usethis::ui_todo("{ui_code('use_github()')}")
   usethis::ui_todo("{ui_code('use_tidy_github_actions()')}")
   usethis::ui_todo("{ui_code('use_pkgdown()')}")
-  
   # Step four: ensure/create additional files
   usethis::use_testthat()
-  
   # Step five: checks package (?) 
   usethis::use_spell_check()
   usethis::use_tibble()
-  
   # Step 6: create GitHub repository (?)
   usethis::use_git() # The usethis::use_github() may also be an interesting option to explore here. 
-  
   usethis::proj_activate(path)
-  
 }
-
 
 ## Path to our COC template in qDatr
 
@@ -169,13 +159,11 @@ create_qPackage <- function(packageName,
 #' }
 #' @export
 use_qData_raw <- function(name = "DATASET", open = rlang::is_interactive()) {
-  
   # Step one: take a data file from anywhere on your harddrive and move/copy it to a new data-raw folder
   usethis::use_data_raw()
-  
-  # Step two: open up a script containing a template for how to convert raw data to qDatr consistent (hopefully) data objects
+  # Step two: open up a script containing a template for how to convert raw data to 
+  # qDatr consistent (hopefully) data objects
   qtemplate("qdataraw")
-
 }
 
 #' Createa a data file the new package for the qDatr ecosystem
@@ -205,19 +193,16 @@ use_qData_raw <- function(name = "DATASET", open = rlang::is_interactive()) {
 use_qData <- function(..., internal = FALSE,
                       overwrite = FALSE,
                       compress = "bzip2",
-                      version = 2){
-  
+                      version = 2) {
   # Step one: take object created from raw-data and save as data to be lazy loaded in the package
   usethis::use_data(...)
-  
   # Step one: make sure that testthat is set up correctly for the package
   usethis::use_testthat()
   usethis::use_package("pointblank")
-  
   # Step three: create the right kind of test script for the type of object it is
-  # TODO: decide on what kinds of objects can be contained in qDatr packagess (actors, agreements, relations, etc)
+  # TODO: decide on what kinds of objects can be contained in qDatr 
+  # packagess (actors, agreements, relations, etc)
   qtemplate("qdata")
-  
 }
 
 # set use_template to qDatr package template files and not usthis ...
@@ -230,15 +215,12 @@ qtemplate <- function(template,
                          package = "qDatr") {
   template_contents <- render_template(template, data, package = package)
   new <- usethis::write_over(usethis::proj_path(save_as), template_contents)
-  
   if (ignore) {
     usethis::use_build_ignore(save_as)
   }
-  
   if (open && new) {
     usethis::edit_file(usethis::proj_path(save_as))
   }
-  
   invisible(new)
 }
 
