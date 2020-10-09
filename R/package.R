@@ -45,21 +45,8 @@ create_qPackage <- function(packageName,
   # To do so we also have to modify what is included in the use_tidy_github() call.
   usethis::use_github_actions_badge()
   usethis::use_github_action_check_standard() #May be redundant...
-  usethis::use_github_action("prchecks",
-                             url = "https://raw.githubusercontent.com/globalgov/qDatr/main/.github/workflows/prchecks.yml",
-                             save_as = NULL,
-                             ignore = TRUE,
-                             open = FALSE)
-  usethis::use_github_action("pushrelease",
-                             url = "https://raw.githubusercontent.com/globalgov/qDatr/main/.github/workflows/pushrelease.yml",
-                             save_as = NULL,
-                             ignore = TRUE,
-                             open = FALSE)
-  usethis::use_github_action("prcommands",
-                             url = "https://raw.githubusercontent.com/globalgov/qDatr/main/.github/workflows/prcommands.yml",
-                             save_as = NULL,
-                             ignore = TRUE,
-                             open = FALSE)
+  prchecks()
+  prcommands()
   # If we want to use tidy templates for actions, and not ours, the usethis::use_tidy_github_actions() can be used.
   usethis::ui_todo("In the new package, remember to do:")
   usethis::ui_todo("{ui_code('use_git()')}")
@@ -75,6 +62,34 @@ create_qPackage <- function(packageName,
   usethis::use_git() # The usethis::use_github() may also be an interesting option to explore here. 
   usethis::proj_activate(path)
 }
+
+
+## Functions to add our GitHub actions checks templates to qpackage.
+
+checks <- function() {
+  usethis::use_directory(".github", "workflows", ignore = ignore)
+  usethis::use_git_ignore("*.html", directory = ".github")
+}
+
+prchecks <- function() {
+  checks()
+  qtemplate(
+    "prckecks.yml",
+    path("workflows", "prchecks.yml"),
+    data = usethis::project_data()
+  )
+}
+
+prcommands <- function() {
+  checks()
+  qtemplate(
+    "prcommands.yml",
+    path("workflows", "prcommands.yml"),
+    data = usethis::project_data()
+  )
+}
+
+# With pushrelease it is a little more complicated as it requires the package names to be changed,.  but
 
 ## Path to our COC template in qDatr
 
