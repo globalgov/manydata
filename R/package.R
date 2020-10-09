@@ -73,7 +73,7 @@ qprchecks <- function() {
   qtemplate(
     "prchecks.yml",
     urltools::path("workflows", "prchecks.yml"),
-    data = project_data()
+    data = usethis:::project_data()
   )
 }
 
@@ -82,7 +82,7 @@ qprcommands <- function() {
   qtemplate(
     "prcommands.yml",
     urltools::path("workflows", "prcommands.yml"),
-    data = project_data()
+    data = usethis:::project_data()
   )
 }
 
@@ -94,7 +94,7 @@ qprcommands <- function() {
 
 qreadme <- function(open = rlang::is_interactive()) {
   librarian::check_installed("rmarkdown")
-  data <- project_data()
+  data <- usethis:::project_data()
   data$Rmd <- TRUE
   new <- qtemplate("README.Rmd",
                    data = data,
@@ -103,7 +103,7 @@ qreadme <- function(open = rlang::is_interactive()) {
 }
 
 qgithub <- function () {
-  use_dot_github()
+  usethis:::use_dot_github()
   qcoc()
   qprtemplate()
   qcontributing()
@@ -112,21 +112,21 @@ qgithub <- function () {
 # We do not have a REAMDME.md file template yet.
 
 qcoc <- function() {
-  use_dot_github()
+  usethis:::use_dot_github()
   usethis::use_directory(urltools::path(".github"))
   qtemplate("CODE_OF_CONDUCT.md",
             urltools::path(".github", "CODE_OF_CONDUCT.md"))
 }
 
 qprtemplate <- function() {
-  use_dot_github()
+  usethis:::use_dot_github()
   usethis::use_directory(urltools::path(".github"))
   qtemplate("pull_request_template.md",
             urltools::path(".github", "pull_request_template.md"))
 }
 
 qcontributing <- function() {
-  use_dot_github()
+  usethis:::use_dot_github()
   usethis::use_directory(urltools::path(".github"))
   qtemplate("CONTRIBUTING_GGO.md",
             urltools::path(".github", "CONTRIBUTING_GGO.md"))
@@ -150,7 +150,14 @@ use_qData_raw <- function(name = "DATASET", open = rlang::is_interactive()) {
   usethis::use_data_raw()
   # Step two: open up a script containing a template for how to convert raw data to 
   # qDatr consistent (hopefully) data objects
-  qtemplate("qdataraw")
+  qdataraw()
+}
+
+qdataraw <- function() {
+  qtemplate(
+    "qdataraw.R",
+    urltools::path("data-raw", "qdataraw.R"),
+    data = usethis:::project_data())
 }
 
 #' Createa a data file the new package for the qDatr ecosystem
@@ -189,11 +196,23 @@ use_qData <- function(..., internal = FALSE,
   # Step three: create the right kind of test script for the type of object it is
   # TODO: decide on what kinds of objects can be contained in qDatr 
   # packagess (actors, agreements, relations, etc)
-  qtemplate("qData-document")
-  qtemplate("qData-test")
+  qdatadoc()
+  qdatatest()
 }
 
-# set use_template to qDatr package template files and not usthis ...
+qdatadoc <- function() {
+  qtemplate("qData-document.R",
+    urltools::path("data", "qData-document.R"),
+    data = usethis:::project_data())
+}
+
+qdatatest <- function() {
+  qtemplate("qData-test.R",
+    urltools::path("data", "qData-test.R"),
+    data = usethis:::project_data())
+}
+
+# set use_template to qDatr package template files and not usethis ...
 
 qtemplate <- function(template,
                          save_as = template,
@@ -232,66 +251,3 @@ find_template <- function(template_name, package = "qDatr") {
 
 # We just have to make sure that the templates exist in the qDatr templates file and that the names match.
 # We can also add COC, contributing, GitHub actions checks and other templates to the file as well.
-
-# Helper functions taken from the usethis package.These functions are in the usthis code
-# but are not exported. That is why they have to be replicated here. This is necessary for 
-# adapting/creating the paths to use our own templates.
-
-project_data <- function(base_path = usethis::proj_get()) {
-  if (!possibly_in_proj(base_path)) {
-    usethis::ui_stop(c(
-      "{ui_path(base_path)} doesn't meet the usethis criteria for a project.",
-      "Read more in the help for {ui_code(\"proj_get()\")}."
-    ))
-  }
-  if (is_package(base_path)) {
-    data <- package_data(base_path)
-  } else {
-    data <- list(Project = fs::path_file(base_path))
-  }
-  data
-}
-
-package_data <- function(base_path = usethis::proj_get()) {
-  desc <- desc::description$new(base_path)
-  as.list(desc$get(desc$fields()))
-}
-
-possibly_in_proj <- function(path = ".") !is.null(proj_find(path))
-
-is_package <- function(base_path = usethis::proj_get()) {
-  res <- tryCatch(
-    rprojroot::find_package_root_file(path = base_path),
-    error = function(e) NULL
-  )
-  !is.null(res)
-}
-
-is_package <- function(base_path = usethis::proj_get()) {
-  res <- tryCatch(
-    rprojroot::find_package_root_file(path = base_path),
-    error = function(e) NULL
-  )
-  !is.null(res)
-}
-
-proj_find <- function(path = ".") {
-  tryCatch(
-    rprojroot::find_root(proj_crit(), path = path),
-    error = function(e) NULL
-  )
-}
-
-proj_crit <- function() {
-  rprojroot::has_file(".here") |
-    rprojroot::is_rstudio_project |
-    rprojroot::is_r_package |
-    rprojroot::is_git_root |
-    rprojroot::is_remake_project |
-    rprojroot::is_projectile_project
-}
-
-use_dot_github <- function(ignore = TRUE) {
-  usethis::use_directory(".github", ignore = ignore)
-  usethis::use_git_ignore("*.html", directory = ".github")
-}
