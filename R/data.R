@@ -50,12 +50,9 @@ qdataraw <- function() {
 #' TODO
 #' }
 #' @export
-use_qData <- function(..., internal = FALSE,
-                      overwrite = FALSE,
-                      compress = "bzip2",
-                      version = 2) {
+use_qData <- function(...) {
   # Step one: take object created from raw-data and save as data to be lazy loaded in the package
-  usethis::use_data(..., overwrite)
+  usethis::use_data(...)
   # Step one: make sure that testthat is set up correctly for the package
   usethis::use_testthat()
   usethis::use_package("pointblank")
