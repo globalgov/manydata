@@ -89,6 +89,15 @@ qprcommands <- function() {
 
 # With pushrelease it is a little more complicated as it requires the package names to 
 # be changed, but I am trying to work around it. 
+# qpushrelease <- function() {
+#qchecks()
+#qtemplate("prcommands.yml",
+#  urltools::path("workflows", "prcommands.yml"),
+#  data = usethis:::project_data()) {
+# out <- textclean::mgsub("qdatr", basename(packageName), out)
+#}
+#out
+#}
 
 ## Funtions to add our own README, COC, contributing and issue PR templates. 
 
