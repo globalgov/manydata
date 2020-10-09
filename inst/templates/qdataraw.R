@@ -12,5 +12,5 @@ dataset <- read_csv("data-raw/data/dataset/dataset.csv")
 # until the object created below (in stage three) passes all the tests.
 
 # Stage three: connecting data
-# At this stage, all you need to do
+# At this stage, all you need to do is run the next line to make the dataset available within the package.
 use_qData(dataset)
