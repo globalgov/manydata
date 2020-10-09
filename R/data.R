@@ -29,22 +29,9 @@ qdataraw <- function() {
 #' Createa a data file the new package for the qDatr ecosystem
 #'
 #' Creates a data file with templates that make it consistent with the qDatr ecosystem
+#'
 #' @param ... Unquoted names of existing objects to save.
-#' @param internal If `FALSE`, saves each object in its own `.rda`
-#'   file in the `data/` directory. These data files bypass the usual
-#'   export mechanism and are available whenever the package is loaded
-#'   (or via [data()] if `LazyData` is not true).
-#'   If `TRUE`, stores all objects in a single `R/sysdata.rda` file.
-#'   Objects in this file follow the usual export rules. Note that this means
-#'   they will be exported if you are using the common `exportPattern()`
-#'   rule which exports all objects except for those that start with `.`.
-#' @param overwrite By default, `use_data()` will not overwrite existing
-#'   files. If you really want to do so, set this to `TRUE`.
-#' @param compress Choose the type of compression used by [save()].
-#'   Should be one of "gzip", "bzip2", or "xz".
-#' @param version The serialization format version to use. The default, 2, was
-#'   the default format from R 1.4.0 to 3.5.3. Version 3 became the default from
-#'   R 3.6.0 and can only be read by R versions 3.5.0 and higher.
+#'
 #' @examples
 #' \dontrun{
 #' TODO
