@@ -202,7 +202,8 @@ use_qData <- function(..., internal = FALSE,
   # Step three: create the right kind of test script for the type of object it is
   # TODO: decide on what kinds of objects can be contained in qDatr 
   # packagess (actors, agreements, relations, etc)
-  qtemplate("qdata")
+  qtemplate("qData-document")
+  qtemplate("qData-test")
 }
 
 # set use_template to qDatr package template files and not usthis ...
