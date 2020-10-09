@@ -1,6 +1,6 @@
-# Contributing to qdatr
+# Contributing to the Global Governance Observatory's ecosystem of packages.
 
-This outlines how to propose a change to `qdatr`. 
+This outlines how to propose a change to a package from the Global Governance Observatory's ecosystem. 
 For more detailed info about contributing to this, and other tidyverse packages, please see the
 [**development contributing guide**](https://rstd.io/tidy-contrib). 
 
@@ -22,7 +22,7 @@ More details can be found out about how to write these here: https://todo.jasone
 
 ### Pull request process
 
-*   Fork the package and clone onto your computer. If you haven't done this before, we recommend using `usethis::create_from_github("jhollway/qdatr", fork = TRUE)`.
+*   Fork the package and clone onto your computer. If you haven't done this before, we recommend using `usethis::create_from_github("author/package", fork = TRUE)`.
 
 *   Install all development dependences with `devtools::install_dev_deps()`, and then make sure the package passes R CMD check by running `devtools::check()`. 
     If R CMD check doesn't pass cleanly, it's a good idea to ask for help before continuing. 
@@ -46,6 +46,6 @@ More details can be found out about how to write these here: https://todo.jasone
 
 ## Code of Conduct
 
-Please note that the qdatr project is released with a
+Please note that all packages part of the Golbal Governance Observatory's ecosystem are released with a
 [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this
 project you agree to abide by its terms.
