@@ -45,17 +45,17 @@ create_qPackage <- function(packageName,
   # To do so we also have to modify what is included in the use_tidy_github() call.
   usethis::use_github_actions_badge()
   usethis::use_github_action_check_standard() #May be redundant...
-  usethis::use_github_action(prchecks,
+  usethis::use_github_action("prchecks",
                              url = "https://raw.githubusercontent.com/globalgov/qDatr/main/.github/workflows/prchecks.yml",
                              save_as = NULL,
                              ignore = TRUE,
                              open = FALSE)
-  usethis::use_github_action(pushrelease,
+  usethis::use_github_action("pushrelease",
                              url = "https://raw.githubusercontent.com/globalgov/qDatr/main/.github/workflows/pushrelease.yml",
                              save_as = NULL,
                              ignore = TRUE,
                              open = FALSE)
-  usethis::use_github_action(prcommands,
+  usethis::use_github_action("prcommands",
                              url = "https://raw.githubusercontent.com/globalgov/qDatr/main/.github/workflows/prcommands.yml",
                              save_as = NULL,
                              ignore = TRUE,
