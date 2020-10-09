@@ -121,7 +121,7 @@ create_qPackage <- function(packageName,
 #  
 #  cref <- pkgdown_url(pedantic = TRUE) %||%
 #    "https://raw.githubusercontent.com/globalgov/qDatr/main/.github/CONTRIBUTING.md"
-#  cref <- paste0(href, "/Contributing.txt")
+#  cref <- paste0(cref, "/Contributing.txt")
 #  invisible(newc)
 #}
 
@@ -141,7 +141,7 @@ create_qPackage <- function(packageName,
 #  
 #  cref <- pkgdown_url(pedantic = TRUE) %||%
 #    "https://raw.githubusercontent.com/globalgov/qDatr/main/.github/pull_request_template.md"
-#  cref <- paste0(href, "/pull_request_template.txt")
+#  pref <- paste0(pref, "/pull_request_template.txt")
 #  invisible(newpr)
 #}
 
@@ -243,4 +243,4 @@ find_template <- function(template_name, package = "qDatr") {
 }
 
 # We just have to make sure that the templates exist in the qDatr templates file and that the names match. 
-# We can also add COC, contributing, GitHub actions checks and other tenplates to the file as well.  
+# We can also add COC, contributing, GitHub actions checks and other templates to the file as well.  
