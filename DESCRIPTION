@@ -21,7 +21,10 @@ Suggests:
     testthat,
     whisker,
     xfun,
-    fs
+    fs,
+    librarian,
+    urltools,
+    rprojroot
 Imports: 
     textclean,
     stringr,

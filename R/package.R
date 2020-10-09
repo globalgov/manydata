@@ -30,23 +30,20 @@ create_qPackage <- function(packageName,
   old_project <- usethis::proj_set(path)
   on.exit(usethis::proj_set(old_project), add = TRUE)
   # Step one: ensure/create package/project structure
-  usethis::use_readme_rmd(open = FALSE) # There is no need for usethis::use_read_md (open = FALSE), 
-  #read.md is created automatically.
+  qreadme() # Similar to usethis::use_readme_rmd(open = FALSE) but sets README.rmd from our template.
+  # README.md is still missing.
   # Step two: ensure/create core package files
   usethis::use_ccby_license()
   usethis::use_tidy_description()
   usethis::use_namespace()
   usethis::use_news_md()
   # Step three: ensure/create github files 
-  usethis::use_tidy_github() # This saves a tidy COC, contributing and issue template
-  # to the .github file automatically.However, if we want to our own templates here,
-  # use_coc() creates a COC based on our template.
-  # As well, we can use our contributing with use_contributing() and our PR template with use_pr_template().
-  # To do so we also have to modify what is included in the use_tidy_github() call.
+  qgithub() # Similar to usethis::use_tidy_github(). This creates a COC, contributing
+  # and other documentation from our templates.
   usethis::use_github_actions_badge()
   usethis::use_github_action_check_standard() #May be redundant...
-  prchecks()
-  prcommands()
+  qprchecks() # Sets our own prcheck into the workflows folder from our template.
+  qprcommands() # Sets our own prcommands into the workflow folder from our templetes.  
   # If we want to use tidy templates for actions, and not ours, the usethis::use_tidy_github_actions() can be used.
   usethis::ui_todo("In the new package, remember to do:")
   usethis::ui_todo("{ui_code('use_git()')}")
@@ -66,99 +63,74 @@ create_qPackage <- function(packageName,
 
 ## Functions to add our GitHub actions checks templates to qpackage.
 
-checks <- function() {
-  usethis::use_directory(".github", "workflows", ignore = ignore)
+qchecks <- function() {
+  usethis::use_directory(urltools::path(".github", "workflows"))
   usethis::use_git_ignore("*.html", directory = ".github")
 }
 
-prchecks <- function() {
-  checks()
+qprchecks <- function() {
+  qchecks()
   qtemplate(
-    "prckecks.yml",
-    path("workflows", "prchecks.yml"),
-    data = usethis::project_data()
+    "prchecks.yml",
+    urltools::path("workflows", "prchecks.yml"),
+    data = project_data()
   )
 }
 
-prcommands <- function() {
-  checks()
+qprcommands <- function() {
+  qchecks()
   qtemplate(
     "prcommands.yml",
-    path("workflows", "prcommands.yml"),
-    data = usethis::project_data()
+    urltools::path("workflows", "prcommands.yml"),
+    data = project_data()
   )
 }
 
-# With pushrelease it is a little more complicated as it requires the package names to be changed,.  but
 
-## Path to our COC template in qDatr
+# With pushrelease it is a little more complicated as it requires the package names to 
+# be changed, but I am trying to work around it. 
 
-#use_coc <- function(path = NULL) {
-#  if (!is.null(path)) {
-#    use_directory(path, ignore = is_package())
-#  }
-#  save_as <- pkgdown::path_join(c(path, "CODE_OF_CONDUCT.md"))
-#  
-#  new <- usethis::use_template(
-#    "CODE_OF_CONDUCT.md",
-#    save_as = save_as,
-#    ignore = is_package() && is.null(path)
-#  )
-#  
-#  href <- pkgdown_url(pedantic = TRUE) %||%
-#    "https://raw.githubusercontent.com/globalgov/qDatr/main/.github/CODE_OF_CONDUCT.md"
-#  href <- paste0(href, "/CODE_OF_CONDUCT.txt")
-#  
-#  ui_todo("Don't forget to describe the code of conduct in your README:")
-#  ui_code_block("
-#    ## Code of Conduct
-#    Please note that the {project_name()} project is released with a \\
-#    [Contributor Code of Conduct]({href}). By contributing to this project, \\
-#    you agree to abide by its terms."
-#  )
-#  
-#  invisible(new)
-#}
+## Funtions to add our own README, COC, contributing and issue PR templates. 
 
-## Path to our Contributing template in qDatr
+qreadme <- function(open = rlang::is_interactive()) {
+  librarian::check_installed("rmarkdown")
+  data <- project_data()
+  data$Rmd <- TRUE
+  new <- qtemplate("README.Rmd",
+                   data = data,
+                   open = open)
+  invisible(TRUE)
+}
 
-#use_contributing <- function(path = NULL) {
-#  if (!is.null(path)) {
-#    use_directory(path, ignore = is_package())
-#  }
-#  save_as <- pkgdown::path_join(c(path, "Contributing.md"))
-#  
-#  newc <- usethis::use_template(
-#    "Contributing.md",
-#    save_as = save_as,
-#    ignore = is_package() && is.null(path)
-#  )
-#  
-#  cref <- pkgdown_url(pedantic = TRUE) %||%
-#    "https://raw.githubusercontent.com/globalgov/qDatr/main/.github/CONTRIBUTING.md"
-#  cref <- paste0(cref, "/Contributing.txt")
-#  invisible(newc)
-#}
+qgithub <- function () {
+  use_dot_github()
+  qcoc()
+  qprtemplate()
+  qcontributing()
+}
 
-## Path to our PR template in qDatr
+# We do not have a REAMDME.md file template yet.
 
-#use_pr_template <-  function(path = NULL) {
-#  if (!is.null(path)) {
-#    use_directory(path, ignore = is_package())
-#  }
-#  save_as <- pkgdown::path_join(c(path, "pull_request_template.md"))
-#  
-#  newpr <- usethis::use_template(
-#    "pull_request_template.md",
-#    save_as = save_as,
-#    ignore = is_package() && is.null(path)
-#  )
-#  
-#  cref <- pkgdown_url(pedantic = TRUE) %||%
-#    "https://raw.githubusercontent.com/globalgov/qDatr/main/.github/pull_request_template.md"
-#  pref <- paste0(pref, "/pull_request_template.txt")
-#  invisible(newpr)
-#}
+qcoc <- function() {
+  use_dot_github()
+  usethis::use_directory(urltools::path(".github"))
+  qtemplate("CODE_OF_CONDUCT.md",
+            urltools::path(".github", "CODE_OF_CONDUCT.md"))
+}
+
+qprtemplate <- function() {
+  use_dot_github()
+  usethis::use_directory(urltools::path(".github"))
+  qtemplate("pull_request_template.md",
+            urltools::path(".github", "pull_request_template.md"))
+}
+
+qcontributing <- function() {
+  use_dot_github()
+  usethis::use_directory(urltools::path(".github"))
+  qtemplate("CONTRIBUTING_GGO.md",
+            urltools::path(".github", "CONTRIBUTING_GGO.md"))
+}
 
 #' Createa a dataraw file the new q package
 #'
@@ -258,5 +230,68 @@ find_template <- function(template_name, package = "qDatr") {
   path
 }
 
-# We just have to make sure that the templates exist in the qDatr templates file and that the names match. 
-# We can also add COC, contributing, GitHub actions checks and other templates to the file as well.  
+# We just have to make sure that the templates exist in the qDatr templates file and that the names match.
+# We can also add COC, contributing, GitHub actions checks and other templates to the file as well.
+
+# Helper functions taken from the usethis package.These functions are in the usthis code
+# but are not exported. That is why they have to be replicated here. This is necessary for 
+# adapting/creating the paths to use our own templates.
+
+project_data <- function(base_path = usethis::proj_get()) {
+  if (!possibly_in_proj(base_path)) {
+    usethis::ui_stop(c(
+      "{ui_path(base_path)} doesn't meet the usethis criteria for a project.",
+      "Read more in the help for {ui_code(\"proj_get()\")}."
+    ))
+  }
+  if (is_package(base_path)) {
+    data <- package_data(base_path)
+  } else {
+    data <- list(Project = fs::path_file(base_path))
+  }
+  data
+}
+
+package_data <- function(base_path = usethis::proj_get()) {
+  desc <- desc::description$new(base_path)
+  as.list(desc$get(desc$fields()))
+}
+
+possibly_in_proj <- function(path = ".") !is.null(proj_find(path))
+
+is_package <- function(base_path = usethis::proj_get()) {
+  res <- tryCatch(
+    rprojroot::find_package_root_file(path = base_path),
+    error = function(e) NULL
+  )
+  !is.null(res)
+}
+
+is_package <- function(base_path = usethis::proj_get()) {
+  res <- tryCatch(
+    rprojroot::find_package_root_file(path = base_path),
+    error = function(e) NULL
+  )
+  !is.null(res)
+}
+
+proj_find <- function(path = ".") {
+  tryCatch(
+    rprojroot::find_root(proj_crit(), path = path),
+    error = function(e) NULL
+  )
+}
+
+proj_crit <- function() {
+  rprojroot::has_file(".here") |
+    rprojroot::is_rstudio_project |
+    rprojroot::is_r_package |
+    rprojroot::is_git_root |
+    rprojroot::is_remake_project |
+    rprojroot::is_projectile_project
+}
+
+use_dot_github <- function(ignore = TRUE) {
+  usethis::use_directory(".github", ignore = ignore)
+  usethis::use_git_ignore("*.html", directory = ".github")
+}
