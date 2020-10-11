@@ -36,7 +36,10 @@ Imports:
     purrr,
     rlang,
     usethis,
-    pkgdown, 
-    desc
+    pkgdown,
+    desc,
+    pointblank
 URL: https://github.com/jhollway/qDatr
 BugReports: https://github.com/jhollway/qDatr/issues
+Depends: 
+    R (>= 2.10)
