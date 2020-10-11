@@ -1,2 +1,6 @@
-# Qdata Template
-# This is a template for how to Collect, Correct and Connect Data.
+library(pointblank)
+
+test_that("object is correct", {
+  expect_col_exists(object, vars(Beg))
+  expect_col_exists(object, vars(End))
+})
