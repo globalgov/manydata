@@ -17,7 +17,9 @@ use_qData_raw <- function(name = "DATASET", open = rlang::is_interactive()) {
   # Step one: checks and setup
   stopifnot(rlang::is_string(name)) # Could also check if ASCII
   usethis::use_directory("data-raw", ignore = TRUE)
-  
+  # TODO: Save raw datasets in data-raw folder.
+  # save <- fs::path("data-raw", paste0(name))
+
   # Step two: create preparation template
   qtemplate(
     "qData-raw.R",
