@@ -1,29 +1,28 @@
 #' Createa a dataraw file the new q package
 #'
 #' Creates a dataraw file and provides templates that make it consistent with the qDatr ecosystem
-#' @param name name of dataset saved
-#' @param open load data in environemnt
+#'
+#' @param ... Unquoted names of existing objects to save.
+#'
 #' @details The function loads raw data into a q package
 #' @return A dataraw folder
-#' @importFrom usethis create_tidy_package
+#' @importFrom usethis
 #' @examples
 #' \dontrun{
 #' TODO
 #' }
 #' @export
-use_qData_raw <- function(name = "DATASET", open = rlang::is_interactive()) {
+use_qData_raw <- function(...) {
+  
+  object <- as.list(substitute(list(...)))[-1L]
+  
   # Step one: take a data file from anywhere on your harddrive and move/copy it to a new data-raw folder
-  usethis::use_data_raw()
+  usethis::use_data_raw(...)
   # Step two: open up a script containing a template for how to convert raw data to 
   # qDatr consistent (hopefully) data objects
-  qdataraw()
-}
-
-qdataraw <- function() {
-  qtemplate(
-    "qdataraw.R",
-    urltools::path("data-raw", "qdataraw.R"),
-    data = usethis:::project_data())
+  qtemplate("qdataraw.R",
+          fs::path("R", paste0("qDataraw-", object[[1]], ".R")),
+          data = usethis:::project_data())
 }
 
 #' Createa a data file the new package for the qDatr ecosystem
