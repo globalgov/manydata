@@ -51,6 +51,21 @@ create_qPackage <- function(packageName,
   # usethis::use_namespace()
   # usethis::use_news_md()
   
+  # Step three: ensure/create Github files
+  usethis::use_directory(".github")
+  qtemplate("qPackage-COC.md",
+            fs::path(".github", "CODE_OF_CONDUCT", ext = "md"),
+            data = list(package = packageName,
+                        author = packageAuthor))
+  qtemplate("qPackage-CONTRIB.md",
+            fs::path(".github", "CONTRIBUTING.md"),
+            data = list(package = packageName,
+                        author = packageAuthor))
+  qtemplate("qPackage-PR.md",
+            fs::path(".github", "pull_request_template.md"),
+            data = list(package = packageName,
+                        author = packageAuthor))
+
 
   usethis::ui_todo("Remember to set up your project together with Github for visibility etc.")
   # usethis::ui_todo("{ui_code('use_pkgdown()')}")
