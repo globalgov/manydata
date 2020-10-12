@@ -26,42 +26,34 @@ create_qPackage <- function(packageName,
   if (is.null(packageName)) stop("Please declare a package name")
   if (!startsWith(packageName, "q")) stop("Package name must start with a 'q'")
   if (is.null(packageAuthor)) stop("Please declare at least one author")
-
+  
   # Checks to see whether path already contains files or is empty
   # path<- usethis::create_package(path, rstudio = TRUE, open = FALSE)
   # old_project <- usethis::proj_set(path)
   # on.exit(usethis::proj_set(old_project), add = TRUE)
   # The lines above are folded into create_package. 
+  
   # Step one: ensure/create package/project structure
-  usethis::create_package()
-  qreadme() # Similar to usethis::use_readme_rmd(open = FALSE) but sets README.rmd from our template.
-  # README.md is still missing.
+  # usethis::create_package()
+  
   # Step two: ensure/create core package files
-  usethis::use_ccby_license()
-  usethis::use_tidy_description()
-  usethis::use_namespace()
-  usethis::use_news_md()
-  # Step three: ensure/create github files 
-  qgithub() # Similar to usethis::use_tidy_github(). This creates a COC, contributing
-  # and other documentation from our templates.
-  usethis::use_github_actions_badge()
-  usethis::use_github_action_check_standard() #May be redundant...
-  qprchecks() # Sets our own prcheck into the workflows folder from our template.
-  qprcommands() # Sets our own prcommands into the workflow folder from our templetes.  
-  # If we want to use tidy templates for actions, and not ours, the usethis::use_tidy_github_actions() can be used.
-  usethis::ui_todo("In the new package, remember to do:")
-  usethis::ui_todo("{ui_code('use_git()')}")
-  usethis::ui_todo("{ui_code('use_github()')}")
-  usethis::ui_todo("{ui_code('use_tidy_github_actions()')}")
-  usethis::ui_todo("{ui_code('use_pkgdown()')}")
-  # Step four: ensure/create additional files
-  usethis::use_testthat()
+  # usethis::use_ccby_license(name = packageAuthor)
+  
+  # usethis::use_tidy_description()
+  # usethis::use_namespace()
+  # usethis::use_news_md()
+  
+
+  usethis::ui_todo("Remember to set up your project together with Github for visibility etc.")
+  # usethis::ui_todo("{ui_code('use_pkgdown()')}")
+  
   # Step five: checks package (?) 
-  usethis::use_spell_check()
-  usethis::use_tibble()
+  # usethis::use_spell_check()
+  # usethis::use_tibble()
+  
   # Step 6: create GitHub repository (?)
-  usethis::use_git() # The usethis::use_github() may also be an interesting option to explore here. 
-  usethis::proj_activate()
+  # usethis::use_git() # The usethis::use_github() may also be an interesting option to explore here. 
+  # usethis::proj_activate()
   }
 
 
