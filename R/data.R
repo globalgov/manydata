@@ -10,49 +10,18 @@
 #' TODO
 #' }
 #' @export
-use_qData_raw <- function(...) {
+use_qData_raw <- function(name = "DATASET", open = rlang::is_interactive()) {
   
-  object <- as.list(substitute(list(...)))[-1L]
+  # Step one: checks and setup
+  stopifnot(is_string(name))
+  usethis::use_directory("data-raw", ignore = TRUE)
   
-  dataraw(...)
+  # Step two: create preparation template
+  
+  # Step three: inform user what to do next
+  usethis::ui_todo("Finish the opened data preparation script")
+  usethis::ui_todo("Use {usethis::ui_code('qDatr::use_qData()')} to add prepared data to package")
 
-  qtemplate("qdataraw.R",
-            fs::path("data-raw", paste0("qDataraw-", object[[1]], ".R")),
-            data = usethis:::project_data())
-}
-    
-
-dataraw <- function(...,
-                    internal = FALSE,
-                    overwrite = FALSE,
-                    compress = "bzip2",
-                    version = 2) {
-    
-    objs <- usethis:::get_objs_from_dots(base::dots(...))
-    
-    usethis:::use_dependency("R", "depends", "2.10")
-    if (internal) {
-      usethis::use_directory("R")
-      paths <- fs::path("R", "sysdata.rda")
-      objs <- list(objs)
-    } else {
-      usethis::use_directory("data-raw")
-      paths <- fs::path("data", objs, ext = "rda")
-    }
-    usethis:::check_files_absent(usethis::proj_path(paths), overwrite = overwrite)
-    
-    usethis::ui_done("Saving {ui_value(unlist(objs))} to {ui_value(paths)}")
-    if (!internal) usethis::ui_todo("Document your data (see {ui_value('https://r-pkgs.org/data.html')})")
-    
-    envir <- parent.frame()
-    mapply(
-      save,
-      list = objs,
-      file = usethis::proj_path(paths),
-      MoreArgs = list(envir = envir, compress = compress, version = version)
-    )
-    
-    invisible()
 }
 
 #' Creates a data file the new package for the qDatr ecosystem
