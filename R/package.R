@@ -11,7 +11,7 @@
 #' @details The function establishes many of the required files and
 #' folder structures required for a qDatr-consistent data package.
 #' @return A new package structure
-#' @importFrom usethis create_tidy_package
+#' @importFrom usethis create_package
 #' @examples
 #' \dontrun{
 #' qpackage_create("qStates",
