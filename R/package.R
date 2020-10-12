@@ -36,6 +36,14 @@ create_qPackage <- function(packageName,
   # Step one: ensure/create package/project structure
   # usethis::create_package()
   
+  # Add README
+  qtemplate("qPackage-README.Rmd",
+            "README.Rmd", 
+            data = list(package = packageName,
+                        author = packageAuthor))
+  # TODO: Make sure workflow creates README.md from README.Rmd
+  # TODO: Add badges to qPackage README
+  
   # Step two: ensure/create core package files
   # usethis::use_ccby_license(name = packageAuthor)
   
