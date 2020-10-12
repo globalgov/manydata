@@ -15,13 +15,13 @@
 use_qData_raw <- function(name = "DATASET", open = rlang::is_interactive()) {
   
   # Step one: checks and setup
-  stopifnot(is_string(name))
+  stopifnot(is_string(name)) # Could also check if ASCII
   usethis::use_directory("data-raw", ignore = TRUE)
   
   # Step two: create preparation template
   qtemplate(
     "qData-raw.R",
-    save_as = fs::path("data-raw", paste0("prepare-", usethis:::asciify(name)), ext = "R"),
+    save_as = fs::path("data-raw", paste0("prepare-", name), ext = "R"),
     data = list(name = name),
     ignore = FALSE,
     open = open
