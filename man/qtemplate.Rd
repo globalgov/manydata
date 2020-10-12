@@ -6,7 +6,7 @@
 \usage{
 qtemplate(
   template,
-  save_as = path,
+  save_as = template,
   data = list(),
   ignore = FALSE,
   open = FALSE,
