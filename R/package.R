@@ -26,7 +26,7 @@ create_qPackage <- function(packageName,
   if (!startsWith(packageName, "q")) stop("Package name must start with a 'q'")
   if (is.null(packageAuthor)) stop("Please declare at least one author")
   # Checks to see whether path already contains files or is empty
-  # path <- usethis::create_package(path, rstudio = TRUE, open = FALSE)
+  # path<- usethis::create_package(path, rstudio = TRUE, open = FALSE)
   # old_project <- usethis::proj_set(path)
   # on.exit(usethis::proj_set(old_project), add = TRUE)
   # The lines above are folded into create_package. 
@@ -66,14 +66,14 @@ create_qPackage <- function(packageName,
 ## Functions to add our GitHub actions checks templates to qpackage.
 
 qchecks <- function() {
-  usethis::use_directory(usethis:::path(".github", "workflows"))
+  usethis::use_directory(fs::path(".github", "workflows"))
   usethis::use_git_ignore("*.html", directory = ".github")
 }
 
 qprchecks <- function() {
   qchecks()
   qtemplate(
-    "prchecks.yml", usethis:::path("workflows", "prchecks.yml"),
+    "prchecks.yml", fs::path("workflows", "prchecks.yml"),
     data = usethis:::project_data()
   )
 }
@@ -82,7 +82,7 @@ qprcommands <- function() {
   qchecks()
   qtemplate(
     "prcommands.yml",
-    usethis:::path("workflows", "prcommands.yml"),
+    fs::path("workflows", "prcommands.yml"),
     data = usethis:::project_data()
   )
 }
@@ -93,7 +93,7 @@ qprcommands <- function() {
 # qpushrelease <- function() {
 #qchecks()
 #qtemplate("prcommands.yml",
-#  usethis:::path("workflows", "prcommands.yml"),
+#  fs::path("workflows", "prcommands.yml"),
 #  data = usethis:::project_data()) {
 # out <- textclean::mgsub("qdatr", basename(packageName), out)
 #}
@@ -123,27 +123,27 @@ qgithub <- function () {
 
 qcoc <- function() {
   usethis:::use_dot_github()
-  usethis::use_directory(usethis:::path(".github"))
+  usethis::use_directory(fs::path(".github"))
   qtemplate("CODE_OF_CONDUCT.md",
-            usethis:::path(".github", "CODE_OF_CONDUCT.md"))
+            fs::path(".github", "CODE_OF_CONDUCT.md"))
 }
 
 qprtemplate <- function() {
   usethis:::use_dot_github()
-  usethis::use_directory(usethis:::path(".github"))
+  usethis::use_directory(fs::path(".github"))
   qtemplate("pull_request_template.md",
-            usethis:::path(".github", "pull_request_template.md"))
+            fs::path(".github", "pull_request_template.md"))
 }
 
 qcontributing <- function() {
   usethis:::use_dot_github()
-  usethis::use_directory(usethis:::path(".github"))
+  usethis::use_directory(fs::path(".github"))
   qtemplate("CONTRIBUTING_GGO.md",
-            usethis:::path(".github", "CONTRIBUTING_GGO.md"))
+            fs::path(".github", "CONTRIBUTING_GGO.md"))
 }
 
-# Helper ...
+# Helpers ...
 
 user_path_prep <- function(path) {
-  fs::path_expand(path)
+  fs::path_expand(fs::path)
 }
