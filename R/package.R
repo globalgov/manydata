@@ -76,6 +76,20 @@ create_qPackage <- function(packageName,
             data = list(package = packageName,
                         author = packageAuthor))
   
+  usethis::use_directory(".github/workflows")
+  # TODO: qtemplate() not working with Github workflows because whisker reads workflow variables to be rendered
+  # qtemplate("qPackage-Check.yml",
+  #           fs::path(".github", "workflows", "prchecks.yml"),
+  #           data = list(package = packageName,
+  #                       author = packageAuthor))
+  # qtemplate("qPackage-Commands.yml",
+  #           fs::path(".github", "workflows", "prcommands.yml"),
+  #           data = list(package = packageName,
+  #                       author = packageAuthor))
+  # qtemplate("qPackage-Release.yml",
+  #           fs::path(".github", "workflows", "pushrelease.yml"),
+  #           data = list(package = packageName,
+  #                       author = packageAuthor))
 
   usethis::ui_todo("Remember to set up your project together with Github for visibility etc.")
   # usethis::ui_todo("{ui_code('use_pkgdown()')}")
