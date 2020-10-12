@@ -15,7 +15,7 @@
 use_qData_raw <- function(name = "DATASET", open = rlang::is_interactive()) {
   
   # Step one: checks and setup
-  stopifnot(is_string(name)) # Could also check if ASCII
+  stopifnot(rlang::is_string(name)) # Could also check if ASCII
   usethis::use_directory("data-raw", ignore = TRUE)
   
   # Step two: create preparation template
@@ -102,8 +102,8 @@ qtemplate <- function(template,
     )
     if (identical(path, "")) {
       usethis::ui_stop(
-        "Could not find template {ui_value(template_name)} \\
-      in package {ui_value(package)}."
+        "Could not find template {usethis::ui_value(template_name)} \\
+      in package {usethis::ui_value(package)}."
       )
     }
     path
