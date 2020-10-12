@@ -66,6 +66,16 @@ create_qPackage <- function(packageName,
             data = list(package = packageName,
                         author = packageAuthor))
 
+  usethis::use_directory(".github/ISSUE_TEMPLATE")
+  qtemplate("qPackage-Bugs.md",
+            fs::path(".github", "ISSUE_TEMPLATE", "bug_report.md"),
+            data = list(package = packageName,
+                        author = packageAuthor))
+  qtemplate("qPackage-Features.md",
+            fs::path(".github", "ISSUE_TEMPLATE", "feature_request.md"),
+            data = list(package = packageName,
+                        author = packageAuthor))
+  
 
   usethis::ui_todo("Remember to set up your project together with Github for visibility etc.")
   # usethis::ui_todo("{ui_code('use_pkgdown()')}")
