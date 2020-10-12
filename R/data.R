@@ -1,12 +1,10 @@
-#' Createa a dataraw file the new q package
+#' Creates a dataraw file the new q package
 #'
 #' Creates a dataraw file and provides templates that make it consistent with the qDatr ecosystem
 #'
-#' @param ... Unquoted names of existing objects to save.
 #'
 #' @details The function loads raw data into a q package
 #' @return A dataraw folder
-#' @importFrom usethis create_tidy_package
 #' @examples
 #' \dontrun{
 #' TODO
@@ -57,8 +55,7 @@ dataraw <- function(...,
     invisible()
 }
 
-
-#' Createa a data file the new package for the qDatr ecosystem
+#' Creates a data file the new package for the qDatr ecosystem
 #'
 #' Creates a data file with templates that make it consistent with the qDatr ecosystem
 #'
@@ -73,7 +70,7 @@ use_qData <- function(...) {
 
   object <- as.list(substitute(list(...)))[-1L]
 
-    # Step one: take object created from raw-data and save as data to be lazy loaded in the package
+  # Step one: take object created from raw-data and save as data to be lazy loaded in the package
   usethis::use_data(...)
 
   # Step two: make sure that testthat is set up correctly for the package
@@ -95,7 +92,7 @@ use_qData <- function(...) {
 
 # set use_template to qDatr package template files and not usethis ...
 qtemplate <- function(template,
-                      save_as = template,
+                      save_as = path,
                       data = list(),
                       ignore = FALSE,
                       open = FALSE,

@@ -21,10 +21,12 @@
 create_qPackage <- function(packageName,
                             packageAuthor,
                             update = TRUE) {
+  
   # Checks to see whether inputs are correct
   if (is.null(packageName)) stop("Please declare a package name")
   if (!startsWith(packageName, "q")) stop("Package name must start with a 'q'")
   if (is.null(packageAuthor)) stop("Please declare at least one author")
+
   # Checks to see whether path already contains files or is empty
   # path<- usethis::create_package(path, rstudio = TRUE, open = FALSE)
   # old_project <- usethis::proj_set(path)

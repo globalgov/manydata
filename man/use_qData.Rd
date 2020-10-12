@@ -2,7 +2,7 @@
 % Please edit documentation in R/data.R
 \name{use_qData}
 \alias{use_qData}
-\title{Createa a data file the new package for the qDatr ecosystem}
+\title{Creates a data file the new package for the qDatr ecosystem}
 \usage{
 use_qData(...)
 }
