@@ -2,12 +2,14 @@
 % Please edit documentation in R/data.R
 \name{use_qData_raw}
 \alias{use_qData_raw}
-\title{Createa a dataraw file the new q package}
+\title{Creates a dataraw file the new q package}
 \usage{
-use_qData_raw(...)
+use_qData_raw(name = "DATASET", open = rlang::is_interactive())
 }
 \arguments{
-\item{...}{Unquoted names of existing objects to save.}
+\item{name}{Intended (short)name of the dataset}
+
+\item{open}{Whether the resulting preparation script will be opened}
 }
 \value{
 A dataraw folder
