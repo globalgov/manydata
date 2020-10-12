@@ -26,10 +26,12 @@ create_qPackage <- function(packageName,
   if (!startsWith(packageName, "q")) stop("Package name must start with a 'q'")
   if (is.null(packageAuthor)) stop("Please declare at least one author")
   # Checks to see whether path already contains files or is empty
-  path <- usethis::create_package(path, rstudio = TRUE, open = FALSE)
-  old_project <- usethis::proj_set(path)
-  on.exit(usethis::proj_set(old_project), add = TRUE)
+  # path <- usethis::create_package(path, rstudio = TRUE, open = FALSE)
+  # old_project <- usethis::proj_set(path)
+  # on.exit(usethis::proj_set(old_project), add = TRUE)
+  # The lines above are folded into create_package. 
   # Step one: ensure/create package/project structure
+  usethis::create_package()
   qreadme() # Similar to usethis::use_readme_rmd(open = FALSE) but sets README.rmd from our template.
   # README.md is still missing.
   # Step two: ensure/create core package files
@@ -57,22 +59,21 @@ create_qPackage <- function(packageName,
   usethis::use_tibble()
   # Step 6: create GitHub repository (?)
   usethis::use_git() # The usethis::use_github() may also be an interesting option to explore here. 
-  usethis::proj_activate(path)
-}
+  usethis::proj_activate()
+  }
 
 
 ## Functions to add our GitHub actions checks templates to qpackage.
 
 qchecks <- function() {
-  usethis::use_directory(urltools::path(".github", "workflows"))
+  usethis::use_directory(usethis:::path(".github", "workflows"))
   usethis::use_git_ignore("*.html", directory = ".github")
 }
 
 qprchecks <- function() {
   qchecks()
   qtemplate(
-    "prchecks.yml",
-    urltools::path("workflows", "prchecks.yml"),
+    "prchecks.yml", usethis:::path("workflows", "prchecks.yml"),
     data = usethis:::project_data()
   )
 }
@@ -81,7 +82,7 @@ qprcommands <- function() {
   qchecks()
   qtemplate(
     "prcommands.yml",
-    urltools::path("workflows", "prcommands.yml"),
+    usethis:::path("workflows", "prcommands.yml"),
     data = usethis:::project_data()
   )
 }
@@ -92,7 +93,7 @@ qprcommands <- function() {
 # qpushrelease <- function() {
 #qchecks()
 #qtemplate("prcommands.yml",
-#  urltools::path("workflows", "prcommands.yml"),
+#  usethis:::path("workflows", "prcommands.yml"),
 #  data = usethis:::project_data()) {
 # out <- textclean::mgsub("qdatr", basename(packageName), out)
 #}
@@ -122,21 +123,27 @@ qgithub <- function () {
 
 qcoc <- function() {
   usethis:::use_dot_github()
-  usethis::use_directory(urltools::path(".github"))
+  usethis::use_directory(usethis:::path(".github"))
   qtemplate("CODE_OF_CONDUCT.md",
-            urltools::path(".github", "CODE_OF_CONDUCT.md"))
+            usethis:::path(".github", "CODE_OF_CONDUCT.md"))
 }
 
 qprtemplate <- function() {
   usethis:::use_dot_github()
-  usethis::use_directory(urltools::path(".github"))
+  usethis::use_directory(usethis:::path(".github"))
   qtemplate("pull_request_template.md",
-            urltools::path(".github", "pull_request_template.md"))
+            usethis:::path(".github", "pull_request_template.md"))
 }
 
 qcontributing <- function() {
   usethis:::use_dot_github()
-  usethis::use_directory(urltools::path(".github"))
+  usethis::use_directory(usethis:::path(".github"))
   qtemplate("CONTRIBUTING_GGO.md",
-            urltools::path(".github", "CONTRIBUTING_GGO.md"))
+            usethis:::path(".github", "CONTRIBUTING_GGO.md"))
+}
+
+# Helper ...
+
+user_path_prep <- function(path) {
+  fs::path_expand(path)
 }

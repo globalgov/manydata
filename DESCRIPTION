@@ -13,33 +13,29 @@ Authors@R:
              comment = "IHEID"))
 Description: Collection, correction, and connection.
 License: AGPL-3
-Encoding: UTF-8
-LazyData: true
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
-Suggests: 
-    testthat,
-    whisker,
-    xfun,
-    fs,
-    librarian,
-    urltools,
-    rprojroot
-Imports: 
-    textclean,
-    stringr,
-    english,
-    lubridate,
-    dplyr,
-    roxygen2,
-    covr,
-    purrr,
-    rlang,
-    usethis,
-    pkgdown,
-    desc,
-    pointblank
 URL: https://github.com/jhollway/qDatr
 BugReports: https://github.com/jhollway/qDatr/issues
 Depends: 
     R (>= 2.10)
+Imports: 
+    covr,
+    desc,
+    dplyr,
+    english,
+    lubridate,
+    pkgdown,
+    pointblank,
+    purrr,
+    rlang,
+    roxygen2,
+    stringr,
+    textclean,
+    usethis
+Suggests: 
+    fs,
+    librarian,
+    testthat
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
