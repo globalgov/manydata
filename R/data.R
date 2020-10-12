@@ -17,6 +17,11 @@ use_qData_raw <- function(name = "DATASET", open = rlang::is_interactive()) {
   usethis::use_directory("data-raw", ignore = TRUE)
   
   # Step two: create preparation template
+  qtemplate(
+    "qData-raw.R",
+    ignore = FALSE,
+    open = open
+  )
   
   # Step three: inform user what to do next
   usethis::ui_todo("Finish the opened data preparation script")
