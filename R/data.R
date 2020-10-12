@@ -6,7 +6,7 @@
 #'
 #' @details The function loads raw data into a q package
 #' @return A dataraw folder
-#' @importFrom usethis
+#' @importFrom usethis create_tidy_package
 #' @examples
 #' \dontrun{
 #' TODO
@@ -16,14 +16,47 @@ use_qData_raw <- function(...) {
   
   object <- as.list(substitute(list(...)))[-1L]
   
-  # Step one: take a data file from anywhere on your harddrive and move/copy it to a new data-raw folder
-  usethis::use_data_raw(...)
-  # Step two: open up a script containing a template for how to convert raw data to 
-  # qDatr consistent (hopefully) data objects
+  dataraw(...)
+
   qtemplate("qdataraw.R",
-          fs::path("R", paste0("qDataraw-", object[[1]], ".R")),
-          data = usethis:::project_data())
+            fs::path("data-raw", paste0("qDataraw-", object[[1]], ".R")),
+            data = usethis:::project_data())
 }
+    
+
+dataraw <- function(...,
+                    internal = FALSE,
+                    overwrite = FALSE,
+                    compress = "bzip2",
+                    version = 2) {
+    
+    objs <- usethis:::get_objs_from_dots(base::dots(...))
+    
+    usethis:::use_dependency("R", "depends", "2.10")
+    if (internal) {
+      usethis::use_directory("R")
+      paths <- fs::path("R", "sysdata.rda")
+      objs <- list(objs)
+    } else {
+      usethis::use_directory("data-raw")
+      paths <- fs::path("data", objs, ext = "rda")
+    }
+    usethis:::check_files_absent(usethis::proj_path(paths), overwrite = overwrite)
+    
+    usethis::ui_done("Saving {ui_value(unlist(objs))} to {ui_value(paths)}")
+    if (!internal) usethis::ui_todo("Document your data (see {ui_value('https://r-pkgs.org/data.html')})")
+    
+    envir <- parent.frame()
+    mapply(
+      save,
+      list = objs,
+      file = usethis::proj_path(paths),
+      MoreArgs = list(envir = envir, compress = compress, version = version)
+    )
+    
+    invisible()
+}
+
 
 #' Createa a data file the new package for the qDatr ecosystem
 #'

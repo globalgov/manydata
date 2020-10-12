@@ -4,12 +4,10 @@
 \alias{use_qData_raw}
 \title{Createa a dataraw file the new q package}
 \usage{
-use_qData_raw(name = "DATASET", open = rlang::is_interactive())
+use_qData_raw(...)
 }
 \arguments{
-\item{name}{name of dataset saved}
-
-\item{open}{load data in environemnt}
+\item{...}{Unquoted names of existing objects to save.}
 }
 \value{
 A dataraw folder
