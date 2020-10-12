@@ -2,9 +2,12 @@
 #'
 #' Creates a dataraw file and provides templates that make it consistent with the qDatr ecosystem
 #'
+#' @param name Intended (short)name of the dataset
+#' @param open Whether the resulting preparation script will be opened
 #'
 #' @details The function loads raw data into a q package
 #' @return A dataraw folder
+#' @importFrom whisker whisker.render
 #' @examples
 #' \dontrun{
 #' TODO
@@ -19,6 +22,8 @@ use_qData_raw <- function(name = "DATASET", open = rlang::is_interactive()) {
   # Step two: create preparation template
   qtemplate(
     "qData-raw.R",
+    save_as = fs::path("data-raw", paste0("prepare-", usethis:::asciify(name)), ext = "R"),
+    data = list(name = name),
     ignore = FALSE,
     open = open
   )
