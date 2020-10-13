@@ -1,6 +1,6 @@
 #' Create a new package in the qDatr ecosystem
 #'
-#' Creates a new package in and consistent with the qDatr ecosystem
+#' Creates a new package in, and consistent with, the qDatr ecosystem
 #' @param packageName A string giving the desired name of the package,
 #' must start with "q"
 #' @param packageAuthor A string, list or vector giving the package
@@ -103,32 +103,6 @@ create_qPackage <- function(packageName,
   # usethis::proj_activate()
   }
 
-
-## Functions to add our GitHub actions checks templates to qpackage.
-
-qchecks <- function() {
-  usethis::use_directory(fs::path(".github", "workflows"))
-  usethis::use_git_ignore("*.html", directory = ".github")
-}
-
-qprchecks <- function() {
-  qchecks()
-  qtemplate(
-    "prchecks.yml", fs::path("workflows", "prchecks.yml"),
-    data = usethis:::project_data()
-  )
-}
-
-qprcommands <- function() {
-  qchecks()
-  qtemplate(
-    "prcommands.yml",
-    fs::path("workflows", "prcommands.yml"),
-    data = usethis:::project_data()
-  )
-}
-
-
 # With pushrelease it is a little more complicated as it requires the package names to 
 # be changed, but I am trying to work around it. 
 # qpushrelease <- function() {
@@ -140,48 +114,6 @@ qprcommands <- function() {
 #}
 #out
 #}
-
-## Funtions to add our own README, COC, contributing and issue PR templates. 
-
-qreadme <- function(open = rlang::is_interactive()) {
-  librarian::check_installed("rmarkdown")
-  data <- usethis:::project_data()
-  data$Rmd <- TRUE
-  new <- qtemplate("README.Rmd",
-                   data = data,
-                   open = open)
-  invisible(TRUE)
-}
-
-qgithub <- function () {
-  usethis:::use_dot_github()
-  qcoc()
-  qprtemplate()
-  qcontributing()
-}
-
-# We do not have a REAMDME.md file template yet.
-
-qcoc <- function() {
-  usethis:::use_dot_github()
-  usethis::use_directory(fs::path(".github"))
-  qtemplate("CODE_OF_CONDUCT.md",
-            fs::path(".github", "CODE_OF_CONDUCT.md"))
-}
-
-qprtemplate <- function() {
-  usethis:::use_dot_github()
-  usethis::use_directory(fs::path(".github"))
-  qtemplate("pull_request_template.md",
-            fs::path(".github", "pull_request_template.md"))
-}
-
-qcontributing <- function() {
-  usethis:::use_dot_github()
-  usethis::use_directory(fs::path(".github"))
-  qtemplate("CONTRIBUTING_GGO.md",
-            fs::path(".github", "CONTRIBUTING_GGO.md"))
-}
 
 # Helpers ...
 
