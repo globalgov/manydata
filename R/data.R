@@ -2,10 +2,8 @@
 #'
 #' Create a data-raw folder and provide templates that make easier for setting up the data cleaning 
 #' and wragling, consistent with the qDatr ecosystem
-#'
 #' @param name Intended (short)name of the dataset
 #' @param open Whether the resulting preparation script will be opened
-#'
 #' @details The function loads raw data into a q package
 #' @return A dataraw folder
 #' @examples
