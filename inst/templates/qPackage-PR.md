@@ -5,8 +5,8 @@ Please also include relevant motivation and context.
 List any dependencies that are required for this change,
 indicating whether this is a major (breaking), minor, or patch change.
 
-Fixes #(issue no.)
-Closes #(issue no.)
+* Fixes #(issue no.)
+* Closes #(issue no.)
 
 # Checklist:
 
