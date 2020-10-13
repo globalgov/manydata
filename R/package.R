@@ -103,19 +103,7 @@ create_qPackage <- function(packageName,
   # usethis::proj_activate()
   }
 
-# With pushrelease it is a little more complicated as it requires the package names to 
-# be changed, but I am trying to work around it. 
-# qpushrelease <- function() {
-#qchecks()
-#qtemplate("prcommands.yml",
-#  fs::path("workflows", "prcommands.yml"),
-#  data = usethis:::project_data()) {
-# out <- textclean::mgsub("qdatr", basename(packageName), out)
-#}
-#out
-#}
-
-# Helpers ...
+# Helper
 
 user_path_prep <- function(path) {
   fs::path_expand(fs::path)
