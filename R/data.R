@@ -1,4 +1,4 @@
-#' Create a data-raw folder in the new qPackage
+#' Create a data-raw folder in the new q Package
 #'
 #' Create a data-raw folder and provide templates that make easier for setting up the data cleaning 
 #' and wragling, consistent with the qDatr ecosystem
@@ -34,12 +34,11 @@ use_qData_raw <- function(name = "DATASET", open = rlang::is_interactive()) {
 
 }
 
-#' Creates a data file the new package for the qDatr ecosystem
+#' Create a data folder in the new q package
 #'
-#' Creates a data file with templates that make it consistent with the qDatr ecosystem
-#'
+#' Create a data folder in the new q package with templates for setting up tests, 
+#' documentation, and lazy-loading of cleaned data that make it consistent with the qDatr ecosystem
 #' @param ... Unquoted names of existing objects to save.
-#'
 #' @examples
 #' \dontrun{
 #' TODO
@@ -72,14 +71,12 @@ use_qData <- function(...) {
 #' Helper function for finding and rendering templates
 #'
 #' Helper function for finding and rendering templates from the qDatr package
-#'
 #' @param template Template called
 #' @param save_as Path to where the rendered template should be saved
 #' @param data Any elements to be entered into the template via Whisker
 #' @param ignore For use with usethis::use_build_ignore()
 #' @param open Whether the resulting template will be opened
 #' @param package Package called
-#'
 #' @details This function is an adaptation of the usethis variant
 #' for use in the qDatr ecosystem.
 #' @return A rendered template, saved into the correct folder
