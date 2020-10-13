@@ -1,6 +1,7 @@
-#' Creates a dataraw file the new q package
+#' Create a data-raw folder in the new qPackage
 #'
-#' Creates a dataraw file and provides templates that make it consistent with the qDatr ecosystem
+#' Create a data-raw folder and provide templates that make easier for setting up the data cleaning 
+#' and wragling, consistent with the qDatr ecosystem
 #'
 #' @param name Intended (short)name of the dataset
 #' @param open Whether the resulting preparation script will be opened
