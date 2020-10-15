@@ -13,6 +13,7 @@
 #' @return A new package structure
 #' @importFrom usethis create_package
 #' @importFrom stringr str_replace_all
+#' @importFrom stringr str_split
 #' @examples
 #' \dontrun{
 #' qpackage_create("qStates",
@@ -50,7 +51,14 @@ create_qPackage <- function(packageName = NULL,
   }
     
   # Step one: ensure/create package/project structure
-  # usethis::use_tidy_description()
+  given <- stringr::str_split(packageAuthor, " ")[1]
+  family <- stringr::str_split(packageAuthor, " ")[2]
+  qtemplate("qPackage-DESC.dcf",
+            "DESCRIPTION", 
+            data = list(package = packageName,
+                        given = given,
+                        family = family))
+  usethis::ui_done("Added DESCRIPTION file. Modify if necessary.")
   usethis::use_directory("R")
   usethis::use_namespace()
   usethis::use_news_md()
