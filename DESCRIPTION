@@ -1,6 +1,6 @@
 Package: qDatr
 Title: Quantum Data for the 21st Century
-Version: 0.0.4
+Version: 0.1.0
 Authors@R: 
     c(person(given = "James",
              family = "Hollway",
@@ -13,22 +13,31 @@ Authors@R:
              comment = "IHEID"))
 Description: Collection, correction, and connection.
 License: AGPL-3
+URL: https://github.com/globalgov/qDatr
+BugReports: https://github.com/globalgov/qDatr/issues
+Depends: 
+    R (>= 2.10)
+Imports: 
+    covr,
+    desc,
+    dplyr,
+    english,
+    lubridate,
+    pkgdown,
+    pointblank,
+    purrr,
+    rlang,
+    roxygen2,
+    stringr,
+    textclean,
+    usethis,
+    whisker
+Suggests: 
+    fs,
+    librarian,
+    testthat,
+    xfun
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
-Suggests: 
-    testthat
-Imports: 
-    textclean,
-    stringr,
-    english,
-    lubridate,
-    dplyr,
-    roxygen2,
-    covr,
-    purrr,
-    rlang,
-    usethis
-URL: https://github.com/jhollway/qDatr
-BugReports: https://github.com/jhollway/qDatr/issues

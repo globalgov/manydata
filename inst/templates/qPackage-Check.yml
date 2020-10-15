@@ -1,9 +1,10 @@
 on:
-  push:
-    branches: 
+  pull_request:
+    branches:
       - main
-
-name: Check and release
+      - master
+      
+name: Binary checks
 
 jobs:
 
@@ -60,9 +61,12 @@ jobs:
         run: |
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
+          remotes::install_cran("lintr")
+          remotes::install_cran("goodpractice")
+          remotes::install_cran("spelling")
         shell: Rscript {0}
 
-#      - name: Document
+#      - name:Document
 #        run: Rscript -e 'roxygen2::roxygenise()'
 
       - name: Check
@@ -94,87 +98,16 @@ jobs:
           
       - name: Calculate code coverage
         run: Rscript -e "covr::codecov()"
-
-  release:
-    name: Bump version and release
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout one
-        uses: actions/checkout@master
-        with:
-          fetch-depth: '0'
-      - name: Bump version and push tag
-        id: newtag
-        uses: anothrNick/github-tag-action@1.17.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WITH_V: true
-          DEFAULT_BUMP: patch
-          RELEASE_BRANCHES: main
-      - name: Checkout two
-        uses: actions/checkout@v2
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.newtag.outputs.tag }}
-          release_name: Release ${{ steps.newtag.outputs.tag }}
-          draft: false
-          prerelease: false
-          
-      - name: Download binaries
-        uses: actions/download-artifact@v2
         
-      - name: Display structure of downloaded files
-        run: ls -R
-
-      - name: Zip up
-        uses: montudor/action-zip@v0.1.0
-        with:
-          args: zip -qq -r qdatr_AllOS.zip . -i ./macOS/* ./winOS/* ./linuxOS/*
-
-      - name: Display structure of downloaded files again
-        run: ls -R
-
-      - name: Upload binary
-        id: upload-binary 
-        uses: actions/upload-release-asset@v1.0.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: qdatr_AllOS.zip
-          asset_name: qdatr_AllOS.zip
-          asset_content_type: application/zip
-
-jobs:
-
-  render:
-  name: render and update README.md
-  # source: https://fromthebottomoftheheap.net/2020/04/30/rendering-your-readme-with-github-actions/
-    runs-on: macOS-latest
-    # I left macOS-latest because I do not know if the script works with ubuntu-latest
-
-    steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
-    - uses: r-lib/actions/setup-r@v1
-    - uses: r-lib/actions/setup-pandoc@v1
-
-    # install packages needed
-    - name: install required packages
-      run: Rscript -e 'install.packages(c("rmarkdown","gratia"))'
-
-    # Render READEME.md using rmarkdown
-    - name: render README
-      run: Rscript -e 'rmarkdown::render("README.Rmd", output_format = "md_document")'
-
-    - name: commit rendered README
-      run: |
-        git add README.md man/figures/README-*
-        git commit -m "Re-build README.md" || echo "No changes to commit"
-        git push origin master || echo "No changes to commit"
-          
+      - name: Lint
+        run: lintr::lint_package()
+        shell: Rscript {0}
+        
+      - name: Goodpractice
+        run: |
+          goodpractice::gp()
+        shell: Rscript {0}
+        
+      - name: Spell check
+        run: spelling::spell_check_package()
+        shell: Rscript {0}

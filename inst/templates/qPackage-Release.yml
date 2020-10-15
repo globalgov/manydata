@@ -2,6 +2,7 @@ on:
   push:
     branches: 
       - main
+      - master
 
 name: Check and release
 
@@ -134,7 +135,7 @@ jobs:
       - name: Zip up
         uses: montudor/action-zip@v0.1.0
         with:
-          args: zip -qq -r qdatr_AllOS.zip . -i ./macOS/* ./winOS/* ./linuxOS/*
+          args: zip -qq -r package_AllOS.zip . -i ./macOS/* ./winOS/* ./linuxOS/*
 
       - name: Display structure of downloaded files again
         run: ls -R
@@ -146,15 +147,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: qdatr_AllOS.zip
-          asset_name: qdatr_AllOS.zip
+          asset_path: package_AllOS.zip
+          asset_name: package_AllOS.zip
           asset_content_type: application/zip
 
 jobs:
 
   render:
-  name: render and update README.md
-  # source: https://fromthebottomoftheheap.net/2020/04/30/rendering-your-readme-with-github-actions/
+    name: render and update README.md
     runs-on: macOS-latest
     # I left macOS-latest because I do not know if the script works with ubuntu-latest
 
@@ -177,4 +177,3 @@ jobs:
         git add README.md man/figures/README-*
         git commit -m "Re-build README.md" || echo "No changes to commit"
         git push origin master || echo "No changes to commit"
-          
