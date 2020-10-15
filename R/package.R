@@ -88,10 +88,6 @@ create_qPackage <- function(packageName,
   #           fs::path(".github", "workflows", "pushrelease.yml"),
   #           data = list(package = packageName,
   #                       author = packageAuthor))
-  # qtemplate("qPackage-Readme.yml",
-  #           fs::path(".github", "workflows", "readme.yml"),
-  #           data = list(package = packageName,
-  #                       author = packageAuthor))
 
   usethis::ui_todo("Remember to set up your project together with Github for visibility etc.")
   #usethis::ui_todo("{ui_code('use_pkgdown()')}")
