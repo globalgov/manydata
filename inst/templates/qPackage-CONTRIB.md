@@ -9,7 +9,6 @@ Contributions to `{packageName}`, whether in the form of issue identification, b
 This outlines how to propose a change to a package from the Global Governance Observatory's ecosystem. Please note that the `{packageName}` project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).By contributing to this project, you agree to abide by its terms.
 
 ## Issues
-
 Please use the issue tracker on GitHub to identify problems or suggest new functionality, before submitting changes to the code.
 We use issues to identify bugs and tasks, discuss feature requests, and to track implementation of changes.
 
@@ -39,7 +38,6 @@ styler::style_file("filePath")
 If you develop new code in `C++`, please follow the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html).
 
 ## Pull request process
-
 The title of your PR should briefly describe the change. Please include a summary of the changes and which issues are fixed and the relevant motivation and context. List any dependencies that are required for this change, indicating whether this is a major (breaking), minor, or patch change. The body of your PR should contain `Fixes #issue-number`. Make sure the package passes R CMD check by running `devtools::check()` before commiting changes to a pull request. 
 
 If you want to make a bigger change, it's a good idea to first file an issue and make sure someone from the team agrees that it’s needed before openning a pull request. If you’ve found a bug, please file an issue that illustrates the bug with a minimal [reprex](https://www.tidyverse.org/help/#reprex).
