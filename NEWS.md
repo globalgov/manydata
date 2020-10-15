@@ -2,12 +2,12 @@
 
 ## Data wrangling 
 
-* Adds use_qData_raw() for setting up data cleaning and wrangling
+* Adds `use_qData_raw()` for setting up data cleaning and wrangling
 
 ## Data packages
 
-* Closes #45 by adding use_qData() for setting up tests, documentation, and lazy-loading of cleaned data
-* Closes #44 by adding create_qPackage() that establishes a {qDatr}-consistent package framework
+* Closes #45 by adding `use_qData()` for setting up tests, documentation, and lazy-loading of cleaned data
+* Closes #44 by adding `create_qPackage()` that establishes a `{qDatr}` consistent package framework
 
 # qDatr 0.0.4
 
