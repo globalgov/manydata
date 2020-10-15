@@ -60,14 +60,19 @@ create_qPackage <- function(packageName = NULL,
                         family = family))
   usethis::ui_done("Added DESCRIPTION file. Modify if necessary.")
   usethis::use_directory("R")
+  usethis::ui_done("Created R/ folder. Here is where any scripts go.")
   usethis::use_namespace()
+  usethis::ui_done("Created NAMESPACE file. Don't modify it.")
   usethis::use_news_md()
+  usethis::ui_done("Added starter NEWS file. Update for every release.")
   usethis::use_ccby_license(name = packageAuthor)
+  usethis::ui_done("Added CCBY license. Modify if necessary.")
   # Add README
   qtemplate("qPackage-README.Rmd",
             "README.Rmd", 
             data = list(package = packageName,
                         author = packageAuthor))
+  usethis::ui_done("Added standard README.")
   # TODO: Add badges to qPackage README
   
   # Step two: ensure/create core package files
@@ -122,4 +127,4 @@ create_qPackage <- function(packageName = NULL,
   # Step 6: create GitHub repository (?)
   # usethis::use_git() # The usethis::use_github() may also be an interesting option to explore here. 
   # usethis::proj_activate()
-  }
+}
