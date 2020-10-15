@@ -18,8 +18,8 @@
 #' c("James Hollway", "Henrique Sposito"))
 #' }
 #' @export
-create_qPackage <- function(packageName,
-                            packageAuthor,
+create_qPackage <- function(packageName = NULL,
+                            packageAuthor = NULL,
                             update = TRUE) {
   
   # Checks to see whether inputs are correct

@@ -4,7 +4,7 @@
 \alias{create_qPackage}
 \title{Create a new package in the qDatr ecosystem}
 \usage{
-create_qPackage(packageName, packageAuthor, update = TRUE)
+create_qPackage(packageName = NULL, packageAuthor = NULL, update = TRUE)
 }
 \arguments{
 \item{packageName}{A string giving the desired name of the package,
@@ -21,7 +21,7 @@ TODO: do these checks internally and smartly...}
 A new package structure
 }
 \description{
-Creates a new package in and consistent with the qDatr ecosystem
+Creates a new package in, and consistent with, the qDatr ecosystem
 }
 \details{
 The function establishes many of the required files and
