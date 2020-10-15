@@ -11,7 +11,7 @@
 #' @details The function establishes many of the required files and
 #' folder structures required for a qDatr-consistent data package.
 #' @return A new package structure
-#' @importFrom usethis create_package
+#' @import usethis
 #' @importFrom stringr str_replace_all
 #' @examples
 #' \dontrun{
@@ -114,4 +114,4 @@ create_qPackage <- function(packageName = NULL,
   # Step 6: create GitHub repository (?)
   # usethis::use_git() # The usethis::use_github() may also be an interesting option to explore here. 
   # usethis::proj_activate()
-  }
+}
