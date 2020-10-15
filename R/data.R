@@ -1,7 +1,7 @@
-#' Create a data-raw folder in the new q Package
+#' Create a data-raw folder in the new q package
 #'
 #' Create a data-raw folder and provide templates that make easier for setting up the data cleaning 
-#' and wragling, consistent with the qDatr ecosystem
+#' and wrangling, consistent with the qDatr ecosystem
 #' @param name Intended (short)name of the dataset
 #' @param open Whether the resulting preparation script will be opened
 #' @details The function loads raw data into a q package
@@ -34,11 +34,11 @@ use_qData_raw <- function(name = "DATASET", open = rlang::is_interactive()) {
 
 }
 
-#' Create a data folder in the new q package
+#' Save a cleaned data object in the new q package
 #'
-#' Create a data folder in the new q package with templates for setting up tests, 
-#' documentation, and lazy-loading of cleaned data that make it consistent with the qDatr ecosystem
-#' @param ... Unquoted names of existing objects to save.
+#' Save a cleaned data object, consistent with the qDatr ecosystem, ready to be lazy-loaded 
+#' and create scripts for documenting and testing that object within the new q package
+#' @param ... Unquoted names of existing objects to save
 #' @examples
 #' \dontrun{
 #' TODO
