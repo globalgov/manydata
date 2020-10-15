@@ -1,6 +1,6 @@
 Package: qDatr
 Title: Quantum Data for the 21st Century
-Version: 0.0.5
+Version: 0.1.0
 Authors@R: 
     c(person(given = "James",
              family = "Hollway",

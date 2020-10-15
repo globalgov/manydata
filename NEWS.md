@@ -1,4 +1,4 @@
-# qDatr 0.0.5
+# qDatr 0.1.0
 
 ## Data wrangling 
 
