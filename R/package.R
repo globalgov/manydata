@@ -116,6 +116,7 @@ create_qPackage <- function(packageName = NULL,
   #           fs::path(".github", "workflows", "pushrelease.yml"),
   #           data = list(package = packageName,
   #                       author = packageAuthor))
+  # TODO: Consider ways to replace "package_" with package name for qPackage-Release.yml template
 
   usethis::ui_todo("Remember to set up your project together with Github for visibility etc.")
   #usethis::ui_todo("{ui_code('use_pkgdown()')}")

@@ -155,7 +155,6 @@ jobs:
 
   render:
     name: render and update README.md
-    # source: https://fromthebottomoftheheap.net/2020/04/30/rendering-your-readme-with-github-actions/
     runs-on: macOS-latest
     # I left macOS-latest because I do not know if the script works with ubuntu-latest
 
