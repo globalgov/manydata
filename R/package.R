@@ -51,6 +51,7 @@ create_qPackage <- function(packageName = NULL,
   }
     
   # Step one: ensure/create package/project structure
+  # Add DESCRIPTION
   given <- stringr::str_split(packageAuthor, " ")[1]
   family <- stringr::str_split(packageAuthor, " ")[2]
   qtemplate("qPackage-DESC.dcf",
@@ -59,14 +60,18 @@ create_qPackage <- function(packageName = NULL,
                         given = given,
                         family = family))
   usethis::ui_done("Added DESCRIPTION file. Modify if necessary.")
+  # Add R folder
   usethis::use_directory("R")
   usethis::ui_done("Created R/ folder. Here is where any scripts go.")
-  usethis::use_namespace()
-  usethis::ui_done("Created NAMESPACE file. Don't modify it.")
-  usethis::use_news_md()
-  usethis::ui_done("Added starter NEWS file. Update for every release.")
+  # Add LICENSE
   usethis::use_ccby_license(name = packageAuthor)
   usethis::ui_done("Added CCBY license. Modify if necessary.")
+  # Add NAMESPACE
+  usethis::use_namespace()
+  usethis::ui_done("Created NAMESPACE file. Don't modify it.")
+  # Add NEWS
+  usethis::use_news_md()
+  usethis::ui_done("Added starter NEWS file. Update for every release.")
   # Add README
   qtemplate("qPackage-README.Rmd",
             "README.Rmd", 
