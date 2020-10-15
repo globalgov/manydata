@@ -2,7 +2,7 @@
 % Please edit documentation in R/data.R
 \name{use_qData_raw}
 \alias{use_qData_raw}
-\title{Creates a dataraw file the new q package}
+\title{Create a data-raw folder in the new q package}
 \usage{
 use_qData_raw(name = "DATASET", open = rlang::is_interactive())
 }
@@ -15,7 +15,8 @@ use_qData_raw(name = "DATASET", open = rlang::is_interactive())
 A dataraw folder
 }
 \description{
-Creates a dataraw file and provides templates that make it consistent with the qDatr ecosystem
+Create a data-raw folder and provide templates that make easier for setting up the data cleaning
+and wrangling, consistent with the qDatr ecosystem
 }
 \details{
 The function loads raw data into a q package

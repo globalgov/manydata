@@ -2,15 +2,16 @@
 % Please edit documentation in R/data.R
 \name{use_qData}
 \alias{use_qData}
-\title{Creates a data file the new package for the qDatr ecosystem}
+\title{Save a cleaned data object in the new q package}
 \usage{
 use_qData(...)
 }
 \arguments{
-\item{...}{Unquoted names of existing objects to save.}
+\item{...}{Unquoted names of existing objects to save}
 }
 \description{
-Creates a data file with templates that make it consistent with the qDatr ecosystem
+Save a cleaned data object, consistent with the qDatr ecosystem, ready to be lazy-loaded
+and create scripts for documenting and testing that object within the new q package
 }
 \examples{
 \dontrun{
