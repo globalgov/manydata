@@ -27,21 +27,19 @@ create_qPackage <- function(packageName,
   if (!startsWith(packageName, "q")) stop("Package name must start with a 'q'")
   if (is.null(packageAuthor)) stop("Please declare at least one author")
   
-  # Checks to see whether path already contains files or is empty
-  # path<- usethis::create_package(path, rstudio = TRUE, open = FALSE)
-  # old_project <- usethis::proj_set(path)
-  # on.exit(usethis::proj_set(old_project), add = TRUE)
-  # The lines above are folded into create_package. 
   
   # Step one: ensure/create package/project structure
-  # usethis::create_package()
+  # Checks to see whether path already contains files or is empty
+  path<- usethis::create_package(path, rstudio = TRUE, open = FALSE)
+  old_project <- usethis::proj_set(path)
+  on.exit(usethis::proj_set(old_project), add = TRUE)
   
   # Add README
   qtemplate("qPackage-README.Rmd",
             "README.Rmd", 
             data = list(package = packageName,
                         author = packageAuthor))
-  # TODO: Make sure workflow creates README.md from README.Rmd
+
   # TODO: Add badges to qPackage README
   
   # Step two: ensure/create core package files
@@ -96,7 +94,7 @@ create_qPackage <- function(packageName,
   #                       author = packageAuthor))
 
   usethis::ui_todo("Remember to set up your project together with Github for visibility etc.")
-  # usethis::ui_todo("{ui_code('use_pkgdown()')}")
+  #usethis::ui_todo("{ui_code('use_pkgdown()')}")
   
   # Step five: checks package (?) 
   # usethis::use_spell_check()
