@@ -29,17 +29,11 @@ create_qPackage <- function(packageName,
   
   
   # Step one: ensure/create package/project structure
-  # Checks to see whether path already contains files or is empty
-  path<- usethis::create_package(path, rstudio = TRUE, open = FALSE)
-  old_project <- usethis::proj_set(path)
-  on.exit(usethis::proj_set(old_project), add = TRUE)
-  
   # Add README
   qtemplate("qPackage-README.Rmd",
             "README.Rmd", 
             data = list(package = packageName,
                         author = packageAuthor))
-
   # TODO: Add badges to qPackage README
   
   # Step two: ensure/create core package files
