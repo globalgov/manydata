@@ -12,6 +12,7 @@
 #' folder structures required for a qDatr-consistent data package.
 #' @return A new package structure
 #' @importFrom usethis create_package
+#' @importFrom stringr str_replace_all
 #' @examples
 #' \dontrun{
 #' qpackage_create("qStates",
@@ -23,11 +24,31 @@ create_qPackage <- function(packageName = NULL,
                             update = TRUE) {
   
   # Checks to see whether inputs are correct
-  if (is.null(packageName)) stop("Please declare a package name")
-  if (!startsWith(packageName, "q")) stop("Package name must start with a 'q'")
-  if (is.null(packageAuthor)) stop("Please declare at least one author")
-  
-  
+  wd <- getwd()
+  if (is.null(packageName)){
+    if (file.exists(paste0(wd, "/DESCRIPTION"))){
+      packageName <- read.dcf(paste0(wd, "/DESCRIPTION"))[[1]]
+      usethis::ui_done("Obtained package name from existing DESCRIPTION file.")
+      if (!startsWith(packageName, "q")) stop("Package name must start with a 'q'")
+    } else {
+      stop("Please declare a package name")
+    }
+  }
+    
+  if (is.null(packageAuthor)){
+    if (file.exists(paste0(wd, "/DESCRIPTION"))){
+      packageAuthor <- read.dcf(paste0(wd, "/DESCRIPTION"))[[4]]
+      packageAuthor <- stringr::str_replace_all(packageAuthor, "\",\nfamily = \"", " ")
+      packageAuthor <- stringr::str_replace_all(packageAuthor, "c\\(", "")
+      packageAuthor <- stringr::str_replace_all(packageAuthor, "person\\(given = \"", "")
+      packageAuthor <- stringr::str_replace_all(packageAuthor, "\\n", "")
+      packageAuthor <- stringr::str_replace_all(packageAuthor, "\".*", "")
+      usethis::ui_done("Obtained lead author name from existing DESCRIPTION file.")
+    } else {
+      stop("Please declare at least one author")
+    }
+  }
+    
   # Step one: ensure/create package/project structure
   # Add README
   qtemplate("qPackage-README.Rmd",
