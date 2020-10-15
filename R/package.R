@@ -102,9 +102,3 @@ create_qPackage <- function(packageName,
   # usethis::use_git() # The usethis::use_github() may also be an interesting option to explore here. 
   # usethis::proj_activate()
   }
-
-# Helper
-
-user_path_prep <- function(path) {
-  fs::path_expand(fs::path)
-}
