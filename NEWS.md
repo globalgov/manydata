@@ -1,13 +1,33 @@
 # qDatr 0.1.0
 
-## Data wrangling 
+## Package
 
+* Updated CONTRIBUTING
+* Added README.Rmd render to pushrelease workflow
+
+## Collection
+
+* Added `qtemplate()` function for finding and rendering templates
+* Closes #44 by adding `create_qPackage()` that establishes a `{qDatr}` consistent package framework
+  * Added DESCRIPTION template
+  * Added README template
+  * Added COC template
+  * Added CONTRIBUTING template
+  * Added PR and issue templates for bugs and features
+  * Added workflow templates for push-release, pr-checks, and pr-commands
 * Adds `use_qData_raw()` for setting up data cleaning and wrangling
+  * Added template for importing, cleaning and exporting raw data
 
-## Data packages
+## Correction
+
+* Added `repaint()` for filling in missing data by lookup
+* Added `recent()` for sensible centuries for dates
+
+## Connection
 
 * Closes #45 by adding `use_qData()` for setting up tests, documentation, and lazy-loading of cleaned data
-* Closes #44 by adding `create_qPackage()` that establishes a `{qDatr}` consistent package framework
+  * Added template for documenting cleaned data
+  * Added template for testing cleaned data
 
 # qDatr 0.0.4
 
