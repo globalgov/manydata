@@ -50,6 +50,11 @@ create_qPackage <- function(packageName = NULL,
   }
     
   # Step one: ensure/create package/project structure
+  # usethis::use_tidy_description()
+  usethis::use_directory("R")
+  usethis::use_namespace()
+  usethis::use_news_md()
+  usethis::use_ccby_license(name = packageAuthor)
   # Add README
   qtemplate("qPackage-README.Rmd",
             "README.Rmd", 
@@ -58,11 +63,6 @@ create_qPackage <- function(packageName = NULL,
   # TODO: Add badges to qPackage README
   
   # Step two: ensure/create core package files
-  # usethis::use_ccby_license(name = packageAuthor)
-  
-  # usethis::use_tidy_description()
-  # usethis::use_namespace()
-  # usethis::use_news_md()
   
   # Step three: ensure/create Github files
   usethis::use_directory(".github")
