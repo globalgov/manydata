@@ -8,10 +8,10 @@
 #' @param open Whether the resulting preparation script will be opened
 #' @importFrom fs path
 #' @importFrom fs path_file
-#' @details The function helps to import raw data into package while providing templates that facilitate 
+#' @details The function helps importing raw data into q package while providing a template that facilitates 
 #' data cleaning and wrangling, consistent with the qDatr ecosystem.  
-#' @return This function returns a data-raw folder containing a the data imported as well as a script in the R directory 
-#' to guide the preparation of data using qDatr.   
+#' @return This function returns a data-raw folder containing the data imported as well as a script in the R directory 
+#' to guide preparation of data using qDatr.   
 #' @examples
 #' \dontrun{
 #' data(mtcars)
@@ -59,9 +59,15 @@ import_data <- function(name = "DATASET",
 #' @param ... Unquoted names of existing objects to save
 #' @param overwrite Whether to overwrite any existing objects saved
 #' @param compress Compression formula
+#' @details The function creates a data directory, if inexistent, and save cleaned data. 
+#' The functions also cretes a script for testing the cleaned data and make sure it complies with qDatr requirements. 
+#' As well, it creates a documentation script to help documenting data sources and describing variables.     
+#' @return This function returns a data folder containing the cleaned data as well as scripts in the R directory 
+#' to test and document cleaned data.    
 #' @examples
 #' \dontrun{
-#' TODO
+#' data(mtcars)
+#' qDatr::export_data(mtcars)
 #' }
 #' @export
 export_data <- function(..., 
