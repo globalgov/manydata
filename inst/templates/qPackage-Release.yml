@@ -155,8 +155,7 @@ jobs:
 
   render:
     name: render and update README.md
-    runs-on: macOS-latest
-    # I left macOS-latest because I do not know if the script works with ubuntu-latest
+    runs-on: ubuntu-latest
 
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
