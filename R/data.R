@@ -62,8 +62,7 @@ export_data <- function(...,
                         overwrite = FALSE, 
                         compress = "bzip2") {
   
-
-  object <- as.list(substitute(list(...)))[-1L]
+  dat <- deparse(substitute(...))
 
   # Step one: take object created from raw-data and save as data to be lazy loaded in the package
   usethis::use_data(...)
@@ -72,8 +71,11 @@ export_data <- function(...,
   # TODO: decide on what kinds of objects can be contained in qDatr packages 
   # (actors, agreements, relations, etc)
   qtemplate("qData-test.R",
-            fs::path("tests", "testthat", paste0("qTest-", object[[1]], ".R")),
-            data = usethis:::project_data())
+            fs::path("tests", "testthat", paste0("qTest-", dat, ".R")),
+            data = usethis:::project_data(),
+            open = FALSE)
+  ui_done("A test script has been created for this data.")
+  ui_todo("Press Cmd/Ctrl-Shift-T to run all tests.")
   
   # Step four: create and open a documentation script
   qtemplate("qData-document.R",
