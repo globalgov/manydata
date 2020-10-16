@@ -31,7 +31,7 @@ import_data <- function(name = "DATASET",
   usethis::ui_done("Copied data to data-raw/ folder.")
   if (delete_original) file.remove(path)
   
-  # Step two: create preparation template
+  # Step three: create preparation template
   qtemplate(
     "qData-raw.R",
     save_as = fs::path("data-raw", paste0("prepare-", name), ext = "R"),
@@ -40,7 +40,7 @@ import_data <- function(name = "DATASET",
     open = open
   )
   
-  # Step three: inform user what to do next
+  # Step four: inform user what to do next
   usethis::ui_todo("Finish the opened data preparation script")
   usethis::ui_todo("Use {usethis::ui_code('qDatr::use_qData()')} to add prepared data to package")
 
@@ -80,10 +80,18 @@ export_data <- function(...,
   ui_done("A test script has been created for this data.")
   ui_todo("Press Cmd/Ctrl-Shift-T to run all tests.")
   
-  # Step four: create and open a documentation script
-  qtemplate("qData-document.R",
-            fs::path("R", paste0("qData-", object[[1]], ".R")),
-            data = usethis:::project_data())
+  # Step three: create and open a documentation script
+  nr <- nrow(...)
+  nc <- ncol(...)
+  nm <- names(...)
+  print(nm)
+  describe <- paste0("#' \\describe{\n", paste0("#'   \\item{",nm,"}{Decribe variable here}\n", collapse = ""), "#' }")
+  qtemplate("qData-doc.R",
+            fs::path("R", paste0("qData-", dat, ".R")),
+            data = list(dat = dat,
+                        nr = nr,
+                        nc = nc,
+                        describe = describe))
 }
 
 #' Helper function for finding and rendering templates
