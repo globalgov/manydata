@@ -68,10 +68,6 @@ export_data <- function(...,
   # Step one: take object created from raw-data and save as data to be lazy loaded in the package
   usethis::use_data(...)
 
-  # Step two: make sure that testthat is set up correctly for the package
-  usethis::use_testthat()
-  usethis::use_package("pointblank")
-
   # Step three: create the right kind of test script for the type of object it is
   # TODO: decide on what kinds of objects can be contained in qDatr packages 
   # (actors, agreements, relations, etc)

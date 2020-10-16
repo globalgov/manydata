@@ -81,33 +81,47 @@ create_qPackage <- function(packageName = NULL,
   # TODO: Add badges to qPackage README
   
   # Step two: ensure/create core package files
+  usethis::use_testthat()
   
   # Step three: ensure/create Github files
   usethis::use_directory(".github")
+  usethis::ui_done("Created .github folder.")
   qtemplate("qPackage-COC.md",
             fs::path(".github", "CODE_OF_CONDUCT", ext = "md"),
             data = list(package = packageName,
-                        author = packageAuthor))
+                        author = packageAuthor),
+            open = FALSE)
+  usethis::ui_done("Created CODE_OF_CONDUCT file. Modify if necessary.")
   qtemplate("qPackage-CONTRIB.md",
             fs::path(".github", "CONTRIBUTING.md"),
             data = list(package = packageName,
-                        author = packageAuthor))
+                        author = packageAuthor),
+            open = FALSE)
+  usethis::ui_done("Created CONTRIBUTING file. Modify if necessary.")
   qtemplate("qPackage-PR.md",
             fs::path(".github", "pull_request_template.md"),
             data = list(package = packageName,
-                        author = packageAuthor))
-
+                        author = packageAuthor),
+            open = FALSE)
+  usethis::ui_done("Created PR template. Modify if necessary.")
+  
   usethis::use_directory(".github/ISSUE_TEMPLATE")
+  usethis::ui_done("Created ISSUE_TEMPLATE folder.")
   qtemplate("qPackage-Bugs.md",
             fs::path(".github", "ISSUE_TEMPLATE", "bug_report.md"),
             data = list(package = packageName,
-                        author = packageAuthor))
+                        author = packageAuthor),
+            open = FALSE)
+  usethis::ui_done("Created bug report issue template. Modify if necessary.")
   qtemplate("qPackage-Features.md",
             fs::path(".github", "ISSUE_TEMPLATE", "feature_request.md"),
             data = list(package = packageName,
-                        author = packageAuthor))
+                        author = packageAuthor),
+            open = FALSE)
+  usethis::ui_done("Created feature request issue template. Modify if necessary.")
   
   usethis::use_directory(".github/workflows")
+  usethis::ui_done("Created workflows folder.")
   # TODO: qtemplate() not working with Github workflows because whisker reads workflow variables to be rendered
   # qtemplate("qPackage-Check.yml",
   #           fs::path(".github", "workflows", "prchecks.yml"),
