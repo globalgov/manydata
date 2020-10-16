@@ -3,7 +3,10 @@
 #' Create a data-raw folder and provide templates that make easier for setting up the data cleaning 
 #' and wrangling, consistent with the qDatr ecosystem
 #' @param name Intended (short)name of the dataset
+#' @param path Path to raw data file. If left unspecified, a dialog box is raised to select the file via the system.
 #' @param open Whether the resulting preparation script will be opened
+#' @importFrom fs path
+#' @importFrom fs path_file
 #' @details The function...
 #' @return This function...
 #' @examples
@@ -12,14 +15,22 @@
 #' }
 #' @export
 import_data <- function(name = "DATASET", 
+                        path = NULL,
+                        delete_original = FALSE,
                         open = rlang::is_interactive()) {
 
   # Step one: checks and setup
   stopifnot(rlang::is_string(name)) # Could also check if ASCII
   usethis::use_directory("data-raw", ignore = TRUE)
-  # TODO: Save raw datasets in data-raw folder.
-  # save <- fs::path("data-raw", paste0(name))
+  usethis::ui_done("Made sure data-raw folder exists.") 
+  # This step may not be necessary if create_package() already creates this folder too...
 
+  # Step two: move raw data file to correct location
+  if (is.null(path)) path <- file.choose()
+  file.copy(path, fs::path("data-raw", fs::path_file(path)))
+  usethis::ui_done("Copied data to data-raw/ folder.")
+  if (delete_original) file.remove(path)
+  
   # Step two: create preparation template
   qtemplate(
     "qData-raw.R",
