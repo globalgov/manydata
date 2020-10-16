@@ -7,20 +7,21 @@
 
 ## Collection
 
-* Added `qtemplate()` function for finding and rendering templates
+* Closes #47 by adding `qtemplate()` function for finding and rendering templates
 * Closes #44 by adding `create_qPackage()` that establishes a `{qDatr}` consistent package framework
+  * Fixed #42 by drawing information from DESCRIPTION where possible
   * Added DESCRIPTION template
   * Added README template
   * Added COC template
   * Added CONTRIBUTING template
   * Added PR and issue templates for bugs and features
   * Added workflow templates for push-release, pr-checks, and pr-commands
-* Adds `use_qData_raw()` for setting up data cleaning and wrangling
+* Closes #48 by adding `use_qData_raw()` for setting up data cleaning and wrangling
   * Added template for importing, cleaning and exporting raw data
 
 ## Correction
 
-* Added `repaint()` for filling in missing data by lookup
+* Closes #24 by adding `repaint()` for filling in missing data by lookup
 * Added `recent()` for sensible centuries for dates
 
 ## Connection
