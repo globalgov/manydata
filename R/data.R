@@ -51,12 +51,17 @@ import_data <- function(name = "DATASET",
 #' Save a cleaned data object, consistent with the qDatr ecosystem, ready to be lazy-loaded 
 #' and create scripts for documenting and testing that object within the new q package
 #' @param ... Unquoted names of existing objects to save
+#' @param overwrite Whether to overwrite any existing objects saved
+#' @param compress Compression formula
 #' @examples
 #' \dontrun{
 #' TODO
 #' }
 #' @export
-use_qData <- function(...) {
+export_data <- function(..., 
+                        overwrite = FALSE, 
+                        compress = "bzip2") {
+  
 
   object <- as.list(substitute(list(...)))[-1L]
 

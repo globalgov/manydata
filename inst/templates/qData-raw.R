@@ -16,4 +16,4 @@ library(qDatr)
 # Stage three: connecting data
 # At this stage, all you need to do is run the next line to 
 # make {{{name}}} available within the package.
-use_qData({{{name}}})
+export_data({{{name}}})
