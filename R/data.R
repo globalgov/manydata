@@ -3,11 +3,12 @@
 #' Create a data-raw folder and provide templates that make easier for setting up the data cleaning 
 #' and wrangling, consistent with the qDatr ecosystem
 #' @param name Intended (short)name of the dataset
-#' @param path Path to raw data file. If left unspecified, a dialog box is raised to select the file via the system.
+#' @param path Path to raw data file. If left unspecified, a dialog box is raised to select the file via the system
+#' @param delete_original Does not delete original files by default.
 #' @param open Whether the resulting preparation script will be opened
 #' @importFrom fs path
 #' @importFrom fs path_file
-#' @details The function...
+#' @details The function Path to the newly created project or package, invisibly.
 #' @return This function...
 #' @examples
 #' \dontrun{
@@ -66,11 +67,14 @@ export_data <- function(...,
   
   dat <- deparse(substitute(...))
 
-  # Step one: take object created from raw-data and save as data to be lazy loaded in the package
+  # Step one: take object created from raw-data and save as tibble to be lazy loaded in the package
   save(..., 
        file = fs::path("data", dat, ext = "rda"), 
        envir = parent.frame(), compress = compress)
   ui_done("Saved {usethis::ui_value(dat)} to the package data folder.")
+  if (!tibble::is_tibble(..., FALSE)){
+    tibble::as_tibble(...)
+    } 
   
   # Step two: create the right kind of test script for the type of object it is
   # TODO: decide on what kinds of objects can be contained in qDatr packages 

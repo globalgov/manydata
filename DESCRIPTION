@@ -36,7 +36,8 @@ Imports:
 Suggests: 
     librarian,
     testthat,
-    xfun
+    xfun,
+    tibble
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
