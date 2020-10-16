@@ -31,9 +31,9 @@ Imports:
     stringr,
     textclean,
     usethis,
-    whisker
+    whisker,
+    fs
 Suggests: 
-    fs,
     librarian,
     testthat,
     xfun

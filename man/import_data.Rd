@@ -14,7 +14,9 @@ import_data(
 \arguments{
 \item{name}{Intended (short)name of the dataset}
 
-\item{path}{Path to raw data file. If left unspecified, a dialog box is raised to select the file via the system.}
+\item{path}{Path to raw data file. If left unspecified, a dialog box is raised to select the file via the system}
+
+\item{delete_original}{Does not delete original files by default.}
 
 \item{open}{Whether the resulting preparation script will be opened}
 }
@@ -26,7 +28,7 @@ Create a data-raw folder and provide templates that make easier for setting up t
 and wrangling, consistent with the qDatr ecosystem
 }
 \details{
-The function...
+The function Path to the newly created project or package, invisibly.
 }
 \examples{
 \dontrun{
