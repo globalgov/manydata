@@ -1,18 +1,19 @@
-#' Create a data-raw folder in the new q package
+#' Imports and establishes preparation of raw data
 #'
 #' Create a data-raw folder and provide templates that make easier for setting up the data cleaning 
 #' and wrangling, consistent with the qDatr ecosystem
 #' @param name Intended (short)name of the dataset
 #' @param open Whether the resulting preparation script will be opened
-#' @details The function loads raw data into a q package
-#' @return A dataraw folder
+#' @details The function...
+#' @return This function...
 #' @examples
 #' \dontrun{
 #' TODO
 #' }
 #' @export
-use_qData_raw <- function(name = "DATASET", open = rlang::is_interactive()) {
-  
+import_data <- function(name = "DATASET", 
+                        open = rlang::is_interactive()) {
+
   # Step one: checks and setup
   stopifnot(rlang::is_string(name)) # Could also check if ASCII
   usethis::use_directory("data-raw", ignore = TRUE)
