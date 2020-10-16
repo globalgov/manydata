@@ -39,6 +39,8 @@ import_data <- function(name = "DATASET",
     ignore = FALSE,
     open = open
   )
+  # TODO: Consider automating template so it picks up whether the raw file is 
+  # csv, dta, etc, and suggests the correct import from there.
   
   # Step four: inform user what to do next
   usethis::ui_todo("Finish the opened data preparation script")

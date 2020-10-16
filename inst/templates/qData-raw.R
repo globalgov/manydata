@@ -7,6 +7,8 @@ library(qDatr)
 # Stage one: collecting data
 # For example, you may wish to import a CSV file
 {{{name}}} <- read_csv("data-raw/data/dataset/{{{name}}}.csv")
+# For excel files you may wish to import with the read_excel() function and 
+# for dta files you may wish to import with read_stata () function.
 
 # Stage two: correcting data
 # In this stage you will want to correct the variable names and 
