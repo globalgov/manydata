@@ -8,11 +8,14 @@
 #' @param open Whether the resulting preparation script will be opened
 #' @importFrom fs path
 #' @importFrom fs path_file
-#' @details The function Path to the newly created project or package, invisibly.
-#' @return This function...
+#' @details The function helps to import raw data into package while providing templates that facilitate 
+#' data cleaning and wrangling, consistent with the qDatr ecosystem.  
+#' @return This function returns a data-raw folder containing a the data imported as well as a script in the R directory 
+#' to guide the preparation of data using qDatr.   
 #' @examples
 #' \dontrun{
-#' TODO
+#' data(mtcars)
+#' qDatr::import_data(mtcars)
 #' }
 #' @export
 import_data <- function(name = "DATASET", 
