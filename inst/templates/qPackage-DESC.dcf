@@ -11,25 +11,14 @@ Depends:
     R (>= 2.10)
 Imports: 
     qDatr,
-    covr,
-    desc,
     dplyr,
-    english,
     lubridate,
-    pkgdown,
-    pointblank,
-    purrr,
-    rlang,
     roxygen2,
-    stringr,
-    textclean,
-    usethis,
-    whisker
+    usethis
 Suggests: 
-    fs,
-    librarian,
-    testthat,
-    xfun
+    purrr, 
+    rlang,
+    testthat
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
