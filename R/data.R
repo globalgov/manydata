@@ -28,8 +28,25 @@ import_data <- function(name = "DATASET",
   usethis::use_directory("data-raw", ignore = TRUE)
   usethis::ui_done("Made sure data-raw folder exists.") 
   # This step may not be necessary if create_package() already creates this folder too...
-
-  # Step two: move raw data file to correct location
+  
+  # Step two: standirdise missing values if necessary
+  if (grepl("", name)) {
+    name %>% dplyr::mutate_all(~na_if(., '')) 
+  } 
+  if (grepl("-", name)) {
+  out <- gsub("-", "NA", out) 
+  } 
+  if (grepl("na", name)) {
+    out <- gsub("na", "NA", out) 
+  } 
+  if (grepl("n/a", name)) {
+    out <- gsub("n/a", "NA", out) 
+  } 
+  if (grepl("N/A", name)) {
+    out <- gsub("N/A", "NA", out) 
+  } 
+  
+  # Step three: move raw data file to correct location
   if (is.null(path)) path <- file.choose()
   file.copy(path, fs::path("data-raw", fs::path_file(path)))
   usethis::ui_done("Copied data to data-raw/ folder.")
