@@ -29,8 +29,8 @@ import_data <- function(name = "DATASET",
   usethis::ui_done("Made sure data-raw folder exists.") 
   # This step may not be necessary if create_package() already creates this folder too...
   
-  # Step two: standirdise missing values if necessary
-  if (grepl("", name)) {
+  # Step two: check if missing values are standard
+  if (grepl('', name)) {
     name %>% dplyr::mutate_all(~na_if(., '')) 
   } 
   if (grepl("-", name)) {
