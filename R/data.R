@@ -90,7 +90,7 @@ export_data <- function(...,
   # (actors, agreements, relations, etc)
   qtemplate("qData-test.R",
             fs::path("tests", "testthat", paste0("qTest-", dat, ".R")),
-            data = usethis:::project_data(),
+            data = list(dat = dat),
             open = FALSE)
   ui_done("A test script has been created for this data.")
   ui_todo("Press Cmd/Ctrl-Shift-T to run all tests.")
