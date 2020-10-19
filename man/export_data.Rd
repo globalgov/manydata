@@ -13,12 +13,22 @@ export_data(..., overwrite = FALSE, compress = "bzip2")
 
 \item{compress}{Compression formula}
 }
+\value{
+This function returns a data folder containing the cleaned data as well as scripts in the R directory
+to test and document cleaned data.
+}
 \description{
 Save a cleaned data object, consistent with the qDatr ecosystem, ready to be lazy-loaded
 and create scripts for documenting and testing that object within the new q package
 }
+\details{
+The function creates a data directory, if inexistent, and save cleaned data.
+The functions also cretes a script for testing the cleaned data and make sure it complies with qDatr requirements.
+As well, it creates a documentation script to help documenting data sources and describing variables.
+}
 \examples{
 \dontrun{
-TODO
+data("mtcars")
+qDatr::export_data("mtcars")
 }
 }

@@ -15,7 +15,7 @@
 #' @examples
 #' \dontrun{
 #' data(mtcars)
-#' qDatr::import_data(mtcars)
+#' qDatr::import_data("mtcars")
 #' }
 #' @export
 import_data <- function(name = "DATASET", 
@@ -66,8 +66,8 @@ import_data <- function(name = "DATASET",
 #' to test and document cleaned data.    
 #' @examples
 #' \dontrun{
-#' data(mtcars)
-#' qDatr::export_data(mtcars)
+#' data("mtcars")
+#' qDatr::export_data("mtcars")
 #' }
 #' @export
 export_data <- function(..., 

@@ -12,7 +12,7 @@ Authors@R:
              role = "ctb",
              comment = "IHEID"))
 Description: Collection, correction, and connection.
-License: AGPL-3
+License: CC BY 4.0
 URL: https://github.com/globalgov/qDatr
 BugReports: https://github.com/globalgov/qDatr/issues
 Depends: 
@@ -37,7 +37,8 @@ Suggests:
     librarian,
     testthat,
     xfun,
-    tibble
+    tibble, 
+    withr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

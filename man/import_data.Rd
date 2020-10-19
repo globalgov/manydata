@@ -21,17 +21,20 @@ import_data(
 \item{open}{Whether the resulting preparation script will be opened}
 }
 \value{
-This function...
+This function returns a data-raw folder containing the data imported as well as a script in the R directory
+to guide preparation of data using qDatr.
 }
 \description{
 Create a data-raw folder and provide templates that make easier for setting up the data cleaning
 and wrangling, consistent with the qDatr ecosystem
 }
 \details{
-The function Path to the newly created project or package, invisibly.
+The function helps importing raw data into q package while providing a template that facilitates
+data cleaning and wrangling, consistent with the qDatr ecosystem.
 }
 \examples{
 \dontrun{
-TODO
+data(mtcars)
+qDatr::import_data("mtcars")
 }
 }
