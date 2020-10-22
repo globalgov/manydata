@@ -2,8 +2,8 @@ Package: {{{package}}}
 Title: Quantum Data for the 21st Century
 Version: 0.0.1
 Authors@R: 
-    c(person(given = {{{given}}},
-             family = {{{family}}},
+    c(person(given = "{{{given}}}",
+             family = "{{{family}}}",
              role = c("cre", "aut", "ctb")))
 Description: Collection, correction, and connection.
 License: CCBY
