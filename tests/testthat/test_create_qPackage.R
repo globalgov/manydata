@@ -1,4 +1,10 @@
-# Helper (not working)
+# Helper
+
+# Here I am trying to create a test package that deletes itfelse for testing purposes. 
+# This is how the usethis package tests manz of its functions. The function is not currently working.
+# This approach appears to be the best way to test some of the package construction 
+# functionalities of qDatr. However, we maz opt for other alternatives when it comes to testing
+# if this generates too manz issues or becomes to burdensome to develop. 
 
 create_local_package <- function(dir = fs::file_temp(), env = parent.frame()) {
   old_project <- usethis:::proj_get_()
@@ -23,7 +29,6 @@ create_local_package <- function(dir = fs::file_temp(), env = parent.frame()) {
 # Tests
 
 test_that("create_qPackage() creates a package", {
-  dir <- create_local_package()
-  expect_true(usethis:::possibly_in_proj(dir))
+  create_local_package()
   expect_true(usethis:::is_package(dir))
 })
