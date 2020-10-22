@@ -1,16 +1,17 @@
 # Helper
 
-# Here I am trying to create a test package that deletes itfelse for testing purposes. 
-# This is how the usethis package tests manz of its functions. The function is not currently working.
+# Here I am trying to create a test package for testing purposes. 
+# This is how the usethis package tests many of its functions. The function is not currently working.
 # This approach appears to be the best way to test some of the package construction 
-# functionalities of qDatr. However, we maz opt for other alternatives when it comes to testing
-# if this generates too manz issues or becomes to burdensome to develop. 
+# functionalities of qDatr. 
+# However, we may opt for other alternatives when it comes to testing
+# if this generates too many issues or becomes to burdensome to develop. 
 
 create_local_package <- function(dir = fs::file_temp(), env = parent.frame()) {
   old_project <- usethis:::proj_get_()
   
   # create new folder and package
-  create_qPackage(dir, "hs") # A
+  setup_package(dir, "hs") # A
   # TODO: address error that user input is required, but session is not interactive...
   withr::defer(fs::dir_delete(dir), envir = env) # -A
   usethis::ui_silence(open = FALSE, check_name = FALSE)

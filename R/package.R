@@ -16,13 +16,12 @@
 #' @importFrom stringr str_split
 #' @examples
 #' \dontrun{
-#' qpackage_create("qStates",
-#' c("James Hollway", "Henrique Sposito"))
+#' setup_package("qStates", c("James Hollway", "Henrique Sposito"))
 #' }
 #' @export
-create_qPackage <- function(packageName = NULL,
-                            packageAuthor = NULL,
-                            update = TRUE) {
+setup_package <- function(packageName = NULL,
+                          packageAuthor = NULL,
+                          update = TRUE) {
   
   # Checks to see whether inputs are correct
   wd <- getwd()
