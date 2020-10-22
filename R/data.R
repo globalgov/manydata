@@ -32,16 +32,7 @@ import_data <- function(name = "DATASET",
   usethis::ui_done("Made sure data-raw folder exists.") 
   # This step may not be necessary if create_package() already creates this folder too...
   
-  # Step two: check if missing values are standard
-  # TODO: make sure NA values are reported in standar ways in imported datasets, not currently working. 
-  #dplyr::mutate_all(na_if,"") 
-  #dplyr::mutate(across(everything(), ~replace(., . ==  "-" , "NA"))) 
-  #dplyr::mutate(across(everything(), ~replace(., . ==  "-" , "NA")))
-  #dplyr::mutate(across(everything(), ~replace(., . ==  "n/a" , "NA")))
-  #dplyr::mutate(across(everything(), ~replace(., . ==  "N/A" , "NA")))
-  #dplyr::mutate(across(everything(), ~replace(., . ==  "-99" , "NA")))
-  
-  # Step three: move raw data file to correct location
+  # Step two: move raw data file to correct location
   if (is.null(path)) path <- file.choose()
   file.copy(path, fs::path("data-raw", fs::path_file(path)))
   usethis::ui_done("Copied data to data-raw/ folder.")

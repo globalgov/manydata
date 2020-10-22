@@ -15,6 +15,7 @@ library(qDatr)
 # The function transmutate(), for example, returns mutated variables
 # while dropping the original variables used in the mutation. 
 # Please refer to package manual further details and examples.
+# TODO: Get users to check whether missing observations are correctly stated as NA. 
 
 # Stage three: connecting data
 # At this stage, all you need to do is run the next line to 
