@@ -1,3 +1,30 @@
+# qDatr 0.2.0
+
+## Package
+
+* Updated pushrelease.yml to upload all assets individually to release
+* ((Tests for following functions on hold...))
+
+## Collection
+
+* Renamed `create_qPackage()` to `setup_package()`
+  * Now establishes main testing framework
+  * Opens fewer files but is more verbose
+  * Closed #51 by trimming dependencies from `qPackage-DESC` template
+  * Fixed bug in `qPackage-DESC` that names weren't strings
+* Renamed `use_qData_raw()` to `import_data()`
+  * Closed #49 with path argument or selector
+  * Added delete_original argument (default = FALSE)
+  * Closed #58 by extracting file type information from path and adding it and path to preparation template
+
+## Connection
+
+* Renamed `use_qData()` to `export_data()`
+  * Avoided reliance on `usethis::use_data()`
+  * Fixed bug where it wasn't selecting object correctly
+  * Closed #57 by passing on object information into the documentation template (now `qData-doc.R`)
+  * Adapted test template so that object name is passed forward
+
 # qDatr 0.1.0
 
 ## Package
