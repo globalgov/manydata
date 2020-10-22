@@ -48,16 +48,22 @@ import_data <- function(name = "DATASET",
   if (delete_original) file.remove(path)
   
   # Step three: create preparation template
+  # Get data type
+  if (grepl("csv$", path)) impcmd <- "readr::read_csv"
+  if (grepl("xlsx$|xls$", path)) impcmd <- "readxl::read_excel"
+  if (grepl("dta$", path)) impcmd <- "haven::read_dta"
+  # TODO: Add these packages as suggests or maybe have the function install them if necessary
+  # Create preparation template
   qtemplate(
     "qData-raw.R",
     save_as = fs::path("data-raw", paste0("prepare-", name), ext = "R"),
-    data = list(name = name),
+    data = list(name = name,
+                impcmd = impcmd,
+                path = path),
     ignore = FALSE,
     open = open
   )
-  # TODO: Consider automating template so it picks up whether the raw file is 
-  # csv, dta, etc, and suggests the correct import from there.
-  
+
   # Step four: inform user what to do next
   usethis::ui_todo("Finish the opened data preparation script")
   usethis::ui_todo("Use {usethis::ui_code('qDatr::export_data()')} to add prepared data to package")
