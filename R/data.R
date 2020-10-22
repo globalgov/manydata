@@ -17,8 +17,7 @@
 #' to guide preparation of data using qDatr.   
 #' @examples
 #' \dontrun{
-#' data(mtcars)
-#' qDatr::import_data("mtcars")
+#' qDatr::import_data("cow")
 #' }
 #' @export
 import_data <- function(name = "DATASET", 
