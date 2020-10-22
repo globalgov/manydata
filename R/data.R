@@ -1,36 +1,62 @@
-#' Create a data-raw folder in the new q package
+#' Imports and establishes preparation of raw data
 #'
 #' Create a data-raw folder and provide templates that make easier for setting up the data cleaning 
 #' and wrangling, consistent with the qDatr ecosystem
 #' @param name Intended (short)name of the dataset
+#' @param path Path to raw data file. If left unspecified, a dialog box is raised to select the file via the system
+#' @param delete_original Does not delete original files by default.
 #' @param open Whether the resulting preparation script will be opened
-#' @details The function loads raw data into a q package
-#' @return A dataraw folder
+#' @importFrom fs path
+#' @importFrom fs path_file
+#' @details The function helps importing raw data into q package while providing a template that facilitates 
+#' data cleaning and wrangling, consistent with the qDatr ecosystem. The function can be used without specifying
+#' a path to the file. In that case an interactive dialog box will be openend and the data file can be manually selected.
+#' The script provided to help with data cleaning and wrangling contain suggestions on how to properly load the data into 
+#' the environment. 
+#' @return This function returns a data-raw folder containing the data imported as well as a script in the R directory 
+#' to guide preparation of data using qDatr.   
 #' @examples
 #' \dontrun{
-#' TODO
+#' qDatr::import_data("cow")
 #' }
 #' @export
-use_qData_raw <- function(name = "DATASET", open = rlang::is_interactive()) {
-  
+import_data <- function(name = "DATASET", 
+                        path = NULL,
+                        delete_original = FALSE,
+                        open = rlang::is_interactive()) {
+
   # Step one: checks and setup
   stopifnot(rlang::is_string(name)) # Could also check if ASCII
   usethis::use_directory("data-raw", ignore = TRUE)
-  # TODO: Save raw datasets in data-raw folder.
-  # save <- fs::path("data-raw", paste0(name))
-
-  # Step two: create preparation template
+  usethis::ui_done("Made sure data-raw folder exists.") 
+  # This step may not be necessary if create_package() already creates this folder too...
+  
+  # Step two: move raw data file to correct location
+  if (is.null(path)) path <- file.choose()
+  file.copy(path, fs::path("data-raw", fs::path_file(path)))
+  usethis::ui_done("Copied data to data-raw/ folder.")
+  if (delete_original) file.remove(path)
+  
+  # Step three: create preparation template
+  # Get data type
+  if (grepl("csv$", path)) impcmd <- "readr::read_csv"
+  if (grepl("xlsx$|xls$", path)) impcmd <- "readxl::read_excel"
+  if (grepl("dta$", path)) impcmd <- "haven::read_dta"
+  # TODO: Add these packages as suggests or maybe have the function install them if necessary
+  # Create preparation template
   qtemplate(
     "qData-raw.R",
     save_as = fs::path("data-raw", paste0("prepare-", name), ext = "R"),
-    data = list(name = name),
+    data = list(name = name,
+                impcmd = impcmd,
+                path = path),
     ignore = FALSE,
     open = open
   )
-  
-  # Step three: inform user what to do next
+
+  # Step four: inform user what to do next
   usethis::ui_todo("Finish the opened data preparation script")
-  usethis::ui_todo("Use {usethis::ui_code('qDatr::use_qData()')} to add prepared data to package")
+  usethis::ui_todo("Use {usethis::ui_code('qDatr::export_data()')} to add prepared data to package")
 
 }
 
@@ -39,33 +65,56 @@ use_qData_raw <- function(name = "DATASET", open = rlang::is_interactive()) {
 #' Save a cleaned data object, consistent with the qDatr ecosystem, ready to be lazy-loaded 
 #' and create scripts for documenting and testing that object within the new q package
 #' @param ... Unquoted names of existing objects to save
+#' @param overwrite Whether to overwrite any existing objects saved
+#' @param compress Compression formula
+#' @details The function creates a data directory, if inexistent, and save cleaned data. 
+#' The functions also cretes a script for testing the cleaned data and make sure it complies with qDatr requirements. 
+#' As well, it creates a documentation script to help documenting data sources and describing variables.     
+#' @return This function returns a data folder containing the cleaned data as well as scripts in the R directory 
+#' to test and document cleaned data.    
 #' @examples
 #' \dontrun{
-#' TODO
+#' data("mtcars")
+#' qDatr::export_data("mtcars")
 #' }
 #' @export
-use_qData <- function(...) {
+export_data <- function(..., 
+                        overwrite = FALSE, 
+                        compress = "bzip2") {
+  
+  dat <- deparse(substitute(...))
 
-  object <- as.list(substitute(list(...)))[-1L]
-
-  # Step one: take object created from raw-data and save as data to be lazy loaded in the package
-  usethis::use_data(...)
-
-  # Step two: make sure that testthat is set up correctly for the package
-  usethis::use_testthat()
-  usethis::use_package("pointblank")
-
-  # Step three: create the right kind of test script for the type of object it is
+  # Step one: take object created from raw-data and save as tibble to be lazy loaded in the package
+  if (!tibble::is_tibble(..., FALSE)){
+    tibble::as_tibble(...)
+  } 
+  save(..., 
+       file = fs::path("data", dat, ext = "rda"), 
+       envir = parent.frame(), compress = compress)
+  ui_done("Saved {usethis::ui_value(dat)} to the package data folder.")
+  
+  # Step two: create the right kind of test script for the type of object it is
   # TODO: decide on what kinds of objects can be contained in qDatr packages 
   # (actors, agreements, relations, etc)
   qtemplate("qData-test.R",
-            fs::path("tests", "testthat", paste0("qTest-", object[[1]], ".R")),
-            data = usethis:::project_data())
+            fs::path("tests", "testthat", paste0("qTest-", dat, ".R")),
+            data = list(dat = dat),
+            open = FALSE)
+  ui_done("A test script has been created for this data.")
+  ui_todo("Press Cmd/Ctrl-Shift-T to run all tests.")
   
-  # Step four: create and open a documentation script
-  qtemplate("qData-document.R",
-            fs::path("R", paste0("qData-", object[[1]], ".R")),
-            data = usethis:::project_data())
+  # Step three: create and open a documentation script
+  nr <- nrow(...)
+  nc <- ncol(...)
+  nm <- names(...)
+  print(nm)
+  describe <- paste0("#' \\describe{\n", paste0("#'   \\item{",nm,"}{Decribe variable here}\n", collapse = ""), "#' }")
+  qtemplate("qData-doc.R",
+            fs::path("R", paste0("qData-", dat, ".R")),
+            data = list(dat = dat,
+                        nr = nr,
+                        nc = nc,
+                        describe = describe))
 }
 
 #' Helper function for finding and rendering templates

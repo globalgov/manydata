@@ -1,6 +1,6 @@
 Package: qDatr
 Title: Quantum Data for the 21st Century
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: 
     c(person(given = "James",
              family = "Hollway",
@@ -12,7 +12,7 @@ Authors@R:
              role = "ctb",
              comment = "IHEID"))
 Description: Collection, correction, and connection.
-License: AGPL-3
+License: CC BY 4.0
 URL: https://github.com/globalgov/qDatr
 BugReports: https://github.com/globalgov/qDatr/issues
 Depends: 
@@ -31,12 +31,14 @@ Imports:
     stringr,
     textclean,
     usethis,
-    whisker
+    whisker,
+    fs
 Suggests: 
-    fs,
     librarian,
     testthat,
-    xfun
+    xfun,
+    tibble, 
+    withr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
