@@ -86,13 +86,13 @@ export_data <- function(...,
   dat <- deparse(substitute(...))
 
   # Step one: take object created from raw-data and save as tibble to be lazy loaded in the package
+  if (!tibble::is_tibble(..., FALSE)){
+    tibble::as_tibble(...)
+  } 
   save(..., 
        file = fs::path("data", dat, ext = "rda"), 
        envir = parent.frame(), compress = compress)
   ui_done("Saved {usethis::ui_value(dat)} to the package data folder.")
-  if (!tibble::is_tibble(..., FALSE)){
-    tibble::as_tibble(...)
-    } 
   
   # Step two: create the right kind of test script for the type of object it is
   # TODO: decide on what kinds of objects can be contained in qDatr packages 
