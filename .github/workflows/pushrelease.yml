@@ -131,24 +131,73 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
 
-      - name: Zip up
-        uses: montudor/action-zip@v0.1.0
-        with:
-          args: zip -qq -r qdatr_AllOS.zip . -i ./macOS/* ./winOS/* ./linuxOS/*
+      # - name: Zip up
+      #   uses: montudor/action-zip@v0.1.0
+      #   with:
+      #     args: zip -qq -r qdatr_AllOS.zip . -i ./macOS/* ./winOS/* ./linuxOS/*
+      
+      - name: Rename Mac release
+        run: mv ./macOS/*.tgz qDatr_macOS.tgz 
 
       - name: Display structure of downloaded files again
         run: ls -R
-
-      - name: Upload binary
-        id: upload-binary 
+        
+      - name: Upload Mac binary
+        id: upload-binary
         uses: actions/upload-release-asset@v1.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: qdatr_AllOS.zip
-          asset_name: qdatr_AllOS.zip
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          asset_path: qDatr_macOS.tgz
+          asset_name: qDatr_macOS.tgz
           asset_content_type: application/zip
+
+      - name: Rename Linux release
+        run: mv ./linuxOS/*.tar.gz qDatr_linuxOS.tar.gz 
+
+      - name: Display structure of downloaded files again
+        run: ls -R
+        
+      - name: Upload Linux binary
+        id: upload-binary
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          asset_path: qDatr_linuxOS.tar.gz
+          asset_name: qDatr_linuxOS.tar.gz
+          asset_content_type: application/zip
+
+      - name: Rename Windows release
+        run: mv ./winOS/*.zip qDatr_winOS.zip 
+
+      - name: Display structure of downloaded files again
+        run: ls -R
+        
+      - name: Upload Windows binary
+        id: upload-binary
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          asset_path: qDatr_winOS.zip
+          asset_name: qDatr_winOS.zip
+          asset_content_type: application/zip
+
+
+      # - name: Upload binary
+      #   id: upload-binary 
+      #   uses: actions/upload-release-asset@v1.0.2
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+      #     asset_path: qdatr_AllOS.zip
+      #     asset_name: qdatr_AllOS.zip
+      #     asset_content_type: application/zip
 
   render:
     name: Update README.md and push
