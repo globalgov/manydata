@@ -33,21 +33,13 @@ import_data <- function(name = "DATASET",
   # This step may not be necessary if create_package() already creates this folder too...
   
   # Step two: check if missing values are standard
-  if (grepl('', name)) {
-    name %>% dplyr::mutate_all(~na_if(., '')) 
-  } 
-  if (grepl("-", name)) {
-  out <- gsub("-", "NA", out) 
-  } 
-  if (grepl("na", name)) {
-    out <- gsub("na", "NA", out) 
-  } 
-  if (grepl("n/a", name)) {
-    out <- gsub("n/a", "NA", out) 
-  } 
-  if (grepl("N/A", name)) {
-    out <- gsub("N/A", "NA", out) 
-  } 
+  # TODO: make sure NA values are reported in standar ways in imported datasets, not currently working. 
+  #dplyr::mutate_all(na_if,"") 
+  #dplyr::mutate(across(everything(), ~replace(., . ==  "-" , "NA"))) 
+  #dplyr::mutate(across(everything(), ~replace(., . ==  "-" , "NA")))
+  #dplyr::mutate(across(everything(), ~replace(., . ==  "n/a" , "NA")))
+  #dplyr::mutate(across(everything(), ~replace(., . ==  "N/A" , "NA")))
+  #dplyr::mutate(across(everything(), ~replace(., . ==  "-99" , "NA")))
   
   # Step three: move raw data file to correct location
   if (is.null(path)) path <- file.choose()
