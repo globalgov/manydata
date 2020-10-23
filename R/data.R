@@ -33,7 +33,8 @@ import_data <- function(name = "DATASET",
   
   # Step two: move raw data file to correct location
   if (is.null(path)) path <- file.choose()
-  file.copy(path, fs::path("data-raw", fs::path_file(path)))
+  new_path <- fs::path("data-raw", fs::path_file(path))
+  file.copy(path, new_path)
   usethis::ui_done("Copied data to data-raw/ folder.")
   if (delete_original) file.remove(path)
   
@@ -49,7 +50,7 @@ import_data <- function(name = "DATASET",
     save_as = fs::path("data-raw", paste0("prepare-", name), ext = "R"),
     data = list(name = name,
                 impcmd = impcmd,
-                path = path),
+                path = new_path),
     ignore = FALSE,
     open = open
   )
