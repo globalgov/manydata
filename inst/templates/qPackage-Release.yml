@@ -132,23 +132,46 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
 
-      - name: Zip up
-        uses: montudor/action-zip@v0.1.0
-        with:
-          args: zip -qq -r package_AllOS.zip . -i ./macOS/* ./winOS/* ./linuxOS/*
+      - name: Rename Mac release
+        run: mv ./macOS/*.tgz macOS_version.tgz 
 
-      - name: Display structure of downloaded files again
-        run: ls -R
-
-      - name: Upload binary
-        id: upload-binary 
+      - name: Upload Mac binary
+        id: upload-binary
         uses: actions/upload-release-asset@v1.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: package_AllOS.zip
-          asset_name: package_AllOS.zip
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          asset_path: macOS_version.tgz
+          asset_name: macOS_version.tgz
+          asset_content_type: application/zip
+
+      - name: Rename Linux release
+        run: mv ./linuxOS/*.tar.gz linuxOS_version.tar.gz 
+
+      - name: Upload Linux binary
+        id: upload-binary
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          asset_path: linuxOS_version.tar.gz
+          asset_name: linuxOS_version.tar.gz
+          asset_content_type: application/zip
+
+      - name: Rename Windows release
+        run: mv ./winOS/*.zip winOS_version.zip 
+
+      - name: Upload Windows binary
+        id: upload-binary
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          asset_path: winOS_version.zip
+          asset_name: winOS_version.zip
           asset_content_type: application/zip
 
  render:
