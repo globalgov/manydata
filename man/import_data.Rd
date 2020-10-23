@@ -37,7 +37,6 @@ the environment.
 }
 \examples{
 \dontrun{
-data(mtcars)
-qDatr::import_data("mtcars")
+qDatr::import_data("cow")
 }
 }

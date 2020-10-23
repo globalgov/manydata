@@ -4,8 +4,9 @@
 # This is how the usethis package tests many of its functions. The function is not currently working.
 # This approach appears to be the best way to test some of the package construction 
 # functionalities of qDatr. 
-# However, we may opt for other alternatives when it comes to testing
-# if this generates too many issues or becomes to burdensome to develop. 
+# It appears that the interactive error is gone for now and the new error relates to "usethis::proj_set(".") -
+# "usethis::ui_stop("Path {ui_path(path)} does not appear to be inside a project or package.")" I am trying to overwrite 
+# this error message...
 
 create_local_package <- function(dir = fs::file_temp(), env = parent.frame()) {
   old_project <- usethis:::proj_get_()
@@ -29,7 +30,10 @@ create_local_package <- function(dir = fs::file_temp(), env = parent.frame()) {
 
 # Tests
 
-# test_that("create_qPackage() creates a package", {
-#   create_local_package()
-#   expect_true(usethis:::is_package(dir))
-# })
+test_that("create_qPackage() creates a package", {
+   create_local_package()
+   expect_true(usethis:::is_package(dir))
+})
+
+# TODO: test to see if the expected folders inside package were created
+ 

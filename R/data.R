@@ -75,8 +75,7 @@ import_data <- function(name = "DATASET",
 #' to test and document cleaned data.    
 #' @examples
 #' \dontrun{
-#' data("mtcars")
-#' qDatr::export_data("mtcars")
+#' export_data("cow")
 #' }
 #' @export
 export_data <- function(..., 
