@@ -5,14 +5,17 @@
 \title{Imports and establishes preparation of raw data}
 \usage{
 import_data(
-  name = "DATASET",
+  dataset = NULL,
+  database = NULL,
   path = NULL,
   delete_original = FALSE,
   open = rlang::is_interactive()
 )
 }
 \arguments{
-\item{name}{Intended (short)name of the dataset}
+\item{dataset}{Intended (short)name of the dataset}
+
+\item{database}{Intended (short)name of the dataset}
 
 \item{path}{Path to raw data file. If left unspecified, a dialog box is raised to select the file via the system}
 
@@ -37,7 +40,6 @@ the environment.
 }
 \examples{
 \dontrun{
-data(mtcars)
-qDatr::import_data("mtcars")
+qDatr::import_data(dataset = "cow", database = "states")
 }
 }
