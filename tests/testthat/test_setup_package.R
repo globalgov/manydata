@@ -13,7 +13,7 @@ create_local_package <- function(dir = fs::file_temp(), env = parent.frame()) {
   
   # create new folder and package
   setup_package(dir, "hs") # A
-  # TODO: address error that user input is required, but session is not interactive...
+  # TODO: address the error that path does n
   withr::defer(fs::dir_delete(dir), envir = env) # -A
   usethis::ui_silence(open = FALSE, check_name = FALSE)
   

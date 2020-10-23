@@ -28,7 +28,6 @@ As well, it creates a documentation script to help documenting data sources and 
 }
 \examples{
 \dontrun{
-data("mtcars")
-qDatr::export_data("mtcars")
+export_data("cow")
 }
 }

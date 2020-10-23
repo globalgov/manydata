@@ -40,10 +40,6 @@ the environment.
 }
 \examples{
 \dontrun{
-<<<<<<< HEAD
-qDatr::import_data("cow")
-=======
 qDatr::import_data(dataset = "cow", database = "states")
->>>>>>> 8b34cf68755f4473b6e807a99a9695e741fe4b7e
 }
 }

@@ -20,12 +20,20 @@ create_local_package <- function(dir = fs::file_temp(), env = parent.frame()) {
   invisible(dir)
 }
 
-# test_that("export_data() stores create data folder and tests folder", {
-#   create_local_package()
-#   export_data("transp")
-#   usethis:::expect_proj_file(path("data"))
-#   usethis:::expect_proj_file(path("tests", "testhat"))
-# })
+test_that("export_data() stores create data folder and tests folder", {
+   create_local_package()
+   export_data("transp")
+   usethis:::expect_proj_file(path("data"))
+   usethis:::expect_proj_file(path("tests", "testhat"))
+})
 
 # Here the issue appears to be related to the fact that the create_local_package() function
 # is not currently working. 
+
+# TODO: test that missing obsevartions are standard
+
+# TODO: test that data exported is in tibble format
+# test_that("exported data is in tibble format") {
+#   export_data("transp")
+#   expect_message(tibble::is.tibble("transp"), "TRUE")
+# }
