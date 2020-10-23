@@ -69,8 +69,12 @@ setup_package <- function(packageName = NULL,
   usethis::use_namespace()
   usethis::ui_done("Created NAMESPACE file. Don't modify it.")
   # Add NEWS
-  usethis::use_news_md()
-  usethis::ui_done("Added starter NEWS file. Update for every release.")
+  if (!file.exists(paste0(wd, "/NEWS.md"))){
+    qtemplate("qPackage-NEWS.md",
+              "NEWS.md", 
+              data = list(package = packageName))
+    usethis::ui_done("Added starter NEWS file. Update for every release.")
+  }
   # Add README
   qtemplate("qPackage-README.Rmd",
             "README.Rmd", 
