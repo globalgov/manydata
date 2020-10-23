@@ -2,7 +2,8 @@
 #'
 #' Create a data-raw folder and provide templates that make easier for setting up the data cleaning 
 #' and wrangling, consistent with the qDatr ecosystem
-#' @param name Intended (short)name of the dataset
+#' @param dataset Intended (short)name of the dataset
+#' @param database Intended (short)name of the dataset
 #' @param path Path to raw data file. If left unspecified, a dialog box is raised to select the file via the system
 #' @param delete_original Does not delete original files by default.
 #' @param open Whether the resulting preparation script will be opened
@@ -17,39 +18,47 @@
 #' to guide preparation of data using qDatr.   
 #' @examples
 #' \dontrun{
-#' qDatr::import_data("cow")
+#' qDatr::import_data(dataset = "cow", database = "states")
 #' }
 #' @export
-import_data <- function(name = "DATASET", 
+import_data <- function(dataset = NULL,
+                        database = NULL,
+                        # type = NULL,
                         path = NULL,
                         delete_original = FALSE,
                         open = rlang::is_interactive()) {
 
   # Step one: checks and setup
-  stopifnot(rlang::is_string(name)) # Could also check if ASCII
+  if(is.null(dataset)) stop("You need to name the dataset. We suggest a short name, all small letters, such as 'cow'.")
+  if(is.null(database)) stop("You need to name the database to which the dataset would belong. We suggest a descriptive short name, all small letters, such as 'states'.")
+  stopifnot(rlang::is_string(dataset)) # Could also check if ASCII
+  stopifnot(rlang::is_string(database)) # Could also check if ASCII
   usethis::use_directory("data-raw", ignore = TRUE)
-  usethis::ui_done("Made sure data-raw folder exists.") 
+  usethis::use_directory(paste("data-raw", database, sep = "/"), ignore = TRUE)
+  usethis::use_directory(paste(paste("data-raw", database, sep = "/"), dataset, sep = "/"), ignore = TRUE)
+  usethis::ui_done("Made sure data folder hierarchy exists.") 
   # This step may not be necessary if create_package() already creates this folder too...
   
   # Step two: move raw data file to correct location
   if (is.null(path)) path <- file.choose()
-  new_path <- fs::path("data-raw", fs::path_file(path))
+  new_path <- fs::path("data-raw", database, dataset, fs::path_file(path))
   file.copy(path, new_path)
   usethis::ui_done("Copied data to data-raw/ folder.")
   if (delete_original) file.remove(path)
   
   # Step three: create preparation template
   # Get data type
-  if (grepl("csv$", path)) impcmd <- "readr::read_csv"
-  if (grepl("xlsx$|xls$", path)) impcmd <- "readxl::read_excel"
-  if (grepl("dta$", path)) impcmd <- "haven::read_dta"
+  if (grepl("csv$", path)) import_type <- "readr::read_csv"
+  if (grepl("xlsx$|xls$", path)) import_type <- "readxl::read_excel"
+  if (grepl("dta$", path)) import_type <- "haven::read_dta"
   # TODO: Add these packages as suggests or maybe have the function install them if necessary
   # Create preparation template
   qtemplate(
-    "qData-raw.R",
-    save_as = fs::path("data-raw", paste0("prepare-", name), ext = "R"),
-    data = list(name = name,
-                impcmd = impcmd,
+    "qData-prep.R",
+    save_as = fs::path("data-raw", database, dataset, paste0("prepare-", dataset), ext = "R"),
+    data = list(dataset = dataset,
+                database = database,
+                import_type = import_type,
                 path = new_path),
     ignore = FALSE,
     open = open
