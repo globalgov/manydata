@@ -125,15 +125,17 @@ setup_package <- function(packageName = NULL,
   
   usethis::use_directory(".github/workflows")
   usethis::ui_done("Created workflows folder.")
-  file.copy(fs::path_package(package = "qDatr", "templates", "qPackage-Check.yml"), 
-            fs::path(".github", "workflows", "prchecks.yml"))
-  usethis::ui_done("Added checks workflow upon opening a push release.")
-  file.copy(fs::path_package(package = "qDatr", "templates", "qPackage-Commands.yml"), 
-            fs::path(".github", "workflows", "prcommands.yml"))
-  usethis::ui_done("Added commands workflow upon labelling a push release.")
-  file.copy(fs::path_package(package = "qDatr", "templates", "qPackage-Release.yml"), 
-            fs::path(".github", "workflows", "pushrelease.yml"))
-  usethis::ui_done("Added release workflow upon merging a push release.")
+  if(interactive()){
+    file.copy(fs::path_package(package = "qDatr", "templates", "qPackage-Check.yml"), 
+              fs::path(".github", "workflows", "prchecks.yml"))
+    usethis::ui_done("Added checks workflow upon opening a push release.")
+    file.copy(fs::path_package(package = "qDatr", "templates", "qPackage-Commands.yml"), 
+              fs::path(".github", "workflows", "prcommands.yml"))
+    usethis::ui_done("Added commands workflow upon labelling a push release.")
+    file.copy(fs::path_package(package = "qDatr", "templates", "qPackage-Release.yml"), 
+              fs::path(".github", "workflows", "pushrelease.yml"))
+    usethis::ui_done("Added release workflow upon merging a push release.")
+  }
 
   usethis::ui_todo("Remember to set up your project together with Github for visibility etc.")
   #usethis::ui_todo("{ui_code('use_pkgdown()')}")
