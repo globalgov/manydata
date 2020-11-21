@@ -146,3 +146,48 @@ setup_package <- function(packageName = NULL,
   # usethis::use_git() # The usethis::use_github() may also be an interesting option to explore here. 
   # usethis::proj_activate()
 }
+
+#' Find and download packages in the qDatr ecosystem
+#'
+#' Find and download packages in the qDatr ecosystem
+#' @param pkg A character vector of package names 
+#' @details Need to write up these details...
+#' @return If no package name is provided, this function prints a table (tibble) to the console 
+#' with details on packages that are currently available within the qDatr ecosystem.
+#' If one or more package names are provided, these will be installed from 
+#' @importFrom pointblank %>%
+#' @importFrom dplyr filter
+#' @importFrom stringr str_detect
+#' @examples
+#' \dontrun{
+#' get_packages() # This prints a table (tibble) to the console with details on the current
+#' get_packages("qStates") # This downloads and installs from github the latest version of a qPackage
+#' }
+#' @export
+get_packages <- function(pkg){
+  
+  if (missing(pkg)){
+    res <- tibble::as_tibble(jsonlite::fromJSON("http://rpkg-api.gepuro.net/rpkg?q=q"))
+    res <- res %>% dplyr::filter(stringr::str_detect(pkg_name, "/q[[:upper:]]")) %>%
+      dplyr::filter(stringr::str_detect(title, "read-only mirror")) %>%
+      dplyr::filter(stringr::str_detect(pkg_name, "globalgov")) 
+    # At the moment, just our packages, but we can either expand the list of recognised contributors
+    # or remove the condition entirely in the future.
+    # TODO: check potential packages for dependency on qDatr
+    res
+    # TODO: expand this report by adding information on current release version available
+    # TODO: expand this report by adding information on which packages, if any, are already installed
+    # TODO: expand this report by adding information on whether all checks/tests are passing
+    # TODO: expand this report by adding information on number of datacubes, datasets, and observations available
+    # TODO: expand this report by adding information on sources
+  }
+  
+  # TODO: make it possible to select (say, by number) which datasets to install from github
+  # TODO: consider reexporting e.g. magrittr's pipe (%>%) within qDatr
+  
+  if (!missing(pkg)){
+    remotes::install_github(pkg)
+  }
+  
+}
+
