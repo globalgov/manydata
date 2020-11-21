@@ -9,6 +9,7 @@ qtemplate(
   save_as = template,
   data = list(),
   ignore = FALSE,
+  path,
   open = rlang::is_interactive(),
   package = "qDatr"
 )

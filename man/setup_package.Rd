@@ -4,7 +4,7 @@
 \alias{setup_package}
 \title{Create a new package in the qDatr ecosystem}
 \usage{
-setup_package(packageName = NULL, packageAuthor = NULL, update = TRUE)
+setup_package(packageName = NULL, packageAuthor = NULL, update = TRUE, path)
 }
 \arguments{
 \item{packageName}{A string giving the desired name of the package,
@@ -14,8 +14,9 @@ must start with "q"}
 author(s), required}
 
 \item{update}{A logical indicating whether existing files should be
-overwritten, by default TRUE.
-TODO: do these checks internally and smartly...}
+overwritten, by default TRUE.}
+
+\item{path}{A string for a particular path. Defaults to the current working directory.}
 }
 \value{
 A new package structure
