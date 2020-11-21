@@ -148,6 +148,7 @@ qtemplate <- function(template,
                       save_as = template,
                       data = list(),
                       ignore = FALSE,
+                      path,
                       open = rlang::is_interactive(),
                       package = "qDatr") {
   
@@ -173,7 +174,7 @@ qtemplate <- function(template,
   
   # Render and save the template as correct file
   template_contents <- render_template(template, data, package = package)
-  new <- usethis::write_over(usethis::proj_path(save_as), template_contents)
+  new <- usethis::write_over(paste0(path, "/", save_as), template_contents)
   if (ignore) {
     usethis::use_build_ignore(save_as)
   }
