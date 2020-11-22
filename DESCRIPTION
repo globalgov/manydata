@@ -32,7 +32,8 @@ Imports:
     textclean,
     usethis,
     whisker,
-    fs
+    fs,
+    anytime
 Suggests: 
     librarian,
     testthat,
