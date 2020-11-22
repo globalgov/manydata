@@ -33,6 +33,8 @@ ambig_date <- function(x){
   dates <- x
   dates <- stringr::str_replace_all(dates, "-00|-\\?\\?|-NA", "") # standardising ambiguities
   dates <- stringr::str_replace_all(dates, "_", ":") # standardising ranges
+  # TODO: convert future dates
+  # TODO: convert historical dates
 
   # Second step: set up functions
   date_disambig <- function(d){
