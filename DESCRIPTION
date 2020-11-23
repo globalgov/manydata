@@ -39,7 +39,10 @@ Suggests:
     testthat,
     xfun,
     tibble, 
-    withr
+    withr, 
+    haven, 
+    readr, 
+    readxl
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

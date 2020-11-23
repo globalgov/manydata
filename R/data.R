@@ -51,7 +51,7 @@ import_data <- function(dataset = NULL,
   if (grepl("csv$", path)) import_type <- "readr::read_csv"
   if (grepl("xlsx$|xls$", path)) import_type <- "readxl::read_excel"
   if (grepl("dta$", path)) import_type <- "haven::read_dta"
-  # TODO: Add these packages as suggests or maybe have the function install them if necessary
+
   # Create preparation template
   qtemplate(
     "qData-prep.R",
