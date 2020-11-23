@@ -33,15 +33,16 @@ Imports:
     usethis,
     whisker,
     fs,
-    anytime
+    anytime,
+    jsonlite,
+    tibble
 Suggests: 
     librarian,
     testthat,
     xfun,
-    tibble, 
-    withr, 
-    haven, 
-    readr, 
+    withr,
+    haven,
+    readr,
     readxl
 Encoding: UTF-8
 LazyData: true
