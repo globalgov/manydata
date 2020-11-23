@@ -113,8 +113,7 @@ export_data <- function(...,
             data = list(dat = dat),
             open = FALSE,
             ignore = FALSE,
-            # need to aad a path call here, but there appears to be an issue with encoding when path argument is addded...
-            )
+            path=getwd())
   ui_done("A test script has been created for this data.")
   ui_todo("Press Cmd/Ctrl-Shift-T to run all tests.")
 
@@ -129,7 +128,8 @@ export_data <- function(...,
             data = list(dat = dat,
                         nr = nr,
                         nc = nc,
-                        describe = describe)
-            #path = ...
-            )
+                        describe = describe),
+            open = TRUE,
+            ignore = FALSE,
+            path=getwd())
 }
