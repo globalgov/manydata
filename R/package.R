@@ -190,7 +190,7 @@ get_packages <- function(pkg){
   if (missing(pkg)){
     res <- tibble::as_tibble(jsonlite::fromJSON("http://rpkg-api.gepuro.net/rpkg?q=q"))
     res <- res %>% dplyr::filter(stringr::str_detect(pkg_name, "/q[[:upper:]]")) %>%
-      dplyr::filter(stringr::str_detect(title, "read-only mirror")) %>%
+      dplyr::filter(!stringr::str_detect(title, "read-only mirror")) %>%
       dplyr::filter(stringr::str_detect(pkg_name, "globalgov")) 
     # At the moment, just our packages, but we can either expand the list of recognised contributors
     # or remove the condition entirely in the future.
