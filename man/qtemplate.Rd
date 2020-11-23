@@ -23,6 +23,8 @@ qtemplate(
 
 \item{ignore}{For use with usethis::use_build_ignore()}
 
+\item{path}{Path to where template was gathered from}
+
 \item{open}{Whether the resulting template will be opened}
 
 \item{package}{Package called}

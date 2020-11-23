@@ -5,7 +5,6 @@ test_that("database must be declared", {
   expect_error(import_data("test"), "You need to name the database to which the dataset would belong. We suggest a descriptive short name, all small letters, such as 'states'." ) 
 })
 
-
 # transp <- data.frame (bikes = c(5), skates = c(4))
 # 
 # create_local_package <- function(dir = fs::file_temp(), env = parent.frame()) {
