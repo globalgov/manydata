@@ -172,7 +172,10 @@ setup_package <- function(packageName = NULL,
 #'
 #' Find and download packages in the qDatr ecosystem
 #' @param pkg A character vector of package names 
-#' @details Need to write up these details...
+#' @details The function finds and download other packages that belong to the qDatr ecosystem
+#' of data packages. It allows for users to rapidly access the names and other descriptive information 
+#' of these packages by simply calling the function. If users intend to download a package from the ecosystem, 
+#' they can to type the package name within the function. 
 #' @return If no package name is provided, this function prints a table (tibble) to the console 
 #' with details on packages that are currently available within the qDatr ecosystem.
 #' If one or more package names are provided, these will be installed from 
