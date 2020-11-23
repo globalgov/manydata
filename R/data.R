@@ -2,8 +2,12 @@
 #'
 #' Create a data-raw folder and provide templates that make easier for setting up the data cleaning 
 #' and wrangling, consistent with the qDatr ecosystem
-#' @param dataset Intended (short)name of the dataset
-#' @param database Intended (short)name of the dataset
+#' @param dataset Intended (short)name of the dataset. This refers to the two-diemnsional sheet of data in the 
+#' form of afrom a dataset which will be connected to others in the future.  
+#' @param database Intended (short)name of the database. This refers to a domain-issue which the dataset(s) to be 
+#' corrected and connected in the future belongs to. That is, what is the domain-issue of the several datasets
+#' to be connected belong to. By connecting two-dimensional datasets, we can forma a three-dimensional database 
+#' that resembles a data cube.
 #' @param path Path to raw data file. If left unspecified, a dialog box is raised to select the file via the system
 #' @param delete_original Does not delete original files by default.
 #' @param open Whether the resulting preparation script will be opened
