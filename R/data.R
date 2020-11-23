@@ -94,7 +94,7 @@ export_data <- function(...,
   dat <- deparse(substitute(...))
 
   # Step one: take object created from raw-data and save as tibble to be lazy loaded in the package
-  if (!tibble::is_tibble(..., FALSE)){
+  if (!tibble::is_tibble(...)){
     tibble::as_tibble(...)
   } 
   save(..., 
