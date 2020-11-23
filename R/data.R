@@ -81,7 +81,8 @@ import_data <- function(dataset = NULL,
 #' The functions also cretes a script for testing the cleaned data and make sure it complies with qDatr requirements. 
 #' As well, it creates a documentation script to help documenting data sources and describing variables.     
 #' @return This function returns a data folder containing the cleaned data as well as scripts in the R directory 
-#' to test and document cleaned data.    
+#' to test and document cleaned data.  
+#' @importFrom fs path  
 #' @examples
 #' \dontrun{
 #' export_data("cow")
@@ -93,10 +94,12 @@ export_data <- function(...,
   
   dat <- deparse(substitute(...))
 
-  # Step one: take object created from raw-data and save as tibble to be lazy loaded in the package
+  # Step one: take object created from raw-data and save as tibble to be lazy loaded in the new data folder in package
   if (!tibble::is_tibble(...)){
     tibble::as_tibble(...)
   } 
+  usethis::use_directory("data", ignore = TRUE)
+  usethis::use_directory(paste("data", dat, sep = "/"), ignore = TRUE)
   save(..., 
        file = fs::path("data", dat, ext = "rda"), 
        envir = parent.frame(), compress = compress)
@@ -106,12 +109,15 @@ export_data <- function(...,
   # TODO: decide on what kinds of objects can be contained in qDatr packages 
   # (actors, agreements, relations, etc)
   qtemplate("qData-test.R",
-            fs::path("tests", "testthat", paste0("qTest-", dat, ".R")),
+            save_as = fs::path("tests", "testthat", paste0("qTest-", dat, ".R")),
             data = list(dat = dat),
-            open = FALSE)
+            open = FALSE,
+            ignore = FALSE,
+            # need to aad a path call here, but there appears to be an issue with encoding when path argument is addded...
+            )
   ui_done("A test script has been created for this data.")
   ui_todo("Press Cmd/Ctrl-Shift-T to run all tests.")
-  
+
   # Step three: create and open a documentation script
   nr <- nrow(...)
   nc <- ncol(...)
@@ -119,67 +125,11 @@ export_data <- function(...,
   print(nm)
   describe <- paste0("#' \\describe{\n", paste0("#'   \\item{",nm,"}{Decribe variable here}\n", collapse = ""), "#' }")
   qtemplate("qData-doc.R",
-            fs::path("R", paste0("qData-", dat, ".R")),
+            save_as = fs::path("R", paste0("qData-", dat, ".R")),
             data = list(dat = dat,
                         nr = nr,
                         nc = nc,
-                        describe = describe))
-}
-
-#' Helper function for finding and rendering templates
-#'
-#' Helper function for finding and rendering templates from the qDatr package
-#' @param template Template called
-#' @param save_as Path to where the rendered template should be saved
-#' @param data Any elements to be entered into the template via Whisker
-#' @param ignore For use with usethis::use_build_ignore()
-#' @param open Whether the resulting template will be opened
-#' @param package Package called
-#' @details This function is an adaptation of the usethis variant
-#' for use in the qDatr ecosystem.
-#' @return A rendered template, saved into the correct folder
-#' @importFrom whisker whisker.render
-#' @examples
-#' \dontrun{
-#' TODO
-#' }
-#' @export
-qtemplate <- function(template,
-                      save_as = template,
-                      data = list(),
-                      ignore = FALSE,
-                      path,
-                      open = rlang::is_interactive(),
-                      package = "qDatr") {
-  
-  # Set up find_template() helper function
-  find_template <- function(template_name, package = "qDatr") {
-    path <- tryCatch(fs::path_package(package = package, "templates", template_name),
-                     error = function(e) ""
-    )
-    if (identical(path, "")) {
-      usethis::ui_stop(
-        "Could not find template {usethis::ui_value(template_name)} \\
-      in package {usethis::ui_value(package)}."
-      )
-    }
-    path
-  }
-  
-  # Set up render_template() helper function
-  render_template <- function(template, data = list(), package = "qDatr") {
-    template_path <- find_template(template, package = package)
-    strsplit(whisker::whisker.render(xfun::read_utf8(template_path), data), "\n")[[1]]
-  }
-  
-  # Render and save the template as correct file
-  template_contents <- render_template(template, data, package = package)
-  new <- usethis::write_over(paste0(path, "/", save_as), template_contents)
-  if (ignore) {
-    usethis::use_build_ignore(save_as)
-  }
-  if (open && new) {
-    usethis::edit_file(usethis::proj_path(save_as))
-  }
-  invisible(new)
+                        describe = describe)
+            #path = ...
+            )
 }
