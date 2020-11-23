@@ -182,6 +182,8 @@ setup_package <- function(packageName = NULL,
 #' @importFrom pointblank %>%
 #' @importFrom dplyr filter
 #' @importFrom stringr str_detect
+#' @importFrom tibble as_tibble
+#' @importFrom jsonlite fromJSON
 #' @examples
 #' \dontrun{
 #' get_packages() # This prints a table (tibble) to the console with details on the current
