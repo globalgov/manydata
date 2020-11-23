@@ -5,6 +5,7 @@
 #' @param save_as Path to where the rendered template should be saved
 #' @param data Any elements to be entered into the template via Whisker
 #' @param ignore For use with usethis::use_build_ignore()
+#' @param path Path to where template was gathered from
 #' @param open Whether the resulting template will be opened
 #' @param package Package called
 #' @details This function is an adaptation of the usethis variant
