@@ -20,8 +20,8 @@ Find and download packages in the qDatr ecosystem
 \details{
 The function finds and download other packages that belong to the qDatr ecosystem
 of data packages. It allows for users to rapidly access the names and other descriptive information
-of these packages by simply calling the function. If users intend to download a package from the ecosystem,
-they can to type the package name within the function.
+of these packages by simply calling the function. If users intend to download a package from
+the ecosystem, they can to type the package name within the function.
 }
 \examples{
 \dontrun{
