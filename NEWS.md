@@ -7,7 +7,7 @@
 
 ## Correction
 
-* Closes #62 by creating a function which vectorizes dates and cleans and standardizes diverse date formats, `standardise_dates()` 
+* Closes #62 by creating a function which vectorises dates and cleans and standardizes diverse date formats, `standardise_dates()` 
 * Closes #55 by deprecating `rearrange()` function in favor of `dplyr::relocate()` 
 * Closes #65 by correcting issues with the path call in `export_data()` function
   * Ensures consistency for path calls across qDatr functions
