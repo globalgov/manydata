@@ -119,7 +119,7 @@ export_data <- function(...,
             data = list(dat = dat),
             open = FALSE,
             ignore = FALSE,
-            path=getwd())
+            path = getwd())
   ui_done("A test script has been created for this data.")
   ui_todo("Press Cmd/Ctrl-Shift-T to run all tests.")
 
