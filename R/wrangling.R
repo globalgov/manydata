@@ -74,6 +74,7 @@ reunite <- function(..., sep = "_"){
 #' }
 #' @export
 rearrange <- function(data, tomove, where = "last", ref = NULL) {
+  .Deprecated("dplyr::relocate")
   temp <- setdiff(names(data), tomove)
   x <- switch(
     where,
@@ -89,7 +90,7 @@ rearrange <- function(data, tomove, where = "last", ref = NULL) {
       if (length(ref) > 1) stop("ref must be a single character string")
       data[append(temp, values = tomove, after = (match(ref, temp)))]
     })
-  x
+  x 
 }
 
 #' Pastes unique string vectors

@@ -1,35 +1,57 @@
+test_that("package name is required", {
+  expect_error(setup_package(), "Please declare a package name")
+})
+test_that("author names must be declared", {
+  expect_error(setup_package("qtest"), "Please declare at least one author") 
+})
+
+#test_that("package name must start with the letter q", {
+#  expect_error(setup_package("test"), "Package name must start with a 'q'")
+#})
+
 # Helper
 
-# Here I am trying to create a test package for testing purposes. 
-# This is how the usethis package tests many of its functions. The function is not currently working.
-# This approach appears to be the best way to test some of the package construction 
-# functionalities of qDatr. 
-# However, we may opt for other alternatives when it comes to testing
-# if this generates too many issues or becomes to burdensome to develop. 
-
-create_local_package <- function(dir = fs::file_temp(), env = parent.frame()) {
-  old_project <- usethis:::proj_get_()
-  
-  # create new folder and package
-  setup_package(dir, "hs") # A
-  # TODO: address error that user input is required, but session is not interactive...
-  withr::defer(fs::dir_delete(dir), envir = env) # -A
-  usethis::ui_silence(open = FALSE, check_name = FALSE)
-  
-  # change working directory
-  setwd(dir) # B
-  withr::defer(setwd(old_project), envir = env) # -B
-  
-  # switch to new usethis project
-  usethis::proj_set(dir) # C
-  withr::defer(usethis::proj_set(old_project, force = TRUE), envir = env) # -C
-  
-  invisible(dir)
-}
+#create_test_package <- function(dir = fs::file_temp(pattern = "testpkg"),
+#                                 env = parent.frame(),
+#                                 rstudio = FALSE) {
+# 
+#  if (fs::dir_exists(dir)) {
+#    usethis::ui_stop("Target {usethis::ui_code('dir')} {usethis::ui_path(dir)} already exists.")
+#  }
+#  
+#  old_wd <- getwd() # not necessarily same as `old_project`
+#  
+#  withr::defer(
+#    {
+#      usethis::ui_done("Deleting temporary project: {usethis::ui_path(dir)}")
+#      fs::dir_delete(dir)
+#    },
+#    envir = env
+#  )
+#  usethis::ui_silence(qDatr::setup_package("qTest", "hs", path = dir)) # A
+#  
+#  withr::defer(
+#    {
+#      ui_done("Restoring original working directory: {usethis::ui_path(old_wd)}")
+#      setwd(old_wd)
+#    },
+#    envir = env
+#  )
+#
+#}
 
 # Tests
 
-# test_that("create_qPackage() creates a package", {
-#   create_local_package()
-#   expect_true(usethis:::is_package(dir))
-# })
+#test_that("setup_package() creates a package", {
+#  dir <- fs::file_temp(pattern = "testpkg")
+#  create_test_package(dir = dir)
+#  expect_true(file.exists(paste0(dir, "/DESCRIPTION")))
+#  expect_true(file.exists(paste0(dir, "/NEWS.md")))
+#  expect_true(file.exists(paste0(dir, "/README.Rmd")))
+  # expect_true(file.exists(paste0(dir, "/NAMESPACE")))
+#  expect_true(file.exists(paste0(dir, "/.github/CODE_OF_CONDUCT.md")))
+#  expect_true(file.exists(paste0(dir, "/.github/CONTRIBUTING.md")))
+#  expect_true(file.exists(paste0(dir, "/.github/pull_request_template.md")))
+#  expect_true(file.exists(paste0(dir, "/.github/ISSUE_TEMPLATE/bug_report.md")))
+#  expect_true(file.exists(paste0(dir, "/.github/ISSUE_TEMPLATE/feature_request.md")))
+#})

@@ -5,39 +5,51 @@
 \title{Imports and establishes preparation of raw data}
 \usage{
 import_data(
-  name = "DATASET",
+  dataset = NULL,
+  database = NULL,
   path = NULL,
   delete_original = FALSE,
   open = rlang::is_interactive()
 )
 }
 \arguments{
-\item{name}{Intended (short)name of the dataset}
+\item{dataset}{Intended (short) name of the dataset. This refers
+to the two-dimensional sheet of data in the form of a dataset which
+will be connected to other datasets.}
 
-\item{path}{Path to raw data file. If left unspecified, a dialog box is raised to select the file via the system}
+\item{database}{Intended name of the database. This refers to a domain
+issue which the dataset(s) to be corrected and connected. That is, what
+is the domain-issue of the several datasets to be connected belong to.
+By connecting two-dimensional datasets, we can form a a three-dimensional
+database that resembles a data cube.}
 
-\item{delete_original}{Does not delete original files by default.}
+\item{path}{Path to raw data file. If left unspecified, a dialog box is
+raised to select the file via the system}
+
+\item{delete_original}{Does not delete original files by default}
 
 \item{open}{Whether the resulting preparation script will be opened}
 }
 \value{
-This function returns a data-raw folder containing the data imported as well as a script in the R directory
-to guide preparation of data using qDatr.
+This function returns a data-raw folder containing the data
+imported as well as a script in the R directory to guide
+preparation of data using qDatr.
 }
 \description{
-Create a data-raw folder and provide templates that make easier for setting up the data cleaning
-and wrangling, consistent with the qDatr ecosystem
+Create a data-raw folder and provide templates that make easier for setting
+up the data cleaning and wrangling, consistent with the qDatr ecosystem
 }
 \details{
-The function helps importing raw data into q package while providing a template that facilitates
-data cleaning and wrangling, consistent with the qDatr ecosystem. The function can be used without specifying
-a path to the file. In that case an interactive dialog box will be openend and the data file can be manually selected.
-The script provided to help with data cleaning and wrangling contain suggestions on how to properly load the data into
-the environment.
+The function helps importing raw data into q package while
+providing a template that facilitates data cleaning and wrangling,
+consistent with the qDatr ecosystem. The function can be used without
+specifying a path to the file. In that case an interactive dialog
+box will be openend and the data file can be manually selected.
+The script provided to help with data cleaning and wrangling contain
+suggestions on how to properly load the data into the environment.
 }
 \examples{
 \dontrun{
-data(mtcars)
-qDatr::import_data("mtcars")
+qDatr::import_data(dataset = "cow", database = "states")
 }
 }
