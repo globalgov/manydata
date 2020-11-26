@@ -1,7 +1,10 @@
 #' Create nested vectors of dates from vague date inputs
-#'
-#' @param x String vector of potential dates.
-#' @return Nested vector of POSIXct dates that includes
+#' 
+#' Create nested vectors of dates for vague date inputs, ambiguous and ranged dates, into a range of dates
+#' @param x String vector of potential dates
+#' @details The function seeks to convert ambiguous and ranged dates into a range of dates, 
+#' and extends the date parsing of other packages to more historical and future dates.
+#' @return Nested vector of POSIXct dates that includes a range of dates.
 #' @importFrom anytime anydate
 #' @importFrom stringr str_detect
 #' @importFrom stringr str_split
@@ -34,6 +37,7 @@ ambig_date <- function(x){
   dates <- stringr::str_replace_all(dates, "-00|-\\?\\?|-NA", "") # standardising ambiguities
   dates <- stringr::str_replace_all(dates, "_", ":") # standardising ranges
   # TODO: convert future dates
+  # dates <- stringr::str_replace_all(dates, "01:01:2022 - 12:12:9999", "01:01:9999")
   # TODO: convert historical dates
 
   # Second step: set up functions
