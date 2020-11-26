@@ -36,10 +36,8 @@ import_data <- function(dataset = NULL,
                         open = rlang::is_interactive()) {
 
   # Step one: checks and setup
-  if(is.null(dataset)) stop("You need to name the dataset.
-                            We suggest a short name, all small letters, such as 'cow'.")
-  if(is.null(database)) stop("You need to name the database to which the dataset would belong.
-                             We suggest a descriptive short name, all small letters, such as 'states'.")
+  if(is.null(dataset)) stop("You need to name the dataset. We suggest a short name, all small letters, such as 'cow'.")
+  if(is.null(database)) stop("You need to name the database to which the dataset would belong. We suggest a descriptive short name, all small letters, such as 'states'.")
   stopifnot(rlang::is_string(dataset)) # Could also check if ASCII
   stopifnot(rlang::is_string(database)) # Could also check if ASCII
   usethis::use_directory("data-raw", ignore = TRUE)
