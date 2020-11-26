@@ -14,7 +14,7 @@ import_data(
 }
 \arguments{
 \item{dataset}{Intended (short) name of the dataset. This refers
-to the two-diemnsional sheet of data in the form of a dataset which
+to the two-dimensional sheet of data in the form of a dataset which
 will be connected to other datasets.}
 
 \item{database}{Intended name of the database. This refers to a domain

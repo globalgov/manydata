@@ -3,7 +3,7 @@
 #' Create a data-raw folder and provide templates that make easier for setting
 #' up the data cleaning and wrangling, consistent with the qDatr ecosystem
 #' @param dataset Intended (short) name of the dataset. This refers
-#' to the two-diemnsional sheet of data in the form of a dataset which
+#' to the two-dimensional sheet of data in the form of a dataset which
 #' will be connected to other datasets.
 #' @param database Intended name of the database. This refers to a domain
 #' issue which the dataset(s) to be corrected and connected. That is, what
