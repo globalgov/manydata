@@ -1,8 +1,8 @@
 #' Create nested vectors of dates from vague date inputs
-#' 
+#'
 #' Create nested vectors of dates for vague date inputs, ambiguous and ranged dates, into a range of dates
 #' @param x String vector of potential dates
-#' @details The function seeks to convert ambiguous and ranged dates into a range of dates, 
+#' @details The function seeks to convert ambiguous and ranged dates into a range of dates,
 #' and extends the date parsing of other packages to more historical and future dates.
 #' @return Nested vector of POSIXct dates that includes a range of dates
 #' @importFrom anytime anydate
@@ -57,16 +57,16 @@ standardise_dates <- standardize_dates <- function(x){
       start <- paste0(brackets[[1]][1], "-01")
       finish <- paste(stringr::str_split(start, "-")[[1]][1], 
                        brackets[[1]][2],  
-                       lubridate::days_in_month(as.numeric(brackets[[1]][2])), 
+                       lubridate::days_in_month(as.numeric(brackets[[1]][2])),
                        sep = "-")
       d <- date_range(start, finish)
       d
     } else if(stringr::str_detect(d, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{2}$")){ # day range
       brackets <- stringr::str_split(d, ":")
       start <- brackets[[1]][1]
-      finish <- paste(stringr::str_split(start, "-")[[1]][1], 
-                      stringr::str_split(start, "-")[[1]][2],  
-                      brackets[[1]][2], 
+      finish <- paste(stringr::str_split(start, "-")[[1]][1],
+                      stringr::str_split(start, "-")[[1]][2], 
+                      brackets[[1]][2],
                       sep = "-")
       d <- date_range(start, finish)
       d
@@ -90,5 +90,3 @@ standardise_dates <- standardize_dates <- function(x){
   # see hoist(), unnest_wider(), and unnest_longer()
   
 }
-
-

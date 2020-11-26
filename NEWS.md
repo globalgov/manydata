@@ -1,20 +1,20 @@
 # qDatr 0.2.1
 
-## Package 
+## Package
 
-* Fixes #61 by adding tests for `setup_package()` and `import_data()`  
+* Fixes #61 by adding tests for `setup_package()` and `import_data()`
 * Closes #50 by making sure workflow templates are created in the proper folder with `setup_package()`
 
 ## Correction
 
-* Closes #62 by creating a function which vectorises dates and cleans and standardizes diverse date formats, `standardise_dates()` 
-* Closes #55 by deprecating `rearrange()` function in favor of `dplyr::relocate()` 
+* Closes #62 by creating a function which vectorises dates and cleans and standardizes diverse date formats, `standardise_dates()`
+* Closes #55 by deprecating `rearrange()` function in favor of `dplyr::relocate()`
 * Closes #65 by correcting issues with the path call in `export_data()` function
   * Ensures consistency for path calls across qDatr functions
 
 ## Connection
 
-* Closes #64 by creating the `get_packages()` function which displays other packages, and some information about these packages, in the qDatr ecosystem. the function serves as a wrapper for downloading qPackages from GitHub. 
+* Closes #64 by creating the `get_packages()` function which displays other packages, and some information about these packages, in the qDatr ecosystem. The function serves as a wrapper for downloading qPackages from GitHub.
 
 # qDatr 0.2.0
 

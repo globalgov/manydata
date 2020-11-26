@@ -40,7 +40,7 @@ setup_package <- function(packageName = NULL,
       stop("Please declare a package name")
     }
   }
-    
+  
   if (is.null(packageAuthor)){
     if (file.exists(paste0(path, "/DESCRIPTION"))){
       packageAuthor <- read.dcf(paste0(path, "/DESCRIPTION"))[[4]]
@@ -55,13 +55,13 @@ setup_package <- function(packageName = NULL,
     }
   }
   # TODO: add package authors from ORCID numbers
-    
+  
   # Step one: ensure/create package/project structure
   # Add DESCRIPTION
   given <- stringr::str_split(packageAuthor, " ")[1]
   family <- stringr::str_split(packageAuthor, " ")[2]
   qtemplate("qPackage-DESC.dcf",
-            "DESCRIPTION", 
+            "DESCRIPTION",
             data = list(package = packageName,
                         given = given,
                         family = family),
@@ -78,14 +78,14 @@ setup_package <- function(packageName = NULL,
   # Add NEWS
   if (!file.exists(paste0(path, "/NEWS.md"))){
     qtemplate("qPackage-NEWS.md",
-              "NEWS.md", 
+              "NEWS.md",
               data = list(package = packageName),
               path = path)
     usethis::ui_done("Added starter NEWS file. Update for every release.")
   }
   # Add README
   qtemplate("qPackage-README.Rmd",
-            "README.Rmd", 
+            "README.Rmd",
             data = list(package = packageName,
                         author = packageAuthor),
             path = path)
@@ -139,41 +139,41 @@ setup_package <- function(packageName = NULL,
   
   create_directory(paste0(path, "/.github/workflows"))
   usethis::ui_done("Created workflows folder.")
-  if(interactive()){
-    file.copy(fs::path_package(package = "qDatr", "templates", "qPackage-Check.yml"), 
+  if(interactive()) {
+    file.copy(fs::path_package(package = "qDatr", "templates", "qPackage-Check.yml"),
               fs::path(".github", "workflows", "prchecks.yml"))
     usethis::ui_done("Added checks workflow upon opening a push release.")
-    file.copy(fs::path_package(package = "qDatr", "templates", "qPackage-Commands.yml"), 
+    file.copy(fs::path_package(package = "qDatr", "templates", "qPackage-Commands.yml"),
               fs::path(".github", "workflows", "prcommands.yml"))
     usethis::ui_done("Added commands workflow upon labelling a push release.")
-    file.copy(fs::path_package(package = "qDatr", "templates", "qPackage-Release.yml"), 
+    file.copy(fs::path_package(package = "qDatr", "templates", "qPackage-Release.yml"),
               fs::path(".github", "workflows", "pushrelease.yml"))
     usethis::ui_done("Added release workflow upon merging a push release.")
   }
-
+  
   usethis::ui_todo("Remember to set up your project together with Github for visibility etc.")
   #usethis::ui_todo("{ui_code('use_pkgdown()')}")
   
-  # Step five: checks package (?) 
+  # Step five: checks package (?)
   # usethis::use_spell_check()
   # usethis::use_tibble()
   
   # Step 6: create GitHub repository (?)
-  # usethis::use_git() # The usethis::use_github() may also be an interesting option to explore here. 
+  # usethis::use_git() # The usethis::use_github() may also be an interesting option to explore here.
   # usethis::proj_activate()
 }
 
 #' Find and download packages in the qDatr ecosystem
 #'
 #' Find and download packages in the qDatr ecosystem
-#' @param pkg A character vector of package names 
+#' @param pkg A character vector of package names
 #' @details The function finds and download other packages that belong to the qDatr ecosystem
-#' of data packages. It allows for users to rapidly access the names and other descriptive information 
-#' of these packages by simply calling the function. If users intend to download a package from the ecosystem, 
-#' they can to type the package name within the function. 
-#' @return If no package name is provided, this function prints a table (tibble) to the console 
+#' of data packages. It allows for users to rapidly access the names and other descriptive information
+#' of these packages by simply calling the function. If users intend to download a package from
+#' the ecosystem, they can to type the package name within the function.
+#' @return If no package name is provided, this function prints a table (tibble) to the console
 #' with details on packages that are currently available within the qDatr ecosystem.
-#' If one or more package names are provided, these will be installed from 
+#' If one or more package names are provided, these will be installed from
 #' @importFrom pointblank %>%
 #' @importFrom dplyr filter
 #' @importFrom stringr str_detect
@@ -186,13 +186,13 @@ setup_package <- function(packageName = NULL,
 #' get_packages("qStates") # This downloads and installs from github the latest version of a qPackage
 #' }
 #' @export
-get_packages <- function(pkg){
+get_packages <- function(pkg) {
   
-  if (missing(pkg)){
+  if (missing(pkg)) {
     res <- tibble::as_tibble(jsonlite::fromJSON("http://rpkg-api.gepuro.net/rpkg?q=q"))
     res <- res %>% dplyr::filter(stringr::str_detect(.data$pkg_name, "/q[[:upper:]]")) %>%
       dplyr::filter(!stringr::str_detect(.data$title, "read-only mirror")) %>%
-      dplyr::filter(stringr::str_detect(.data$pkg_name, "globalgov")) 
+      dplyr::filter(stringr::str_detect(.data$pkg_name, "globalgov"))
     # At the moment, just our packages, but we can either expand the list of recognised contributors
     # or remove the condition entirely in the future.
     # TODO: check potential packages for dependency on qDatr
@@ -207,7 +207,7 @@ get_packages <- function(pkg){
   # TODO: make it possible to select (say, by number) which datasets to install from github
   # TODO: consider reexporting e.g. magrittr's pipe (%>%) within qDatr
   
-  if (!missing(pkg)){
+  if (!missing(pkg)) {
     remotes::install_github(pkg)
   }
   
@@ -225,4 +225,3 @@ create_directory <- function(path){
   usethis::ui_done("Creating {ui_path(path)}")
   invisible(TRUE)
 }
-

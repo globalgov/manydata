@@ -28,7 +28,7 @@
 # })
 # 
 # # Here the issue appears to be related to the fact that the create_local_package() function
-# # is not currently working. 
+# # is not currently working.
 # 
 # # TODO: test that missing obsevartions are standard
 # 
