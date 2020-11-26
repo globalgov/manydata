@@ -63,11 +63,10 @@ import_data <- function(dataset = NULL,
     save_as = fs::path("data-raw", database, dataset, paste0("prepare-", dataset), ext = "R"),
     data = list(dataset = dataset,
                 database = database,
-                import_type = import_type,
-                path = new_path),
+                import_type = import_type),
     ignore = FALSE,
-    open = open
-  )
+    open = open,
+    path = getwd())
 
   # Step four: inform user what to do next
   usethis::ui_todo("Finish the opened data preparation script")
