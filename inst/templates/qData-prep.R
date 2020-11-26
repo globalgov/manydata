@@ -15,16 +15,16 @@ library(qDatr)
 # The function transmutate(), for example, returns mutated variables
 # while dropping the original variables used in the mutation.
 # Please refer to package manual further details and examples.
-# TODO: Get users to check whether missing observations are 
+# TODO: Get users to check whether missing observations are
 # correctly stated as NA.
 
 # Stage three: connecting data
 # At this stage, all you need to do is run the next line to
 # make {{{dataset}}} available within the package.
 export_data({{{dataset}}})
-# Please note that export_data() also creates documentation and test 
+# Please note that export_data() also creates documentation and test
 # files for data.
 # Please make sure to cite source dataset on documentation file created.
-# Please make sure data complies with qDatr requirements by running 
-# test script created and, if any of the tests fail, please go 
+# Please make sure data complies with qDatr requirements by running
+# test script created and, if any of the tests fail, please go
 # back to step two and correct the data.
