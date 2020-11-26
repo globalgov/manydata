@@ -1,15 +1,17 @@
 #' Imports and establishes preparation of raw data
 #'
-#' Create a data-raw folder and provide templates that make easier for setting up the 
-#' data cleaning and wrangling, consistent with the qDatr ecosystem
-#' @param dataset Intended (short) name of the dataset. This refers to the two-diemnsional
-#' sheet of data in the form of a dataset which will be connected to other datasets.
-#' @param database Intended name of the database. This refers to a domain-issue which the
-#' dataset(s) to be corrected and connected. That is, what is the domain-issue of the
-#' several datasets to be connected belong to. By connecting two-dimensional datasets,
-#' we can form a a three-dimensional database that resembles a data cube.
-#' @param path Path to raw data file. If left unspecified, a dialog box is raised to select
-#' the file via the system
+#' Create a data-raw folder and provide templates that make easier for setting
+#' up the data cleaning and wrangling, consistent with the qDatr ecosystem
+#' @param dataset Intended (short) name of the dataset. This refers
+#' to the two-diemnsional sheet of data in the form of a dataset which
+#' will be connected to other datasets.
+#' @param database Intended name of the database. This refers to a domain
+#' issue which the dataset(s) to be corrected and connected. That is, what
+#' is the domain-issue of the several datasets to be connected belong to.
+#' By connecting two-dimensional datasets, we can form a a three-dimensional
+#' database that resembles a data cube.
+#' @param path Path to raw data file. If left unspecified, a dialog box is
+#' raised to select the file via the system
 #' @param delete_original Does not delete original files by default
 #' @param open Whether the resulting preparation script will be opened
 #' @importFrom fs path
@@ -17,13 +19,14 @@
 #' @importFrom usethis use_directory
 #' @importFrom usethis ui_done
 #' @importFrom rlang is_string
-#' @details The function helps importing raw data into q package while providing a template that
-#' facilitates data cleaning and wrangling, consistent with the qDatr ecosystem. The function
-#' can be used without specifying a path to the file. In that case an interactive dialog box 
-#' will be openend and the data file can be manually selected.The script provided to help with
-#' data cleaning and wrangling contain suggestions on how to properly load the data into the environment.
-#' @return This function returns a data-raw folder containing the data imported as well as
-#' a script in the R directory to guide preparation of data using qDatr.
+#' @details The function helps importing raw data into q package while providing
+#' a template that facilitates data cleaning and wrangling, consistent with the
+#' qDatr ecosystem. The function can be used without specifying a path to the file.
+#' In that case an interactive dialog box will be openend and the data file can be
+#' manually selected.The script provided to help with data cleaning and wrangling
+#' contain suggestions on how to properly load the data into the environment.
+#' @return This function returns a data-raw folder containing the data imported
+#' as well as a script in the R directory to guide preparation of data using qDatr.
 #' @examples
 #' \dontrun{
 #' qDatr::import_data(dataset = "cow", database = "states")
