@@ -8,6 +8,6 @@ test_that("object is correct", {
 
 test_that("missing obsevarsions are reported correctly", {
   expect_length(grepl("-", {{{dat}}}), 0)
-  expect_length(grepl('n/a', {{{dat}}}), 0)
+  expect_length(grepl("n/a", {{{dat}}}), 0)
   expect_length(grepl("N/A", {{{dat}}}), 0)
 })
