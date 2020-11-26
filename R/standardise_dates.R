@@ -1,10 +1,7 @@
 #' Create nested vectors of dates from vague date inputs
-#' 
-#' Create nested vectors of dates for vague date inputs, ambiguous and ranged dates, into a range of dates
-#' @param x String vector of potential dates
-#' @details The function seeks to convert ambiguous and ranged dates into a range of dates, 
-#' and extends the date parsing of other packages to more historical and future dates.
-#' @return Nested vector of POSIXct dates that includes a range of dates.
+#'
+#' @param x String vector of potential dates.
+#' @return Nested vector of POSIXct dates that includes
 #' @importFrom anytime anydate
 #' @importFrom stringr str_detect
 #' @importFrom stringr str_split
@@ -26,11 +23,11 @@
 #' origin = testdates,
 #' lubridate = lubridate::as_date(testdates),
 #' anytime = anytime::anydate(testdates),
-#' qDatr = qDatr::ambig_date(testdates)
+#' qDatr = qDatr::standardise_dates(testdates)
 #' ) datestest %>% print(n = 25)}
 #' }
 #' @export
-ambig_date <- function(x){
+standardise_dates <- standardize_dates <- function(x){
   
   # First step: regularise/standardise inputs
   dates <- x

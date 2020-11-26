@@ -29,10 +29,10 @@ setup_package <- function(packageName = NULL,
     path <- getwd()
   }
   
-  usethis:::check_path_is_directory(fs::path_dir(path))
+  # usethis:::check_path_is_directory(fs::path_dir(path))
   name <- fs::path_file(fs::path_abs(path))
-  usethis:::check_not_nested(fs::path_dir(path), name)
-  usethis:::create_directory(path)
+  # usethis:::check_not_nested(fs::path_dir(path), name)
+  # usethis:::create_directory(path)
   
   # Step zero: get details from existing files, if present
   if (is.null(packageName)){
@@ -72,7 +72,6 @@ setup_package <- function(packageName = NULL,
             path = path)
   usethis::ui_done("Added DESCRIPTION file. Modify if necessary.")
   # Add R folder
-  usethis:::create_directory(paste0(path, "/R"))
   usethis::ui_done("Created R/ folder. Here is where any scripts go.")
   # Add LICENSE
   usethis::use_ccby_license(name = packageAuthor)
@@ -101,7 +100,7 @@ setup_package <- function(packageName = NULL,
   usethis::use_testthat()
   
   # Step three: ensure/create Github files
-  usethis:::create_directory(paste0(path, "/.github"))
+  create_directory(paste0(path, "/.github"))
   usethis::ui_done("Created .github folder.")
   qtemplate("qPackage-COC.md",
             fs::path(".github", "CODE_OF_CONDUCT", ext = "md"),
@@ -125,7 +124,7 @@ setup_package <- function(packageName = NULL,
             open = FALSE)
   usethis::ui_done("Created PR template. Modify if necessary.")
   
-  usethis:::create_directory(paste0(path, "/.github/ISSUE_TEMPLATE"))
+  create_directory(paste0(path, "/.github/ISSUE_TEMPLATE"))
   usethis::ui_done("Created ISSUE_TEMPLATE folder.")
   qtemplate("qPackage-Bugs.md",
             fs::path(".github", "ISSUE_TEMPLATE", "bug_report.md"),
@@ -142,7 +141,7 @@ setup_package <- function(packageName = NULL,
             open = FALSE)
   usethis::ui_done("Created feature request issue template. Modify if necessary.")
   
-  usethis:::create_directory(paste0(path, "/.github/workflows"))
+  create_directory(paste0(path, "/.github/workflows"))
   usethis::ui_done("Created workflows folder.")
   if(interactive()){
     file.copy(fs::path_package(package = "qDatr", "templates", "qPackage-Check.yml"), 
@@ -184,6 +183,7 @@ setup_package <- function(packageName = NULL,
 #' @importFrom stringr str_detect
 #' @importFrom tibble as_tibble
 #' @importFrom jsonlite fromJSON
+#' @importFrom remotes install_github
 #' @examples
 #' \dontrun{
 #' get_packages() # This prints a table (tibble) to the console with details on the current
@@ -194,9 +194,9 @@ get_packages <- function(pkg){
   
   if (missing(pkg)){
     res <- tibble::as_tibble(jsonlite::fromJSON("http://rpkg-api.gepuro.net/rpkg?q=q"))
-    res <- res %>% dplyr::filter(stringr::str_detect(pkg_name, "/q[[:upper:]]")) %>%
-      dplyr::filter(!stringr::str_detect(title, "read-only mirror")) %>%
-      dplyr::filter(stringr::str_detect(pkg_name, "globalgov")) 
+    res <- res %>% dplyr::filter(stringr::str_detect(.data$pkg_name, "/q[[:upper:]]")) %>%
+      dplyr::filter(!stringr::str_detect(.data$title, "read-only mirror")) %>%
+      dplyr::filter(stringr::str_detect(.data$pkg_name, "globalgov")) 
     # At the moment, just our packages, but we can either expand the list of recognised contributors
     # or remove the condition entirely in the future.
     # TODO: check potential packages for dependency on qDatr
@@ -215,5 +215,18 @@ get_packages <- function(pkg){
     remotes::install_github(pkg)
   }
   
+}
+
+# Helper function from usethis:::create_directory()
+create_directory <- function(path){
+  if (dir.exists(path)) {
+    return(invisible(FALSE))
+  }
+  else if (file.exists(path)) {
+    usethis::ui_stop("{ui_path(path)} exists but is not a directory.")
+  }
+  dir.create(path, recursive = TRUE)
+  usethis::ui_done("Creating {ui_path(path)}")
+  invisible(TRUE)
 }
 
