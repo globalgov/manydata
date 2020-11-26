@@ -7,7 +7,7 @@
 #' author(s), required
 #' @param update A logical indicating whether existing files should be
 #' overwritten, by default TRUE.
-#' @param path A string, if missing default is the working directory
+#' @param path A string, if missing default is path to the working directory
 #' @details The function establishes many of the required files and
 #' folder structures required for a qDatr-consistent data package.
 #' @return A new package structure

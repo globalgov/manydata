@@ -136,5 +136,5 @@ export_data <- function(...,
                         describe = describe),
             open = TRUE,
             ignore = FALSE,
-            path=getwd())
+            path = getwd())
 }
