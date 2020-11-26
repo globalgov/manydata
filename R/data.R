@@ -19,12 +19,13 @@
 #' @importFrom usethis use_directory
 #' @importFrom usethis ui_done
 #' @importFrom rlang is_string
-#' @details The function helps importing raw data into q package while providing
-#' a template that facilitates data cleaning and wrangling, consistent with the
-#' qDatr ecosystem. The function can be used without specifying a path to the file.
-#' In that case an interactive dialog box will be openend and the data file can be
-#' manually selected.The script provided to help with data cleaning and wrangling
-#' contain suggestions on how to properly load the data into the environment.
+#' @details The function helps importing raw data into q package while
+#' providing a template that facilitates data cleaning and wrangling,
+#' consistent with the qDatr ecosystem. The function can be used without
+#' specifying a path to the file. In that case an interactive dialog
+#' box will be openend and the data file can be manually selected.
+#' The script provided to help with data cleaning and wrangling contain
+#' suggestions on how to properly load the data into the environment.
 #' @return This function returns a data-raw folder containing the data imported
 #' as well as a script in the R directory to guide preparation of data using qDatr.
 #' @examples
@@ -39,8 +40,8 @@ import_data <- function(dataset = NULL,
                         open = rlang::is_interactive()) {
 
   # Step one: checks and setup
-  if(is.null(dataset)) stop("You need to name the dataset. We suggest a short name, all small letters, such as 'cow'.")
-  if(is.null(database)) stop("You need to name the database to which the dataset would belong. We suggest a descriptive short name, all small letters, such as 'states'.")
+  if (is.null(dataset)) stop ("You need to name the dataset. We suggest a short name, all small letters, such as 'cow'.")
+  if (is.null(database)) stop ("You need to name the database to which the dataset would belong. We suggest a descriptive short name, all small letters, such as 'states'.")
   stopifnot(rlang::is_string(dataset)) # Could also check if ASCII
   stopifnot(rlang::is_string(database)) # Could also check if ASCII
   usethis::use_directory("data-raw", ignore = TRUE)
