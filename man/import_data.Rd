@@ -13,9 +13,13 @@ import_data(
 )
 }
 \arguments{
-\item{dataset}{Intended (short)name of the dataset}
+\item{dataset}{Intended (short)name of the dataset. This refers to the two-diemnsional sheet of data in the
+form of afrom a dataset which will be connected to others in the future.}
 
-\item{database}{Intended (short)name of the dataset}
+\item{database}{Intended (short)name of the database. This refers to a domain-issue which the dataset(s) to be
+corrected and connected in the future belongs to. That is, what is the domain-issue of the several datasets
+to be connected belong to. By connecting two-dimensional datasets, we can forma a three-dimensional database
+that resembles a data cube.}
 
 \item{path}{Path to raw data file. If left unspecified, a dialog box is raised to select the file via the system}
 

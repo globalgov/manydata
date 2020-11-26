@@ -31,7 +31,7 @@ setup_package <- function(packageName = NULL,
   
   usethis:::check_path_is_directory(fs::path_dir(path))
   name <- fs::path_file(fs::path_abs(path))
-  usethis:::check_not_nested(path_dir(path), name)
+  usethis:::check_not_nested(fs::path_dir(path), name)
   usethis:::create_directory(path)
   
   # Step zero: get details from existing files, if present

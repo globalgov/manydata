@@ -13,6 +13,9 @@
 #' @param open Whether the resulting preparation script will be opened
 #' @importFrom fs path
 #' @importFrom fs path_file
+#' @importFrom usethis use_directory
+#' @importFrom usethis ui_done
+#' @importFrom rlang is_string
 #' @details The function helps importing raw data into q package while providing a template that facilitates 
 #' data cleaning and wrangling, consistent with the qDatr ecosystem. The function can be used without specifying
 #' a path to the file. In that case an interactive dialog box will be openend and the data file can be manually selected.

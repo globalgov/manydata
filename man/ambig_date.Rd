@@ -7,13 +7,17 @@
 ambig_date(x)
 }
 \arguments{
-\item{x}{String vector of potential dates.}
+\item{x}{String vector of potential dates}
 }
 \value{
-Nested vector of POSIXct dates that includes
+Nested vector of POSIXct dates that includes a range of dates.
 }
 \description{
-Create nested vectors of dates from vague date inputs
+Create nested vectors of dates for vague date inputs, ambiguous and ranged dates, into a range of dates
+}
+\details{
+The function seeks to convert ambiguous and ranged dates into a range of dates,
+and extends the date parsing of other packages to more historical and future dates.
 }
 \examples{
 \dontrun{
