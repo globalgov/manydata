@@ -30,7 +30,6 @@
 #' @export
 import_data <- function(dataset = NULL,
                         database = NULL,
-                        # type = NULL,
                         path = NULL,
                         delete_original = FALSE,
                         open = rlang::is_interactive()) {
