@@ -182,8 +182,8 @@ setup_package <- function(packageName = NULL,
 #' @importFrom remotes install_github
 #' @examples
 #' \dontrun{
-#' get_packages() # This prints a table (tibble) to the console with details on the current
-#' get_packages("qStates") # This downloads and installs from github the latest version of a qPackage
+#' get_packages() # This prints a table (tibble) to the console with details on currently available qPackages
+#' get_packages("qStates") # This downloads and installs from github the latest version of one or more qPackages
 #' }
 #' @export
 get_packages <- function(pkg) {
