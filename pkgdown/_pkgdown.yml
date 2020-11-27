@@ -1,0 +1,52 @@
+url: https://globalgov.github.io/qDatr/
+development:
+    mode: auto
+template:
+  params:
+    bootswatch: flatly
+authors:
+  James Hollway:
+    href: https://jameshollway.com
+navbar:
+  structure:
+    left:
+    - home
+    - intro
+    - reference
+    - articles
+    - tutorials
+    - news
+    right: github
+  components:
+    home:
+      icon: fa-home fa-lg
+      href: index.html
+    reference:
+      text: Reference
+      href: reference/index.html
+    articles:
+      text: Articles
+      menu:
+      - text: Collection
+        href: articles/Collection.html
+      - text: Correction
+        href: articles/Correction.html
+      - text: Connection
+        href: articles/Connection.html
+    news:
+      text: News
+      href: news/index.html
+reference:
+  - title: "Functions for data providers"
+    desc: "These functions are to assist data providers with disseminating data on particular parts of global governance:"
+    contents:
+      - setup_package
+      - import_data
+      - transmutate
+      - consolidate
+      - starts_with("standardise")
+      - export_data
+  - title: "Functions for data consumers"
+    desc: "These functions are to assist data analysts with identifying, downloading, and analysing data on particular parts of global governance:"
+    contents:
+      - get_packages
