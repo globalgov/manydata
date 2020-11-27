@@ -1,0 +1,26 @@
+---
+title: "Collection"
+author: "James Hollway"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Collection}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Collecting data 
+
+For data collection and loading with qDatr, the function `import_data()` creates a data-raw folder into a project or package, copies the raw data into the folder and provides a script to facilitate data loading and data correction using qDatr. 
+The function requires that a name for the dataset (two dimensional data sheet being imported) is declared as well as the name of the issue-domain the dataset belongs which will be used to connect two-dimensional datasets into three-dimensional databases that resembles a data cube.
+
+```
+qDatr::import_data("cow", 'states')
+```
