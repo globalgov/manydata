@@ -44,7 +44,7 @@ test_that("standardise_dates() treats ranged dates correctly",{
 
 test_that("standardise_dates() treats future dates correctly",{
   expect_match(as.character(standardise_dates("9999-12-31")[[1]]), "9999-12-31")
-  # expect_match(as.character(standardise_dates("2599-12-31")[[1]]), "9999-12-31")
+  expect_match(as.character(standardise_dates("2599-12-31")[[1]]), "9999-12-31")
 })
 
 # test_that("standardise_dates() treats historical dates correctly",{

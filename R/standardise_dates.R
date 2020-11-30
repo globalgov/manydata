@@ -36,7 +36,10 @@ standardise_dates <- standardize_dates <- function(x){
   dates <- x
   dates <- stringr::str_replace_all(dates, "-00|-\\?\\?|-NA", "") # standardising ambiguities
   dates <- stringr::str_replace_all(dates, "_", ":") # standardising ranges
-  # TODO: convert future dates
+  if(stringr::str_detect(dates, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")){
+    if(dates > Sys.Date() + lubridate::years(25)){
+      dates <- "9999-12-31" # convert future dates
+    }} 
   # TODO: convert historical dates
 
   # Second step: set up functions
