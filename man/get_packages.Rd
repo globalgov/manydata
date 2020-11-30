@@ -25,7 +25,7 @@ the ecosystem, they can to type the package name within the function.
 }
 \examples{
 \dontrun{
-get_packages() # This prints a table (tibble) to the console with details on the current
-get_packages("qStates") # This downloads and installs from github the latest version of a qPackage
+get_packages() # This prints a table (tibble) to the console with details on currently available qPackages
+get_packages("qStates") # This downloads and installs from github the latest version of one or more qPackages
 }
 }
