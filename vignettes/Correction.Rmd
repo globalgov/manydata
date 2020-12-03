@@ -45,9 +45,7 @@ qDatr::export_data(cow)
 The test template is meant to ensure consistency for the corrected dataset. 
 If these tests fail, users can go back to correcting the data and, then, re-run `export_data()`.  
 
-Corrected datasets can be connected to form a three dimensional database that resembles a data-cube. 
-This can be done with the help of several functions in qDatr. 
-These include, for example, the `standardise_dates()` function which creates nested vectors of dates for vague date inputs into a range of dates. 
+qDatr also includes functions that help correct and standirdise dates. These include, for example, the `standardise_dates()` function which creates nested vectors of dates for vague date inputs into a range of dates. 
 
 ```
 qDatr::standardise_dates(cow)
