@@ -41,6 +41,7 @@ standardise_dates <- standardize_dates <- function(x){
       dates <- "9999-12-31" # convert future dates
     }} 
   # TODO: convert historical dates
+  # TODO: add some of the recent() functionality
 
   # Second step: set up functions
   date_disambig <- function(d){
