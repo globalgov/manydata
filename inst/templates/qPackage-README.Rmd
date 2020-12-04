@@ -3,7 +3,7 @@
 {{{package}}} is a hush-hush secret project (for now) by {{{author}}}. 
 Please watch this space. 
 
-Check out [qDatr](https://github.com/globalgov/qDatr) for more.
+Check out [qData](https://github.com/globalgov/qData) for more.
 
 ## Data included
 

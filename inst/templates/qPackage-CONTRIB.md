@@ -42,7 +42,7 @@ The title of your PR should briefly describe the change. Please include a summar
 
 If you want to make a bigger change, it's a good idea to first file an issue and make sure someone from the team agrees that it’s needed before openning a pull request. If you’ve found a bug, please file an issue that illustrates the bug with a minimal [reprex](https://www.tidyverse.org/help/#reprex).
 
-Please follow the qDatr pull request guideline (https://github.com/globalgov/qDatr/blob/main/.github/pull_request_template.md)  
+Please follow the qData pull request guideline (https://github.com/globalgov/qData/blob/main/.github/pull_request_template.md)  
 
 ### Branches
 We use two **main branches** in this project:

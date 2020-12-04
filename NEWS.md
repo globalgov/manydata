@@ -1,4 +1,4 @@
-# qDatr 0.2.1
+# qData 0.2.1
 
 ## Package
 
@@ -12,15 +12,15 @@ folder with `setup_package()`
 and standardizes diverse date formats, `standardise_dates()`
 * Closes #55 by deprecating `rearrange()` function in favor of `dplyr::relocate()`
 * Closes #65 by correcting issues with the path call in `export_data()` function
-  * Ensures consistency for path calls across qDatr functions
+  * Ensures consistency for path calls across qData functions
 
 ## Connection
 
 * Closes #64 by creating the `get_packages()` function which displays other packages,
-and some information about these packages, in the qDatr ecosystem. The function
+and some information about these packages, in the qData ecosystem. The function
 serves as a wrapper for downloading qPackages from GitHub.
 
-# qDatr 0.2.0
+# qData 0.2.0
 
 ## Package
 
@@ -47,7 +47,7 @@ serves as a wrapper for downloading qPackages from GitHub.
   * Closed #57 by passing on object information into the documentation template (now `qData-doc.R`)
   * Adapted test template so that object name is passed forward
 
-# qDatr 0.1.0
+# qData 0.1.0
 
 ## Package
 
@@ -57,7 +57,7 @@ serves as a wrapper for downloading qPackages from GitHub.
 ## Collection
 
 * Closes #47 by adding `qtemplate()` function for finding and rendering templates
-* Closes #44 by adding `create_qPackage()` that establishes a `{qDatr}` consistent package framework
+* Closes #44 by adding `create_qPackage()` that establishes a `{qData}` consistent package framework
   * Fixed #42 by drawing information from DESCRIPTION where possible
   * Added DESCRIPTION template
   * Added README template
@@ -79,7 +79,7 @@ serves as a wrapper for downloading qPackages from GitHub.
   * Added template for documenting cleaned data
   * Added template for testing cleaned data
 
-# qDatr 0.0.4
+# qData 0.0.4
 
 ## Collection
 
@@ -92,7 +92,7 @@ serves as a wrapper for downloading qPackages from GitHub.
 * Closes #23 by adding `resequence()`
 * Closes #30 by adding `recollect()`
 
-# qDatr 0.0.3
+# qData 0.0.3
 
 ## Package
 
@@ -103,7 +103,7 @@ serves as a wrapper for downloading qPackages from GitHub.
 * Closes #29 by adding `rearrange()` 
 * Closes #31 by adding `reunite()`
 
-# qDatr 0.0.2
+# qData 0.0.2
 
 ## Package
 
@@ -113,7 +113,7 @@ serves as a wrapper for downloading qPackages from GitHub.
 
 * Added `transmutate()` for merging variables
 
-# qDatr 0.0.1
+# qData 0.0.1
 
 ## Package
 

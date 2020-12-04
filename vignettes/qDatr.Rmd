@@ -1,10 +1,10 @@
 ---
-title: "qDatr"
+title: "qData"
 author: "James Hollway"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{qDatr}
+  %\VignetteIndexEntry{qData}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,12 +16,12 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Getting started with qDatr
+## Getting started with qData
 
-qDatr has package related functions that help users set-up packages consistent with the qDatr ecosystem of packages. 
-The function `setup_package()`, for example, establishes many of the required files and folder structures for a qDatr-consistent data package. 
+qData has package related functions that help users set-up packages consistent with the qData ecosystem of packages. 
+The function `setup_package()`, for example, establishes many of the required files and folder structures for a qData-consistent data package. 
 It requires that the package name starts with a the letter q as well as that the name of at least one author is declared. 
 
 ```
-qDatr::setup_package("qStates", "James Hollway")
+qData::setup_package("qStates", "James Hollway")
 ```

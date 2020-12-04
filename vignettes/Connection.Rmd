@@ -19,4 +19,4 @@ knitr::opts_chunk$set(
 ## Connecting data
 
 Corrected datasets can be connected to form a three dimensional database that resembles a data-cube. 
-This can be done with the help of several functions in qDatr. 
+This can be done with the help of several functions in qData. 
