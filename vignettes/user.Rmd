@@ -1,0 +1,43 @@
+---
+title: "Working with qData"
+author: "James Hollway"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Working with qData}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Discovering data
+
+The first thing users of the package will want to do is to identify datasets that might contribute to their research goals.
+Since some of these data packages are too big for CRAN (the main though not only R package repository),
+we expect that their developers will instead choose to make their packages available on Github.
+Github is huge though, either way it can be difficult to identify salient data.
+We have tried to make this easy by allowing the reporting of all datasets in the ecosystem that we know of that currently pass our tests.
+
+```{r}
+library(qData)
+get_packages()
+```
+
+In the future, this function will report more details about the datasets included in each package
+and their provenance.
+
+For now, let us say that we wish to download the `{qStates}` package,
+which offers a set of datasets related to state actors in global governance.
+We can download and install the latest release version of the `{qStates}` package 
+using the same function as before, only specifying which package we want to 'get':
+
+```{r, eval=FALSE}
+get_packages("qStates")
+```
+
