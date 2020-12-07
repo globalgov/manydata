@@ -35,7 +35,7 @@ datestest <- tibble::tibble(
 origin = testdates,
 lubridate = lubridate::as_date(testdates),
 anytime = anytime::anydate(testdates),
-qDatr = qDatr::standardise_dates(testdates)
+qData = qData::standardise_dates(testdates)
 ) datestest \%>\% print(n = 25)}
 }
 }
