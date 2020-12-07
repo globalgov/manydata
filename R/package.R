@@ -189,12 +189,23 @@ setup_package <- function(packageName = NULL,
 get_packages <- function(pkg) {
   
   if (missing(pkg)) {
-    res <- tibble::as_tibble(jsonlite::fromJSON("http://rpkg-api.gepuro.net/rpkg?q=q"))
-    res <- res %>% dplyr::filter(stringr::str_detect(.data$pkg_name, "/q[[:upper:]]")) %>%
-      dplyr::filter(!stringr::str_detect(.data$title, "read-only mirror")) %>%
-      dplyr::filter(stringr::str_detect(.data$pkg_name, "globalgov"))
-    # At the moment, just our packages, but we can either expand the list of recognised contributors
-    # or remove the condition entirely in the future.
+    orgs <- c("globalgov") # add more users/orgs as they 'register'
+    
+    repos <- lapply(orgs, function(x){
+      repo <- paste0("https://api.github.com/users/", x, "/repos")
+      repo <- httr::GET(repo, query = list(state = "all", per_page = 100, page = 1))
+      repo <- suppressMessages(httr::content(repo, type = "text"))
+      repo <- jsonlite::fromJSON(repo, flatten = TRUE)
+      repo <- tibble::as_tibble(repo) %>%
+        dplyr::select(name, full_name, description, updated_at, stargazers_count, open_issues_count) %>%
+        dplyr::rename(stargazers = stargazers_count, open_issues = open_issues_count) %>%
+        dplyr::filter(stringr::str_detect(name, "q[[:upper:]]")) %>%
+        dplyr::select(name, full_name, description, latest, updated_at, stargazers, open_issues)
+    })
+    
+    repos <- dplyr::bind_rows(repos)
+    print(repos)
+    
     # TODO: check potential packages for dependency on qData
     res
     # TODO: expand this report by adding information on current release version available
