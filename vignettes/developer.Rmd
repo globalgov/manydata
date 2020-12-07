@@ -18,9 +18,10 @@ knitr::opts_chunk$set(
 
 ## Contributing to the qData ecosystem of packages
 
-qData has package related functions that help developers contribute to the ecosystem by helping with the set-up of packages consistent with the qData.
-The function `setup_package()`, for example, establishes many of the required files and folder structures for a qData-consistent data package. 
-It requires that the package name starts with a the letter q as well as that the name of at least one author is declared. 
+qData has package related functions that help developers contribute to the ecosystem of packages by helping with the set-up of packages 
+consistent with qData. The function `setup_package()`, for example, establishes many of the required files and folder 
+structures for a qData-consistent data package. It requires that the package name starts with a the letter q as well as that 
+the name of at least one author is declared. 
 
 ```
 qData::setup_package("qStates", "James Hollway")
@@ -30,8 +31,8 @@ qData::setup_package("qStates", "James Hollway")
 
 For data collection and loading into a new package with qData, the function `import_data()` creates a data-raw folder into the package, 
 copies the raw data into the folder and provides a script to facilitate data loading and data correction using qData. 
-The function requires that a name for the dataset (two dimensional data sheet being imported) is declared as well as the name of the issue-domain 
-the dataset belongs which will be used to connect two-dimensional datasets into three-dimensional databases that resembles a data cube.
+The function requires that a name for the dataset - two dimensional data sheet being imported - is declared as well as the name of the issue-domain 
+the dataset belongs, which will be used to connect two-dimensional datasets into three-dimensional databases that resembles a data cube.
 
 ```
 qData::import_data("cow", 'states')
@@ -41,7 +42,8 @@ qData::import_data("cow", 'states')
 
 Once a dataset is collected with `import_data()`, it needs to be corrected so that it can be connected into a database. 
 qData contains several functions geared towards data wrangling. 
-These include, for example, the `transmutate ()` function which is between between dplyr's transmute and mutate but that returns only the mutated variables and none of the variables used in the mutations. 
+These include, for example, the `transmutate ()` function which is between between dplyr's transmute and mutate but that returns 
+only the mutated variables and none of the variables used in the mutations. 
 Other useful functions for correcting data with qData are geared towards data standardising. 
 These include, for example, the `entitle()` function that capitalises all words in a string to enable comparison.
 
@@ -54,7 +56,8 @@ transmutate(Beg = lubridate::dmy(stdate)) %>%
 transmutate(End = lubridate::dmy(edate))  
 ```
 
-qData also includes functions that help correct and standardise dates. These include, for example, the `standardise_dates()` function which creates nested vectors of dates for vague date inputs into a range of dates. 
+qData also includes functions that help correct and standardise dates. These include, for example, the `standardise_dates()` 
+function which creates nested vectors of dates for vague date inputs into a range of dates. 
 
 ```
 qData::standardise_dates(cow)
