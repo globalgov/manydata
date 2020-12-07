@@ -191,6 +191,13 @@ get_packages <- function(pkg) {
   if (missing(pkg)) {
     orgs <- c("globalgov") # add more users/orgs as they 'register'
     
+    get_latest_release <- function(full_name){
+      latest <- paste0("https://api.github.com/repos/", full_name, "/releases/latest")
+      latest <- httr::GET(latest)
+      latest <- suppressMessages(httr::content(latest, type = "text"))
+      latest <- jsonlite::fromJSON(latest, flatten = TRUE)$tag_name
+    }
+    
     repos <- lapply(orgs, function(x){
       repo <- paste0("https://api.github.com/users/", x, "/repos")
       repo <- httr::GET(repo, query = list(state = "all", per_page = 100, page = 1))
@@ -200,6 +207,7 @@ get_packages <- function(pkg) {
         dplyr::select(name, full_name, description, updated_at, stargazers_count, open_issues_count) %>%
         dplyr::rename(stargazers = stargazers_count, open_issues = open_issues_count) %>%
         dplyr::filter(stringr::str_detect(name, "q[[:upper:]]")) %>%
+        dplyr::mutate(latest = get_latest_release(full_name)) %>%
         dplyr::select(name, full_name, description, latest, updated_at, stargazers, open_issues)
     })
     
@@ -207,8 +215,6 @@ get_packages <- function(pkg) {
     print(repos)
     
     # TODO: check potential packages for dependency on qData
-    res
-    # TODO: expand this report by adding information on current release version available
     # TODO: expand this report by adding information on which packages, if any, are already installed
     # TODO: expand this report by adding information on whether all checks/tests are passing
     # TODO: expand this report by adding information on number of datacubes, datasets, and observations available
