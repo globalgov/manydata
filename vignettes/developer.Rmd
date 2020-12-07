@@ -1,0 +1,78 @@
+---
+title: "Contributing to qData"
+author: "James Hollway"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{qData}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Contributing to the qData ecosystem of packages
+
+qData has package related functions that help developers contribute to the ecosystem by helping with the set-up of packages consistent with the qData.
+The function `setup_package()`, for example, establishes many of the required files and folder structures for a qData-consistent data package. 
+It requires that the package name starts with a the letter q as well as that the name of at least one author is declared. 
+
+```
+qData::setup_package("qStates", "James Hollway")
+```
+
+## Collecting data 
+
+For data collection and loading into a new package with qData, the function `import_data()` creates a data-raw folder into the package, 
+copies the raw data into the folder and provides a script to facilitate data loading and data correction using qData. 
+The function requires that a name for the dataset (two dimensional data sheet being imported) is declared as well as the name of the issue-domain 
+the dataset belongs which will be used to connect two-dimensional datasets into three-dimensional databases that resembles a data cube.
+
+```
+qData::import_data("cow", 'states')
+```
+
+## Correcting data
+
+Once a dataset is collected with `import_data()`, it needs to be corrected so that it can be connected into a database. 
+qData contains several functions geared towards data wrangling. 
+These include, for example, the `transmutate ()` function which is between between dplyr's transmute and mutate but that returns only the mutated variables and none of the variables used in the mutations. 
+Other useful functions for correcting data with qData are geared towards data standardising. 
+These include, for example, the `entitle()` function that capitalises all words in a string to enable comparison.
+
+```
+cow <- transmutate(statename = entitle(statenme)) %>% 
+transmutate(Id = stateabb) %>% 
+transmutate(stdate = paste(stday, stmonth, styear, sep = ".")) %>% 
+transmutate(edate = paste(endday, endmonth, endyear, sep = ".")) %>% 
+transmutate(Beg = lubridate::dmy(stdate)) %>% 
+transmutate(End = lubridate::dmy(edate))  
+```
+
+qData also includes functions that help correct and standardise dates. These include, for example, the `standardise_dates()` function which creates nested vectors of dates for vague date inputs into a range of dates. 
+
+```
+qData::standardise_dates(cow)
+```
+
+Once the dataset has been corrected in qData, the cleaned dataset can be loaded into the package using the `export_data()` function. 
+The function creates a data folder to store corrected datasets, while providing a citation template and a test template. 
+The citation template helps cite the source of the raw data and and describe the variables in the corrected dataset. 
+The test template makes sure the corrected dataset is consistent with qData guidelines.
+
+```
+qData::export_data(cow)
+```
+
+The test template is meant to ensure consistency for the corrected dataset. 
+If these tests fail, users can go back to correcting the data and, then, re-run `export_data()`.  
+
+## Connecting data
+
+Corrected datasets can be connected to form a three dimensional database that resembles a data cube. 
+This can be done with the help of several functions in qData. 
