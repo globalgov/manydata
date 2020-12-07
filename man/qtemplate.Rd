@@ -11,7 +11,7 @@ qtemplate(
   ignore = FALSE,
   path,
   open = rlang::is_interactive(),
-  package = "qDatr"
+  package = "qData"
 )
 }
 \arguments{
@@ -33,11 +33,11 @@ qtemplate(
 A rendered template, saved into the correct folder
 }
 \description{
-Helper function for finding and rendering templates from the qDatr package
+Helper function for finding and rendering templates from the qData package
 }
 \details{
 This function is an adaptation of the usethis variant
-for use in the qDatr ecosystem.
+for use in the qData ecosystem.
 }
 \examples{
 \dontrun{
