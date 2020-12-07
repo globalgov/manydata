@@ -1,10 +1,10 @@
 ---
-title: "Contributing to qData"
+title: "Contributing qData"
 author: "James Hollway"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{qData}
+  %\VignetteIndexEntry{Contributing qData}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -19,8 +19,10 @@ knitr::opts_chunk$set(
 ## Contributing to the qData ecosystem of packages
 
 qData has package related functions that help developers contribute to the ecosystem of packages by helping with the set-up of packages 
-consistent with qData. The function `setup_package()`, for example, establishes many of the required files and folder 
-structures for a qData-consistent data package. It requires that the package name starts with a the letter q as well as that 
+consistent with qData. 
+The function `setup_package()`, for example, establishes many of the required files and folder 
+structures for a qData-consistent data package. 
+It requires that the package name starts with a the letter q as well as that 
 the name of at least one author is declared. 
 
 ```
