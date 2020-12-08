@@ -174,4 +174,48 @@ recent <- function(dates, sep = NULL){
   out
 }
 
+#' Resorting and filtering dates
+#'
+#' Resorting and filtering dates
+#' @param data a dataframe
+#' @param vars a character vector identifying columns in the dataframe to sequence
+#' @param unity a string identifying how multiple entries may be glued together.
+#' By default, tidyr::unite() glues using the underscore "_".
+#' @return a dataframe/columns
+#' @import lubridate
+#' @importFrom stats na.omit
+#' @examples
+#' \dontrun{
+#' data <- data.frame(Sign = c("2000-01-01", "2001-01-01", "2001-01-01_2000-01-01", "2000-01-01", NA),
+#'                    Force = c("2001-01-01", "2000-01-01", "2001-01-01", NA, "2001-01-01"))
+#' resequence(data, c("Sign","Force"))
+#' }
+#' @export
+resequence <- function(data, vars, unity = "_"){
+  
+  len <- length(vars)
+  
+  out <- apply(data[,vars], 1, function(x) {
+    dates <- sort(unlist(strsplit(unique(na.omit(x)),unity)))
+    
+    if (length(dates) < len){
+      dates <- interleave(dates, which(is.na(x)))
+    }
+    
+    if (length(dates) > len){
+      if (sum((!grepl("-01-01", dates))*1)>=len) dates <- dates[!grepl("-01-01",dates)]
+      if (sum((!grepl("9999", dates))*1)>=len) dates <- dates[!grepl("9999",dates)]
+      
+      dmax <- max(lubridate::as.duration(interval(dates[1:(length(dates)-1)],dates[2:(length(dates))])))
+      dmax <- which(lubridate::as.duration(interval(dates[1:(length(dates)-1)],dates[2:(length(dates))]))==as.duration(dmax))
+      dates <- dates[c(1,dmax+1)]
+    }
+    
+    dates
+  })
+  
+  t(out)
+  
+}
+
 
