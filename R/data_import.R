@@ -1,19 +1,22 @@
 #' Imports and establishes preparation of raw data
 #'
-#' Create a data-raw folder and provide templates that make easier for setting
-#' up the data cleaning and wrangling, consistent with the qData ecosystem
-#' @param dataset Intended (short) name of the dataset. This refers
-#' to the two-dimensional sheet of data in the form of a dataset which
-#' will be connected to other datasets.
-#' @param database Intended name of the database. This refers to a domain
-#' issue which the dataset(s) to be corrected and connected. That is, what
-#' is the domain-issue of the several datasets to be connected belong to.
-#' By connecting two-dimensional datasets, we can form a a three-dimensional
-#' database that resembles a data cube.
-#' @param path Path to raw data file. If left unspecified, a dialog box is
-#' raised to select the file via the system
-#' @param delete_original Does not delete original files by default
-#' @param open Whether the resulting preparation script will be opened
+#' Creates a data-raw folder, moves raw data files to a consistent location,
+#' and provides a script that makes it easy to clean and wrangle the data
+#' into a format consistent with the qData ecosystem.
+#' @param dataset Intended (short) name of the dataset. 
+#' That is, the name of the two-dimensional tabular data format.
+#' For consistency reasons, this should be a unique name in all capitals.
+#' Abbreviations make good dataset names, such as "COW" or "DESTA".
+#' @param database Intended name of the database or datacube. 
+#' That is, the name of the population or phenomenon to which the dataset relates.
+#' For consistency reasons, this should be a unique name in small letters.
+#' Concepts make good database names, such as "states" or "colonial_relations".
+#' @param path Path to raw data file. 
+#' If left unspecified, a dialogue box is raised to select the file via the system.
+#' @param delete_original Whether the original file is moved (TRUE) or copied (FALSE).
+#' By default FALSE.
+#' @param open Whether the resulting preparation script will be opened.
+#' By default TRUE.
 #' @importFrom fs path
 #' @importFrom fs path_file
 #' @importFrom usethis use_directory
@@ -41,8 +44,8 @@ import_data <- function(dataset = NULL,
                         open = rlang::is_interactive()) {
   
   # Step one: checks and setup
-  if (is.null(dataset)) stop("You need to name the dataset. We suggest a short name, all small letters, such as 'cow'.")
-  if (is.null(database)) stop("You need to name the database to which the dataset would belong. We suggest a descriptive short name, all small letters, such as 'states'.")
+  if (is.null(dataset)) stop("You need to name the dataset. We suggest a short, unique name, all capital letters, such as 'COW'.")
+  if (is.null(database)) stop("You need to name the database to which the dataset would belong. We suggest a short, descriptive name, all small letters, such as 'states'.")
   stopifnot(rlang::is_string(dataset)) # Could also check if ASCII
   stopifnot(rlang::is_string(database)) # Could also check if ASCII
   usethis::use_directory("data-raw", ignore = TRUE)
