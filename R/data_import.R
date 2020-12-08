@@ -22,19 +22,34 @@
 #' @importFrom usethis use_directory
 #' @importFrom usethis ui_done
 #' @importFrom rlang is_string
-#' @details The function helps importing raw data into q package while
-#' providing a template that facilitates data cleaning and wrangling,
-#' consistent with the qData ecosystem. The function can be used without
-#' specifying a path to the file. In that case an interactive dialog
-#' box will be openend and the data file can be manually selected.
-#' The script provided to help with data cleaning and wrangling contain
-#' suggestions on how to properly load the data into the environment.
-#' @return This function returns a data-raw folder containing the data
-#' imported as well as a script in the R directory to guide
-#' preparation of data using qData.
+#' @details The function assists with importing existing raw data into a qPackage.
+#' The function does two main things.
+#' 
+#' First, it moves or copies a chosen file into the "data-raw/" folder of the current qPackage.
+#' A hierarchy to this folder is established.
+#' It first checks whether there is already a folder under "data-raw/" on the harddrive
+#' that is the same as the name of the database and, if there is no such folder, it creates one.
+#' It then also checks whether there is already a folder under that that is consistent with
+#' the name of the dataset. If there is no such folder, it creates one.
+#' Finally, it places the chosen file into that dataset folder.
+#' If the argument `delete_original = TRUE` then the original file will be deleted.
+#' This can be useful if, for example, the file had just been downloaded to your "Downloads" folder.
+#' 
+#' Second, the function creates a new script in the dataset-level folder,
+#' alongside the raw data file.
+#' By default, it also opens this script in RStudio or equivalent.
+#' The purpose of this script is for reading the file into R, 
+#' cleaning the data and wrangling it into a qData-consistent format,
+#' and then exporting it for use in the package.
+#' Quite a bit of this is pre-populated either using information given to `import_data()`,
+#' or inferring what is required from the name or format of the file.
+#' 
+#' @return Places the chosen file into a folder hierarchy within the package
+#' such as "data-raw/\{database\}/\{dataset\}/" and creates and opens
+#' a script in the same folder for preparing the data for use in the qPackage.
 #' @examples
 #' \dontrun{
-#' qData::import_data(dataset = "cow", database = "states")
+#' import_data(dataset = "COW", database = "states")
 #' }
 #' @export
 import_data <- function(dataset = NULL,
