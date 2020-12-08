@@ -5,7 +5,7 @@
 #' @param ... Variables to pass to the function
 #' @return Data frame with mutated variables
 #' and none of the variables used in the mutations,
-#' but (unlike the transmute() function in dplyr) all other unnamed variables.
+#' but, unlike dplyr::transmute(), all other unnamed variables.
 #' @importFrom purrr map
 #' @import rlang
 #' @import dplyr
