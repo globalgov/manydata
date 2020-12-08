@@ -16,7 +16,6 @@
 #' \dontrun{
 #' TODO
 #' }
-#' @export
 qtemplate <- function(template,
                       save_as = template,
                       data = list(),
