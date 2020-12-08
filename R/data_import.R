@@ -58,7 +58,7 @@ import_data <- function(dataset = NULL,
   if (is.null(path)) path <- file.choose()
   new_path <- fs::path("data-raw", database, dataset, fs::path_file(path))
   file.copy(path, new_path)
-  usethis::ui_done("Copied data to data-raw/ folder.")
+  usethis::ui_done("Copied data to {new_path}.")
   if (delete_original) file.remove(path)
   
   # Step three: create preparation template
@@ -73,6 +73,7 @@ import_data <- function(dataset = NULL,
     save_as = fs::path("data-raw", database, dataset, paste0("prepare-", dataset), ext = "R"),
     data = list(dataset = dataset,
                 database = database,
+                path = new_path,
                 import_type = import_type),
     ignore = FALSE,
     open = open,

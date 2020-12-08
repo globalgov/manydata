@@ -1,13 +1,13 @@
 # {{{dataset}}} Preparation Script
 
-# This is a template for how to Collect, Correct and Connect data
-# for the qData ecosystem.
+# This is a template for importing, cleaning, and exporting data
+# ready for the qPackage.
 library(qData)
 
-# Stage one: collecting data
+# Stage one: Collecting data
 {{{dataset}}} <- {{{import_type}}}("{{{path}}}")
 
-# Stage two: correcting data
+# Stage two: Correcting data
 # In this stage you will want to correct the variable names and
 # formats of the '{{{dataset}}}' object until the object created
 # below (in stage three) passes all the tests. Several of the functions in
