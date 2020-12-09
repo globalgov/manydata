@@ -30,13 +30,13 @@ export_data <- function(...,
   # dataset <- as_tibble(dataset) %>% dplyr::arrange(.data$Beg, .data$ID)
   # dataset
   
+    env <- new.env()
+    env[[database]] <- tibble::lst(...)
+    save(list = database, envir = env, 
+         file = fs::path("data", database, ext = "rda"),
+         compress = "bzip2")
+    usethis::ui_done("Saved a {usethis::ui_value(database)} database that includes the {usethis::ui_value(deparse(substitute(...)))} dataset.")
   }
-  usethis::use_directory("data", ignore = TRUE)
-  usethis::use_directory(paste("data", dat, sep = "/"), ignore = TRUE)
-  save(...,
-       file = fs::path("data", dat, ext = "rda"),
-       envir = parent.frame(), compress = compress)
-  ui_done("Saved {usethis::ui_value(dat)} to the package data folder.")
   
   # Step three: create the right kind of test script for the type of object it is
   # TODO: decide on what kinds of objects can be contained in qData packages
