@@ -21,11 +21,15 @@ export_data <- function(...,
                         overwrite = FALSE,
                         compress = "bzip2") {
   
-  dat <- deparse(substitute(...))
-
-  # Step one: take object created from raw-data and save as tibble to be lazy loaded in the new data folder in package
-  if (!tibble::is_tibble(...)) {
-    tibble::as_tibble(...)
+  dataset_name <- deparse(substitute(...))
+  dataset <- get(dataset_name)
+  
+  # Step one: coerce dataset into correct format if not already
+  # if(!"Beg" %in% colnames(dataset)) stop("Please ensure there is at least one date column named 'Beg' for beginning")
+  # if(!"ID" %in% colnames(dataset)) stop("Please ensure there is at least one identification column named 'ID'")
+  # dataset <- as_tibble(dataset) %>% dplyr::arrange(.data$Beg, .data$ID)
+  # dataset
+  
   }
   usethis::use_directory("data", ignore = TRUE)
   usethis::use_directory(paste("data", dat, sep = "/"), ignore = TRUE)
@@ -34,27 +38,27 @@ export_data <- function(...,
        envir = parent.frame(), compress = compress)
   ui_done("Saved {usethis::ui_value(dat)} to the package data folder.")
   
-  # Step two: create the right kind of test script for the type of object it is
+  # Step three: create the right kind of test script for the type of object it is
   # TODO: decide on what kinds of objects can be contained in qData packages
   # (actors, agreements, relations, etc)
   qtemplate("qData-test.R",
-            save_as = fs::path("tests", "testthat", paste0("qTest-", dat, ".R")),
-            data = list(dat = dat),
+            save_as = fs::path("tests", "testthat", paste0("qTest-", dataset_name, ".R")),
+            data = list(dat = dataset_name),
             open = FALSE,
             ignore = FALSE,
             path = getwd())
   ui_done("A test script has been created for this data.")
   ui_todo("Press Cmd/Ctrl-Shift-T to run all tests.")
 
-  # Step three: create and open a documentation script
-  nr <- nrow(...)
-  nc <- ncol(...)
-  nm <- names(...)
-  print(nm)
+  # Step four: create and open a documentation script
+  nr <- nrow(dataset)
+  nc <- ncol(dataset)
+  nm <- names(dataset)
+  # print(nm)
   describe <- paste0("#' \\describe{\n", paste0("#'   \\item{",nm,"}{Decribe variable here}\n", collapse = ""), "#' }")
   qtemplate("qData-doc.R",
-            save_as = fs::path("R", paste0("qData-", dat, ".R")),
-            data = list(dat = dat,
+            save_as = fs::path("R", paste0("qData-", dataset_name, ".R")),
+            data = list(dat = dataset_name,
                         nr = nr,
                         nc = nc,
                         describe = describe),
