@@ -1,25 +1,25 @@
-#' Save a cleaned data object in the new q package
+#' Adding datasets to the qPackage
 #'
 #' Save a cleaned data object, consistent with the qData ecosystem, ready to be lazy-loaded
-#' and create scripts for documenting and testing that object within the new q package
-#' @param ... Unquoted names of existing objects to save
-#' @param overwrite Whether to overwrite any existing objects saved
-#' @param compress Compression formula
-#' @details The function creates a data directory, if inexistent, and save cleaned data.
-#' The functions also cretes a script for testing the cleaned data and make sure it
+#' and create scripts for documenting and testing that object within the new qPackage.
+#' @param ... Unquoted name of the dataset object to save.
+#' @param database Quoted name of any existing database or of the database to be created.
+#' @details The function creates a data directory, if nonexistent, and save cleaned data.
+#' The functions also creates a script for testing the cleaned data and make sure it
 #' complies with qData requirements. As well, it creates a documentation script to help
 #' documenting data sources and describing variables.
-#' @return This function returns a data folder containing the cleaned data as well as scripts
-#' in the R directory to test and document cleaned data.
+#' @return This function saves the dataset to the named database,
+#' silently creates a set of tests for this dataset,
+#' and creates and opens documentation for the dataset.
 #' @importFrom fs path
+#' @importFrom usethis ui_info
+#' @importFrom usethis ui_done
 #' @examples
 #' \dontrun{
-#' export_data("cow")
+#' export_data(COW, database = "states")
 #' }
 #' @export
-export_data <- function(...,
-                        overwrite = FALSE,
-                        compress = "bzip2") {
+export_data <- function(..., database) {
   
   dataset_name <- deparse(substitute(...))
   dataset <- get(dataset_name)

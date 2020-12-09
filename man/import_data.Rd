@@ -67,6 +67,6 @@ or inferring what is required from the name or format of the file.
 }
 \examples{
 \dontrun{
-import_data(dataset = "cow", database = "states")
+import_data(dataset = "COW", database = "states")
 }
 }
