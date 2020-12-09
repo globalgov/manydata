@@ -42,12 +42,12 @@ standardise_dates <- standardize_dates <- function(...){
   } else stop("Either you need to pass standardise_dates() one variable (i.e. 'yyyy-mm-dd' or three (yyyy, mm, dd).")
   
   # Second step: standardise inputs
+  dates <- stringr::str_replace_all(dates, "\\.", "-") # standardising separaters
+  dates <- stringr::str_replace_all(dates, "-([:digit:])-", "-0\\1-") # standardising months
+  dates <- stringr::str_replace_all(dates, "-([:digit:])$", "-0\\1") # standardising days
   dates <- stringr::str_replace_all(dates, "-00|-\\?\\?|-NA", "") # standardising ambiguities
   dates <- stringr::str_replace_all(dates, "_", ":") # standardising ranges
-  if(stringr::str_detect(dates, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")){
-    if(dates > Sys.Date() + lubridate::years(25)){
-      dates <- "9999-12-31" # convert future dates
-    }} 
+  dates
   # TODO: convert historical dates
   # TODO: add some of the recent() functionality
 
