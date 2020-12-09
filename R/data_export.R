@@ -30,6 +30,28 @@ export_data <- function(...,
   # dataset <- as_tibble(dataset) %>% dplyr::arrange(.data$Beg, .data$ID)
   # dataset
   
+  # Step two: join dataset to any related datasets in a database
+  if(file.exists(paste0("data/", database, ".rda"))){
+    usethis::ui_info("Found an existing {usethis::ui_value(database)} database. Imported it ready to update.")
+    env <- new.env()
+    load(paste0("data/", database, ".rda"), envir = env)
+    dataset_exists <- exists(dataset_name, envir = env)
+    if(dataset_exists){
+      usethis::ui_info("Found an existing {usethis::ui_value(dataset_name)} dataset. This will be overwritten.")
+    } else {
+      usethis::ui_info("The {usethis::ui_value(dataset_name)} dataset does not yet exist in {usethis::ui_value(database)}. It will be added.")
+    }
+    env[[database]][[dataset_name]] <- get(dataset_name)
+    save(list = database, envir = env, 
+         file = fs::path("data", database, ext = "rda"),
+         compress = "bzip2")
+    if(dataset_exists){
+      usethis::ui_info("Saved a new version of the {usethis::ui_value(database)} database with an updated version of the {usethis::ui_value(dataset_name)} dataset.")
+    } else {
+      usethis::ui_info("Saved a new version of the {usethis::ui_value(database)} database that includes the {usethis::ui_value(dataset_name)} dataset.")
+    }
+  } else {
+    usethis::ui_info("Didn't find an existing {usethis::ui_value(database)} database.")
     env <- new.env()
     env[[database]] <- tibble::lst(...)
     save(list = database, envir = env, 
