@@ -4,7 +4,7 @@
 \alias{standardise_dates}
 \title{Create nested vectors of dates from vague date inputs}
 \usage{
-standardise_dates(x)
+standardise_dates(...)
 }
 \arguments{
 \item{x}{String vector of potential dates}

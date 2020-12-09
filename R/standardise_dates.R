@@ -30,10 +30,18 @@
 #' ) datestest %>% print(n = 25)}
 #' }
 #' @export
-standardise_dates <- standardize_dates <- function(x){
+standardise_dates <- standardize_dates <- function(...){
   
-  # First step: regularise/standardise inputs
-  dates <- x
+  # First step: if necessary, join multiple columns
+  dots <- list(...)
+  if(length(dots)==1){
+    dates <- unlist(dots)
+  } else if (length(dots)==3){
+    dots <- purrr::map(dots, as.character)
+    dates <- unlist(purrr::pmap_chr(dots, paste, sep = "-"))
+  } else stop("Either you need to pass standardise_dates() one variable (i.e. 'yyyy-mm-dd' or three (yyyy, mm, dd).")
+  
+  # Second step: standardise inputs
   dates <- stringr::str_replace_all(dates, "-00|-\\?\\?|-NA", "") # standardising ambiguities
   dates <- stringr::str_replace_all(dates, "_", ":") # standardising ranges
   if(stringr::str_detect(dates, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")){
@@ -45,7 +53,7 @@ standardise_dates <- standardize_dates <- function(x){
 
   # Second step: set up functions
   date_disambig <- function(d){
-    
+
     date_range <- function(start, finish){
       lubridate::as_date(anytime::anydate(start):anytime::anydate(finish))
     }
@@ -59,8 +67,8 @@ standardise_dates <- standardize_dates <- function(x){
     } else if(stringr::str_detect(d, "^[:digit:]{4}-[:digit:]{2}:[:digit:]{2}$")){ # month range
       brackets <- stringr::str_split(d, ":")
       start <- paste0(brackets[[1]][1], "-01")
-      finish <- paste(stringr::str_split(start, "-")[[1]][1], 
-                       brackets[[1]][2],  
+      finish <- paste(stringr::str_split(start, "-")[[1]][1],
+                       brackets[[1]][2],
                        lubridate::days_in_month(as.numeric(brackets[[1]][2])),
                        sep = "-")
       d <- date_range(start, finish)
@@ -69,7 +77,7 @@ standardise_dates <- standardize_dates <- function(x){
       brackets <- stringr::str_split(d, ":")
       start <- brackets[[1]][1]
       finish <- paste(stringr::str_split(start, "-")[[1]][1],
-                      stringr::str_split(start, "-")[[1]][2], 
+                      stringr::str_split(start, "-")[[1]][2],
                       brackets[[1]][2],
                       sep = "-")
       d <- date_range(start, finish)
@@ -83,14 +91,18 @@ standardise_dates <- standardize_dates <- function(x){
       d <- date_range(start, finish)
       d
     } else if(stringr::str_detect(d, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")){ # full date
+      if(d > Sys.Date() + lubridate::years(25)){
+        d <- "9999-12-31" # convert future dates
+      }
       d <- anytime::anydate(d)
     }
     # d <- unlist(d)
+    d <- as.character(d)
     d
   }
 
   # Third step: apply functions
-  lapply(dates, function(x) date_disambig(x))
+  anytime::anydate(unlist(lapply(dates, function(x) date_disambig(x))))
   # see hoist(), unnest_wider(), and unnest_longer()
   
 }
