@@ -1,5 +1,9 @@
 test_that("standardise_dates() treats typical dates correctly",{
   expect_equal(standardise_dates("2010-01-01"), anytime::anydate("2010-01-01"))
+  expect_equal(standardise_dates("30.1.1874"), anytime::anydate("1874-01-30"))
+  expect_equal(standardise_dates("31.12.1879"), anytime::anydate("1879-12-31"))
+  expect_equal(standardise_dates("6.12.2011"), anytime::anydate("2011-12-06"))
+  expect_equal(standardise_dates("9.4.1939"), anytime::anydate("1939-04-09"))
 })    
 
 test_that("standardise_dates() treats incomplete dates correctly",{
