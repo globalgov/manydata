@@ -1,4 +1,3 @@
-
 # qData <img src="man/figures/logo.png" align="right" width="150"/>
 
 <!-- badges: start -->

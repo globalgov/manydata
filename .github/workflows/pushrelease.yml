@@ -135,7 +135,7 @@ jobs:
         run: mv ./macOS/*.tgz qDatr_macOS.tgz 
 
       - name: Upload Mac binary
-        id: upload-binary
+        id: upload-mac
         uses: actions/upload-release-asset@v1.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -149,7 +149,7 @@ jobs:
         run: mv ./linuxOS/*.tar.gz qDatr_linuxOS.tar.gz 
 
       - name: Upload Linux binary
-        id: upload-binary
+        id: upload-lin
         uses: actions/upload-release-asset@v1.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -163,7 +163,7 @@ jobs:
         run: mv ./winOS/*.zip qDatr_winOS.zip 
 
       - name: Upload Windows binary
-        id: upload-binary
+        id: upload-win
         uses: actions/upload-release-asset@v1.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
