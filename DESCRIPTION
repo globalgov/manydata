@@ -36,7 +36,8 @@ Imports:
     anytime,
     jsonlite,
     tibble,
-    remotes
+    remotes,
+    httr
 Suggests:
     librarian,
     testthat,
