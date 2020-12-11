@@ -127,3 +127,28 @@ purrr::map(states, missmap)
 We can bring up their documentation using the following command: `?states`.
 This documentation outlines where this data was sourced from (when) and what the nature of the main variables are.
 
+## Modelling data
+
+Next we may be interested in whether any relationships we are interested in or inferences we want to draw
+are sensitive to which data we use.
+That is, we are interested in the robustness of any results to different data specifications.
+None of the `states` datasets are particularly wide, but let us try and examine the "Beg" variable to start with.
+
+We can start by exploring whether our conclusion about when states first gained sovereignty
+would differ depending on which dataset we use.
+We can use the `purrr::map()` function used above, but this time pass it the `mean()` function
+and tell it to operate on just the "Beg" variable (removing any NAs).
+Since qData datasets are always ordered by "Beg" (and then "ID"),
+we can remove any subsequent (duplicated) entries by ID to concentrate on first appearances.
+
+```{r}
+states %>% 
+  purrr::map(function(x){
+    x %>% dplyr::filter(!duplicated(ID)) %>%
+      dplyr::summarise(mean(Beg, na.rm = TRUE))
+  })
+```
+
+It seems that there is some variation there.
+Of course, these averages are biased in the sense that these datasets are left-censored.
+Any state gaining sovereignty prior to 1816 is simply assigned as "1816-01-01".
