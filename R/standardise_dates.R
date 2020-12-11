@@ -54,13 +54,13 @@ standardise_dates <- standardize_dates <- function(...){
     dates <- lubridate::dmy(dates)
   } else if (stringr::str_detect(dates, "^[:digit:]{1}-[:digit:]{2}-[:digit:]{4}$")) { 
     dates <- lubridate::dmy(dates)
-  } 
-  else if (stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{1}-[:digit:]{4}$")) { 
+  } else if (stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{1}-[:digit:]{4}$")) { 
   dates <- lubridate::dmy(dates)
   } 
   dates
   
-  # Make sure the functions is able to distinguise better dmy format from mdy from ymd when data format is not standard.   
+  # Make sure the functions is able to distinguise better dmy date format, from mdy format and from ymd; specially when 
+  # data size (6 digits instead of 8 digits) is not standard.   
   # TODO: convert historical dates
   # TODO: add some of the recent() functionality
 
