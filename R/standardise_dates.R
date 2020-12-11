@@ -53,11 +53,12 @@ standardise_dates <- standardize_dates <- function(...){
     dates <- lubridate::dmy(dates)
   } else if (stringr::str_detect(dates, "^[:digit:]{1}-[:digit:]{1}-[:digit:]{4}$")) { 
     dates <- lubridate::dmy(dates)
-  } else if (stringr::str_detect(dates, "^[:digit:]{1}-[:digit:]{2}-[:digit:]{4}$")) { 
-    dates <- lubridate::dmy(dates)
   } else if (stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{1}-[:digit:]{4}$")) { 
   dates <- lubridate::dmy(dates)
+  } else if (stringr::str_detect(dates, "^[:digit:]{1}-[:digit:]{2}-[:digit:]{4}$")) { 
+    dates <- lubridate::mdy(dates)
   } else if (stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{2}-[:digit:]{2}$")) { 
+    thresh <- as.numeric(substr(Sys.Date(),1,4))
     x <- matrix(as.numeric(unlist(strsplit(dates, sep = "-"))), ncol=3, byrow = T)
     ypos <- which(apply(x, 2, function(y) any(y>31) | any(nchar(y)==4)))
     if(length(ypos)!=1) ypos <- 3
@@ -78,11 +79,26 @@ standardise_dates <- standardize_dates <- function(...){
       d <- formatC(x[dpos], width = 2, flag = "0")
       if(d=="00") d <- "01"
       out <- paste(y,m,d,sep = "-")
-    }
-    
+    } else {
+      out <- apply(x, 1, function(x){
+        y <- ifelse(nchar(x[ypos])>2,
+                    ifelse(x[ypos] > thresh & x[ypos]!="9999",
+                           paste0("19",x[ypos] %% 100),
+                           formatC(x[ypos], width = 4, flag = "0")), # if 4, keep or correct
+                    ifelse(as.numeric(x[ypos]) > (thresh %% 100),
+                           paste0("19", formatC(x[ypos], width = 2, flag = "0")), # if more than now, likely last century
+                           paste0("20", formatC(x[ypos], width = 2, flag = "0")))) # if less than now, likely this century
+        m <- formatC(as.numeric(x[mpos]), width = 2, flag = "0")
+        if(m=="00") m <- "01"
+        d <- formatC(as.numeric(x[dpos]), width = 2, flag = "0")
+        if(d=="00") d <- "01"
+        paste(y,m,d,sep = "-")
+      })
+  }
     dates <- anytime::anydate(out)
- }
-  dates
+  }
+
+    dates
   
   # Make sure the functions is able to distinguise better dmy date format, from mdy format and from ymd; specially when 
   # data size (6 digits instead of 8 digits) is not standard.   
