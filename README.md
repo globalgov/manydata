@@ -1,4 +1,5 @@
-# qData <img src="man/figures/logo.png" align="right" width="150"/>
+
+# qData <img src="inst/qData_hexlogo.png" align="right" width="200"/>
 
 <!-- badges: start -->
 
