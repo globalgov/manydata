@@ -58,8 +58,8 @@ test_that("standardise_dates() treats future dates correctly",{
 })
 
 test_that("standardise_dates() treats historical dates correctly",{
-   expect_match(as.character(standardise_dates("1712-01-01")[[1]]), "1712-01-01")
-#   expect_match(as.character(standardise_dates("712-01-01")[[1]]), "0712-01-01")
+  expect_match(as.character(standardise_dates("1712-01-01")[[1]]), "1712-01-01")
+#  expect_match(as.character(standardise_dates("712-01-01")[[1]]), "0712-01-01")
 #   expect_match(as.character(standardise_dates("0712-01-01")[[1]]), "0712-01-01")
 #   expect_match(as.character(min(standardise_dates("712")[[1]])), "0712-01-01")
 #   expect_match(as.character(min(standardise_dates("712 AD")[[1]])), "0712-01-01")
