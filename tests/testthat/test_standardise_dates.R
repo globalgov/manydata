@@ -8,6 +8,8 @@ test_that("standardise_dates() treats reverse ordered dates correctly",{
   expect_match(standardise_dates("6.12.2012"), anytime::anydate("2012-12-06"))
   expect_match(standardise_dates("9.4.1939"), anytime::anydate("1939-04-09"))
   expect_match(standardise_dates("12.5.1993"), anytime::anydate("1993-05-12"))
+  expect_match(standardise_dates("10.30.93"), anytime::anydate("1993-10-30"))
+  expect_match(standardise_dates("20.06.04"), anytime::anydate("2004-06-20"))
 })    
 
 test_that("standardise_dates() treats incomplete dates correctly",{

@@ -48,6 +48,7 @@ standardise_dates <- standardize_dates <- function(...){
   dates <- stringr::str_replace_all(dates, "-([:digit:])$", "-0\\1") # standardising days
   dates <- stringr::str_replace_all(dates, "-00|-\\?\\?|-NA", "") # standardising ambiguities
   dates <- stringr::str_replace_all(dates, "_", ":") # standardising ranges
+  
   if (stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{2}-[:digit:]{4}$")) { # Correct order and dates format if need
     dates <- lubridate::dmy(dates)
   } else if (stringr::str_detect(dates, "^[:digit:]{1}-[:digit:]{1}-[:digit:]{4}$")) { 
@@ -56,7 +57,31 @@ standardise_dates <- standardize_dates <- function(...){
     dates <- lubridate::dmy(dates)
   } else if (stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{1}-[:digit:]{4}$")) { 
   dates <- lubridate::dmy(dates)
-  } 
+  } else if (stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{2}-[:digit:]{2}$")) { 
+    x <- matrix(as.numeric(unlist(strsplit(dates, sep = "-"))), ncol=3, byrow = T)
+    ypos <- which(apply(x, 2, function(y) any(y>31) | any(nchar(y)==4)))
+    if(length(ypos)!=1) ypos <- 3
+    dpos <- setdiff(which(apply(x, 2, function(y) any(y>12) & all(y<32))), ypos)
+    if(length(dpos)==0) dpos <- setdiff(c(1,3), ypos)
+    mpos <- setdiff(setdiff(1:3, ypos), dpos)
+    
+    if(nrow(x)==1){
+      y <- ifelse(nchar(x[ypos])>2,
+                  ifelse(x[ypos] > thresh & x[ypos]!="9999",
+                         paste0("19", x[ypos] %% 100),
+                         formatC(x[ypos], width = 4, flag = "0")), # if 4, keep or correct
+                  ifelse(x[ypos] > (thresh %% 100),
+                         paste0("19", formatC(x[ypos], width = 2, flag = "0")), # if more than now, likely last century
+                         paste0("20", formatC(x[ypos], width = 2, flag = "0")))) # if less than now, likely this century
+      m <- formatC(x[mpos], width = 2, flag = "0")
+      if(m=="00") m <- "01"
+      d <- formatC(x[dpos], width = 2, flag = "0")
+      if(d=="00") d <- "01"
+      out <- paste(y,m,d,sep = "-")
+    }
+    
+    dates <- anytime::anydate(out)
+ }
   dates
   
   # Make sure the functions is able to distinguise better dmy date format, from mdy format and from ymd; specially when 
