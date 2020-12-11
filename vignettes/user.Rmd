@@ -82,3 +82,48 @@ However, the real value of qData packages is that multiple datasets
 relating to the same phenomenon are presented together.
 This facilitates comparison, the subject of the next section.
 
+## Comparing data
+
+First of all, we want to understand what the differences are between these datasets.
+One important way to understand the relationship between these datasets is 
+to understand what their relative advantages and disadvantages are.
+For example, one dataset may be long (has many observations) 
+while another is shorter but wider (has more variables).
+One might include details further back in history or is more recent,
+but includes more missing data or less precise data (coded at a less granular level)
+than another with a more restrictive 
+Or one might appear complete yet offer less information on where the original datapoints
+were sourced or how certain variables were coded,
+while another provides an extensive and transparent codebook that facilitates replication.
+Below we show how one might compare the data in `states` in these ways.
+
+### Differences in dimension
+
+One way to see a quick summary of each of these datasets 
+is using the `glimpse()` command from the `{tibble}` package.
+`{tibble}` is currently loaded along with `{qData}` and so there is no need to load it independently.
+
+```{r}
+glimpse(states)
+```
+
+We can see here, for example, that COW seems to have more observations of state sovereignty episodes
+than GW does.
+
+### Differences in depth
+
+We can also check whether one dataset has more missings than another.
+Here we are going to 'map' a function from the `{Amelia}` package over each of the datasets in the database.
+That function is the `missmap()` function.
+We will use the `map()` function to do this (though other ways are possible).
+
+```{r}
+library(Amelia)
+purrr::map(states, missmap)
+```
+
+### Differences in documentation
+
+We can bring up their documentation using the following command: `?states`.
+This documentation outlines where this data was sourced from (when) and what the nature of the main variables are.
+
