@@ -9,6 +9,7 @@
 #' @importFrom stringr str_detect
 #' @importFrom stringr str_split
 #' @importFrom lubridate as_date
+#' @importFrom lubridate dmy
 #' @examples
 #' \dontrun{
 #' checkdates <- function(){
@@ -47,7 +48,19 @@ standardise_dates <- standardize_dates <- function(...){
   dates <- stringr::str_replace_all(dates, "-([:digit:])$", "-0\\1") # standardising days
   dates <- stringr::str_replace_all(dates, "-00|-\\?\\?|-NA", "") # standardising ambiguities
   dates <- stringr::str_replace_all(dates, "_", ":") # standardising ranges
+  if (stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{2}-[:digit:]{4}$")) { # Correct order and dates format if need
+    dates <- lubridate::dmy(dates)
+  } else if (stringr::str_detect(dates, "^[:digit:]{1}-[:digit:]{1}-[:digit:]{4}$")) { 
+    dates <- lubridate::dmy(dates)
+  } else if (stringr::str_detect(dates, "^[:digit:]{1}-[:digit:]{2}-[:digit:]{4}$")) { 
+    dates <- lubridate::dmy(dates)
+  } 
+  else if (stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{1}-[:digit:]{4}$")) { 
+  dates <- lubridate::dmy(dates)
+  } 
   dates
+  
+  # Make sure the functions is able to distinguise better dmy format from mdy from ymd when data format is not standard.   
   # TODO: convert historical dates
   # TODO: add some of the recent() functionality
 
@@ -96,6 +109,7 @@ standardise_dates <- standardize_dates <- function(...){
       }
       d <- anytime::anydate(d)
     }
+    
     # d <- unlist(d)
     d <- as.character(d)
     d

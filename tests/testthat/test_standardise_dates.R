@@ -5,8 +5,9 @@ test_that("standardise_dates() treats typical dates correctly",{
 test_that("standardise_dates() treats reverse ordered dates correctly",{
   expect_equal(standardise_dates("30.1.1874"), anytime::anydate("1874-01-30"))
   expect_equal(standardise_dates("31.12.1879"), anytime::anydate("1879-12-31"))
-  expect_equal(standardise_dates("6.12.2011"), anytime::anydate("2011-12-06"))
-  expect_equal(standardise_dates("9.4.1939"), anytime::anydate("1939-04-09"))
+  expect_match(standardise_dates("6.12.2012"), anytime::anydate("2012-12-06"))
+  expect_match(standardise_dates("9.4.1939"), anytime::anydate("1939-04-09"))
+  expect_match(standardise_dates("12.5.1993"), anytime::anydate("1993-05-12"))
 })    
 
 test_that("standardise_dates() treats incomplete dates correctly",{
