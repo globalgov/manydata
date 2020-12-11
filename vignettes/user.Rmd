@@ -120,6 +120,9 @@ We will use the `map()` function to do this (though other ways are possible).
 ```{r}
 library(Amelia)
 purrr::map(states, missmap)
+
+library(mice)
+purrr::map(states, md.pattern, rotate.names = T)
 ```
 
 ### Differences in documentation
