@@ -97,13 +97,10 @@ standardise_dates <- standardize_dates <- function(...){
   }
     dates <- anytime::anydate(out)
   }
-
-    dates
   
-  # Make sure the functions is able to distinguise better dmy date format, from mdy format and from ymd; specially when 
-  # data size (6 digits instead of 8 digits) is not standard.   
+  dates
+
   # TODO: convert historical dates
-  # TODO: add some of the recent() functionality
 
   # Second step: set up functions
   date_disambig <- function(d){
@@ -187,6 +184,7 @@ standardise_dates <- standardize_dates <- function(...){
 #' }
 #' @export
 recent <- function(dates, sep = NULL){
+  .Deprecated("qData::standardise_dates")
   
   miss <- which(is.na(dates))
   if(length(miss)>0) dates <- dates[-miss]
