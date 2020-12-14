@@ -63,8 +63,8 @@ export_data <- function(..., database) {
   # Step three: create the right kind of test script for the type of object it is
   # TODO: decide on what kinds of objects can be contained in qData packages
   # (actors, agreements, relations, etc)
-  qtemplate("qData-test.R",
-            save_as = fs::path("tests", "testthat", paste0("qTest-", dataset_name, ".R")),
+  qtemplate("test_qtest.R",
+            save_as = fs::path("tests", "testthat", paste0("test_", dataset_name, ".R")),
             data = list(dat = dataset_name),
             open = FALSE,
             ignore = FALSE,
