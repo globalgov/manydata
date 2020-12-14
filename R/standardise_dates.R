@@ -3,7 +3,8 @@
 #' Create nested vectors of dates for vague date inputs, ambiguous and ranged dates, into a range of dates
 #' @param x String vector of potential dates
 #' @details The function seeks to convert ambiguous and ranged dates into a range of dates,
-#' and extends the date parsing of other packages to more historical and future dates.
+#' and extends the date parsing of other packages to more historical and future dates. 
+#' The function allows only for dmy or ymd date formats at present, since mdy may introduce errors.  
 #' @return Nested vector of POSIXct dates that includes a range of dates
 #' @importFrom anytime anydate
 #' @importFrom stringr str_detect
@@ -49,14 +50,8 @@ standardise_dates <- standardize_dates <- function(...){
   dates <- stringr::str_replace_all(dates, "-00|-\\?\\?|-NA", "") # standardising ambiguities
   dates <- stringr::str_replace_all(dates, "_", ":") # standardising ranges
   
-  if (stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{2}-[:digit:]{4}$")) { # Correct order and dates format if need
+  if (stringr::str_detect(dates, "^[:digit:]{1,2}-[:digit:]{1,2}-[:digit:]{4}$")) { # Correct order and dates format if need
     dates <- lubridate::dmy(dates)
-  } else if (stringr::str_detect(dates, "^[:digit:]{1}-[:digit:]{1}-[:digit:]{4}$")) { 
-    dates <- lubridate::dmy(dates)
-  } else if (stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{1}-[:digit:]{4}$")) { 
-  dates <- lubridate::dmy(dates)
-  } else if (stringr::str_detect(dates, "^[:digit:]{1}-[:digit:]{2}-[:digit:]{4}$")) { 
-    dates <- lubridate::mdy(dates)
   } else if (stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{2}-[:digit:]{2}$")) { 
     thresh <- as.numeric(substr(Sys.Date(),1,4))
     x <- matrix(as.numeric(unlist(strsplit(dates, sep = "-"))), ncol=3, byrow = T)
