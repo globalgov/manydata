@@ -25,7 +25,7 @@ structures for a qData-consistent data package.
 It requires that the package name starts with a the letter q as well as that 
 the name of at least one author is declared. 
 
-```{r}
+```{r eval=FALSE}
 qData::setup_package("qStates", "James Hollway")
 ```
 
@@ -37,7 +37,7 @@ The function requires that a name for the dataset - two dimensional data sheet b
 as well as the name of the issue-domain, in lower case letters, the dataset belongs. 
 The domain issue name will be used to connect two-dimensional datasets into three-dimensional databases that resembles a data cube.
 
-```{r}
+```{r eval=FALSE}
 qData::import_data("COW", 'states')
 ```
 
@@ -50,7 +50,7 @@ only the mutated variables and none of the variables used in the mutations.
 Other useful functions for correcting data with qData are geared towards data standardising. 
 These include, for example, the `entitle()` function that capitalises all words in a string to enable comparison.
 
-```{r}
+```{r eval=FALSE}
 COW <- transmutate(statename = entitle(statenme)) %>% 
 transmutate(Id = stateabb) %>% 
 transmutate(stdate = paste(stday, stmonth, styear, sep = ".")) %>% 
@@ -62,7 +62,7 @@ transmutate(End = lubridate::dmy(edate))
 qData also includes functions that help correct and standardise dates. These include, for example, the `standardise_dates()` 
 function which creates nested vectors of dates for vague date inputs into a range of dates. 
 
-```{r}
+```{r eval=FALSE}
 qData::standardise_dates(COW)
 ```
 
@@ -71,7 +71,7 @@ The function creates a data folder to store corrected datasets, while providing 
 The citation template helps cite the source of the raw data and and describe the variables in the corrected dataset. 
 The test template makes sure the corrected dataset is consistent with qData guidelines.
 
-```{r}
+```{r eval=FALSE}
 qData::export_data(COW)
 ```
 
