@@ -60,10 +60,10 @@ get_packages <- function(pkg) {
     # TODO: expand this report by adding information on whether all checks/tests are passing
     # TODO: expand this report by adding information on number of datacubes, datasets, and observations available
     # TODO: expand this report by adding information on sources
+    # TODO: add a list of contributors
   }
   
   # TODO: make it possible to select (say, by number) which datasets to install from github
-  # TODO: consider reexporting e.g. magrittr's pipe (%>%) within qData
   
   if (!missing(pkg)) {
     remotes::install_github(pkg)
