@@ -48,3 +48,27 @@ GitHub.
 
     #install.package(remotes)
     remotes::install_github("globalgov/qData")
+
+## Available qPackages
+
+`{qData}` connects users to other packages that help fill global
+governance researchers’ data needs. The `get_packages()` function can be
+used to discover which packages are currently available.
+
+``` r
+ library(qData)
+```
+
+    ## Loading required package: tibble
+
+``` r
+ get_packages()
+```
+
+    ## # A tibble: 1 x 7
+    ##   name  full_name     description latest updated_at       stargazers open_issues
+    ##   <chr> <chr>         <chr>       <chr>  <chr>                 <int>       <int>
+    ## 1 qData globalgov/qD… <NA>        v0.2.1 2020-12-04T13:2…          2          16
+
+Please see [the website](https://globalgov.github.io/qData/) for more
+information about how to use `{qData}` for both developers and users.
