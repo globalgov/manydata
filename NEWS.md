@@ -1,26 +1,26 @@
-#qData 0.3.0
+# qData 0.3.0
 
-# Package 
+## Package 
 
 - Changes package name from qDatr to qData
 - Closes #32 by setting up a more informative README document
 - Closes #69 by creating a vignette for users working with qData 
-- Closes #67 by creating a vignette for developers interested in contribute to the qData ecosystem
+- Closes #67 by creating a vignette for developers interested in contributing to the qData ecosystem
 - Added pkgdown workflow for updating the website upon release
 - Creates a hex logo for qData
 
-# Collection
+## Collection
 
 - Updates `import_data()` by suggesting upper case letters for dataset names and lower case letters for database names
 
-# Correction
+## Correction
 
 - Closes #70 by updating `stadardise_dates()` so that extreme future dates are standardised
 - Updates `standardise_dates()` to accept multiple variable dates as inputs and it standardises separators
 - The `recent()` function has also been deprecated in favor of `standardise_dates()`
 - Updates `export_data()` by making it save datasets as named list elements in a database
 
-# Connection
+## Connection
 
 - Updates the `get_packages()` function to find registered contributors to the qData ecosystem
 
