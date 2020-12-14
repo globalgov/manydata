@@ -17,7 +17,7 @@ transmutate(.data, ...)
 \value{
 Data frame with mutated variables
 and none of the variables used in the mutations,
-but, unlike dplyr::transmute(), all other unnamed variables.
+but, unlike \code{dplyr::transmute()}, all other unnamed variables.
 }
 \description{
 A function between dplyr's transmute and mutate

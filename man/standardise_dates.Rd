@@ -18,6 +18,7 @@ Create nested vectors of dates for vague date inputs, ambiguous and ranged dates
 \details{
 The function seeks to convert ambiguous and ranged dates into a range of dates,
 and extends the date parsing of other packages to more historical and future dates.
+The function allows only for dmy or ymd date formats at present, since mdy may introduce errors.
 }
 \examples{
 \dontrun{
