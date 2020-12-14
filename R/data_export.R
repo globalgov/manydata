@@ -65,7 +65,8 @@ export_data <- function(..., database) {
   # (actors, agreements, relations, etc)
   qtemplate("test_qtest.R",
             save_as = fs::path("tests", "testthat", paste0("test_", dataset_name, ".R")),
-            data = list(dat = dataset_name),
+            data = list(dat = dataset_name,
+                        dab = database),
             open = FALSE,
             ignore = FALSE,
             path = getwd())
