@@ -1,7 +1,7 @@
 #' Create nested vectors of dates from vague date inputs
 #'
 #' Create nested vectors of dates for vague date inputs, ambiguous and ranged dates, into a range of dates
-#' @param x String vector of potential dates
+#' @param ... One (ymd) or three (y, m, d) variables
 #' @details The function seeks to convert ambiguous and ranged dates into a range of dates,
 #' and extends the date parsing of other packages to more historical and future dates. 
 #' The function allows only for dmy or ymd date formats at present, since mdy may introduce errors.  
@@ -47,6 +47,7 @@ standardise_dates <- standardize_dates <- function(...){
   dates <- stringr::str_replace_all(dates, "\\.", "-") # standardising separaters
   dates <- stringr::str_replace_all(dates, "-([:digit:])-", "-0\\1-") # standardising months
   dates <- stringr::str_replace_all(dates, "-([:digit:])$", "-0\\1") # standardising days
+  dates <- stringr::str_replace_all(dates, "^([:digit:])-", "0\\1-") # standardising days 2
   dates <- stringr::str_replace_all(dates, "-00|-\\?\\?|-NA", "") # standardising ambiguities
   dates <- stringr::str_replace_all(dates, "_", ":") # standardising ranges
   
