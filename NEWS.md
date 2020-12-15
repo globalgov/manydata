@@ -17,12 +17,15 @@
 
 - Closes #70 by updating `stadardise_dates()` so that extreme future dates are standardised
 - Updates `standardise_dates()` to accept multiple variable dates as inputs and it standardises separators
-- The `recent()` function has also been deprecated in favor of `standardise_dates()`
+- Updates `standardise_dates()` to be more efficient when dealing with different date formats
+- The `recent()` function has been deprecated in favour of `standardise_dates()`
 - Updates `export_data()` by making it save datasets as named list elements in a database
+- Updates exported test templates for data to test for datasets within databases
 
 ## Connection
 
 - Updates the `get_packages()` function to find registered contributors to the qData ecosystem
+- Updates `get_package()` so that it correctly finds q package version and locates unreleased q packages
 
 # qDatr 0.2.1
 
@@ -36,7 +39,7 @@ folder with `setup_package()`
 
 * Closes #62 by creating a function which vectorises dates and cleans
 and standardizes diverse date formats, `standardise_dates()`
-* Closes #55 by deprecating `rearrange()` function in favor of `dplyr::relocate()`
+* Closes #55 by deprecating `rearrange()` function in favour of `dplyr::relocate()`
 * Closes #65 by correcting issues with the path call in `export_data()` function
   * Ensures consistency for path calls across qData functions
 
@@ -143,7 +146,7 @@ serves as a wrapper for downloading qPackages from GitHub.
 
 ## Package
 
-* Package setup
+* Package set-up
 
 ## Correction
 
