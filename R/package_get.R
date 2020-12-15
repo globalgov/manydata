@@ -47,6 +47,30 @@ get_packages <- function(pkg) {
             x <- "Unreleased"
             x
           } else {
+            x <- stringr::str_remove(x, "v")
+            x
+          } 
+        })
+      }
+      unlist(latest)
+    }
+    
+    get_latest_date <- function(full_name){
+      latest <- paste0("https://api.github.com/repos/", full_name, "/releases/latest")
+      if(length(latest)==1){
+        latest <- httr::GET(latest)
+        latest <- suppressMessages(httr::content(latest, type = "text"))
+        latest <- jsonlite::fromJSON(latest, flatten = TRUE)$tag_name
+      } else {
+        latest <- sapply(latest, function(x){
+          x <- httr::GET(x)
+          x <- suppressMessages(httr::content(x, type = "text"))
+          x <- jsonlite::fromJSON(x, flatten = TRUE)$published_at
+          if(is.null(x)){
+            x <- "Unreleased"
+            x
+          } else {
+            x <- as.character(anytime::anydate(x))
             x
           } 
         })
@@ -64,19 +88,18 @@ get_packages <- function(pkg) {
       repo <- suppressMessages(httr::content(repo, type = "text"))
       repo <- jsonlite::fromJSON(repo, flatten = TRUE)
       repo <- tibble::as_tibble(repo) %>%
-        dplyr::select(.data$name, .data$full_name, .data$description, .data$updated_at, .data$open_issues_count) %>%
-        dplyr::rename(open_issues = .data$open_issues_count) %>%
+        dplyr::select(.data$name, .data$full_name, .data$description) %>%
         dplyr::filter(stringr::str_detect(.data$name, "q[[:upper:]]")) %>%
-        dplyr::mutate(latest = get_latest_release(.data$full_name),
-                      installed = get_installed_release(.data$name)) %>% 
-        dplyr::select(.data$name, .data$full_name, .data$description, .data$latest, .data$installed, .data$updated_at, .data$open_issues)
+        dplyr::mutate(installed = get_installed_release(.data$name),
+                      latest = get_latest_release(.data$full_name),
+                      updated = anytime::anydate(get_latest_date(.data$full_name))) %>% 
+        dplyr::select(.data$name, .data$full_name, .data$description, .data$installed, .data$latest, .data$updated)
     })
     
     repos <- dplyr::bind_rows(repos)
     print(repos)
     
     # TODO: check potential packages for dependency on qData
-    # TODO: expand this report by adding information on which packages, if any, are already installed
     # TODO: expand this report by adding information on whether all checks/tests are passing
     # TODO: expand this report by adding information on number of datacubes, datasets, and observations available
     # TODO: expand this report by adding information on sources
