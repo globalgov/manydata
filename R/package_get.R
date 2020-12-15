@@ -34,9 +34,28 @@ get_packages <- function(pkg) {
     
     get_latest_release <- function(full_name){
       latest <- paste0("https://api.github.com/repos/", full_name, "/releases/latest")
-      latest <- httr::GET(latest)
-      latest <- suppressMessages(httr::content(latest, type = "text"))
-      latest <- jsonlite::fromJSON(latest, flatten = TRUE)$tag_name
+      if(length(latest)==1){
+        latest <- httr::GET(latest)
+        latest <- suppressMessages(httr::content(latest, type = "text"))
+        latest <- jsonlite::fromJSON(latest, flatten = TRUE)$tag_name
+      } else {
+        latest <- sapply(latest, function(x){
+          x <- httr::GET(x)
+          x <- suppressMessages(httr::content(x, type = "text"))
+          x <- jsonlite::fromJSON(x, flatten = TRUE)$tag_name
+          if(is.null(x)){
+            x <- "Unreleased"
+            x
+          } else {
+            x
+          } 
+        })
+      }
+      unlist(latest)
+    }
+    
+    get_installed_release <- function(name){
+      installed <- sapply(name, function(x) as.character(packageVersion(x)))
     }
     
     repos <- lapply(orgs, function(x){
