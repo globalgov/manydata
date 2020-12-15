@@ -8,7 +8,11 @@
 #' the ecosystem, they can to type the package name within the function.
 #' @return If no package name is provided, this function prints a table (tibble) to the console
 #' with details on packages that are currently available within the qData ecosystem.
-#' If one or more package names are provided, these will be installed from
+#' This includes the name and description of the package,
+#' the latest installed and release version number, and the latest release date,
+#' and a string of contributors.
+#' 
+#' If one or more package names are provided, these will be installed from Github.
 #' @importFrom pointblank %>%
 #' @importFrom dplyr filter
 #' @importFrom dplyr select
@@ -60,7 +64,7 @@ get_packages <- function(pkg) {
       if(length(latest)==1){
         latest <- httr::GET(latest)
         latest <- suppressMessages(httr::content(latest, type = "text"))
-        latest <- jsonlite::fromJSON(latest, flatten = TRUE)$tag_name
+        latest <- jsonlite::fromJSON(latest, flatten = TRUE)$published_at
       } else {
         latest <- sapply(latest, function(x){
           x <- httr::GET(x)
@@ -82,18 +86,37 @@ get_packages <- function(pkg) {
       installed <- sapply(name, function(x) as.character(packageVersion(x)))
     }
     
+    get_contributors <- function(full_name){
+      contribs <- paste0("https://api.github.com/repos/", full_name, "/contributors")
+      if(length(contribs)==1){
+        contribs <- httr::GET(contribs)
+        contribs <- suppressMessages(httr::content(contribs, type = "text"))
+        contribs <- jsonlite::fromJSON(contribs, flatten = TRUE)$login
+        contribs <- paste(contribs, collapse = "\n")
+      } else {
+        contribs <- sapply(contribs, function(x){
+          x <- httr::GET(x)
+          x <- suppressMessages(httr::content(x, type = "text"))
+          x <- jsonlite::fromJSON(x, flatten = TRUE)$login
+          x <- paste(x, collapse = ", ")
+        })
+      }
+      unlist(contribs)
+    }
+    
     repos <- lapply(orgs, function(x){
       repo <- paste0("https://api.github.com/users/", x, "/repos")
       repo <- httr::GET(repo, query = list(state = "all", per_page = 100, page = 1))
       repo <- suppressMessages(httr::content(repo, type = "text"))
       repo <- jsonlite::fromJSON(repo, flatten = TRUE)
       repo <- tibble::as_tibble(repo) %>%
-        dplyr::select(.data$name, .data$full_name, .data$description) %>%
+        dplyr::select(.data$name, .data$full_name, .data$description, .data$contributors_url) %>%
         dplyr::filter(stringr::str_detect(.data$name, "q[[:upper:]]")) %>%
         dplyr::mutate(installed = get_installed_release(.data$name),
                       latest = get_latest_release(.data$full_name),
-                      updated = anytime::anydate(get_latest_date(.data$full_name))) %>% 
-        dplyr::select(.data$name, .data$full_name, .data$description, .data$installed, .data$latest, .data$updated)
+                      updated = anytime::anydate(get_latest_date(.data$full_name)),
+                      contributors = get_contributors(.data$full_name)) %>% 
+        dplyr::select(.data$name, .data$full_name, .data$description, .data$installed, .data$latest, .data$updated, .data$contributors)
     })
     
     repos <- dplyr::bind_rows(repos)
@@ -103,7 +126,6 @@ get_packages <- function(pkg) {
     # TODO: expand this report by adding information on whether all checks/tests are passing
     # TODO: expand this report by adding information on number of datacubes, datasets, and observations available
     # TODO: expand this report by adding information on sources
-    # TODO: add a list of contributors
   }
   
   # TODO: make it possible to select (say, by number) which datasets to install from github

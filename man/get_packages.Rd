@@ -12,7 +12,11 @@ get_packages(pkg)
 \value{
 If no package name is provided, this function prints a table (tibble) to the console
 with details on packages that are currently available within the qData ecosystem.
-If one or more package names are provided, these will be installed from
+This includes the name and description of the package,
+the latest installed and release version number, and the latest release date,
+and a string of contributors.
+
+If one or more package names are provided, these will be installed from Github.
 }
 \description{
 Find and download packages in the qData ecosystem
