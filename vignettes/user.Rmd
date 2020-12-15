@@ -41,8 +41,8 @@ governance. We can download and install the latest release version of
 the `{qStates}` package using the same function as before, only
 specifying which package we want to 'get':
 
-```{r, eval=FALSE}
-get_packages("qStates")
+```{r}
+get_packages("globalgov/qStates")
 ```
 
 ## Loading data
@@ -117,7 +117,7 @@ Here we are going to 'map' a function from the `{Amelia}` package over each of t
 That function is the `missmap()` function.
 We will use the `map()` function to do this (though other ways are possible).
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 library(Amelia)
 purrr::map(states, missmap)
 
