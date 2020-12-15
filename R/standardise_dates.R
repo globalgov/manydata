@@ -54,7 +54,7 @@ standardise_dates <- standardize_dates <- function(...){
   
   if (stringr::str_detect(dates, "^[:digit:]{1,2}-[:digit:]{1,2}-[:digit:]{4}$")) { # Correct order and dates format if need
     dates <- lubridate::dmy(dates)
-  } else if (stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{2}-[:digit:]{2}$")) { 
+  } else if (stringr::str_detect(dates, "^[:digit:]{1,2}-[:digit:]{1,2}-[:digit:]{2}$")) { 
     thresh <- as.numeric(substr(Sys.Date(),1,4))
     x <- matrix(as.numeric(unlist(strsplit(dates, "-"))), ncol=3, byrow = T)
     ypos <- which(apply(x, 2, function(y) any(y>31) | any(nchar(y)==4)))
