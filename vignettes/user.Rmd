@@ -41,7 +41,7 @@ governance. We can download and install the latest release version of
 the `{qStates}` package using the same function as before, only
 specifying which package we want to 'get':
 
-```{r}
+```{r, eval=FALSE}
 get_packages("globalgov/qStates")
 ```
 
