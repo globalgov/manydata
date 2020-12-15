@@ -64,11 +64,12 @@ get_packages <- function(pkg) {
       repo <- suppressMessages(httr::content(repo, type = "text"))
       repo <- jsonlite::fromJSON(repo, flatten = TRUE)
       repo <- tibble::as_tibble(repo) %>%
-        dplyr::select(.data$name, .data$full_name, .data$description, .data$updated_at, .data$stargazers_count, .data$open_issues_count) %>%
-        dplyr::rename(stargazers = .data$stargazers_count, open_issues = .data$open_issues_count) %>%
+        dplyr::select(.data$name, .data$full_name, .data$description, .data$updated_at, .data$open_issues_count) %>%
+        dplyr::rename(open_issues = .data$open_issues_count) %>%
         dplyr::filter(stringr::str_detect(.data$name, "q[[:upper:]]")) %>%
-        dplyr::mutate(latest = get_latest_release(.data$full_name)) %>%
-        dplyr::select(.data$name, .data$full_name, .data$description, .data$latest, .data$updated_at, .data$stargazers, .data$open_issues)
+        dplyr::mutate(latest = get_latest_release(.data$full_name),
+                      installed = get_installed_release(.data$name)) %>% 
+        dplyr::select(.data$name, .data$full_name, .data$description, .data$latest, .data$installed, .data$updated_at, .data$open_issues)
     })
     
     repos <- dplyr::bind_rows(repos)
