@@ -3,13 +3,13 @@ test_that("standardise_dates() treats typical dates correctly",{
 })    
 
 test_that("standardise_dates() treats reverse ordered dates correctly", {
-  expect_match(standardise_dates("30.1.1874"), anytime::anydate("1874-01-30"))
-  expect_match(standardise_dates("31.12.1879"), anytime::anydate("1879-12-31"))
-  expect_match(standardise_dates("6/10/2012"), anytime::anydate("2012-06-20"))
-  expect_match(standardise_dates("9.4.1939"), anytime::anydate("1939-04-09"))
-  expect_match(standardise_dates("12/5/1993"), anytime::anydate("1993-05-12"))
-  expect_match(standardise_dates("10.30.93"), anytime::anydate("1993-10-30"))
-  expect_match(standardise_dates("20/06/04"), anytime::anydate("2004-06-20"))
+  expect_match(as.character(standardise_dates("30.1.1874")), "1874-01-30")
+  expect_match(as.character(standardise_dates("31.12.1879")), "1879-12-31")
+  expect_match(as.character(standardise_dates("6/10/2012")), "2012-10-06")
+  expect_match(as.character(standardise_dates("9.4.1939")), "1939-04-09")
+  expect_match(as.character(standardise_dates("12/5/1993")), "1993-05-12")
+  expect_match(as.character(standardise_dates("10.30.93")), "1993-10-30")
+  expect_match(as.character(standardise_dates("20/06/04")), "2004-06-20")
 })    
 
 test_that("standardise_dates() treats incomplete dates correctly",{

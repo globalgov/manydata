@@ -7,7 +7,7 @@
 standardise_dates(...)
 }
 \arguments{
-\item{x}{String vector of potential dates}
+\item{...}{One (ymd) or three (y, m, d) variables}
 }
 \value{
 Nested vector of POSIXct dates that includes a range of dates
