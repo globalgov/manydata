@@ -45,6 +45,7 @@ standardise_dates <- standardize_dates <- function(...){
   
   # Second step: standardise inputs
   dates <- stringr::str_replace_all(dates, "\\.", "-") # standardising separaters
+  dates <- stringr::str_replace_all(dates, "\\/", "-") # standardising separaters
   dates <- stringr::str_replace_all(dates, "-([:digit:])-", "-0\\1-") # standardising months
   dates <- stringr::str_replace_all(dates, "-([:digit:])$", "-0\\1") # standardising days
   dates <- stringr::str_replace_all(dates, "^([:digit:])-", "0\\1-") # standardising days 2
@@ -55,7 +56,7 @@ standardise_dates <- standardize_dates <- function(...){
     dates <- lubridate::dmy(dates)
   } else if (stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{2}-[:digit:]{2}$")) { 
     thresh <- as.numeric(substr(Sys.Date(),1,4))
-    x <- matrix(as.numeric(unlist(strsplit(dates, sep = "-"))), ncol=3, byrow = T)
+    x <- matrix(as.numeric(unlist(strsplit(dates, "-"))), ncol=3, byrow = T)
     ypos <- which(apply(x, 2, function(y) any(y>31) | any(nchar(y)==4)))
     if(length(ypos)!=1) ypos <- 3
     dpos <- setdiff(which(apply(x, 2, function(y) any(y>12) & all(y<32))), ypos)
