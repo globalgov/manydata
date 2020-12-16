@@ -1,7 +1,7 @@
 library(pointblank)
 
 test_that("object is correct", {
-  expect_col_exists({{{dab}}}[["{{{dat}}}"]], vars(endsWith("ID")))
+  expect_col_exists({{{dab}}}[["{{{dat}}}"]], vars("ID"))
   expect_col_exists({{{dab}}}[["{{{dat}}}"]], vars(Beg))
   expect_col_exists({{{dab}}}[["{{{dat}}}"]], vars(End))
 })
