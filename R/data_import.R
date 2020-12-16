@@ -84,7 +84,7 @@ import_data <- function(dataset = NULL,
       import_type <- "readxl::read_excel"
     } else if (grepl("dta$", path)) {
       import_type <- "haven::read_dta"
-    } else if (stop("File type not recognised"))
+    } else if (!grepl("csv$|dta$|xlsx$|xls$", path)) (stop("File type not recognised"))
   
   # Create preparation template
   qtemplate(
