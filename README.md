@@ -13,6 +13,7 @@ issues](https://img.shields.io/github/issues-raw/globalgov/qData)
 <!-- [![HitCount](http://hits.dwyl.com/globalgov/qData.svg)](http://hits.dwyl.com/globalgov/qData) -->
 [![Codecov test
 coverage](https://codecov.io/gh/globalgov/qData/branch/main/graph/badge.svg)](https://codecov.io/gh/globalgov/qData?branch=main)
+[![CodeFactor](https://www.codefactor.io/repository/github/globalgov/qdata/badge)](https://www.codefactor.io/repository/github/globalgov/qdata)
 <!-- ![GitHub All Releases](https://img.shields.io/github/downloads/jhollway/roctopus/total) -->
 <!-- badges: end -->
 
@@ -61,16 +62,15 @@ used to discover which packages are currently available.
 
     ## Loading required package: tibble
 
-    ## Warning: package 'tibble' was built under R version 3.6.3
-
 ``` r
  get_packages()
 ```
 
-    ## # A tibble: 1 x 7
-    ##   name  full_name     description latest updated_at       stargazers open_issues
-    ##   <chr> <chr>         <chr>       <chr>  <chr>                 <int>       <int>
-    ## 1 qData globalgov/qD~ <NA>        v0.2.1 2020-12-04T13:2~          2          16
+    ## # A tibble: 2 x 7
+    ##   name   full_name   description      installed latest updated    contributors  
+    ##   <chr>  <chr>       <chr>            <chr>     <chr>  <date>     <chr>         
+    ## 1 qData  globalgov/… An R package fo… 0.3.0     0.2.1  2020-11-26 jhollway, hen…
+    ## 2 qStat… globalgov/… <NA>             0.0.1     Unrel… NA         henriquesposi…
 
 Please see [the website](https://globalgov.github.io/qData/) for more
 information about how to use `{qData}` for both developers and users.
