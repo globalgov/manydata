@@ -59,9 +59,8 @@ data(package = "qStates")
 Let's take a quick look at the main `states` data in this package.
 
 ```{r}
-states <- qStates::states 
 # You can also get this like so: 
-# data(states, package = "qStates")
+data(states, package = "qStates")
 states
 ```
 
