@@ -88,7 +88,7 @@
   <div class="contents col-md-9">
 <div id="qdata-" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#qdata-" class="anchor"></a>qData <img src="inst/qData_hexlogo.png" align="right" width="220">
+<a href="#qdata-" class="anchor"></a>qData <img src="reference/figures/qData_hexlogo.png" align="right" width="220">
 </h1></div>
 <!-- badges: start -->
 
@@ -103,23 +103,22 @@
 <h2 class="hasAnchor">
 <a href="#downloading-and-installing-qdata" class="anchor"></a>Downloading and installing qData</h2>
 <p>The development version of the package <a href="https://github.com/globalgov/qDatr">qData</a> can be downloaded from GitHub.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">#install.package(remotes)</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a>remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"globalgov/qData"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#install.package(remotes)</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"globalgov/qData"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="available-qpackages" class="section level2">
 <h2 class="hasAnchor">
 <a href="#available-qpackages" class="anchor"></a>Available qPackages</h2>
 <p><a href="https://github.com/globalgov/qDatr">qData</a> connects users to other packages that help fill global governance researchers’ data needs. The <code><a href="reference/get_packages.html">get_packages()</a></code> function can be used to discover which packages are currently available.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"> <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/globalgov/qDatr">qData</a></span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">## Loading required package: tibble</span></span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"> <span class="fu"><a href="reference/get_packages.html">get_packages</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">## # A tibble: 2 x 7</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="co">##   name   full_name   description     installed latest updated    contributors   </span></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="co">##   &lt;chr&gt;  &lt;chr&gt;       &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;  &lt;date&gt;     &lt;chr&gt;          </span></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="co">## 1 qData  globalgov/… An R package f… 0.3.0     0.2.1  2020-11-26 jhollway, henr…</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="co">## 2 qStat… globalgov/… &lt;NA&gt;            0.0.1     0.0.1  2021-01-06 henriquesposit…</span></span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/globalgov/qDatr">qData</a></span><span class="op">)</span>
+<span class="fu"><a href="reference/get_packages.html">get_packages</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">## # A tibble: 2 x 7</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co">##   name   full_name  description      installed latest updated    contributors   </span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="co">##   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;            &lt;chr&gt;     &lt;chr&gt;  &lt;date&gt;     &lt;chr&gt;          </span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co">## 1 qData  globalgov… An R portal for… 0.3.0     0.2.1  2020-11-26 jhollway, henr…</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co">## 2 qStat… globalgov… &lt;NA&gt;             0.0.1     0.0.1  2021-01-06 henriquesposit…</span></span></code></pre></div>
 <p>Please see <a href="https://globalgov.github.io/qData/">the website</a> for more information about how to use <a href="https://github.com/globalgov/qDatr">qData</a> for both developers and users.</p>
 </div>
 </div>
