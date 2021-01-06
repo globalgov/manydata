@@ -10,9 +10,12 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
+NOT_CRAN <- identical(tolower(Sys.getenv("NOT_CRAN")), "true")
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  purl = NOT_CRAN,
+  eval = NOT_CRAN
 )
 ```
 
@@ -27,7 +30,7 @@ either way it can be difficult to identify salient data. We have tried
 to make this easy by allowing the reporting of all datasets in the
 ecosystem that we know of that currently pass our tests.
 
-```{r}
+```{r, eval=NOT_CRAN}
 library(qData)
 get_packages()
 ```
