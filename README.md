@@ -14,6 +14,8 @@ issues](https://img.shields.io/github/issues-raw/globalgov/qData)
 [![Codecov test
 coverage](https://codecov.io/gh/globalgov/qData/branch/main/graph/badge.svg)](https://codecov.io/gh/globalgov/qData?branch=main)
 [![CodeFactor](https://www.codefactor.io/repository/github/globalgov/qdata/badge)](https://www.codefactor.io/repository/github/globalgov/qdata)
+[![CII Best
+Practices](https://bestpractices.coreinfrastructure.org/projects/4562/badge)](https://bestpractices.coreinfrastructure.org/projects/4562)
 <!-- ![GitHub All Releases](https://img.shields.io/github/downloads/jhollway/roctopus/total) -->
 <!-- badges: end -->
 
@@ -67,10 +69,10 @@ used to discover which packages are currently available.
 ```
 
     ## # A tibble: 2 x 7
-    ##   name   full_name   description      installed latest updated    contributors  
-    ##   <chr>  <chr>       <chr>            <chr>     <chr>  <date>     <chr>         
-    ## 1 qData  globalgov/… An R package fo… 0.3.0     0.2.1  2020-11-26 jhollway, hen…
-    ## 2 qStat… globalgov/… <NA>             0.0.1     Unrel… NA         henriquesposi…
+    ##   name   full_name   description     installed latest updated    contributors   
+    ##   <chr>  <chr>       <chr>           <chr>     <chr>  <date>     <chr>          
+    ## 1 qData  globalgov/… An R package f… 0.3.0     0.2.1  2020-11-26 jhollway, henr…
+    ## 2 qStat… globalgov/… <NA>            0.0.1     0.0.1  2021-01-06 henriquesposit…
 
 Please see [the website](https://globalgov.github.io/qData/) for more
 information about how to use `{qData}` for both developers and users.
