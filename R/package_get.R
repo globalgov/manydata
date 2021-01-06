@@ -23,6 +23,7 @@
 #' @importFrom httr GET
 #' @importFrom httr content
 #' @importFrom remotes install_github
+#' @importFrom utils packageVersion
 #' @examples
 #' \dontrun{
 #' get_packages() # This prints a table (tibble) 
@@ -83,7 +84,7 @@ get_packages <- function(pkg) {
     }
     
     get_installed_release <- function(name){
-      installed <- sapply(name, function(x) as.character(packageVersion(x)))
+      installed <- sapply(name, function(x) as.character(utils::packageVersion(x)))
     }
     
     get_contributors <- function(full_name){
