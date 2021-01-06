@@ -42,7 +42,7 @@ For more, please see the vignette.
 The development version of the package `{qData}` can be downloaded from GitHub. 
 
 ```{r, eval=FALSE}
-#install.package(remotes)
+# install.packages("remotes")
 remotes::install_github("globalgov/qData")
 ```
 

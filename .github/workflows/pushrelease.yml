@@ -185,9 +185,13 @@ jobs:
   
       # install packages needed
       - name: install required packages
-        run: Rscript -e 'install.packages(c("rmarkdown","gratia"))'
+        run: Rscript -e 'install.packages(c("rmarkdown","gratia","remotes"))'
   
-      # Render READEME.md using rmarkdown
+      # install qData
+      - name: install qData package
+        run: Rscript -e 'remotes::install_github("globalgov/qData")'
+  
+      # Render README.md using rmarkdown
       - name: render README
         run: Rscript -e 'rmarkdown::render("README.Rmd", output_format = "md_document")'
   

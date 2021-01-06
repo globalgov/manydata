@@ -50,7 +50,7 @@ The development version of the package `{qData}` can be downloaded from
 GitHub.
 
 ``` r
-#install.package(remotes)
+# install.packages("remotes")
 remotes::install_github("globalgov/qData")
 ```
 
