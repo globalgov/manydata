@@ -1,0 +1,11 @@
+pandoc: 2.7.3
+pkgdown: 1.6.1
+pkgdown_sha: ~
+articles:
+  developer: developer.html
+  user: user.html
+last_built: 2021-01-06T17:16Z
+urls:
+  reference: https://globalgov.github.io/qData//reference
+  article: https://globalgov.github.io/qData//articles
+
