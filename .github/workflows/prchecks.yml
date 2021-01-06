@@ -59,6 +59,7 @@ jobs:
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
+          remotes::install_github("globalgov/qStates")
           remotes::install_cran("rcmdcheck")
           remotes::install_cran("lintr")
           remotes::install_cran("goodpractice")
@@ -71,7 +72,8 @@ jobs:
       - name: Check
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
-        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
+          # NOT_CRAN: false
+        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran", '--ignore-vignettes'), build_args = '--no-build-vignettes', error_on = "warning", check_dir = "check")
         shell: Rscript {0}
 
       - name: Upload check results

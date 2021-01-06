@@ -4,10 +4,10 @@
 \alias{standardise_dates}
 \title{Create nested vectors of dates from vague date inputs}
 \usage{
-standardise_dates(x)
+standardise_dates(...)
 }
 \arguments{
-\item{x}{String vector of potential dates}
+\item{...}{One (ymd) or three (y, m, d) variables}
 }
 \value{
 Nested vector of POSIXct dates that includes a range of dates
@@ -18,6 +18,7 @@ Create nested vectors of dates for vague date inputs, ambiguous and ranged dates
 \details{
 The function seeks to convert ambiguous and ranged dates into a range of dates,
 and extends the date parsing of other packages to more historical and future dates.
+The function allows only for dmy or ymd date formats at present, since mdy may introduce errors.
 }
 \examples{
 \dontrun{
@@ -35,7 +36,7 @@ datestest <- tibble::tibble(
 origin = testdates,
 lubridate = lubridate::as_date(testdates),
 anytime = anytime::anydate(testdates),
-qDatr = qDatr::standardise_dates(testdates)
+qData = qData::standardise_dates(testdates)
 ) datestest \%>\% print(n = 25)}
 }
 }

@@ -1,0 +1,155 @@
+---
+title: "Working with qData"
+author: "James Hollway"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Working with qData}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+NOT_CRAN <- identical(tolower(Sys.getenv("NOT_CRAN")), "true")
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  purl = NOT_CRAN,
+  eval = NOT_CRAN
+)
+```
+
+## Discovering data
+
+The first thing users of the package will want to do is to identify
+datasets that might contribute to their research goals. Since some of
+these data packages are too big for CRAN (the main though not only R
+package repository), we expect that their developers will instead choose
+to make their packages available on Github. Github is huge though,
+either way it can be difficult to identify salient data. We have tried
+to make this easy by allowing the reporting of all datasets in the
+ecosystem that we know of that currently pass our tests.
+
+```{r, eval=NOT_CRAN}
+library(qData)
+get_packages()
+```
+
+In the future, this function will report more details about the datasets
+included in each package and their provenance.
+
+For now, let us say that we wish to download the `{qStates}` package,
+which offers a set of datasets related to state actors in global
+governance. We can download and install the latest release version of
+the `{qStates}` package using the same function as before, only
+specifying which package we want to 'get':
+
+```{r, eval=FALSE}
+get_packages("globalgov/qStates")
+```
+
+## Loading data
+
+Once the qpackage has been downloaded and installed, we are free to work
+with the data it contains. This `{qStates}` package includes several
+datasets. We can get a quick summary of the datasets included in this
+package with the following command:
+
+```{r}
+data(package = "qStates")
+```
+
+Let's take a quick look at the main `states` data in this package.
+
+```{r}
+data(states, package = "qStates")
+states
+```
+
+We can see that there are three named datasets relating to states here:
+`COW` (Correlates of War), `GW` (Gleditsch and Ward), and `ISD`
+(International Systems Dataset). Each of these datasets has their
+advantages and so we may wish to understand their differences, summarise
+variables across them, and perhaps also rerun models across them.
+
+To retrieve an individual dataset from this database,
+we can use the `pluck()` function from the `{purrr}` package.
+
+```{r}
+COW <- purrr::pluck(states, "COW")
+```
+
+However, the real value of qData packages is that multiple datasets
+relating to the same phenomenon are presented together.
+This facilitates comparison, the subject of the next section.
+
+## Comparing data
+
+First of all, we want to understand what the differences are between these datasets.
+One important way to understand the relationship between these datasets is 
+to understand what their relative advantages and disadvantages are.
+For example, one dataset may be long (has many observations) 
+while another is shorter but wider (has more variables).
+One might include details further back in history or is more recent,
+but includes more missing data or less precise data (coded at a less granular level)
+than another with a more restrictive 
+Or one might appear complete yet offer less information on where the original datapoints
+were sourced or how certain variables were coded,
+while another provides an extensive and transparent codebook that facilitates replication.
+Below we show how one might compare the data in `states` in these ways.
+
+### Differences in dimension
+
+One way to see a quick summary of each of these datasets 
+is using the `glimpse()` command from the `{tibble}` package.
+`{tibble}` is currently loaded along with `{qData}` and so there is no need to load it independently.
+
+```{r}
+glimpse(states)
+```
+
+We can see here, for example, that COW seems to have more observations of state sovereignty episodes
+than GW does.
+
+### Differences in depth
+
+We can also check whether one dataset has more missings than another.
+Here we are going to 'map' a function from the `{mice}` package over each of the datasets in the database.
+That function is the `md.pattern()` function.
+We will use the `map()` function to do this (though other ways are possible).
+
+```{r, message=FALSE, warning=FALSE}
+library(mice)
+purrr::map(states, md.pattern, rotate.names = T)
+```
+
+### Differences in documentation
+
+We can bring up their documentation using the following command: `?states`.
+This documentation outlines where this data was sourced from (when) and what the nature of the main variables are.
+
+## Modelling data
+
+Next we may be interested in whether any relationships we are interested in or inferences we want to draw
+are sensitive to which data we use.
+That is, we are interested in the robustness of any results to different data specifications.
+None of the `states` datasets are particularly wide, but let us try and examine the "Beg" variable to start with.
+
+We can start by exploring whether our conclusion about when states first gained sovereignty
+would differ depending on which dataset we use.
+We can use the `purrr::map()` function used above, but this time pass it the `mean()` function
+and tell it to operate on just the "Beg" variable (removing any NAs).
+Since qData datasets are always ordered by "Beg" (and then "ID"),
+we can remove any subsequent (duplicated) entries by ID to concentrate on first appearances.
+
+```{r}
+states %>% 
+  purrr::map(function(x){
+    x %>% dplyr::filter(!duplicated(ID)) %>%
+      dplyr::summarise(mean(Beg, na.rm = TRUE))
+  })
+```
+
+It seems that there is some variation there.
+Of course, these averages are biased in the sense that these datasets are left-censored.
+Any state gaining sovereignty prior to 1816 is simply assigned as "1816-01-01".

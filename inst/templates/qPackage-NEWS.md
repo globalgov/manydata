@@ -1,6 +1,6 @@
 # {{{package}}} 0.0.1
 
-* Set up {{{package}}} package using qDatr::setup_package()
+* Set up {{{package}}} package using qData::setup_package()
   * Added `DESCRIPTION` file
   * Added `R` folder
   * Added `License` file

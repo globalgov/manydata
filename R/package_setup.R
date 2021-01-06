@@ -1,6 +1,6 @@
-#' Create a new package in the qDatr ecosystem
+#' Create a new package in the qData ecosystem
 #'
-#' Creates a new package in, and consistent with, the qDatr ecosystem
+#' Creates a new package in, and consistent with, the qData ecosystem
 #' @param packageName A string giving the desired name of the package,
 #' must start with "q"
 #' @param packageAuthor A string, list or vector giving the package
@@ -9,7 +9,7 @@
 #' overwritten, by default TRUE.
 #' @param path A string, if missing default is path to the working directory
 #' @details The function establishes many of the required files and
-#' folder structures required for a qDatr-consistent data package.
+#' folder structures required for a qData-consistent data package.
 #' @return A new package structure
 #' @import usethis
 #' @importFrom stringr str_replace_all
@@ -140,13 +140,13 @@ setup_package <- function(packageName = NULL,
   create_directory(paste0(path, "/.github/workflows"))
   usethis::ui_done("Created workflows folder.")
   if(interactive()) {
-    file.copy(fs::path_package(package = "qDatr", "templates", "qPackage-Check.yml"),
+    file.copy(fs::path_package(package = "qData", "templates", "qPackage-Check.yml"),
               fs::path(".github", "workflows", "prchecks.yml"))
     usethis::ui_done("Added checks workflow upon opening a push release.")
-    file.copy(fs::path_package(package = "qDatr", "templates", "qPackage-Commands.yml"),
+    file.copy(fs::path_package(package = "qData", "templates", "qPackage-Commands.yml"),
               fs::path(".github", "workflows", "prcommands.yml"))
     usethis::ui_done("Added commands workflow upon labelling a push release.")
-    file.copy(fs::path_package(package = "qDatr", "templates", "qPackage-Release.yml"),
+    file.copy(fs::path_package(package = "qData", "templates", "qPackage-Release.yml"),
               fs::path(".github", "workflows", "pushrelease.yml"))
     usethis::ui_done("Added release workflow upon merging a push release.")
   }
@@ -161,67 +161,4 @@ setup_package <- function(packageName = NULL,
   # Step 6: create GitHub repository (?)
   # usethis::use_git() # The usethis::use_github() may also be an interesting option to explore here.
   # usethis::proj_activate()
-}
-
-#' Find and download packages in the qDatr ecosystem
-#'
-#' Find and download packages in the qDatr ecosystem
-#' @param pkg A character vector of package names
-#' @details The function finds and download other packages that belong to the qDatr ecosystem
-#' of data packages. It allows for users to rapidly access the names and other descriptive information
-#' of these packages by simply calling the function. If users intend to download a package from
-#' the ecosystem, they can to type the package name within the function.
-#' @return If no package name is provided, this function prints a table (tibble) to the console
-#' with details on packages that are currently available within the qDatr ecosystem.
-#' If one or more package names are provided, these will be installed from
-#' @importFrom pointblank %>%
-#' @importFrom dplyr filter
-#' @importFrom stringr str_detect
-#' @importFrom tibble as_tibble
-#' @importFrom jsonlite fromJSON
-#' @importFrom remotes install_github
-#' @examples
-#' \dontrun{
-#' get_packages() # This prints a table (tibble) to the console with details on the current
-#' get_packages("qStates") # This downloads and installs from github the latest version of a qPackage
-#' }
-#' @export
-get_packages <- function(pkg) {
-  
-  if (missing(pkg)) {
-    res <- tibble::as_tibble(jsonlite::fromJSON("http://rpkg-api.gepuro.net/rpkg?q=q"))
-    res <- res %>% dplyr::filter(stringr::str_detect(.data$pkg_name, "/q[[:upper:]]")) %>%
-      dplyr::filter(!stringr::str_detect(.data$title, "read-only mirror")) %>%
-      dplyr::filter(stringr::str_detect(.data$pkg_name, "globalgov"))
-    # At the moment, just our packages, but we can either expand the list of recognised contributors
-    # or remove the condition entirely in the future.
-    # TODO: check potential packages for dependency on qDatr
-    res
-    # TODO: expand this report by adding information on current release version available
-    # TODO: expand this report by adding information on which packages, if any, are already installed
-    # TODO: expand this report by adding information on whether all checks/tests are passing
-    # TODO: expand this report by adding information on number of datacubes, datasets, and observations available
-    # TODO: expand this report by adding information on sources
-  }
-  
-  # TODO: make it possible to select (say, by number) which datasets to install from github
-  # TODO: consider reexporting e.g. magrittr's pipe (%>%) within qDatr
-  
-  if (!missing(pkg)) {
-    remotes::install_github(pkg)
-  }
-  
-}
-
-# Helper function from usethis:::create_directory()
-create_directory <- function(path){
-  if (dir.exists(path)) {
-    return(invisible(FALSE))
-  }
-  else if (file.exists(path)) {
-    usethis::ui_stop("{ui_path(path)} exists but is not a directory.")
-  }
-  dir.create(path, recursive = TRUE)
-  usethis::ui_done("Creating {ui_path(path)}")
-  invisible(TRUE)
 }

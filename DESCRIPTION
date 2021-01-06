@@ -1,6 +1,6 @@
-Package: qDatr
-Title: Quantum Data for the 21st Century
-Version: 0.2.1
+Package: qData
+Title: An R portal for ensembled global governance data
+Version: 0.3.0
 Authors@R:
     c(person(given = "James",
              family = "Hollway",
@@ -11,12 +11,15 @@ Authors@R:
              family = "Sposito",
              role = "ctb",
              comment = "IHEID"))
-Description: Collection, correction, and connection.
+Description: This is the core package for the qData ecosystem.
+    It includes functions to help researchers work with and contribute to 
+    event datasets on global governance.
 License: CC BY 4.0
 URL: https://github.com/globalgov/qDatr
 BugReports: https://github.com/globalgov/qDatr/issues
 Depends:
-    R (>= 2.10)
+    R (>= 2.10),
+    tibble
 Imports:
     covr,
     desc,
@@ -35,17 +38,22 @@ Imports:
     fs,
     anytime,
     jsonlite,
-    tibble,
-    remotes
+    remotes,
+    httr,
+    qStates
 Suggests:
     librarian,
     testthat,
+    mice,
     xfun,
     withr,
     haven,
     readr,
-    readxl
+    readxl,
+    knitr
+Remotes: globalgov/qStates
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+VignetteBuilder: knitr

@@ -1,6 +1,6 @@
 #' Helper function for finding and rendering templates
 #'
-#' Helper function for finding and rendering templates from the qDatr package
+#' Helper function for finding and rendering templates from the qData package
 #' @param template Template called
 #' @param save_as Path to where the rendered template should be saved
 #' @param data Any elements to be entered into the template via Whisker
@@ -9,24 +9,23 @@
 #' @param open Whether the resulting template will be opened
 #' @param package Package called
 #' @details This function is an adaptation of the usethis variant
-#' for use in the qDatr ecosystem.
+#' for use in the qData ecosystem.
 #' @return A rendered template, saved into the correct folder
 #' @importFrom whisker whisker.render
 #' @examples
 #' \dontrun{
 #' TODO
 #' }
-#' @export
 qtemplate <- function(template,
                       save_as = template,
                       data = list(),
                       ignore = FALSE,
                       path,
                       open = rlang::is_interactive(),
-                      package = "qDatr") {
+                      package = "qData") {
   
   # Set up find_template() helper function
-  find_template <- function(template_name, package = "qDatr") {
+  find_template <- function(template_name, package = "qData") {
     path <- tryCatch(fs::path_package(package = package, "templates", template_name),
                      error = function(e) ""
     )
@@ -40,7 +39,7 @@ qtemplate <- function(template,
   }
   
   # Set up render_template() helper function
-  render_template <- function(template, data = list(), package = "qDatr") {
+  render_template <- function(template, data = list(), package = "qData") {
     template_path <- find_template(template, package = package)
     strsplit(whisker::whisker.render(xfun::read_utf8(template_path), data), "\n")[[1]]
   }

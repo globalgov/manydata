@@ -5,7 +5,7 @@
 #' @param ... Variables to pass to the function
 #' @return Data frame with mutated variables
 #' and none of the variables used in the mutations,
-#' but (unlike the transmute() function in dplyr) all other unnamed variables.
+#' but, unlike `dplyr::transmute()`, all other unnamed variables.
 #' @importFrom purrr map
 #' @import rlang
 #' @import dplyr
@@ -75,22 +75,6 @@ reunite <- function(..., sep = "_"){
 #' @export
 rearrange <- function(data, tomove, where = "last", ref = NULL) {
   .Deprecated("dplyr::relocate")
-  temp <- setdiff(names(data), tomove)
-  x <- switch(
-    where,
-    first = data[c(tomove, temp)],
-    last = data[c(temp, tomove)],
-    before = {
-      if (is.null(ref)) stop("must specify ref column")
-      if (length(ref) > 1) stop("ref must be a single character string")
-      data[append(temp, values = tomove, after = (match(ref, temp)-1))]
-    },
-    after = {
-      if (is.null(ref)) stop("must specify ref column")
-      if (length(ref) > 1) stop("ref must be a single character string")
-      data[append(temp, values = tomove, after = (match(ref, temp)))]
-    })
-  x 
 }
 
 #' Pastes unique string vectors

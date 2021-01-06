@@ -1,3 +1,36 @@
+# qData 0.3.0
+
+## Package 
+
+- Changed package name from qDatr to qData
+- Created a hex logo for qData
+- Closed #32 by setting up a more informative README document
+  - Added codefactor badge
+  - Added CII badge, in progress
+- Closed #69 by creating a vignette for users working with qData 
+- Closed #67 by creating a vignette for developers interested in contributing to the qData ecosystem
+- Added pkgdown workflow for updating the website upon release
+
+## Collection
+
+- Updated `import_data()` by suggesting upper case letters for dataset names and lower case letters for database names
+  - Now complains if pointed to unrecognised data format
+
+## Correction
+
+- Closed #70 by updating `stadardise_dates()` so that extreme future dates are standardised
+  - Updated `standardise_dates()` to accept multiple variable dates as inputs and it standardises separators
+  - Updated `standardise_dates()` to be more efficient when dealing with different date formats
+- Deprecates `recent()` in favour of `standardise_dates()`
+- Updates `export_data()` by making it save datasets as named list elements in a database
+- Updates exported test templates for data to test for datasets within databases
+
+## Connection
+
+- Updates `get_packages()` function to:
+  - correctly identify latest release and installed versions
+  - identify registered contributors
+
 # qDatr 0.2.1
 
 ## Package
@@ -10,14 +43,14 @@ folder with `setup_package()`
 
 * Closes #62 by creating a function which vectorises dates and cleans
 and standardizes diverse date formats, `standardise_dates()`
-* Closes #55 by deprecating `rearrange()` function in favor of `dplyr::relocate()`
+* Closes #55 by deprecating `rearrange()` function in favour of `dplyr::relocate()`
 * Closes #65 by correcting issues with the path call in `export_data()` function
-  * Ensures consistency for path calls across qDatr functions
+  * Ensures consistency for path calls across qData functions
 
 ## Connection
 
 * Closes #64 by creating the `get_packages()` function which displays other packages,
-and some information about these packages, in the qDatr ecosystem. The function
+and some information about these packages, in the qData ecosystem. The function
 serves as a wrapper for downloading qPackages from GitHub.
 
 # qDatr 0.2.0
@@ -57,7 +90,7 @@ serves as a wrapper for downloading qPackages from GitHub.
 ## Collection
 
 * Closes #47 by adding `qtemplate()` function for finding and rendering templates
-* Closes #44 by adding `create_qPackage()` that establishes a `{qDatr}` consistent package framework
+* Closes #44 by adding `create_qPackage()` that establishes a `{qData}` consistent package framework
   * Fixed #42 by drawing information from DESCRIPTION where possible
   * Added DESCRIPTION template
   * Added README template
@@ -117,7 +150,7 @@ serves as a wrapper for downloading qPackages from GitHub.
 
 ## Package
 
-* Package setup
+* Package set-up
 
 ## Correction
 

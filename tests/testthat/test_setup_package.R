@@ -28,7 +28,7 @@ test_that("author names must be declared", {
 #    },
 #    envir = env
 #  )
-#  usethis::ui_silence(qDatr::setup_package("qTest", "hs", path = dir)) # A
+#  usethis::ui_silence(qData::setup_package("qTest", "hs", path = dir)) # A
 #  
 #  withr::defer(
 #    {
