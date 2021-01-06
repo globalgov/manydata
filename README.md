@@ -49,8 +49,10 @@ comparison of data. For more, please see the vignette.
 The development version of the package `{qData}` can be downloaded from
 GitHub.
 
-    #install.package(remotes)
-    remotes::install_github("globalgov/qData")
+``` r
+#install.package(remotes)
+remotes::install_github("globalgov/qData")
+```
 
 ## Available qPackages
 
@@ -59,20 +61,15 @@ governance researchers’ data needs. The `get_packages()` function can be
 used to discover which packages are currently available.
 
 ``` r
- library(qData)
-```
-
-    ## Loading required package: tibble
-
-``` r
- get_packages()
+library(qData)
+get_packages()
 ```
 
     ## # A tibble: 2 x 7
-    ##   name   full_name   description     installed latest updated    contributors   
-    ##   <chr>  <chr>       <chr>           <chr>     <chr>  <date>     <chr>          
-    ## 1 qData  globalgov/… An R package f… 0.3.0     0.2.1  2020-11-26 jhollway, henr…
-    ## 2 qStat… globalgov/… <NA>            0.0.1     0.0.1  2021-01-06 henriquesposit…
+    ##   name   full_name  description      installed latest updated    contributors   
+    ##   <chr>  <chr>      <chr>            <chr>     <chr>  <date>     <chr>          
+    ## 1 qData  globalgov… An R portal for… 0.3.0     0.2.1  2020-11-26 jhollway, henr…
+    ## 2 qStat… globalgov… <NA>             0.0.1     0.0.1  2021-01-06 henriquesposit…
 
 Please see [the website](https://globalgov.github.io/qData/) for more
 information about how to use `{qData}` for both developers and users.
