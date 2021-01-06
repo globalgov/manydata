@@ -1,5 +1,5 @@
 Package: qData
-Title: Quantum Data for the 21st Century
+Title: An R portal for ensembled global governance data
 Version: 0.3.0
 Authors@R:
     c(person(given = "James",
