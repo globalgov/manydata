@@ -59,7 +59,6 @@ data(package = "qStates")
 Let's take a quick look at the main `states` data in this package.
 
 ```{r}
-# You can also get this like so: 
 data(states, package = "qStates")
 states
 ```
@@ -112,14 +111,11 @@ than GW does.
 ### Differences in depth
 
 We can also check whether one dataset has more missings than another.
-Here we are going to 'map' a function from the `{Amelia}` package over each of the datasets in the database.
-That function is the `missmap()` function.
+Here we are going to 'map' a function from the `{mice}` package over each of the datasets in the database.
+That function is the `md.pattern()` function.
 We will use the `map()` function to do this (though other ways are possible).
 
 ```{r, message=FALSE, warning=FALSE}
-library(Amelia)
-purrr::map(states, missmap)
-
 library(mice)
 purrr::map(states, md.pattern, rotate.names = T)
 ```

@@ -43,6 +43,7 @@ Imports:
 Suggests:
     librarian,
     testthat,
+    mice,
     xfun,
     withr,
     haven,
