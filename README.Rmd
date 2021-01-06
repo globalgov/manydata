@@ -1,7 +1,7 @@
 ---
 output: github_document
 ---
-# qData <img src="inst/qData_hexlogo.png" align="right" width="220"/>
+# qData <img src="man/figures/qData_hexlogo.png" align="right" width="220"/>
 
 <!-- badges: start -->
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
@@ -41,7 +41,7 @@ For more, please see the vignette.
 
 The development version of the package `{qData}` can be downloaded from GitHub. 
 
-```{r, message=FALSE}
+```{r, eval=FALSE}
 #install.package(remotes)
 remotes::install_github("globalgov/qData")
 ```
