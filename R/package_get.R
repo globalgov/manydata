@@ -35,7 +35,7 @@
 get_packages <- function(pkg) {
   
   if (missing(pkg)) {
-    orgs <- c("globalgov") # add more users/orgs as they 'register'
+    orgs <- "globalgov" # add more users/orgs as they 'register'
     
     get_latest_release <- function(full_name){
       latest <- paste0("https://api.github.com/repos/", full_name, "/releases/latest")
@@ -122,14 +122,7 @@ get_packages <- function(pkg) {
     
     repos <- dplyr::bind_rows(repos)
     print(repos)
-    
-    # TODO: check potential packages for dependency on qData
-    # TODO: expand this report by adding information on whether all checks/tests are passing
-    # TODO: expand this report by adding information on number of datacubes, datasets, and observations available
-    # TODO: expand this report by adding information on sources
   }
-  
-  # TODO: make it possible to select (say, by number) which datasets to install from github
   
   if (!missing(pkg)) {
     remotes::install_github(pkg)
