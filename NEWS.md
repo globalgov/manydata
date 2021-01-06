@@ -2,30 +2,34 @@
 
 ## Package 
 
-- Changes package name from qDatr to qData
-- Closes #32 by setting up a more informative README document
-- Closes #69 by creating a vignette for users working with qData 
-- Closes #67 by creating a vignette for developers interested in contributing to the qData ecosystem
+- Changed package name from qDatr to qData
+- Created a hex logo for qData
+- Closed #32 by setting up a more informative README document
+  - Added codefactor badge
+  - Added CII badge, in progress
+- Closed #69 by creating a vignette for users working with qData 
+- Closed #67 by creating a vignette for developers interested in contributing to the qData ecosystem
 - Added pkgdown workflow for updating the website upon release
-- Creates a hex logo for qData
 
 ## Collection
 
-- Updates `import_data()` by suggesting upper case letters for dataset names and lower case letters for database names
+- Updated `import_data()` by suggesting upper case letters for dataset names and lower case letters for database names
+  - Now complains if pointed to unrecognised data format
 
 ## Correction
 
-- Closes #70 by updating `stadardise_dates()` so that extreme future dates are standardised
-- Updates `standardise_dates()` to accept multiple variable dates as inputs and it standardises separators
-- Updates `standardise_dates()` to be more efficient when dealing with different date formats
-- The `recent()` function has been deprecated in favour of `standardise_dates()`
+- Closed #70 by updating `stadardise_dates()` so that extreme future dates are standardised
+  - Updated `standardise_dates()` to accept multiple variable dates as inputs and it standardises separators
+  - Updated `standardise_dates()` to be more efficient when dealing with different date formats
+- Deprecates `recent()` in favour of `standardise_dates()`
 - Updates `export_data()` by making it save datasets as named list elements in a database
 - Updates exported test templates for data to test for datasets within databases
 
 ## Connection
 
-- Updates the `get_packages()` function to find registered contributors to the qData ecosystem
-- Updates `get_package()` so that it correctly finds q package version and locates unreleased q packages
+- Updates `get_packages()` function to:
+  - correctly identify latest release and installed versions
+  - identify registered contributors
 
 # qDatr 0.2.1
 
