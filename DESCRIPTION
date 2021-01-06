@@ -39,7 +39,8 @@ Imports:
     anytime,
     jsonlite,
     remotes,
-    httr
+    httr,
+    qStates
 Suggests:
     librarian,
     testthat,
