@@ -14,9 +14,6 @@
 #' 
 #' If one or more package names are provided, these will be installed from Github.
 #' @importFrom pointblank %>%
-#' @importFrom dplyr filter
-#' @importFrom dplyr select
-#' @importFrom dplyr rename
 #' @importFrom stringr str_detect
 #' @importFrom tibble as_tibble
 #' @importFrom jsonlite fromJSON
@@ -110,14 +107,13 @@ get_packages <- function(pkg) {
       repo <- httr::GET(repo, query = list(state = "all", per_page = 100, page = 1))
       repo <- suppressMessages(httr::content(repo, type = "text"))
       repo <- jsonlite::fromJSON(repo, flatten = TRUE)
-      repo <- tibble::as_tibble(repo) %>%
-        dplyr::select(.data$name, .data$full_name, .data$description, .data$contributors_url) %>%
-        dplyr::filter(stringr::str_detect(.data$name, "q[[:upper:]]")) %>%
-        dplyr::mutate(installed = get_installed_release(.data$name),
-                      latest = get_latest_release(.data$full_name),
-                      updated = anytime::anydate(get_latest_date(.data$full_name)),
-                      contributors = get_contributors(.data$full_name)) %>% 
-        dplyr::select(.data$name, .data$full_name, .data$description, .data$installed, .data$latest, .data$updated, .data$contributors)
+      repo <- subset(repo, grepl("q[[:upper:]]", repo$name))
+      repo <- repo[c("name","full_name","description")]
+      repo$installed <- get_installed_release(repo$name)
+      repo$latest <- get_latest_release(repo$full_name)
+      repo$updated <- anytime::anydate(get_latest_date(repo$full_name))
+      repo$contributors <- get_contributors(repo$full_name)
+      repo <- tibble::as_tibble(repo)
     })
     
     repos <- dplyr::bind_rows(repos)

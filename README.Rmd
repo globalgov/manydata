@@ -1,7 +1,7 @@
 ---
 output: github_document
 ---
-# qData <img src="inst/qData_hexlogo.png" align="right" width="220"/>
+# qData <img src="man/figures/qdata_hexlogo.png" align="right" width="220"/>
 
 <!-- badges: start -->
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
@@ -41,8 +41,8 @@ For more, please see the vignette.
 
 The development version of the package `{qData}` can be downloaded from GitHub. 
 
-```
-#install.package(remotes)
+```{r, eval=FALSE}
+# install.packages("remotes")
 remotes::install_github("globalgov/qData")
 ```
 
@@ -51,9 +51,9 @@ remotes::install_github("globalgov/qData")
 `{qData}` connects users to other packages that help fill global governance researchers' data needs.
 The `get_packages()` function can be used to discover which packages are currently available.
 
-```{r}
- library(qData)
- get_packages()
+```{r, message=FALSE}
+library(qData)
+get_packages()
 ```
 
 Please see [the website](https://globalgov.github.io/qData/) for more information about how to use `{qData}` for both developers and users.
