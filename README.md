@@ -1,5 +1,5 @@
 
-# qData <img src="man/figures/qData_hexlogo.png" align="right" width="220"/>
+# qData <img src="man/figures/qdata_hexlogo.png" align="right" width="220"/>
 
 <!-- badges: start -->
 
@@ -68,7 +68,7 @@ get_packages()
     ## # A tibble: 2 x 7
     ##   name   full_name  description      installed latest updated    contributors   
     ##   <chr>  <chr>      <chr>            <chr>     <chr>  <date>     <chr>          
-    ## 1 qData  globalgov… An R portal for… 0.3.0     0.2.1  2020-11-26 jhollway, henr…
+    ## 1 qData  globalgov… An R portal for… 0.3.0     0.3.0  2021-01-06 jhollway, henr…
     ## 2 qStat… globalgov… <NA>             0.0.1     0.0.1  2021-01-06 henriquesposit…
 
 Please see [the website](https://globalgov.github.io/qData/) for more
