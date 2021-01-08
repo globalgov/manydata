@@ -5,10 +5,12 @@ Please also include relevant motivation and context.
 List any dependencies that are required for this change,
 indicating whether this is a major (breaking), minor, or patch change.
 
+When referring to an issue, use the format below in a bullet point with an explanation of the change that fixes/closes it.
 Fixes #(issue no.)
 Closes #(issue no.)
 
-A pull request requires the different actions listed below to be completed. Please make sure you have been trough all of them by checking off the corresponding box once it has been done.
+A pull request requires the different actions listed below to be completed. 
+Please make sure you have been through all of them by checking off the corresponding box once it has been done.
 
 # Checklist:
 

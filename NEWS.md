@@ -1,8 +1,10 @@
 # qData 0.3.1
 
+## 
+
 * Corrected the typing error found in the vignette "develop"
-* Updated the description of the export_data() function to its new version including database name as a string
-* Changed the description of the Connecting data section to include export_data() specificities
+* Updated the description of the `export_data()` function to its new version including database name as a string
+* Changed the description of the _Connecting data_ section to include `export_data()` specificities
 
 # qData 0.3.0
 

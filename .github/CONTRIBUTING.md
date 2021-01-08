@@ -6,7 +6,8 @@ Contributions to `qData`, whether in the form of issue identification, bug fixes
 * [Fix a bug or implement new features](#adding-new-code)
 * [Document existing code](#documentation)
 
-This outlines how to propose a change to a package from the Global Governance Observatory's ecosystem. Please note that the `qData` project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).By contributing to this project, you agree to abide by its terms.
+This outlines how to propose a change to a package from the Global Governance Observatory's ecosystem. Please note that the `qData` project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
+By contributing to this project, you agree to abide by its terms.
 
 ## Issues
 Please use the issue tracker on GitHub to identify problems or suggest new functionality, before submitting changes to the code.
@@ -20,7 +21,7 @@ Independent or assigned code contributions are most welcome.
 When writing new code, please follow [tidyverse style guide](https://style.tidyverse.org/index.html) which is based on
 [standard R guidelines](https://google.github.io/styleguide/Rguide.xml).
 
-It can help to use packages such as `lintr` and `goodpractice` to ensure these are followed. The `styler` package fixes in a non-invasive way the code to adhere to the tidyverse formatting rules, and it also provides an RStudio Addins to help with this task.
+It can help to use packages such as `lintr` and `goodpractice` to ensure these are followed. These packages are incorporated into the checks made when a pull request is made. The `styler` package fixes in a non-invasive way the code to adhere to the tidyverse formatting rules, and it also provides an RStudio Addins to help with this task.
 To run the `lintr` and `goodpractice` checks or use `styler` in a file run:
 
 ```r
@@ -35,10 +36,13 @@ goodpractice::gp(path = "qData/",
 styler::style_file("filePath")
 ```
 
-If you develop new code in `C++`, please follow the [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html).
-
 ## Pull request process
-The title of your PR should briefly describe the change. Please include a summary of the changes and which issues are fixed and the relevant motivation and context. List any dependencies that are required for this change, indicating whether this is a major (breaking), minor, or patch change. The body of your PR should contain `Fixes #issue-number`. A checklist is provided to check off the cases as the different elements listed have been completed to make sure all the steps have been respected. Make sure the package passes R CMD check by running `devtools::check()` before commiting changes to a pull request. 
+The title of your PR should briefly describe the change. 
+Please include a summary of the changes and which issues are fixed and the relevant motivation and context. 
+List any dependencies that are required for this change, indicating whether this is a major (breaking), minor, or patch change. 
+The body of your PR should contain `Fixes #issue-number`.
+A checklist is provided to check off the cases as the different elements listed have been completed to make sure all the steps have been respected.
+Make sure the package passes R CMD check by running `devtools::check()` before commiting changes to a pull request. 
 
 If you want to make a bigger change, it's a good idea to first file an issue and make sure someone from the team agrees that it’s needed before openning a pull request. If you’ve found a bug, please file an issue that illustrates the bug with a minimal [reprex](https://www.tidyverse.org/help/#reprex).
 
