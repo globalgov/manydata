@@ -127,6 +127,13 @@ Any ancillary changes can be mentioned after a comma.
 
 It should all be written in a single line, like so: #`{verb} {issue} {describe main action/changes}, {additional actions/changes}`.
 
+Note that it is important to write a structured commit message to improve efficiency in collaboration.
+Please make sure of:
+* Making the title clear and concise with correct reference to an issue as described above. 
+* Using a subject line in the description part when the commit message outlines many different changes.
+* Explaining in details the changes made and why you made them by using bullet points.
+* Separating each paragraph with a blank line.
+
 ### Testing 
 We use the [testthat](https://testthat.r-lib.org/) package to write unit tests.
 By convention, tests are located in [testthat/tests/](qData/tests/testthat).
