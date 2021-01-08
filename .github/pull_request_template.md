@@ -8,6 +8,8 @@ indicating whether this is a major (breaking), minor, or patch change.
 Fixes #(issue no.)
 Closes #(issue no.)
 
+A pull request requires the different actions listed below to be completed. Please make sure you have been trough all of them by checking off the corresponding box once it has been done.
+
 # Checklist:
 
 - [ ] I have commented my code in-line, particularly in hard-to-understand areas
@@ -18,5 +20,5 @@ Closes #(issue no.)
 - [ ] My changes generate no new warnings
 - [ ] PR checks all pass for latest commit
 - [ ] I have bumped the version by the appropriate increment in the DESCRIPTION file (major, minor, patch)
-- [ ] I have updated NEWS.md
+- [ ] I have updated NEWS.md with the same content as the description section of this pull request
 - [ ] I have given this pull request an informative title and description
