@@ -37,7 +37,7 @@ provides a script to facilitate data loading and data correction using {qData}.
 The function requires that a name for the dataset - two dimensional data sheet being 
 imported - is declared, in upper case letters, as well as the name of the issue-domain, 
 in lower case letters, the dataset belongs. The domain issue name will be used to connect 
-two-dimensional datasets into three-dimensional databases that resembles a data cube.
+two-dimensional datasets into three-dimensional databases that resembles a data cube (a list object where entries are dataframes).
 
 ```{r eval=FALSE}
 qData::import_data("COW", "states")
@@ -62,20 +62,15 @@ COW <- transmutate(ID = stateabb,
                    COW_Nr = standardise_titles(as.character(ccode)))
 ```
 
+## Connecting data
+
 Once the dataset has been corrected in {qData}, the cleaned dataset can be loaded into the 
-package using the `export_data()` function. The function creates a data folder to store 
-corrected datasets, while providing a citation template and a test template. The citation 
-template helps cite the source of the raw data and and describe the variables in the corrected 
-dataset. The test template makes sure the corrected dataset is consistent with {qData} guidelines.
+package using the `export_data()` function which take as inputs the dataset name and the database name as a string. 
+Corrected datasets can be connected to form a three dimensional database that resembles a data cube. The function creates a database in a data folder to store corrected datasets,while providing a citation template and a test template. The citation template helps cite the source of the raw data and and describe the variables in the corrected dataset. The test template makes sure the corrected dataset is consistent with {qData} guidelines.
 
 ```{r eval=FALSE}
-qData::export_data(COW)
+qData::export_data(COW, "states")
 ```
 
 The test template is meant to ensure consistency for the corrected dataset. 
 If these tests fail, users can go back to correcting the data and, then, re-run `export_data()`.  
-
-## Connecting data
-
-Corrected datasets can be connected to form a three dimensional database that resembles a data cube. 
-This can be done with the help of several functions in {qData}. 
