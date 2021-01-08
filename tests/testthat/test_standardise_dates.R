@@ -2,6 +2,12 @@ test_that("standardise_dates() treats typical dates correctly",{
   expect_equal(standardise_dates("2010-01-01"), anytime::anydate("2010-01-01"))
 })    
 
+test_that("standardise_dates() takes three variables as input",{
+  expect_equal(standardise_dates("2010", "01", "01"), anytime::anydate("2010-01-01"))
+  expect_equal(standardise_dates("2010", "1", "1"), anytime::anydate("2010-01-01"))
+  expect_error(standardise_dates("2010", "1"), "you need to pass standardise_dates")
+})    
+
 test_that("standardise_dates() treats reverse ordered dates correctly", {
   expect_match(as.character(standardise_dates("30.1.1874")), "1874-01-30")
   expect_match(as.character(standardise_dates("31.12.1879")), "1879-12-31")
@@ -58,6 +64,7 @@ test_that("standardise_dates() treats future dates correctly",{
 })
 
 test_that("standardise_dates() treats historical dates correctly",{
+  expect_warning(recent(), "is deprecated")
   expect_match(as.character(standardise_dates("1712-01-01")[[1]]), "1712-01-01")
 #  expect_match(as.character(standardise_dates("712-01-01")[[1]]), "0712-01-01")
 #   expect_match(as.character(standardise_dates("0712-01-01")[[1]]), "0712-01-01")
