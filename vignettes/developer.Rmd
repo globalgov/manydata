@@ -47,7 +47,7 @@ qData::import_data("COW", "states")
 
 Once a dataset is collected with `import_data()`, it needs to be corrected so that it can be 
 connected into a database. {qData} contains several functions geared towards data wrangling. 
-These include, for example, the `transmutate()` function which is between between dplyr's 
+These include, for example, the `transmutate()` function which is between dplyr's 
 transmute and mutate but that returns only the mutated variables and none of the variables
 used in the mutations. {qData} also includes functions that help correct and standardise dates. 
 These include, for example, the `standardise_dates()` function which creates nested vectors of 
