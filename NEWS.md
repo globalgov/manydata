@@ -2,9 +2,10 @@
 
 ## 
 
-* Corrected the typing error found in the vignette "develop"
+* Closed #81 by changing description of the _Connecting data_ section to include `export_data()` specificities
+* Corrected the typing error found in "develop" vignette 
+* Corrected styling issues in texts (delete double space in files)
 * Updated the description of the `export_data()` function to its new version including database name as a string
-* Changed the description of the _Connecting data_ section to include `export_data()` specificities
 
 # qData 0.3.0
 
