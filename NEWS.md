@@ -1,6 +1,6 @@
 # qData 0.3.1
 
-## 
+## Package
 
 * Closed #81 by changing description of the _Connecting data_ section to include `export_data()` specificities
 * Corrected the typing error found in "develop" vignette 
