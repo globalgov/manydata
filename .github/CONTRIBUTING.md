@@ -21,7 +21,9 @@ Independent or assigned code contributions are most welcome.
 When writing new code, please follow [tidyverse style guide](https://style.tidyverse.org/index.html) which is based on
 [standard R guidelines](https://google.github.io/styleguide/Rguide.xml).
 
-It can help to use packages such as `lintr` and `goodpractice` to ensure these are followed. These packages are incorporated into the checks made when a pull request is made. The `styler` package fixes in a non-invasive way the code to adhere to the tidyverse formatting rules, and it also provides an RStudio Addins to help with this task.
+It can help to use packages such as `lintr` and `goodpractice` to ensure these are followed. 
+These packages are incorporated into the checks made when a pull request is made. 
+The `styler` package fixes in a non-invasive way the code to adhere to the tidyverse formatting rules, and it also provides an RStudio Addins to help with this task.
 To run the `lintr` and `goodpractice` checks or use `styler` in a file run:
 
 ```r
