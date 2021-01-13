@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">qData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -130,13 +130,13 @@
 
 <div id="contributing" class="section level1">
 
-<p>Contributions to <code>qDatr</code>, whether in the form of issue identification, bug fixes, new code or documentation are encouraged and welcome, both from research assistants and (early) users of the package:</p>
+<p>Contributions to <code>qData</code>, whether in the form of issue identification, bug fixes, new code or documentation are encouraged and welcome, both from research assistants and (early) users of the package:</p>
 <ul>
 <li><a href="#issues">Submit an issue</a></li>
 <li><a href="#adding-new-code">Fix a bug or implement new features</a></li>
 <li><a href="#documentation">Document existing code</a></li>
 </ul>
-<p>This outlines how to propose a change to a package from the Global Governance Observatory’s ecosystem. Please note that the <code>qDatr</code> project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>.By contributing to this project, you agree to abide by its terms.</p>
+<p>This outlines how to propose a change to a package from the Global Governance Observatory’s ecosystem. Please note that the <code>qData</code> project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 <div id="issues" class="section level2">
 <h2 class="hasAnchor">
 <a href="#issues" class="anchor"></a>Issues</h2>
@@ -147,25 +147,24 @@
 <h2 class="hasAnchor">
 <a href="#adding-new-code" class="anchor"></a>Adding new code</h2>
 <p>Independent or assigned code contributions are most welcome. When writing new code, please follow <a href="https://style.tidyverse.org/index.html">tidyverse style guide</a> which is based on <a href="https://google.github.io/styleguide/Rguide.xml">standard R guidelines</a>.</p>
-<p>It can help to use packages such as <code>lintr</code> and <code>goodpractice</code> to ensure these are followed. The <code>styler</code> package fixes in a non-invasive way the code to adhere to the tidyverse formatting rules, and it also provides an RStudio Addins to help with this task. To run the <code>lintr</code> and <code>goodpractice</code> checks or use <code>styler</code> in a file run:</p>
+<p>It can help to use packages such as <code>lintr</code> and <code>goodpractice</code> to ensure these are followed. These packages are incorporated into the checks made when a pull request is made. The <code>styler</code> package fixes in a non-invasive way the code to adhere to the tidyverse formatting rules, and it also provides an RStudio Addins to help with this task. To run the <code>lintr</code> and <code>goodpractice</code> checks or use <code>styler</code> in a file run:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># basic lintr checking</span>
-<span class="fu">lintr</span><span class="fu">::</span><span class="fu">lint_package</span><span class="op">(</span>path <span class="op">=</span> <span class="st">"qDatr/"</span><span class="op">)</span>
+<span class="fu">lintr</span><span class="fu">::</span><span class="fu">lint_package</span><span class="op">(</span>path <span class="op">=</span> <span class="st">"qData/"</span><span class="op">)</span>
 
 <span class="co"># goodpractices checks. Exclude length 80</span>
-<span class="fu">goodpractice</span><span class="fu">::</span><span class="fu">gp</span><span class="op">(</span>path <span class="op">=</span> <span class="st">"qDatr/"</span>,
+<span class="fu">goodpractice</span><span class="fu">::</span><span class="fu">gp</span><span class="op">(</span>path <span class="op">=</span> <span class="st">"qData/"</span>,
    checks <span class="op">=</span> <span class="fu">all_checks</span><span class="op">(</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">8</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
 
 <span class="co"># styler fix some of the styling issues</span>
 <span class="fu">styler</span><span class="fu">::</span><span class="fu">style_file</span><span class="op">(</span><span class="st">"filePath"</span><span class="op">)</span></code></pre></div>
-<p>If you develop new code in <code>C++</code>, please follow the <a href="https://google.github.io/styleguide/cppguide.html">Google C++ Style Guide</a>.</p>
 </div>
 <div id="pull-request-process" class="section level2">
 <h2 class="hasAnchor">
 <a href="#pull-request-process" class="anchor"></a>Pull request process</h2>
-<p>The title of your PR should briefly describe the change. Please include a summary of the changes and which issues are fixed and the relevant motivation and context. List any dependencies that are required for this change, indicating whether this is a major (breaking), minor, or patch change. The body of your PR should contain <code>Fixes #issue-number</code>. Make sure the package passes R CMD check by running <code>devtools::check()</code> before commiting changes to a pull request.</p>
+<p>The title of your PR should briefly describe the change. Please include a summary of the changes and which issues are fixed and the relevant motivation and context. List any dependencies that are required for this change, indicating whether this is a major (breaking), minor, or patch change. The body of your PR should contain <code>Fixes #issue-number</code>. A checklist is provided to check off the cases as the different elements listed have been completed to make sure all the steps have been respected. Make sure the package passes R CMD check by running <code>devtools::check()</code> before commiting changes to a pull request.</p>
 <p>If you want to make a bigger change, it’s a good idea to first file an issue and make sure someone from the team agrees that it’s needed before openning a pull request. If you’ve found a bug, please file an issue that illustrates the bug with a minimal <a href="https://www.tidyverse.org/help/#reprex">reprex</a>.</p>
-<p>Please follow the qDatr pull request guideline (<a href="https://github.com/globalgov/qDatr/blob/main/.github/pull_request_template.md" class="uri">https://github.com/globalgov/qDatr/blob/main/.github/pull_request_template.md</a>)</p>
+<p>Please follow the qData pull request guideline (<a href="https://github.com/globalgov/qData/blob/main/.github/pull_request_template.md" class="uri">https://github.com/globalgov/qData/blob/main/.github/pull_request_template.md</a>)</p>
 <div id="branches" class="section level3">
 <h3 class="hasAnchor">
 <a href="#branches" class="anchor"></a>Branches</h3>
@@ -238,11 +237,18 @@ git merge --no-ff hotfix-VERSION</code></pre>
 <p><code>Resolved #31 by adding a new function that does things, also updated documentation</code></p>
 <p>Where the issue hash (i.e. #31) is preceded by <code>resolve</code>, <code>resolves</code>, <code>resolved</code>, <code>close</code>, <code>closes</code>, <code>closed</code>, <code>fix</code>, <code>fixes</code>, or <code>fixed</code> (capitalised or not), the status of the issue(s) mentioned is updated automatically. Our current syntactical standard is to mention the issue first and then provide a short description of what the committed changes do in relation to that issue. Any ancillary changes can be mentioned after a comma.</p>
 <p>It should all be written in a single line, like so: #<code>{verb} {issue} {describe main action/changes}, {additional actions/changes}</code>.</p>
+<p>Note that it is important to write a structured commit message to improve efficiency in collaboration. Please make sure of:</p>
+<ul>
+<li>Making the title clear and concise with correct reference to an issue as described above.</li>
+<li>Using a subject line in the description part when the commit message outlines many different changes.</li>
+<li>Explaining in details the changes made and why you made them by using bullet points.</li>
+<li>Separating each paragraph with a blank line.</li>
+</ul>
 </div>
 <div id="testing" class="section level3">
 <h3 class="hasAnchor">
 <a href="#testing" class="anchor"></a>Testing</h3>
-<p>We use the <a href="https://testthat.r-lib.org/">testthat</a> package to write unit tests. By convention, tests are located in <a href="qDatr/tests/testthat">testthat/tests/</a>.</p>
+<p>We use the <a href="https://testthat.r-lib.org/">testthat</a> package to write unit tests. By convention, tests are located in <a href="qData/tests/testthat">testthat/tests/</a>.</p>
 <p>You should verify that all tests pass before issuing a commit to existing code. To run all tests for the latest version manually:</p>
 <pre><code>git pull
 library("testthat")
@@ -250,7 +256,7 @@ testthat::test_dir("tests/testthat")</code></pre>
 <p>When writing a new function, consider writing a unit test for that function. We follow several conventions for writing tests:</p>
 <ul>
 <li><p>A unit test file should test one or more aspects of a single function. This makes it easier to identify the source of bugs, and prevents lower-level tests from failing when higher-level functions change.</p></li>
-<li><p>The <a href="https://www.tidyverse.org/articles/2019/04/testthat-2-1-0/">naming convention</a> for test files is: <code>test-FILENAME_IN_R_DIRECTORY-FUNCTION_NAME.R</code>, i.e. test files are named after the file containing the original function in the <a href="qDatr/R">R</a> directory, pre-fixed with “test”, and optionally post-fixed with the name of the function that is being tested.</p></li>
+<li><p>The <a href="https://www.tidyverse.org/articles/2019/04/testthat-2-1-0/">naming convention</a> for test files is: <code>test-FILENAME_IN_R_DIRECTORY-FUNCTION_NAME.R</code>, i.e. test files are named after the file containing the original function in the <a href="qData/R">R</a> directory, pre-fixed with “test”, and optionally post-fixed with the name of the function that is being tested.</p></li>
 <li><p>If a test requires auxiliary functions from the package, e.g. to initialize a network with sample data, these belong in a helper file. There should be only one helper file for each <code>R</code> file, named <code>helper-FILENAME_IN_R_DIRECTORY-FUNCTION_NAME.R</code>. Re-using existing test data is preferable to creating new data for every test.</p></li>
 </ul>
 </div>

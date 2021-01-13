@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">qData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
       <h1 data-toc-skip>Working with qData</h1>
                         <h4 class="author">James Hollway</h4>
             
-            <h4 class="date">2021-01-07</h4>
+            <h4 class="date">2021-01-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/globalgov/qDatr/blob/master/vignettes/user.Rmd"><code>vignettes/user.Rmd</code></a></small>
       <div class="hidden name"><code>user.Rmd</code></div>
@@ -107,10 +107,10 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/get_packages.html">get_packages</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt; # A tibble: 2 x 7
-#&gt;   name   full_name  description      installed latest updated    contributors   
-#&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;            &lt;chr&gt;     &lt;chr&gt;  &lt;date&gt;     &lt;chr&gt;          
-#&gt; 1 qData  globalgov… An R portal for… 0.3.0     0.2.1  2020-11-26 jhollway, henr…
-#&gt; 2 qStat… globalgov… &lt;NA&gt;             0.0.1     0.0.1  2021-01-06 henriquesposit…</code></pre>
+#&gt;   name   full_name  description     installed latest updated    contributors    
+#&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;  &lt;date&gt;     &lt;chr&gt;           
+#&gt; 1 qData  globalgov… An R portal fo… 0.3.1     0.3.1  2021-01-13 jhollway, henri…
+#&gt; 2 qStat… globalgov… &lt;NA&gt;            0.0.1     0.0.1  2021-01-06 henriquesposito…</code></pre>
 <p>In the future, this function will report more details about the datasets included in each package and their provenance.</p>
 <p>For now, let us say that we wish to download the <a href="https://github.com/globalgov/qStates">qStates</a> package, which offers a set of datasets related to state actors in global governance. We can download and install the latest release version of the <a href="https://github.com/globalgov/qStates">qStates</a> package using the same function as before, only specifying which package we want to ‘get’:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">qData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
       <h1 data-toc-skip>Contributing to qData</h1>
                         <h4 class="author">James Hollway</h4>
             
-            <h4 class="date">2021-01-07</h4>
+            <h4 class="date">2021-01-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/globalgov/qDatr/blob/master/vignettes/developer.Rmd"><code>vignettes/developer.Rmd</code></a></small>
       <div class="hidden name"><code>developer.Rmd</code></div>
@@ -100,36 +100,35 @@
 <div id="contributing-to-the-qdata-ecosystem-of-packages" class="section level2">
 <h2 class="hasAnchor">
 <a href="#contributing-to-the-qdata-ecosystem-of-packages" class="anchor"></a>Contributing to the qData ecosystem of packages</h2>
-<p>{qData} has package related functions that help developers contribute to the ecosystem of packages by helping with the set-up of packages consistent with {qData}. The function <code><a href="../reference/setup_package.html">setup_package()</a></code>, for example, establishes many of the required files and folder structures for a {qData}-consistent data package. It requires that the package name starts with a the letter “q” as well as that the name of at least one author is declared.</p>
+<p><a href="https://github.com/globalgov/qDatr">qData</a> has package related functions that help developers contribute to the ecosystem of packages by helping with the set-up of packages consistent with <a href="https://github.com/globalgov/qDatr">qData</a>. The function <code><a href="../reference/setup_package.html">setup_package()</a></code>, for example, establishes many of the required files and folder structures for a <a href="https://github.com/globalgov/qDatr">qData</a>-consistent data package. It requires that the package name starts with a the letter “q” as well as that the name of at least one author is declared.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">qData</span><span class="fu">::</span><span class="fu"><a href="../reference/setup_package.html">setup_package</a></span><span class="op">(</span><span class="st">"qStates"</span>, <span class="st">"James Hollway"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="collecting-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#collecting-data" class="anchor"></a>Collecting data</h2>
-<p>For data collection and loading into a new package with {qData}, the function <code><a href="../reference/import_data.html">import_data()</a></code> creates a data-raw folder into the package, copies the raw data into the folder and provides a script to facilitate data loading and data correction using {qData}. The function requires that a name for the dataset - two dimensional data sheet being imported - is declared, in upper case letters, as well as the name of the issue-domain, in lower case letters, the dataset belongs. The domain issue name will be used to connect two-dimensional datasets into three-dimensional databases that resembles a data cube.</p>
+<p>For data collection and loading into a new package with <a href="https://github.com/globalgov/qDatr">qData</a>, the function <code><a href="../reference/import_data.html">import_data()</a></code> creates a data-raw folder into the package, copies the raw data into the folder and provides a script to facilitate data loading and data correction using <a href="https://github.com/globalgov/qDatr">qData</a>. The function requires that a name for the dataset - two dimensional data sheet being imported - is declared, in upper case letters, as well as the name of the issue-domain, in lower case letters, the dataset belongs. The domain issue name will be used to connect two-dimensional datasets into three-dimensional databases that resembles a data cube (a list object where entries are tibbles).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">qData</span><span class="fu">::</span><span class="fu"><a href="../reference/import_data.html">import_data</a></span><span class="op">(</span><span class="st">"COW"</span>, <span class="st">"states"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="correcting-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#correcting-data" class="anchor"></a>Correcting data</h2>
-<p>Once a dataset is collected with <code><a href="../reference/import_data.html">import_data()</a></code>, it needs to be corrected so that it can be connected into a database. {qData} contains several functions geared towards data wrangling. These include, for example, the <code><a href="../reference/transmutate.html">transmutate()</a></code> function which is between between dplyr’s transmute and mutate but that returns only the mutated variables and none of the variables used in the mutations. {qData} also includes functions that help correct and standardise dates. These include, for example, the <code><a href="../reference/standardise_dates.html">standardise_dates()</a></code> function which creates nested vectors of dates for vague date inputs into a range of dates. As well, the <code>standardise_title()</code> function capitalises all words in a string and removes unnecessary symbols to enable comparison.</p>
+<p>Once a dataset is collected with <code><a href="../reference/import_data.html">import_data()</a></code>, it needs to be corrected so that it can be connected into a database. <a href="https://github.com/globalgov/qDatr">qData</a> contains several functions geared towards data wrangling. These include, for example, the <code><a href="../reference/transmutate.html">transmutate()</a></code> function which is between <a href="https://dplyr.tidyverse.org">dplyr</a>’s transmute and mutate but that returns only the mutated variables and none of the variables used in the mutations. <a href="https://github.com/globalgov/qDatr">qData</a> also includes functions that help correct and standardise dates. These include, for example, the <code><a href="../reference/standardise_dates.html">standardise_dates()</a></code> function which creates nested vectors of dates for vague date inputs into a range of dates. As well, the <code>standardise_title()</code> function capitalises all words in a string and removes unnecessary symbols to enable comparison.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">COW</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/transmutate.html">transmutate</a></span><span class="op">(</span>ID <span class="op">=</span> <span class="va">stateabb</span>,
                    Beg <span class="op">=</span> <span class="fu"><a href="../reference/standardise_dates.html">standardise_dates</a></span><span class="op">(</span><span class="va">styear</span>, <span class="va">stmonth</span>, <span class="va">stday</span><span class="op">)</span>,
                    End <span class="op">=</span> <span class="fu"><a href="../reference/standardise_dates.html">standardise_dates</a></span><span class="op">(</span><span class="va">endyear</span>, <span class="va">endmonth</span>, <span class="va">endday</span><span class="op">)</span>,
                    Label <span class="op">=</span> <span class="fu"><a href="../reference/standardise_titles.html">standardise_titles</a></span><span class="op">(</span><span class="va">statenme</span><span class="op">)</span>,
                    COW_Nr <span class="op">=</span> <span class="fu"><a href="../reference/standardise_titles.html">standardise_titles</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">ccode</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>Once the dataset has been corrected in {qData}, the cleaned dataset can be loaded into the package using the <code><a href="../reference/export_data.html">export_data()</a></code> function. The function creates a data folder to store corrected datasets, while providing a citation template and a test template. The citation template helps cite the source of the raw data and and describe the variables in the corrected dataset. The test template makes sure the corrected dataset is consistent with {qData} guidelines.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">qData</span><span class="fu">::</span><span class="fu"><a href="../reference/export_data.html">export_data</a></span><span class="op">(</span><span class="va">COW</span><span class="op">)</span></code></pre></div>
-<p>The test template is meant to ensure consistency for the corrected dataset. If these tests fail, users can go back to correcting the data and, then, re-run <code><a href="../reference/export_data.html">export_data()</a></code>.</p>
 </div>
 <div id="connecting-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#connecting-data" class="anchor"></a>Connecting data</h2>
-<p>Corrected datasets can be connected to form a three dimensional database that resembles a data cube. This can be done with the help of several functions in {qData}.</p>
+<p>Once the dataset has been corrected in <a href="https://github.com/globalgov/qDatr">qData</a>, the cleaned dataset can be loaded into the package using the <code><a href="../reference/export_data.html">export_data()</a></code> function which take as inputs the dataset name and the database name as a string. Corrected datasets can be connected to form a three dimensional database that resembles a data cube. The function creates a database in a data folder to store corrected datasets,while providing a citation template and a test template. The citation template helps cite the source of the raw data and and describe the variables in the corrected dataset. The test template makes sure the corrected dataset is consistent with <a href="https://github.com/globalgov/qDatr">qData</a> guidelines.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">qData</span><span class="fu">::</span><span class="fu"><a href="../reference/export_data.html">export_data</a></span><span class="op">(</span><span class="va">COW</span>, <span class="st">"states"</span><span class="op">)</span></code></pre></div>
+<p>The test template is meant to ensure consistency for the corrected dataset. If these tests fail, users can go back to correcting the data and, then, re-run <code><a href="../reference/export_data.html">export_data()</a></code>.</p>
 </div>
   </div>
 
