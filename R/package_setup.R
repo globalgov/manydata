@@ -70,7 +70,7 @@ setup_package <- function(packageName = NULL,
   # Add R folder
   usethis::ui_done("Created R/ folder. Here is where any scripts go.")
   # Add LICENSE
-  usethis::use_ccby_license(name = packageAuthor)
+  usethis::use_ccby_license()
   usethis::ui_done("Added CCBY license. Modify if necessary.")
   # Add NAMESPACE
   usethis::use_namespace()

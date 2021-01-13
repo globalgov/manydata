@@ -5,8 +5,13 @@ Please also include relevant motivation and context.
 List any dependencies that are required for this change,
 indicating whether this is a major (breaking), minor, or patch change.
 
-Fixes #(issue no.)
-Closes #(issue no.)
+When referring to an issue, use the format below in a bullet point with an explanation of the change that fixes/closes it.
+Fixed #(issue no.)
+Closed #(issue no.)
+e.g. "Fixed #23 by rerouting A through B"
+
+A pull request requires the different actions listed below to be completed. 
+Please make sure you have been through all of them by checking off the corresponding box once it has been done.
 
 # Checklist:
 
@@ -18,5 +23,5 @@ Closes #(issue no.)
 - [ ] My changes generate no new warnings
 - [ ] PR checks all pass for latest commit
 - [ ] I have bumped the version by the appropriate increment in the DESCRIPTION file (major, minor, patch)
-- [ ] I have updated NEWS.md
+- [ ] I have updated NEWS.md with the same content as the description section of this pull request
 - [ ] I have given this pull request an informative title and description
