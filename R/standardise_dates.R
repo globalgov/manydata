@@ -141,7 +141,7 @@ standardise_dates <- standardize_dates <- function(...){
     } else if(stringr::str_detect(d, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")){ # full date
       if(d > Sys.Date() + lubridate::years(25)){
         d <- "9999-12-31" # convert future dates
-      }
+      } 
       d <- anytime::anydate(d)
     }
     
@@ -155,7 +155,6 @@ standardise_dates <- standardize_dates <- function(...){
   # see hoist(), unnest_wider(), and unnest_longer()
   
 }
-
 
 #' Resetting century of future events
 #'
