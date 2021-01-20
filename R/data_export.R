@@ -31,6 +31,9 @@ export_data <- function(..., database) {
   # dataset
   
   # Step two: join dataset to any related datasets in a database
+  if(!file.exists("data")) {
+    stop("Please set up a data folder before running the function")
+  }
   if(file.exists(paste0("data/", database, ".rda"))){
     usethis::ui_info("Found an existing {usethis::ui_value(database)} database. Imported it ready to update.")
     env <- new.env()
@@ -63,7 +66,7 @@ export_data <- function(..., database) {
   # Step three: create the right kind of test script for the type of object it is
   # TODO: decide on what kinds of objects can be contained in qData packages
   # (actors, agreements, relations, etc)
-  if(database("states")) {
+  if(database == "states") {
     qtemplate("test_states.R",
               save_as = fs::path("tests", "testthat", paste0("test_", dataset_name, ".R")),
               data = list(dat = dataset_name,
@@ -71,7 +74,7 @@ export_data <- function(..., database) {
               open = FALSE,
               ignore = FALSE,
               path = getwd())  
-  } else if(database("agreements")) {
+  } else if(database == "agreements") {
     qtemplate("test_agreements.R",
               save_as = fs::path("tests", "testthat", paste0("test_", dataset_name, ".R")),
               data = list(dat = dataset_name,

@@ -1,26 +1,31 @@
+# Test if {{{dataset}}} meets the q ecosystem requirements
+
+# Requires the following package
 library(pointblank)
 
-test_that("object is correct", {
-  expect_col_exists({{{dab}}}[["{{{dat}}}"]], vars("ID"))
-  expect_col_exists({{{dab}}}[["{{{dat}}}"]], vars(Beg))
-  expect_col_exists({{{dab}}}[["{{{dat}}}"]], vars(End))
-})
+# # Ensure the dataset is in tibble format
+# test_that("exported data is in tibble format", {
+#   expect_message(tibble::is_tibble("{{{dat}}}"), "TRUE")
+# })
 
-test_that("missing obsevarsions are reported correctly", {
+# Report missing values 
+test_that("missing observations are reported correctly", {
   expect_false(any(grepl("^.$", {{{dab}}}[["{{{dat}}}"]])))
   expect_false(any(grepl("^n/a$", {{{dab}}}[["{{{dat}}}"]])))
   expect_false(any(grepl("^N/A$", {{{dab}}}[["{{{dat}}}"]])))
 })
 
-test_that("dates are standardised", {
-  expect_col_is_date({{{dab}}}[["{{{dat}}}"]], vars(Beg))
-  expect_col_is_date({{{dab}}}[["{{{dat}}}"]], vars(End))
-  expect_false(any(grepl("^/$", {{{dab}}}[["{{{dat}}}"]])))
+# Uniformity tests (agreements have a source ID, a string title, a signature and entry into force date)
+test_that("datasets have the correct variables", {
+  expect_col_exists({{{dab}}}[["{{{dat}}}"]], vars(Title))
+  expect_col_exists({{{dab}}}[["{{{dat}}}"]], vars(Signature))
+  expect_col_exists({{{dab}}}[["{{{dat}}}"]], vars(Force))
 })
 
-test_that("labels are standardised", {
-  expect_false(any(grepl("U.S.", {{{dab}}}[["{{{dat}}}"]])))
-  expect_false(any(grepl("U.K.", {{{dab}}}[["{{{dat}}}"]])))
-  expect_false(any(grepl("!", {{{dab}}}[["{{{dat}}}"]])))
-  expect_false(any(grepl("NANA.", {{{dab}}}[["{{{dat}}}"]])))
+# Dates are standardized
+test_that("dates are standardised", {
+  expect_col_is_date({{{dab}}}[["{{{dat}}}"]], vars(Signature))
+  expect_col_is_date({{{dab}}}[["{{{dat}}}"]], vars(Force))
+  expect_false(any(grepl("/", {{{dab}}}[["{{{dat}}}"]]$Signature)))
+  expect_false(any(grepl("/", {{{dab}}}[["{{{dat}}}"]]$Force)))
 })
