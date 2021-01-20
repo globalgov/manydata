@@ -108,6 +108,6 @@ export_data <- function(..., database) {
   }
 
   ui_done("A test script has been created for this data.")
-  ui_todo("Press Cmd/Ctrl-Shift-T to run all tests.")
+  ui_todo("Press Cmd/Ctrl-Shift-T to run all tests or run devtools::test().")
 
 }
