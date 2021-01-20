@@ -24,16 +24,14 @@ export_data <- function(..., database) {
   dataset_name <- deparse(substitute(...))
   dataset <- get(dataset_name)
   
-  # Step one: coerce dataset into correct format if not already
+  # Step one: coerce dataset into correct format if not already and creates data folder
   # if(!"Beg" %in% colnames(dataset)) stop("Please ensure there is at least one date column named 'Beg' for beginning")
   # if(!"ID" %in% colnames(dataset)) stop("Please ensure there is at least one identification column named 'ID'")
   # dataset <- as_tibble(dataset) %>% dplyr::arrange(.data$Beg, .data$ID)
   # dataset
+  usethis::use_directory("data", ignore = FALSE)
   
   # Step two: join dataset to any related datasets in a database
-  if(!file.exists("data")) {
-    stop("Please set up a data folder before running the function")
-  }
   if(file.exists(paste0("data/", database, ".rda"))){
     usethis::ui_info("Found an existing {usethis::ui_value(database)} database. Imported it ready to update.")
     env <- new.env()
