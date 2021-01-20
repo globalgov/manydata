@@ -6,7 +6,7 @@ Authors@R:
              family = "{{{family}}}",
              role = c("cre", "aut", "ctb")))
 Description: Collection, correction, and connection.
-License: CCBY
+License: CC BY 4.0
 Depends: 
     R (>= 2.10),
     tibble
