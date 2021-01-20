@@ -63,7 +63,24 @@ export_data <- function(..., database) {
     usethis::ui_done("Saved a {usethis::ui_value(database)} database that includes the {usethis::ui_value(deparse(substitute(...)))} dataset.")
   }
   
-  # Step three: create the right kind of test script for the type of object it is
+  # Step three: create and open a documentation script
+  nr <- nrow(dataset)
+  nc <- ncol(dataset)
+  nm <- names(dataset)
+  # print(nm)
+  describe <- paste0("#' \\describe{\n", paste0("#'   \\item{",nm,"}{Decribe variable here}\n", collapse = ""), "#' }")
+  qtemplate("qData-doc.R",
+            save_as = fs::path("R", paste0("qData-", dataset_name, ".R")),
+            data = list(dat = dataset_name,
+                        dab = database,
+                        nr = nr,
+                        nc = nc,
+                        describe = describe),
+            open = TRUE,
+            ignore = FALSE,
+            path = getwd())
+  
+  # Step four: create the right kind of test script for the type of object it is
   # TODO: decide on what kinds of objects can be contained in qData packages
   # (actors, agreements, relations, etc)
   if(database == "states") {
@@ -95,20 +112,4 @@ export_data <- function(..., database) {
   ui_done("A test script has been created for this data.")
   ui_todo("Press Cmd/Ctrl-Shift-T to run all tests.")
 
-  # Step four: create and open a documentation script
-  nr <- nrow(dataset)
-  nc <- ncol(dataset)
-  nm <- names(dataset)
-  # print(nm)
-  describe <- paste0("#' \\describe{\n", paste0("#'   \\item{",nm,"}{Decribe variable here}\n", collapse = ""), "#' }")
-  qtemplate("qData-doc.R",
-            save_as = fs::path("R", paste0("qData-", dataset_name, ".R")),
-            data = list(dat = dataset_name,
-                        dab = database,
-                        nr = nr,
-                        nc = nc,
-                        describe = describe),
-            open = TRUE,
-            ignore = FALSE,
-            path = getwd())
 }
