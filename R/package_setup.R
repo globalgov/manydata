@@ -68,6 +68,7 @@ setup_package <- function(packageName = NULL,
             path = path)
   usethis::ui_done("Added DESCRIPTION file. Modify if necessary.")
   # Add R folder
+  create_directory(paste0(path, "/R"))
   usethis::ui_done("Created R/ folder. Here is where any scripts go.")
   # Add LICENSE
   usethis::use_ccby_license()
