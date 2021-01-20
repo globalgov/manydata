@@ -71,7 +71,6 @@ setup_package <- function(packageName = NULL,
   create_directory(paste0(path, "/R"))
   usethis::ui_done("Created R/ folder. Here is where any scripts go.")
   # Add LICENSE
-  usethis::use_ccby_license(name = packageAuthor)
   usethis::ui_done("Added CCBY license. Modify if necessary.")
   # Add NAMESPACE
   usethis::use_namespace()
