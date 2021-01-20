@@ -3,14 +3,17 @@
 # Requires the following package
 library(pointblank)
 
-# # Ensure the dataset is in tibble format
-# test_that("exported data is in tibble format", {
-#   expect_message(tibble::is_tibble("{{{dat}}}"), "TRUE")
-# })
-
 # Report missing values 
 test_that("missing observations are reported correctly", {
   expect_false(any(grepl("^.$", {{{dab}}}[["{{{dat}}}"]])))
   expect_false(any(grepl("^n/a$", {{{dab}}}[["{{{dat}}}"]])))
   expect_false(any(grepl("^N/A$", {{{dab}}}[["{{{dat}}}"]])))
+})
+
+# Labels are standardized
+test_that("labels are standardised", {
+  expect_false(any(grepl("U.S.", {{{dab}}}[["{{{dat}}}"]])))
+  expect_false(any(grepl("U.K.", {{{dab}}}[["{{{dat}}}"]])))
+  expect_false(any(grepl("!", {{{dab}}}[["{{{dat}}}"]])))
+  expect_false(any(grepl("NANA.", {{{dab}}}[["{{{dat}}}"]])))
 })
