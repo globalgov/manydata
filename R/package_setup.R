@@ -58,14 +58,30 @@ setup_package <- function(packageName = NULL,
   
   # Step one: ensure/create package/project structure
   # Add DESCRIPTION
-  given <- stringr::str_split(packageAuthor, " ")[1]
-  family <- stringr::str_split(packageAuthor, " ")[2]
-  qtemplate("qPackage-DESC.dcf",
+  if(stringr::str_detect(packageAuthor, "\\,") == "TRUE") {
+  given <- stringr::str_split(packageAuthor, "\\s|\\,")[[1]][1]
+  family <- stringr::str_split(packageAuthor, "\\s|\\,")[[1]][2]
+  given2 <- stringr::str_split(packageAuthor, "\\s|\\,")[[1]][3]
+  family2 <- stringr::str_split(packageAuthor, "\\s|\\,")[[1]][4]
+  qtemplate("qPackage-DESC2.dcf",
             "DESCRIPTION",
             data = list(package = packageName,
                         given = given,
-                        family = family),
+                        family = family,
+                        given2 = given2,
+                        family2 = family2),
             path = path)
+  } else {
+    spl2 <- stringr::str_split(packageAuthor, " ")
+    given <- stringr::str_split(spl2, "\\s")[[1]][1]
+    family <- stringr::str_split(spl2, "\\s")[[1]][2]
+    qtemplate("qPackage-DESC.dcf",
+              "DESCRIPTION",
+              data = list(package = packageName,
+                          given = given,
+                          family = family),
+              path = path)
+  }
   usethis::ui_done("Added DESCRIPTION file. Modify if necessary.")
   # Add R folder
   create_directory(paste0(path, "/R"))

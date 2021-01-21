@@ -1,0 +1,29 @@
+Package: {{{package}}}
+Title: Quantum Data for the 21st Century
+Version: 0.0.1
+Authors@R: 
+    c(person(given = "{{{given}}}",
+             family = "{{{family}}}",
+             role = c("cre", "aut", "ctb")),
+      person(given = "{{{given2}}}",
+             family = "{{{family2}}}",
+             role = c("cre", "aut", "ctb")))
+Description: Collection, correction, and connection.
+License: CC BY 4.0
+Depends: 
+    R (>= 2.10),
+    tibble
+Imports: 
+    qData,
+    dplyr,
+    lubridate,
+    roxygen2,
+    usethis
+Suggests: 
+    purrr, 
+    rlang,
+    testthat
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
