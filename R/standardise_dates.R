@@ -6,11 +6,11 @@
 #' and extends the date parsing of other packages to more historical and future dates. 
 #' The function allows only for dmy or ymd date formats at present, since mdy may introduce errors.  
 #' @return Nested vector of POSIXct dates that includes a range of dates
-#' @importFrom anytime anydate
 #' @importFrom stringr str_detect
 #' @importFrom stringr str_split
 #' @importFrom lubridate as_date
 #' @importFrom lubridate dmy
+#' @importFrom lubridate ymd
 #' @examples
 #' \dontrun{
 #' checkdates <- function(){
@@ -51,9 +51,13 @@ standardise_dates <- standardize_dates <- function(...){
   dates <- stringr::str_replace_all(dates, "^([:digit:])-", "0\\1-") # standardising days 2
   dates <- stringr::str_replace_all(dates, "-00|-\\?\\?|-NA", "") # standardising ambiguities
   dates <- stringr::str_replace_all(dates, "_", ":") # standardising ranges
+  # dates <- stringr::str_remove_all(dates, "^(ad|AD|Ad|aD)$") # remove after christ 
   
   if (stringr::str_detect(dates, "^[:digit:]{1,2}-[:digit:]{1,2}-[:digit:]{4}$")) { # Correct order and dates format if need
     dates <- lubridate::dmy(dates)
+  } else if(stringr::str_detect(dates, "^[:digit:]{3}-[:digit:]{1,2}-[:digit:]{1,2}$")) { # Correct order and dates format if need
+    dates <- paste0("0", dates)
+    dates <- lubridate::ymd(dates)
   } else if (stringr::str_detect(dates, "^[:digit:]{1,2}-[:digit:]{1,2}-[:digit:]{2}$")) { 
     thresh <- as.numeric(substr(Sys.Date(),1,4))
     x <- matrix(as.numeric(unlist(strsplit(dates, "-"))), ncol=3, byrow = T)
@@ -92,18 +96,36 @@ standardise_dates <- standardize_dates <- function(...){
         paste(y,m,d,sep = "-")
       })
   }
-    dates <- anytime::anydate(out)
+    dates <- lubridate::as_date(out)
   }
   
   dates
 
   # TODO: convert historical dates
+  # helper function for negative dates
+  # as_BC_date <- function(year, month = 2, day = 2){
+  # if(year < 0) year<-(-year)
+  # Y <- as.character(year)
+  # M <- as.character(month)
+  # D <- as.character(day)
+  # fwdY <- paste(Y, "1", "1", sep = "/")
+  # fwdYMD <- paste(Y, M, D, sep = "/")
+  # AD0 <- lubridate::as_date("0000/1/1") ##merry xmas!
+  # n_AD0 <- as.numeric(AD0)
+  # n_fwdY <- as.numeric(lubridate::as_date(fwdY))
+  # n_MD <- as.numeric(lubridate::as_date(fwdYMD)) -
+  #  as.numeric(lubridate::as_date(fwdY))
+  #n_BC <- n_AD0 - (n_fwdY - n_AD0) + n_MD
+  #if(n_MD==0) n_BC <- n_BC + 1
+  #BC_date <- lubridate::as_date(n_BC)
+  #return(BC_date)
+  #}
 
   # Second step: set up functions
   date_disambig <- function(d){
 
     date_range <- function(start, finish){
-      lubridate::as_date(anytime::anydate(start):anytime::anydate(finish))
+      lubridate::as_date(lubridate::as_date(start):lubridate::as_date(finish))
     }
 
     if(stringr::str_detect(d, "^[:digit:]{4}:[:digit:]{4}$")){ # year range
@@ -133,6 +155,9 @@ standardise_dates <- standardize_dates <- function(...){
     } else if(stringr::str_detect(d, "^[:digit:]{4}$")){ # year only
       d <- date_range(paste0(d, "-01-01"), paste0(d, "-12-31"))
       d
+    } else if(stringr::str_detect(d, "^[:digit:]{3}$")){ # year only
+      d <- date_range(paste0("0", d, "-01-01"), paste0("0", d, "-12-31"))
+      d
     } else if(stringr::str_detect(d, "^[:digit:]{4}-[:digit:]{2}$")){ # month only
       start <- paste0(d, "-01")
       finish <- paste0(d, "-", days_in_month(month(ymd(start))))
@@ -142,7 +167,7 @@ standardise_dates <- standardize_dates <- function(...){
       if(d > Sys.Date() + lubridate::years(25)){
         d <- "9999-12-31" # convert future dates
       } 
-      d <- anytime::anydate(d)
+      d <- lubridate::as_date(d)
     }
     
     # d <- unlist(d)
@@ -151,7 +176,7 @@ standardise_dates <- standardize_dates <- function(...){
   }
 
   # Third step: apply functions
-  anytime::anydate(unlist(lapply(dates, function(x) date_disambig(x))))
+  lubridate::as_date(unlist(lapply(dates, function(x) date_disambig(x))))
   # see hoist(), unnest_wider(), and unnest_longer()
   
 }

@@ -1,10 +1,10 @@
 test_that("standardise_dates() treats typical dates correctly",{
-  expect_equal(standardise_dates("2010-01-01"), anytime::anydate("2010-01-01"))
+  expect_equal(standardise_dates("2010-01-01"), lubridate::as_date("2010-01-01"))
 })    
 
 test_that("standardise_dates() takes three variables as input",{
-  expect_equal(standardise_dates("2010", "01", "01"), anytime::anydate("2010-01-01"))
-  expect_equal(standardise_dates("2010", "1", "1"), anytime::anydate("2010-01-01"))
+  expect_equal(standardise_dates("2010", "01", "01"), lubridate::as_date("2010-01-01"))
+  expect_equal(standardise_dates("2010", "1", "1"), lubridate::as_date("2010-01-01"))
   expect_error(standardise_dates("2010", "1"), "you need to pass standardise_dates")
 })    
 
@@ -66,11 +66,12 @@ test_that("standardise_dates() treats future dates correctly",{
 test_that("standardise_dates() treats historical dates correctly",{
   expect_warning(recent(), "is deprecated")
   expect_match(as.character(standardise_dates("1712-01-01")[[1]]), "1712-01-01")
-#  expect_match(as.character(standardise_dates("712-01-01")[[1]]), "0712-01-01")
-#   expect_match(as.character(standardise_dates("0712-01-01")[[1]]), "0712-01-01")
-#   expect_match(as.character(min(standardise_dates("712")[[1]])), "0712-01-01")
-#   expect_match(as.character(min(standardise_dates("712 AD")[[1]])), "0712-01-01")
-#   expect_match(as.character(min(standardise_dates("712 BC")[[1]])), "-0712-01-01")
-#   expect_match(as.character(min(standardise_dates("-712")[[1]])), "-0712-01-01")
-#   expect_match(as.character(min(standardise_dates("-1712")[[1]])), "-1712-01-01")
+  expect_match(as.character(standardise_dates("712-01-01")[[1]]), "0712-01-01")
+  expect_match(as.character(standardise_dates("0712-01-01")[[1]]), "0712-01-01")
+  expect_match(as.character(min(standardise_dates("712")[[1]])), "0712-01-01")
+  expect_match(as.character(standardise_dates("712-1-1")[[1]]), "0712-01-01")
+#  expect_match(as.character(min(standardise_dates("712 AD")[[1]])), "0712-01-01")
+#  expect_match(as.character(min(standardise_dates("712 BC")[[1]])), "-0712-01-01")
+#  expect_match(as.character(min(standardise_dates("-712")[[1]])), "-0712-01-01")
+#  expect_match(as.character(min(standardise_dates("-1712")[[1]])), "-1712-01-01")
 })
