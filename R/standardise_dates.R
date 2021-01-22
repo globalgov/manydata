@@ -53,12 +53,25 @@ standardise_dates <- standardize_dates <- function(...){
   dates <- stringr::str_replace_all(dates, "_", ":") # standardising ranges
   dates <- stringr::str_remove_all(dates, "(ad|AD|Ad|aD)") # remove after christ
   dates <- stringr::str_trim(dates, side = "both") # removes trailing white spaces
+  if(stringr::str_detect(dates, "(bc|BC|Bc|bC)")) {
+    dates <- stringr::str_remove_all(dates, "(bc|BC|Bc|bC)") # remove before christ
+    dates <- stringr::str_trim(dates, side = "both") # removes trailing white spaces
+    dates <- paste0("-", dates)
+  }
   
   if (stringr::str_detect(dates, "^[:digit:]{1,2}-[:digit:]{1,2}-[:digit:]{3,4}$")) { # Correct order and dates format dates if need
     dates <- lubridate::dmy(dates)
   } else if(stringr::str_detect(dates, "^[:digit:]{3}-[:digit:]{1,2}-[:digit:]{1,2}$")) { # Correct size and dates format if need
     dates <- paste0("0", dates)
     dates <- lubridate::ymd(dates)
+  } else if(stringr::str_detect(dates, "^-[:digit:]{4}-[:digit:]{1,2}-[:digit:]{1,2}$")) {
+    ndate <- as.numeric(lubridate::dmy(dates))
+    dzero <- as.numeric(lubridate::as_date("0000-01-01"))
+    dates <- dzero - ndate + dzero
+  } else if(stringr::str_detect(dates, "^-[:digit:]{1,2}-[:digit:]{1,2}-[:digit:]{4}$")) {
+    ndate <- as.numeric(lubridate::dmy(dates))
+    dzero <- as.numeric(lubridate::as_date("0000-01-01"))
+    dates <- dzero - ndate + dzero
   } else if (stringr::str_detect(dates, "^[:digit:]{1,2}-[:digit:]{1,2}-[:digit:]{2}$")) { 
     thresh <- as.numeric(substr(Sys.Date(),1,4))
     x <- matrix(as.numeric(unlist(strsplit(dates, "-"))), ncol=3, byrow = T)
@@ -102,11 +115,6 @@ standardise_dates <- standardize_dates <- function(...){
   
   dates
 
-  # TODO: convert historical dates
-  #if(stringr::str_detect(dates, "^-[:digit:]{3, 4}-[:digit:]{1,2}-[:digit:]{1,2}$")) { # Correct order and dates format if need
-  #dates <- as_BC_date (dates)
-#}
-
   # Second step: set up functions
   date_disambig <- function(d){
 
@@ -141,10 +149,26 @@ standardise_dates <- standardize_dates <- function(...){
     } else if(stringr::str_detect(d, "^[:digit:]{4}$")){ # year only
       d <- date_range(paste0(d, "-01-01"), paste0(d, "-12-31"))
       d
-    } else if(stringr::str_detect(d, "^[:digit:]{3}$")){ # year only
+    } else if(stringr::str_detect(d, "^-[:digit:]{4}$")){ # negative year only
+      ndate <- paste0(d, "-01-01") 
+      ndate <- as.numeric(lubridate::as_date(d))
+      dzero <- as.nuemric(lubridate::as_date("0000-01-01"))
+      negdate <- dzero - ndate + dzero
+      d <- lubridate::year(negdate)
+      d <- date_range(paste0(d, "-01-01"), paste0(d, "-12-31"))
+      d
+    } else if(stringr::str_detect(d, "^[:digit:]{3}$")){ # 3 digit year only
       d <- date_range(paste0("0", d, "-01-01"), paste0("0", d, "-12-31"))
       d
-    } else if(stringr::str_detect(d, "^[:digit:]{4}-[:digit:]{2}$")){ # month only
+    } else if(stringr::str_detect(d, "^-[:digit:]{3}$")){ # negative 3 digit year only
+      ndate <- stringr::str_replace(d, "-", "0") 
+      ndate <- paste0(d, "-01-01") 
+      ndate <- as.numeric(lubridate::as_date(d))
+      dzero <- as.numeric(lubridate::as_date("0000-01-01"))
+      negdate <- dzero - ndate + dzero
+      d <- lubridate::year(negdate)
+      d
+    }else if(stringr::str_detect(d, "^[:digit:]{4}-[:digit:]{2}$")){ # month only
       start <- paste0(d, "-01")
       finish <- paste0(d, "-", days_in_month(month(ymd(start))))
       d <- date_range(start, finish)
@@ -166,26 +190,6 @@ standardise_dates <- standardize_dates <- function(...){
   # see hoist(), unnest_wider(), and unnest_longer()
   
 }
-
-# Set up helper function for dealing with negative dates
-# as_BC_date <- function(year, month = 2, day = 2){
-# if(year < 0) year<-(-year)
-# Y <- as.character(year)
-# M <- as.character(month)
-# D <- as.character(day)
-# fwdY <- paste(Y, "1", "1", sep = "/")
-# fwdYMD <- paste(Y, M, D, sep = "/")
-# AD0 <- lubridate::as_date("0000/1/1") ##merry xmas!
-# n_AD0 <- as.numeric(AD0)
-# n_fwdY <- as.numeric(lubridate::as_date(fwdY))
-# n_MD <- as.numeric(lubridate::as_date(fwdYMD)) -
-#  as.numeric(lubridate::as_date(fwdY))
-#n_BC <- n_AD0 - (n_fwdY - n_AD0) + n_MD
-#if(n_MD==0) n_BC <- n_BC + 1
-#BC_date <- lubridate::as_date(n_BC)
-#return(BC_date)
-#}
-# Here we also need to detect BC strings and convert these. 
 
 #' Resetting century of future events
 #'
