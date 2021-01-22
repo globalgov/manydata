@@ -7,5 +7,21 @@ report_data <- function(pkg){
   tmp_env <- new.env()
   lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
   dbs <- get(pkg_dbs, envir = tmp_env)
-  bind_cols(purrr::map(dbs, function(x) length(unique(x$ID))))
+  bind_rows(purrr::map(dbs, 
+                       function(x) length(unique(x$ID))))
+  
+  # tibble: for each database
+  
+  # columns/variables should be:
+  #  - name of dataset
+  #  - source of dataset
+  #  - number of unique IDs
+  #  - number of observations (rows)
+  #  - number of variables (cols)
+  #  - internally missing data (%)
+  #  - earliest begin date
+  #  - most recent (non-future) end date
+  
+  # attr(states[["COW"]], "source") <- "bloobloo"
+  
 }
