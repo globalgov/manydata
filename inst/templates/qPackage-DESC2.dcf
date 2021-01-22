@@ -4,10 +4,10 @@ Version: 0.0.1
 Authors@R: 
     c(person(given = "{{{given}}}",
              family = "{{{family}}}",
-             role = c("cre", "aut", "ctb")),
+             role = c("cre", "aut", "ctb", "dtc")),
       person(given = "{{{given2}}}",
              family = "{{{family2}}}",
-             role = c("cre", "aut", "ctb")))
+             role = c("cre", "aut", "ctb", "dtc")))
 Description: Collection, correction, and connection.
 License: CC BY 4.0
 Depends: 
