@@ -51,11 +51,12 @@ standardise_dates <- standardize_dates <- function(...){
   dates <- stringr::str_replace_all(dates, "^([:digit:])-", "0\\1-") # standardising days 2
   dates <- stringr::str_replace_all(dates, "-00|-\\?\\?|-NA", "") # standardising ambiguities
   dates <- stringr::str_replace_all(dates, "_", ":") # standardising ranges
-  # dates <- stringr::str_remove_all(dates, "^(ad|AD|Ad|aD)$") # remove after christ 
+  dates <- stringr::str_remove_all(dates, "(ad|AD|Ad|aD)") # remove after christ
+  dates <- stringr::str_trim(dates, side = "both") # removes trailing white spaces
   
-  if (stringr::str_detect(dates, "^[:digit:]{1,2}-[:digit:]{1,2}-[:digit:]{4}$")) { # Correct order and dates format if need
+  if (stringr::str_detect(dates, "^[:digit:]{1,2}-[:digit:]{1,2}-[:digit:]{3,4}$")) { # Correct order and dates format dates if need
     dates <- lubridate::dmy(dates)
-  } else if(stringr::str_detect(dates, "^[:digit:]{3}-[:digit:]{1,2}-[:digit:]{1,2}$")) { # Correct order and dates format if need
+  } else if(stringr::str_detect(dates, "^[:digit:]{3}-[:digit:]{1,2}-[:digit:]{1,2}$")) { # Correct size and dates format if need
     dates <- paste0("0", dates)
     dates <- lubridate::ymd(dates)
   } else if (stringr::str_detect(dates, "^[:digit:]{1,2}-[:digit:]{1,2}-[:digit:]{2}$")) { 
@@ -102,24 +103,9 @@ standardise_dates <- standardize_dates <- function(...){
   dates
 
   # TODO: convert historical dates
-  # helper function for negative dates
-  # as_BC_date <- function(year, month = 2, day = 2){
-  # if(year < 0) year<-(-year)
-  # Y <- as.character(year)
-  # M <- as.character(month)
-  # D <- as.character(day)
-  # fwdY <- paste(Y, "1", "1", sep = "/")
-  # fwdYMD <- paste(Y, M, D, sep = "/")
-  # AD0 <- lubridate::as_date("0000/1/1") ##merry xmas!
-  # n_AD0 <- as.numeric(AD0)
-  # n_fwdY <- as.numeric(lubridate::as_date(fwdY))
-  # n_MD <- as.numeric(lubridate::as_date(fwdYMD)) -
-  #  as.numeric(lubridate::as_date(fwdY))
-  #n_BC <- n_AD0 - (n_fwdY - n_AD0) + n_MD
-  #if(n_MD==0) n_BC <- n_BC + 1
-  #BC_date <- lubridate::as_date(n_BC)
-  #return(BC_date)
-  #}
+  #if(stringr::str_detect(dates, "^-[:digit:]{3, 4}-[:digit:]{1,2}-[:digit:]{1,2}$")) { # Correct order and dates format if need
+  #dates <- as_BC_date (dates)
+#}
 
   # Second step: set up functions
   date_disambig <- function(d){
@@ -180,6 +166,26 @@ standardise_dates <- standardize_dates <- function(...){
   # see hoist(), unnest_wider(), and unnest_longer()
   
 }
+
+# Set up helper function for dealing with negative dates
+# as_BC_date <- function(year, month = 2, day = 2){
+# if(year < 0) year<-(-year)
+# Y <- as.character(year)
+# M <- as.character(month)
+# D <- as.character(day)
+# fwdY <- paste(Y, "1", "1", sep = "/")
+# fwdYMD <- paste(Y, M, D, sep = "/")
+# AD0 <- lubridate::as_date("0000/1/1") ##merry xmas!
+# n_AD0 <- as.numeric(AD0)
+# n_fwdY <- as.numeric(lubridate::as_date(fwdY))
+# n_MD <- as.numeric(lubridate::as_date(fwdYMD)) -
+#  as.numeric(lubridate::as_date(fwdY))
+#n_BC <- n_AD0 - (n_fwdY - n_AD0) + n_MD
+#if(n_MD==0) n_BC <- n_BC + 1
+#BC_date <- lubridate::as_date(n_BC)
+#return(BC_date)
+#}
+# Here we also need to detect BC strings and convert these. 
 
 #' Resetting century of future events
 #'

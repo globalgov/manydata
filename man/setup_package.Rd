@@ -35,6 +35,6 @@ folder structures required for a qData-consistent data package.
 }
 \examples{
 \dontrun{
-setup_package("qStates", c("James Hollway", "Henrique Sposito"))
+setup_package("qStates", "James Hollway, Henrique Sposito"))
 }
 }
