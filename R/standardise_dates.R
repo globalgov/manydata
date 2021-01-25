@@ -152,7 +152,7 @@ standardise_dates <- standardize_dates <- function(...){
     } else if(stringr::str_detect(d, "^-[:digit:]{4}$")){ # negative year only
       ndate <- paste0(d, "-01-01") 
       ndate <- as.numeric(lubridate::as_date(d))
-      dzero <- as.nuemric(lubridate::as_date("0000-01-01"))
+      dzero <- as.numeric(lubridate::as_date("0000-01-01"))
       negdate <- dzero - ndate + dzero
       d <- lubridate::year(negdate)
       d <- date_range(paste0(d, "-01-01"), paste0(d, "-12-31"))
