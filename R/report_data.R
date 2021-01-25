@@ -7,15 +7,26 @@ report_data <- function(pkg){
   tmp_env <- new.env()
   lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
   dbs <- get(pkg_dbs, envir = tmp_env)
-  bind_rows(purrr::map(dbs, 
-                       function(x) length(unique(x$ID))))
+  tabl <- bind_rows(purrr::map(dbs, function(x) length(unique(x$ID))),
+            purrr::map(dbs, function(x) sum(is.na(x))),
+            purrr::map(dbs, function(x) nrow(x)),
+            purrr::map(dbs, function(x) ncol(x)))
+            # purrr::map(dbs, function(x) min(x$Beg)),
+            # purrr::map(dbs, function(x) max(x$End)))
+   
+  tabl3 <- tabl %>% 
+    t()
+  
+  colnames(tabl3) <- c("Unique ID", "Missing data", "Rows", "Columns")
+  tabl3
+  
   
   # tibble: for each database
   
   # columns/variables should be:
-  #  - name of dataset
-  #  - source of dataset
-  #  - number of unique IDs
+  #  - name of dataset => ALready showing? 
+  #  - source of dataset AT THE END
+  #  - number of unique IDs DONE
   #  - number of observations (rows)
   #  - number of variables (cols)
   #  - internally missing data (%)
