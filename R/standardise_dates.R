@@ -151,7 +151,7 @@ standardise_dates <- standardize_dates <- function(...){
       d
     } else if(stringr::str_detect(d, "^-[:digit:]{4}$")){ # negative year only
       ndate <- paste0(d, "-01-01") 
-      ndate <- as.numeric(lubridate::as_date(d))
+      ndate <- as.numeric(lubridate::as_date(ndate))
       dzero <- as.numeric(lubridate::as_date("0000-01-01"))
       negdate <- dzero - ndate + dzero
       d <- lubridate::year(negdate)
@@ -162,8 +162,8 @@ standardise_dates <- standardize_dates <- function(...){
       d
     } else if(stringr::str_detect(d, "^-[:digit:]{3}$")){ # negative 3 digit year only
       ndate <- stringr::str_replace(d, "-", "0") 
-      ndate <- paste0(d, "-01-01") 
-      ndate <- as.numeric(lubridate::as_date(d))
+      ndate <- paste0(ndate, "-01-01") 
+      ndate <- as.numeric(lubridate::as_date(ndate))
       dzero <- as.numeric(lubridate::as_date("0000-01-01"))
       negdate <- dzero - ndate + dzero
       d <- lubridate::year(negdate)
