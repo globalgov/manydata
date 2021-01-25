@@ -1,3 +1,14 @@
+# qData 0.3.2
+
+## Package
+
+* Fixed #63 by setting up tests templates for the different types of database created. 
+* Updated `setup_package()` function by removing license lines in the codes.
+* Updated `standardize_dates()` function by making it works with `lubridate::as_date` and AD and negative historical dates
+* Fixed #89 by adding templates appearing depending on the number of authors
+* Setting up new function `report_data()` to make summarize of each database within a q package
+* Added new type of contributor called *dtc* in the DESCRIPTION file
+
 # qData 0.3.1
 
 ## Package
