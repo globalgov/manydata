@@ -1,3 +1,5 @@
+#' To quickly report on the databases and datasets within a qPackage
+#' 
 #' @param pkg character string of the qPackage to report data on
 #' @export
 report_data <- function(pkg){

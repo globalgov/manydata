@@ -60,13 +60,14 @@ qtemplate <- function(template,
 #' Helper function for loading and, if necessary, installing CRAN packages
 #'
 #' @param packages Character vector of packages to install from CRAN
+#' @importFrom utils install.packages
 #' @return Loads and, if necessary, first installs CRAN packages
 #' @export
 depends <- function(packages){
   lapply(packages,
          function(x) {
            if(!require(x, character.only = TRUE)) {
-             install.packages(x, dependencies = TRUE)
+             utils::install.packages(x, dependencies = TRUE)
            }
            library(x, character.only = TRUE)
          })
@@ -87,6 +88,7 @@ depends <- function(packages){
 #' for garbage collection in Megabyte (MB) scale. (Optional)
 #' @param regex A vector with length 1 to define whether the function use 
 #' regular expression in keep (TRUE or FALSE) or auto detect ("auto")
+#' @importFrom utils lsf.str object.size
 #' @return Clears the environment except for the stated objects.
 #' @source https://bitbucket.org/mehrad_mahmoudian/varhandle/src/master/R/rm.all.but.R
 #' @export
@@ -167,7 +169,7 @@ retain <- function(keep = NULL, envir = .GlobalEnv, keep_functions = TRUE,
     if (keep_functions) {
       # only put non-functions in the list
       var_list <- setdiff(ls(envir = as.environment(envir)),
-                          lsf.str(envir = as.environment(envir)))
+                          utils::lsf.str(envir = as.environment(envir)))
       # in case user wants to consider functions as well and remove them too
     }else{
       # put everything in the list
@@ -250,7 +252,7 @@ retain <- function(keep = NULL, envir = .GlobalEnv, keep_functions = TRUE,
       # get to total sum of the variables that are going to be removed in bytes
       total_size <- sum(sapply(removables,
                                function(x){
-                                 object.size(get(x, envir = as.environment(envir)))
+                                 utils::object.size(get(x, envir = as.environment(envir)))
                                }))
       
       # remove the variables

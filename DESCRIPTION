@@ -40,7 +40,8 @@ Imports:
     jsonlite,
     remotes,
     httr,
-    qStates
+    qStates,
+    ggplot2
 Suggests:
     librarian,
     testthat,
