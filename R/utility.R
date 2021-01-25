@@ -55,3 +55,21 @@ qtemplate <- function(template,
   }
   invisible(new)
 }
+
+
+#' Helper function for loading and, if necessary, installing CRAN packages
+#'
+#' @param packages Character vector of packages to install from CRAN
+#' @return Loads and, if necessary, first installs CRAN packages
+#' @export
+depends <- function(packages){
+  lapply(packages,
+         function(x) {
+           if(!require(x, character.only = TRUE)) {
+             install.packages(x, dependencies = TRUE)
+           }
+           library(x, character.only = TRUE)
+         })
+}
+
+
