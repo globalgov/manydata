@@ -151,7 +151,7 @@ standardise_dates <- standardize_dates <- function(...){
       start <- paste0(brackets[[1]][1], "-01-01")
       finish <- paste0(brackets[[1]][2], "-12-31")
       d <- date_range(start, finish)
-      d
+      d <- as.character(d)
     } else if(stringr::str_detect(d, "^[:digit:]{4}-[:digit:]{2}:[:digit:]{2}$")){ # month range
       brackets <- stringr::str_split(d, ":")
       start <- paste0(brackets[[1]][1], "-01")
@@ -160,7 +160,7 @@ standardise_dates <- standardize_dates <- function(...){
                        lubridate::days_in_month(as.numeric(brackets[[1]][2])),
                        sep = "-")
       d <- date_range(start, finish)
-      d
+      d <- as.character(d)
     } else if(stringr::str_detect(d, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{2}$")){ # day range
       brackets <- stringr::str_split(d, ":")
       start <- brackets[[1]][1]
@@ -169,7 +169,7 @@ standardise_dates <- standardize_dates <- function(...){
                       brackets[[1]][2],
                       sep = "-")
       d <- date_range(start, finish)
-      d
+      d <- as.character(d)
     } else if(stringr::str_detect(d, "^[:digit:]{4}$")){ # year only
       d <- date_range(paste0(d, "-01-01"), paste0(d, "-12-31"))
       d
@@ -180,17 +180,15 @@ standardise_dates <- standardize_dates <- function(...){
       start <- paste0(d, "-01")
       finish <- paste0(d, "-", days_in_month(month(ymd(start))))
       d <- date_range(start, finish)
-      d
+      d <- as.character(d)
     } else if(stringr::str_detect(d, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")){ # full date
       if(d > Sys.Date() + lubridate::years(25)){
         d <- "9999-12-31" # convert future dates
       } 
       d <- lubridate::as_date(d)
+      d <- as.character(d)
     }
-    
-    # d <- unlist(d)
-    d <- as.character(d)
-    d
+  d
   }
 
   # Third step: apply functions
