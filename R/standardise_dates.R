@@ -56,22 +56,22 @@ standardise_dates <- standardize_dates <- function(...){
   if(stringr::str_detect(dates, "(bc|BC|Bc|bC)")) {
     dates <- stringr::str_remove_all(dates, "(bc|BC|Bc|bC)") # remove before christ
     dates <- stringr::str_trim(dates, side = "both") # removes trailing white spaces
-    dates <- paste0("-", dates)
+    dates <- paste0("-", dates) # adds a negative sign to date
   }
   
-  if (stringr::str_detect(dates, "^[:digit:]{1,2}-[:digit:]{1,2}-[:digit:]{3,4}$")) { # Correct order and dates format dates if need
+  if (stringr::str_detect(dates, "^[:digit:]{1,2}-[:digit:]{1,2}-[:digit:]{3,4}$")) { # Correct date order and format dates if need
     dates <- lubridate::dmy(dates)
-  } else if(stringr::str_detect(dates, "^[:digit:]{3}-[:digit:]{1,2}-[:digit:]{1,2}$")) { # Correct size and dates format if need
+  } else if(stringr::str_detect(dates, "^[:digit:]{3}-[:digit:]{1,2}-[:digit:]{1,2}$")) { # Correct date size and format if need
     dates <- paste0("0", dates)
     dates <- lubridate::ymd(dates)
-  } else if(stringr::str_detect(dates, "^-[:digit:]{4}-[:digit:]{1,2}-[:digit:]{1,2}$")) { # negative dates in a proper format
+  } else if(stringr::str_detect(dates, "^-[:digit:]{4}-[:digit:]{1,2}-[:digit:]{1,2}$")) { # for negative ymd dates
     ndate <- as.numeric(lubridate::as_date(dates))
     dzero <- as.numeric(lubridate::as_date("0000-01-01"))
     dt <- as.numeric(lubridate::as_date("0000-01-01"))
     negdate <- dzero - ndate
     histdate <- as.numeric(lubridate::as_date(negdate) + dt)
     dates <- lubridate::as_date(histdate)
-  } else if(stringr::str_detect(dates, "^-[:digit:]{1,2}-[:digit:]{1,2}-[:digit:]{4}$")) { # negative dates in dmy format
+  } else if(stringr::str_detect(dates, "^-[:digit:]{1,2}-[:digit:]{1,2}-[:digit:]{4}$")) { # for negative dates in dmy format
     nd <- lubridate::dmy(dates)
     ndate <- as.numeric(lubridate::as_date(nd))
     dzero <- as.numeric(lubridate::as_date("0000-01-01"))
@@ -105,14 +105,14 @@ standardise_dates <- standardize_dates <- function(...){
     negdate <- dzero - ndate
     histdate <- as.numeric(lubridate::as_date(negdate) + dt)
     dates <- lubridate::as_date(histdate)
-  } else if (stringr::str_detect(dates, "^[:digit:]{1,2}-[:digit:]{1,2}-[:digit:]{2}$")) { 
+  } else if (stringr::str_detect(dates, "^[:digit:]{1,2}-[:digit:]{1,2}-[:digit:]{2}$")) { # for dates that have 4 to 6 digits only
     thresh <- as.numeric(substr(Sys.Date(),1,4))
     x <- matrix(as.numeric(unlist(strsplit(dates, "-"))), ncol=3, byrow = T)
-    ypos <- which(apply(x, 2, function(y) any(y>31) | any(nchar(y)==4)))
+    ypos <- which(apply(x, 2, function(y) any(y>31) | any(nchar(y)==4))) # identify year
     if(length(ypos)!=1) ypos <- 3
-    dpos <- setdiff(which(apply(x, 2, function(y) any(y>12) & all(y<32))), ypos)
+    dpos <- setdiff(which(apply(x, 2, function(y) any(y>12) & all(y<32))), ypos) # identify day
     if(length(dpos)==0) dpos <- setdiff(c(1,3), ypos)
-    mpos <- setdiff(setdiff(1:3, ypos), dpos)
+    mpos <- setdiff(setdiff(1:3, ypos), dpos) # identify month
     
     if(nrow(x)==1){
       y <- ifelse(nchar(x[ypos])>2,
@@ -179,13 +179,16 @@ standardise_dates <- standardize_dates <- function(...){
                       sep = "-")
       d <- date_range(start, finish)
       d <- as.character(d)
-    } else if(stringr::str_detect(d, "^[:digit:]{4}$")){ # year only
+    } else if(stringr::str_detect(d, "^[:digit:]{4}$")){ # 4 digit year only
       d <- date_range(paste0(d, "-01-01"), paste0(d, "-12-31"))
       d
     } else if(stringr::str_detect(d, "^[:digit:]{3}$")){ # 3 digit year only
       d <- date_range(paste0("0", d, "-01-01"), paste0("0", d, "-12-31"))
       d
-    } else if(stringr::str_detect(d, "^[:digit:]{4}-[:digit:]{2}$")){ # month only
+    } else if(stringr::str_detect(d, "^[:digit:]{2}$")){ # 2 digit year only
+      d <- date_range(paste0("00", d, "-01-01"), paste0("00", d, "-12-31"))
+      d
+    }else if(stringr::str_detect(d, "^[:digit:]{4}-[:digit:]{2}$")){ # month only
       start <- paste0(d, "-01")
       finish <- paste0(d, "-", days_in_month(month(ymd(start))))
       d <- date_range(start, finish)
