@@ -19,7 +19,15 @@
 #' export_data(COW, database = "states")
 #' }
 #' @export
-export_data <- function(..., database) {
+export_data <- function(..., database, link) {
+  
+  #Check if link is present and is of the character form.
+  if(missing(link)){
+    stop("Please use the link argument to provide a direct weblink to the source of your dataset.")
+  }
+  if(!is.character(link)){
+    stop("Please provide a valid link argument.")
+  }
   
   dataset_name <- deparse(substitute(...))
   dataset <- get(dataset_name)
@@ -67,13 +75,15 @@ export_data <- function(..., database) {
   nm <- names(dataset)
   # print(nm)
   describe <- paste0("#' \\describe{\n", paste0("#'   \\item{",nm,"}{Describe variable here}\n", collapse = ""), "#' }")
+  source <- paste0("#' @source \\url{", link,"}", collapse = "")
   qtemplate("qData-doc.R",
             save_as = fs::path("R", paste0("qData-", dataset_name, ".R")),
             data = list(dat = dataset_name,
                         dab = database,
                         nr = nr,
                         nc = nc,
-                        describe = describe),
+                        describe = describe,
+                        source = source),
             open = TRUE,
             ignore = FALSE,
             path = getwd())
