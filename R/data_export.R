@@ -66,7 +66,7 @@ export_data <- function(..., database) {
   nc <- ncol(dataset)
   nm <- names(dataset)
   # print(nm)
-  describe <- paste0("#' \\describe{\n", paste0("#'   \\item{",nm,"}{Decribe variable here}\n", collapse = ""), "#' }")
+  describe <- paste0("#' \\describe{\n", paste0("#'   \\item{",nm,"}{Describe variable here}\n", collapse = ""), "#' }")
   qtemplate("qData-doc.R",
             save_as = fs::path("R", paste0("qData-", dataset_name, ".R")),
             data = list(dat = dataset_name,

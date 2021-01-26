@@ -7,7 +7,8 @@
 * Updated `standardize_dates()` function by making it works with `lubridate::as_date` and AD and negative historical dates
 * Fixed #89 by adding templates appearing depending on the number of authors
 * Setting up new function `report_data()` to make summarize of each database within a q package
-* Added new type of contributor called *dtc* in the DESCRIPTION file
+* Added a new type of contributor called *dtc* in the DESCRIPTION file
+* Added a new `plot_releases()` function that plots the package releases along a timeline.
 
 # qData 0.3.1
 
