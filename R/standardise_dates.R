@@ -64,20 +64,20 @@ standardise_dates <- standardize_dates <- function(...){
   } else if(stringr::str_detect(dates, "^[:digit:]{3}-[:digit:]{1,2}-[:digit:]{1,2}$")) { # Correct size and dates format if need
     dates <- paste0("0", dates)
     dates <- lubridate::ymd(dates)
-  } else if(stringr::str_detect(dates, "^-[:digit:]{4}-[:digit:]{1,2}-[:digit:]{1,2}$")) {
+  } else if(stringr::str_detect(dates, "^-[:digit:]{4}-[:digit:]{1,2}-[:digit:]{1,2}$")) { # negative dates in a proper format
     ndate <- as.numeric(lubridate::as_date(dates))
     dzero <- as.numeric(lubridate::as_date("0000-01-01"))
     dt <- as.numeric(lubridate::as_date("0000-01-01"))
     negdate <- dzero - ndate
-    histdate <- as.numeric(lubridate::as_date(negdate) + dzero)
+    histdate <- as.numeric(lubridate::as_date(negdate) + dt)
     dates <- lubridate::as_date(histdate)
-  } else if(stringr::str_detect(dates, "^-[:digit:]{1,2}-[:digit:]{1,2}-[:digit:]{4}$")) {
+  } else if(stringr::str_detect(dates, "^-[:digit:]{1,2}-[:digit:]{1,2}-[:digit:]{4}$")) { # negative dates in dmy format
     nd <- lubridate::dmy(dates)
     ndate <- as.numeric(lubridate::as_date(nd))
     dzero <- as.numeric(lubridate::as_date("0000-01-01"))
     dt <- as.numeric(lubridate::as_date("0000-01-01"))
     negdate <- dzero - ndate
-    histdate <- as.numeric(lubridate::as_date(negdate) + dzero)
+    histdate <- as.numeric(lubridate::as_date(negdate) + dt)
     dates <- lubridate::as_date(histdate)
   } else if(stringr::str_detect(dates, "^-[:digit:]{4}$")){ # negative dates with 4 digit year only
     nd <- paste0(dates, "-01-01") 
@@ -85,7 +85,7 @@ standardise_dates <- standardize_dates <- function(...){
     dzero <- as.numeric(lubridate::as_date("0000-01-01"))
     dt <- as.numeric(lubridate::as_date("0000-01-01"))
     negdate <- dzero - ndate
-    histdate <- as.numeric(lubridate::as_date(negdate) + dzero)
+    histdate <- as.numeric(lubridate::as_date(negdate) + dt)
     dates <- lubridate::as_date(histdate)
   } else if(stringr::str_detect(dates, "^-[:digit:]{3}$")){ # negative dates with 3 digit year only
     ndate <- stringr::str_replace(dates, "-", "0") 
@@ -94,7 +94,16 @@ standardise_dates <- standardize_dates <- function(...){
     dzero <- as.numeric(lubridate::as_date("0000-01-01"))
     dt <- as.numeric(lubridate::as_date("0000-01-01"))
     negdate <- dzero - ndate
-    histdate <- as.numeric(lubridate::as_date(negdate) + dzero)
+    histdate <- as.numeric(lubridate::as_date(negdate) + dt)
+    dates <- lubridate::as_date(histdate)
+  } else if(stringr::str_detect(dates, "^-[:digit:]{2}$")){ # negative dates with 2 digit year only
+    ndate <- stringr::str_replace(dates, "-", "00") 
+    ndate <- paste0(ndate, "-01-01") 
+    ndate <- as.numeric(lubridate::as_date(ndate))
+    dzero <- as.numeric(lubridate::as_date("0000-01-01"))
+    dt <- as.numeric(lubridate::as_date("0000-01-01"))
+    negdate <- dzero - ndate
+    histdate <- as.numeric(lubridate::as_date(negdate) + dt)
     dates <- lubridate::as_date(histdate)
   } else if (stringr::str_detect(dates, "^[:digit:]{1,2}-[:digit:]{1,2}-[:digit:]{2}$")) { 
     thresh <- as.numeric(substr(Sys.Date(),1,4))
