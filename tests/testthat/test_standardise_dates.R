@@ -73,6 +73,7 @@ test_that("standardise_dates() treats historical dates correctly",{
   expect_match(as.character(min(standardise_dates("712 AD")[[1]])), "0712-01-01")
   expect_match(as.character(min(standardise_dates("1712 AD")[[1]])), "1712-01-01")
   expect_match(as.character(min(standardise_dates("12 AD")[[1]])), "0012-01-01")
+  expect_match(as.character(min(standardise_dates("12")[[1]])), "0012-01-01")
   expect_match(as.character(min(standardise_dates("1712 AD")[[1]])), "1712-01-01")
   expect_match(as.character(standardise_dates("712 BC")), "-712-01-01")
   expect_match(as.character(standardise_dates("1712 BC")), "-1712-01-01")
@@ -82,3 +83,12 @@ test_that("standardise_dates() treats historical dates correctly",{
   expect_match(as.character(standardise_dates("-1712-12-10")), "-1712-12-10")
   expect_match(as.character(standardise_dates("-12-10-1712")), "-1712-12-10")
 })
+
+dat <- c("2010.10.12","2010/03/30", "10/12/93", "12-10-1993", "NA")
+dat1 <- c("NA", "2010.10.12"," ", "10/12/93", "12-10-1993")
+
+test_that("standardise_dates() treats multiple inconsistent dates correctly and missing dates correctly",{
+  expect_match(as.character(standardise_dates(dat)), c("2010-10-12", "2010-03-30", "1993-10-12", "12-10-1993", "NA"))
+  expect_match(as.character(standardise_dates(dat1)), c("NA", "2010-10-12", "NA", "1993-10-12", "12-10-1993"))
+})
+
