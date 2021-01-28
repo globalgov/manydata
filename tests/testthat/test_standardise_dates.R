@@ -86,9 +86,12 @@ test_that("standardise_dates() treats historical dates correctly",{
 
 dat <- c("2010.10.12","2010/03/30", "10/12/93", "12-10-1993", "NA")
 dat1 <- c("NA", "2010.10.12"," ", "10/12/93", "12-10-1993")
+dat2 <- c("2010.10.12", "2010/11/13", "2010-12-14")
+dat3 <- c("2010-10-12", "2010-11-13", "2010-12-14")
 
-test_that("standardise_dates() treats multiple inconsistent dates correctly and missing dates correctly",{
-  expect_match(as.character(standardise_dates(dat)), c("2010-10-12", "2010-03-30", "1993-10-12", "12-10-1993", "NA"))
-  expect_match(as.character(standardise_dates(dat1)), c("NA", "2010-10-12", "NA", "1993-10-12", "12-10-1993"))
+test_that("standardise_dates() treats multiple inconsistent dates correctly",{
+  expect_match(as.character(standardise_dates(dat3)), c("2010-10-12", "2010-11-13", "2010-12-14"))
+  expect_match(as.character(standardise_dates(dat2)), c("2010-10-12", "2010-11-13", "2010-12-14"))
+  expect_match(as.character(standardise_dates(dat)), c("2010-10-12", "2010-03-30", "1993-10-12", "1993-10-12", "NA"))
+  expect_match(as.character(standardise_dates(dat1)), c("NA", "2010-10-12", "NA", "1993-10-12", "1993-10-12"))
 })
-
