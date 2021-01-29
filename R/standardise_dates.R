@@ -1,7 +1,7 @@
 #' Create nested vectors of dates from vague date inputs
 #'
 #' Create nested vectors of dates for vague date inputs, ambiguous and ranged dates, into a range of dates
-#' @param ... One (ymd) or three (y, m, d) variables
+#' @param ... One (ymd) or three (yyyy, mm, dd) variables
 #' @details The function seeks to convert ambiguous and ranged dates into a range of dates,
 #' and extends the date parsing of other packages to more historical and future dates. 
 #' The function allows only for dmy or ymd date formats at present, since mdy may introduce errors.  
@@ -32,7 +32,7 @@
 #' ) datestest %>% print(n = 25)}
 #' }
 #' @export
-standardise_dates <- standardise_dates <- function(...){
+standardise_dates <- standardize_dates <- function(...){
   
   # First step: if necessary, join multiple columns
   dots <- list(...)
@@ -141,12 +141,6 @@ standardise_dates <- standardise_dates <- function(...){
   
 }
 
-#' Dates with BC
-#'
-#' Helper function to deal with dates with BC letters that
-#' removes BC and replaces with negative sign. 
-#' @param x date variable
-#' @return dates with a negative sign
 as_bc_dates <- function(dates) {
   
   dates <- stringr::str_remove_all(dates, "(bc|BC|Bc|bC)") # remove before christ letters
@@ -155,14 +149,6 @@ as_bc_dates <- function(dates) {
   
 }
 
-
-#' Inomplete Dates
-#' 
-#' This function helps clarify dates with 4 to 6 digits
-#' by identifying the date format and completing the year
-#' values where necessary. 
-#' @param dates date variable
-#' @return dates with 8 digits correctly ordered
 imcomp_dates <- function(dates) {
   
   thresh <- as.numeric(substr(Sys.Date(),1,4))
@@ -205,12 +191,6 @@ imcomp_dates <- function(dates) {
   dates <- out
 }
 
-
-#' Negative complete dates
-#'
-#' Operates on negative dates to return them as negative date values
-#' @param dates 
-#' @return a negative date value
 neg_dates_comp <- function(dates) {
   if(stringr::str_detect(dates, "^-[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")) { # for negative ymd dates
     ndate <- as.numeric(lubridate::ymd(dates)) 
@@ -232,12 +212,6 @@ neg_dates_comp <- function(dates) {
   }
 }
 
-#' Negative year dates
-#'
-#' Transforms year only negative dates into complete negative dates,
-#' though the date range is lacking for these.
-#' @param dates 
-#' @return negative complete dates
 neg_dates <- function(dates) {
   if(stringr::str_detect(dates, "^-[:digit:]{4}$")){ # negative dates with 4 digit year only
     nd <- paste0(dates, "-01-01") 
@@ -270,11 +244,6 @@ neg_dates <- function(dates) {
   } 
 }
 
-#' Futute dates
-#'
-#' Standardises how future date values are reported
-#' @param dates 
-#' @return the date "9999-12-31"
 fut_dates <- function(dates) {
   ifelse(dates > Sys.Date() + lubridate::years(25), d <- "9999-12-31", dates)
 }

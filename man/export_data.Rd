@@ -4,7 +4,7 @@
 \alias{export_data}
 \title{Adding datasets to the qPackage}
 \usage{
-export_data(..., database)
+export_data(..., database, link)
 }
 \arguments{
 \item{...}{Unquoted name of the dataset object to save.}
