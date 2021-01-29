@@ -57,9 +57,8 @@ standardise_dates <- standardize_dates <- function(...){
   #  dates <- paste0("-", dates) # adds a negative sign to date
   #}
   dates <- stringr::str_trim(dates, side = "both") # removes trailing white spaces
-
-  dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{1,2}-[:digit:]{1,2}-[:digit:]{3,4}$"), as.character(as.Date(dates,"%d-%m-%Y")), dates) # Correct date order and format dates if need
-  dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{3}-[:digit:]{1,2}-[:digit:]{1,2}$"), lubridate::ymd(paste0("0", dates)), dates) # correct year size if missing 0 
+  dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{1}-[:digit:]{2}-[:digit:]{4}$"), as.character(as.Date(dates,"%d-%m-%Y")), dates) # Correct date order and format dates if need
+  dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{3}-[:digit:]{1,2}-[:digit:]{1,2}$"), anytime::anydate(paste0("0", dates)), dates) # correct year size if missing 0 
   #if(stringr::str_detect(dates, "^-[:digit:]{4}-[:digit:]{1,2}-[:digit:]{1,2}$")) { # for negative ymd dates
   #  ndate <- as.numeric(lubridate::as_date(dates))
   #  dzero <- as.numeric(lubridate::as_date("0000-01-01"))
@@ -150,7 +149,7 @@ standardise_dates <- standardize_dates <- function(...){
   date_disambig <- function(d){
 
     date_range <- function(start, finish){
-      lubridate::as_date(lubridate::as_date(start):lubridate::as_date(finish))
+      anytime::anydate(anytime::anydate(start):anytime::anydate(finish))
     }
     
     # if(stringr::str_detect(d, "^[:digit:]{4}:[:digit:]{4}$")){ # year range
@@ -209,7 +208,7 @@ standardise_dates <- standardize_dates <- function(...){
   }
 
   # Third step: apply functions
-  lubridate::as_date(unlist(lapply(dates, function(x) date_disambig(x))))
+  anytime::anydate(unlist(lapply(dates, function(x) date_disambig(x))))
   # see hoist(), unnest_wider(), and unnest_longer()
   
 }
