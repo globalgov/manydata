@@ -62,7 +62,9 @@ standardise_dates <- standardize_dates <- function(...){
   dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{1}-[:digit:]{1}-[:digit:]{4}$"), as.character(as.Date(dates,"%d-%m-%Y")), dates) # Correct date order and size 
   dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{1}-[:digit:]{4}$"), as.character(as.Date(dates,"%d-%m-%Y")), dates) # Correct date order and size
   dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{1}-[:digit:]{2}-[:digit:]{4}$"), as.character(as.Date(dates,"%d-%m-%Y")), dates) # Correct date order and size
-  dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{3}-[:digit:]{2}-[:digit:]{2}$"), as.character(as.Date(paste0("0", dates)),"%Y-%m-%d"), dates) # correct year size if missing 0 before year 
+  dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{3}-[:digit:]{2}-[:digit:]{2}$"), as.character(as.Date(paste0("0", dates)),"%Y-%m-%d"), dates) # correct year size if missing 0 before year
+  dates <- ifelse(stringr::str_detect(dates, "^[:alpha:]{3}\\s[:digit:]{2}\\,\\s[:digit:]{4}$"), as.character(as.Date(dates, "%b %d, %Y" )), dates) # Correct format
+  dates <- ifelse(stringr::str_detect(dates, "^[:alpha:]{3}\\s[:digit:]{1}\\,\\s[:digit:]{4}$"), as.character(as.Date(dates, "%b %d, %Y" )), dates) # Correct format
   dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{1}-[:digit:]{1}-[:digit:]{2}$"), incomp_dates(dates), dates) # for incomplete dates with 4 digits only
   dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{1}-[:digit:]{2}$"), incomp_dates(dates), dates) # for incomplete dates with 5 digits only
   dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{1}-[:digit:]{2}-[:digit:]{2}$"), incomp_dates(dates), dates) # for incomplete dates with 5 digits only
