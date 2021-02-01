@@ -43,6 +43,14 @@ standardise_dates <- standardize_dates <- function(...){
   # Step five: standardising future dates
   dates <- treat_future_dates(dates)
   
+  # Step six: insert range on incomplete year only dates
+  dates <- treat_incomplete_dates(dates)
+  
+  # Step seven: dealing with uncertain dates and date ranges
+  dates <- treat_range_dates(dates)
+
+  dates
+}
 
 # Helper functions for standardise_dates()
 parse_date_input <- function(...){
@@ -206,25 +214,41 @@ treat_future_dates <- function(dates){
   dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), fut_dates(dates), dates) # stadardises how future dates are reported
 }
 
+treat_incomplete_dates <- function(dates){
   
-  # # Sixth step: dealing with uncretain dates and date ranges
-  # dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}:[:digit:]{4}$"), date_disambig(dates), dates) # year range
-  # dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}-[:digit:]{2}:[:digit:]{2}$"), date_disambig(dates), dates) # month range
-  # dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{2}$"), date_disambig(dates), dates) # day range
-  # dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}-[:digit:]{2}$"), date_disambig(dates), dates) # month and year but missing day
-  # 
-  # # Seventh step: insert range on incomplete year only dates
-  # dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}$"), date_disambig(dates), dates) # 4 digit year only
-  # dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{3}$"), date_disambig(dates), dates) # 3 digit year only
-  # dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{2}$"), date_disambig(dates), dates) # 2 digit year only
+  dates <- sapply(dates, function(d){
+    if(is.na(d)) {
+      d <- d
+    } else if(stringr::str_detect(d, "^[:digit:]{4}$")){ # 4 digit year only
+      d <- paste0(d, "-01-01:", d, "-12-31")
+      d
+    } else if(stringr::str_detect(d, "^[:digit:]{3}$")){ # 3 digit year only
+      d <- paste0("0", d, "-01-01:", "0", d, "-12-31")
+      d
+    } else if(stringr::str_detect(d, "^[:digit:]{2}$")){ # 2 digit year only
+      d <- paste0("00", d, "-01-01:","00", d, "-12-31")
+      d
+    } else if(stringr::str_detect(d, "^[:digit:]{4}-[:digit:]{2}$")){ # month only
+      start <- paste0(d, "-01")
+      d <- paste0(start, ":", d, "-", days_in_month(month(ymd(start))))
+      # d <- as.character(d)
+    } else d <- d
+    d
+  }) 
+  unname(dates)
+}
+
+treat_range_dates <- function(dates){
   
-  date_disambig <- function(d){
+  date_range <- function(start, finish){
+    as.character(lubridate::as_date(lubridate::as_date(start):lubridate::as_date(finish)))
+  }
+  
+  dates <- lapply(dates, function(d){
     
-    date_range <- function(start, finish){
-      lubridate::as_date(lubridate::as_date(start):lubridate::as_date(finish))
-    }
-    
-    if (stringr::str_detect(d, "^[:digit:]{4}:[:digit:]{4}$")){ # year range
+    if(is.na(d)) {
+      d <- d
+    } else if (stringr::str_detect(d, "^[:digit:]{4}:[:digit:]{4}$")){ # year range
       brackets <- stringr::str_split(d, ":")
       start <- paste0(brackets[[1]][1], "-01-01")
       finish <- paste0(brackets[[1]][2], "-12-31")
@@ -245,135 +269,15 @@ treat_future_dates <- function(dates){
                       brackets[[1]][2],
                       sep = "-")
       d <- date_range(start, finish)
-    } else if(stringr::str_detect(d, "^[:digit:]{4}$")){ # 4 digit year only
-      d <- date_range(paste0(d, "-01-01"), paste0(d, "-12-31"))
-      d
-    } else if(stringr::str_detect(d, "^[:digit:]{3}$")){ # 3 digit year only
-      d <- date_range(paste0("0", d, "-01-01"), paste0("0", d, "-12-31"))
-      d
-    } else if(stringr::str_detect(d, "^[:digit:]{2}$")){ # 2 digit year only
-      d <- date_range(paste0("00", d, "-01-01"), paste0("00", d, "-12-31"))
-      d
-    } else if(stringr::str_detect(d, "^[:digit:]{4}-[:digit:]{2}$")){ # month only
-      start <- paste0(d, "-01")
-      finish <- paste0(d, "-", days_in_month(month(ymd(start))))
+    } else if(stringr::str_detect(d, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")){ # correct range format
+      brackets <- stringr::str_split(d, ":")
+      start <- brackets[[1]][1]
+      finish <- brackets[[1]][2]
       d <- date_range(start, finish)
-      d <- as.character(d)
-    }
+    } else d <- d
     d
-  }
-  
-  # Last step: apply functions
-  lubridate::as_date(unlist(lapply(dates, function(x) date_disambig(x))))
-  # see hoist(), unnest_wider(), and unnest_longer()
-  
-}
-
-as_bc_dates <- function(dates) {
-  
-  dates <- stringr::str_remove_all(dates, "(bc|BC|Bc|bC)") # remove before christ letters
-  dates <- paste0("-", dates) # adds a negative sign to date
-  dates
-  
-}
-
-incomp_dates <- function(dates) {
-  
-  thresh <- as.numeric(substr(Sys.Date(),1,4))
-  x <- matrix(as.numeric(unlist(strsplit(dates, "-"))), ncol=3, byrow = T)
-  ypos <- which(apply(x, 2, function(y) any(y>31) | any(nchar(y)==4))) # identify year
-  if(length(ypos)!=1) ypos <- 3
-  dpos <- setdiff(which(apply(x, 2, function(y) any(y>12) & all(y<32))), ypos) # identify day
-  if(length(dpos)==0) dpos <- setdiff(c(1,3), ypos)
-  mpos <- setdiff(setdiff(1:3, ypos), dpos) # identify month
-  
-  if(nrow(x)==1){
-    y <- ifelse(nchar(x[ypos])>2,
-                ifelse(x[ypos] > thresh & x[ypos]!="9999",
-                       paste0("19", x[ypos] %% 100),
-                       formatC(x[ypos], width = 4, flag = "0")), # if 4, keep or correct
-                ifelse(x[ypos] > (thresh %% 100),
-                       paste0("19", formatC(x[ypos], width = 2, flag = "0")), # if more than now, likely last century
-                       paste0("20", formatC(x[ypos], width = 2, flag = "0")))) # if less than now, likely this century
-    m <- formatC(x[mpos], width = 2, flag = "0")
-    if(m=="00") m <- "01"
-    d <- formatC(x[dpos], width = 2, flag = "0")
-    if(d=="00") d <- "01"
-    out <- paste(y,m,d,sep = "-")
-  } else {
-    out <- apply(x, 1, function(x){
-      y <- ifelse(nchar(x[ypos])>2,
-                  ifelse(x[ypos] > thresh & x[ypos]!="9999",
-                         paste0("19",x[ypos] %% 100),
-                         formatC(x[ypos], width = 4, flag = "0")), # if 4, keep or correct
-                  ifelse(as.numeric(x[ypos]) > (thresh %% 100),
-                         paste0("19", formatC(x[ypos], width = 2, flag = "0")), # if more than now, likely last century
-                         paste0("20", formatC(x[ypos], width = 2, flag = "0")))) # if less than now, likely this century
-      m <- formatC(as.numeric(x[mpos]), width = 2, flag = "0")
-      if(m=="00") m <- "01"
-      d <- formatC(as.numeric(x[dpos]), width = 2, flag = "0")
-      if(d=="00") d <- "01"
-      paste(y,m,d,sep = "-")
-    })
-  }
-  dates <- out
-}
-
-neg_dates_comp <- function(dates) {
-  if(stringr::str_detect(dates, "^-[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")) { # for negative ymd dates
-    ndate <- as.numeric(lubridate::ymd(dates)) 
-    dzero <- as.numeric(lubridate::as_date("0000-01-01"))
-    dt <- as.numeric(lubridate::as_date("0000-01-01"))
-    negdate <- dzero - ndate
-    histdate <- as.numeric(lubridate::as_date(negdate) + dt)
-    dates <- lubridate::as_date(histdate)
-  } else if(stringr::str_detect(dates, "^-[:digit:]{2}-[:digit:]{2}-[:digit:]{4}$")) {
-    nd <- lubridate::dmy(dates)
-    ndate <- as.numeric(lubridate::as_date(nd))
-    dzero <- as.numeric(lubridate::as_date("0000-01-01"))
-    dt <- as.numeric(lubridate::as_date("0000-01-01"))
-    negdate <- dzero - ndate
-    histdate <- as.numeric(lubridate::as_date(negdate) + dt)
-    dates <- lubridate::as_date(histdate)
-  } else {
-    dates
-  }
-}
-
-neg_dates <- function(dates) {
-  if(stringr::str_detect(dates, "^-[:digit:]{4}$")){ # negative dates with 4 digit year only
-    nd <- paste0(dates, "-01-01") 
-    ndate <- as.numeric(lubridate::as_date(nd))
-    dzero <- as.numeric(lubridate::as_date("0000-01-01"))
-    dt <- as.numeric(lubridate::as_date("0000-01-01"))
-    negdate <- dzero - ndate
-    histdate <- as.numeric(lubridate::as_date(negdate) + dt)
-    dates <- lubridate::as_date(histdate)
-  } else if(stringr::str_detect(dates, "^-[:digit:]{3}$")){ # negative dates with 3 digit year only
-    ndate <- stringr::str_replace(dates, "-", "0") 
-    ndate <- paste0(ndate, "-01-01") 
-    ndate <- as.numeric(lubridate::as_date(ndate))
-    dzero <- as.numeric(lubridate::as_date("0000-01-01"))
-    dt <- as.numeric(lubridate::as_date("0000-01-01"))
-    negdate <- dzero - ndate
-    histdate <- as.numeric(lubridate::as_date(negdate) + dt)
-    dates <- lubridate::as_date(histdate)
-  } else if(stringr::str_detect(dates, "^-[:digit:]{2}$")){ # negative dates with 2 digit year only
-    ndate <- stringr::str_replace(dates, "-", "00") 
-    ndate <- paste0(ndate, "-01-01") 
-    ndate <- as.numeric(lubridate::as_date(ndate))
-    dzero <- as.numeric(lubridate::as_date("0000-01-01"))
-    dt <- as.numeric(lubridate::as_date("0000-01-01"))
-    negdate <- dzero - ndate
-    histdate <- as.numeric(lubridate::as_date(negdate) + dt)
-    dates <- lubridate::as_date(histdate)
-  } else {
-    dates
-  } 
-}
-
-fut_dates <- function(dates) {
-  ifelse(dates > Sys.Date() + lubridate::years(25), d <- "9999-12-31", dates)
+  })
+  unlist(dates)
 }
 
 #' Resetting century of future events
