@@ -9,22 +9,18 @@
 #' @importFrom stringr str_detect str_split
 #' @importFrom lubridate as_date dmy ymd
 #' @examples
-#' testdates <- c("2010-01-01", "2010", "2010-01",
-#' "2010-01-00", "2010-00-00",
-#' "2010-01-??", "2010-??-??",
-# "2010-01-NA", "2010-NA-NA",
-#' "2010:2011",
-#' "2010-01-01_03", "2010-01_03",
-#' "2010-01-01:03", "2010-01:03",
-#' "9999-12-31", "2599-12-31",
-#' "1712-01-01", "712-01-01", "712 AD",
-#' "-1712-01-01", "-712-01-01", "712 BC")
-#' datestest <- tibble::tibble(
-#' origin = testdates,
-#' lubridate = lubridate::as_date(testdates),
-#' anytime = anytime::anydate(testdates),
-#' qData = qData::standardise_dates(testdates)
-#' ) datestest %>% print(n = 25)
+#' dates_comparison <- tibble::tribble(~Example, ~OriginalDate,
+#' "A normal date", "2010-01-01", 
+#' "A historical date", "1712-01-01", 
+#' "A really historical date", "712-01-01",
+#' "A very historical date", "-712-01-01",
+#' "A clearly future date", "9999-12-31", 
+#' "A not so clearly future date", "2599-12-31")
+#' dates_comparison %>% dplyr::mutate(
+#' lubridate = lubridate::as_date(OriginalDate),
+#' anytime = anytime::anydate(OriginalDate),
+#' qData = qData::standardise_dates(OriginalDate)
+#' ) %>% print(n = 25)
 #' @export
 standardise_dates <- standardize_dates <- function(...){
   
@@ -136,7 +132,7 @@ correct_date_format <- function(dates){
   dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{1}-[:digit:]{1}-[:digit:]{4}$"), as.character(as.Date(dates,"%d-%m-%Y")), dates) # Correct date order and size 
   dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{1}-[:digit:]{4}$"), as.character(as.Date(dates,"%d-%m-%Y")), dates) # Correct date order and size
   dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{1}-[:digit:]{2}-[:digit:]{4}$"), as.character(as.Date(dates,"%d-%m-%Y")), dates) # Correct date order and size
-  dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{3}-[:digit:]{2}-[:digit:]{2}$"), as.character(as.Date(paste0("0", dates)),"%Y-%m-%d"), dates) # correct year size if missing 0 before year
+  dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{3}-[:digit:]{2}-[:digit:]{2}$"), paste0("0", dates), dates) # correct year size if missing 0 before year
   dates <- ifelse(stringr::str_detect(dates, "^[:alpha:]{3}\\s[:digit:]{2}\\,\\s[:digit:]{4}$"), as.character(as.Date(dates, "%b %d, %Y" )), dates) # Correct format
   dates <- ifelse(stringr::str_detect(dates, "^[:alpha:]{3}\\s[:digit:]{1}\\,\\s[:digit:]{4}$"), as.character(as.Date(dates, "%b %d, %Y" )), dates) # Correct format
   dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{1}-[:digit:]{1}-[:digit:]{2}$"), incomp_dates(dates), dates) # for incomplete dates with 4 digits only

@@ -21,19 +21,16 @@ and extends the date parsing of other packages to more historical and future dat
 The function allows only for dmy or ymd date formats at present, since mdy may introduce errors.
 }
 \examples{
-testdates <- c("2010-01-01", "2010", "2010-01",
-"2010-01-00", "2010-00-00",
-"2010-01-??", "2010-??-??",
-"2010:2011",
-"2010-01-01_03", "2010-01_03",
-"2010-01-01:03", "2010-01:03",
-"9999-12-31", "2599-12-31",
-"1712-01-01", "712-01-01", "712 AD",
-"-1712-01-01", "-712-01-01", "712 BC")
-datestest <- tibble::tibble(
-origin = testdates,
-lubridate = lubridate::as_date(testdates),
-anytime = anytime::anydate(testdates),
-qData = qData::standardise_dates(testdates)
-) datestest \%>\% print(n = 25)
+dates_comparison <- tibble::tribble(~Example, ~OriginalDate,
+"A normal date", "2010-01-01", 
+"A historical date", "1712-01-01", 
+"A really historical date", "712-01-01",
+"A very historical date", "-712-01-01",
+"A clearly future date", "9999-12-31", 
+"A not so clearly future date", "2599-12-31")
+dates_comparison \%>\% dplyr::mutate(
+lubridate = lubridate::as_date(OriginalDate),
+anytime = anytime::anydate(OriginalDate),
+qData = qData::standardise_dates(OriginalDate)
+) \%>\% print(n = 25)
 }
