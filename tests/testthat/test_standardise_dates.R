@@ -96,3 +96,14 @@ test_that("standardise_dates() treats multiple inconsistent dates correctly",{
   dat1 <- data.frame(date = c("NA", "2010.10.12", " ", "10/12/93", "12-10-1993"))
   expect_equal(as.character(standardise_dates(dat1$date)), c(NA, "2010-10-12", NA, "1993-10-12", "1993-10-12")) #tofix
 })
+
+# Example of errors from datasets in qEnviron
+test_that("standardise_dates() treats vector of dates correctly", {
+  dates4 <- data.frame(date = as.Date(c("1351-08-01", "1353-10-20", "1403-06-27", "1407-03-10",
+                                        "1656-07-17", "NA", "1867-04-29")))
+  expect_equal(as.character(standardise_dates(dates4$date)), c("1351-08-01", "1353-10-20", "1403-06-27", "1407-03-10",
+                                                               "1656-07-17", NA, "1867-04-29"))
+})
+
+
+
