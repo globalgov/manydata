@@ -28,14 +28,23 @@
 #' @export
 standardise_dates <- standardize_dates <- function(...){
   
-  # First step: if necessary, join multiple columns
+  # Step one: if necessary, join multiple columns
+  dates <- parse_date_input(...)
+  
+
+# Helper functions for standardise_dates()
+parse_date_input <- function(...){
   dots <- list(...)
   if(length(dots)==1){
+    dots <- do.call(as.character, dots)
     dates <- unlist(dots)
   } else if (length(dots)==3){
     dots <- purrr::map(dots, as.character)
     dates <- unlist(purrr::pmap_chr(dots, paste, sep = "-"))
   } else stop("Either you need to pass standardise_dates() one variable (i.e. 'yyyy-mm-dd' or three (yyyy, mm, dd).")
+  dates
+}
+
   
   # Second step: standardise inputs
   dates <- as.character(dates) # makes sure dates are in character format
