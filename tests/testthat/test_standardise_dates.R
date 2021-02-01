@@ -94,8 +94,8 @@ test_that("standardise_dates() treats multiple inconsistent dates correctly",{
   expect_equal(as.character(standardise_dates(dat2$date)), c("2010-10-12", "2010-11-13", "2010-12-14"))
   dat <- data.frame(date = as.character(c("2010.10.12","2010/03/30", "10/12/93", "12-10-1993", "NA")))
   expect_equal(as.character(standardise_dates(dat$date)), c("2010-10-12", "2010-03-30", "1993-12-10", "1993-10-12", NA)) #tofix
-  dat1 <- data.frame(date = c("NA", "12.10.2010", " ", "12/10/93", "12-10-1993"))
-  expect_equal(as.character(standardise_dates(dat1$date)), c(NA, "2010-10-12", NA, "1993-10-20", "1993-10-12")) #tofix
+  dat1 <- data.frame(date = c("12.10.2010", " ", "20/10/1993", "12-10-1993"))
+  expect_equal(as.character(standardise_dates(dat1$date)), c("2010-10-12", NA, "1993-10-20", "1993-10-12")) #tofix
 })
 
 # Example of errors from datasets in qEnviron
