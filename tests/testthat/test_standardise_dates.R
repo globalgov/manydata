@@ -106,5 +106,10 @@ test_that("standardise_dates() treats vector of dates correctly", {
                                                                "1656-07-17", NA, "1867-04-29"))
 })
 
+test_that("standardise_dates() treats special dates format correctly", {
+  dates5 <- data.frame(date = c("Sep 12, 2009", "Oct 1, 2019", "Nov 13, 1998", "NA", "May 13, 2003"))
+  expect_equal(as.character(standardise_dates(dates5$date)), c("2009-09-12", "2019-10-01", "1998-11-13", "NA", "2003-05-13"))
+})
+
 
 
