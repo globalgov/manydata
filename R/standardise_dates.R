@@ -49,6 +49,7 @@ standardise_dates <- standardize_dates <- function(...){
   # Step seven: dealing with uncertain dates and date ranges
   dates <- treat_range_dates(dates)
 
+  dates <- lubridate::as_date(dates)
   dates
 }
 
