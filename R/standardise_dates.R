@@ -63,10 +63,10 @@ standardise_dates <- standardize_dates <- function(...){
   dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{1}-[:digit:]{4}$"), as.character(as.Date(dates,"%d-%m-%Y")), dates) # Correct date order and size
   dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{1}-[:digit:]{2}-[:digit:]{4}$"), as.character(as.Date(dates,"%d-%m-%Y")), dates) # Correct date order and size
   dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{3}-[:digit:]{2}-[:digit:]{2}$"), as.character(as.Date(paste0("0", dates)),"%Y-%m-%d"), dates) # correct year size if missing 0 before year 
-  dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{1}-[:digit:]{1}-[:digit:]{2}$"), imcomp_dates(dates), dates) # for imcomplete dates with 4 digits only
-  dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{1}-[:digit:]{2}$"), imcomp_dates(dates), dates) # for imcomplete dates with 5 digits only
-  dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{1}-[:digit:]{2}-[:digit:]{2}$"), imcomp_dates(dates), dates) # for imcomplete dates with 5 digits only
-  dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{2}-[:digit:]{2}$"), imcomp_dates(dates), dates) # for imcomplete dates with 6 digits only
+  dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{1}-[:digit:]{1}-[:digit:]{2}$"), incomp_dates(dates), dates) # for incomplete dates with 4 digits only
+  dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{1}-[:digit:]{2}$"), incomp_dates(dates), dates) # for incomplete dates with 5 digits only
+  dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{1}-[:digit:]{2}-[:digit:]{2}$"), incomp_dates(dates), dates) # for incomplete dates with 5 digits only
+  dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{2}-[:digit:]{2}$"), incomp_dates(dates), dates) # for incomplete dates with 6 digits only
   
   # Fourth step: identifying negative dates and maintaining negative values
   dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), neg_dates_comp(dates), dates) # negative ymd dates
@@ -85,7 +85,7 @@ standardise_dates <- standardize_dates <- function(...){
   # dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{2}$"), date_disambig(dates), dates) # day range
   # dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}-[:digit:]{2}$"), date_disambig(dates), dates) # month and year but missing day
   # 
-  # # Seventh step: insert range on imcomplete year only dates
+  # # Seventh step: insert range on incomplete year only dates
   # dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}$"), date_disambig(dates), dates) # 4 digit year only
   # dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{3}$"), date_disambig(dates), dates) # 3 digit year only
   # dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{2}$"), date_disambig(dates), dates) # 2 digit year only
@@ -149,7 +149,7 @@ as_bc_dates <- function(dates) {
   
 }
 
-imcomp_dates <- function(dates) {
+incomp_dates <- function(dates) {
   
   thresh <- as.numeric(substr(Sys.Date(),1,4))
   x <- matrix(as.numeric(unlist(strsplit(dates, "-"))), ncol=3, byrow = T)
