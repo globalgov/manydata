@@ -6,14 +6,9 @@
 #' and extends the date parsing of other packages to more historical and future dates. 
 #' The function allows only for dmy or ymd date formats at present, since mdy may introduce errors.  
 #' @return Nested vector of POSIXct dates that includes a range of dates
-#' @importFrom stringr str_detect
-#' @importFrom stringr str_split
-#' @importFrom lubridate as_date
-#' @importFrom lubridate dmy
-#' @importFrom lubridate ymd
+#' @importFrom stringr str_detect str_split
+#' @importFrom lubridate as_date dmy ymd
 #' @examples
-#' \dontrun{
-#' checkdates <- function(){
 #' testdates <- c("2010-01-01", "2010", "2010-01",
 #' "2010-01-00", "2010-00-00",
 #' "2010-01-??", "2010-??-??",
@@ -29,8 +24,7 @@
 #' lubridate = lubridate::as_date(testdates),
 #' anytime = anytime::anydate(testdates),
 #' qData = qData::standardise_dates(testdates)
-#' ) datestest %>% print(n = 25)}
-#' }
+#' ) datestest %>% print(n = 25)
 #' @export
 standardise_dates <- standardize_dates <- function(...){
   
@@ -249,43 +243,6 @@ neg_dates <- function(dates) {
 fut_dates <- function(dates) {
   ifelse(dates > Sys.Date() + lubridate::years(25), d <- "9999-12-31", dates)
 }
-
-#' #' Identify and complete date ranges
-#' #'
-#' #' @param d dates
-#' #' @return a range of dates
-#' ranged <- function(d) {
-#'   
-#'   date_range <- function(start, finish){
-#'     lubridate::as_date(lubridate::as_date(start):lubridate::as_date(finish))
-#'   }
-#'   
-#'   if(stringr::str_detect(d, "^[:digit:]{4}:[:digit:]{4}$")){ # year range
-#'     brackets <- stringr::str_split(d, ":")
-#'     start <- paste0(brackets[[1]][1], "-01-01")
-#'     finish <- paste0(brackets[[1]][2], "-12-31")
-#'     d <- date_range(start, finish)
-#'   } else if(stringr::str_detect(d, "^[:digit:]{4}-[:digit:]{2}:[:digit:]{2}$")){ # month range
-#'     brackets <- stringr::str_split(d, ":")
-#'     start <- paste0(brackets[[1]][1], "-01")
-#'     finish <- paste(stringr::str_split(start, "-")[[1]][1],
-#'                     brackets[[1]][2],
-#'                     lubridate::days_in_month(as.numeric(brackets[[1]][2])),
-#'                     sep = "-")
-#'     d <- date_range(start, finish)
-#'   } else if(stringr::str_detect(d, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{2}$")){ # day range
-#'     brackets <- stringr::str_split(d, ":")
-#'     start <- brackets[[1]][1]
-#'     finish <- paste(stringr::str_split(start, "-")[[1]][1],
-#'                     stringr::str_split(start, "-")[[1]][2],
-#'                     brackets[[1]][2],
-#'                     sep = "-")
-#'     d <- date_range(start, finish)
-#'   } else {
-#'     d
-#'   }
-#' }
-
 
 #' Resetting century of future events
 #'
