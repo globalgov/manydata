@@ -82,7 +82,7 @@ plot_releases <- function(repo){
   year_format <- format(year_date_range, '%Y')
   year_df <- data.frame(year_date_range, year_format)
 
-  timeline_plot <- ggplot2::ggplot(df,ggplot2::aes(x=date,y=0, col=milestone, label=milestone))
+  timeline_plot <- ggplot2::ggplot(df,ggplot2::aes(x=date,y=0, col=.data$milestone, label=.data$milestone))
   timeline_plot <- timeline_plot+ggplot2::labs(col="Milestones")
   timeline_plot <- timeline_plot+ggplot2::scale_color_manual(values=milestone_colors, 
                                                              labels=milestone_levels, drop = FALSE)
@@ -94,7 +94,7 @@ plot_releases <- function(repo){
   
   # Plot vertical segment lines for milestones
   timeline_plot <- timeline_plot+ggplot2::geom_segment(data=df[df$month_count == 1,], 
-                                                       ggplot2::aes(y=position,yend=0,xend=date), 
+                                                       ggplot2::aes(y=.data$position,yend=0,xend=date), 
                                                        color='black', size=0.2)
   
   # Plot scatter points at zero and date
@@ -121,7 +121,7 @@ plot_releases <- function(repo){
                                                       ggplot2::aes(x=year_date_range,y=-0.2,label=year_format, fontface="bold"),
                                          size=2.5, color='black')
   # Show text for each milestone
-  timeline_plot <- timeline_plot + ggplot2::geom_text(ggplot2::aes(y=text_position,label=tag_name),
+  timeline_plot <- timeline_plot + ggplot2::geom_text(ggplot2::aes(y=.data$text_position,label=.data$tag_name),
                                          size=2.5)
   print(timeline_plot)
 }
