@@ -2,42 +2,7 @@
 % Please edit documentation in R/standardise_dates.R
 \name{recent}
 \alias{recent}
-\title{#' Identify and complete date ranges
-#'
-#' @param d dates
-#' @return a range of dates
-ranged <- function(d) {
-
-date_range <- function(start, finish){
-lubridate::as_date(lubridate::as_date(start):lubridate::as_date(finish))
-}
-
-if(stringr::str_detect(d, "^[:digit:]{4}:[:digit:]{4}$")){ # year range
-brackets <- stringr::str_split(d, ":")
-start <- paste0(brackets[\link{1}]\link{1}, "-01-01")
-finish <- paste0(brackets[\link{1}][2], "-12-31")
-d <- date_range(start, finish)
-} else if(stringr::str_detect(d, "^[:digit:]{4}-[:digit:]{2}:[:digit:]{2}$")){ # month range
-brackets <- stringr::str_split(d, ":")
-start <- paste0(brackets[\link{1}]\link{1}, "-01")
-finish <- paste(stringr::str_split(start, "-")[\link{1}]\link{1},
-brackets[\link{1}][2],
-lubridate::days_in_month(as.numeric(brackets[\link{1}][2])),
-sep = "-")
-d <- date_range(start, finish)
-} else if(stringr::str_detect(d, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{2}$")){ # day range
-brackets <- stringr::str_split(d, ":")
-start <- brackets[\link{1}]\link{1}
-finish <- paste(stringr::str_split(start, "-")[\link{1}]\link{1},
-stringr::str_split(start, "-")[\link{1}][2],
-brackets[\link{1}][2],
-sep = "-")
-d <- date_range(start, finish)
-} else {
-d
-}
-}
-Resetting century of future events}
+\title{Resetting century of future events}
 \usage{
 recent(dates, sep = NULL)
 }

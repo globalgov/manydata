@@ -21,8 +21,6 @@ and extends the date parsing of other packages to more historical and future dat
 The function allows only for dmy or ymd date formats at present, since mdy may introduce errors.
 }
 \examples{
-\dontrun{
-checkdates <- function(){
 testdates <- c("2010-01-01", "2010", "2010-01",
 "2010-01-00", "2010-00-00",
 "2010-01-??", "2010-??-??",
@@ -37,6 +35,5 @@ origin = testdates,
 lubridate = lubridate::as_date(testdates),
 anytime = anytime::anydate(testdates),
 qData = qData::standardise_dates(testdates)
-) datestest \%>\% print(n = 25)}
-}
+) datestest \%>\% print(n = 25)
 }
