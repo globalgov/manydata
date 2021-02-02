@@ -113,7 +113,7 @@ test_that("standardise_dates() treats special dates format correctly", {
 
 test_that("standardise_dates() treats inconsistent date format correctly", {
   dates6 <- data.frame(date = as.character(c("4/30/1960", "9999-12-31", "Obsolete?", "1990-04-30", "NA", "2010-00-00", "NA")))
-  expect_equal(as.character(standardise_dates(dates6$date)), c("1960-04-30", "9999-12-31", NA, "1990-04-30", NA, "2010-01-01", NA))
+  expect_equal(as.character(standardise_dates(dates6$date)), c("1960-04-30", "9999-12-31", NA, "1990-04-30", NA, "2010-01-01:2010-12-31", NA))
 })
 
 
