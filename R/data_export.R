@@ -119,5 +119,78 @@ export_data <- function(..., database, link) {
 
   ui_done("A test script has been created for this data.")
   ui_todo("Press Cmd/Ctrl-Shift-T to run all tests or run devtools::test().")
-
+  
+  #################################
+  #Generate database metadata object
+  #################################
+  #Set names
+  # First level source list for databases
+  sources <- paste0(database,"_sources")
+  #Second level list for datasets that will be nested in database source list.
+  dssource <- paste0(dataset_name, "_source")
+  #Elements 
+  source_link <- paste0(dataset_name, "_link")
+  #Create a list of sources
+  if(file.exists(paste0("data/", sources, ".rda"))){
+    usethis::ui_info("Found an existing {usethis::ui_value(database)} database source file. Imported it ready to update.")
+    env2 <- new.env()
+    load(paste0("data/", sources, ".rda"), envir = env2)
+    source_exists <- dssource %in% names(get(sources, envir = env2))
+    if(source_exists){
+      usethis::ui_info("Found an existing {usethis::ui_value(dataset_name)} dataset source file. This will be overwritten.")
+    } else {
+      usethis::ui_info("The {usethis::ui_value(dataset_name)} dataset source file does not yet exist in {usethis::ui_value(database)}. It will be added.")
+    }
+    #Add it to the database list with dynamic dssource name
+    env2[[sources]] <- append(env2[[sources]], tibble::lst(!!dssource:= tibble::lst(!!source_link:=link, bibentry = read.bib(file = paste0("data-raw/", database, "/", dataset_name,"/",dataset_name,".bib")), NObs = nrow(dataset), NVar = ncol(dataset), VarName = colnames(dataset))))
+    save(list = sources, envir = env2,
+         file = fs::path("data/", sources, ext = "rda"),
+         compress = "bzip2")
+    if(source_exists){
+      usethis::ui_info("Saved a new version of the {usethis::ui_value(database)} database with an updated version of the {usethis::ui_value(dataset_name)} dataset.")
+    } else {
+      usethis::ui_info("Saved a new version of the {usethis::ui_value(database)} database source file that includes the {usethis::ui_value(dataset_name)} dataset source information.")
+    }
+  } else {
+    usethis::ui_info("Didn't find an existing {usethis::ui_value(database)} database source file.")
+    #Create new list of sources and add link
+    env2 <- new.env()
+    #Create the dataset source list (note put bibtex package as a dependency)
+    #Add it to the database list with dynamic dssource name
+    env2[[sources]] <- tibble::lst(!!dssource:= tibble::lst(!!source_link:=link, bibentry = read.bib(file = paste0("data-raw/", database, "/", dataset_name,"/",dataset_name,".bib")), NObs = nrow(dataset), NVar = ncol(dataset), VarName = colnames(dataset)))
+    save(list = sources, envir = env2,
+         file = fs::path("data/", sources, ext = "rda"),
+         compress = "bzip2")
+    usethis::ui_done("Saved a {usethis::ui_value(database)} database source file that includes the {usethis::ui_value(deparse(substitute(...)))} dataset source information.")}
+  
+  
+  #################################
+  #Generate database description file
+  #################################
+    
+#   Create a more succinct database documentation.
+#   # Get the database object.
+#   db <- get(load(paste0("data/", database, ".rda")))
+#   #Compute Database Characteristics
+#   dblen <- length(db)
+#   dsnames <- names(db)
+#   strdsnames <- str_c(names(db), collapse = ", ")
+#   dsobs <- lapply(db, nobs)
+#   dsnvar <- lapply(db, ncol)
+#   dsvar <- lapply(db, colnames)
+#   dsvarstr <- str_c(lapply(db, colnames))
+#   describe <-  
+#   sourceout <- 
+#   #Output
+#   qtemplate("qData-DBDoc.R",
+#             save_as = fs::path("R", paste0("qData-", database, ".R")),
+#             data = list(dat = dataset_name,
+#                         strdsnames = strdsnames,
+#                         dab = database,
+#                         describe = describe,
+#                         source = source),
+#             open = TRUE,
+#             ignore = FALSE,
+#             path = getwd())
+# 
 }
