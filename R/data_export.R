@@ -4,6 +4,7 @@
 #' and create scripts for documenting and testing that object within the new qPackage.
 #' @param ... Unquoted name of the dataset object to save.
 #' @param database Quoted name of any existing database or of the database to be created.
+#' @param link website link to the source of a dataset.
 #' @details The function creates a data directory, if nonexistent, and save cleaned data.
 #' The functions also creates a script for testing the cleaned data and make sure it
 #' complies with qData requirements. As well, it creates a documentation script to help
