@@ -168,30 +168,31 @@ export_data <- function(..., database, link) {
   #################################
   #Generate database description file
   #################################
-    
-#   Create a more succinct database documentation.
-#   # Get the database object.
-#   db <- get(load(paste0("data/", database, ".rda")))
-#   #Compute Database Characteristics
-#   dblen <- length(db)
-#   dsnames <- names(db)
-#   strdsnames <- str_c(names(db), collapse = ", ")
-#   dsobs <- lapply(db, nobs)
-#   dsnvar <- lapply(db, ncol)
-#   dsvar <- lapply(db, colnames)
-#   dsvarstr <- str_c(lapply(db, colnames))
-#   describe <-  
-#   sourceout <- 
-#   #Output
-#   qtemplate("qData-DBDoc.R",
-#             save_as = fs::path("R", paste0("qData-", database, ".R")),
-#             data = list(dat = dataset_name,
-#                         strdsnames = strdsnames,
-#                         dab = database,
-#                         describe = describe,
-#                         source = source),
-#             open = TRUE,
-#             ignore = FALSE,
-#             path = getwd())
-# 
+
+  # Create a more succinct database documentation.
+  # Get the database object.
+  db <- get(load(paste0("data/", database, ".rda")))
+  #Compute Database Characteristics
+  dblen <- length(db)
+  dsnames <- names(db)
+  strdsnames <- str_c(names(db), collapse = ", ")
+  dsobs <- lapply(db, nrow)
+  dsnvar <- lapply(db, ncol)
+  dsvar <- lapply(db, colnames)
+  dsvarstr <- lapply(lapply(db, colnames), str_c, collapse=", ")
+  describe <- paste0("#'\\describe{\n", paste0("#' \\item{",dsnames, ": A dataset with ",dsobs," observations and the following ",dsnvar," variables: ",dsvarstr,".}", "{Describe dataset here}\n", collapse = ""), "#' }")
+  source <- paste0("#' @source \\url{", link,"}", collapse = "")
+  #Output
+  qtemplate("qDataDBDoc.R",
+            save_as = fs::path("R", paste0("qData-", database, ".R")),
+            data = list(dat = dataset_name,
+                        strdsnames = strdsnames,
+                        dsvarstr = dsvarstr,
+                        database = database,
+                        describe = describe,
+                        source = source),
+            open = TRUE,
+            ignore = FALSE,
+            path = getwd())
+
 }
