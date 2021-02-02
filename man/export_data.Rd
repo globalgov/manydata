@@ -10,6 +10,8 @@ export_data(..., database, link)
 \item{...}{Unquoted name of the dataset object to save.}
 
 \item{database}{Quoted name of any existing database or of the database to be created.}
+
+\item{link}{website link to the source of a dataset.}
 }
 \value{
 This function saves the dataset to the named database,
