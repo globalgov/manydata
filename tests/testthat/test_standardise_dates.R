@@ -111,5 +111,11 @@ test_that("standardise_dates() treats special dates format correctly", {
   expect_equal(as.character(standardise_dates(dates5$date)), c("2009-09-12", "2019-10-01", "1998-11-13", NA, "2003-05-13"))
 })
 
+test_that("standardise_dates() treats inconsistent date format correctly", {
+  dates6 <- data.frame(date = as.character(c("4/30/1960", "9999-12-31", "Obsolete?", "1990-04-30", "NA", "2010-00-00", "NA")))
+  expect_equal(as.character(standardise_dates(dates6$date)), c("1960-04-30", "9999-12-31", NA, "1990-04-30", NA, "2010-01-01", NA))
+})
+
+
 
 
