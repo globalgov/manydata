@@ -143,7 +143,7 @@ export_data <- function(..., database, link) {
       #Case 1.1 Where source list is present and dataset source list too, updates the latter
       usethis::ui_info("Found an existing {usethis::ui_value(dataset_name)} dataset source file.")
       #Add it to the database list with dynamic dssource name
-      env2[[sources]][[dssource]] <- tibble::lst(!!source_link:=link, bibentry = read.bib(file = paste0("data-raw/", database, "/", dataset_name,"/",dataset_name,".bib")), NObs = nrow(dataset), NVar = ncol(dataset), VarName = colnames(dataset))
+      env2[[sources]][[dssource]] <- tibble::lst(Name = dataset_name, UniqueID = length(unique(dataset$ID)), NObs = nrow(dataset), NVar = ncol(dataset), VarName = colnames(dataset), MissingDataPercent = sum(is.na(dataset))/prod(dim(dataset)),  !!source_link:=link, bibentry = read.bib(file = paste0("data-raw/", database, "/", dataset_name,"/",dataset_name,".bib")))
       save(list = sources, envir = env2,
            file = fs::path("data/", sources, ext = "rda"),
            compress = "bzip2")
@@ -151,7 +151,7 @@ export_data <- function(..., database, link) {
     } else {
       #Case 1.2 Where source list is present but the source element in the lost coresponding to the loaded dataset is not. Appends it.
       usethis::ui_info("The {usethis::ui_value(dataset_name)} dataset source file does not yet exist in {usethis::ui_value(database)}. It will be added.")
-      env2[[sources]] <- append(env2[[sources]], tibble::lst(!!dssource:= tibble::lst(!!source_link:=link, bibentry = read.bib(file = paste0("data-raw/", database, "/", dataset_name,"/",dataset_name,".bib")), NObs = nrow(dataset), NVar = ncol(dataset), VarName = colnames(dataset))))
+      env2[[sources]] <- append(env2[[sources]], tibble::lst(!!dssource := tibble::lst(Name = dataset_name, UniqueID = length(unique(dataset$ID)), NObs = nrow(dataset), NVar = ncol(dataset), VarName = colnames(dataset), MissingDataPercent = sum(is.na(dataset))/prod(dim(dataset)),  !!source_link:=link, bibentry = read.bib(file = paste0("data-raw/", database, "/", dataset_name,"/",dataset_name,".bib")))))
       save(list = sources, envir = env2,
            file = fs::path("data/", sources, ext = "rda"),
            compress = "bzip2")
@@ -164,7 +164,7 @@ export_data <- function(..., database, link) {
     env2 <- new.env()
     #Create the dataset source list (note put bibtex package as a dependency)
     #Add it to the database list with dynamic dssource name
-    env2[[sources]] <- tibble::lst(!!dssource:= tibble::lst(!!source_link:=link, bibentry = read.bib(file = paste0("data-raw/", database, "/", dataset_name,"/",dataset_name,".bib")), NObs = nrow(dataset), NVar = ncol(dataset), VarName = colnames(dataset)))
+    env2[[sources]] <- tibble::lst(!!dssource:= tibble::lst(Name = dataset_name, UniqueID = length(unique(dataset$ID)), NObs = nrow(dataset), NVar = ncol(dataset), VarName = colnames(dataset), MissingDataPercent = sum(is.na(dataset))/prod(dim(dataset)),  !!source_link:=link, bibentry = read.bib(file = paste0("data-raw/", database, "/", dataset_name,"/",dataset_name,".bib"))))
     save(list = sources, envir = env2,
          file = fs::path("data/", sources, ext = "rda"),
          compress = "bzip2")
