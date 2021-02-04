@@ -1,6 +1,12 @@
-#' To quickly report on the databases and datasets within a qPackage
+#' Reports data within a qPackage
 #' 
+#' @details The function quickly report on the databases and datasets within a qPackage
 #' @param pkg character string of the qPackage to report data on
+#' @return a list with information on qPackage
+#' @examples  
+#' \dontrun{
+#' report_data("qStates")
+#' }
 #' @export
 report_data <- function(pkg){
   pkg_path <- find.package(pkg)
@@ -19,22 +25,12 @@ report_data <- function(pkg){
   tabl3 <- tabl %>% 
     t()
   
-  colnames(tabl3) <- c("Unique ID", "Missing data", "Rows", "Columns")
+  colnames(tabl3) <- c("Unique ID", "Missing data", "Observations", "Variables")
   tabl3
   
-  
-  # tibble: for each database
-  
-  # columns/variables should be:
-  #  - name of dataset => ALready showing? 
-  #  - source of dataset AT THE END
-  #  - number of unique IDs DONE
-  #  - number of observations (rows)
-  #  - number of variables (cols)
-  #  - internally missing data (%)
+  # TODO: 
   #  - earliest begin date
   #  - most recent (non-future) end date
-  
-  # attr(states[["COW"]], "source") <- "bloobloo"
+  #  - source of dataset AT THE END
   
 }

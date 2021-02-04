@@ -18,6 +18,7 @@
 * Closes #93 by setting up internal helper functions for `standardise_dates()` 
 * Closes #92 by tweaking `export_data()` to document datasets at the database level
   * The `export_data()` function now also call different types of test templates according to type of database
+* Closes #94 by adding a bibliographic attribute to each dataset with `export_data()`
 
 # qData 0.3.1
 
