@@ -9,11 +9,13 @@
 * Setting up new function `report_data()` to make summarize of each database within a q package
 * Added a new type of contributor called *dtc* in the DESCRIPTION file
 * Added a new `plot_releases()` function that plots the package releases along a timeline
+* Closes #83 by improving CII best practices score
 
 ## Correction
 
 * Closes #73 `standardise_dates()` function by making it works with `lubridate::as_date`, AD and negative historical dates
 * Fixes #95 by simplifying `standardise_dates()` to make sure it works with all types of date variables within different datasets
+* Closes #93 by setting up internal helper functions for `standardise_dates()` 
 * Closes #92 by tweaking `export_data()` to document datasets at the database level
   * The `export_data()` function now also call different types of test templates according to type of database
 
