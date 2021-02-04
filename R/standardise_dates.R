@@ -141,7 +141,9 @@ correct_date_format <- function(dates){
   dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{1}-[:digit:]{2}-[:digit:]{2}$"), incomp_dates(dates), dates) # for incomplete dates with 5 digits only
   dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{2}-[:digit:]{2}$"), incomp_dates(dates), dates) # for incomplete dates with 6 digits only
   dates <- ifelse(stringr::str_detect(dates, "[:alpha:]\\?$"), "NA", dates)
-  dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}-00-00$"), "NA", dates) # for now, the function will treat date range as NA
+  dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}-00-00$"), " ", dates) # for now, the function will treat date range as NA
+  dates <- ifelse(stringr::str_detect(dates, "^00-00-[:digit:]{4}$"), " ", dates) # for now, the function will treat date range as NA
+  dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}$"), "NA", dates) # for now, the function will treat date range as NA
 }
 
 treat_historical_dates <- function(dates){
@@ -209,9 +211,9 @@ treat_historical_dates <- function(dates){
 
 treat_future_dates <- function(dates){
   fut_dates <- function(dates) {
-    ifelse(dates > Sys.Date() + lubridate::years(25), d <- "9999-12-31", dates)
+    ifelse(dates > Sys.Date() + lubridate::years(25), dates <- "9999-12-31", dates)
   }
-  dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), fut_dates(dates), dates) # stadardises how future dates are reported
+  dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), fut_dates(dates), dates)# stadardises how future dates are reported
 }
 
 # treat_incomplete_dates <- function(dates){
