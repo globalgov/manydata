@@ -29,7 +29,6 @@ export_data <- function(..., database, link) {
   if(!is.character(link)){
     stop("Please provide a valid link argument.")
   }
-  
   dataset_name <- deparse(substitute(...))
   dataset <- get(dataset_name)
   
@@ -71,23 +70,24 @@ export_data <- function(..., database, link) {
   }
   
   # Step three: create and open a documentation script
-  nr <- nrow(dataset)
-  nc <- ncol(dataset)
-  nm <- names(dataset)
-  # print(nm)
-  describe <- paste0("#' \\describe{\n", paste0("#'   \\item{",nm,"}{Describe variable here}\n", collapse = ""), "#' }")
-  source <- paste0("#' @source \\url{", link,"}", collapse = "")
-  qtemplate("qData-doc.R",
-            save_as = fs::path("R", paste0("qData-", dataset_name, ".R")),
-            data = list(dat = dataset_name,
-                        dab = database,
-                        nr = nr,
-                        nc = nc,
-                        describe = describe,
-                        source = source),
-            open = TRUE,
-            ignore = FALSE,
-            path = getwd())
+  # REPLACED BY THE DATABASE DOCUMENTATION.
+  # nr <- nrow(dataset)
+  # nc <- ncol(dataset)
+  # nm <- names(dataset)
+  # # print(nm)
+  # describe <- paste0("#' \\describe{\n", paste0("#'   \\item{",nm,"}{Describe variable here}\n", collapse = ""), "#' }")
+  # source <- paste0("#' @source \\url{", link,"}", collapse = "")
+  # qtemplate("qData-doc.R",
+  #           save_as = fs::path("R", paste0("qData-", dataset_name, ".R")),
+  #           data = list(dat = dataset_name,
+  #                       dab = database,
+  #                       nr = nr,
+  #                       nc = nc,
+  #                       describe = describe,
+  #                       source = source),
+  #           open = TRUE,
+  #           ignore = FALSE,
+  #           path = getwd())
   
   # Step four: create the right kind of test script for the type of object it is
   # TODO: decide on what kinds of objects can be contained in qData packages
@@ -120,5 +120,85 @@ export_data <- function(..., database, link) {
 
   ui_done("A test script has been created for this data.")
   ui_todo("Press Cmd/Ctrl-Shift-T to run all tests or run devtools::test().")
+  
+  #################################
+  #Generate database metadata object
+  #################################
+  #Set names
+  # First level source list for databases
+  sources <- paste0(database,"_sources")
+  #Second level list for datasets that will be nested in database source list.
+  dssource <- paste0(dataset_name, "_source")
+  #Elements 
+  source_link <- paste0(dataset_name, "_link")
+  #Create a list of sources
+  if(file.exists(paste0("data/", sources, ".rda"))){
+    #Case 1 Where source list is present, loads it in new env 
+    usethis::ui_info("Found an existing {usethis::ui_value(database)} database source file. Imported it ready to update.")
+    env2 <- new.env()
+    load(paste0("data/", sources, ".rda"), envir = env2)
+    #Logical test if element is already in the source list
+    source_exists <- dssource %in% names(get(sources, envir = env2))
+    if(source_exists){
+      #Case 1.1 Where source list is present and dataset source list too, updates the latter
+      usethis::ui_info("Found an existing {usethis::ui_value(dataset_name)} dataset source file.")
+      #Add it to the database list with dynamic dssource name
+      env2[[sources]][[dssource]] <- tibble::lst(Name = dataset_name, UniqueID = length(unique(dataset$ID)), NObs = nrow(dataset), NVar = ncol(dataset), VarName = colnames(dataset), MissingDataPercent = sum(is.na(dataset))/prod(dim(dataset)),  !!source_link:=link, bibentry = read.bib(file = paste0("data-raw/", database, "/", dataset_name,"/",dataset_name,".bib")))
+      save(list = sources, envir = env2,
+           file = fs::path("data/", sources, ext = "rda"),
+           compress = "bzip2")
+      usethis::ui_info("Saved a new version of the {usethis::ui_value(database)} database with an updated version of the {usethis::ui_value(dataset_name)} dataset.")
+    } else {
+      #Case 1.2 Where source list is present but the source element in the lost coresponding to the loaded dataset is not. Appends it.
+      usethis::ui_info("The {usethis::ui_value(dataset_name)} dataset source file does not yet exist in {usethis::ui_value(database)}. It will be added.")
+      env2[[sources]] <- append(env2[[sources]], tibble::lst(!!dssource := tibble::lst(Name = dataset_name, UniqueID = length(unique(dataset$ID)), NObs = nrow(dataset), NVar = ncol(dataset), VarName = colnames(dataset), MissingDataPercent = sum(is.na(dataset))/prod(dim(dataset)),  !!source_link:=link, bibentry = read.bib(file = paste0("data-raw/", database, "/", dataset_name,"/",dataset_name,".bib")))))
+      save(list = sources, envir = env2,
+           file = fs::path("data/", sources, ext = "rda"),
+           compress = "bzip2")
+      usethis::ui_info("Saved a new version of the {usethis::ui_value(database)} database source file that includes the {usethis::ui_value(dataset_name)} dataset source information.")
+    }
+  }
+  else {
+    usethis::ui_info("Didn't find an existing {usethis::ui_value(database)} database source file.")
+    #Case 2: Create new list of sources and add link
+    env2 <- new.env()
+    #Create the dataset source list (note put bibtex package as a dependency)
+    #Add it to the database list with dynamic dssource name
+    env2[[sources]] <- tibble::lst(!!dssource:= tibble::lst(Name = dataset_name, UniqueID = length(unique(dataset$ID)), NObs = nrow(dataset), NVar = ncol(dataset), VarName = colnames(dataset), MissingDataPercent = sum(is.na(dataset))/prod(dim(dataset)),  !!source_link:=link, bibentry = read.bib(file = paste0("data-raw/", database, "/", dataset_name,"/",dataset_name,".bib"))))
+    save(list = sources, envir = env2,
+         file = fs::path("data/", sources, ext = "rda"),
+         compress = "bzip2")
+    usethis::ui_done("Saved a {usethis::ui_value(database)} database source file that includes the {usethis::ui_value(deparse(substitute(...)))} dataset source information.")}
+  
+  
+  #################################
+  #Generate database description file
+  #################################
+
+  # Create a more succinct database documentation.
+  # Get the database object.
+  db <- get(load(paste0("data/", database, ".rda")))
+  #Compute Database Characteristics
+  dblen <- length(db)
+  dsnames <- names(db)
+  strdsnames <- str_c(names(db), collapse = ", ")
+  dsobs <- lapply(db, nrow)
+  dsnvar <- lapply(db, ncol)
+  dsvar <- lapply(db, colnames)
+  dsvarstr <- lapply(lapply(db, colnames), str_c, collapse=", ")
+  describe <- paste0("#'\\describe{\n", paste0("#' \\item{",dsnames, ": A dataset with ",dsobs," observations and the following ",dsnvar," variables: ",dsvarstr,".}", "{Describe dataset here}\n", collapse = ""), "#' }")
+  source <- paste0("#' @source \\url{", link,"}", collapse = "")
+  #Output
+  qtemplate("qDataDBDoc.R",
+            save_as = fs::path("R", paste0("qData-", database, ".R")),
+            data = list(dat = dataset_name,
+                        strdsnames = strdsnames,
+                        dsvarstr = dsvarstr,
+                        database = database,
+                        describe = describe,
+                        source = source),
+            open = TRUE,
+            ignore = FALSE,
+            path = getwd())
 
 }
