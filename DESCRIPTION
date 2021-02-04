@@ -41,8 +41,7 @@ Imports:
     remotes,
     httr,
     qStates,
-    ggplot2,
-    bibtex
+    ggplot2
 Suggests:
     librarian,
     testthat,
@@ -52,7 +51,8 @@ Suggests:
     haven,
     readr,
     readxl,
-    knitr
+    knitr,
+    bibtex
 Remotes: globalgov/qStates
 Encoding: UTF-8
 LazyData: true
