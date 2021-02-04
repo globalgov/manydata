@@ -140,10 +140,10 @@ correct_date_format <- function(dates){
   dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{1}-[:digit:]{2}$"), incomp_dates(dates), dates) # for incomplete dates with 5 digits only
   dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{1}-[:digit:]{2}-[:digit:]{2}$"), incomp_dates(dates), dates) # for incomplete dates with 5 digits only
   dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{2}-[:digit:]{2}$"), incomp_dates(dates), dates) # for incomplete dates with 6 digits only
-  dates <- ifelse(stringr::str_detect(dates, "[:alpha:]\\?$"), "NA", dates)
-  dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}-00-00$"), " ", dates) # for now, the function will treat date range as NA
-  dates <- ifelse(stringr::str_detect(dates, "^00-00-[:digit:]{4}$"), " ", dates) # for now, the function will treat date range as NA
-  dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}$"), "NA", dates) # for now, the function will treat date range as NA
+  dates <- ifelse(stringr::str_detect(dates, "[:alpha:]\\?$"), NA, dates)
+  dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}-00-00$"), NA, dates) # for now, the function will treat date range as NA
+  dates <- ifelse(stringr::str_detect(dates, "^00-00-[:digit:]{4}$"), NA, dates) # for now, the function will treat date range as NA
+  dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}$"), NA, dates) # for now, the function will treat date range as NA
 }
 
 treat_historical_dates <- function(dates){
