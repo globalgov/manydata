@@ -10,7 +10,7 @@ library(qData)
 # Stage two: Correcting data
 # In this stage you will want to correct the variable names and
 # formats of the '{{{dataset}}}' object until the object created
-# below (in stage three) passes all the tests. 
+# below (in stage three) passes all the tests.
 {{{dataset}}} <- as_tibble({{{dataset}}}) %>%
   transmutate(ID = {id_variable_name_here},
               Beg = standardise_dates({date_variable_name_here})) %>%
