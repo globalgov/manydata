@@ -2,13 +2,19 @@
 % Please edit documentation in R/report_data.R
 \name{report_data}
 \alias{report_data}
-\title{To quickly report on the databases and datasets within a qPackage}
+\title{Reports data within a qPackage}
 \usage{
 report_data(pkg)
 }
 \arguments{
 \item{pkg}{character string of the qPackage to report data on}
 }
+\value{
+a list with information on qPackage
+}
 \description{
-To quickly report on the databases and datasets within a qPackage
+Reports data within a qPackage
+}
+\details{
+The function quickly report on the databases and datasets within a qPackage
 }
