@@ -18,3 +18,9 @@ Reports data within a qPackage
 \details{
 The function quickly report on the databases and datasets within a qPackage
 }
+\examples{
+ 
+\dontrun{
+report_data("qStates")
+}
+}

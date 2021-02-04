@@ -3,7 +3,7 @@
 #' @details The function quickly report on the databases and datasets within a qPackage
 #' @param pkg character string of the qPackage to report data on
 #' @return a list with information on qPackage
-#' @example 
+#' @examples  
 #' \dontrun{
 #' report_data("qStates")
 #' }
