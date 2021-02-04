@@ -15,6 +15,7 @@
 #' @importFrom fs path
 #' @importFrom usethis ui_info
 #' @importFrom usethis ui_done
+#' @importFrom bibtex read.bib
 #' @examples
 #' \dontrun{
 #' export_data(COW, database = "states")
@@ -51,9 +52,10 @@ export_data <- function(..., database, link) {
       usethis::ui_info("The {usethis::ui_value(dataset_name)} dataset does not yet exist in {usethis::ui_value(database)}. It will be added.")
     }
     env[[database]][[dataset_name]] <- get(dataset_name)
+    
     #Adding static source attributes to each dataset
     attr(env[[database]][[dataset_name]], "source_link") <- link
-    attr(env[[database]][[dataset_name]], "source_bib") <- read.bib(file = paste0("data-raw/", database, "/", dataset_name,"/",dataset_name,".bib"))
+    attr(env[[database]][[dataset_name]], "source_bib") <- bibtex::read.bib(file = paste0("data-raw/", database, "/", dataset_name,"/",dataset_name,".bib"))
     save(list = database, envir = env, 
          file = fs::path("data", database, ext = "rda"),
          compress = "bzip2")
@@ -67,7 +69,7 @@ export_data <- function(..., database, link) {
     env <- new.env()
     env[[database]] <- tibble::lst(...)
     attr(env[[database]][[dataset_name]], "source_link") <- link
-    attr(env[[database]][[dataset_name]], "source_bib") <- read.bib(file = paste0("data-raw/", database, "/", dataset_name,"/",dataset_name,".bib"))
+    attr(env[[database]][[dataset_name]], "source_bib") <- bibtex::read.bib(file = paste0("data-raw/", database, "/", dataset_name,"/",dataset_name,".bib"))
     save(list = database, envir = env, 
          file = fs::path("data", database, ext = "rda"),
          compress = "bzip2")
