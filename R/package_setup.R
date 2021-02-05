@@ -16,7 +16,7 @@
 #' @importFrom stringr str_split
 #' @examples
 #' \dontrun{
-#' setup_package("qStates", "James Hollway, Henrique Sposito"))
+#' setup_package("qStates", "James Hollway, Henrique Sposito")
 #' }
 #' @export
 setup_package <- function(packageName = NULL,
