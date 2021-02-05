@@ -16,7 +16,7 @@
 #' "A normal date", "2010-01-01",
 #' "A historical date", "1712-01-01",
 #' "A really historical date", "712-01-01",
-#' "A very historical date", "-712-01-01",
+#' "A very historical date", "-1712-01-01",
 #' "A clearly future date", "9999-12-31",
 #' "A not so clearly future date", "2599-12-31")
 #' dates_comparison %>% dplyr::mutate(
