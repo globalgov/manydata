@@ -17,7 +17,6 @@
 report_data <- function(pkg, dbase=NULL, dset=NULL){
   pkg_path <- find.package(pkg)
   data_path <- file.path(pkg_path, "data")
-  dbase_path <- file.path(pkg_path, "data", dbase)
   #selcts all dbs
   pkg_dbs <- unname(unlist(readRDS(file.path(data_path, "Rdata.rds"))))
   pkg_dbs
@@ -44,7 +43,6 @@ report_data <- function(pkg, dbase=NULL, dset=NULL){
       lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
       db <- get(dbase, envir = tmp_env)
       ds <- db[[dset]]
-      attr(ds, which = "source_link")
       tabl <- data.frame(UniqueID = length(unique(ds$ID)),
                         MissingValues = paste0(sum(is.na(ds))/prod(dim(ds)), " %"),
                         NObs = nrow(ds),
