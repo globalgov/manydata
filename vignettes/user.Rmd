@@ -110,14 +110,15 @@ we can run `report_data()` as outlined below.
 The second step after comparing data by using the database object documentation is the `{qData}` function `report_data()`.
 This function returns a dataframe with the key metadata of each level of data objects (qPackage, Database, and Dataset).
 This metadata includes the following elements:
-- Number of unique observations
-- Percentage of missing values (sum of NA's divided by dimension of the object)
-- Number of rows
-- Number of columns
-- Earliest beginning date
-- Latest end date
-- Source link
-- Bibliographic entry
+
+* Number of unique observations
+* Percentage of missing values (sum of NA's divided by dimension of the object)
+* Number of rows
+* Number of columns
+* Earliest beginning date
+* Latest end date
+* Source link
+* Bibliographic entry
 
 ```{r}
 report_data(pkg = "qStates", dbase = NULL, dset = NULL)
