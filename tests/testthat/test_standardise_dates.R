@@ -1,12 +1,12 @@
 test_that("standardise_dates() treats typical dates correctly",{
   expect_equal(standardise_dates("2010-01-01"), lubridate::as_date("2010-01-01"))
-})    
+})
 
 test_that("standardise_dates() takes three variables as input",{
   expect_equal(standardise_dates("2010", "01", "01"), lubridate::as_date("2010-01-01"))
   expect_equal(standardise_dates("2010", "1", "1"), lubridate::as_date("2010-01-01"))
   expect_error(standardise_dates("2010", "1"), "you need to pass standardise_dates")
-})    
+})
 
 test_that("standardise_dates() treats reverse ordered dates correctly", {
   expect_match(as.character(standardise_dates("30.1.1874")), "1874-01-30")
@@ -17,7 +17,7 @@ test_that("standardise_dates() treats reverse ordered dates correctly", {
   expect_match(as.character(standardise_dates("10.30.93")), "1993-10-30")
   expect_match(as.character(standardise_dates("20/06/04")), "2004-06-20")
   expect_match(as.character(standardise_dates("may 20, 2010")), "2010-05-20")
-})    
+})
 
 # test_that("standardise_dates() treats incomplete dates correctly",{
 #   expect_match(as.character(min(standardise_dates("2010"))), "2010-01-01") # date range tofix
@@ -86,7 +86,6 @@ test_that("standardise_dates() treats historical dates correctly",{
 })
 
 test_that("standardise_dates() treats multiple inconsistent dates correctly",{
-  
   expect_equal(as.character(standardise_dates(c("2010-10-12", "2010-11-13", "2010-12-14"))), c("2010-10-12", "2010-11-13", "2010-12-14"))
   dat3 <- data.frame(date = c("2010-10-12", "2010-11-13", "2010-12-14"))
   expect_equal(as.character(standardise_dates(dat3$date)), c("2010-10-12", "2010-11-13", "2010-12-14"))
@@ -115,7 +114,3 @@ test_that("standardise_dates() treats inconsistent date format correctly", {
  dates6 <- data.frame(date = c("4/30/1990", "NA", "2010-12-30", "Obsolete?", "2010-00-00"))
  expect_equal(as.character(standardise_dates(dates6$date)), c("1990-04-30", NA, "2010-12-30", NA, NA))
 })
-
-
-
-
