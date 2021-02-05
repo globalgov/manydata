@@ -90,43 +90,44 @@ One important way to understand the relationship between these datasets is
 to understand what their relative advantages and disadvantages are.
 For example, one dataset may be long (has many observations) 
 while another is shorter but wider (has more variables).
-One might include details further back in history or is more recent,
-but includes more missing data or less precise data (coded at a less granular level)
+One might include details further back in history while the other is more recent,
+but include more missing data or less precise data (i.e. coded at a less granular level)
 than another with a more restrictive 
 Or one might appear complete yet offer less information on where the original datapoints
 were sourced or how certain variables were coded,
 while another provides an extensive and transparent codebook that facilitates replication.
 Below we show how one might compare the data in `states` in these ways.
 
-### Differences in dimension
-
-One way to see a quick summary of each of these datasets 
-is using the `glimpse()` command from the `{tibble}` package.
-`{tibble}` is currently loaded along with `{qData}` and so there is no need to load it independently.
-
-```{r}
-glimpse(states)
-```
-
-We can see here, for example, that COW seems to have more observations of state sovereignty episodes
-than GW does.
-
-### Differences in depth
-
-We can also check whether one dataset has more missings than another.
-Here we are going to 'map' a function from the `{mice}` package over each of the datasets in the database.
-That function is the `md.pattern()` function.
-We will use the `map()` function to do this (though other ways are possible).
-
-```{r, message=FALSE, warning=FALSE}
-library(mice)
-purrr::map(states, md.pattern, rotate.names = T)
-```
-
 ### Differences in documentation
 
-We can bring up their documentation using the following command: `?states`.
-This documentation outlines where this data was sourced from (when) and what the nature of the main variables are.
+We can bring up the database level documentation using the following command: `?states`.
+This documentation informs the user on the various datasets that are present in the database as well
+as the most important metadata of the various datasets. If we wants a more detailed summary of the various levels of data,
+we can run `report_data()` as outlined below.
+
+### Using `report_data()`
+
+The second step after comparing data by using the database object documentation is the `{qData}` function `report_data()`.
+This function returns a dataframe with the key metadata of each level of data objects (qPackage, Database, and Dataset).
+This metadata includes the following elements:
+- Number of unique observations
+- Percentage of missing values (sum of NA's divided by dimension of the object)
+- Number of rows
+- Number of columns
+- Earliest beginning date
+- Latest end date
+- Source link
+- Bibliographic entry
+
+```{r}
+report_data(pkg = "qStates", dbase = NULL, dset = NULL)
+```
+
+If we were specifically interested in the `COW` dataset of the `states` data base we would specify the output by setting the dbase and the dset arguments to the corresponding value. 
+
+```{r}
+report_data(pkg = "qStates", dbase = "states", dset = "COW")
+```
 
 ## Modelling data
 
