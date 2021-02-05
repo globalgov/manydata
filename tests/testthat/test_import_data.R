@@ -33,5 +33,7 @@ test_that("database must be declared", {
 #    usethis:::expect_proj_file(path("data-raw", "transp"))
 # })
 # 
-# # Here I am trying to write a simple test for import_data() to check if it does create a folder and saves raw data.
-# # I run into some issues here, but the fact that import_data() is interactive if path is not specified is the main one.
+# # Here I am trying to write a simple test for import_data() to check
+# # if it does create a folder and saves raw data.
+# # I run into some issues here, but the fact that import_data() is
+# # interactive if path is not specified is the main one.

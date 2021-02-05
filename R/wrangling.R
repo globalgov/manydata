@@ -21,14 +21,14 @@ transmutate <- function( .data, ... ){
   # require(tidyverse)
   getAST <- function( ee ) { as.list(ee) %>% purrr::map_if(is.call, getAST) }
   getSyms <- function( ee ) { getAST(ee) %>% unlist %>% purrr::map_chr(deparse) }
-
+  
   ## Capture the provided expressions and retrieve their symbols
   vSyms <- rlang::enquos(...) %>% purrr::map( ~getSyms(rlang::get_expr(.x)) )
-
+  
   ## Identify symbols that are in common with the provided dataset
   ## These columns are to be removed
   vToRemove <- intersect( colnames(.data), unlist(vSyms) )
-
+  
   ## Pass on the expressions to mutate to do the work
   ## Remove the identified columns from the result
   dplyr::mutate( .data, ... ) %>% dplyr::select( -dplyr::one_of(vToRemove) )

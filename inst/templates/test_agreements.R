@@ -8,14 +8,15 @@ library(pointblank)
 #   expect_message(tibble::is_tibble("{{{dat}}}"), "TRUE")
 # })
 
-# Report missing values 
+# Report missing values
 test_that("missing observations are reported correctly", {
   expect_false(any(grepl("^.$", {{{dab}}}[["{{{dat}}}"]])))
   expect_false(any(grepl("^n/a$", {{{dab}}}[["{{{dat}}}"]])))
   expect_false(any(grepl("^N/A$", {{{dab}}}[["{{{dat}}}"]])))
 })
 
-# Uniformity tests (agreements have a source ID, a string title, a signature and entry into force date)
+# Uniformity tests (agreements have a source ID, a string title, a signature and
+# entry into force date)
 test_that("datasets have the correct variables", {
   expect_col_exists({{{dab}}}[["{{{dat}}}"]], vars(Title))
   expect_col_exists({{{dab}}}[["{{{dat}}}"]], vars(Signature))

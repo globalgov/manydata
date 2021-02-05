@@ -73,7 +73,6 @@ depends <- function(packages){
          })
 }
 
-
 #' Helper function for removing all other
 #'
 #' @param keep A vector containing the name of variables which you wish to keep

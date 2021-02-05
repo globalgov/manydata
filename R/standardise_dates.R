@@ -1,10 +1,13 @@
 #' Create nested vectors of dates from vague date inputs
 #'
-#' Create nested vectors of dates for vague date inputs, ambiguous and ranged dates, into a range of dates
+#' Create nested vectors of dates for vague date inputs, ambiguous and ranged dates,
+#' into a range of dates
 #' @param ... One (ymd) or three (yyyy, mm, dd) variables
-#' @details The function seeks to convert ambiguous and ranged dates into a range of dates,
-#' and extends the date parsing of other packages to more historical and future dates.
-#' The function allows only for dmy or ymd date formats at present, since mdy may introduce errors.
+#' @details The function seeks to convert ambiguous and ranged dates into a
+#' range of dates, and extends the date parsing of other packages to more
+#' historical and future dates.
+#' The function allows only for dmy or ymd date formats at present, since mdy
+#' may introduce errors.
 #' @return Nested vector of POSIXct dates that includes a range of dates
 #' @importFrom stringr str_detect str_split
 #' @importFrom lubridate as_date dmy ymd
@@ -80,7 +83,8 @@ standardise_date_input <- function(dates){
   dates <- stringr::str_replace_all(dates, "-00|-\\?\\?|-NA", "") # standardising ambiguities
   dates <- stringr::str_replace_all(dates, "_", ":") # standardising ranges
   dates <- stringr::str_remove_all(dates, "(ad|AD|Ad|aD)") # remove after christ
-  dates <- ifelse(stringr::str_detect(dates, "(bc|BC|Bc|bC)"), as_bc_dates(dates), dates) # replacing BC for corresponding negative dates
+  dates <- ifelse(stringr::str_detect(dates, "(bc|BC|Bc|bC)"), as_bc_dates(dates), dates) 
+  # replacing BC for corresponding negative dates
   dates <- stringr::str_trim(dates, side = "both") # removes trailing white spaces
 }
 
@@ -129,6 +133,7 @@ correct_date_format <- function(dates){
   }
   
   dates <- ifelse(stringr::str_detect(dates, "^([0-9]{1}|1[0-2]{1}|0[1-9]{1})-(1[3-9]{1}|2[0-9]{1}|3[0-1]{1})-[:digit:]{4}$"), as.character(as.Date(dates, "%m-%d-%Y")), dates)
+  # correct the order of days and month
   dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{2}-[:digit:]{4}$"), as.character(as.Date(dates,"%d-%m-%Y")), dates) # Correct date order if need
   dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{1}-[:digit:]{1}-[:digit:]{4}$"), as.character(as.Date(dates,"%d-%m-%Y")), dates) # Correct date order and size
   dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{1}-[:digit:]{4}$"), as.character(as.Date(dates,"%d-%m-%Y")), dates) # Correct date order and size
@@ -201,8 +206,10 @@ treat_historical_dates <- function(dates){
     }
   }
   
-  dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), neg_dates_comp(dates), dates) # negative ymd dates
-  dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{2}-[:digit:]{2}-[:digit:]{4}$"), neg_dates_comp(dates), dates) # negative dates in dmy format
+  dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), neg_dates_comp(dates), dates) 
+  # negative ymd dates
+  dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{2}-[:digit:]{2}-[:digit:]{4}$"), neg_dates_comp(dates), dates) 
+  # negative dates in dmy format
   # todo: expand on negative date formats taken
   dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{2}$"), neg_dates(dates), dates) # negative 2 years only dates
   dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{3}$"), neg_dates(dates), dates) # negative 3 years only dates
@@ -213,7 +220,8 @@ treat_future_dates <- function(dates){
   fut_dates <- function(dates) {
     ifelse(dates > Sys.Date() + lubridate::years(25), dates <- "9999-12-31", dates)
   }
-  dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), fut_dates(dates), dates)# stadardises how future dates are reported
+  dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), fut_dates(dates), dates)
+  # stadardises how future dates are reported
 }
 
 # treat_incomplete_dates <- function(dates){
