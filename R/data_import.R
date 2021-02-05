@@ -3,15 +3,15 @@
 #' Creates a data-raw folder, moves raw data files to a consistent location,
 #' and provides a script that makes it easy to clean and wrangle the data
 #' into a format consistent with the qData ecosystem.
-#' @param dataset Intended (short) name of the dataset. 
+#' @param dataset Intended (short) name of the dataset.
 #' That is, the name of the two-dimensional tabular data format.
 #' For consistency reasons, this should be a unique name in all capitals.
 #' Abbreviations make good dataset names, such as "COW" or "DESTA".
-#' @param database Intended name of the database or datacube. 
+#' @param database Intended name of the database or datacube.
 #' That is, the name of the population or phenomenon to which the dataset relates.
 #' For consistency reasons, this should be a unique name in small letters.
 #' Concepts make good database names, such as "states" or "colonial_relations".
-#' @param path Path to raw data file. 
+#' @param path Path to raw data file.
 #' If left unspecified, a dialogue box is raised to select the file via the system.
 #' @param delete_original Whether the original file is moved (TRUE) or copied (FALSE).
 #' By default FALSE.
@@ -38,7 +38,7 @@
 #' Second, the function creates a new script in the dataset-level folder,
 #' alongside the raw data file.
 #' By default, it also opens this script in RStudio or equivalent.
-#' The purpose of this script is for reading the file into R, 
+#' The purpose of this script is for reading the file into R,
 #' cleaning the data and wrangling it into a qData-consistent format,
 #' and then exporting it for use in the package.
 #' Quite a bit of this is pre-populated either using information given to `import_data()`,
@@ -78,9 +78,9 @@ import_data <- function(dataset = NULL,
   
   # Step three: create preparation template
   # Get data type
-  if (grepl("csv$", path)) { 
-    import_type <- "readr::read_csv" 
-    } else if (grepl("xlsx$|xls$", path)) { 
+  if (grepl("csv$", path)) {
+    import_type <- "readr::read_csv"
+    } else if (grepl("xlsx$|xls$", path)) {
       import_type <- "readxl::read_excel"
     } else if (grepl("dta$", path)) {
       import_type <- "haven::read_dta"

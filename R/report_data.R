@@ -3,7 +3,7 @@
 #' @details The function quickly report on the databases and datasets within a qPackage
 #' @param pkg character string of the qPackage to report data on
 #' @return a list with information on qPackage
-#' @examples  
+#' @examples
 #' \dontrun{
 #' report_data("qStates")
 #' }
@@ -21,14 +21,14 @@ report_data <- function(pkg){
             purrr::map(dbs, function(x) ncol(x)))
             # purrr::map(dbs, function(x) min(x$Beg)),
             # purrr::map(dbs, function(x) max(x$End)))
-   
-  tabl3 <- tabl %>% 
+  
+  tabl3 <- tabl %>%
     t()
   
   colnames(tabl3) <- c("Unique ID", "Missing data", "Observations", "Variables")
   tabl3
   
-  # TODO: 
+  # TODO:
   #  - earliest begin date
   #  - most recent (non-future) end date
   #  - source of dataset AT THE END

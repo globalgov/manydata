@@ -76,17 +76,17 @@ depends <- function(packages){
 
 #' Helper function for removing all other
 #'
-#' @param keep A vector containing the name of variables which you wish to keep 
-#' and not remove or a regular expression to match variables you want to keep. 
-#' Variable names and regular expressions can be used combined 
+#' @param keep A vector containing the name of variables which you wish to keep
+#' and not remove or a regular expression to match variables you want to keep.
+#' Variable names and regular expressions can be used combined
 #' if the argument 'regex' is set to "auto". (Mandatory)
-#' @param envir The environment that this function should be functional in, 
+#' @param envir The environment that this function should be functional in,
 #' search in and act in. (Optional)
-#' @param keep_functions A logical vector of length 1 indicating exclusion 
+#' @param keep_functions A logical vector of length 1 indicating exclusion
 #' of function variables from removal. (optional)
-#' @param gc_limit A numeric vector of length 1 indicating the threshold 
+#' @param gc_limit A numeric vector of length 1 indicating the threshold
 #' for garbage collection in Megabyte (MB) scale. (Optional)
-#' @param regex A vector with length 1 to define whether the function use 
+#' @param regex A vector with length 1 to define whether the function use
 #' regular expression in keep (TRUE or FALSE) or auto detect ("auto")
 #' @importFrom utils lsf.str object.size
 #' @return Clears the environment except for the stated objects.

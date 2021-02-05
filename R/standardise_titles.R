@@ -76,4 +76,3 @@ repaint <- function(df, id, var){
   }
   df
 }
-

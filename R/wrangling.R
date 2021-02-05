@@ -16,7 +16,7 @@
 #' }
 #' @export
 transmutate <- function( .data, ... ){
-
+  
   # Helper functions
   # require(tidyverse)
   getAST <- function( ee ) { as.list(ee) %>% purrr::map_if(is.call, getAST) }
@@ -114,7 +114,7 @@ recollect <- function(x, collapse = "_"){
 #' }
 #' @export
 interleave <- function(vect, pos, elems = NA) {
-
+  
   l <- length(vect)
   j <- 0
   for (i in 1:length(pos)){
@@ -146,4 +146,3 @@ interleave <- function(vect, pos, elems = NA) {
 consolidate <- function(x){
   x[which(!is.na(x))[1]]
 }
-

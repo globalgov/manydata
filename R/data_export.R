@@ -69,7 +69,7 @@ export_data <- function(..., database, link) {
     env[[database]] <- tibble::lst(...)
     attr(env[[database]][[dataset_name]], "source_link") <- link
     attr(env[[database]][[dataset_name]], "source_bib") <- bibtex::read.bib(file = paste0("data-raw/", database, "/", dataset_name,"/",dataset_name,".bib"))
-    save(list = database, envir = env, 
+    save(list = database, envir = env,
          file = fs::path("data", database, ext = "rda"),
          compress = "bzip2")
     usethis::ui_done("Saved a {usethis::ui_value(database)} database that includes the {usethis::ui_value(deparse(substitute(...)))} dataset.")
@@ -112,7 +112,7 @@ export_data <- function(..., database, link) {
                           dab = database),
               open = FALSE,
               ignore = FALSE,
-              path = getwd())  
+              path = getwd())
   } else if(database == "agreements") {
     qtemplate("test_agreements.R",
               save_as = fs::path("tests", "testthat", paste0("test_", dataset_name, ".R")),
@@ -120,7 +120,7 @@ export_data <- function(..., database, link) {
                           dab = database),
               open = FALSE,
               ignore = FALSE,
-              path = getwd()) 
+              path = getwd())
   } else {
     qtemplate("test_general.R",
               save_as = fs::path("tests", "testthat", paste0("test_", dataset_name, ".R")),
@@ -128,9 +128,8 @@ export_data <- function(..., database, link) {
                           dab = database),
               open = FALSE,
               ignore = FALSE,
-              path = getwd()) 
+              path = getwd())
   }
-
   ui_done("A test script has been created for this data.")
   ui_todo("Press Cmd/Ctrl-Shift-T to run all tests or run devtools::test().")
 }

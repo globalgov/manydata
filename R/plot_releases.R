@@ -29,7 +29,7 @@ plot_releases <- function(repo){
                ifelse(elemt(test, 2) > dplyr::lead(elemt(test, 2)),
                       "Minor", "Major"))[-length(tags)]
       }
-
+      
             df <- paste0("https://api.github.com/repos/", repo, "/releases")
       df <- httr::GET(df, query = list(state = "all", per_page = 100, page = 1))
       df <- httr::content(df, type = "text")
@@ -48,7 +48,7 @@ plot_releases <- function(repo){
   milestone_colors <- c("darkgreen", "blue", "red")
   
   df$milestone <- factor(df$milestone, levels=milestone_levels, ordered=TRUE)
-
+  
   positions <- c(0.5, -0.5, 1.0, -1.0, 1.5, -1.5)
   directions <- c(1, -1)
   
@@ -81,20 +81,20 @@ plot_releases <- function(repo){
   )
   year_format <- format(year_date_range, '%Y')
   year_df <- data.frame(year_date_range, year_format)
-
+  
   timeline_plot <- ggplot2::ggplot(df,ggplot2::aes(x=date,y=0, col=.data$milestone, label=.data$milestone))
   timeline_plot <- timeline_plot+ggplot2::labs(col="Milestones")
-  timeline_plot <- timeline_plot+ggplot2::scale_color_manual(values=milestone_colors, 
+  timeline_plot <- timeline_plot+ggplot2::scale_color_manual(values=milestone_colors,
                                                              labels=milestone_levels, drop = FALSE)
   timeline_plot <- timeline_plot+ggplot2::theme_classic()
   
   # Plot horizontal black line for timeline
-  timeline_plot <- timeline_plot+ggplot2::geom_hline(yintercept=0, 
+  timeline_plot <- timeline_plot+ggplot2::geom_hline(yintercept=0,
                                           color = "black", size=0.3)
   
   # Plot vertical segment lines for milestones
-  timeline_plot <- timeline_plot+ggplot2::geom_segment(data=df[df$month_count == 1,], 
-                                                       ggplot2::aes(y=.data$position,yend=0,xend=date), 
+  timeline_plot <- timeline_plot+ggplot2::geom_segment(data=df[df$month_count == 1,],
+                                                       ggplot2::aes(y=.data$position,yend=0,xend=date),
                                                        color='black', size=0.2)
   
   # Plot scatter points at zero and date
@@ -113,11 +113,11 @@ plot_releases <- function(repo){
   )
   
   # Show text for each month
-  timeline_plot <- timeline_plot + ggplot2::geom_text(data=month_df, 
+  timeline_plot <- timeline_plot + ggplot2::geom_text(data=month_df,
                                                       ggplot2::aes(x=month_date_range,y=-0.1,label=month_format),
                                          size=2.5,vjust=0.5, color='black', angle=90)
   # Show year text
-  timeline_plot <- timeline_plot + ggplot2::geom_text(data=year_df, 
+  timeline_plot <- timeline_plot + ggplot2::geom_text(data=year_df,
                                                       ggplot2::aes(x=year_date_range,y=-0.2,label=year_format, fontface="bold"),
                                          size=2.5, color='black')
   # Show text for each milestone
@@ -125,4 +125,3 @@ plot_releases <- function(repo){
                                          size=2.5)
   print(timeline_plot)
 }
-

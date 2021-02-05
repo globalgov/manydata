@@ -23,9 +23,9 @@
 #' @importFrom utils packageVersion
 #' @examples
 #' \dontrun{
-#' get_packages() # This prints a table (tibble) 
+#' get_packages() # This prints a table (tibble)
 #' # to the console with details on currently available qPackages
-#' get_packages("qStates") # This downloads and installs from Github 
+#' get_packages("qStates") # This downloads and installs from Github
 #' # the latest version of one or more qPackages
 #' }
 #' @export
@@ -51,7 +51,7 @@ get_packages <- function(pkg) {
           } else {
             x <- stringr::str_remove(x, "v")
             x
-          } 
+          }
         })
       }
       unlist(latest)
@@ -74,7 +74,7 @@ get_packages <- function(pkg) {
           } else {
             x <- as.character(anytime::anydate(x))
             x
-          } 
+          }
         })
       }
       unlist(latest)
