@@ -23,13 +23,13 @@ packages by helping with the set-up of packages consistent with `{qData}`.
 The function `setup_package()`, for example, establishes many of the required files and folder 
 structures for a `{qData}`-consistent data package. 
 It requires that the package name starts with a the letter "q" as well as that 
-the name of at least one author is declared. 
+the name of at least one author is declared.
 
 ```{r eval=FALSE}
 qData::setup_package("qStates", "James Hollway")
 ```
 
-## Collecting data 
+## Collecting data
 
 For data collection and loading into a new package with `{qData}`, the function `import_data()` 
 creates a data-raw folder into the package, copies the raw data into the folder and 
