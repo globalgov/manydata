@@ -1,8 +1,18 @@
-#' To quickly report metadata on the databases and datasets within a specific qPackage
+#' Reports on qPackage data
 #' 
+#' To quickly report metadata on the databases and datasets within a specific qPackage
 #' @param pkg character string of the qPackage to report data on. Mandatory input.
-#' @param dbase character string of the qPackage to report data a specific database in a qPackage. If Null, report_data returns a summary of all databases in the qPackage. Null by default.
-#' @param dset character string of the qPackage to report data on a specific dataset in a specific database of a qPackage. If Null and dbase is specified, returns database level metadata. Null by default.
+#' @param dbase character string of the qPackage to report data a specific database in a
+#' qPackage. If Null, report_data returns a summary of all databases in the qPackage.
+#' Null by default.
+#' @param dset character string of the qPackage to report data on a specific dataset
+#' in a specific database of a qPackage. If Null and dbase is specified, returns database
+#' level metadata. Null by default.
+#' @return A dataframe with the data report
+#' @example
+#' \dontrun{
+#' report_data(pkg = "qStates", dbase = "states", dset = "COW")
+#' }
 #' @export
 report_data <- function(pkg, dbase=NULL, dset=NULL){
   pkg_path <- find.package(pkg)

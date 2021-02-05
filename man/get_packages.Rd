@@ -10,8 +10,9 @@ get_packages(pkg)
 \item{pkg}{A character vector of package names}
 }
 \value{
-If no package name is provided, this function prints a table (tibble) to the console
-with details on packages that are currently available within the qData ecosystem.
+If no package name is provided, this function prints a table (tibble)
+to the console with details on packages that are currently available within
+the qData ecosystem.
 This includes the name and description of the package,
 the latest installed and release version number, and the latest release date,
 and a string of contributors.
@@ -22,10 +23,11 @@ If one or more package names are provided, these will be installed from Github.
 Find and download packages in the qData ecosystem
 }
 \details{
-The function finds and download other packages that belong to the qData ecosystem
-of data packages. It allows for users to rapidly access the names and other descriptive information
-of these packages by simply calling the function. If users intend to download a package from
-the ecosystem, they can to type the package name within the function.
+The function finds and download other packages that belong to
+the qData ecosystem of data packages. It allows for users to rapidly access
+the names and other descriptive information of these packages by simply calling
+the function. If users intend to download a package from the ecosystem, they can
+to type the package name within the function.
 }
 \examples{
 \dontrun{
