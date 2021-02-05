@@ -17,13 +17,13 @@ report_data <- function(pkg, dbase=NULL, dset=NULL){
       lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
       db <- get(dbase, envir = tmp_env)
       tabl <- bind_rows(purrr::map(db, function(x) as.character(length(unique(x$ID)))),
-                        purrr::map(db, function(x) as.character(sum(is.na(x)))),
+                        purrr::map(db, function(x) paste0(sum(is.na(x))/prod(dim(x)), " %")),
                         purrr::map(db, function(x) as.character(nrow(x))),
                         purrr::map(db, function(x) as.character(ncol(x))),
                         purrr::map(db, function(x) as.character(min(x$Beg))),
                         purrr::map(db, function(x) as.character(max(x$End))),
                         purrr::map(db, function(x) attr(x, which = "source_link")),
-                        purrr::map(db, function(x) paste0(capture.output(print(attr(x, which = "source_bib"))), sep = "", collapse = "")))
+                        purrr::map(db, function(x) paste0(utils::capture.output(print(attr(x, which = "source_bib"))), sep = "", collapse = "")))
       tabl1 <- tabl %>% 
         t()
       tabl1
@@ -41,13 +41,12 @@ report_data <- function(pkg, dbase=NULL, dset=NULL){
                         MinDate = min(ds$Beg),
                         MaxDate = max(ds$End),
                         SourceLink = attr(ds, which = "source_link"),
-                        SourceBib = paste0(capture.output(print(attr(ds, which = "source_bib"))), sep = "", collapse = "")
+                        SourceBib = paste0(utils::capture.output(print(attr(ds, which = "source_bib"))), sep = "", collapse = "")
       ) 
       tabl2 <- tabl %>% 
         t()
       colnames(tabl2) <- dset
       tabl2
-      colnames(tabl2) <- c("Unique ID", "Missing data", "Rows", "Columns", "Beg", "End", "Link", "Bibliography")
     }
   }
   else{
@@ -55,13 +54,13 @@ report_data <- function(pkg, dbase=NULL, dset=NULL){
     lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
     dbs <- get(pkg_dbs, envir = tmp_env)
     tabl <- bind_rows(purrr::map(dbs, function(x) as.character(length(unique(x$ID)))),
-                      purrr::map(dbs, function(x) as.character(sum(is.na(x)))),
+                      purrr::map(dbs, function(x) paste0(sum(is.na(x))/prod(dim(x)), " %")),
                       purrr::map(dbs, function(x) as.character(nrow(x))),
                       purrr::map(dbs, function(x) as.character(ncol(x))),
                       purrr::map(dbs, function(x) as.character(min(x$Beg))),
                       purrr::map(dbs, function(x) as.character(max(x$End))),
                       purrr::map(dbs, function(x) attr(x, which = "source_link")),
-                      purrr::map(dbs, function(x) paste0(capture.output(print(attr(x, which = "source_bib"))), sep = "", collapse = "")))
+                      purrr::map(dbs, function(x) paste0(utils::capture.output(print(attr(x, which = "source_bib"))), sep = "", collapse = "")))
     
     tabl3 <- tabl %>% 
       t()
