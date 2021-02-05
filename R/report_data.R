@@ -26,6 +26,7 @@ report_data <- function(pkg, dbase=NULL, dset=NULL){
                         purrr::map(db, function(x) paste0(utils::capture.output(print(attr(x, which = "source_bib"))), sep = "", collapse = "")))
       tabl1 <- tabl %>% 
         t()
+      colnames(tabl1) <- c("Unique ID", "Missing data", "Rows", "Columns", "Beg", "End", "Link", "Bibliography")
       tabl1
     }
     else{
@@ -42,8 +43,8 @@ report_data <- function(pkg, dbase=NULL, dset=NULL){
                         MaxDate = max(ds$End),
                         SourceLink = attr(ds, which = "source_link"),
                         SourceBib = paste0(utils::capture.output(print(attr(ds, which = "source_bib"))), sep = "", collapse = "")
-      ) 
-      tabl2 <- tabl %>% 
+      )
+      tabl2 <- tabl %>%
         t()
       colnames(tabl2) <- dset
       tabl2
