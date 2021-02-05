@@ -1,8 +1,8 @@
-#' To quickly report on the databases and datasets within a qPackage
+#' To quickly report metadata on the databases and datasets within a specific qPackage
 #' 
-#' @param pkg character string of the qPackage to report data on various levels of data.
-#' @param dbase character string of the qPackage to report data on various levels of data.Null by default.
-#' @param dset character string of the qPackage to report data on various levels of data.Null by default.
+#' @param pkg character string of the qPackage to report data on. Mandatory input.
+#' @param dbase character string of the qPackage to report data a specific database in a qPackage. If Null, report_data returns a summary of all databases in the qPackage. Null by default.
+#' @param dset character string of the qPackage to report data on a specific dataset in a specific database of a qPackage. If Null and dbase is specified, returns database level metadata. Null by default.
 #' @export
 report_data <- function(pkg, dbase=NULL, dset=NULL){
   pkg_path <- find.package(pkg)
@@ -70,20 +70,4 @@ report_data <- function(pkg, dbase=NULL, dset=NULL){
     tabl3
     
   }
-  
-  
-  # tibble: for each database
-  
-  # columns/variables should be:
-  #  - name of dataset => ALready showing? 
-  #  - source of dataset AT THE END
-  #  - number of unique IDs DONE
-  #  - number of observations (rows)
-  #  - number of variables (cols)
-  #  - internally missing data (%)
-  #  - earliest begin date
-  #  - most recent (non-future) end date
-  
-  # attr(states[["COW"]], "source") <- "bloobloo"
-  
 }

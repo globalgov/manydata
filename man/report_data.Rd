@@ -2,25 +2,17 @@
 % Please edit documentation in R/report_data.R
 \name{report_data}
 \alias{report_data}
-\title{Reports data within a qPackage}
+\title{To quickly report metadata on the databases and datasets within a specific qPackage}
 \usage{
-report_data(pkg)
+report_data(pkg, dbase = NULL, dset = NULL)
 }
 \arguments{
-\item{pkg}{character string of the qPackage to report data on}
-}
-\value{
-a list with information on qPackage
+\item{pkg}{character string of the qPackage to report data on. Mandatory input.}
+
+\item{dbase}{character string of the qPackage to report data a specific database in a qPackage. If Null, report_data returns a summary of all databases in the qPackage. Null by default.}
+
+\item{dset}{character string of the qPackage to report data on a specific dataset in a specific database of a qPackage. If Null and dbase is specified, returns database level metadata. Null by default.}
 }
 \description{
-Reports data within a qPackage
-}
-\details{
-The function quickly report on the databases and datasets within a qPackage
-}
-\examples{
- 
-\dontrun{
-report_data("qStates")
-}
+To quickly report metadata on the databases and datasets within a specific qPackage
 }
