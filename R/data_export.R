@@ -90,7 +90,7 @@ export_data <- function(..., database, link) {
   dsvar <- lapply(db, colnames)
   dsvarstr <- lapply(lapply(db, colnames), str_c, collapse=", ")
   describe <- paste0("#'\\describe{\n", paste0("#' \\item{",dsnames, ": A dataset with ",dsobs," observations and the following ",dsnvar," variables: ",dsvarstr,".}", "{Describe dataset here}\n", collapse = ""), "#' }")
-  source <- paste0("#' @source \\url{", link,"}", collapse = "")
+  sourceelem <- paste0("#' @source \\url{", link,"}", collapse = "")
   #Output
   qtemplate("qDataDBDoc.R",
             save_as = fs::path("R", paste0("qData-", database, ".R")),
@@ -99,7 +99,7 @@ export_data <- function(..., database, link) {
                         dsvarstr = dsvarstr,
                         database = database,
                         describe = describe,
-                        source = source),
+                        source = sourceelem),
             open = TRUE,
             ignore = FALSE,
             path = getwd())

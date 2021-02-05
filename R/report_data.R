@@ -9,7 +9,7 @@
 #' in a specific database of a qPackage. If Null and dbase is specified, returns database
 #' level metadata. Null by default.
 #' @return A dataframe with the data report
-#' @example
+#' @examples 
 #' \dontrun{
 #' report_data(pkg = "qStates", dbase = "states", dset = "COW")
 #' }
