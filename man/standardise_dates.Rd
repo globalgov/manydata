@@ -13,12 +13,15 @@ standardise_dates(...)
 Nested vector of POSIXct dates that includes a range of dates
 }
 \description{
-Create nested vectors of dates for vague date inputs, ambiguous and ranged dates, into a range of dates
+Create nested vectors of dates for vague date inputs, ambiguous and ranged dates,
+into a range of dates
 }
 \details{
-The function seeks to convert ambiguous and ranged dates into a range of dates,
-and extends the date parsing of other packages to more historical and future dates.
-The function allows only for dmy or ymd date formats at present, since mdy may introduce errors.
+The function seeks to convert ambiguous and ranged dates into a
+range of dates, and extends the date parsing of other packages to more
+historical and future dates.
+The function allows only for dmy or ymd date formats at present, since mdy
+may introduce errors.
 }
 \examples{
 dates_comparison <- tibble::tribble(~Example, ~OriginalDate,

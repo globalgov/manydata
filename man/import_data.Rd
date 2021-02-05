@@ -46,15 +46,18 @@ into a format consistent with the qData ecosystem.
 The function assists with importing existing raw data into a qPackage.
 The function does two main things.
 
-First, it moves or copies a chosen file into the "data-raw/" folder of the current qPackage.
+First, it moves or copies a chosen file into the "data-raw/" folder of the
+current qPackage.
 A hierarchy to this folder is established.
-It first checks whether there is already a folder under "data-raw/" on the harddrive
-that is the same as the name of the database and, if there is no such folder, it creates one.
-It then also checks whether there is already a folder under that that is consistent with
-the name of the dataset. If there is no such folder, it creates one.
+It first checks whether there is already a folder under "data-raw/" on
+the harddrive that is the same as the name of the database and, if there is no
+such folder, it creates one. It then also checks whether there is already a folder
+under that that is consistent with the name of the dataset. If there is no such
+folder, it creates one.
 Finally, it places the chosen file into that dataset folder.
 If the argument \code{delete_original = TRUE} then the original file will be deleted.
-This can be useful if, for example, the file had just been downloaded to your "Downloads" folder.
+This can be useful if, for example, the file had just been downloaded to
+your "Downloads" folder.
 
 Second, the function creates a new script in the dataset-level folder,
 alongside the raw data file.
