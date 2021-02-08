@@ -1,5 +1,5 @@
 Package: {{{package}}}
-Title: Quantum Data for the 21st Century
+Title: A Package for the qData Ecosytem
 Version: 0.0.1
 Authors@R: 
     c(person(given = "{{{given}}}",
