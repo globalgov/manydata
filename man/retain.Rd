@@ -47,3 +47,11 @@ with massive amount of data as it performs variable operations in a fast
 and efficient way. The function is also useful for developers
 preparing and assembling a pipeline
 }
+\examples{
+origins <- c("New Zealand", "Brazil", "Switzerland")
+members <- c(1, 1, 2)
+team <- data.frame(origins, members)
+team
+retain("origins")
+origins
+}

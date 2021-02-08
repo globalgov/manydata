@@ -102,7 +102,7 @@ depends <- function(packages){
 #' and efficient way. The function is also useful for developers
 #' preparing and assembling a pipeline
 #' @source https://bitbucket.org/mehrad_mahmoudian/varhandle/src/master/R/rm.all.but.R
-#' @example
+#' @examples
 #' origins <- c("New Zealand", "Brazil", "Switzerland")
 #' members <- c(1, 1, 2)
 #' team <- data.frame(origins, members)
