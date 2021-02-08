@@ -57,11 +57,16 @@ qtemplate <- function(template,
 }
 
 
+#' Helper function for loading CRAN packages
+#' 
 #' Helper function for loading and, if necessary, installing CRAN packages
-#'
 #' @param packages Character vector of packages to install from CRAN
 #' @importFrom utils install.packages
 #' @return Loads and, if necessary, first installs CRAN packages
+#' @details The function looks up required packages and loads the ones
+#' already installed, while installing and loading for packages not installed
+#' @example
+#' depends("qData")
 #' @export
 depends <- function(packages){
   lapply(packages,
@@ -73,8 +78,11 @@ depends <- function(packages){
          })
 }
 
-#' Helper function for removing all other
-#'
+#' Helper function for removing all other variables of a dataset
+#' 
+#' Helper function for removing all variables of a dataset
+#' except those which are specified in the given character vector,
+#' regular expression or both.
 #' @param keep A vector containing the name of variables which you wish to keep
 #' and not remove or a regular expression to match variables you want to keep.
 #' Variable names and regular expressions can be used combined
@@ -89,7 +97,18 @@ depends <- function(packages){
 #' regular expression in keep (TRUE or FALSE) or auto detect ("auto")
 #' @importFrom utils lsf.str object.size
 #' @return Clears the environment except for the stated objects.
+#' @details The function is is suitable for Small to semi-large projects
+#' with massive amount of data as it performs variable operations in a fast
+#' and efficient way. The function is also useful for developers
+#' preparing and assembling a pipeline
 #' @source https://bitbucket.org/mehrad_mahmoudian/varhandle/src/master/R/rm.all.but.R
+#' @example
+#' origins <- c("New Zealand", "Brazil", "Switzerland")
+#' members <- c(1, 1, 2)
+#' team <- data.frame(origins, members)
+#' team
+#' retain("origins")
+#' origins
 #' @export
 retain <- function(keep = NULL, envir = .GlobalEnv, keep_functions = TRUE,
                    gc_limit = 100, regex = "auto"){
