@@ -2,7 +2,7 @@
 % Please edit documentation in R/standardise_dates.R
 \name{standardise_dates}
 \alias{standardise_dates}
-\title{Create nested vectors of dates from vague date inputs}
+\title{Standardises a wide range of of date inputs}
 \usage{
 standardise_dates(...)
 }
@@ -13,15 +13,22 @@ standardise_dates(...)
 Nested vector of POSIXct dates that includes a range of dates
 }
 \description{
-Create nested vectors of dates for vague date inputs, ambiguous and ranged dates,
-into a range of dates
+The function standardises a wide range of date inputs parsed through it.
+It accepts date inputs in different formats, incomplete dates,
+historical dates and future dates. It also creates nested
+vectors of dates for vague date inputs, ambiguous and ranged dates,
+into a range of dates.
 }
 \details{
-The function seeks to convert ambiguous and ranged dates into a
-range of dates, and extends the date parsing of other packages to more
-historical and future dates.
-The function allows only for dmy or ymd date formats at present, since mdy
-may introduce errors.
+The function seeks to convert a wide range of dates into
+dates so that these can be meaningfully used for analysis.
+There are several limitations of other date wrangling packages
+and/or functions for dealing with incomplete dates, dates with
+different or inconsistent formats or historical dates for which
+\code{standardise_dates()} can be used.
+It also converts  ambiguous and ranged dates into a
+range of dates. The function allows only for dmy or ymd
+date formats at present, since mdy may introduce errors.
 }
 \examples{
 dates_comparison <- tibble::tribble(~Example, ~OriginalDate,

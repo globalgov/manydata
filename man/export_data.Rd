@@ -25,10 +25,11 @@ lazy-loaded and create scripts for documenting and testing that object within
 the new qPackage.
 }
 \details{
-The function creates a data directory, if nonexistent, and save
-cleaned data. The functions also creates a script for testing the cleaned
-data and make sure it complies with qData requirements. As well, it creates
-a documentation script to help documenting data sources and describing variables.
+The function creates a data directory, if nonexistent, and
+saves cleaned data. The functions also creates a script for testing
+the cleaned data and make sure it complies with qData requirements.
+As well, it creates a documentation script to help documenting data
+sources and describing variables.
 }
 \examples{
 \dontrun{

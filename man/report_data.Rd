@@ -23,7 +23,3 @@ A dataframe with the data report
 \description{
 To quickly report metadata on the databases and datasets within a specific qPackage
 }
-\examples{
-report_data(pkg = "qStates", database = "states", dataset = "COW")
-
-}
