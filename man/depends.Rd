@@ -2,7 +2,7 @@
 % Please edit documentation in R/utility.R
 \name{depends}
 \alias{depends}
-\title{Helper function for loading and, if necessary, installing CRAN packages}
+\title{Helper function for loading CRAN packages}
 \usage{
 depends(packages)
 }
@@ -14,4 +14,8 @@ Loads and, if necessary, first installs CRAN packages
 }
 \description{
 Helper function for loading and, if necessary, installing CRAN packages
+}
+\details{
+The function looks up required packages and loads the ones
+already installed, while installing and loading for packages not installed
 }

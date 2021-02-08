@@ -18,7 +18,8 @@ Imports:
     dplyr,
     lubridate,
     roxygen2,
-    usethis
+    usethis,
+    pointblank
 Suggests: 
     purrr, 
     rlang,

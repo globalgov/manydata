@@ -1,8 +1,5 @@
 # Test if {{{dataset}}} meets the q ecosystem requirements
 
-# Requires the following package
-library(pointblank)
-
 # Report missing values
 test_that("missing observations are reported correctly", {
   expect_false(any(grepl("^.$", {{{dab}}}[["{{{dat}}}"]])))
