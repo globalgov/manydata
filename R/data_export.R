@@ -7,10 +7,11 @@
 #' @param database Quoted name of any existing database or of the database to
 #' be created.
 #' @param link website link to the source of a dataset.
-#' @details The function creates a data directory, if nonexistent, and save
-#' cleaned data. The functions also creates a script for testing the cleaned
-#' data and make sure it complies with qData requirements. As well, it creates
-#' a documentation script to help documenting data sources and describing variables.
+#' @details The function creates a data directory, if nonexistent, and
+#' saves cleaned data. The functions also creates a script for testing
+#' the cleaned data and make sure it complies with qData requirements.
+#' As well, it creates a documentation script to help documenting data
+#' sources and describing variables.
 #' @return This function saves the dataset to the named database,
 #' silently creates a set of tests for this dataset,
 #' and creates and opens documentation for the dataset.
