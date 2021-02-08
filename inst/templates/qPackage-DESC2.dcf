@@ -1,5 +1,5 @@
 Package: {{{package}}}
-Title: A Package for the qData Ecosytem
+Title: A Package for the qData Ecosystem
 Version: 0.0.1
 Authors@R: 
     c(person(given = "{{{given}}}",
