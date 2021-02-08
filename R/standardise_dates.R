@@ -1,13 +1,20 @@
-#' Create nested vectors of dates from vague date inputs
+#' Standardises a wide range of of date inputs
 #'
-#' Create nested vectors of dates for vague date inputs, ambiguous and ranged dates,
-#' into a range of dates
+#' The function standardises a wide range of date inputs parsed through it.
+#' It accepts date inputs in different formats, incomplete dates,
+#' historical dates and future dates.
+#' It also creates nested vectors of dates for vague date inputs,
+#' ambiguous and ranged dates, into a range of dates.
 #' @param ... One (ymd) or three (yyyy, mm, dd) variables
-#' @details The function seeks to convert ambiguous and ranged dates into a
-#' range of dates, and extends the date parsing of other packages to more
-#' historical and future dates.
-#' The function allows only for dmy or ymd date formats at present, since mdy
-#' may introduce errors.
+#' @details The function seeks to convert a wide range of dates into
+#' dates so that these can be meaningfully used for analysis.
+#' There are several limitations of other date wrangling packages
+#' and/or functions for dealing with incomplete dates, dates with
+#' different or inconsistent formats or historical dates for which
+#' `standardise_dates()` can be used.
+#' It also converts  ambiguous and ranged dates into a
+#' range of dates. The function allows only for dmy or ymd
+#' date formats at present, since mdy may introduce errors.
 #' @return Nested vector of POSIXct dates that includes a range of dates
 #' @importFrom stringr str_detect str_split
 #' @importFrom lubridate as_date dmy ymd
