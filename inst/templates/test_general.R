@@ -9,8 +9,8 @@ test_that("missing observations are reported correctly", {
 
 # Labels are standardized
 test_that("labels are standardised", {
-  expect_false(any(grepl("U.S.", {{{dab}}}[["{{{dat}}}"]])))
-  expect_false(any(grepl("U.K.", {{{dab}}}[["{{{dat}}}"]])))
+  # expect_false(any(grepl("U.S.", {{{dab}}}[["{{{dat}}}"]])))
+  # expect_false(any(grepl("U.K.", {{{dab}}}[["{{{dat}}}"]])))
   expect_false(any(grepl("!", {{{dab}}}[["{{{dat}}}"]])))
   expect_false(any(grepl("NANA.", {{{dab}}}[["{{{dat}}}"]])))
 })

@@ -11,14 +11,12 @@ test_that("missing observations are reported correctly", {
 # entry into force date)
 test_that("datasets have the correct variables", {
   expect_col_exists({{{dab}}}[["{{{dat}}}"]], vars(Title))
-  expect_col_exists({{{dab}}}[["{{{dat}}}"]], vars(Signature))
-  expect_col_exists({{{dab}}}[["{{{dat}}}"]], vars(Force))
+  expect_col_exists({{{dab}}}[["{{{dat}}}"]], vars(Beg))
 })
 
 # Dates are standardized
 test_that("dates are standardised", {
-  expect_col_is_date({{{dab}}}[["{{{dat}}}"]], vars(Signature))
-  expect_col_is_date({{{dab}}}[["{{{dat}}}"]], vars(Force))
-  expect_false(any(grepl("/", {{{dab}}}[["{{{dat}}}"]]$Signature)))
-  expect_false(any(grepl("/", {{{dab}}}[["{{{dat}}}"]]$Force)))
+  expect_col_is_date({{{dab}}}[["{{{dat}}}"]], vars(Beg))
+  expect_false(any(grepl("/", {{{dab}}}[["{{{dat}}}"]]$Beg)))
+  expect_false(any(grepl("?", {{{dab}}}[["{{{dat}}}"]]$Beg)))
 })
