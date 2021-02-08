@@ -10,6 +10,7 @@
 * Closed #83 by improving CII best practices score
 * Added `depends()` helper function for loading and, if necessary, installing CRAN packages
 * Added `plot_releases()` function that visualises historical milestones/releases for GitHub repositories
+* Replaced the old logo with a new one.
 
 ## Correction
 
