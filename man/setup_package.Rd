@@ -16,7 +16,8 @@ setup_package(
 must start with "q"}
 
 \item{packageAuthor}{A string, list or vector giving the package
-author(s), required}
+author(s), required. Only first and last names of up to two authors
+are accepted by the function as of now.}
 
 \item{update}{A logical indicating whether existing files should be
 overwritten, by default TRUE.}

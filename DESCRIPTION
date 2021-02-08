@@ -10,16 +10,15 @@ Authors@R:
       person(given = "Henrique",
              family = "Sposito",
              role = "ctb",
-             comment = "IHEID")
+             comment = "IHEID"),
       person(given = "Bernhard",
              family = "Bieri",
              role = "ctb",
-             comment = "IHEID")
+             comment = "IHEID"),
       person(given = "Esther",
              family = "Peev",
              role = "ctb",
              comment = "IHEID"))
-             
 Description: This is the core package for the qData ecosystem.
     It includes functions to help researchers work with and contribute to 
     event datasets on global governance.

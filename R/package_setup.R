@@ -4,7 +4,8 @@
 #' @param packageName A string giving the desired name of the package,
 #' must start with "q"
 #' @param packageAuthor A string, list or vector giving the package
-#' author(s), required
+#' author(s), required. Only first and last names of up to two authors
+#' are accepted by the function as of now.
 #' @param update A logical indicating whether existing files should be
 #' overwritten, by default TRUE.
 #' @param path A string, if missing default is path to the working directory
@@ -59,19 +60,18 @@ setup_package <- function(packageName = NULL,
   # Step one: ensure/create package/project structure
   # Add DESCRIPTION
   if(stringr::str_detect(packageAuthor, "\\,\\s") == "TRUE") {
-  given <- stringr::str_split(packageAuthor, "\\s|\\,")[[1]][1]
-  family <- stringr::str_split(packageAuthor, "\\s|\\,")[[1]][2]
-  given2 <- stringr::str_split(packageAuthor, "\\s|\\,")[[1]][3]
-  family2 <- stringr::str_split(packageAuthor, "\\s|\\,")[[1]][4]
-  qtemplate("qPackage-DESC2.dcf",
-            "DESCRIPTION",
-            data = list(package = packageName,
-                        given = given,
-                        family = family,
-                        given2 = given2,
-                        family2 = family2),
-            path = path)
-  } else {
+     given <- stringr::str_split(packageAuthor, "\\s|\\,")[[1]][1]
+     family <- stringr::str_split(packageAuthor, "\\s|\\,")[[1]][2]
+     given2 <- stringr::str_split(packageAuthor, "\\s|\\,")[[1]][3]
+     qtemplate("qPackage-DESC2.dcf",
+              "DESCRIPTION",
+              data = list(package = packageName,
+                          given = given,
+                          family = family,
+                          given2 = given2,
+                          family2 = family2),
+              path = path)
+    } else if(st) {
     spl2 <- stringr::str_split(packageAuthor, " ")
     given <- stringr::str_split(spl2, "\\s")[[1]][1]
     family <- stringr::str_split(spl2, "\\s")[[1]][2]
@@ -86,8 +86,6 @@ setup_package <- function(packageName = NULL,
   # Add R folder
   create_directory(paste0(path, "/R"))
   usethis::ui_done("Created R/ folder. Here is where any scripts go.")
-  # Add LICENSE
-  usethis::ui_done("Added CCBY license. Modify if necessary.")
   # Add NAMESPACE
   usethis::use_namespace()
   usethis::ui_done("Created NAMESPACE file. Don't modify it.")
