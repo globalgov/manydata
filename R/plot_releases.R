@@ -11,6 +11,8 @@
 #' @import ggplot2
 #' @import lubridate
 #' @source https://benalexkeen.com/creating-a-timeline-graphic-using-r-and-ggplot2/
+#' @example 
+#' plot_releases("globalgov/qData")
 #' @export
 plot_releases <- function(repo){
   
