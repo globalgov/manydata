@@ -2,79 +2,79 @@
 #' 
 #' To quickly report metadata on the databases and datasets within a specific qPackage
 #' @param pkg character string of the qPackage to report data on. Mandatory input.
-#' @param dbase character string of the qPackage to report data a specific database in a
+#' @param database character string of the qPackage to report data a specific database in a
 #' qPackage. If Null, report_data returns a summary of all databases in the qPackage.
 #' Null by default.
-#' @param dset character string of the qPackage to report data on a specific dataset
-#' in a specific database of a qPackage. If Null and dbase is specified, returns database
+#' @param dataset character string of the qPackage to report data on a specific dataset
+#' in a specific database of a qPackage. If Null and database is specified, returns database
 #' level metadata. Null by default.
 #' @return A dataframe with the data report
 #' @examples 
-#' \dontrun{
-#' report_data(pkg = "qStates", dbase = "states", dset = "COW")
-#' }
+#' report_data(pkg = "qStates", database = "states", dataset = "COW")
+#' 
 #' @export
-report_data <- function(pkg, dbase=NULL, dset=NULL){
+report_data <- function(pkg, database=NULL, dataset=NULL){
   pkg_path <- find.package(pkg)
   data_path <- file.path(pkg_path, "data")
   #selcts all dbs
   pkg_dbs <- unname(unlist(readRDS(file.path(data_path, "Rdata.rds"))))
   pkg_dbs
-  if(!is.null(dbase)){
-    if(is.null(dset)){
+  if(!is.null(database)){
+    if(is.null(dataset)){
+      #report_data("pkg", "database")
       tmp_env <- new.env()
       lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
-      db <- get(dbase, envir = tmp_env)
-      tabl <- bind_rows(purrr::map(db, function(x) as.character(length(unique(x$ID)))),
-                        purrr::map(db, function(x) paste0(sum(is.na(x))/prod(dim(x)), " %")),
-                        purrr::map(db, function(x) as.character(nrow(x))),
-                        purrr::map(db, function(x) as.character(ncol(x))),
+      db <- get(database, envir = tmp_env)
+      tabl <- rbind(purrr::map(db, function(x) length(unique(x$ID))),
+                        #purrr::map(db, function(x) paste0(sum(is.na(x))/prod(dim(x)), " %")),
+                        purrr::map(db, function(x) nrow(x)),
+                        purrr::map(db, function(x) ncol(x)),
                         purrr::map(db, function(x) as.character(min(x$Beg))),
-                        purrr::map(db, function(x) as.character(max(x$End))),
+                        purrr::map(db, function(x) as.character(max(x$Beg))),
                         purrr::map(db, function(x) attr(x, which = "source_link")),
                         purrr::map(db, function(x) paste0(utils::capture.output(print(attr(x, which = "source_bib"))), sep = "", collapse = "")))
       tabl1 <- tabl %>% 
         t()
-      colnames(tabl1) <- c("Unique ID", "Missing data", "Rows", "Columns", "Beg", "End", "Link", "Bibliography")
+      colnames(tabl1) <- c("Unique ID", "Rows", "Columns", "Beg", "End", "URL", "Reference")
       tabl1
-    }
-    else{
+    }else{
+      #report_data("pkg", "database", "dataset")
       tmp_env <- new.env()
       lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
-      db <- get(dbase, envir = tmp_env)
-      ds <- db[[dset]]
+      db <- get(database, envir = tmp_env)
+      ds <- db[[dataset]]
       tabl <- data.frame(UniqueID = length(unique(ds$ID)),
-                        MissingValues = paste0(sum(is.na(ds))/prod(dim(ds)), " %"),
+                        #MissingValues = paste0(sum(is.na(ds))/prod(dim(ds)), " %"),
                         NObs = nrow(ds),
                         NVar = ncol(ds),
                         MinDate = min(ds$Beg),
                         MaxDate = max(ds$End),
-                        SourceLink = attr(ds, which = "source_link"),
-                        SourceBib = paste0(utils::capture.output(print(attr(ds, which = "source_bib"))), sep = "", collapse = "")
+                        URL = attr(ds, which = "source_link"),
+                        Reference = paste0(utils::capture.output(print(attr(ds, which = "source_bib"))), sep = "", collapse = "")
       )
       tabl2 <- tabl %>%
         t()
-      colnames(tabl2) <- dset
+      colnames(tabl2) <- dataset
       tabl2
     }
-  }
-  else{
+  }else{
+    #report_data("pkg")
     tmp_env <- new.env()
     lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
     dbs <- get(pkg_dbs, envir = tmp_env)
-    tabl <- bind_rows(purrr::map(dbs, function(x) as.character(length(unique(x$ID)))),
-                      purrr::map(dbs, function(x) paste0(sum(is.na(x))/prod(dim(x)), " %")),
-                      purrr::map(dbs, function(x) as.character(nrow(x))),
-                      purrr::map(dbs, function(x) as.character(ncol(x))),
+    tabl <- rbind(purrr::map(dbs, function(x) length(unique(x$ID))),
+                      #purrr::map(dbs, function(x) paste0(sum(is.na(x))/prod(dim(x)), " %")),
+                      purrr::map(dbs, function(x) nrow(x)),
+                      purrr::map(dbs, function(x) ncol(x)),
                       purrr::map(dbs, function(x) as.character(min(x$Beg))),
-                      purrr::map(dbs, function(x) as.character(max(x$End))),
+                      purrr::map(dbs, function(x) as.character(max(x$Beg))),
                       purrr::map(dbs, function(x) attr(x, which = "source_link")),
                       purrr::map(dbs, function(x) paste0(utils::capture.output(print(attr(x, which = "source_bib"))), sep = "", collapse = "")))
     
-    tabl3 <- tabl %>% 
+    tabl3 <- tabl %>%
       t()
     
-    colnames(tabl3) <- c("Unique ID", "Missing data", "Rows", "Columns", "Beg", "End", "Link", "Bibliography")
+    colnames(tabl3) <- c("Unique ID", "Rows", "Columns", "Beg", "End", "URL", "Reference")
     tabl3
     
   }

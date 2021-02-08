@@ -4,17 +4,17 @@
 \alias{report_data}
 \title{Reports on qPackage data}
 \usage{
-report_data(pkg, dbase = NULL, dset = NULL)
+report_data(pkg, database = NULL, dataset = NULL)
 }
 \arguments{
 \item{pkg}{character string of the qPackage to report data on. Mandatory input.}
 
-\item{dbase}{character string of the qPackage to report data a specific database in a
+\item{database}{character string of the qPackage to report data a specific database in a
 qPackage. If Null, report_data returns a summary of all databases in the qPackage.
 Null by default.}
 
-\item{dset}{character string of the qPackage to report data on a specific dataset
-in a specific database of a qPackage. If Null and dbase is specified, returns database
+\item{dataset}{character string of the qPackage to report data on a specific dataset
+in a specific database of a qPackage. If Null and database is specified, returns database
 level metadata. Null by default.}
 }
 \value{
@@ -24,7 +24,6 @@ A dataframe with the data report
 To quickly report metadata on the databases and datasets within a specific qPackage
 }
 \examples{
-\dontrun{
-report_data(pkg = "qStates", dbase = "states", dset = "COW")
-}
+report_data(pkg = "qStates", database = "states", dataset = "COW")
+
 }
