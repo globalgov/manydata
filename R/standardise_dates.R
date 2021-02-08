@@ -2,9 +2,9 @@
 #'
 #' The function standardises a wide range of date inputs parsed through it.
 #' It accepts date inputs in different formats, incomplete dates,
-#' historical dates and future dates.
-#' It also creates nested vectors of dates for vague date inputs,
-#' ambiguous and ranged dates, into a range of dates.
+#' historical dates and future dates. It also creates nested
+#' vectors of dates for vague date inputs, ambiguous and ranged dates,
+#' into a range of dates.
 #' @param ... One (ymd) or three (yyyy, mm, dd) variables
 #' @details The function seeks to convert a wide range of dates into
 #' dates so that these can be meaningfully used for analysis.

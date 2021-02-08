@@ -12,6 +12,10 @@
 * Added `plot_releases()` function that visualises historical milestones/releases for GitHub repositories
 * Replaced the old logo with a new one.
 
+## Collection
+
+- Updated `import_data()`so that RData files are accepted as an import file type
+
 ## Correction
 
 * Closed #73 `standardise_dates()` function by making it works with `lubridate::as_date`, AD and negative historical dates
