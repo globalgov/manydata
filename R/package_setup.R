@@ -63,6 +63,7 @@ setup_package <- function(packageName = NULL,
      given <- stringr::str_split(packageAuthor, "\\s|\\,")[[1]][1]
      family <- stringr::str_split(packageAuthor, "\\s|\\,")[[1]][2]
      given2 <- stringr::str_split(packageAuthor, "\\s|\\,")[[1]][3]
+     family2 <- stringr::str_split(packageAuthor, "\\s|\\,")[[1]][4]
      qtemplate("qPackage-DESC2.dcf",
               "DESCRIPTION",
               data = list(package = packageName,

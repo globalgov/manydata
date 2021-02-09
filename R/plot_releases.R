@@ -10,7 +10,11 @@
 #' @importFrom stats ave
 #' @import ggplot2
 #' @import lubridate
+#' @details The function creates a project timeline graphic using ggplot2
+#' with historical milestones and milestone statuses gathered from a
+#' specified GitHub repository.
 #' @source https://benalexkeen.com/creating-a-timeline-graphic-using-r-and-ggplot2/
+#' @return A ggplot graph object
 #' @example 
 #' plot_releases("globalgov/qData")
 #' @export
