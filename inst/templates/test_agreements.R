@@ -2,7 +2,7 @@
 
 # Report missing values
 test_that("missing observations are reported correctly", {
-  expect_false(any(grepl("?", {{{dab}}}[["{{{dat}}}"]])))
+  expect_false(any(grepl("\\?", {{{dab}}}[["{{{dat}}}"]])))
   expect_false(any(grepl("^n/a$", {{{dab}}}[["{{{dat}}}"]])))
   expect_false(any(grepl("^N/A$", {{{dab}}}[["{{{dat}}}"]])))
 })
@@ -18,5 +18,5 @@ test_that("datasets have the correct variables", {
 test_that("dates are standardised", {
   expect_col_is_date({{{dab}}}[["{{{dat}}}"]], vars(Beg))
   expect_false(any(grepl("/", {{{dab}}}[["{{{dat}}}"]]$Beg)))
-  expect_false(any(grepl("?", {{{dab}}}[["{{{dat}}}"]]$Beg)))
+  expect_false(any(grepl("\\?", {{{dab}}}[["{{{dat}}}"]]$Beg)))
 })
