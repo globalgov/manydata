@@ -15,7 +15,7 @@
 #' specified GitHub repository.
 #' @source https://benalexkeen.com/creating-a-timeline-graphic-using-r-and-ggplot2/
 #' @return A ggplot graph object
-#' @example 
+#' @examples
 #' plot_releases("globalgov/qData")
 #' @export
 plot_releases <- function(repo){

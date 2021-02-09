@@ -200,7 +200,7 @@ retain <- function(keep = NULL, envir = .GlobalEnv, keep_functions = TRUE,
     #----[ check if user inserted a variable name or regexp that does not exist ]----#
     {
       # create an empty vector to store names and patterns that does not match to anything
-      bad_input <- c()
+      bad_input <- vector()
       
       #----[ variable names ]----#
       {
@@ -269,10 +269,10 @@ retain <- function(keep = NULL, envir = .GlobalEnv, keep_functions = TRUE,
     # if anything has left to be removed
     if (length(removables)) {
       # get to total sum of the variables that are going to be removed in bytes
-      total_size <- sum(sapply(removables,
+      total_size <- sum(vapply(removables,
                                function(x){
                                  utils::object.size(get(x, envir = as.environment(envir)))
-                               }))
+                               }, numeric(1)))
       
       # remove the variables
       remove(list = removables, envir = as.environment(envir))

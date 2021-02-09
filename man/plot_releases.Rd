@@ -24,3 +24,6 @@ The function creates a project timeline graphic using ggplot2
 with historical milestones and milestone statuses gathered from a
 specified GitHub repository.
 }
+\examples{
+plot_releases("globalgov/qData")
+}
