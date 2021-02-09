@@ -4,12 +4,15 @@
 \alias{export_data}
 \title{Adding datasets to the qPackage}
 \usage{
-export_data(..., database)
+export_data(..., database, link)
 }
 \arguments{
 \item{...}{Unquoted name of the dataset object to save.}
 
-\item{database}{Quoted name of any existing database or of the database to be created.}
+\item{database}{Quoted name of any existing database or of the database to
+be created.}
+
+\item{link}{website link to the source of a dataset.}
 }
 \value{
 This function saves the dataset to the named database,
@@ -17,14 +20,16 @@ silently creates a set of tests for this dataset,
 and creates and opens documentation for the dataset.
 }
 \description{
-Save a cleaned data object, consistent with the qData ecosystem, ready to be lazy-loaded
-and create scripts for documenting and testing that object within the new qPackage.
+Save a cleaned data object, consistent with the qData ecosystem, ready to be
+lazy-loaded and create scripts for documenting and testing that object within
+the new qPackage.
 }
 \details{
-The function creates a data directory, if nonexistent, and save cleaned data.
-The functions also creates a script for testing the cleaned data and make sure it
-complies with qData requirements. As well, it creates a documentation script to help
-documenting data sources and describing variables.
+The function creates a data directory, if nonexistent, and
+saves cleaned data. The functions also creates a script for testing
+the cleaned data and make sure it complies with qData requirements.
+As well, it creates a documentation script to help documenting data
+sources and describing variables.
 }
 \examples{
 \dontrun{

@@ -2,12 +2,14 @@
 #'
 #' Find and download packages in the qData ecosystem
 #' @param pkg A character vector of package names
-#' @details The function finds and download other packages that belong to the qData ecosystem
-#' of data packages. It allows for users to rapidly access the names and other descriptive information
-#' of these packages by simply calling the function. If users intend to download a package from
-#' the ecosystem, they can to type the package name within the function.
-#' @return If no package name is provided, this function prints a table (tibble) to the console
-#' with details on packages that are currently available within the qData ecosystem.
+#' @details The function finds and download other packages that belong to
+#' the qData ecosystem of data packages. It allows for users to rapidly access
+#' the names and other descriptive information of these packages by simply
+#' calling the function. If users intend to download a package from the
+#' ecosystem, they can to type the package name within the function.
+#' @return If no package name is provided, this function prints a table (tibble)
+#' to the console with details on packages that are currently available within
+#' the qData ecosystem.
 #' This includes the name and description of the package,
 #' the latest installed and release version number, and the latest release date,
 #' and a string of contributors.
@@ -23,9 +25,9 @@
 #' @importFrom utils packageVersion
 #' @examples
 #' \dontrun{
-#' get_packages() # This prints a table (tibble) 
+#' get_packages() # This prints a table (tibble)
 #' # to the console with details on currently available qPackages
-#' get_packages("qStates") # This downloads and installs from Github 
+#' get_packages("qStates") # This downloads and installs from Github
 #' # the latest version of one or more qPackages
 #' }
 #' @export
@@ -51,7 +53,7 @@ get_packages <- function(pkg) {
           } else {
             x <- stringr::str_remove(x, "v")
             x
-          } 
+          }
         })
       }
       unlist(latest)
@@ -74,7 +76,7 @@ get_packages <- function(pkg) {
           } else {
             x <- as.character(anytime::anydate(x))
             x
-          } 
+          }
         })
       }
       unlist(latest)

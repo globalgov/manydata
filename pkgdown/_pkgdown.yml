@@ -39,7 +39,8 @@ reference:
     desc: "These functions are to assist data providers with disseminating data on particular parts of global governance:"
     contents:
       - setup_package
-      - ends_with("data")
+      - import_data
+      - export_data
       - starts_with("standardise")
       - transmutate
       - consolidate
@@ -47,3 +48,7 @@ reference:
     desc: "These functions are to assist data analysts with identifying, downloading, and analysing data on particular parts of global governance:"
     contents:
       - get_packages
+      - plot_releases
+      - depends
+      - report_data
+      - retain

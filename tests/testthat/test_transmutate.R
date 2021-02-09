@@ -7,4 +7,3 @@ test_that("transmutate function works for category",{
 test_that("transmutate drops variables",{
   expect_output(str(transmutate(transp, tmode=bikes+skates)), "1 variable")
 })
-

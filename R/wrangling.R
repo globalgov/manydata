@@ -16,19 +16,19 @@
 #' }
 #' @export
 transmutate <- function( .data, ... ){
-
+  
   # Helper functions
   # require(tidyverse)
   getAST <- function( ee ) { as.list(ee) %>% purrr::map_if(is.call, getAST) }
   getSyms <- function( ee ) { getAST(ee) %>% unlist %>% purrr::map_chr(deparse) }
-
+  
   ## Capture the provided expressions and retrieve their symbols
   vSyms <- rlang::enquos(...) %>% purrr::map( ~getSyms(rlang::get_expr(.x)) )
-
+  
   ## Identify symbols that are in common with the provided dataset
   ## These columns are to be removed
   vToRemove <- intersect( colnames(.data), unlist(vSyms) )
-
+  
   ## Pass on the expressions to mutate to do the work
   ## Remove the identified columns from the result
   dplyr::mutate( .data, ... ) %>% dplyr::select( -dplyr::one_of(vToRemove) )
@@ -114,7 +114,7 @@ recollect <- function(x, collapse = "_"){
 #' }
 #' @export
 interleave <- function(vect, pos, elems = NA) {
-
+  
   l <- length(vect)
   j <- 0
   for (i in 1:length(pos)){
@@ -146,4 +146,3 @@ interleave <- function(vect, pos, elems = NA) {
 consolidate <- function(x){
   x[which(!is.na(x))[1]]
 }
-

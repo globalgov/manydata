@@ -2,41 +2,45 @@
 % Please edit documentation in R/standardise_dates.R
 \name{standardise_dates}
 \alias{standardise_dates}
-\title{Create nested vectors of dates from vague date inputs}
+\title{Standardises a wide range of of date inputs}
 \usage{
 standardise_dates(...)
 }
 \arguments{
-\item{...}{One (ymd) or three (y, m, d) variables}
+\item{...}{One (ymd) or three (yyyy, mm, dd) variables}
 }
 \value{
 Nested vector of POSIXct dates that includes a range of dates
 }
 \description{
-Create nested vectors of dates for vague date inputs, ambiguous and ranged dates, into a range of dates
+The function standardises a wide range of date inputs parsed through it.
+It accepts date inputs in different formats, incomplete dates,
+historical dates and future dates. It also creates nested
+vectors of dates for vague date inputs, ambiguous and ranged dates,
+into a range of dates.
 }
 \details{
-The function seeks to convert ambiguous and ranged dates into a range of dates,
-and extends the date parsing of other packages to more historical and future dates.
-The function allows only for dmy or ymd date formats at present, since mdy may introduce errors.
+The function seeks to convert a wide range of dates into
+dates so that these can be meaningfully used for analysis.
+There are several limitations of other date wrangling packages
+and/or functions for dealing with incomplete dates, dates with
+different or inconsistent formats or historical dates for which
+\code{standardise_dates()} can be used.
+It also converts  ambiguous and ranged dates into a
+range of dates. The function allows only for dmy or ymd
+date formats at present, since mdy may introduce errors.
 }
 \examples{
-\dontrun{
-checkdates <- function(){
-testdates <- c("2010-01-01", "2010", "2010-01",
-"2010-01-00", "2010-00-00",
-"2010-01-??", "2010-??-??",
-"2010:2011",
-"2010-01-01_03", "2010-01_03",
-"2010-01-01:03", "2010-01:03",
-"9999-12-31", "2599-12-31",
-"1712-01-01", "712-01-01", "712 AD",
-"-1712-01-01", "-712-01-01", "712 BC")
-datestest <- tibble::tibble(
-origin = testdates,
-lubridate = lubridate::as_date(testdates),
-anytime = anytime::anydate(testdates),
-qData = qData::standardise_dates(testdates)
-) datestest \%>\% print(n = 25)}
-}
+dates_comparison <- tibble::tribble(~Example, ~OriginalDate,
+"A normal date", "2010-01-01",
+"A historical date", "1712-01-01",
+"A really historical date", "712-01-01",
+"A very historical date", "112-01-01",
+"A clearly future date", "9999-12-31",
+"A not so clearly future date", "2599-12-31")
+dates_comparison \%>\% dplyr::mutate(
+lubridate = lubridate::as_date(OriginalDate),
+anytime = anytime::anydate(OriginalDate),
+qData = qData::standardise_dates(OriginalDate)
+) \%>\% print(n = 25)
 }
