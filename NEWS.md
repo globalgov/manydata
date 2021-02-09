@@ -73,28 +73,28 @@
 ## Connection
 
 - Updates `get_packages()` function to:
-  - correctly identify latest release and installed versions
-  - identify registered contributors
+  - Correctly identify latest release and installed versions
+  - Identify registered contributors
 
 # qDatr 0.2.1
 
 ## Package
 
-* fixed #61 by adding tests for `setup_package()` and `import_data()`
-* closed #50 by making sure workflow templates are created in the proper
+* Fixed #61 by adding tests for `setup_package()` and `import_data()`
+* Closed #50 by making sure workflow templates are created in the proper
 folder with `setup_package()`
 
 ## Correction
 
-* closed #62 by creating a function which vectorises dates and cleans
+* Closed #62 by creating a function which vectorises dates and cleans
 and standardizes diverse date formats, `standardise_dates()`
-* closed #55 by deprecating `rearrange()` function in favour of `dplyr::relocate()`
-* closed #65 by correcting issues with the path call in `export_data()` function
+* Closed #55 by deprecating `rearrange()` function in favour of `dplyr::relocate()`
+* Closed #65 by correcting issues with the path call in `export_data()` function
   * Ensures consistency for path calls across qData functions
 
 ## Connection
 
-* closed #64 by creating the `get_packages()` function which displays other packages,
+* Closed #64 by creating the `get_packages()` function which displays other packages,
 and some information about these packages, in the qData ecosystem. The function
 serves as a wrapper for downloading qPackages from GitHub.
 
@@ -148,12 +148,12 @@ serves as a wrapper for downloading qPackages from GitHub.
 
 ## Correction
 
-* closed #24 by adding `repaint()` for filling in missing data by lookup
+* Closed #24 by adding `repaint()` for filling in missing data by lookup
 * Added `recent()` for sensible centuries for dates
 
 ## Connection
 
-* closed #45 by adding `use_qData()` for setting up tests, documentation, and lazy-loading of cleaned data
+* Closed #45 by adding `use_qData()` for setting up tests, documentation, and lazy-loading of cleaned data
   * Added template for documenting cleaned data
   * Added template for testing cleaned data
 
@@ -161,25 +161,25 @@ serves as a wrapper for downloading qPackages from GitHub.
 
 ## Collection
 
-* closed #25 by adding `create_qpackage()`
+* Closed #25 by adding `create_qpackage()`
 * Fixed 'pushrelease.yml' postfix bug
 
 ## Correction
 
-* closed #26 by adding `interleave()`
-* closed #23 by adding `resequence()`
-* closed #30 by adding `recollect()`
+* Closed #26 by adding `interleave()`
+* Closed #23 by adding `resequence()`
+* Closed #30 by adding `recollect()`
 
 # qDatr 0.0.3
 
 ## Package
 
-* closed #18 by setting up `{lintr}`, `{goodpractice}`, and `{spelling}` in prchecks.yml
+* Closed #18 by setting up `{lintr}`, `{goodpractice}`, and `{spelling}` in prchecks.yml
 
 ## Correction
 
-* closed #29 by adding `rearrange()` 
-* closed #31 by adding `reunite()`
+* Closed #29 by adding `rearrange()` 
+* Closed #31 by adding `reunite()`
 
 # qDatr 0.0.2
 
