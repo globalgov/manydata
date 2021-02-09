@@ -2,14 +2,13 @@
 
 ## Package
 
-* Updated `setup_package()` function by removing license lines in the codes.
-* Fixed #89 by adding different description templates depending on the number of authors declared in `setup_package()`
-* Added new type of contributor called *dtc* in the DESCRIPTION file
-* Closed #78 by creating `report_data()` function that displays information on the data within a qPackage
-* Closed #83 by improving CII best practices score
-* Added `depends()` helper function for loading and, if necessary, installing CRAN packages
-* Added `plot_releases()` function that visualises historical milestones/releases for GitHub repositories
 * Replaced the old logo with a new one.
+* Closed #83 by improving CII best practices score
+* Added depends() helper function for loading and, if necessary, installing CRAN packages
+* Added plot_releases() function that visualises historical milestones/releases for GitHub repositories
+* Updated setup_package() function by removing license lines in the codes.
+  * Fixed #89 by adding different description templates depending on the number of authors declared in setup_package()
+  * Added new type of contributor called dtc in the DESCRIPTION file
 
 ## Collection
 
@@ -29,6 +28,10 @@
   * closed #76 by adding some smart documentation updates to `export_data()`
   * closed #94 by adding a bibliographic attribute to each dataset with `export_data()`
 * Added `retain()` helper function that retains the name of variables to keep and removes all other variables
+
+## Connection
+
+* Closed #78 by creating report_data() function that displays information on the data within a qPackage
 
 # qData 0.3.1
 
