@@ -2,7 +2,7 @@
 
 # Report missing values
 test_that("missing observations are reported correctly", {
-  expect_false(any(grepl("^.$", {{{dab}}}[["{{{dat}}}"]])))
+  expect_false(any(grepl("?", {{{dab}}}[["{{{dat}}}"]])))
   expect_false(any(grepl("^n/a$", {{{dab}}}[["{{{dat}}}"]])))
   expect_false(any(grepl("^N/A$", {{{dab}}}[["{{{dat}}}"]])))
 })

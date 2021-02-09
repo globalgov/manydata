@@ -2,7 +2,7 @@
 % Please edit documentation in R/utility.R
 \name{retain}
 \alias{retain}
-\title{Helper function for removing all other variables of a dataset}
+\title{Helper function for keeping  objects from the global environment}
 \source{
 https://bitbucket.org/mehrad_mahmoudian/varhandle/src/master/R/rm.all.but.R
 }
@@ -37,7 +37,8 @@ regular expression in keep (TRUE or FALSE) or auto detect ("auto")}
 Clears the environment except for the stated objects.
 }
 \description{
-Helper function for removing all variables of a dataset
+Helper function for keeping objects from the global environment.
+It removes all variables of a dataset in the global environment
 except those which are specified in the given character vector,
 regular expression or both.
 }

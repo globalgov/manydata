@@ -12,7 +12,15 @@ plot_releases(repo)
 \arguments{
 \item{repo}{the github repository to track, e.g. "jhollway/migraph"}
 }
+\value{
+A ggplot graph object
+}
 \description{
 The function will take a data frame that details this information,
 or more usefully, a Github repository listing.
+}
+\details{
+The function creates a project timeline graphic using ggplot2
+with historical milestones and milestone statuses gathered from a
+specified GitHub repository.
 }
