@@ -78,9 +78,10 @@ depends <- function(packages){
          })
 }
 
-#' Helper function for removing all other variables of a dataset
+#' Helper function for keeping  objects from the global environment
 #' 
-#' Helper function for removing all variables of a dataset
+#' Helper function for keeping objects from the global environment.
+#' It removes all variables of a dataset in the global environment
 #' except those which are specified in the given character vector,
 #' regular expression or both.
 #' @param keep A vector containing the name of variables which you wish to keep
