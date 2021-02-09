@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Pastes unique string vectors — reunite • qData</title>
+<title>Helper function for loading CRAN packages — depends • qData</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Pastes unique string vectors — reunite" />
-<meta property="og:description" content="A vectorised function for use with dplyr's mutate, etc" />
+<meta property="og:title" content="Helper function for loading CRAN packages — depends" />
+<meta property="og:description" content="Helper function for loading and, if necessary, installing CRAN packages" />
 
 
 
@@ -126,42 +126,34 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Pastes unique string vectors</h1>
-    <small class="dont-index">Source: <a href='https://github.com/globalgov/qDatr/blob/master/R/wrangling.R'><code>R/wrangling.R</code></a></small>
-    <div class="hidden name"><code>reunite.Rd</code></div>
+    <h1>Helper function for loading CRAN packages</h1>
+    <small class="dont-index">Source: <a href='https://github.com/globalgov/qDatr/blob/master/R/utility.R'><code>R/utility.R</code></a></small>
+    <div class="hidden name"><code>depends.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A vectorised function for use with dplyr's mutate, etc</p>
+    <p>Helper function for loading and, if necessary, installing CRAN packages</p>
     </div>
 
-    <pre class="usage"><span class='fu'>reunite</span><span class='op'>(</span><span class='va'>...</span>, sep <span class='op'>=</span> <span class='st'>"_"</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>depends</span><span class='op'>(</span><span class='va'>packages</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>...</th>
-      <td><p>Variables to pass to the function,
-currently only two at a time</p></td>
-    </tr>
-    <tr>
-      <th>sep</th>
-      <td><p>Separator when vectors reunited, by default "_"</p></td>
+      <th>packages</th>
+      <td><p>Character vector of packages to install from CRAN</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A single vector with unique non-missing information</p>
+    <p>Loads and, if necessary, first installs CRAN packages</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>fir<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='st'>"two"</span>, <span class='st'>"three"</span>, <span class='cn'>NA</span><span class='op'>)</span>,
-  sec<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"one"</span>, <span class='cn'>NA</span>, <span class='st'>"three"</span>, <span class='cn'>NA</span><span class='op'>)</span>, stringsAsFactors <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span>
-<span class='fu'><a href='transmutate.html'>transmutate</a></span><span class='op'>(</span><span class='va'>data</span>, single <span class='op'>=</span> <span class='fu'>reunite</span><span class='op'>(</span><span class='va'>fir</span>, <span class='va'>sec</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <p>The function looks up required packages and loads the ones
+already installed, while installing and loading for packages not installed</p>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

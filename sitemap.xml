@@ -7,6 +7,9 @@
     <loc>https://globalgov.github.io/qData//reference/consolidate.html</loc>
   </url>
   <url>
+    <loc>https://globalgov.github.io/qData//reference/depends.html</loc>
+  </url>
+  <url>
     <loc>https://globalgov.github.io/qData//reference/export_data.html</loc>
   </url>
   <url>
@@ -17,6 +20,9 @@
   </url>
   <url>
     <loc>https://globalgov.github.io/qData//reference/interleave.html</loc>
+  </url>
+  <url>
+    <loc>https://globalgov.github.io/qData//reference/plot_releases.html</loc>
   </url>
   <url>
     <loc>https://globalgov.github.io/qData//reference/qtemplate.html</loc>
@@ -34,7 +40,13 @@
     <loc>https://globalgov.github.io/qData//reference/repaint.html</loc>
   </url>
   <url>
+    <loc>https://globalgov.github.io/qData//reference/report_data.html</loc>
+  </url>
+  <url>
     <loc>https://globalgov.github.io/qData//reference/resequence.html</loc>
+  </url>
+  <url>
+    <loc>https://globalgov.github.io/qData//reference/retain.html</loc>
   </url>
   <url>
     <loc>https://globalgov.github.io/qData//reference/reunite.html</loc>

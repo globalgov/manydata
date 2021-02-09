@@ -40,8 +40,9 @@
 
 
 <meta property="og:title" content="Adding datasets to the qPackage — export_data" />
-<meta property="og:description" content="Save a cleaned data object, consistent with the qData ecosystem, ready to be lazy-loaded
-and create scripts for documenting and testing that object within the new qPackage." />
+<meta property="og:description" content="Save a cleaned data object, consistent with the qData ecosystem, ready to be
+lazy-loaded and create scripts for documenting and testing that object within
+the new qPackage." />
 
 
 
@@ -73,7 +74,7 @@ and create scripts for documenting and testing that object within the new qPacka
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">qData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
       </span>
     </div>
 
@@ -133,11 +134,12 @@ and create scripts for documenting and testing that object within the new qPacka
     </div>
 
     <div class="ref-description">
-    <p>Save a cleaned data object, consistent with the qData ecosystem, ready to be lazy-loaded
-and create scripts for documenting and testing that object within the new qPackage.</p>
+    <p>Save a cleaned data object, consistent with the qData ecosystem, ready to be
+lazy-loaded and create scripts for documenting and testing that object within
+the new qPackage.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>export_data</span><span class='op'>(</span><span class='va'>...</span>, <span class='va'>database</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>export_data</span><span class='op'>(</span><span class='va'>...</span>, <span class='va'>database</span>, <span class='va'>link</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -148,7 +150,12 @@ and create scripts for documenting and testing that object within the new qPacka
     </tr>
     <tr>
       <th>database</th>
-      <td><p>Quoted name of any existing database or of the database to be created.</p></td>
+      <td><p>Quoted name of any existing database or of the database to
+be created.</p></td>
+    </tr>
+    <tr>
+      <th>link</th>
+      <td><p>website link to the source of a dataset.</p></td>
     </tr>
     </table>
 
@@ -159,10 +166,11 @@ silently creates a set of tests for this dataset,
 and creates and opens documentation for the dataset.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The function creates a data directory, if nonexistent, and save cleaned data.
-The functions also creates a script for testing the cleaned data and make sure it
-complies with qData requirements. As well, it creates a documentation script to help
-documenting data sources and describing variables.</p>
+    <p>The function creates a data directory, if nonexistent, and
+saves cleaned data. The functions also creates a script for testing
+the cleaned data and make sure it complies with qData requirements.
+As well, it creates a documentation script to help documenting data
+sources and describing variables.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>

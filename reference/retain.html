@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Pastes unique string vectors — reunite • qData</title>
+<title>Helper function for keeping  objects from the global environment — retain • qData</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,11 @@
 
 
 
-<meta property="og:title" content="Pastes unique string vectors — reunite" />
-<meta property="og:description" content="A vectorised function for use with dplyr's mutate, etc" />
+<meta property="og:title" content="Helper function for keeping  objects from the global environment — retain" />
+<meta property="og:description" content="Helper function for keeping objects from the global environment.
+It removes all variables of a dataset in the global environment
+except those which are specified in the given character vector,
+regular expression or both." />
 
 
 
@@ -126,42 +129,84 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Pastes unique string vectors</h1>
-    <small class="dont-index">Source: <a href='https://github.com/globalgov/qDatr/blob/master/R/wrangling.R'><code>R/wrangling.R</code></a></small>
-    <div class="hidden name"><code>reunite.Rd</code></div>
+    <h1>Helper function for keeping  objects from the global environment</h1>
+    <small class="dont-index">Source: <a href='https://github.com/globalgov/qDatr/blob/master/R/utility.R'><code>R/utility.R</code></a></small>
+    <div class="hidden name"><code>retain.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A vectorised function for use with dplyr's mutate, etc</p>
+    <p>Helper function for keeping objects from the global environment.
+It removes all variables of a dataset in the global environment
+except those which are specified in the given character vector,
+regular expression or both.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>reunite</span><span class='op'>(</span><span class='va'>...</span>, sep <span class='op'>=</span> <span class='st'>"_"</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>retain</span><span class='op'>(</span>
+  keep <span class='op'>=</span> <span class='cn'>NULL</span>,
+  envir <span class='op'>=</span> <span class='va'>.GlobalEnv</span>,
+  keep_functions <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  gc_limit <span class='op'>=</span> <span class='fl'>100</span>,
+  regex <span class='op'>=</span> <span class='st'>"auto"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>...</th>
-      <td><p>Variables to pass to the function,
-currently only two at a time</p></td>
+      <th>keep</th>
+      <td><p>A vector containing the name of variables which you wish to keep
+and not remove or a regular expression to match variables you want to keep.
+Variable names and regular expressions can be used combined
+if the argument 'regex' is set to "auto". (Mandatory)</p></td>
     </tr>
     <tr>
-      <th>sep</th>
-      <td><p>Separator when vectors reunited, by default "_"</p></td>
+      <th>envir</th>
+      <td><p>The environment that this function should be functional in,
+search in and act in. (Optional)</p></td>
+    </tr>
+    <tr>
+      <th>keep_functions</th>
+      <td><p>A logical vector of length 1 indicating exclusion
+of function variables from removal. (optional)</p></td>
+    </tr>
+    <tr>
+      <th>gc_limit</th>
+      <td><p>A numeric vector of length 1 indicating the threshold
+for garbage collection in Megabyte (MB) scale. (Optional)</p></td>
+    </tr>
+    <tr>
+      <th>regex</th>
+      <td><p>A vector with length 1 to define whether the function use
+regular expression in keep (TRUE or FALSE) or auto detect ("auto")</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p>https://bitbucket.org/mehrad_mahmoudian/varhandle/src/master/R/rm.all.but.R</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A single vector with unique non-missing information</p>
+    <p>Clears the environment except for the stated objects.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The function is is suitable for Small to semi-large projects
+with massive amount of data as it performs variable operations in a fast
+and efficient way. The function is also useful for developers
+preparing and assembling a pipeline</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>fir<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='st'>"two"</span>, <span class='st'>"three"</span>, <span class='cn'>NA</span><span class='op'>)</span>,
-  sec<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"one"</span>, <span class='cn'>NA</span>, <span class='st'>"three"</span>, <span class='cn'>NA</span><span class='op'>)</span>, stringsAsFactors <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span>
-<span class='fu'><a href='transmutate.html'>transmutate</a></span><span class='op'>(</span><span class='va'>data</span>, single <span class='op'>=</span> <span class='fu'>reunite</span><span class='op'>(</span><span class='va'>fir</span>, <span class='va'>sec</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='va'>origins</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"New Zealand"</span>, <span class='st'>"Brazil"</span>, <span class='st'>"Switzerland"</span><span class='op'>)</span>
+<span class='va'>members</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span>
+<span class='va'>team</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>origins</span>, <span class='va'>members</span><span class='op'>)</span>
+<span class='va'>team</span>
+</div><div class='output co'>#&gt;       origins members
+#&gt; 1 New Zealand       1
+#&gt; 2      Brazil       1
+#&gt; 3 Switzerland       2</div><div class='input'><span class='fu'>retain</span><span class='op'>(</span><span class='st'>"origins"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in retain("origins"): All the items in the keep should be a real existing variable or valid regular expressions.</span>
+#&gt; <span class='error'>The following is/are not among variables of selected environment or patterns that match anything!</span>
+#&gt; <span class='error'> origins</span></div><div class='input'><span class='va'>origins</span>
+</div><div class='output co'>#&gt; [1] "New Zealand" "Brazil"      "Switzerland"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">qData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
       <h1 data-toc-skip>Working with qData</h1>
                         <h4 class="author">James Hollway</h4>
             
-            <h4 class="date">2021-01-13</h4>
+            <h4 class="date">2021-02-09</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/globalgov/qDatr/blob/master/vignettes/user.Rmd"><code>vignettes/user.Rmd</code></a></small>
       <div class="hidden name"><code>user.Rmd</code></div>
@@ -109,8 +109,8 @@
 <pre><code>#&gt; # A tibble: 2 x 7
 #&gt;   name   full_name  description     installed latest updated    contributors    
 #&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;  &lt;date&gt;     &lt;chr&gt;           
-#&gt; 1 qData  globalgov… An R portal fo… 0.3.1     0.3.1  2021-01-13 jhollway, henri…
-#&gt; 2 qStat… globalgov… &lt;NA&gt;            0.0.1     0.0.1  2021-01-06 henriquesposito…</code></pre>
+#&gt; 1 qData  globalgov… An R portal fo… 0.3.2     0.3.2  2021-02-09 henriquesposito…
+#&gt; 2 qStat… globalgov… &lt;NA&gt;            0.0.2     0.0.3  2021-02-09 henriquesposito…</code></pre>
 <p>In the future, this function will report more details about the datasets included in each package and their provenance.</p>
 <p>For now, let us say that we wish to download the <a href="https://github.com/globalgov/qStates">qStates</a> package, which offers a set of datasets related to state actors in global governance. We can download and install the latest release version of the <a href="https://github.com/globalgov/qStates">qStates</a> package using the same function as before, only specifying which package we want to ‘get’:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -126,23 +126,7 @@
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">states</span>, package <span class="op">=</span> <span class="st">"qStates"</span><span class="op">)</span>
 <span class="va">states</span></code></pre></div>
-<pre><code>#&gt; $COW
-#&gt; # A tibble: 243 x 5
-#&gt;    COW_Nr ID    Beg        End        Label            
-#&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;            
-#&gt;  1 300    AUH   1816-01-01 1918-11-12 Austria-Hungary  
-#&gt;  2 267    BAD   1816-01-01 1871-01-18 Baden            
-#&gt;  3 245    BAV   1816-01-01 1871-01-18 Bavaria          
-#&gt;  4 390    DEN   1816-01-01 1940-04-09 Denmark          
-#&gt;  5 220    FRN   1816-01-01 1942-11-11 France           
-#&gt;  6 255    GMY   1816-01-01 1945-05-08 Germany          
-#&gt;  7 273    HSE   1816-01-01 1866-07-26 Hesse Electoral  
-#&gt;  8 275    HSG   1816-01-01 1867-04-17 Hesse Grand Ducal
-#&gt;  9 325    ITA   1816-01-01 2016-12-31 Italy            
-#&gt; 10 210    NTH   1816-01-01 1940-07-14 Netherlands      
-#&gt; # … with 233 more rows
-#&gt; 
-#&gt; $GW
+<pre><code>#&gt; $GW
 #&gt; # A tibble: 216 x 5
 #&gt;    COW_Nr ID    Beg        End        Label            
 #&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;            
@@ -161,18 +145,34 @@
 #&gt; $ISD
 #&gt; # A tibble: 362 x 7
 #&gt;    COW_Nr ID    Beg        End        Label           Micro New.State
-#&gt;    &lt;chr&gt;  &lt;fct&gt; &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;           &lt;int&gt;     &lt;int&gt;
-#&gt;  1 8531   ACH   1816-01-01 1874-01-30 Aceh                1         0
-#&gt;  2 700    AFG   1816-01-01 1879-12-31 Afghanistan         0         0
-#&gt;  3 615    ALG   1816-01-01 1830-12-31 Algeria             0         0
-#&gt;  4 7572   ASA   1816-01-01 1817-04-30 Assam               0         0
-#&gt;  5 4521   AST   1816-01-01 1896-02-01 Ashanti             0         0
-#&gt;  6 300    AUH   1816-01-01 1918-11-12 Austria-Hungary     0         0
-#&gt;  7 4908   AZA   1816-01-01 1895-12-31 Azande              0         0
-#&gt;  8 267    BAD   1816-01-01 1871-01-18 Baden               0         0
-#&gt;  9 245    BAV   1816-01-01 1871-01-18 Bavaria             0         0
-#&gt; 10 7533   BHP   1816-01-01 1817-12-01 Bhopal              0         0
-#&gt; # … with 352 more rows</code></pre>
+#&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt;    
+#&gt;  1 8531   ACH   1816-01-01 1874-01-30 Aceh            TRUE  FALSE    
+#&gt;  2 700    AFG   1816-01-01 1879-12-31 Afghanistan     FALSE FALSE    
+#&gt;  3 615    ALG   1816-01-01 1830-12-31 Algeria         FALSE FALSE    
+#&gt;  4 7572   ASA   1816-01-01 1817-04-30 Assam           FALSE FALSE    
+#&gt;  5 4521   AST   1816-01-01 1896-02-01 Ashanti         FALSE FALSE    
+#&gt;  6 300    AUH   1816-01-01 1918-11-12 Austria-Hungary FALSE FALSE    
+#&gt;  7 4908   AZA   1816-01-01 1895-12-31 Azande          FALSE FALSE    
+#&gt;  8 267    BAD   1816-01-01 1871-01-18 Baden           FALSE FALSE    
+#&gt;  9 245    BAV   1816-01-01 1871-01-18 Bavaria         FALSE FALSE    
+#&gt; 10 7533   BHP   1816-01-01 1817-12-01 Bhopal          FALSE FALSE    
+#&gt; # … with 352 more rows
+#&gt; 
+#&gt; $COW
+#&gt; # A tibble: 243 x 5
+#&gt;    COW_Nr ID    Beg        End        Label            
+#&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;            
+#&gt;  1 300    AUH   1816-01-01 1918-11-12 Austria-Hungary  
+#&gt;  2 267    BAD   1816-01-01 1871-01-18 Baden            
+#&gt;  3 245    BAV   1816-01-01 1871-01-18 Bavaria          
+#&gt;  4 390    DEN   1816-01-01 1940-04-09 Denmark          
+#&gt;  5 220    FRN   1816-01-01 1942-11-11 France           
+#&gt;  6 255    GMY   1816-01-01 1945-05-08 Germany          
+#&gt;  7 273    HSE   1816-01-01 1866-07-26 Hesse Electoral  
+#&gt;  8 275    HSG   1816-01-01 1867-04-17 Hesse Grand Ducal
+#&gt;  9 325    ITA   1816-01-01 2016-12-31 Italy            
+#&gt; 10 210    NTH   1816-01-01 1940-07-14 Netherlands      
+#&gt; # … with 233 more rows</code></pre>
 <p>We can see that there are three named datasets relating to states here: <code>COW</code> (Correlates of War), <code>GW</code> (Gleditsch and Ward), and <code>ISD</code> (International Systems Dataset). Each of these datasets has their advantages and so we may wish to understand their differences, summarise variables across them, and perhaps also rerun models across them.</p>
 <p>To retrieve an individual dataset from this database, we can use the <code>pluck()</code> function from the <a href="http://purrr.tidyverse.org">purrr</a> package.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -182,85 +182,51 @@
 <div id="comparing-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#comparing-data" class="anchor"></a>Comparing data</h2>
-<p>First of all, we want to understand what the differences are between these datasets. One important way to understand the relationship between these datasets is to understand what their relative advantages and disadvantages are. For example, one dataset may be long (has many observations) while another is shorter but wider (has more variables). One might include details further back in history or is more recent, but includes more missing data or less precise data (coded at a less granular level) than another with a more restrictive Or one might appear complete yet offer less information on where the original datapoints were sourced or how certain variables were coded, while another provides an extensive and transparent codebook that facilitates replication. Below we show how one might compare the data in <code>states</code> in these ways.</p>
-<div id="differences-in-dimension" class="section level3">
-<h3 class="hasAnchor">
-<a href="#differences-in-dimension" class="anchor"></a>Differences in dimension</h3>
-<p>One way to see a quick summary of each of these datasets is using the <code>glimpse()</code> command from the <a href="https://tibble.tidyverse.org/">tibble</a> package. <a href="https://tibble.tidyverse.org/">tibble</a> is currently loaded along with <a href="https://github.com/globalgov/qDatr">qData</a> and so there is no need to load it independently.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">glimpse</span><span class="op">(</span><span class="va">states</span><span class="op">)</span></code></pre></div>
-<pre><code>#&gt; List of 3
-#&gt;  $ COW: tibble [243 × 5] (S3: tbl_df/tbl/data.frame)
-#&gt;   ..$ COW_Nr: chr [1:243] "300" "267" "245" "390" ...
-#&gt;   ..$ ID    : chr [1:243] "AUH" "BAD" "BAV" "DEN" ...
-#&gt;   ..$ Beg   : Date[1:243], format: "1816-01-01" "1816-01-01" ...
-#&gt;   ..$ End   : Date[1:243], format: "1918-11-12" "1871-01-18" ...
-#&gt;   ..$ Label : chr [1:243] "Austria-Hungary" "Baden" "Bavaria" "Denmark" ...
-#&gt;   ..- attr(*, "spec")=List of 3
-#&gt;   .. ..- attr(*, "class")= chr "col_spec"
-#&gt;  $ GW : tibble [216 × 5] (S3: tbl_df/tbl/data.frame)
-#&gt;   ..$ COW_Nr: chr [1:216] "700" "615" "300" "267" ...
-#&gt;   ..$ ID    : chr [1:216] "AFG" "ALG" "AUH" "BAD" ...
-#&gt;   ..$ Beg   : Date[1:216], format: "1816-01-01" "1816-01-01" ...
-#&gt;   ..$ End   : Date[1:216], format: "1888-12-30" "1830-07-05" ...
-#&gt;   ..$ Label : chr [1:216] "Afghanistan" "Algeria" "Austria-Hungary" "Baden" ...
-#&gt;  $ ISD: tibble [362 × 7] (S3: tbl_df/tbl/data.frame)
-#&gt;   ..$ COW_Nr   : chr [1:362] "8531" "700" "615" "7572" ...
-#&gt;   ..$ ID       : Factor w/ 310 levels "AAB","ACH","AFG",..: 2 3 5 10 12 13 16 18 21 26 ...
-#&gt;   ..$ Beg      : Date[1:362], format: "1816-01-01" "1816-01-01" ...
-#&gt;   ..$ End      : Date[1:362], format: "1874-01-30" "1879-12-31" ...
-#&gt;   ..$ Label    : chr [1:362] "Aceh" "Afghanistan" "Algeria" "Assam" ...
-#&gt;   ..$ Micro    : int [1:362] 1 0 0 0 0 0 0 0 0 0 ...
-#&gt;   ..$ New.State: int [1:362] 0 0 0 0 0 0 0 0 0 0 ...</code></pre>
-<p>We can see here, for example, that COW seems to have more observations of state sovereignty episodes than GW does.</p>
-</div>
-<div id="differences-in-depth" class="section level3">
-<h3 class="hasAnchor">
-<a href="#differences-in-depth" class="anchor"></a>Differences in depth</h3>
-<p>We can also check whether one dataset has more missings than another. Here we are going to ‘map’ a function from the <a href="https://github.com/amices/mice">mice</a> package over each of the datasets in the database. That function is the <code><a href="https://amices.org/mice/reference/md.pattern.html">md.pattern()</a></code> function. We will use the <code>map()</code> function to do this (though other ways are possible).</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/amices/mice">mice</a></span><span class="op">)</span>
-<span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">states</span>, <span class="va">md.pattern</span>, rotate.names <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></code></pre></div>
-<pre><code>#&gt;  /\     /\
-#&gt; {  `---'  }
-#&gt; {  O   O  }
-#&gt; ==&gt;  V &lt;==  No need for mice. This data set is completely observed.
-#&gt;  \  \|/  /
-#&gt;   `-----'</code></pre>
-<p><img src="user_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
-<pre><code>#&gt;  /\     /\
-#&gt; {  `---'  }
-#&gt; {  O   O  }
-#&gt; ==&gt;  V &lt;==  No need for mice. This data set is completely observed.
-#&gt;  \  \|/  /
-#&gt;   `-----'</code></pre>
-<p><img src="user_files/figure-html/unnamed-chunk-7-2.png" width="700"></p>
-<pre><code>#&gt;  /\     /\
-#&gt; {  `---'  }
-#&gt; {  O   O  }
-#&gt; ==&gt;  V &lt;==  No need for mice. This data set is completely observed.
-#&gt;  \  \|/  /
-#&gt;   `-----'</code></pre>
-<p><img src="user_files/figure-html/unnamed-chunk-7-3.png" width="700"></p>
-<pre><code>#&gt; $COW
-#&gt;     COW_Nr ID Beg End Label  
-#&gt; 243      1  1   1   1     1 0
-#&gt;          0  0   0   0     0 0
-#&gt; 
-#&gt; $GW
-#&gt;     COW_Nr ID Beg End Label  
-#&gt; 216      1  1   1   1     1 0
-#&gt;          0  0   0   0     0 0
-#&gt; 
-#&gt; $ISD
-#&gt;     COW_Nr ID Beg End Label Micro New.State  
-#&gt; 362      1  1   1   1     1     1         1 0
-#&gt;          0  0   0   0     0     0         0 0</code></pre>
-</div>
+<p>First of all, we want to understand what the differences are between these datasets. One important way to understand the relationship between these datasets is to understand what their relative advantages and disadvantages are. For example, one dataset may be long (has many observations) while another is shorter but wider (has more variables). One might include details further back in history while the other is more recent, but include more missing data or less precise data (i.e. coded at a less granular level) than another with a more restrictive Or one might appear complete yet offer less information on where the original datapoints were sourced or how certain variables were coded, while another provides an extensive and transparent codebook that facilitates replication. Below we show how one might compare the data in <code>states</code> in these ways.</p>
 <div id="differences-in-documentation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#differences-in-documentation" class="anchor"></a>Differences in documentation</h3>
-<p>We can bring up their documentation using the following command: <code>?states</code>. This documentation outlines where this data was sourced from (when) and what the nature of the main variables are.</p>
+<p>We can bring up the database level documentation using the following command: <code>?states</code>. This documentation informs the user on the various datasets that are present in the database as well as the most important metadata of the various datasets. If we wants a more detailed summary of the various levels of data, we can run <code><a href="../reference/report_data.html">report_data()</a></code> as outlined below.</p>
+</div>
+<div id="using-report_data" class="section level3">
+<h3 class="hasAnchor">
+<a href="#using-report_data" class="anchor"></a>Using <code>report_data()</code>
+</h3>
+<p>The second step after comparing data by using the database object documentation is the <a href="https://github.com/globalgov/qDatr">qData</a> function <code><a href="../reference/report_data.html">report_data()</a></code>. This function returns a dataframe with the key metadata of each level of data objects (qPackage, database, and dataset). This metadata includes the following elements:</p>
+<ul>
+<li>Number of unique observations</li>
+<li>Number of rows</li>
+<li>Number of columns</li>
+<li>Earliest beginning date</li>
+<li>Latest end date</li>
+<li>Source link</li>
+<li>Bibliographic entry</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/report_data.html">report_data</a></span><span class="op">(</span>pkg <span class="op">=</span> <span class="st">"qStates"</span>, database <span class="op">=</span> <span class="cn">NULL</span>, dataset <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+<pre><code>#&gt;     Unique ID Rows Columns Beg          End         
+#&gt; GW  202       216  5       "1816-01-01" "2011-07-09"
+#&gt; ISD 310       362  7       "1816-01-01" "2011-07-09"
+#&gt; COW 217       243  5       "1816-01-01" "2011-07-09"
+#&gt;     URL                                                            
+#&gt; GW  "http://ksgleditsch.com/data-4.html"                           
+#&gt; ISD "http://www.ryan-griffiths.com/data"                           
+#&gt; COW "https://correlatesofwar.org/data-sets/state-system-membership"
+#&gt;     Reference                                                                                                        
+#&gt; GW  "Gleditsch KS, Ward MD (1999). "Interstate system membership: A revisedlist of the independent state" [truncated]
+#&gt; ISD "Griffiths RD, Butcher CR (2013). "Introducing the international system(s) dataset (ISD), 1816-2011." [truncated]
+#&gt; COW "Correlates of War Project (2017). "State System Membership List,v2016." &lt;URL: http://correlatesofwa" [truncated]</code></pre>
+<p>If we were specifically interested in the <code>COW</code> dataset of the <code>states</code> data base we would specify the output by setting the dbase and the dset arguments to the corresponding value.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/report_data.html">report_data</a></span><span class="op">(</span>pkg <span class="op">=</span> <span class="st">"qStates"</span>, database <span class="op">=</span> <span class="st">"states"</span>, dataset <span class="op">=</span> <span class="st">"COW"</span><span class="op">)</span></code></pre></div>
+<pre><code>#&gt;           COW                                                                                                                                 
+#&gt; UniqueID  "217"                                                                                                                               
+#&gt; NObs      "243"                                                                                                                               
+#&gt; NVar      "5"                                                                                                                                 
+#&gt; MinDate   "1816-01-01"                                                                                                                        
+#&gt; MaxDate   "2016-12-31"                                                                                                                        
+#&gt; URL       "https://correlatesofwar.org/data-sets/state-system-membership"                                                                     
+#&gt; Reference "Correlates of War Project (2017). \"State System Membership List,v2016.\" &lt;URL: http://correlatesofwar.org&gt;. Accessed: 2021-01-25."</code></pre>
 </div>
 </div>
 <div id="modelling-data" class="section level2">
@@ -268,19 +234,13 @@
 <a href="#modelling-data" class="anchor"></a>Modelling data</h2>
 <p>Next we may be interested in whether any relationships we are interested in or inferences we want to draw are sensitive to which data we use. That is, we are interested in the robustness of any results to different data specifications. None of the <code>states</code> datasets are particularly wide, but let us try and examine the “Beg” variable to start with.</p>
 <p>We can start by exploring whether our conclusion about when states first gained sovereignty would differ depending on which dataset we use. We can use the <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code> function used above, but this time pass it the <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code> function and tell it to operate on just the “Beg” variable (removing any NAs). Since qData datasets are always ordered by “Beg” (and then “ID”), we can remove any subsequent (duplicated) entries by ID to concentrate on first appearances.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">states</span> <span class="op">%&gt;%</span> 
   <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span>
     <span class="va">x</span> <span class="op">%&gt;%</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span><span class="op">(</span><span class="va">ID</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
       <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Beg</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
   <span class="op">}</span><span class="op">)</span></code></pre></div>
-<pre><code>#&gt; $COW
-#&gt; # A tibble: 1 x 1
-#&gt;   `mean(Beg, na.rm = TRUE)`
-#&gt;   &lt;date&gt;                   
-#&gt; 1 1930-10-14               
-#&gt; 
-#&gt; $GW
+<pre><code>#&gt; $GW
 #&gt; # A tibble: 1 x 1
 #&gt;   `mean(Beg, na.rm = TRUE)`
 #&gt;   &lt;date&gt;                   
@@ -290,7 +250,13 @@
 #&gt; # A tibble: 1 x 1
 #&gt;   `mean(Beg, na.rm = TRUE)`
 #&gt;   &lt;date&gt;                   
-#&gt; 1 1885-05-25</code></pre>
+#&gt; 1 1885-05-25               
+#&gt; 
+#&gt; $COW
+#&gt; # A tibble: 1 x 1
+#&gt;   `mean(Beg, na.rm = TRUE)`
+#&gt;   &lt;date&gt;                   
+#&gt; 1 1930-10-14</code></pre>
 <p>It seems that there is some variation there. Of course, these averages are biased in the sense that these datasets are left-censored. Any state gaining sovereignty prior to 1816 is simply assigned as “1816-01-01”.</p>
 </div>
   </div>
