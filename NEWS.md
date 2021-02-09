@@ -135,8 +135,8 @@ serves as a wrapper for downloading qPackages from GitHub.
 
 ## Collection
 
-* closed #47 by adding `qtemplate()` function for finding and rendering templates
-* closed #44 by adding `create_qPackage()` that establishes a `{qData}` consistent package framework
+* Closed #47 by adding `qtemplate()` function for finding and rendering templates
+* Closed #44 by adding `create_qPackage()` that establishes a `{qData}` consistent package framework
   * Fixed #42 by drawing information from DESCRIPTION where possible
   * Added DESCRIPTION template
   * Added README template
@@ -144,7 +144,7 @@ serves as a wrapper for downloading qPackages from GitHub.
   * Added CONTRIBUTING template
   * Added PR and issue templates for bugs and features
   * Added workflow templates for push-release, pr-checks, and pr-commands
-* closed #48 by adding `use_qData_raw()` for setting up data cleaning and wrangling
+* Closed #48 by adding `use_qData_raw()` for setting up data cleaning and wrangling
   * Added template for importing, cleaning and exporting raw data
 
 ## Correction
