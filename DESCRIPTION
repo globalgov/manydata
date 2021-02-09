@@ -14,7 +14,7 @@ Authors@R:
       person(given = "Bernhard",
              family = "Bieri",
              role = "ctb",
-             comment = "IHEID"),
+             comment = c("IHEID", ORCID = "0000-0001-5943-9059")),
       person(given = "Esther",
              family = "Peev",
              role = "ctb",
