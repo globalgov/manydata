@@ -10,7 +10,7 @@ Authors@R:
       person(given = "Henrique",
              family = "Sposito",
              role = "ctb",
-             comment = "IHEID"),
+             comment = ("IHEID", ORCID = "0000-0003-3420-6085")),
       person(given = "Bernhard",
              family = "Bieri",
              role = "ctb",
