@@ -96,6 +96,7 @@ export_data <- function(..., database, URL) {
   qtemplate("qDataDBDoc.R",
             save_as = fs::path("R", paste0("qData-", database, ".R")),
             data = list(dat = dataset_name,
+                        nd = dblen,
                         strdsnames = strdsnames,
                         dsvarstr = dsvarstr,
                         database = database,
