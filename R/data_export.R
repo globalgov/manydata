@@ -6,7 +6,7 @@
 #' @param ... Unquoted name of the dataset object to save.
 #' @param database Quoted name of any existing database or of the database to
 #' be created.
-#' @param link website link to the source of a dataset.
+#' @param URL website URL to the source of a dataset.
 #' @details The function creates a data directory, if nonexistent, and
 #' saves cleaned data. The functions also creates a script for testing
 #' the cleaned data and make sure it complies with qData requirements.
@@ -23,14 +23,14 @@
 #' export_data(COW, database = "states")
 #' }
 #' @export
-export_data <- function(..., database, link) {
+export_data <- function(..., database, URL) {
   
-  #Check if link is present and is of the character form.
-  if(missing(link)){
-    stop("Please use the link argument to provide a direct weblink to the source of your dataset.")
+  #Check if URL is present and is of the character form.
+  if(missing(URL)){
+    stop("Please use the URL argument to provide a direct webURL to the source of your dataset.")
   }
-  if(!is.character(link)){
-    stop("Please provide a valid link argument.")
+  if(!is.character(URL)){
+    stop("Please provide a valid URL argument.")
   }
   dataset_name <- deparse(substitute(...))
   dataset <- get(dataset_name)
@@ -56,7 +56,7 @@ export_data <- function(..., database, link) {
     env[[database]][[dataset_name]] <- get(dataset_name)
     
     #Adding static source attributes to each dataset
-    attr(env[[database]][[dataset_name]], "source_link") <- link
+    attr(env[[database]][[dataset_name]], "source_URL") <- URL
     attr(env[[database]][[dataset_name]], "source_bib") <- bibtex::read.bib(file = paste0("data-raw/", database, "/", dataset_name,"/",dataset_name,".bib"))
     save(list = database, envir = env,
          file = fs::path("data", database, ext = "rda"),
@@ -70,7 +70,7 @@ export_data <- function(..., database, link) {
     usethis::ui_info("Didn't find an existing {usethis::ui_value(database)} database.")
     env <- new.env()
     env[[database]] <- tibble::lst(...)
-    attr(env[[database]][[dataset_name]], "source_link") <- link
+    attr(env[[database]][[dataset_name]], "source_URL") <- URL
     attr(env[[database]][[dataset_name]], "source_bib") <- bibtex::read.bib(file = paste0("data-raw/", database, "/", dataset_name,"/",dataset_name,".bib"))
     save(list = database, envir = env,
          file = fs::path("data", database, ext = "rda"),
@@ -90,8 +90,8 @@ export_data <- function(..., database, link) {
   dsnvar <- lapply(db, ncol)
   dsvar <- lapply(db, colnames)
   dsvarstr <- lapply(lapply(db, colnames), str_c, collapse=", ")
-  describe <- paste0("#'\\describe{\n", paste0("#' \\item{",dsnames, ": A dataset with ",dsobs," observations and the following ",dsnvar," variables: ",dsvarstr,".}", "{Describe dataset here}\n", collapse = ""), "#' }")
-  sourceelem <- paste0("#' @source \\url{", link,"}", collapse = "")
+  describe <- paste0("#'\\describe{\n", paste0("#' \\item{",dsnames,": }", "{A dataset with ",dsobs," observations and the following ",dsnvar," variables: ", dsvarstr,".}\n", collapse = ""), "#' }")
+  sourceelem <- paste0("#' @source \\url{", URL,"}", collapse = "")
   #Output
   qtemplate("qDataDBDoc.R",
             save_as = fs::path("R", paste0("qData-", database, ".R")),
