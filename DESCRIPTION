@@ -18,7 +18,7 @@ Authors@R:
       person(given = "Esther",
              family = "Peev",
              role = "ctb",
-             comment = "IHEID"))
+             comment = "IHEID", ORCID = "0000-0002-9678-2777"))
 Description: This is the core package for the qData ecosystem.
     It includes functions to help researchers work with and contribute to 
     event datasets on global governance.
