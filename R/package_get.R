@@ -1,7 +1,7 @@
 #' Find and download packages in the qData ecosystem
 #'
 #' Find and download packages in the qData ecosystem
-#' @param pkg A character vector of package names
+#' @param pkg A character vector of package names or number of a package
 #' @details The function finds and download other packages that belong to
 #' the qData ecosystem of data packages. It allows for users to rapidly access
 #' the names and other descriptive information of these packages by simply
@@ -12,8 +12,8 @@
 #' the qData ecosystem.
 #' This includes the name and description of the package,
 #' the latest installed and release version number, and the latest release date,
-#' and a string of contributors.
-#' 
+#' and a string of contributors. It also include a list of numbers which orders
+#' the package and can be used to load the respective package instead of the name. 
 #' If one or more package names are provided, these will be installed from Github.
 #' @importFrom pointblank %>%
 #' @importFrom stringr str_detect
@@ -125,6 +125,15 @@ get_packages <- function(pkg) {
   if (!missing(pkg)) {
     if(stringr::str_detect(pkg, "/")) {
       remotes::install_github(pkg) 
+    } else if(stringr::str_detect(pkg, "^[:digit:]{1}$")) {
+      if(pkg == 2) {
+      remotes::install_github("globalgov/qEnviron") 
+      } 
+      if(pkg == 3) {
+        remotes::install_github("globalgov/qStates")
+      } else if(!pkg == 2 & 3) {
+        stop("Package number not found, please type package name")
+      }
     } else {
       pkg <- paste0("globalgov/", pkg)
       remotes::install_github(pkg)  
