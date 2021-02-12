@@ -1,14 +1,15 @@
+---
+output: github_document
+---
+
 # {{{package}}}
 
-{{{package}}} is a hush-hush secret project (for now) by {{{author}}}. 
-Please watch this space. 
-
-Check out [qData](https://github.com/globalgov/qData) for more.
+Describe your {{{package}}} here.
 
 ## How to install:
 We’ve made it easier than ever to install and start analysing global governance data in R. Simply install the core package, [qData](https://github.com/globalgov/qData), as follows, and then you can discover, install and update various qPackages from the console.
 
-```{r}
+```{r, eval = FALSE}
 # install.packages(remotes)
 remotes::install_github("globalgov/qData") # this installs our core package, the only one you need to do independently
 qData::get_packages() # this prints a list of the publicly available data packages currently available
@@ -19,7 +20,7 @@ qData::get_packages("{{{package}}}") # this downloads and installs the named pac
 
 Once you have installed the package, you can see the different databases and datasets include in the package using the following function.
 
-```{r}
+```{r datasets}
 report_data("{{{package}}}")
 ```
 
@@ -35,7 +36,7 @@ make it easy to cite both the particular datasets you use by listing the
 official references in the function above, as well as the package
 providers for their work assembling the data using the function below.
 
-``` {r}
+``` {r cites}
 citation("{{{package}}}")
 ```
 
