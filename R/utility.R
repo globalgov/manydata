@@ -56,6 +56,42 @@ qtemplate <- function(template,
   invisible(new)
 }
 
+#' Helper function for adding an author to the current package
+#' 
+#' Helper function for adding an author to the current package
+#' @param given Character string of the author's name
+#' @param family Character string of the author's surname
+#' @param email Character string of the author's email
+#' @param role Character vector of role(s) the author has in the project
+#' @param comment Character vector of the author's miscellaneous information 
+#' such as his/her institution or his/her ORCID number.
+#' @return Adds a new author to the description file of the package
+#' @details The function adds an author to the description file of the current
+#' package.
+#' @example
+#' depends("qData", "desc")
+#' @export
+new_author <- function(given = NULL, family = NULL, email = NULL, role = NULL,
+                       comment = NULL){
+  if(is.null(given)){
+    stop("Please specify the name of your author")
+  }
+  if(is.null(family)){
+    stop("Please specify the surname of your author")
+  }
+  if(is.null(role)){
+    stop("Please specify at least one role of your author. 
+         E.g. role = c('aut', 'cre')")
+  }
+  if(!is.null(email) && !grepl("@", email, fixed = TRUE)){
+    stop("Please specify a correct email adress.")
+  }
+  desc::desc_add_author(given = given,
+                        family = family,
+                        role = role,
+                        email = email,
+                        comment = comment)
+}
 
 #' Helper function for loading CRAN packages
 #' 
