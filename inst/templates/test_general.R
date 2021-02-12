@@ -11,6 +11,11 @@ test_that("missing observations are reported correctly", {
   expect_false(any(grepl("n\\.a\\.$", {{{dab}}}[["{{{dat}}}"]])))
 })
 
+# At least one column named ID 
+test_that("a column ID exists", {
+  expect_col_exists({{{dab}}}[["{{{dat}}}"]], vars(ID))
+})
+
 # Labels are standardized
 test_that("labels are standardised", {
   if(!is.null({{{dab}}}[["{{{dat}}}"]]$Label)) {
