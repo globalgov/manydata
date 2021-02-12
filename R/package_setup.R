@@ -90,6 +90,12 @@ setup_package <- function(packageName = NULL,
   # Add NAMESPACE
   usethis::use_namespace()
   usethis::ui_done("Created NAMESPACE file. Don't modify it.")
+  # Add LICENSE
+  qtemplate("LICENSE.md",
+            ignore = TRUE,
+            path = path,
+            open = FALSE)
+  usethis::ui_done("Added CC BY 4.0 license.")
   # Add NEWS
   if (!file.exists(paste0(path, "/NEWS.md"))){
     qtemplate("qPackage-NEWS.md",
