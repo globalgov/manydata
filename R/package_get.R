@@ -123,7 +123,12 @@ get_packages <- function(pkg) {
   }
   
   if (!missing(pkg)) {
-    remotes::install_github(pkg)
+    if(stringr::str_detect(pkg, "/")) {
+      remotes::install_github(pkg) 
+    } else {
+      pkg <- paste0("globalgov/", pkg)
+      remotes::install_github(pkg)  
+    }
   }
   
 }
