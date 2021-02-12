@@ -62,6 +62,10 @@ COW <- transmutate(ID = stateabb,
                    COW_Nr = standardise_titles(as.character(ccode)))
 ```
 
+Contributors should make sure the variables names in the datasets are in line with `{qData}` ecosystem.
+Datasets part of the same database should have similar variables which allows to build up the 'datacube' 
+for comparison.
+
 ## Connecting data
 
 Once the dataset has been corrected in `{qData}`, the cleaned dataset can be loaded into the 

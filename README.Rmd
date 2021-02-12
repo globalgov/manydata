@@ -16,7 +16,7 @@ output: github_document
 <!-- badges: end -->
 
 `{qData}` is the central package in an ecosystem of packages aimed at collecting, connecting and correcting network data across issue-domains of global governance.
-It is a package both for users of this data as well as for data owners and developers.
+It is a package both for users of this data as well as for data owners and contributors.
 
 ## Why qData?
 
@@ -27,15 +27,17 @@ in the sense of offering a single, supposedly authoritative version of global go
 but instead holds many well-regarded datasets together in three-dimensional 'datacubes'.
 The chief advantage of this for global governance researchers is that it enables
 a quick and easy way to check the robustness of their results to different formulations of
-the study population or concept specification.
-For more, please see the vignette.
+the study population or concept specification. The 'datacube' structure is requiring specific 
+coding system for the variables across the datasets. 
+For more details on that, please see the [vignette](https://globalgov.github.io/qData/articles/user.html).
 
-For developers, `{qData}` provides the necessary tools to put their data in the hands of users.
+For contributors, `{qData}` provides the necessary tools to put their data in the hands of users.
 The package includes many functions to make this easier.
 It includes functions to help set up a qPackage, import their existing data, 
 and export them in structures consistent with the rest of the data ecosystem.
-This facilitates the interoperability, contrast, and comparison of data.
-For more, please see the vignette.
+This facilitates the interoperability, contrast, and comparison of data. Specific coding system should be 
+followed by the contributors.
+For more details on that, please see the [vignette](https://globalgov.github.io/qData/articles/developer.html).
 
 ## Downloading and installing qData
 
@@ -56,4 +58,4 @@ library(qData)
 get_packages()
 ```
 
-Please see [the website](https://globalgov.github.io/qData/) for more information about how to use `{qData}` for both developers and users.
+Please see [the website](https://globalgov.github.io/qData/) for more information about how to use `{qData}` for both users and contributors.
