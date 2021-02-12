@@ -18,7 +18,7 @@ qData::get_packages("{{{package}}}") # this downloads and installs the named pac
 
 ## Data included
 
-Once you have installed the package, you can see the different databases and datasets include in the package using the following function.
+Once you have installed the package, you can see the different databases and datasets included in the package using the following function.
 
 ```{r datasets}
 report_data("{{{package}}}")
