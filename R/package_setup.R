@@ -72,7 +72,7 @@ setup_package <- function(packageName = NULL,
                           given2 = given2,
                           family2 = family2),
               path = path)
-    } else if(st) {
+    } else {
     spl2 <- stringr::str_split(packageAuthor, " ")
     given <- stringr::str_split(spl2, "\\s")[[1]][1]
     family <- stringr::str_split(spl2, "\\s")[[1]][2]
