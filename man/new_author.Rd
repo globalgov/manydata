@@ -9,7 +9,8 @@ new_author(
   family = NULL,
   email = NULL,
   role = NULL,
-  comment = NULL
+  comment = NULL,
+  ORCID = NULL
 )
 }
 \arguments{
@@ -22,7 +23,9 @@ new_author(
 \item{role}{Character vector of role(s) the author has in the project}
 
 \item{comment}{Character vector of the author's miscellaneous information
-such as his/her institution or his/her ORCID number.}
+such as his/her institution}
+
+\item{ORCID}{Character string of the author's ORCID number}
 }
 \value{
 Adds a new author to the description file of the package
