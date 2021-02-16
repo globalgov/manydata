@@ -56,97 +56,88 @@ qtemplate <- function(template,
   invisible(new)
 }
 
-#' Helper function for adding an author to the current package by using the
-#' ORCID number as an input.
+#' Helper function for adding an author to the current package
 #' 
-#' Helper function for adding an author to the current package with the ORCID
-#' number of the author.
-#' @param ORCID Character string of the ORCID number of the author to add
+#' Helper function for adding an author to the current package
+#' @param ORCID Character string of the author's ORCID number. If this is null,
+#' then the function switches to manual entry.
 #' @param role Character vector of role(s) the author has in the project
-#' @param email Character strin of the author's email. ORCID is preferred.
-#' @return Adds a new author to the description file of the package
-#' @details The function adds an author to the description file of the current
-#' package based on information gathered from ORCID.
-#' @example
-#' depends("qData", "desc", "rorcid")
-#' @export
-new_author_orcid <- function(ORCID, role = NULL, email = NULL){
-  if(is.null(ORCID)){
-    stop("Please specify an ORCID number.")
-  }
-  if(is.null(role)){
-    stop("Please specify at least one role of your author. 
-         E.g. role = c('aut', 'cre')")
-  }
-  #Step 1: Authenticate the user to ORCID
-  rorcid::orcid_auth()
-  #Step 2: Extract the information from ORCID API (lists)
-  author <- rorcid::orcid_person(ORCID)
-  employment <- rorcid::orcid_employments(ORCID)
-  given <- as.character(author[[ORCID]][["name"]][["given-names"]][["value"]])
-  family <- as.character(author[[ORCID]][["name"]][["family-name"]][["value"]])
-  #Gives preference to ORCID email
-  if(length(author[[ORCID]][["emails"]][["email"]]) != 0){
-    email <- as.character(author[[ORCID]][["emails"]][["email"]][[1]])
-  }else{
-    email <- email
-  }
-  comment <- c(Institution = as.character(employment[[ORCID]]
-                          [["affiliation-group"]][["summaries"]]
-                          [[1]][["employment-summary.organization.name"]]))
-  #Step 3: Create the person entry in the documentation file.
-  desc::desc_add_author(given = given,
-                        family = family,
-                        role = role,
-                        email = email,
-                        comment = comment
-                        )
-  # Adding ORCID number a posteriori to circumvent a desc package bug (#91)
-  # desc::desc_add_orcid(ORCID, given = given, family = family)
-  # Spoiler alert : It doesn't work...
-}
-
-#' Helper function for adding an author to the current package
-#' 
-#' Helper function for adding an author to the current package
+#' @param email Character string of the author's email
 #' @param given Character string of the author's name
 #' @param family Character string of the author's surname
-#' @param email Character string of the author's email
-#' @param role Character vector of role(s) the author has in the project
 #' @param comment Character vector of the author's miscellaneous information 
 #' such as his/her institution
-#' @param ORCID Character string of the author's ORCID number
 #' @return Adds a new author to the description file of the package
 #' @details The function adds an author to the description file of the current
 #' package.
 #' @example
 #' depends("qData", "desc")
 #' @export
-new_author <- function(given = NULL, family = NULL, email = NULL, role = NULL,
-                       comment = NULL, ORCID = NULL){
-  if(is.null(given)){
-    stop("Please specify the name of your author")
-  }
-  if(is.null(family)){
-    stop("Please specify the surname of your author")
-  }
-  if(is.null(role)){
-    stop("Please specify at least one role of your author. 
+new_author <- function(ORCID = NULL,
+                       role = NULL,
+                       email = NULL,
+                       given = NULL,
+                       family = NULL,
+                       comment = NULL){
+  if(!is.null(ORCID)){
+    # Check whether rorcid is installed
+    if("rorcid" %in% rownames(utils::installed.packages()) == FALSE){
+      stop("Please install the rorcid package before proceeding.")
+    }
+    if(is.null(role)){
+      stop("Please specify at least one role of your author. 
          E.g. role = c('aut', 'cre')")
+    }
+    #Step 1: Authenticate the user to ORCID
+    rorcid::orcid_auth()
+    #Step 2: Extract the information from ORCID API (lists)
+    author <- rorcid::orcid_person(ORCID)
+    employment <- rorcid::orcid_employments(ORCID)
+    given <- as.character(author[[ORCID]][["name"]]
+                          [["given-names"]][["value"]])
+    family <- as.character(author[[ORCID]][["name"]]
+                           [["family-name"]][["value"]])
+    #Gives preference to ORCID email
+    if(length(author[[ORCID]][["emails"]][["email"]]) != 0){
+      email <- as.character(author[[ORCID]][["emails"]][["email"]][[1]])
+    }else{
+      email <- email
+    }
+    comment <- c(as.character(employment[[ORCID]]
+                              [["affiliation-group"]][["summaries"]]
+                              [[1]][["employment-summary.organization.name"]]))
+    #Step 3: Create the person entry in the documentation file.
+    desc::desc_add_author(given = given,
+                          family = family,
+                          role = role,
+                          email = email,
+                          comment = comment
+    )
+  } else {
+    #Manual entry
+    if(is.null(given)){
+      stop("Please specify the name of your author")
+    }
+    if(is.null(family)){
+      stop("Please specify the surname of your author")
+    }
+    if(is.null(role)){
+      stop("Please specify at least one role of your author. 
+         E.g. role = c('aut', 'cre')")
+    }
+    if(!is.null(email) && !grepl("@", email, fixed = TRUE)){
+      stop("Please specify a correct email adress.")
+    }
+    desc::desc_add_author(given = given,
+                          family = family,
+                          role = role,
+                          email = email,
+                          comment = comment
+    )
   }
-  if(!is.null(email) && !grepl("@", email, fixed = TRUE)){
-    stop("Please specify a correct email adress.")
-  }
-  desc::desc_add_author(given = given,
-                        family = family,
-                        role = role,
-                        email = email,
-                        comment = comment
-                        )
-  # Adding ORCID number a posteriori to circumvent a desc bug (#91)
-  #desc::desc_add_orcid(ORCID, given = given, family = family)
-  # Spoiler alert : It doesn't work...
 }
+# TODO: Fix issue #91 of desc package or find a workaround that allows us
+# to add multiple comments.
 
 #' Helper function for loading CRAN packages
 #' 

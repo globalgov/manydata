@@ -5,27 +5,28 @@
 \title{Helper function for adding an author to the current package}
 \usage{
 new_author(
+  ORCID = NULL,
+  role = NULL,
+  email = NULL,
   given = NULL,
   family = NULL,
-  email = NULL,
-  role = NULL,
-  comment = NULL,
-  ORCID = NULL
+  comment = NULL
 )
 }
 \arguments{
+\item{ORCID}{Character string of the author's ORCID number. If this is null,
+then the function switches to manual entry.}
+
+\item{role}{Character vector of role(s) the author has in the project}
+
+\item{email}{Character string of the author's email}
+
 \item{given}{Character string of the author's name}
 
 \item{family}{Character string of the author's surname}
 
-\item{email}{Character string of the author's email}
-
-\item{role}{Character vector of role(s) the author has in the project}
-
 \item{comment}{Character vector of the author's miscellaneous information
 such as his/her institution}
-
-\item{ORCID}{Character string of the author's ORCID number}
 }
 \value{
 Adds a new author to the description file of the package
