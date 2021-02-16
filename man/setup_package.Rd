@@ -6,7 +6,10 @@
 \usage{
 setup_package(
   packageName = NULL,
-  packageAuthor = NULL,
+  packageAuthorName = NULL,
+  packageAuthorSurname = NULL,
+  packageAuthorInstitution = NULL,
+  ORCID = NULL,
   update = TRUE,
   path = getwd()
 )
@@ -15,9 +18,18 @@ setup_package(
 \item{packageName}{A string giving the desired name of the package,
 must start with "q"}
 
-\item{packageAuthor}{A string, list or vector giving the package
-author(s), required. Only first and last names of up to two authors
-are accepted by the function as of now.}
+\item{packageAuthorName}{A vector giving the package
+author(s)' name(s)}
+
+\item{packageAuthorSurname}{A vector giving the package
+author(s)' surname(s)}
+
+\item{packageAuthorInstitution}{A vector giving the package
+author(s)' institution (only one per author)}
+
+\item{ORCID}{A vector of strings of all the ORCID numbers of the authors.
+Needs \code{{rorcid}} package to be installed. Takes precedence over manual
+entries if specified.}
 
 \item{update}{A logical indicating whether existing files should be
 overwritten, by default TRUE.}
