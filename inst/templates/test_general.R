@@ -13,7 +13,7 @@ test_that("missing observations are reported correctly", {
 
 # At least one column named ID 
 test_that("a column ID exists", {
-  expect_col_exists({{{dab}}}[["{{{dat}}}"]], vars(ID))
+  expect_true(any(grepl("_ID$", colnames({{{dab}}}[["{{{dat}}}"]]))))
 })
 
 # Labels are standardized

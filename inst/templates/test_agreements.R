@@ -16,7 +16,7 @@ test_that("missing observations are reported correctly", {
 test_that("datasets have the correct variables", {
   expect_col_exists({{{dab}}}[["{{{dat}}}"]], vars(Title))
   expect_col_exists({{{dab}}}[["{{{dat}}}"]], vars(Beg))
-  expect_col_exists({{{dab}}}[["{{{dat}}}"]], vars(ID))
+  expect_true(any(grepl("_ID$", colnames({{{dab}}}[["{{{dat}}}"]]))))
 })
 
 # Dates are standardized for mandatory column
