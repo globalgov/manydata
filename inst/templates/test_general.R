@@ -12,7 +12,7 @@ test_that("missing observations are reported correctly", {
 })
 
 # At least one column named ID 
-test_that("a column ID exists", {
+test_that("a column indicating an ID source exists", {
   expect_true(any(grepl("_ID$", colnames({{{dab}}}[["{{{dat}}}"]]))))
 })
 
@@ -63,5 +63,32 @@ test_that("Columns with dates are standardized", {
     expect_false(any(grepl("^[:digit:]{1}-[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Rat)))
     expect_false(any(grepl("^[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Rat)))
     expect_false(any(grepl("^[:alpha:]$", {{{dab}}}[["{{{dat}}}"]]$Rat)))
+  }
+  if (!is.null({{{dab}}}[["{{{dat}}}"]]$Signature)) {
+    expect_false(any(grepl("/", {{{dab}}}[["{{{dat}}}"]]$Signature)))
+    expect_false(any(grepl("^[:digit:]{2}-[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Signature)))
+    expect_false(any(grepl("^[:digit:]{1}-[:digit:]{1}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Signature)))
+    expect_false(any(grepl("^[:digit:]{2}-[:digit:]{1}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Signature)))
+    expect_false(any(grepl("^[:digit:]{1}-[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Signature)))
+    expect_false(any(grepl("^[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Signature)))
+    expect_false(any(grepl("^[:alpha:]$", {{{dab}}}[["{{{dat}}}"]]$Signature)))
+  }
+  if (!is.null({{{dab}}}[["{{{dat}}}"]]$Term)) {
+    expect_false(any(grepl("/", {{{dab}}}[["{{{dat}}}"]]$Term)))
+    expect_false(any(grepl("^[:digit:]{2}-[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Term)))
+    expect_false(any(grepl("^[:digit:]{1}-[:digit:]{1}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Term)))
+    expect_false(any(grepl("^[:digit:]{2}-[:digit:]{1}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Term)))
+    expect_false(any(grepl("^[:digit:]{1}-[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Term)))
+    expect_false(any(grepl("^[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Term)))
+    expect_false(any(grepl("^[:alpha:]$", {{{dab}}}[["{{{dat}}}"]]$Term)))
+  }
+  if (!is.null({{{dab}}}[["{{{dat}}}"]]$Withdrawal)) {
+    expect_false(any(grepl("/", {{{dab}}}[["{{{dat}}}"]]$Withdrawal)))
+    expect_false(any(grepl("^[:digit:]{2}-[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Withdrawal)))
+    expect_false(any(grepl("^[:digit:]{1}-[:digit:]{1}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Withdrawal)))
+    expect_false(any(grepl("^[:digit:]{2}-[:digit:]{1}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Withdrawal)))
+    expect_false(any(grepl("^[:digit:]{1}-[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Withdrawal)))
+    expect_false(any(grepl("^[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Withdrawal)))
+    expect_false(any(grepl("^[:alpha:]$", {{{dab}}}[["{{{dat}}}"]]$Withdrawal)))
   }
 })
