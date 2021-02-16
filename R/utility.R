@@ -103,7 +103,7 @@ new_author_orcid <- function(ORCID, role = NULL, email = NULL){
                         )
   # Adding ORCID number a posteriori to circumvent a desc package bug (#91)
   # desc::desc_add_orcid(ORCID, given = given, family = family)
-  # Spoiler alert : It doesnt work...
+  # Spoiler alert : It doesn't work...
 }
 
 #' Helper function for adding an author to the current package
@@ -145,7 +145,7 @@ new_author <- function(given = NULL, family = NULL, email = NULL, role = NULL,
                         )
   # Adding ORCID number a posteriori to circumvent a desc bug (#91)
   #desc::desc_add_orcid(ORCID, given = given, family = family)
-  # Spoiler alert : It doesnt work...
+  # Spoiler alert : It doesn't work...
 }
 
 #' Helper function for loading CRAN packages
