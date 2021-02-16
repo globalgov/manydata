@@ -60,7 +60,8 @@ Suggests:
     readr,
     readxl,
     knitr,
-    bibtex
+    bibtex,
+    rorcid
 Remotes: globalgov/qStates
 Encoding: UTF-8
 LazyData: true
