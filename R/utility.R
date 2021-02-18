@@ -139,25 +139,34 @@ new_author <- function(ORCID = NULL,
 # TODO: Fix issue #91 of desc package or find a workaround that allows us
 # to add multiple comments.
 
-#' Helper function for loading CRAN packages
+#' Helper function for loading packages
 #' 
-#' Helper function for loading and, if necessary, installing CRAN packages
-#' @param packages Character vector of packages to install from CRAN
+#' Helper function for loading and, if necessary, installing packages
+#' @param packages Character vector of packages to install from CRAN or GitHub
 #' @importFrom utils install.packages
-#' @return Loads and, if necessary, first installs CRAN packages
+#' @importFrom remotes install_github
+#' @importFrom stringr str_split
+#' @return Loads and, if necessary, first installs packages
 #' @details The function looks up required packages and loads the ones
-#' already installed, while installing and loading for packages not installed
+#' already installed, while installing and loading for packages not installed.
+#' For CRAN packages the package name is required as argument, 
+#' for GitHub username/repo is required as argument. 
 #' @examples
 #' depends("qData")
+#' depends("globalgov/qStates")
 #' @export
 depends <- function(packages){
   lapply(packages,
          function(x) {
-           if(!require(x, character.only = TRUE)) {
+           if(stringr::str_detect(x, "/")) {
+             remotes::install_github(x, dependencies = TRUE)
+             x <- stringr::str_split(x, "/")[[1]][2]
+             library(x, character.only = TRUE)
+           } else if(!require(x, character.only = TRUE)) {
              utils::install.packages(x, dependencies = TRUE)
+             library(x, character.only = TRUE)
            }
-           library(x, character.only = TRUE)
-         })
+         }) 
 }
 
 #' Helper function for keeping  objects from the global environment

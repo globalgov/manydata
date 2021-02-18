@@ -2,23 +2,26 @@
 % Please edit documentation in R/utility.R
 \name{depends}
 \alias{depends}
-\title{Helper function for loading CRAN packages}
+\title{Helper function for loading packages}
 \usage{
 depends(packages)
 }
 \arguments{
-\item{packages}{Character vector of packages to install from CRAN}
+\item{packages}{Character vector of packages to install from CRAN or GitHub}
 }
 \value{
-Loads and, if necessary, first installs CRAN packages
+Loads and, if necessary, first installs packages
 }
 \description{
-Helper function for loading and, if necessary, installing CRAN packages
+Helper function for loading and, if necessary, installing packages
 }
 \details{
 The function looks up required packages and loads the ones
-already installed, while installing and loading for packages not installed
+already installed, while installing and loading for packages not installed.
+For CRAN packages the package name is required as argument,
+for GitHub username/repo is required as argument.
 }
 \examples{
 depends("qData")
+depends("globalgov/qStates")
 }
