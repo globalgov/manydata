@@ -19,3 +19,6 @@ Helper function for loading and, if necessary, installing CRAN packages
 The function looks up required packages and loads the ones
 already installed, while installing and loading for packages not installed
 }
+\examples{
+depends("qData")
+}

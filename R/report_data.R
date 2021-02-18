@@ -9,7 +9,7 @@
 #' in a specific database of a qPackage. If Null and database is specified, returns database
 #' level metadata. Null by default.
 #' @return A dataframe with the data report
-#' @example
+#' @examples
 #' report_data(pkg = "qStates", database = "states", dataset = "COW")
 #' @export
 report_data <- function(pkg, database = NULL, dataset = NULL){

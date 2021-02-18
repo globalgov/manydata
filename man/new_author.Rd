@@ -38,3 +38,6 @@ Helper function for adding an author to the current package
 The function adds an author to the description file of the current
 package.
 }
+\examples{
+new_author("qData", "desc")
+}

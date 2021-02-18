@@ -70,8 +70,8 @@ qtemplate <- function(template,
 #' @return Adds a new author to the description file of the package
 #' @details The function adds an author to the description file of the current
 #' package.
-#' @example
-#' depends("qData", "desc")
+#' @examples
+#' new_author("qData", "desc")
 #' @export
 new_author <- function(ORCID = NULL,
                        role = NULL,
@@ -147,7 +147,7 @@ new_author <- function(ORCID = NULL,
 #' @return Loads and, if necessary, first installs CRAN packages
 #' @details The function looks up required packages and loads the ones
 #' already installed, while installing and loading for packages not installed
-#' @example
+#' @examples
 #' depends("qData")
 #' @export
 depends <- function(packages){
