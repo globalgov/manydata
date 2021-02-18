@@ -19,7 +19,7 @@ Helper function for loading and, if necessary, installing packages
 The function looks up required packages and loads the ones
 already installed, while installing and loading for packages not installed.
 For CRAN packages the package name is required as argument,
-for GitHub username/repo is required as argument.
+for GitHub username/repo are required as argument.
 }
 \examples{
 depends("qData")

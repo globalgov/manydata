@@ -6,12 +6,10 @@
 #' @param ORCID A vector of strings of all the ORCID numbers of the authors.
 #' Needs `{rorcid}` package to be installed. Takes precedence over manual
 #' entries if specified.
-#' @param packageAuthorName A vector giving the package
+#' @param AuthorName A vector giving the package
 #' author(s)' name(s)
-#' @param packageAuthorSurname A vector giving the package
+#' @param AuthorSurname A vector giving the package
 #' author(s)' surname(s)
-#' @param packageAuthorInstitution A vector giving the package
-#' author(s)' institution (only one per author)
 #' @param update A logical indicating whether existing files should be
 #' overwritten, by default TRUE.
 #' @param path A string, if missing default is path to the working directory
@@ -23,13 +21,15 @@
 #' @importFrom stringr str_split
 #' @examples
 #' \dontrun{
-#' setup_package("qStates", "James Hollway, Henrique Sposito")
+#' setup_package("qStates", AuthorName = c("James", "Henrique"), AuthorSurname = c("Hollway", "Sposito"))
+#' }
+#' \dontrun{
+#' setup_package("qStates", ORCID = c("0000-0002-8361-9647", "0000-0003-3420-6085"))
 #' }
 #' @export
 setup_package <- function(packageName = NULL,
-                          packageAuthorName = NULL,
-                          packageAuthorSurname = NULL,
-                          packageAuthorInstitution = NULL,
+                          AuthorName = NULL,
+                          AuthorSurname = NULL,
                           ORCID = NULL,
                           update = TRUE,
                           path = getwd()) {
@@ -51,7 +51,7 @@ setup_package <- function(packageName = NULL,
     }
   }
   
-  if (is.null(packageAuthorName) || is.null(packageAuthorSurname)){
+  if (is.null(AuthorName) || is.null(AuthorSurname)){
     if (file.exists(paste0(path, "/DESCRIPTION"))){
       packageAuthor <- read.dcf(paste0(path, "/DESCRIPTION"))[[4]]
       packageAuthor <- stringr::str_replace_all(packageAuthor, "\",\nfamily = \"", " ")
@@ -70,7 +70,7 @@ setup_package <- function(packageName = NULL,
   # Step 0.1 See if there are any ORCID numbers
   if(!is.null(ORCID)){
     # Check if rorcid package is installed.
-    if("rorcid" %in% rownames(installed.packages()) == FALSE){
+    if("rorcid" %in% rownames(utils::installed.packages()) == FALSE){
       stop("Please install the rorcid package before proceeding.")
     }
     if(length(ORCID)>5){
@@ -79,6 +79,8 @@ setup_package <- function(packageName = NULL,
     }
     # Authenticate the user, might be useful to add a stop here.
     rorcid::orcid_auth()
+    # ORCID <- c("0000-0001-5943-9059", "0000-0003-3420-6085")
+    # ORCID <- "0000-0001-5943-9059"
     # Get the data from the ORCID API
     personal <- rorcid::orcid_person(ORCID)
     employments <- rorcid::orcid_employments(ORCID)
@@ -93,15 +95,7 @@ setup_package <- function(packageName = NULL,
                                          [["given-names"]][["value"]]))
       familyv <- append(familyv, as.character(personal[[i]][["name"]]
                                  [["family-name"]][["value"]]))
-      # if(length(personal[[i]][["emails"]][["email"]]) != 0){
-      #   append(emailv, as.character(personal[[i]][["emails"]][["email"]][[1]]))
-      # }else{
-      #   append(emailv, email)
-      # } Wise to add it ? Or let authors modify by hand ?
-      commentv <- append(commentv, as.character(employments[[i]]
-                                [["affiliation-group"]][["summaries"]]
-                                [[1]]
-                                [["employment-summary.organization.name"]]))
+      commentv <- append(commentv, ORCID[i]) 
       assign(paste0("given", i), givenv[[i]])
       assign(paste0("family", i), familyv[[i]])
       assign(paste0("comment", i), commentv[[i]])
@@ -186,90 +180,86 @@ setup_package <- function(packageName = NULL,
     # Step one: ensure/create package/project structure
     # Add DESCRIPTION
     # Test that lengths are equal for name and surname vector
-    if(length(packageAuthorSurname) != length(packageAuthorSurname)){
+    if(length(AuthorSurname) != length(AuthorSurname)){
       stop("The number of author names you entered does not match 
            the number of surnames")
     }
-    if(length(packageAuthorName)>5){
+    if(length(AuthorName)>5){
       stop("Please specify a maximum of 5 authors. Add the rest by using our
             add_author() function.")
     }
-    if(length(packageAuthorName) == 1){
+    if(length(AuthorName) == 1){
       qtemplate("qPackage-DESC1.dcf",
                 "DESCRIPTION",
                 data = list(package = packageName,
-                            given1 = packageAuthorName[[1]],
-                            family1 = packageAuthorSurname[[1]],
-                            comment1 = packageAuthorInstitution[[1]]),
+                            given1 = AuthorName,
+                            family1 = AuthorSurname),
                 path = path)
     }
-    if(length(packageAuthorName) == 2){
+    if(length(AuthorName) == 2){
       qtemplate("qPackage-DESC2.dcf",
                 "DESCRIPTION",
                 data = list(package = packageName,
-                            given1 = packageAuthorName[[1]],
-                            family1 = packageAuthorSurname[[1]],
-                            comment1 = packageAuthorInstitution[[1]],
-                            given2 = packageAuthorName[[2]],
-                            family2 = packageAuthorSurname[[2]],
-                            comment2 = packageAuthorInstitution[[2]]),
+                            given1 = AuthorName[[1]],
+                            family1 = AuthorSurname[[1]],
+                            given2 = AuthorName[[2]],
+                            family2 = AuthorSurname[[2]]),
                 path = path)
     }
-    if(length(packageAuthorName) == 3){
+    if(length(AuthorName) == 3){
       qtemplate("qPackage-DESC3.dcf",
                 "DESCRIPTION",
                 data = list(package = packageName,
-                            given1 = packageAuthorName[[1]],
-                            family1 = packageAuthorSurname[[1]],
-                            comment1 = packageAuthorInstitution[[1]],
-                            given2 = packageAuthorName[[2]],
-                            family2 = packageAuthorSurname[[2]],
-                            comment2 = packageAuthorInstitution[[2]],
-                            given3 = packageAuthorName[[3]],
-                            family3 = packageAuthorSurname[[3]],
-                            comment3 = packageAuthorInstitution[[3]]),
+                            given1 = AuthorName[[1]],
+                            family1 = AuthorSurname[[1]],
+                            given2 = AuthorName[[2]],
+                            family2 = AuthorSurname[[2]],
+                            given3 = AuthorName[[3]],
+                            family3 = AuthorSurname[[3]]),
                 path = path)
     }
-    if(length(packageAuthorName) == 4){
+    if(length(AuthorName) == 4){
       qtemplate("qPackage-DESC4.dcf",
                 "DESCRIPTION",
                 data = list(package = packageName,
-                            given1 = packageAuthorName[[1]],
-                            family1 = packageAuthorSurname[[1]],
-                            comment1 = packageAuthorInstitution[[1]],
-                            given2 = packageAuthorName[[2]],
-                            family2 = packageAuthorSurname[[2]],
-                            comment2 = packageAuthorInstitution[[2]],
-                            given3 = packageAuthorName[[3]],
-                            family3 = packageAuthorSurname[[3]],
-                            comment3 = packageAuthorInstitution[[3]],
-                            given4 = packageAuthorName[[4]],
-                            family4 = packageAuthorSurname[[4]],
-                            comment4 = packageAuthorInstitution[[4]]),
+                            given1 = AuthorName[[1]],
+                            family1 = AuthorSurname[[1]],
+                            given2 = AuthorName[[2]],
+                            family2 = AuthorSurname[[2]],
+                            given3 = AuthorName[[3]],
+                            family3 = AuthorSurname[[3]],
+                            given4 = AuthorName[[4]],
+                            family4 = AuthorSurname[[4]]),
                 path = path)
     }
-    if(length(packageAuthorName) == 5){
+    if(length(AuthorName) == 5){
       qtemplate("qPackage-DESC5.dcf",
                 "DESCRIPTION",
                 data = list(package = packageName,
-                            given1 = packageAuthorName[[1]],
-                            family1 = packageAuthorSurname[[1]],
-                            comment1 = packageAuthorInstitution[[1]],
-                            given2 = packageAuthorName[[2]],
-                            family2 = packageAuthorSurname[[2]],
-                            comment2 = packageAuthorInstitution[[2]],
-                            given3 = packageAuthorName[[3]],
-                            family3 = packageAuthorSurname[[3]],
-                            comment3 = packageAuthorInstitution[[3]],
-                            given4 = packageAuthorName[[4]],
-                            family4 = packageAuthorSurname[[4]],
-                            comment4 = packageAuthorInstitution[[4]],
-                            given5 = packageAuthorName[[5]],
-                            family5 = packageAuthorSurname[[5]],
-                            comment5 = packageAuthorInstitution[[5]]),
+                            given1 = AuthorName[[1]],
+                            family1 = AuthorSurname[[1]],
+                            given2 = AuthorName[[2]],
+                            family2 = AuthorSurname[[2]],
+                            given3 = AuthorName[[3]],
+                            family3 = AuthorSurname[[3]],
+                            given4 = AuthorName[[4]],
+                            family4 = AuthorSurname[[4]],
+                            given5 = AuthorName[[5]],
+                            family5 = AuthorSurname[[5]]),
                 path = path)
     }
   }
+  
+  # Little helper combining author name and surname to form a packageAuthor 
+  # variable for the rest of the functions.
+  if(!is.null(ORCID)){
+    authors <- as.vector(mapply(stringr::str_c, givenv, familyv, sep = " "))
+    packageAuthor <- paste0(authors, collapse = ", ")
+  } else {
+    authors <- as.vector(mapply(stringr::str_c, AuthorName, AuthorSurname, sep = " "))
+    packageAuthor <- paste0(authors, collapse = ", ")
+  }
+  
   
   usethis::ui_done("Added DESCRIPTION file. Modify if necessary.")
   usethis::ui_done("Check out our new_author function if you need to add

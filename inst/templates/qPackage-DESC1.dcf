@@ -2,8 +2,8 @@ Package: {{{package}}}
 Title: A Package for the qData Ecosystem
 Version: 0.0.1
 Authors@R: 
-    c(person(given = "{{{given}}}",
-             family = "{{{family}}}",
+    c(person(given = "{{{given1}}}",
+             family = "{{{family1}}}",
              role = c("cre", "aut", "ctb", "dtc")))
 Description: Collection, correction, and connection.
 License: CC BY 4.0

@@ -6,9 +6,8 @@
 \usage{
 setup_package(
   packageName = NULL,
-  packageAuthorName = NULL,
-  packageAuthorSurname = NULL,
-  packageAuthorInstitution = NULL,
+  AuthorName = NULL,
+  AuthorSurname = NULL,
   ORCID = NULL,
   update = TRUE,
   path = getwd()
@@ -18,14 +17,11 @@ setup_package(
 \item{packageName}{A string giving the desired name of the package,
 must start with "q"}
 
-\item{packageAuthorName}{A vector giving the package
+\item{AuthorName}{A vector giving the package
 author(s)' name(s)}
 
-\item{packageAuthorSurname}{A vector giving the package
+\item{AuthorSurname}{A vector giving the package
 author(s)' surname(s)}
-
-\item{packageAuthorInstitution}{A vector giving the package
-author(s)' institution (only one per author)}
 
 \item{ORCID}{A vector of strings of all the ORCID numbers of the authors.
 Needs \code{{rorcid}} package to be installed. Takes precedence over manual
@@ -48,6 +44,9 @@ folder structures required for a qData-consistent data package.
 }
 \examples{
 \dontrun{
-setup_package("qStates", "James Hollway, Henrique Sposito")
+setup_package("qStates", AuthorName = c("James", "Henrique"), AuthorSurname = c("Hollway", "Sposito"))
+}
+\dontrun{
+setup_package("qStates", ORCID = c("0000-0002-8361-9647", "0000-0003-3420-6085"))
 }
 }
