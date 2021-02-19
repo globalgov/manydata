@@ -51,6 +51,8 @@ setup_package <- function(packageName = NULL,
     }
   }
   
+  ifelse (!startsWith(packageName, "q"), stop("Package name must start with a 'q'"), packageName())
+  
   if (is.null(AuthorName) || is.null(AuthorSurname)){
     if (file.exists(paste0(path, "/DESCRIPTION"))){
       packageAuthor <- read.dcf(paste0(path, "/DESCRIPTION"))[[4]]
@@ -181,12 +183,10 @@ setup_package <- function(packageName = NULL,
     # Add DESCRIPTION
     # Test that lengths are equal for name and surname vector
     if(length(AuthorSurname) != length(AuthorSurname)){
-      stop("The number of author names you entered does not match 
-           the number of surnames")
+      stop("The number of author names you entered does not match the number of surnames")
     }
     if(length(AuthorName)>5){
-      stop("Please specify a maximum of 5 authors. Add the rest by using our
-            add_author() function.")
+      stop("Please specify a maximum of 5 authors. Add the rest by using our add_author() function.")
     }
     if(length(AuthorName) == 1){
       qtemplate("qPackage-DESC1.dcf",
