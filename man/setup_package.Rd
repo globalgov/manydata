@@ -44,9 +44,11 @@ folder structures required for a qData-consistent data package.
 }
 \examples{
 \dontrun{
-setup_package("qStates", AuthorName = c("James", "Henrique"), AuthorSurname = c("Hollway", "Sposito"))
+setup_package("qStates", AuthorName = c("James", "Henrique"), 
+AuthorSurname = c("Hollway", "Sposito"))
 }
 \dontrun{
-setup_package("qStates", ORCID = c("0000-0002-8361-9647", "0000-0003-3420-6085"))
+setup_package("qStates", 
+ORCID = c("0000-0002-8361-9647", "0000-0003-3420-6085"))
 }
 }

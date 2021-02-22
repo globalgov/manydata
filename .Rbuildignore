@@ -7,3 +7,4 @@
 ^docs$
 ^pkgdown$
 ^httr-oauth
+^\.httr-oauth$

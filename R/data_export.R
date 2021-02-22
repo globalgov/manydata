@@ -20,7 +20,8 @@
 #' @importFrom usethis ui_done
 #' @examples
 #' \dontrun{
-#' export_data(COW, database = "states", URL = "https://correlatesofwar.org/data-sets/state-system-membership")
+#' export_data(COW, database = "states", 
+#' URL = "https://correlatesofwar.org/data-sets/state-system-membership")
 #' }
 #' @export
 export_data <- function(..., database, URL) {
