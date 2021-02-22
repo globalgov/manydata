@@ -1,16 +1,25 @@
-# qData 0.3.3
+## Package
 
-##Package
-
-* Closed #106 by making `setup_package()` accept more than two authors as arguments
-   * Closed #119 by updating `setup_package()` function so that it adds LICENSE file to new q Packages 
-* Closed #90 by adding a `new_author()` function that adds new package contributors to description file
-* Fixed #117 by making the `get_packages()` work with package name only for q Packages part of the globalgov organization
-   * Closed #79 by  updating `get_packages()` to accept listed number for package as arguments
-* Closed #103 by adding GitHub lookup for `depends()` function
-* Closed #115 by updating README templates for new q Packages to include more sections
-* Closed #116 by adding more tests for new q Package templates for standardizing NA formats
 * Closed #122 by setting package logo to the correct aspect ratio
+
+## Collect
+
+* Updated `setup_package()` to make it easier to set up collaborative qPackages
+  * Closed #106 by making `setup_package()` accept more than two authors as arguments
+  * Closed #119 by updating `setup_package()` function so that it adds LICENSE file to new qPackages 
+  * Closed #90 by adding a `new_author()` function that adds new package contributors to description file
+* Closed #115 by updating README templates for new qPackages to include more sections
+
+## Correct
+
+* Closed #116 by adding more tests for new qPackage templates for standardizing NA formats
+
+## Connect
+
+* Updated `get_packages()` to make it easier to install globalgov qPackages
+  * Fixed #117 by making the `get_packages()` work with package name only for qPackages part of the globalgov organization
+  * Closed #79 by  updating `get_packages()` to accept listed number for package as arguments
+  * Closed #103 by adding GitHub lookup for `depends()` function
 * Updated user and developer vignettes to be compatible with these changes
 
 # qData 0.3.2
