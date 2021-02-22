@@ -48,7 +48,6 @@ report_data <- function(pkg, database = NULL, dataset = NULL){
                         NVar = ncol(ds),
                         MinDate = min(ds$Beg),
                         MaxDate = max(ds$End),
-                        URL = attr(ds, which = "source_link"),
                         Reference = paste0(utils::capture.output(print(attr(ds, which = "source_bib"))), sep = "", collapse = "")
       )
       tabl2 <- tabl %>%
