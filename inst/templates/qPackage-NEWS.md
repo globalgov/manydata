@@ -3,13 +3,12 @@
 * Set up {{{package}}} package using qData::setup_package()
   * Added `DESCRIPTION` file
   * Added `R` folder
-  * Added `License` file
-  * Added `Namespace` file
-  * Added `News` file
+  * Added `LICENSE` file
+  * Added `NAMESPACE` file
+  * Added `NEWS` file
   * Added `README` file
-  * Added `NAmespace` file
   * Added `.github` folder
-  * Added `CODE_OF_CoNDUCT` file
+  * Added `CODE_OF_CONDUCT` file
   * Added `CONTRIBUTING` file
   * Added `pull_request_template` file
   * Added `ISSUE_TEMPLATE` folder
@@ -22,4 +21,3 @@
   * Added `tests` folder
   * Added `testthat` folder
   * Added `testthat` file
-  * Added `NAmespace` file

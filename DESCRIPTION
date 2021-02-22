@@ -1,6 +1,7 @@
 Package: qData
 Title: An R portal for ensembled global governance data
-Version: 0.3.2
+Version: 0.3.3
+Date: 2021-02-22
 Authors@R:
     c(person(given = "James",
              family = "Hollway",
@@ -18,7 +19,7 @@ Authors@R:
       person(given = "Esther",
              family = "Peev",
              role = "ctb",
-             comment = "IHEID"))
+             comment = c("IHEID", ORCID = "0000-0002-9678-2777")))
 Description: This is the core package for the qData ecosystem.
     It includes functions to help researchers work with and contribute to 
     event datasets on global governance.
@@ -60,7 +61,8 @@ Suggests:
     readr,
     readxl,
     knitr,
-    bibtex
+    bibtex,
+    rorcid
 Remotes: globalgov/qStates
 Encoding: UTF-8
 LazyData: true

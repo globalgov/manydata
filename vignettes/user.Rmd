@@ -38,6 +38,29 @@ get_packages()
 In the future, this function will report more details about the datasets
 included in each package and their provenance.
 
+## Understanding data
+
+Packages in the `{qData}` ecosystem have the advantage to facilitate comparison 
+and analysis of multiple datasets in a specific domain of global governance. 
+This is possible with a particular coding system which follows the same 
+principles across the different packages. 
+
+In `{qStates}` for example, all datasets from the states database contain 
+variables named `Beg`and `End` which represent the beginning and ending date 
+of state tenure. 
+In `{qEnviron}`, the agreements database also have the `Beg` and `End` variables 
+but those are attributed to treaties (signature and term dates). For the memberships 
+database, `Beg` and `End` represent when a relationship between states and an 
+agreement starts (either signature, ratification or entry into force) and 
+ends (either withdrawal or term).
+
+This specific variable name allows the comparison across the datasets which 
+have different sources but same informations. It enables to point out the 
+recurrence, difference or absence of observations between the datasets and extract
+more robust data when researching on a particular governance domain. 
+
+## Loading data
+
 For now, let us say that we wish to download the `{qStates}` package,
 which offers a set of datasets related to state actors in global
 governance. We can download and install the latest release version of
@@ -47,8 +70,6 @@ specifying which package we want to 'get':
 ```{r, eval=FALSE}
 get_packages("globalgov/qStates")
 ```
-
-## Loading data
 
 Once the qpackage has been downloaded and installed, we are free to work
 with the data it contains. This `{qStates}` package includes several

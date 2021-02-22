@@ -7,7 +7,7 @@
 get_packages(pkg)
 }
 \arguments{
-\item{pkg}{A character vector of package names}
+\item{pkg}{A character vector of package names or number of a package}
 }
 \value{
 If no package name is provided, this function prints a table (tibble)
@@ -15,8 +15,8 @@ to the console with details on packages that are currently available within
 the qData ecosystem.
 This includes the name and description of the package,
 the latest installed and release version number, and the latest release date,
-and a string of contributors.
-
+and a string of contributors. It also include a list of numbers which orders
+the package and can be used to load the respective package instead of the name.
 If one or more package names are provided, these will be installed from Github.
 }
 \description{
