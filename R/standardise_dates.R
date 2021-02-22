@@ -50,10 +50,10 @@ standardise_dates <- standardize_dates <- function(...){
   dates <- treat_future_dates(dates)
   
   # Step six: insert range on incomplete year only dates
-  dates <- treat_incomplete_dates(dates)
+  # dates <- treat_incomplete_dates(dates)
   
   # Step seven: dealing with uncertain dates and date ranges
-  dates <- treat_range_dates(dates)
+  # dates <- treat_range_dates(dates)
   
   dates <- lubridate::as_date(dates)
   dates
