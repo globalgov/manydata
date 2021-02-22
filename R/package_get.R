@@ -86,23 +86,23 @@ get_packages <- function(pkg) {
       installed <- sapply(name, function(x) as.character(utils::packageVersion(x)))
     }
     
-    get_contributors <- function(full_name){
-      contribs <- paste0("https://api.github.com/repos/", full_name, "/contributors")
-      if(length(contribs)==1){
-        contribs <- httr::GET(contribs)
-        contribs <- suppressMessages(httr::content(contribs, type = "text"))
-        contribs <- jsonlite::fromJSON(contribs, flatten = TRUE)$login
-        contribs <- paste(contribs, collapse = "\n")
-      } else {
-        contribs <- sapply(contribs, function(x){
-          x <- httr::GET(x)
-          x <- suppressMessages(httr::content(x, type = "text"))
-          x <- jsonlite::fromJSON(x, flatten = TRUE)$login
-          x <- paste(x, collapse = ", ")
-        })
-      }
-      unlist(contribs)
-    }
+    # get_contributors <- function(full_name){
+    #   contribs <- paste0("https://api.github.com/repos/", full_name, "/contributors")
+    #   if(length(contribs)==1){
+    #     contribs <- httr::GET(contribs)
+    #     contribs <- suppressMessages(httr::content(contribs, type = "text"))
+    #     contribs <- jsonlite::fromJSON(contribs, flatten = TRUE)$login
+    #     contribs <- paste(contribs, collapse = "\n")
+    #   } else {
+    #     contribs <- sapply(contribs, function(x){
+    #       x <- httr::GET(x)
+    #       x <- suppressMessages(httr::content(x, type = "text"))
+    #       x <- jsonlite::fromJSON(x, flatten = TRUE)$login
+    #       x <- paste(x, collapse = ", ")
+    #     })
+    #   }
+    #   unlist(contribs)
+    # }
     
     repos <- lapply(orgs, function(x){
       repo <- paste0("https://api.github.com/users/", x, "/repos")
@@ -114,7 +114,7 @@ get_packages <- function(pkg) {
       repo$installed <- get_installed_release(repo$name)
       repo$latest <- get_latest_release(repo$full_name)
       repo$updated <- anytime::anydate(get_latest_date(repo$full_name))
-      repo$contributors <- get_contributors(repo$full_name)
+      # repo$contributors <- get_contributors(repo$full_name)
       repo <- tibble::as_tibble(repo)
     })
     
