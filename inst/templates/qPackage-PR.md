@@ -6,12 +6,12 @@ List any dependencies that are required for this change,
 indicating whether this is a major (breaking), minor, or patch change.
 Please also indicate if these are package changes, data changes, or both.  
 
-## Package changes
+## Package
 
 * Fixes #(issue no.)
 * Closes #(issue no.)
 
-## Data changes
+## Data
 
 * Fixes #(issue no.)
 * Closes #(issue no.)
