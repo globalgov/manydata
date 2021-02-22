@@ -39,5 +39,7 @@ The function adds an author to the description file of the current
 package.
 }
 \examples{
+\dontrun{
 new_author("qData", "desc")
+}
 }

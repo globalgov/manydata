@@ -41,6 +41,9 @@ for use in the qData ecosystem.
 }
 \examples{
 \dontrun{
-TODO
+qtemplate("test_states.R",
+save_as = fs::path("tests", "testthat", paste0("test_", dataset_name, ".R")),
+open = FALSE,
+path = getwd())
 }
 }

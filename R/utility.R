@@ -14,7 +14,10 @@
 #' @importFrom whisker whisker.render
 #' @examples
 #' \dontrun{
-#' TODO
+#' qtemplate("test_states.R",
+#' save_as = fs::path("tests", "testthat", paste0("test_", dataset_name, ".R")),
+#' open = FALSE,
+#' path = getwd())
 #' }
 qtemplate <- function(template,
                       save_as = template,
@@ -71,7 +74,9 @@ qtemplate <- function(template,
 #' @details The function adds an author to the description file of the current
 #' package.
 #' @examples
+#' \dontrun{
 #' new_author("qData", "desc")
+#' }
 #' @export
 new_author <- function(ORCID = NULL,
                        role = NULL,
