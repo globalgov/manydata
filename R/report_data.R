@@ -2,15 +2,16 @@
 #' 
 #' To quickly report metadata on the databases and datasets within a specific qPackage
 #' @param pkg character string of the qPackage to report data on. Mandatory input.
-#' @param database character string of the qPackage to report data a specific database in a
-#' qPackage. If Null, report_data returns a summary of all databases in the qPackage.
-#' Null by default.
+#' @param database vector of character strings of the qPackage to report data a 
+#' specific database in a qPackage. If Null, report_data returns a summary 
+#' of all databases in the qPackage. Null by default.
 #' @param dataset character string of the qPackage to report data on a specific dataset
 #' in a specific database of a qPackage. If Null and database is specified, returns database
 #' level metadata. Null by default.
 #' @return A dataframe with the data report
 #' @examples
 #' report_data(pkg = "qStates", database = "states", dataset = "COW")
+#' report_data(pkg = "qEnviron", database = c("agreements", "memberships"), dataset = "COW")
 #' @export
 report_data <- function(pkg, database = NULL, dataset = NULL){
   pkg_path <- find.package(pkg)
@@ -22,19 +23,23 @@ report_data <- function(pkg, database = NULL, dataset = NULL){
       #report_data("pkg", "database")
       tmp_env <- new.env()
       lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
-      db <- get(database, envir = tmp_env)
-      tabl <- rbind(purrr::map(db, function(x) length(unique(x$ID))),
-                        #purrr::map(db, function(x) paste0(sum(is.na(x))/prod(dim(x)), " %")),
-                        purrr::map(db, function(x) nrow(x)),
-                        purrr::map(db, function(x) ncol(x)),
-                        purrr::map(db, function(x) as.character(min(x$Beg))),
-                        purrr::map(db, function(x) as.character(max(x$Beg))),
-                        purrr::map(db, function(x) attr(x, which = "source_link")),
-                        purrr::map(db, function(x) paste0(utils::capture.output(print(attr(x, which = "source_bib"))), sep = "", collapse = "")))
-      tabl1 <- tabl %>% 
-        t()
-      colnames(tabl1) <- c("Unique ID", "Rows", "Columns", "Beg", "End", "URL", "Reference")
-      tabl1
+      dbs <-  mget(ls(tmp_env), tmp_env)
+      dbs <- dbs[database]
+      for (i in c(1:length(dbs))) {
+        assign(paste0("tabl", i), rbind(purrr::map(dbs[[i]], function(x) length(unique(x$ID))),
+                                        #purrr::map(dbs, function(x) paste0(sum(is.na(x))/prod(dim(x)), " %")),
+                                        purrr::map(dbs[[i]], function(x) nrow(x)),
+                                        purrr::map(dbs[[i]], function(x) ncol(x)),
+                                        purrr::map(dbs[[i]], function(x) as.character(min(x$Beg))),
+                                        purrr::map(dbs[[i]], function(x) as.character(max(x$Beg))),
+                                        purrr::map(dbs[[i]], function(x) attr(x, which = "source_link")),
+                                        purrr::map(dbs[[i]], function(x) paste0(utils::capture.output(print(attr(x, which = "source_bib"))), sep = "", collapse = ""))))
+        assign(paste0("tabl", i), t(get(paste0("tabl", i))))
+        tmp <- get(paste0("tabl", i))
+        colnames(tmp) <- c("Unique ID", "Rows", "Columns", "Beg", "End", "URL", "Reference")
+        assign(paste0("tabl", i), tmp)
+        print(get(paste0("tabl", i)))
+      }
     } else {
       #report_data("pkg", "database", "dataset")
       tmp_env <- new.env()
