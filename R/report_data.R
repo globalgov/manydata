@@ -17,7 +17,6 @@ report_data <- function(pkg, database = NULL, dataset = NULL){
   data_path <- file.path(pkg_path, "data")
   #selcts all dbs
   pkg_dbs <- unname(unlist(readRDS(file.path(data_path, "Rdata.rds"))))
-  pkg_dbs
   if(!is.null(database)){
     if(is.null(dataset)){
       #report_data("pkg", "database")
@@ -36,7 +35,7 @@ report_data <- function(pkg, database = NULL, dataset = NULL){
         t()
       colnames(tabl1) <- c("Unique ID", "Rows", "Columns", "Beg", "End", "URL", "Reference")
       tabl1
-    }else{
+    } else {
       #report_data("pkg", "database", "dataset")
       tmp_env <- new.env()
       lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
@@ -55,25 +54,25 @@ report_data <- function(pkg, database = NULL, dataset = NULL){
       colnames(tabl2) <- dataset
       tabl2
     }
-  }else{
+  } else {
     #report_data("pkg")
     tmp_env <- new.env()
     lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
-    dbs <- get(pkg_dbs, envir = tmp_env)
-    tabl <- rbind(purrr::map(dbs, function(x) length(unique(x$ID))),
-                      #purrr::map(dbs, function(x) paste0(sum(is.na(x))/prod(dim(x)), " %")),
-                      purrr::map(dbs, function(x) nrow(x)),
-                      purrr::map(dbs, function(x) ncol(x)),
-                      purrr::map(dbs, function(x) as.character(min(x$Beg))),
-                      purrr::map(dbs, function(x) as.character(max(x$Beg))),
-                      purrr::map(dbs, function(x) attr(x, which = "source_link")),
-                      purrr::map(dbs, function(x) paste0(utils::capture.output(print(attr(x, which = "source_bib"))), sep = "", collapse = "")))
-    
-    tabl3 <- tabl %>%
-      t()
-    
-    colnames(tabl3) <- c("Unique ID", "Rows", "Columns", "Beg", "End", "URL", "Reference")
-    tabl3
-    
+    dbs <-  mget(ls(tmp_env), tmp_env)
+    for (i in c(1:length(dbs))) {
+      assign(paste0("tabl", i), rbind(purrr::map(dbs[[i]], function(x) length(unique(x$ID))),
+                    #purrr::map(dbs, function(x) paste0(sum(is.na(x))/prod(dim(x)), " %")),
+                    purrr::map(dbs[[i]], function(x) nrow(x)),
+                    purrr::map(dbs[[i]], function(x) ncol(x)),
+                    purrr::map(dbs[[i]], function(x) as.character(min(x$Beg))),
+                    purrr::map(dbs[[i]], function(x) as.character(max(x$Beg))),
+                    purrr::map(dbs[[i]], function(x) attr(x, which = "source_link")),
+                    purrr::map(dbs[[i]], function(x) paste0(utils::capture.output(print(attr(x, which = "source_bib"))), sep = "", collapse = ""))))
+      assign(paste0("tabl", i), t(get(paste0("tabl", i))))
+      tmp <- get(paste0("tabl", i))
+      colnames(tmp) <- c("Unique ID", "Rows", "Columns", "Beg", "End", "URL", "Reference")
+      assign(paste0("tabl", i), tmp)
+      print(get(paste0("tabl", i)))
+    }
   }
 }
