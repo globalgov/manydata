@@ -10,7 +10,7 @@ test_that("package name must start with the letter q", {
 })
 
 # test_that("setup_package has expected file structure", {
-#   qTest <- create_local_package()
+#   qData:::create_test_package()
 #   expect_true(file.exists("R"))
 #   expect_true(file.exists("DESCRIPTION"))
 #   expect_true(file.exists("LICENSE"))

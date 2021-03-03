@@ -6,7 +6,7 @@ test_that("url is valid", {
 })
 
 # test_that("export_data() stores create data folder", {
-#    create_local_package()
+#    qData:::create_test_package()
 #    export_data("T")
 #    expect_true(file.exists("data"))
 #    expect_true(file.exists("data/T"))
