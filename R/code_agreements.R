@@ -6,7 +6,7 @@
 #' @param uID Unique agreement ID
 #' @param lineage Whether agreement is part of a lineage of agreements
 #' @export
-code_agreements <- function(dataset, title, beg, parties, topic, type, uID, lineage) {
+code_agreements <- function(dataset, title, beg, parties, topic, type, uID, line) {
   
   if(missing(dataset)){
     stop("Please declare the dataset.")
@@ -87,10 +87,12 @@ code_agreements <- function(dataset, title, beg, parties, topic, type, uID, line
 # }
 }
    
-  #Step six: identify if agreement is part of a lineage
-  lineage <- case_when(
+  #Step six: identify if agreement is part of a family
+  line <- case_when(
     # should order observations with the same unique IDs as part of the same lineage
     # maybe this can be done according to date in beg
+    # for lineage arguments beyond parts of the same treaty/agreement, 
+    # a separate function may be warranted. 
   )
   
   # Step seven: add items together correctly   
