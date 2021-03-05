@@ -29,15 +29,25 @@ code_agreements <- function(dataset, title, beg, parties, topic, type, uID, line
   parties[!grepl("-", parties)] <- NA
   
   # Step three: code agreement topic
-  # Added some topic abbreviations but other categories still need to be added
+  # Categories and key words still need some adjustements
   topic <- case_when(
-    grepl("Waste|waste|disposal|pollut|toxic|hazard", qID, ignore.case = T) ~ "WAS",
+    grepl("Waste|disposal|pollut|toxic|hazard", qID, ignore.case = T) ~ "WAS",
     grepl("species|habitat|ecosystems|biological diversity|genetic resources|biosphere", qID, ignore.case = T) ~ "SPE",
     grepl("air|atmos|climate|outer space|ozone|emissions", qID, ignore.case = T) ~ "AIR",
     grepl("water|freshwater|river|rhine|hydro|basin|drought", qID, ignore.case = T) ~ "WAT",
     grepl("soil|wetland|desert|erosion", qID, ignore.case = T) ~ "SOI",
     grepl("nature|environment|biodiversity|flora|plant|fruit|vegetable|seed|forest|tree", qID, ignore.case = T) ~ "BIO",
+    grepl("fish|salmon|herring|tuna|aquaculture|mariculture|molluscs", qID, ignore.case = T) ~ "FIS",
+    grepl("agricultur|food|livestock|crop|irrigation|cattle|meat|farm|cultivate", qID, ignore.case = T) ~ "AGR",
+    grepl("culture|scien|techno|trade|research|exploration|navigation|data|information", qID, ignore.case = T) ~ "BOT",
+    grepl("energy|nuclear|oil|mining|gas|hydro|power", qID, ignore.case = T) ~ "NUC",
+    grepl("accidents", qID, ignore.case = T) ~ "ACC",
+    grepl("chemicals, pesticides", qID, ignore.case = T) ~ "CHE",
+    grepl("climate", qID, ignore.case = T) ~ "CLC",
+    grepl("noise", qID, ignore.case = T) ~ "NOI",
   )
+  # Define the category OTH when no topic is found
+  topic <- stringr::str_replace_na(topic, "OTH")
   
   # Step four: code agreement type 
   type <- case_when(
@@ -48,6 +58,18 @@ code_agreements <- function(dataset, title, beg, parties, topic, type, uID, line
     # A stands for agreements
     grepl("agreement|arrangement|accord|acuerdo|bilateral co|technical co|treat|trait|tratado|convention|convencion|convenio|constitution|charte|instrument|statute|estatuto|provisional understanding|provisions relating|übereinkunft", v, ignore.case = T) ~ "A",
     grepl("Act|Declaration|Covenant|Scheme|Government Of|Law", qID, ignore.case = T) ~ "A",
+    # X stands for exchanges of notes
+    grepl("Exchange|Letters|Notas", qID, ignore.case = T) ~ "X",
+    # Y stands for memorandum of understanding
+    grepl("Memorandum|MemorÃ¡ndum|Principles of Conduct|Code of Conduct", qID, ignore.case = T) ~ "Y",
+    # W stands for resolutions
+    grepl("Agreed Measures|Agreed Record|Consensus|Conclusions|Decision|Directive|Regulation|Reglamento|Resolution|Rules|Recommendation", qID, ignore.case = T) ~ "W",
+    # Q stands for minutes
+    grepl("Minute|Adjustment|First Session Of|First Meeting Of|Commission|Committee|Center", qID, ignore.case = T) ~ "Q",
+    # V stands for declarations
+    grepl("Statement|Communiq|Comminiq|Joint Declaration|Proclamation|Administrative Order", qID, ignore.case = T) ~ "V",
+    # S stands for strategies
+    grepl("Strategy|Plan|Program|Improvement|Project|Study|Working Party|Working Group", qID, ignore.case = T) ~ "S",
   )
   
   #step five: give the observation a unique ID
