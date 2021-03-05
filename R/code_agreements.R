@@ -6,7 +6,7 @@
 #' @param uID Unique agreement ID
 #' @param lineage Whether agreement is part of a lineage of agreements
 #' @export
-code_agreements <- function(dataset, title, beg, parties, topic, type, uID, line) {
+code_agreements <- function(dataset, title, beg, parties, topic, type, uID) {
   
   if(missing(dataset)){
     stop("Please declare the dataset.")
@@ -50,13 +50,14 @@ code_agreements <- function(dataset, title, beg, parties, topic, type, uID, line
   topic <- stringr::str_replace_na(topic, "OTH")
   
   # Step four: code agreement type 
+  # Categories and key words still need some adjustments
   type <- case_when(
     # E stands for amendment
     grepl("amend|modify|extend|proces-verbal", qID, ignore.case = T) ~ "E",
     # P stands for protocols
     grepl("protocol|additional|subsidiary|supplementary|complÃ©mentaire|complementar|complementario", qID, ignore.case = T) ~ "P",
     # A stands for agreements
-    grepl("agreement|arrangement|accord|acuerdo|bilateral co|technical co|treat|trait|tratado|convention|convencion|convenio|constitution|charte|instrument|statute|estatuto|provisional understanding|provisions relating|übereinkunft", v, ignore.case = T) ~ "A",
+    grepl("agreement|arrangement|accord|acuerdo|bilateral co|technical co|treat|trait|tratado|convention|convencion|convenio|constitution|charte|instrument|statute|estatuto|provisional understanding|provisions relating|übereinkunft", qID, ignore.case = T) ~ "A",
     grepl("Act|Declaration|Covenant|Scheme|Government Of|Law", qID, ignore.case = T) ~ "A",
     # X stands for exchanges of notes
     grepl("Exchange|Letters|Notas", qID, ignore.case = T) ~ "X",
@@ -72,12 +73,99 @@ code_agreements <- function(dataset, title, beg, parties, topic, type, uID, line
     grepl("Strategy|Plan|Program|Improvement|Project|Study|Working Party|Working Group", qID, ignore.case = T) ~ "S",
   )
   
+  ################# CHANGES FROM HERE #############################
+  
   #step five: give the observation a unique ID
-  uID <- function(qID) {
-# should detect similarities based and give same unique IDs to similar obs
-#     
-#    uID <- stringr::str_remove_all(beg, "-")
-#     
+    # should detect similarities based and give same unique IDs to similar obs
+  uID <- stringr::str_remove_all(beg, "-")
+  
+# step six: add items together correctly. the XXX is treated in the next step. 
+  # The following coding assumes that any other types than A (= Agreement) are linked to another treaty; this coding
+  # would need to be adapted for declarations, MoU, minutes, etc
+  out <- ifelse((is.na(parties) & (type == "A")), paste0(topic, "_", uID),
+                (ifelse((is.na(parties) & (type != "A")), paste0(topic, "_", "XXX", "-", type, uID),
+                        (ifelse((!is.na(parties) & (type == "A")), paste0(parties, "_", topic, uID),
+                                (ifelse((!is.na(parties) & (type != "A")), paste0(parties, "_", topic, "XXX", "-", type, uID), NA)))))))
+  
+  out <- stringr::str_replace_all(out, "NA_", NA_character_)
+  cat(sum(is.na(out)), "entries were not matched at all.\n")
+  # cat(sum(stringr::str_detect(out, "^[0-9]")), " entries were only coded by date.\n")
+  cat("There were", sum(duplicated(out, incomparables = NA)), "duplicated IDs.\n")
+  qID <- out
+  
+  # step seven: detect treaties from the same 'family' (the XXX should be replaced by the uID of the main treaty)
+  # this step would require to use fuzzyjoin functions to detect treaties from same family.
+  # this step is commented out as the coding are still on development.
+  
+  #    if(maybe(qID) == TRUE) {
+  #       menu(c("Yes", "No"), title = "Are these the same treaty/agreement or amendments or protocols to the same treaty/agreement?")
+  #       if("Yes") {
+  #         qID <- same_agreements(qID) 
+  #         } else qID <- qID
+  #       }
+  #     
+  #     case_when(
+  #       # same agreements same uIDs
+  #       # obs with A will be reference
+  #     ) 
+  #     
+  #     case_when(
+  #       # user decided on ID
+  #     )
+  # }
+  # 
+  # To detect treaty from the same family, the dist. range should be adapted ("Protocol to the " = 16, 
+  # "Amendment to the " = 17, etc)
+  #
+  # same_agreements <- function(x) {
+  #   x <- as.factor(x)
+  #   matches <- lapply(levels(x), agrep, x=levels(x),fixed=TRUE, value=FALSE)
+  #   levels(x) <- levels(x)[unlist(lapply(matches, function(x) x[0:10]))]
+  #   as.character(x)
+  # }
+  #     
+  # maybe <- function(x) {
+  #   x <- as.factor(x)
+  #   matches <- lapply(levels(x), agrep, x=levels(x),fixed=TRUE, value=FALSE)
+  #   levels(x) <- levels(x)[unlist(lapply(matches, function(x) x[10:20]))]
+  #   as.character(x)
+  # }
+  # }
+  
+  # Step eight: add new qID column to data
+  cbind(dataset, qID)
+  
+  qID 
+  
+  
+  ###################################### CHANGES UNTIL HERE #################################
+  
+  
+  # if(is.na(parties)) {
+  #   if(type == "A") {
+  #     out <- paste0(topic, "_", uID)  
+  #   } else {
+  #     out <- paste(topic, "_", "XXX", "-", type, "-", uID)
+  #   }
+  # } else {
+  #   if(type == "A") {
+  #     out <- paste0(parties, "_", topic, "_", uID)  
+  #   } else {
+  #     out <- paste0(parties, "_", topic, "_", "XXX", "-", type, uID)
+  #   }
+  # }
+  # 
+  
+  #Step five: identify if agreement is part of a family
+#  
+  # line <- function(qID){
+    
+     # should order observations with the same unique IDs as part of the same lineage
+    # maybe this can be done according to date in beg
+    # pay attention to agreements, like meetings, that have one number changed...
+    # for lineage arguments beyond parts of the same treaty/agreement, 
+    # a separate function may be warranted. 
+  
 #    if(maybe(qID) == TRUE) {
 #       menu(c("Yes", "No"), title = "Are these the same treaty/agreement or amendments or protocols to the same treaty/agreement?")
 #       if("Yes") {
@@ -110,41 +198,32 @@ code_agreements <- function(dataset, title, beg, parties, topic, type, uID, line
 #   levels(x) <- levels(x)[unlist(lapply(matches, function(x) x[10:20]))]
 #   as.character(x)
 # }
-}
-   
-  #Step six: identify if agreement is part of a family
-  line <- case_when(
-    # should order observations with the same unique IDs as part of the same lineage
-    # maybe this can be done according to date in beg
-    # pay attention to agreements, like meetings, that have one number changed...
-    # for lineage arguments beyond parts of the same treaty/agreement, 
-    # a separate function may be warranted. 
-  )
+# }
+
   
   # Step seven: add items together correctly   
-  if(is.na == parties) {
-    if(is.null(lineage)) {
-      out <- paste0(topic, "_", uID, "-", type)  
-    } else {
-    out <- paste(topic, "_", uID, "-", type, line)
-    }
-  } else {
-    if(is.null(lineage)) {
-      out <- paste0(parties, "_", topic, "_", uID, "-", type)  
-    } else {
-    out <- paste0(parties, "_", topic, "_", uID, "-", type, line)
-    }
-  }
-  
-  out <- stringr::str_replace_all(out, "NA_", NA_character_)
-  cat(sum(is.na(out)), "entries were not matched at all.\n")
-  # cat(sum(stringr::str_detect(out, "^[0-9]")), " entries were only coded by date.\n")
-  cat("There were", sum(duplicated(out, incomparables = NA)), "duplicated IDs.\n")
-  qID <- out
-  
-  # Step eight: add new qID column to data
-  cbind(dataset, qID)
-  
-  qID 
-
+  # if(is.na == parties) {
+  #   if(is.null(lineage)) {
+  #     out <- paste0(topic, "_", uID, "-", type)  
+  #   } else {
+  #   out <- paste(topic, "_", uID, "-", type, line)
+  #   }
+  # } else {
+  #   if(is.null(lineage)) {
+  #     out <- paste0(parties, "_", topic, "_", uID, "-", type)  
+  #   } else {
+  #   out <- paste0(parties, "_", topic, "_", uID, "-", type, line)
+  #   }
+  # }
+  # 
+  # out <- stringr::str_replace_all(out, "NA_", NA_character_)
+  # cat(sum(is.na(out)), "entries were not matched at all.\n")
+  # # cat(sum(stringr::str_detect(out, "^[0-9]")), " entries were only coded by date.\n")
+  # cat("There were", sum(duplicated(out, incomparables = NA)), "duplicated IDs.\n")
+  # qID <- out
+  # 
+  # # Step eight: add new qID column to data
+  # cbind(dataset, qID)
+  # 
+  # qID 
 }
