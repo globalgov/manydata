@@ -51,18 +51,21 @@ code_agreements <- function(dataset, title, beg, parties, topic, type, uID, line
   )
   
   #step five: give the observation a unique ID
-  uID <- function(title) {
-    # should detect similarities based and give same unique IDs to similar obs
+  uID <- function(qID) {
+# should detect similarities based and give same unique IDs to similar obs
 #     
-#     uID <- stringr::str_remove_all(beg, "-")
+#    uID <- stringr::str_remove_all(beg, "-")
 #     
-#     for (i in maybe(tittle)) {
-#       if (i == TRUE){
-#         menu(c("Yes", "No"), title = "Are these the same treaty/agreement or amendments or protocols to the same treaty/agreement?")  
+#    if(maybe(qID) == TRUE) {
+#       menu(c("Yes", "No"), title = "Are these the same treaty/agreement or amendments or protocols to the same treaty/agreement?")
+#       if("Yes") {
+#         qID <- same_agreements(qID) 
+#         } else qID <- qID
 #       }
 #     
 #     case_when(
 #       # same agreements same uIDs
+#       # obs with A will be reference
 #     ) 
 #     
 #     case_when(
@@ -75,7 +78,7 @@ code_agreements <- function(dataset, title, beg, parties, topic, type, uID, line
 # same_agreements <- function(x) {
 #   x <- as.factor(x)
 #   matches <- lapply(levels(x), agrep, x=levels(x),fixed=TRUE, value=FALSE)
-#   levels(x) <- levels(x)[unlist(lapply(matches, function(x) x[1:10]))]
+#   levels(x) <- levels(x)[unlist(lapply(matches, function(x) x[0:10]))]
 #   as.character(x)
 # }
 #     
@@ -91,6 +94,7 @@ code_agreements <- function(dataset, title, beg, parties, topic, type, uID, line
   line <- case_when(
     # should order observations with the same unique IDs as part of the same lineage
     # maybe this can be done according to date in beg
+    # pay attention to agreements, like meetings, that have one number changed...
     # for lineage arguments beyond parts of the same treaty/agreement, 
     # a separate function may be warranted. 
   )
@@ -100,13 +104,13 @@ code_agreements <- function(dataset, title, beg, parties, topic, type, uID, line
     if(is.null(lineage)) {
       out <- paste0(topic, "_", uID, "-", type)  
     } else {
-    out <- paste(topic, "_", uID, "-", type, lineage)
+    out <- paste(topic, "_", uID, "-", type, line)
     }
   } else {
     if(is.null(lineage)) {
       out <- paste0(parties, "_", topic, "_", uID, "-", type)  
     } else {
-    out <- paste0(parties, "_", topic, "_", uID, "-", type, lineage)
+    out <- paste0(parties, "_", topic, "_", uID, "-", type, line)
     }
   }
   
