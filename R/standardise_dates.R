@@ -18,8 +18,7 @@
 #' @return Nested vector of POSIXct dates that includes a range of dates
 #' @importFrom stringr str_detect str_split
 #' @importFrom lubridate as_date dmy ymd
-#' @examples
-# dates_comparison <- tibble::tribble(~Example, ~OriginalDate,
+#' @examples dates_comparison <- tibble::tribble(~Example, ~OriginalDate,
 # "A normal date", "2010-01-01",
 # "A historical date", "1712-01-01",
 # "A really historical date", "712-01-01",

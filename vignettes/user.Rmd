@@ -123,13 +123,18 @@ Below we show how one might compare the data in `states` in these ways.
 
 We can bring up the database level documentation using the following command: `?states`.
 This documentation informs the user on the various datasets that are present in the database as well
-as the most important metadata of the various datasets. If we wants a more detailed summary of the various levels of data,
-we can run `report_data()` as outlined below.
+as the most important metadata of the various datasets. If we wants a more detailed summary of the various levels of data 
+and sources we can run `data_source()` and `data_contrast()` functions as outlined below.
 
-### Using `report_data()`
+### Using `data_source()` and `data_contrast()`
 
-The second step after comparing data by using the database object documentation is the `{qData}` function `report_data()`.
-This function returns a dataframe with the key metadata of each level of data objects (qPackage, database, and dataset).
+The `data_source()` function displays bibliographic refernecs for the datasets in a qPackage or within a database.
+
+```{r}
+data_source(pkg = "qStates", database = NULL, dataset = NULL)
+```
+
+The `data_contrast()` function returns a data frame with the key metadata of each level of data objects (qPackage, database, and dataset).
 This metadata includes the following elements:
 
 * Number of unique observations
@@ -137,17 +142,16 @@ This metadata includes the following elements:
 * Number of columns
 * Earliest beginning date
 * Latest end date
-* Source link
-* Bibliographic entry
+* Source URL
 
 ```{r}
-report_data(pkg = "qStates", database = NULL, dataset = NULL)
+data_contrast(pkg = "qStates", database = NULL, dataset = NULL)
 ```
 
 If we were specifically interested in the `COW` dataset of the `states` data base we would specify the output by setting the dbase and the dset arguments to the corresponding value. 
 
 ```{r}
-report_data(pkg = "qStates", database = "states", dataset = "COW")
+data_contrast(pkg = "qStates", database = "states", dataset = "COW")
 ```
 
 ## Modelling data
