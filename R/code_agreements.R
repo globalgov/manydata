@@ -73,8 +73,6 @@ code_agreements <- function(dataset, title, beg, parties, topic, type, uID) {
     grepl("Strategy|Plan|Program|Improvement|Project|Study|Working Party|Working Group", qID, ignore.case = T) ~ "S",
   )
   
-  ################# CHANGES FROM HERE #############################
-  
   #step five: give the observation a unique ID
     # should detect similarities based and give same unique IDs to similar obs
   uID <- stringr::str_remove_all(beg, "-")
@@ -94,136 +92,43 @@ code_agreements <- function(dataset, title, beg, parties, topic, type, uID) {
   qID <- out
   
   # step seven: detect treaties from the same 'family' (the XXX should be replaced by the uID of the main treaty)
-  # this step would require to use fuzzyjoin functions to detect treaties from same family.
-  # this step is commented out as the coding are still on development.
+  # This step is commented out as the coding are still on development.
+  # Adapted from: https://stackoverflow.com/questions/12999772/create-a-unique-id-by-fuzzy-matching-of-names-via-agrep-using-r
   
-  #    if(maybe(qID) == TRUE) {
-  #       menu(c("Yes", "No"), title = "Are these the same treaty/agreement or amendments or protocols to the same treaty/agreement?")
-  #       if("Yes") {
-  #         qID <- same_agreements(qID) 
-  #         } else qID <- qID
-  #       }
-  #     
-  #     case_when(
-  #       # same agreements same uIDs
-  #       # obs with A will be reference
-  #     ) 
-  #     
-  #     case_when(
-  #       # user decided on ID
-  #     )
-  # }
-  # 
-  # To detect treaty from the same family, the dist. range should be adapted ("Protocol to the " = 16, 
-  # "Amendment to the " = 17, etc)
-  #
-  # same_agreements <- function(x) {
-  #   x <- as.factor(x)
-  #   matches <- lapply(levels(x), agrep, x=levels(x),fixed=TRUE, value=FALSE)
-  #   levels(x) <- levels(x)[unlist(lapply(matches, function(x) x[0:10]))]
-  #   as.character(x)
-  # }
-  #     
-  # maybe <- function(x) {
-  #   x <- as.factor(x)
-  #   matches <- lapply(levels(x), agrep, x=levels(x),fixed=TRUE, value=FALSE)
-  #   levels(x) <- levels(x)[unlist(lapply(matches, function(x) x[10:20]))]
-  #   as.character(x)
-  # }
-  # }
+   line <- function(title) {
+     
+     same_agreements <- function(x) {
+       x <- as.factor(x)
+       matches <- lapply(levels(x), agrep, x=levels(x),fixed=TRUE, value=FALSE)
+       levels(x) <- levels(x)[unlist(lapply(matches, function(x) x[0:20]))]
+       as.character(x)
+     }
+     
+     familyline <- same_agreements(title)
+     
+     familycode <- function(x) {
+       
+       if(familyline == TRUE & (type == "A")) {
+         xx <- stringr::str_split(uID, "", 8)
+         xxa <- paste0(xx [[1]][6:8])
+         qID <- gsub("XXX", xxa)
+         qID
+       } else if(familyline == TRUE & (!type == "A")) {
+         # need to give same line as parent agreement
+         qID <- gsub("XXX", xxa)
+         qID
+         } 
+       x
+     }
+     
+    line <- familycode(title)
+    
+    line
+    
+  }
   
   # Step eight: add new qID column to data
   cbind(dataset, qID)
   
   qID 
-  
-  
-  ###################################### CHANGES UNTIL HERE #################################
-  
-  
-  # if(is.na(parties)) {
-  #   if(type == "A") {
-  #     out <- paste0(topic, "_", uID)  
-  #   } else {
-  #     out <- paste(topic, "_", "XXX", "-", type, "-", uID)
-  #   }
-  # } else {
-  #   if(type == "A") {
-  #     out <- paste0(parties, "_", topic, "_", uID)  
-  #   } else {
-  #     out <- paste0(parties, "_", topic, "_", "XXX", "-", type, uID)
-  #   }
-  # }
-  # 
-  
-  #Step five: identify if agreement is part of a family
-#  
-  # line <- function(qID){
-    
-     # should order observations with the same unique IDs as part of the same lineage
-    # maybe this can be done according to date in beg
-    # pay attention to agreements, like meetings, that have one number changed...
-    # for lineage arguments beyond parts of the same treaty/agreement, 
-    # a separate function may be warranted. 
-  
-#    if(maybe(qID) == TRUE) {
-#       menu(c("Yes", "No"), title = "Are these the same treaty/agreement or amendments or protocols to the same treaty/agreement?")
-#       if("Yes") {
-#         qID <- same_agreements(qID) 
-#         } else qID <- qID
-#       }
-#     
-#     case_when(
-#       # same agreements same uIDs
-#       # obs with A will be reference
-#     ) 
-#     
-#     case_when(
-#       # user decided on ID
-#     )
-# }
-#     
-#   # adapted from: https://stackoverflow.com/questions/12999772/create-a-unique-id-by-fuzzy-matching-of-names-via-agrep-using-r
-#     
-# same_agreements <- function(x) {
-#   x <- as.factor(x)
-#   matches <- lapply(levels(x), agrep, x=levels(x),fixed=TRUE, value=FALSE)
-#   levels(x) <- levels(x)[unlist(lapply(matches, function(x) x[0:10]))]
-#   as.character(x)
-# }
-#     
-# maybe <- function(x) {
-#   x <- as.factor(x)
-#   matches <- lapply(levels(x), agrep, x=levels(x),fixed=TRUE, value=FALSE)
-#   levels(x) <- levels(x)[unlist(lapply(matches, function(x) x[10:20]))]
-#   as.character(x)
-# }
-# }
-
-  
-  # Step seven: add items together correctly   
-  # if(is.na == parties) {
-  #   if(is.null(lineage)) {
-  #     out <- paste0(topic, "_", uID, "-", type)  
-  #   } else {
-  #   out <- paste(topic, "_", uID, "-", type, line)
-  #   }
-  # } else {
-  #   if(is.null(lineage)) {
-  #     out <- paste0(parties, "_", topic, "_", uID, "-", type)  
-  #   } else {
-  #   out <- paste0(parties, "_", topic, "_", uID, "-", type, line)
-  #   }
-  # }
-  # 
-  # out <- stringr::str_replace_all(out, "NA_", NA_character_)
-  # cat(sum(is.na(out)), "entries were not matched at all.\n")
-  # # cat(sum(stringr::str_detect(out, "^[0-9]")), " entries were only coded by date.\n")
-  # cat("There were", sum(duplicated(out, incomparables = NA)), "duplicated IDs.\n")
-  # qID <- out
-  # 
-  # # Step eight: add new qID column to data
-  # cbind(dataset, qID)
-  # 
-  # qID 
 }
