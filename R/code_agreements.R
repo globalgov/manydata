@@ -4,7 +4,6 @@
 #' @param topic Abbreviated topic of an agreement 
 #' @param type Agreement type
 #' @param uID Unique agreement ID
-#' @param lineage Whether agreement is part of a lineage of agreements
 #' @export
 code_agreements <- function(dataset, title, beg, parties, topic, type, uID) {
   
@@ -95,37 +94,37 @@ code_agreements <- function(dataset, title, beg, parties, topic, type, uID) {
   # This step is commented out as the coding are still on development.
   # Adapted from: https://stackoverflow.com/questions/12999772/create-a-unique-id-by-fuzzy-matching-of-names-via-agrep-using-r
   
-   line <- function(title) {
-     
-     same_agreements <- function(x) {
-       x <- as.factor(x)
-       matches <- lapply(levels(x), agrep, x=levels(x),fixed=TRUE, value=FALSE)
-       levels(x) <- levels(x)[unlist(lapply(matches, function(x) x[0:20]))]
-       as.character(x)
-     }
-     
-     familyline <- same_agreements(title)
-     
-     familycode <- function(x) {
-       
-       if(familyline == TRUE & (type == "A")) {
-         xx <- stringr::str_split(uID, "", 8)
-         xxa <- paste0(xx [[1]][6:8])
-         qID <- gsub("XXX", xxa)
-         qID
-       } else if(familyline == TRUE & (!type == "A")) {
-         # need to give same line as parent agreement
-         qID <- gsub("XXX", xxa)
-         qID
-         } 
-       x
-     }
-     
-    line <- familycode(title)
-    
-    line
-    
-  }
+  #  line <- function(title) {
+  #    
+  #    same_agreements <- function(x) {
+  #      x <- as.factor(x)
+  #      matches <- lapply(levels(x), agrep, x=levels(x),fixed=TRUE, value=FALSE)
+  #      levels(x) <- levels(x)[unlist(lapply(matches, function(x) x[0:20]))]
+  #      as.character(x)
+  #    }
+  #    
+  #    familyline <- same_agreements(title)
+  #    
+  #    familycode <- lapply(title, function(x) {
+  #      
+  #      if(familyline == TRUE & (type == "A")) {
+  #        xx <- stringr::str_split(uID, "", 8)
+  #        xxa <- paste0(xx [[1]][6:8])
+  #        qID <- stringr::str_replace(qID, "XXX", xxa)
+  #        qID
+  #      } else if(familyline == TRUE & (!type == "A")) {
+  #        # need to give same line as parent agreement
+  #        qID <- stringr::str_replace(qID, "XXX", xxa)
+  #        qID
+  #        } 
+  #      x
+  #    })
+  #    
+  #   line <- unlist(title)
+  #   
+  #   line
+  #   
+  # }
   
   # Step eight: add new qID column to data
   cbind(dataset, qID)
