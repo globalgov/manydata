@@ -10,6 +10,8 @@
 #' author(s)' name(s)
 #' @param AuthorSurname A vector giving the package
 #' author(s)' surname(s)
+#' @param Role A list of vectors of the roles the package authors have
+#' in the project
 #' @param update A logical indicating whether existing files should be
 #' overwritten, by default TRUE.
 #' @param path A string, if missing default is path to the working directory
@@ -21,21 +23,30 @@
 #' @importFrom stringr str_split
 #' @examples
 #' \dontrun{
-#' setup_package("qStates", AuthorName = c("James", "Henrique"), 
-#' AuthorSurname = c("Hollway", "Sposito"))
+#' setup_package("qStates", AuthorName = c("James", "Henrique"),
+#' AuthorSurname = c("Hollway", "Sposito"),
+#' Role = list(c("cre", "aut", "ctb"), c("ctb"))
 #' }
 #' \dontrun{
 #' setup_package("qStates", 
-#' ORCID = c("0000-0002-8361-9647", "0000-0003-3420-6085"))
+#' ORCID = c("0000-0002-8361-9647", "0000-0003-3420-6085"), list(c("cre", "aut",
+#' "ctb"), c("ctb")))
 #' }
 #' @export
 setup_package <- function(packageName = NULL,
                           AuthorName = NULL,
                           AuthorSurname = NULL,
+                          Role = NULL,
                           ORCID = NULL,
                           update = TRUE,
                           path = getwd()) {
   
+  # Initialize variables to suppress an annoying note when running 
+  # devtools_check
+  given1 <- given2 <- given3 <- given4 <- given5 <- NULL
+  family1 <- family2 <- family3 <- family4 <- family5 <- NULL
+  role1 <- role2 <- role3 <- role4 <- role5 <- NULL
+  comment1 <- comment2 <- comment3 <- comment4 <- comment5 <- NULL
   # Checks to see whether inputs are correct
   # usethis:::check_path_is_directory(fs::path_dir(path))
   name <- fs::path_file(fs::path_abs(path))
@@ -71,6 +82,10 @@ setup_package <- function(packageName = NULL,
       stop("Please declare at least one author")
     }
   }
+  #Small check to see if roles are defined
+  if(is.null(Role) || length(Role) != length(AuthorName)){
+    stop("Please specify (all) the roles of the different collaborators by using the Role argument.")
+  }
   # Step 0.1 See if there are any ORCID numbers
   if(!is.null(ORCID)){
     # Check if rorcid package is installed.
@@ -103,7 +118,10 @@ setup_package <- function(packageName = NULL,
       assign(paste0("given", i), givenv[[i]])
       assign(paste0("family", i), familyv[[i]])
       assign(paste0("comment", i), commentv[[i]])
-    }
+      assign(paste0("role", i), dput(Role[[i]]))
+      if(length(get(paste0("role", i))) == 1){
+        assign(paste0("role", i), paste('"', Role[i], '"', sep = ""))
+    }}
     # Use correct template
     if(length(ORCID) == 1){
       qtemplate("qPackage-DESC1.dcf",
@@ -111,7 +129,8 @@ setup_package <- function(packageName = NULL,
                 data = list(package = packageName,
                             given1 = given1,
                             family1 = family1,
-                            comment1 = comment1),
+                            comment1 = comment1,
+                            role1 = role1),
                 path = path)
     }
     if(length(ORCID) == 2){
@@ -121,9 +140,11 @@ setup_package <- function(packageName = NULL,
                             given1 = given1,
                             family1 = family1,
                             comment1 = comment1,
+                            role1 = role1,
                             given2 = given2,
                             family2 = family2,
-                            comment2 = comment2),
+                            comment2 = comment2,
+                            role2 = role2),
                 path = path)
     }
     if(length(ORCID) == 3){
@@ -133,12 +154,15 @@ setup_package <- function(packageName = NULL,
                             given1 = given1,
                             family1 = family1,
                             comment1 = comment1,
+                            role1 = role1,
                             given2 = given2,
                             family2 = family2,
                             comment2 = comment2,
+                            role2 = role2,
                             given3 = given3,
                             family3 = family3,
-                            comment3 = comment3),
+                            comment3 = comment3,
+                            role3 = role3),
                 path = path)
     }
     if(length(ORCID) == 4){
@@ -148,15 +172,19 @@ setup_package <- function(packageName = NULL,
                             given1 = given1,
                             family1 = family1,
                             comment1 = comment1,
+                            role1 = role1,
                             given2 = given2,
                             family2 = family2,
                             comment2 = comment2,
+                            role2 = role2,
                             given3 = given3,
                             family3 = family3,
                             comment3 = comment3,
+                            role3 = role3,
                             given4 = given4,
                             family4 = family4,
-                            comment4 = comment4),
+                            comment4 = comment4,
+                            role4 = role4),
                 path = path)
     }
     if(length(ORCID) == 5){
@@ -166,18 +194,23 @@ setup_package <- function(packageName = NULL,
                             given1 = given1,
                             family1 = family1,
                             comment1 = comment1,
+                            role1 = role1,
                             given2 = given2,
                             family2 = family2,
                             comment2 = comment2,
+                            role2 = role2,
                             given3 = given3,
                             family3 = family3,
                             comment3 = comment3,
+                            role3 = role3,
                             given4 = given4,
                             family4 = family4,
                             comment4 = comment4,
+                            role4 = role4,
                             given5 = given5,
                             family5 = family5,
-                            comment5 = comment5),
+                            comment5 = comment5,
+                            role5 = role5),
                 path = path)
     }
   } else {
@@ -190,12 +223,19 @@ setup_package <- function(packageName = NULL,
     if(length(AuthorName)>5){
       stop("Please specify a maximum of 5 authors. Add the rest by using our add_author() function.")
     }
+    for (i in c(1:length(AuthorName))){
+      assign(paste0("role", i), dput(Role[i]))
+      if(length(get(paste0("role", i))) == 1){
+        assign(paste0("role", i), paste('"', Role[i], '"', sep = ""))
+      }
+    }
     if(length(AuthorName) == 1){
       qtemplate("qPackage-DESC1.dcf",
                 "DESCRIPTION",
                 data = list(package = packageName,
-                            given1 = AuthorName,
-                            family1 = AuthorSurname),
+                            given1 = AuthorName[[1]],
+                            family1 = AuthorSurname[[1]],
+                            role1 = role1),
                 path = path)
     }
     if(length(AuthorName) == 2){
@@ -204,8 +244,10 @@ setup_package <- function(packageName = NULL,
                 data = list(package = packageName,
                             given1 = AuthorName[[1]],
                             family1 = AuthorSurname[[1]],
+                            role1 = role1,
                             given2 = AuthorName[[2]],
-                            family2 = AuthorSurname[[2]]),
+                            family2 = AuthorSurname[[2]],
+                            role2 = role2),
                 path = path)
     }
     if(length(AuthorName) == 3){
@@ -214,10 +256,13 @@ setup_package <- function(packageName = NULL,
                 data = list(package = packageName,
                             given1 = AuthorName[[1]],
                             family1 = AuthorSurname[[1]],
+                            role1 = role1,
                             given2 = AuthorName[[2]],
                             family2 = AuthorSurname[[2]],
+                            role2 = role2,
                             given3 = AuthorName[[3]],
-                            family3 = AuthorSurname[[3]]),
+                            family3 = AuthorSurname[[3]],
+                            role3 = role3),
                 path = path)
     }
     if(length(AuthorName) == 4){
@@ -226,12 +271,16 @@ setup_package <- function(packageName = NULL,
                 data = list(package = packageName,
                             given1 = AuthorName[[1]],
                             family1 = AuthorSurname[[1]],
+                            role1 = role1,
                             given2 = AuthorName[[2]],
                             family2 = AuthorSurname[[2]],
+                            role2 = role2,
                             given3 = AuthorName[[3]],
                             family3 = AuthorSurname[[3]],
+                            role3 = role3,
                             given4 = AuthorName[[4]],
-                            family4 = AuthorSurname[[4]]),
+                            family4 = AuthorSurname[[4]],
+                            role4 = role4),
                 path = path)
     }
     if(length(AuthorName) == 5){
@@ -240,14 +289,19 @@ setup_package <- function(packageName = NULL,
                 data = list(package = packageName,
                             given1 = AuthorName[[1]],
                             family1 = AuthorSurname[[1]],
+                            role1 = role1,
                             given2 = AuthorName[[2]],
                             family2 = AuthorSurname[[2]],
+                            role2 = role2,
                             given3 = AuthorName[[3]],
                             family3 = AuthorSurname[[3]],
+                            role3 = role3,
                             given4 = AuthorName[[4]],
                             family4 = AuthorSurname[[4]],
+                            role4 = role4,
                             given5 = AuthorName[[5]],
-                            family5 = AuthorSurname[[5]]),
+                            family5 = AuthorSurname[[5]],
+                            role5 = role5),
                 path = path)
     }
   }

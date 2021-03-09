@@ -8,6 +8,7 @@ setup_package(
   packageName = NULL,
   AuthorName = NULL,
   AuthorSurname = NULL,
+  Role = NULL,
   ORCID = NULL,
   update = TRUE,
   path = getwd()
@@ -22,6 +23,9 @@ author(s)' name(s)}
 
 \item{AuthorSurname}{A vector giving the package
 author(s)' surname(s)}
+
+\item{Role}{A list of vectors of the roles the package authors have
+in the project}
 
 \item{ORCID}{A vector of strings of all the ORCID numbers of the authors.
 Needs \code{{rorcid}} package to be installed. Takes precedence over manual
@@ -44,11 +48,13 @@ folder structures required for a qData-consistent data package.
 }
 \examples{
 \dontrun{
-setup_package("qStates", AuthorName = c("James", "Henrique"), 
-AuthorSurname = c("Hollway", "Sposito"))
+setup_package("qStates", AuthorName = c("James", "Henrique"),
+AuthorSurname = c("Hollway", "Sposito"),
+Role = list(c("cre", "aut", "ctb"), c("ctb"))
 }
 \dontrun{
 setup_package("qStates", 
-ORCID = c("0000-0002-8361-9647", "0000-0003-3420-6085"))
+ORCID = c("0000-0002-8361-9647", "0000-0003-3420-6085"), list(c("cre", "aut",
+"ctb"), c("ctb")))
 }
 }

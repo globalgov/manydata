@@ -4,19 +4,19 @@ Version: 0.0.1
 Authors@R: 
     c(person(given = "{{{given1}}}",
              family = "{{{family1}}}",
-             role = c("cre", "aut", "ctb", "dtc"),
+             role = {{{role1}}},
              comment = c("{{{comment1}}}")),
       person(given = "{{{given2}}}",
              family = "{{{family2}}}",
-             role = c("cre", "aut", "ctb", "dtc"),
+             role = {{{role2}}},
              comment = c("{{{comment2}}}")),
       person(given = "{{{given3}}}",
              family = "{{{family3}}}",
-             role = c("cre", "aut", "ctb", "dtc"),
+             role = {{{role3}}},
              comment = c("{{{comment3}}}")),
       person(given = "{{{given4}}}",
              family = "{{{family4}}}",
-             role = c("cre", "aut", "ctb", "dtc"),
+             role = {{{role4}}},
              comment = c("{{{comment4}}}")))
 Description: Collection, correction, and connection.
 License: CC BY 4.0
