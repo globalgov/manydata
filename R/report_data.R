@@ -99,8 +99,8 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL){
                      purrr::map(dbs[[i]], function(x) paste0(round(sum(is.na(x))/prod(dim(x)), digits = 2), " %")),
                      purrr::map(dbs[[i]], function(x) nrow(x)),
                      purrr::map(dbs[[i]], function(x) ncol(x)),
-                     purrr::map(dbs[[i]], function(x) as.character(min(x$Beg))),
-                     purrr::map(dbs[[i]], function(x) as.character(max(x$End))),
+                     purrr::map(dbs[[i]], function(x) as.character(as.Date(ifelse(!all(is.na(x$Beg)), min(x$Beg, na.rm=T), NA), origin='1970-01-01'))),
+                     purrr::map(dbs[[i]], function(x) as.character(as.Date(ifelse(!all(is.na(x$End)), max(x$End, na.rm=T), NA), origin='1970-01-01'))),
                      purrr::map(dbs[[i]], function(x) attr(x, which = "source_link"))))
         assign(paste0("tabl", i), t(get(paste0("tabl", i))))
         tmp <- get(paste0("tabl", i))
@@ -118,8 +118,8 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL){
                          Missing_Data = paste0(round(sum(is.na(ds))/prod(dim(ds)), digits = 2), " %"),
                          NObs = nrow(ds),
                          NVar = ncol(ds),
-                         MinDate = min(ds$Beg),
-                         MaxDate = max(ds$End))
+                         MinDate = as.character(as.Date(ifelse(!all(is.na(ds$Beg)), min(ds$Beg, na.rm=T), NA), origin = '1970-01-01')),
+                         MaxDate = as.character(as.Date(ifelse(!all(is.na(ds$End)), max(ds$End, na.rm=T), NA)), origin = '1970-01-01'))
       tabl2 <- tabl %>%
         t()
       colnames(tabl2) <- dataset
@@ -136,8 +136,8 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL){
                    purrr::map(dbs, function(x) paste0(sum(is.na(x))/prod(dim(x)), " %")),
                    purrr::map(dbs[[i]], function(x) nrow(x)),
                    purrr::map(dbs[[i]], function(x) ncol(x)),
-                   purrr::map(dbs[[i]], function(x) as.character(min(x$Beg))),
-                   purrr::map(dbs[[i]], function(x) as.character(max(x$End))),
+                   purrr::map(dbs[[i]], function(x) as.character(as.Date(ifelse(!all(is.na(x$Beg)), min(x$Beg, na.rm=T), NA), origin='1970-01-01'))),
+                   purrr::map(dbs[[i]], function(x) as.character(as.Date(ifelse(!all(is.na(x$End)), max(x$End, na.rm=T), NA), origin='1970-01-01'))),
                    purrr::map(dbs[[i]], function(x) attr(x, which = "source_link"))))
       assign(paste0("tabl", i), t(get(paste0("tabl", i))))
       tmp <- get(paste0("tabl", i))
