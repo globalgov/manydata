@@ -18,8 +18,8 @@ setup_package(
 must start with "q"}
 
 \item{AuthorName}{A vector giving the package
-author(s)' name(s). Authors(s)last name and first
-name are separated by a comma}
+author(s)' name(s). Authors(s)last name(s) and first
+name(s) are separated by a comma}
 
 \item{Role}{A list of vectors of the roles the package authors have
 in the project}

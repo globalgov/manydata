@@ -7,8 +7,8 @@
 #' Needs `{rorcid}` package to be installed. Takes precedence over manual
 #' entries if specified.
 #' @param AuthorName A vector giving the package
-#' author(s)' name(s). Authors(s)last name and first 
-#' name are separated by a comma
+#' author(s)' name(s). Authors(s)last name(s) and first 
+#' name(s) are separated by a comma
 #' @param Role A list of vectors of the roles the package authors have
 #' in the project
 #' @param update A logical indicating whether existing files should be
