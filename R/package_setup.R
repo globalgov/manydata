@@ -7,9 +7,8 @@
 #' Needs `{rorcid}` package to be installed. Takes precedence over manual
 #' entries if specified.
 #' @param AuthorName A vector giving the package
-#' author(s)' name(s)
-#' @param AuthorSurname A vector giving the package
-#' author(s)' surname(s)
+#' author(s)' name(s). Authors(s)last name and first 
+#' name are separated by a comma
 #' @param Role A list of vectors of the roles the package authors have
 #' in the project
 #' @param update A logical indicating whether existing files should be
@@ -23,8 +22,7 @@
 #' @importFrom stringr str_split
 #' @examples
 #' \dontrun{
-#' setup_package("qStates", AuthorName = c("James Hollway", "Henrique Sposito"),
-#' AuthorSurname = c("Hollway", "Sposito"),
+#' setup_package("qStates", AuthorName = c("Hollway, James", "Sposito, Henrique"),
 #' Role = list(c("cre", "aut", "ctb"), c("ctb"))
 #' }
 #' \dontrun{
@@ -66,7 +64,7 @@ setup_package <- function(packageName = NULL,
   
   ifelse (!startsWith(packageName, "q"), stop("Package name must start with a 'q'"), packageName())
   
-  if (is.null(AuthorName) || is.null(AuthorSurname)){
+  if (is.null(AuthorName)){
     if (file.exists(paste0(path, "/DESCRIPTION"))){
       packageAuthor <- read.dcf(paste0(path, "/DESCRIPTION"))[[4]]
       packageAuthor <- stringr::str_replace_all(packageAuthor, "\",\nfamily = \"", " ")
@@ -218,7 +216,6 @@ setup_package <- function(packageName = NULL,
     # Add DESCRIPTION
     # Treat author names
     fullname <- stringr::str_split(AuthorName, ",")
-    aname <- stringr::str_replace(fullname, " ", ",")
 
     if(length(fullname)>5){
       stop("Please specify a maximum of 5 authors. Add the rest by using our add_author() function.")
@@ -231,9 +228,8 @@ setup_package <- function(packageName = NULL,
     }
     
     if(length(fullname) == 1) {
-      given <- stringr::str_split(aname, ",")[[1]]
-      given1 <- paste0(given [1][[1]])
-      family1 <- paste0(given[[2]][1])
+      given1 <- paste0(fullname[[1]][2])
+      family1 <- paste0(fullname[[1]][1])
       qtemplate("qPackage-DESC1.dcf",
                 "DESCRIPTION",
                 data = list(package = packageName,
@@ -245,12 +241,10 @@ setup_package <- function(packageName = NULL,
     } 
     
     if(length(fullname) == 2) {
-      ggiven1 <- stringr::str_split(aname, ",")[[1]]
-      given1 <- paste0(ggiven1 [1][[1]])
-      family1 <- paste0(ggiven1[[2]][1])
-      ggiven2 <- stringr::str_split(aname, ",")[[2]]
-      given2 <- paste0(ggiven2 [1][[1]])
-      family2 <- paste0(ggiven2[[2]][1])
+      given1 <- paste0(fullname[[1]][2])
+      family1 <- paste0(fullname[[1]][1])
+      given2 <-  paste0(fullname[[2]][2])
+      family2 <- paste0(fullname[[2]][1])
       qtemplate("qPackage-DESC2.dcf",
                 "DESCRIPTION",
                 data = list(package = packageName,
@@ -264,15 +258,12 @@ setup_package <- function(packageName = NULL,
     } 
     
     if (length(fullname) == 3) {
-      ggiven1 <- stringr::str_split(aname, ",")[[1]]
-      given1 <- paste0(ggiven1 [1][[1]])
-      family1 <- paste0(ggiven1[[2]][1])
-      ggiven2 <- stringr::str_split(aname, ",")[[2]]
-      given2 <- paste0(ggiven2 [1][[1]])
-      family2 <- paste0(ggiven2[[2]][1])
-      ggiven3 <- stringr::str_split(aname, ",")[[3]]
-      given3 <- paste0(ggiven3 [1][[1]])
-      family3 <- paste0(ggiven3[[2]][1])
+      given1 <- paste0(fullname[[1]][2])
+      family1 <- paste0(fullname[[1]][1])
+      given2 <-  paste0(fullname[[2]][2])
+      family2 <- paste0(fullname[[2]][1])
+      given3 <- paste0(fullname[[3]][2])
+      family3 <- paste0(fullname[[3]][1])
       qtemplate("qPackage-DESC3.dcf",
                 "DESCRIPTION",
                 data = list(package = packageName,
@@ -290,18 +281,14 @@ setup_package <- function(packageName = NULL,
     
  
     if (length(fullname) == 4) {
-      ggiven1 <- stringr::str_split(aname, ",")[[1]]
-      given1 <- paste0(ggiven1 [1][[1]])
-      family1 <- paste0(ggiven1[[2]][1])
-      ggiven2 <- stringr::str_split(aname, ",")[[2]]
-      given2 <- paste0(ggiven2 [1][[1]])
-      family2 <- paste0(ggiven2[[2]][1])
-      ggiven3 <- stringr::str_split(aname, ",")[[3]]
-      given3 <- paste0(ggiven3 [1][[1]])
-      family3 <- paste0(ggiven3[[2]][1])
-      ggiven4 <- stringr::str_split(aname, ",")[[4]]
-      given4 <- paste0(ggiven4 [1][[1]])
-      family4 <- paste0(ggiven4[[2]][1])
+      given1 <- paste0(fullname[[1]][2])
+      family1 <- paste0(fullname[[1]][1])
+      given2 <-  paste0(fullname[[2]][2])
+      family2 <- paste0(fullname[[2]][1])
+      given3 <- paste0(fullname[[3]][2])
+      family3 <- paste0(fullname[[3]][1])
+      given4 <- paste0(fullname[[4]][2])
+      family4 <- paste0(fullname[[4]][1])
       qtemplate("qPackage-DESC4.dcf",
                 "DESCRIPTION",
                 data = list(package = packageName,
@@ -319,7 +306,17 @@ setup_package <- function(packageName = NULL,
                             role4 = role4),
                 path = path)
     }
-    if(length(AuthorName) == 5){
+    if(length(AuthorName) == 5) {
+      given1 <- paste0(fullname[[1]][2])
+      family1 <- paste0(fullname[[1]][1])
+      given2 <-  paste0(fullname[[2]][2])
+      family2 <- paste0(fullname[[2]][1])
+      given3 <- paste0(fullname[[3]][2])
+      family3 <- paste0(fullname[[3]][1])
+      given4 <- paste0(fullname[[4]][2])
+      family4 <- paste0(fullname[[4]][1])
+      given5 <- paste0(fullname[[5]][2])
+      family5 <- paste0(fullname[[5]][1])
       qtemplate("qPackage-DESC5.dcf",
                 "DESCRIPTION",
                 data = list(package = packageName,

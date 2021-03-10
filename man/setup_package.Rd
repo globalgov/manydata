@@ -7,7 +7,6 @@
 setup_package(
   packageName = NULL,
   AuthorName = NULL,
-  AuthorSurname = NULL,
   Role = NULL,
   ORCID = NULL,
   update = TRUE,
@@ -19,10 +18,8 @@ setup_package(
 must start with "q"}
 
 \item{AuthorName}{A vector giving the package
-author(s)' name(s)}
-
-\item{AuthorSurname}{A vector giving the package
-author(s)' surname(s)}
+author(s)' name(s). Authors(s)last name and first
+name are separated by a comma}
 
 \item{Role}{A list of vectors of the roles the package authors have
 in the project}
@@ -48,8 +45,7 @@ folder structures required for a qData-consistent data package.
 }
 \examples{
 \dontrun{
-setup_package("qStates", AuthorName = c("James", "Henrique"),
-AuthorSurname = c("Hollway", "Sposito"),
+setup_package("qStates", AuthorName = c("Hollway, James", "Sposito, Henrique"),
 Role = list(c("cre", "aut", "ctb"), c("ctb"))
 }
 \dontrun{
