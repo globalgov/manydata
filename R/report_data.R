@@ -119,7 +119,7 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL){
                          NObs = nrow(ds),
                          NVar = ncol(ds),
                          MinDate = as.character(as.Date(ifelse(!all(is.na(ds$Beg)), min(ds$Beg, na.rm=T), NA), origin = '1970-01-01')),
-                         MaxDate = as.character(as.Date(ifelse(!all(is.na(ds$End)), max(ds$End, na.rm=T), NA)), origin = '1970-01-01'))
+                         MaxDate = as.character(as.Date(ifelse(!all(is.na(ds$End)), max(ds$End, na.rm=T), NA), origin = '1970-01-01')))
       tabl2 <- tabl %>%
         t()
       colnames(tabl2) <- dataset
