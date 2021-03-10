@@ -76,7 +76,7 @@ code_agreements <- function(dataset, title, beg, parties, topic, type, uID) {
     # should detect similarities based and give same unique IDs to similar obs
   uID <- stringr::str_remove_all(beg, "-")
   
-# step six: add items together correctly. the XXX is treated in the next step. 
+  # step six: add items together correctly. the XXX is treated in the next step.
   # The following coding assumes that any other types than A (= Agreement) are linked to another treaty; this coding
   # would need to be adapted for declarations, MoU, minutes, etc
   out <- ifelse((is.na(parties) & (type == "A")), paste0(topic, "_", uID),
@@ -84,10 +84,24 @@ code_agreements <- function(dataset, title, beg, parties, topic, type, uID) {
                         (ifelse((!is.na(parties) & (type == "A")), paste0(parties, "_", topic, uID),
                                 (ifelse((!is.na(parties) & (type != "A")), paste0(parties, "_", topic, "XXX", "-", type, uID), NA)))))))
   
+ 
+  # Could be one solution to add the lineage instead of the "XXX". The main treaty is detected in the attached treaty title. The
+  # uID from the main treaty is replacing "XXX" in qID
+  # out <- ifelse((stringr::str_detect(qID[type != "A"], as.character(qID[type == "A"]))), stringr::str_replace(out, "XXX", uID), out)
+  # Add a loop (the function str_detect() is not working with the pattern as a character vector)
+  
+  #Other solution: but pattern >1 so only use first element
+  # ifelse(apply(dataset, 1, function(x){
+  #   grepl(qID[type == "A"], qID[type != "A"])
+  # }), stringr::str_replace(out, "XXX", uID[type == "A"]), out)
+  
   out <- stringr::str_replace_all(out, "NA_", NA_character_)
   cat(sum(is.na(out)), "entries were not matched at all.\n")
   # cat(sum(stringr::str_detect(out, "^[0-9]")), " entries were only coded by date.\n")
   cat("There were", sum(duplicated(out, incomparables = NA)), "duplicated IDs.\n")
+ 
+
+
   qID <- out
   
   # step seven: detect treaties from the same 'family' (the XXX should be replaced by the uID of the main treaty)
@@ -95,19 +109,20 @@ code_agreements <- function(dataset, title, beg, parties, topic, type, uID) {
   # Adapted from: https://stackoverflow.com/questions/12999772/create-a-unique-id-by-fuzzy-matching-of-names-via-agrep-using-r
   
   #  line <- function(title) {
-  #    
+  # 
   #    same_agreements <- function(x) {
   #      x <- as.factor(x)
   #      matches <- lapply(levels(x), agrep, x=levels(x),fixed=TRUE, value=FALSE)
   #      levels(x) <- levels(x)[unlist(lapply(matches, function(x) x[0:20]))]
   #      as.character(x)
   #    }
-  #    
+  # # the function do not return TRUE or FALSE but NA or agreement titles
+  # 
   #    familyline <- same_agreements(title)
-  #    
+  # 
   #    familycode <- lapply(title, function(x) {
-  #      
-  #      if(familyline == TRUE & (type == "A")) {
+  # 
+  #      if(familyline == TRUE & (type == "A")) { # Agreement type do not have XXX in the coding
   #        xx <- stringr::str_split(uID, "", 8)
   #        xxa <- paste0(xx [[1]][6:8])
   #        qID <- stringr::str_replace(qID, "XXX", xxa)
@@ -116,16 +131,16 @@ code_agreements <- function(dataset, title, beg, parties, topic, type, uID) {
   #        # need to give same line as parent agreement
   #        qID <- stringr::str_replace(qID, "XXX", xxa)
   #        qID
-  #        } 
+  #        }
   #      x
   #    })
-  #    
+  # 
   #   line <- unlist(title)
-  #   
+  # 
   #   line
-  #   
+  # 
   # }
-  
+  # 
   # Step eight: add new qID column to data
   cbind(dataset, qID)
   
