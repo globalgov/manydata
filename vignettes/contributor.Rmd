@@ -27,9 +27,7 @@ the name of at least one author is declared. The function accepts ORCID
 numbers instead of author names. 
 
 ```{r eval=FALSE}
-
-setup_package("qStates", AuthorName = c("James", "Henrique"), AuthorSurname = c("Hollway", "Sposito"))
-
+setup_package("qStates", AuthorName = c("Hollway, James", "Sposito, Henrique"), Role = list(c("cre", "aut", "ctb"), c("ctb")))
 ```
 
 ## Collecting data
