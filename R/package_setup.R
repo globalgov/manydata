@@ -23,7 +23,7 @@
 #' @importFrom stringr str_split
 #' @examples
 #' \dontrun{
-#' setup_package("qStates", AuthorName = c("James", "Henrique"),
+#' setup_package("qStates", AuthorName = c("James Hollway", "Henrique Sposito"),
 #' AuthorSurname = c("Hollway", "Sposito"),
 #' Role = list(c("cre", "aut", "ctb"), c("ctb"))
 #' }
@@ -35,7 +35,6 @@
 #' @export
 setup_package <- function(packageName = NULL,
                           AuthorName = NULL,
-                          AuthorSurname = NULL,
                           Role = NULL,
                           ORCID = NULL,
                           update = TRUE,
@@ -52,6 +51,7 @@ setup_package <- function(packageName = NULL,
   name <- fs::path_file(fs::path_abs(path))
   # usethis:::check_not_nested(fs::path_dir(path), name)
   # usethis:::create_directory(path)
+  
   
   # Step zero: get details from existing files, if present
   if (is.null(packageName)){
@@ -84,7 +84,7 @@ setup_package <- function(packageName = NULL,
   }
   #Small check to see if roles are defined
   if(is.null(Role) || length(Role) != length(AuthorName)){
-    stop("Please specify (all) the roles of the different collaborators by using the Role argument.")
+    role = "ctb"
   }
   # Step 0.1 See if there are any ORCID numbers
   if(!is.null(ORCID)){
@@ -216,70 +216,106 @@ setup_package <- function(packageName = NULL,
   } else {
     # Step one: ensure/create package/project structure
     # Add DESCRIPTION
-    # Test that lengths are equal for name and surname vector
-    if(length(AuthorSurname) != length(AuthorSurname)){
-      stop("The number of author names you entered does not match the number of surnames")
-    }
-    if(length(AuthorName)>5){
+    # Treat author names
+    fullname <- stringr::str_split(AuthorName, ",")
+    aname <- stringr::str_replace(fullname, " ", ",")
+
+    if(length(fullname)>5){
       stop("Please specify a maximum of 5 authors. Add the rest by using our add_author() function.")
     }
-    for (i in c(1:length(AuthorName))){
+    for (i in c(1:length(fullname))){
       assign(paste0("role", i), dput(Role[i]))
       if(length(get(paste0("role", i))) == 1){
         assign(paste0("role", i), paste('"', Role[i], '"', sep = ""))
       }
     }
-    if(length(AuthorName) == 1){
+    
+    if(length(fullname) == 1) {
+      given <- stringr::str_split(aname, ",")[[1]]
+      given1 <- paste0(given [1][[1]])
+      family1 <- paste0(given[[2]][1])
       qtemplate("qPackage-DESC1.dcf",
                 "DESCRIPTION",
                 data = list(package = packageName,
-                            given1 = AuthorName[[1]],
-                            family1 = AuthorSurname[[1]],
+                            given1 = given1,
+                            family1 = family1,
                             role1 = role1),
                 path = path)
-    }
-    if(length(AuthorName) == 2){
+      
+    } 
+    
+    if(length(fullname) == 2) {
+      ggiven1 <- stringr::str_split(aname, ",")[[1]]
+      given1 <- paste0(ggiven1 [1][[1]])
+      family1 <- paste0(ggiven1[[2]][1])
+      ggiven2 <- stringr::str_split(aname, ",")[[2]]
+      given2 <- paste0(ggiven2 [1][[1]])
+      family2 <- paste0(ggiven2[[2]][1])
       qtemplate("qPackage-DESC2.dcf",
                 "DESCRIPTION",
                 data = list(package = packageName,
-                            given1 = AuthorName[[1]],
-                            family1 = AuthorSurname[[1]],
+                            given1 = given1,
+                            family1 = family1,
                             role1 = role1,
-                            given2 = AuthorName[[2]],
-                            family2 = AuthorSurname[[2]],
+                            given2 = given2,
+                            family2 = family2,
                             role2 = role2),
                 path = path)
-    }
-    if(length(AuthorName) == 3){
+    } 
+    
+    if (length(fullname) == 3) {
+      ggiven1 <- stringr::str_split(aname, ",")[[1]]
+      given1 <- paste0(ggiven1 [1][[1]])
+      family1 <- paste0(ggiven1[[2]][1])
+      ggiven2 <- stringr::str_split(aname, ",")[[2]]
+      given2 <- paste0(ggiven2 [1][[1]])
+      family2 <- paste0(ggiven2[[2]][1])
+      ggiven3 <- stringr::str_split(aname, ",")[[3]]
+      given3 <- paste0(ggiven3 [1][[1]])
+      family3 <- paste0(ggiven3[[2]][1])
       qtemplate("qPackage-DESC3.dcf",
                 "DESCRIPTION",
                 data = list(package = packageName,
-                            given1 = AuthorName[[1]],
-                            family1 = AuthorSurname[[1]],
+                            given1 = given1,
+                            family1 = family1,
                             role1 = role1,
-                            given2 = AuthorName[[2]],
-                            family2 = AuthorSurname[[2]],
+                            given2 = given2,
+                            family2 = family2,
                             role2 = role2,
-                            given3 = AuthorName[[3]],
-                            family3 = AuthorSurname[[3]],
+                            given3 = given3,
+                            family3 = family3,
                             role3 = role3),
                 path = path)
-    }
-    if(length(AuthorName) == 4){
+    } 
+    
+ 
+    if (length(fullname) == 4) {
+      ggiven1 <- stringr::str_split(aname, ",")[[1]]
+      given1 <- paste0(ggiven1 [1][[1]])
+      family1 <- paste0(ggiven1[[2]][1])
+      ggiven2 <- stringr::str_split(aname, ",")[[2]]
+      given2 <- paste0(ggiven2 [1][[1]])
+      family2 <- paste0(ggiven2[[2]][1])
+      ggiven3 <- stringr::str_split(aname, ",")[[3]]
+      given3 <- paste0(ggiven3 [1][[1]])
+      family3 <- paste0(ggiven3[[2]][1])
+      ggiven4 <- stringr::str_split(aname, ",")[[4]]
+      given4 <- paste0(ggiven4 [1][[1]])
+      family4 <- paste0(ggiven4[[2]][1])
       qtemplate("qPackage-DESC4.dcf",
                 "DESCRIPTION",
                 data = list(package = packageName,
-                            given1 = AuthorName[[1]],
-                            family1 = AuthorSurname[[1]],
+                            given1 = given1,
+                            family1 = family1,
                             role1 = role1,
-                            given2 = AuthorName[[2]],
-                            family2 = AuthorSurname[[2]],
+                            given2 = given2,
+                            family2 = family2,
                             role2 = role2,
-                            given3 = AuthorName[[3]],
-                            family3 = AuthorSurname[[3]],
+                            given3 = given3,
+                            family3 = family3,
                             role3 = role3,
-                            given4 = AuthorName[[4]],
-                            family4 = AuthorSurname[[4]],
+                            given4 = given4,
+                            family4 = given4,
                             role4 = role4),
                 path = path)
     }
@@ -287,20 +323,20 @@ setup_package <- function(packageName = NULL,
       qtemplate("qPackage-DESC5.dcf",
                 "DESCRIPTION",
                 data = list(package = packageName,
-                            given1 = AuthorName[[1]],
-                            family1 = AuthorSurname[[1]],
+                            given1 = given1,
+                            family1 = family1,
                             role1 = role1,
-                            given2 = AuthorName[[2]],
-                            family2 = AuthorSurname[[2]],
+                            given2 = given2,
+                            family2 = family2,
                             role2 = role2,
-                            given3 = AuthorName[[3]],
-                            family3 = AuthorSurname[[3]],
+                            given3 = given3,
+                            family3 = family3,
                             role3 = role3,
-                            given4 = AuthorName[[4]],
-                            family4 = AuthorSurname[[4]],
+                            given4 = given4,
+                            family4 = given4,
                             role4 = role4,
-                            given5 = AuthorName[[5]],
-                            family5 = AuthorSurname[[5]],
+                            given5 = given5,
+                            family5 = family5,
                             role5 = role5),
                 path = path)
     }
@@ -312,7 +348,7 @@ setup_package <- function(packageName = NULL,
     authors <- as.vector(mapply(stringr::str_c, givenv, familyv, sep = " "))
     packageAuthor <- paste0(authors, collapse = ", ")
   } else {
-    authors <- as.vector(mapply(stringr::str_c, AuthorName, AuthorSurname, sep = " "))
+    authors <- as.vector(mapply(stringr::str_c, AuthorName, sep = " "))
     packageAuthor <- paste0(authors, collapse = ", ")
   }
   
