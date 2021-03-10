@@ -8,9 +8,9 @@
 #' entries if specified.
 #' @param AuthorName A vector giving the package
 #' author(s)' name(s). Authors(s)last name(s) and first 
-#' name(s) are separated by a comma
+#' name(s) are separated by a comma.
 #' @param Role A list of vectors of the roles the package authors have
-#' in the project
+#' in the project. Optional argument.
 #' @param update A logical indicating whether existing files should be
 #' overwritten, by default TRUE.
 #' @param path A string, if missing default is path to the working directory
@@ -80,9 +80,21 @@ setup_package <- function(packageName = NULL,
       stop("Please declare at least one author")
     }
   }
-  #Small check to see if roles are defined
+  #Small check to see if roles are defined. If not, sets all roles to ctb except
+  # the first one.
+  # If on the other hand there are less roles than author names, sets roles to 
+  # ctb for the rest of them.
   if(is.null(Role) || length(Role) != length(AuthorName)){
-    role = "ctb"
+    ifelse(
+      length(AuthorName)==5, Role <-
+      list(c("cre", "aut", "ctb"), c("ctb"), c("ctb"), c("ctb"), c("ctb")),
+      ifelse(length(AuthorName)==4,
+             Role <- list(c("cre", "aut", "ctb"), c("ctb"), c("ctb"), c("ctb")),
+      ifelse(length(AuthorName)==3,
+             Role <- list(c("cre", "aut", "ctb"), c("ctb"), c("ctb")),
+      ifelse(length(AuthorName)==2, Role <- 
+               list(c("cre", "aut", "ctb"), c("ctb")),
+      ifelse(length(AuthorName)==1, Role <- list(c("cre", "aut", "ctb")))))))
   }
   # Step 0.1 See if there are any ORCID numbers
   if(!is.null(ORCID)){

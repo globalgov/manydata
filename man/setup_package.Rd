@@ -19,10 +19,10 @@ must start with "q"}
 
 \item{AuthorName}{A vector giving the package
 author(s)' name(s). Authors(s)last name(s) and first
-name(s) are separated by a comma}
+name(s) are separated by a comma.}
 
 \item{Role}{A list of vectors of the roles the package authors have
-in the project}
+in the project. Optional argument.}
 
 \item{ORCID}{A vector of strings of all the ORCID numbers of the authors.
 Needs \code{{rorcid}} package to be installed. Takes precedence over manual
