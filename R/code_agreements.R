@@ -159,20 +159,23 @@ code_topic <- function(x) {
 #' @examples
 code_lineage <- function(s) {
   
+  # After much fiddling I am going back to standardise_titles() so that we
+  # rely on base to do the substituition and matching need here.
+  
   cap <- function(s) paste(toupper(substring(s, 1, 1)), {
     s <- substring(s, 2)
   }
   , sep = "", collapse = " ")
   out <- sapply(strsplit(s, split = " "), cap, USE.NAMES = !is.null(names(s)))
   out <- trimws(out)
-  out <- gsub("amend|modify|extend|proces-verbal|protocol|additional|subsidiary|supplementary|complÃ©mentaire|complementar|complementario|
-                agreement|arrangement|accord|acuerdo|bilateral co|technical co|treaty|trait|tratado|convention|convencion|convenio|constitution|
-                charte|instrument|statute|estatuto|provisional understanding|provisions relating|übereinkunft|
+  out <- gsub("amendment |modify |extend |verbal |protocol |additional |subsidiary |supplementary |complementary |complementario |
+                agreement |arrangement |accord |acuerdo |bilateral |technical |treaty |trait |tratado |convention |convencion |convenio |constitution |
+                charte |instrument |statute |estatuto |provisional |understanding |provisions |relating |übereinkunft |
                 Act|Declaration|Covenant|Scheme|Government Of|Law|Exchange|Letters|Notas|Memorandum|MemorÃ¡ndum|Principles of Conduct|
-                Code of Conduct|Agreed Measures|Agreed Record|Consensus|Conclusions|Decision|Directive|Regulation|Reglamento|Resolution|
-                Rules|Recommendation|Minute|Adjustment|First Session Of|First Meeting Of|Commission|Committee|Center|
-                Statement|Communiq|Comminiq|Joint Declaration|Proclamation|Administrative Order|Strategy|Plan|Program|Improvement|Project|Study|
-                Working Party|Working Group", "", out, ignore.case = TRUE)
+                Code of Conduct |Agreed Measures |Agreed Record |Consensus |Conclusions |Decision |Directive |Regulation |Reglamento |Resolution |
+                Rules |Recommendation |Minute |Adjustment |First|Session Of |First Meeting Of |Commission |Committee |Center |
+                Statement |Communiq |Comminiq |Joint Declaration |Proclamation |Administrative Order |Strategy |Plan |Program |Improvement |Project |Study |
+                Working Party |Working Group", "", out, ignore.case = TRUE)
   out <- gsub(" and| the| of| for", "", out, ignore.case = TRUE)
   # need to rework regex expression to match only articles surrounded by spaces
   out <- trimws(out)
