@@ -17,15 +17,15 @@ code_agreements <- function(title, date, dataset = NULL) {
   # smarter, interactive and more consistent coding of agreement titles. 
   
   # Step two: code parties if present
-  qID <- code_parties(qID)
+  parties <- code_parties(qID)
   
   # Step three: code agreement topic
   # Categories and key words still need some adjustements
-  qID <- code_topic(qID)
+  topic <- code_topic(qID)
   
   # Step four: code agreement type 
   # Categories and key words still need some adjustments
-  qID <- code_type(qID)
+  type <- code_type(qID)
   
   #step five: give the observation a unique ID
   uID <- stringr::str_remove_all(date, "-")
@@ -33,10 +33,12 @@ code_agreements <- function(title, date, dataset = NULL) {
   # step six: add items together correctly. the XXX is treated in the next step.
   # The following coding assumes that any other types than A (= Agreement) are linked to another treaty; this coding
   # would need to be adapted for declarations, MoU, minutes, etc
-  out <- ifelse((is.na(parties) & (type == "A")), paste0(topic, "_", type, uID),
+  out <- ifelse((is.na(parties) & (type == "A")), paste0(topic, "_", uID),
                 (ifelse((is.na(parties) & (type != "A")), paste0(topic, "_", "XXX", "-", type, uID),
-                        (ifelse((!is.na(parties) & (type == "A")), paste0(parties, "-", topic, uID),
-                                (ifelse((!is.na(parties) & (type != "A")), paste0(parties, "-", topic, "XXX", "-", type, uID), NA)))))))
+                        (ifelse((!is.na(parties) & (type == "A")), paste0(parties, "_", topic, uID),
+                                (ifelse((!is.na(parties) & (type != "A")), paste0(parties, "_", topic, "XXX", "-", type, uID),
+                                        (ifelse((stringr::str_detect(parties, "[:alpha:]{3}-[:alpha:]{3}-[:alpha:]{3}|[:alpha:]{3}-[:alpha:]{3}-[:alpha:]{3}-[:alpha:]{3}") & (type == "A")), paste0(topic, "_", uID),
+                                                (ifelse((stringr::str_detect(parties, "[:alpha:]{3}-[:alpha:]{3}-[:alpha:]{3}|[:alpha:]{3}-[:alpha:]{3}-[:alpha:]{3}-[:alpha:]{3}") & (type != "A")), paste0(topic, "XXX", "-", type, uID), NA)))))))))))
   
   
   # step seven: detect treaties from the same 'family' (the XXX should be replaced by the uID of the main treaty)
@@ -62,9 +64,9 @@ code_agreements <- function(title, date, dataset = NULL) {
 
 #' Code Agreement Parties
 #'
-#' @param x variable
+#' @param x A character vector of treaty titles
 #'
-#' @return
+#' @return A character vector of parties that are part of the treaty
 #' @export
 #'
 #' @examples
@@ -79,9 +81,9 @@ code_parties <- function(x) {
 
 #' Code Agreement Type
 #'
-#' @param x 
+#' @param x A character vector of treaty title
 #'
-#' @return
+#' @return A character vector of the type of treaty
 #' @export
 #'
 #' @examples
@@ -108,28 +110,26 @@ code_type <- function(x) {
     # S stands for strategies
     grepl("Strategy|Plan|Program|Improvement|Project|Study|Working Party|Working Group", x, ignore.case = T) ~ "S",
   )
+  # When no type is found
+  type <- stringr::str_replace_na(type, "O")
   
-  # What happens when title has agreements and protocol in title?
-  
-  for(i in x)
-    if(!str_detect(i, c("amend|modify|extend|proces-verbal", "protocol|additional|subsidiary|supplementary|complÃ©mentaire|complementar|complementario",
-                        "agreement|arrangement|accord|acuerdo|bilateral co|technical co|treat|trait|tratado|convention|convencion|convenio|constitution|charte|instrument|statute|estatuto|provisional understanding|provisions relating|übereinkunft",
-                        "Act|Declaration|Covenant|Scheme|Government Of|Law", "Exchange|Letters|Notas",
-                        "Memorandum|MemorÃ¡ndum|Principles of Conduct|Code of Conduct", "Agreed Measures|Agreed Record|Consensus|Conclusions|Decision|Directive|Regulation|Reglamento|Resolution|Rules|Recommendation",
-                        "Minute|Adjustment|First Session Of|First Meeting Of|Commission|Committee|Center", "Statement|Communiq|Comminiq|Joint Declaration|Proclamation|Administrative Order",
-                        "Strategy|Plan|Program|Improvement|Project|Study|Working Party|Working Group"))) {
-      type <- "OTH"
-    }
+  # ifelse((!str_detect(x, c("amend|modify|extend|proces-verbal", "protocol|additional|subsidiary|supplementary|complÃ©mentaire|complementar|complementario",
+  #                        "agreement|arrangement|accord|acuerdo|bilateral co|technical co|treat|trait|tratado|convention|convencion|convenio|constitution|charte|instrument|statute|estatuto|provisional understanding|provisions relating|übereinkunft",
+  #                        "Act|Declaration|Covenant|Scheme|Government Of|Law", "Exchange|Letters|Notas",
+  #                        "Memorandum|MemorÃ¡ndum|Principles of Conduct|Code of Conduct", "Agreed Measures|Agreed Record|Consensus|Conclusions|Decision|Directive|Regulation|Reglamento|Resolution|Rules|Recommendation",
+  #                        "Minute|Adjustment|First Session Of|First Meeting Of|Commission|Committee|Center", "Statement|Communiq|Comminiq|Joint Declaration|Proclamation|Administrative Order",
+  #                        "Strategy|Plan|Program|Improvement|Project|Study|Working Party|Working Group"))), "OTH", NA)
   
   type
   
+  # What happens when multiple types are detected in title?
 }
 
-#' Code Agreemnt Topic
+#' Code Agrement Topic
 #'
-#' @param x 
+#' @param x A character vector of treaty title
 #'
-#' @return
+#' @return A character vector of the treaty topic.
 #' @export
 #'
 #' @examples
@@ -151,15 +151,8 @@ code_topic <- function(x) {
     grepl("climate", x, ignore.case = T) ~ "CLC",
     grepl("noise", x, ignore.case = T) ~ "NOI",
   )
-  # Define the category OTH when no topic is found
-  for(i in x)
-    if(!str_detect(i, c("Waste|disposal|pollut|toxic|hazard", "species|habitat|ecosystems|biological diversity|genetic resources|biosphere", 
-                        "air|atmos|climate|outer space|ozone|emissions", "water|freshwater|river|rhine|hydro|basin|drought", "soil|wetland|desert|erosion", 
-                        "nature|environment|biodiversity|flora|plant|fruit|vegetable|seed|forest|tree", "fish|salmon|herring|tuna|aquaculture|mariculture|molluscs",
-                        "agricultur|food|livestock|crop|irrigation|cattle|meat|farm|cultivate", "culture|scien|techno|trade|research|exploration|navigation|data|information",
-                        "energy|nuclear|oil|mining|gas|hydro|power", "accidents", "chemicals", "pesticides","climate", "noise"))) {
-    topic <- "OTH"
-  }
+  # If not topic is found, category will be "OTH"
+  topic <- stringr::str_replace_na(topic, "OTH")
   
   topic
 }
