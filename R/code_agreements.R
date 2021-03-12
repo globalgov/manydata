@@ -95,7 +95,7 @@ code_type <- function(x) {
     # P stands for protocols
     grepl("protocol|additional|subsidiary|supplementary|complÃ©mentaire|complementar|complementario", x, ignore.case = T) ~ "P",
     # A stands for agreements
-    grepl("agreement|arrangement|accord|acuerdo|bilateral co|technical co|treat|trait|tratado|convention|convencion|convenio|constitution|charte|instrument|statute|estatuto|provisional understanding|provisions relating|übereinkunft", qID, ignore.case = T) ~ "A",
+    grepl("agreement|arrangement|accord|acuerdo|bilateral co|technical co|treat|trait|tratado|convention|convencion|convenio|constitution|charte|instrument|statute|estatuto|provisional understanding|provisions relating|übereinkunft", x, ignore.case = T) ~ "A",
     grepl("Act|Declaration|Covenant|Scheme|Government Of|Law", x, ignore.case = T) ~ "A",
     # X stands for exchanges of notes
     grepl("Exchange|Letters|Notas", x, ignore.case = T) ~ "X",
