@@ -35,11 +35,10 @@ code_agreements <- function(title, date, dataset = NULL) {
   # would need to be adapted for declarations, MoU, minutes, etc
   out <- ifelse((is.na(parties) & (type == "A")), paste0(topic, "_", uID),
                 (ifelse((is.na(parties) & (type != "A")), paste0(topic, "_", "XXX", "-", type, uID),
-                        (ifelse((!is.na(parties) & (type == "A")), paste0(parties, "_", topic, uID),
-                                (ifelse((!is.na(parties) & (type != "A")), paste0(parties, "_", topic, "XXX", "-", type, uID),
-                                        (ifelse((stringr::str_detect(parties, "[:alpha:]{3}-[:alpha:]{3}-[:alpha:]{3}|[:alpha:]{3}-[:alpha:]{3}-[:alpha:]{3}-[:alpha:]{3}") & (type == "A")), paste0(topic, "_", uID),
-                                                (ifelse((stringr::str_detect(parties, "[:alpha:]{3}-[:alpha:]{3}-[:alpha:]{3}|[:alpha:]{3}-[:alpha:]{3}-[:alpha:]{3}-[:alpha:]{3}") & (type != "A")), paste0(topic, "XXX", "-", type, uID), NA)))))))))))
-  
+                        (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(parties, "_", topic, uID),
+                                (ifelse((!is.na(parties) & (type == "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(topic,"_", uID),
+                                        (ifelse((!is.na(parties) & (type != "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(parties, "_", topic, "XXX", "-", type, uID),
+                                                 (ifelse((!is.na(parties) & (type != "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(topic, "XXX", "-", type, uID), NA)))))))))))
   
   # step seven: detect treaties from the same 'family' (the XXX should be replaced by the uID of the main treaty)
   # This step is commented out as the coding are still on development.
