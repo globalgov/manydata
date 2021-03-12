@@ -112,13 +112,6 @@ code_type <- function(x) {
   # When no type is found
   type <- stringr::str_replace_na(type, "O")
   
-  # ifelse((!str_detect(x, c("amend|modify|extend|proces-verbal", "protocol|additional|subsidiary|supplementary|complÃ©mentaire|complementar|complementario",
-  #                        "agreement|arrangement|accord|acuerdo|bilateral co|technical co|treat|trait|tratado|convention|convencion|convenio|constitution|charte|instrument|statute|estatuto|provisional understanding|provisions relating|übereinkunft",
-  #                        "Act|Declaration|Covenant|Scheme|Government Of|Law", "Exchange|Letters|Notas",
-  #                        "Memorandum|MemorÃ¡ndum|Principles of Conduct|Code of Conduct", "Agreed Measures|Agreed Record|Consensus|Conclusions|Decision|Directive|Regulation|Reglamento|Resolution|Rules|Recommendation",
-  #                        "Minute|Adjustment|First Session Of|First Meeting Of|Commission|Committee|Center", "Statement|Communiq|Comminiq|Joint Declaration|Proclamation|Administrative Order",
-  #                        "Strategy|Plan|Program|Improvement|Project|Study|Working Party|Working Group"))), "OTH", NA)
-  
   type
   
   # What happens when multiple types are detected in title?
@@ -164,50 +157,45 @@ code_topic <- function(x) {
 #' @export
 #'
 #' @examples
-code_lineage <- function(x) {
+code_lineage <- function(s) {
   
-  # Could be one solution to add the lineage instead of the "XXX". The main treaty is detected in the attached treaty title. The
-  # uID from the main treaty is replacing "XXX" in qID
-  # out <- ifelse((stringr::str_detect(qID[type != "A"], as.character(qID[type == "A"]))), stringr::str_replace(out, "XXX", uID), out)
-  # Add a loop (the function str_detect() is not working with the pattern as a character vector)
+  cap <- function(s) paste(toupper(substring(s, 1, 1)), {
+    s <- substring(s, 2)
+  }
+  , sep = "", collapse = " ")
+  out <- sapply(strsplit(s, split = " "), cap, USE.NAMES = !is.null(names(s)))
+  out <- trimws(out)
+  out <- gsub("amend|modify|extend|proces-verbal|protocol|additional|subsidiary|supplementary|complÃ©mentaire|complementar|complementario|
+                agreement|arrangement|accord|acuerdo|bilateral co|technical co|treaty|trait|tratado|convention|convencion|convenio|constitution|
+                charte|instrument|statute|estatuto|provisional understanding|provisions relating|übereinkunft|
+                Act|Declaration|Covenant|Scheme|Government Of|Law|Exchange|Letters|Notas|Memorandum|MemorÃ¡ndum|Principles of Conduct|
+                Code of Conduct|Agreed Measures|Agreed Record|Consensus|Conclusions|Decision|Directive|Regulation|Reglamento|Resolution|
+                Rules|Recommendation|Minute|Adjustment|First Session Of|First Meeting Of|Commission|Committee|Center|
+                Statement|Communiq|Comminiq|Joint Declaration|Proclamation|Administrative Order|Strategy|Plan|Program|Improvement|Project|Study|
+                Working Party|Working Group", "", out, ignore.case = TRUE)
+  out <- gsub(" and| the| of| for", "", out, ignore.case = TRUE)
+  # need to rework regex expression to match only articles surrounded by spaces
+  out <- trimws(out)
+  out <- textclean::add_comma_space(out)
+  out <- textclean::mgsub(out,
+                          paste0("(?<!\\w)", as.roman(1:100), "(?!\\w)"),
+                          as.numeric(1:100),
+                          safe = TRUE, perl = TRUE)
+  ords <- english::ordinal(1:100)
+  ords <- paste0(ords,
+                 if_else(stringr::str_count(ords, "\\S+") == 2,
+                         paste0("|", gsub(" ", "-", as.character(ords))),
+                         ""))
+  out <- textclean::mgsub(out,
+                          paste0("(?<!\\w)", ords, "(?!\\w)"),
+                          as.numeric(1:100),
+                          safe = TRUE, perl = TRUE,
+                          ignore.case = TRUE, fixed = FALSE)
   
-  #Other solution: but pattern >1 so only use first element
-  # ifelse(apply(dataset, 1, function(x){
-  #   grepl(qID[type == "A"], qID[type != "A"])
-  # }), stringr::str_replace(out, "XXX", uID[type == "A"]), out)
+  out <- as.data.frame(out)
   
-  # Adapted from: https://stackoverflow.com/questions/12999772/create-a-unique-id-by-fuzzy-matching-of-names-via-agrep-using-r
-  #  line <- function(title) {
-  # 
-  #    same_agreements <- function(x) {
-  #      x <- as.factor(x)
-  #      matches <- lapply(levels(x), agrep, x=levels(x),fixed=TRUE, value=FALSE)
-  #      levels(x) <- levels(x)[unlist(lapply(matches, function(x) x[0:20]))]
-  #      as.character(x)
-  #    }
-  # # the function do not return TRUE or FALSE but NA or agreement titles
-  # 
-  #    familyline <- same_agreements(title)
-  # 
-  #    familycode <- lapply(title, function(x) {
-  # 
-  #      if(familyline == TRUE & (type == "A")) { # Agreement type do not have XXX in the coding
-  #        xx <- stringr::str_split(uID, "", 8)
-  #        xxa <- paste0(xx [[1]][6:8])
-  #        qID <- stringr::str_replace(qID, "XXX", xxa)
-  #        qID
-  #      } else if(familyline == TRUE & (!type == "A")) {
-  #        # need to give same line as parent agreement
-  #        qID <- stringr::str_replace(qID, "XXX", xxa)
-  #        qID
-  #        }
-  #      x
-  #    })
-  #   line <- familycode(title)
-  # 
-  #   line <- unlist(title)
-  # 
-  #   line
-  # 
-  #}
+  dup <- duplicated(out)
+  
+  # now how to assingn similar IDs to these duplicates?
+  
 }
