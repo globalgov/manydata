@@ -27,7 +27,7 @@
 #' "A clearly future date", "9999-12-31",
 #' "A not so clearly future date", "2599-12-31")
 #' dates_comparison %>% dplyr::mutate(
-#' lubridate = lubridate::as_date(OriginalDate),
+#' lubridate = suppressWarnings(lubridate::as_date(OriginalDate)),
 #' anytime = anytime::anydate(OriginalDate),
 #' qData = qData::standardise_dates(OriginalDate)
 #' ) %>% print(n = 25)
@@ -46,17 +46,17 @@ standardise_dates <- standardize_dates <- function(...){
   # Step four: identifying negative dates and maintaining negative values
   dates <- treat_historical_dates(dates)
   
-  # Step five: standardising future dates
+  # Step five: Threating imconplete dates
+  dates <- treat_incomplete_dates(dates)
+  
+  # Step six: Add range for ambiguous dates
+  dates <- treat_range_dates(dates)
+  
+  # Step seven: treating future dates
   dates <- treat_future_dates(dates)
   
-  # Step six: insert range on incomplete year only dates
-  # dates <- treat_incomplete_dates(dates)
-  
-  # Step seven: dealing with uncertain dates and date ranges
-  # dates <- treat_range_dates(dates)
-  
-  dates <- lubridate::as_date(dates)
   dates
+  
 }
 
 # Helper functions for standardise_dates()
@@ -80,8 +80,8 @@ standardise_date_input <- function(dates){
     dates
   }
   
-  dates <- as.character(dates) # makes sure dates are in character format
   dates <- stringr::str_replace_all (dates, "^NA$", "") # makes NAs will not create errors
+  #todo: fix how NAs are reported and stanrdadize how missing variables are treated
   dates <- stringr::str_remove_all(dates, "(0000-00-00|00-00-0000|00-00-00)") # standardising null dates
   dates <- stringr::str_replace_all(dates, "\\.", "-") # standardising separaters
   dates <- stringr::str_replace_all(dates, "\\/", "-") # standardising separaters
@@ -107,37 +107,23 @@ correct_date_format <- function(dates){
     if(length(dpos)==0) dpos <- setdiff(c(1,3), ypos)
     mpos <- setdiff(setdiff(1:3, ypos), dpos) # identify month
     
-    if(nrow(x)==1){
+    out <- apply(x, 1, function(x){
       y <- ifelse(nchar(x[ypos])>2,
                   ifelse(x[ypos] > thresh & x[ypos]!="9999",
-                         paste0("19", x[ypos] %% 100),
+                         paste0("19",x[ypos] %% 100),
                          formatC(x[ypos], width = 4, flag = "0")), # if 4, keep or correct
-                  ifelse(x[ypos] > (thresh %% 100),
+                  ifelse(as.numeric(x[ypos]) > (thresh %% 100),
                          paste0("19", formatC(x[ypos], width = 2, flag = "0")), # if more than now, likely last century
                          paste0("20", formatC(x[ypos], width = 2, flag = "0")))) # if less than now, likely this century
-      m <- formatC(x[mpos], width = 2, flag = "0")
+      m <- formatC(as.numeric(x[mpos]), width = 2, flag = "0")
       if(m=="00") m <- "01"
-      d <- formatC(x[dpos], width = 2, flag = "0")
+      d <- formatC(as.numeric(x[dpos]), width = 2, flag = "0")
       if(d=="00") d <- "01"
-      out <- paste(y,m,d,sep = "-")
-    } else {
-      out <- apply(x, 1, function(x){
-        y <- ifelse(nchar(x[ypos])>2,
-                    ifelse(x[ypos] > thresh & x[ypos]!="9999",
-                           paste0("19",x[ypos] %% 100),
-                           formatC(x[ypos], width = 4, flag = "0")), # if 4, keep or correct
-                    ifelse(as.numeric(x[ypos]) > (thresh %% 100),
-                           paste0("19", formatC(x[ypos], width = 2, flag = "0")), # if more than now, likely last century
-                           paste0("20", formatC(x[ypos], width = 2, flag = "0")))) # if less than now, likely this century
-        m <- formatC(as.numeric(x[mpos]), width = 2, flag = "0")
-        if(m=="00") m <- "01"
-        d <- formatC(as.numeric(x[dpos]), width = 2, flag = "0")
-        if(d=="00") d <- "01"
-        paste(y,m,d,sep = "-")
-      })
-    }
+      paste(y,m,d,sep = "-")
+    })
     dates <- out
   }
+  
   dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{2}-[:digit:]{4}$"), as.character(as.Date(dates,"%d-%m-%Y")), dates) # Correct date order if need
   dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{1}-[:digit:]{1}-[:digit:]{4}$"), as.character(as.Date(dates,"%d-%m-%Y")), dates) # Correct date order and size 
   dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{1}-[:digit:]{4}$"), as.character(as.Date(dates,"%d-%m-%Y")), dates) # Correct date order and size
@@ -156,63 +142,57 @@ treat_historical_dates <- function(dates){
   
   neg_dates_comp <- function(dates) {
     if(stringr::str_detect(dates, "^-[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")) { # for negative ymd dates
-      ndate <- as.numeric(lubridate::ymd(dates)) 
-      dzero <- as.numeric(lubridate::as_date("0000-01-01"))
-      dt <- as.numeric(lubridate::as_date("0000-01-01"))
-      negdate <- dzero - ndate
-      histdate <- as.numeric(lubridate::as_date(negdate) + dt)
-      dates <- lubridate::as_date(histdate)
+      dates <- as.character(dates)
     } else if(stringr::str_detect(dates, "^-[:digit:]{2}-[:digit:]{2}-[:digit:]{4}$")) {
-      nd <- lubridate::dmy(dates)
-      ndate <- as.numeric(lubridate::as_date(nd))
-      dzero <- as.numeric(lubridate::as_date("0000-01-01"))
-      dt <- as.numeric(lubridate::as_date("0000-01-01"))
-      negdate <- dzero - ndate
-      histdate <- as.numeric(lubridate::as_date(negdate) + dt)
-      dates <- lubridate::as_date(histdate)
+      splitd <- stringr::str_split(dates, "-")[[1]]
+      dates <- paste0("-", splitd[[4]][1], "-", splitd[[3]][1], "-", splitd[[2]][1])
+    } else if(stringr::str_detect(dates, "^-[:digit:]{3}-[:digit:]{2}-[:digit:]{2}$")) { # for negative ymd dates / digit
+      dates <- stringr::str_replace(dates, "-", "-0")
+    } else if(stringr::str_detect(dates, "^-[:digit:]{2}-[:digit:]{2}-[:digit:]{2}$")) { # for negative ymd dates 6 digit ymd
+      dates <- stringr::str_replace(dates, "-", "-00")
+    } else if(stringr::str_detect(dates, "^-[:digit:]{2}-[:digit:]{2}-[:digit:]{2}$")) {  # for negative ymd dates 6 digit dmy
+      splitd <- stringr::str_split(dates, "-")[[1]]
+      dates <- paste0("-00", splitd[[4]][1], "-", splitd[[3]][1], "-", splitd[[2]][1])
     } else {
       dates
     }
   }
   
   neg_dates <- function(dates) {
-    if(stringr::str_detect(dates, "^-[:digit:]{4}$")){ # negative dates with 4 digit year only
-      nd <- paste0(dates, "-01-01") 
-      ndate <- as.numeric(lubridate::as_date(nd))
-      dzero <- as.numeric(lubridate::as_date("0000-01-01"))
-      dt <- as.numeric(lubridate::as_date("0000-01-01"))
-      negdate <- dzero - ndate
-      histdate <- as.numeric(lubridate::as_date(negdate) + dt)
-      dates <- lubridate::as_date(histdate)
-    } else if(stringr::str_detect(dates, "^-[:digit:]{3}$")){ # negative dates with 3 digit year only
-      ndate <- stringr::str_replace(dates, "-", "0") 
-      ndate <- paste0(ndate, "-01-01") 
-      ndate <- as.numeric(lubridate::as_date(ndate))
-      dzero <- as.numeric(lubridate::as_date("0000-01-01"))
-      dt <- as.numeric(lubridate::as_date("0000-01-01"))
-      negdate <- dzero - ndate
-      histdate <- as.numeric(lubridate::as_date(negdate) + dt)
-      dates <- lubridate::as_date(histdate)
-    } else if(stringr::str_detect(dates, "^-[:digit:]{2}$")){ # negative dates with 2 digit year only
-      ndate <- stringr::str_replace(dates, "-", "00") 
-      ndate <- paste0(ndate, "-01-01") 
-      ndate <- as.numeric(lubridate::as_date(ndate))
-      dzero <- as.numeric(lubridate::as_date("0000-01-01"))
-      dt <- as.numeric(lubridate::as_date("0000-01-01"))
-      negdate <- dzero - ndate
-      histdate <- as.numeric(lubridate::as_date(negdate) + dt)
-      dates <- lubridate::as_date(histdate)
-    } else {
-      dates
-    } 
+    
+    dates <- sapply(dates, function(d){
+      if(is.na(d)) {
+        d <- d
+      } else if(stringr::str_detect(d, "^-[:digit:]{4}$")){ # 4 digit year only
+        d <- paste0(d, "-01-01:", d, "-12-31")
+      } else if(stringr::str_detect(d, "^-[:digit:]{3}$")){ # 3 digit year only
+        d <- stringr::str_replace(dates, "-", "0") 
+        d <- paste0("-", d, "-01-01:", "-", d, "-12-31")
+      } else if(stringr::str_detect(d, "^-[:digit:]{2}$")){ # 2 digit year only
+        d <- stringr::str_replace(d, "-", "0")
+        d <- paste0("-0", d, "-01-01:","-0", d, "-12-31")
+      } else if(stringr::str_detect(d, "^-[:digit:]{1}$")){ # 1 digit year only
+        d <- stringr::str_replace(d, "-", "0")
+        d <- paste0("-00", d, "-01-01:","-00", d, "-12-31")
+      } else if(stringr::str_detect(d, "^-[:digit:]{4}-[:digit:]{2}$")){ # month only
+        start <- paste0(d, "-01")
+        d <- paste0(start, ":", d, "-", days_in_month(month(ymd(start))))
+      } else d <- d
+      d
+    })
+    unname(dates)
   }
   
   dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), neg_dates_comp(dates), dates) # negative ymd dates
   dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{2}-[:digit:]{2}-[:digit:]{4}$"), neg_dates_comp(dates), dates) # negative dates in dmy format
-  # todo: expand on negative date formats taken
+  dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{3}-[:digit:]{2}-[:digit:]{2}$"), neg_dates_comp(dates), dates) # negative ymd dates 7 digits
+  dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{2}-[:digit:]{2}-[:digit:]{2}$"), neg_dates_comp(dates), dates) # negative ymd dates 6 digits
+  dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{2}-[:digit:]{2}-[:digit:]{2}$"), neg_dates_comp(dates), dates) # negative dmy dates 6 digits
+  dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{1}$"), neg_dates(dates), dates) # negative 1 digit only dates
   dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{2}$"), neg_dates(dates), dates) # negative 2 years only dates
   dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{3}$"), neg_dates(dates), dates) # negative 3 years only dates
   dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{4}$"), neg_dates(dates), dates) # negative year only dates
+  dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{4}-[:digit:]{2}$"), neg_dates(dates), dates) # negative dates no day
 }
 
 treat_future_dates <- function(dates){
@@ -229,17 +209,13 @@ treat_incomplete_dates <- function(dates){
       d <- d
     } else if(stringr::str_detect(d, "^[:digit:]{4}$")){ # 4 digit year only
       d <- paste0(d, "-01-01:", d, "-12-31")
-      d
     } else if(stringr::str_detect(d, "^[:digit:]{3}$")){ # 3 digit year only
       d <- paste0("0", d, "-01-01:", "0", d, "-12-31")
-      d
     } else if(stringr::str_detect(d, "^[:digit:]{2}$")){ # 2 digit year only
       d <- paste0("00", d, "-01-01:","00", d, "-12-31")
-      d
     } else if(stringr::str_detect(d, "^[:digit:]{4}-[:digit:]{2}$")){ # month only
       start <- paste0(d, "-01")
       d <- paste0(start, ":", d, "-", days_in_month(month(ymd(start))))
-      d
     } else d <- d
     d
   }) 
@@ -247,10 +223,6 @@ treat_incomplete_dates <- function(dates){
 }
 
 treat_range_dates <- function(dates){
-  
-  date_range <- function(start, finish){
-    as.character(lubridate::as_date(lubridate::as_date(start):lubridate::as_date(finish)))
-  }
   
   dates <- lapply(dates, function(d){
     
@@ -260,7 +232,7 @@ treat_range_dates <- function(dates){
       brackets <- stringr::str_split(d, ":")
       start <- paste0(brackets[[1]][1], "-01-01")
       finish <- paste0(brackets[[1]][2], "-12-31")
-      d <- date_range(start, finish)
+      d <- paste0(start, ":", finish)
     } else if(stringr::str_detect(d, "^[:digit:]{4}-[:digit:]{2}:[:digit:]{2}$")){ # month range
       brackets <- stringr::str_split(d, ":")
       start <- paste0(brackets[[1]][1], "-01")
@@ -268,7 +240,7 @@ treat_range_dates <- function(dates){
                       brackets[[1]][2],
                       lubridate::days_in_month(as.numeric(brackets[[1]][2])),
                       sep = "-")
-      d <- date_range(start, finish)
+      d <- paste0(start, ":", finish)
     } else if(stringr::str_detect(d, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{2}$")){ # day range
       brackets <- stringr::str_split(d, ":")
       start <- brackets[[1]][1]
@@ -276,16 +248,163 @@ treat_range_dates <- function(dates){
                       stringr::str_split(start, "-")[[1]][2],
                       brackets[[1]][2],
                       sep = "-")
-      d <- date_range(start, finish)
+      d <- paste0(start, ":", finish)
     } else if(stringr::str_detect(d, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")){ # correct range format
-      brackets <- stringr::str_split(d, ":")
-      start <- brackets[[1]][1]
-      finish <- brackets[[1]][2]
-      d <- date_range(start, finish)
+      d <- d
     } else d <- d
     d
   })
   unlist(dates)
+}
+
+#' Resolve Date Ranges
+#'
+#' @details This function resolves ranged dates created with `standardise_dates()`
+#' by the choice type of minimum, maximun or mean dates.
+#' @param dates Ranged dates variable returned by `standardise_dates()`
+#' @param type How do you want the range to be solved?
+#' @import lubridate
+#' @import stringr
+#' @return a date column
+#' @examples
+#' @export
+resolve_dates <- function(dates, type = c("mean", "min", "max")) {
+  
+  if(!is.character(dates)) {
+    stop("Please make sure date column has been parsed with standardise_dates() first")
+  }
+  
+  if(missing(type)) {
+    resolve_dates(dates, type = "mean")
+  } 
+  
+  min_date <- function(x) {
+    dates <- lapply(x, function(d) {
+      splitd <- stringr::str_split(d, ":") [[1]]
+      mindate <- paste0(splitd[[1]][1])
+      dates <- mindate
+    })
+  }
+  
+  min_negdate <- function(x) {
+    dates <- lapply(x, function(d) {
+      splitd <- stringr::str_split(d, ":")[[1]]
+      d <- paste0(splitd[[1]][1])
+      ndate <- as.numeric(lubridate::ymd(d))
+      dzero <- as.numeric(lubridate::as_date("0000-01-01"))
+      dt <- as.numeric(lubridate::as_date("0000-01-01"))
+      negdate <- dzero - ndate
+      histdate <- as.numeric(lubridate::as_date(negdate) + dt)
+      dates <- lubridate::as_date(histdate)
+      #todo = fix issues with calculations here
+      dates
+    })
+  }
+  
+  max_date <- function(x) {
+    dates <- lapply(x, function(d) {
+      splitd <- stringr::str_split(d, ":")
+      maxdate <- paste0(splitd[[1]][2])
+      dates <- maxdate
+    })
+  }
+  
+  max_negdate <- function(x) {
+    dates <- lapply(x, function(d) {
+      splitd <- stringr::str_split(d, ":")
+      d <- paste0(splitd[[1]][2])
+      ndate <- as.numeric(lubridate::ymd(d))
+      dzero <- as.numeric(lubridate::as_date("0000-01-01"))
+      dt <- as.numeric(lubridate::as_date("0000-01-01"))
+      negdate <- dzero - ndate
+      histdate <- as.numeric(lubridate::as_date(negdate) + dt)
+      dates <- lubridate::as_date(histdate)
+      #todo = fix issues with calculations here
+      dates
+    })
+  }
+  
+  mean_date <- function(x) {
+    dates <- lapply(x, function(d) {
+      splitd <- stringr::str_split(d, ":")[1]
+      yb <- paste0(splitd[[1]][1])
+      ye <- paste0(splitd[[1]][2])
+      s1 <-  stringr::str_split(yb, "-")
+      s2 <- stringr::str_split(ye, "-")
+      y1 <- paste0(s1[[1]][1])
+      m1 <- paste0(s1[[1]][2])
+      y2 <- paste0(s2[[1]][1])
+      m2 <- paste0(s2[[1]][2])
+      if(m1 == m2) {
+        meandate <- paste0(y1, "-", m1, "-",  "15")
+      } else if(m1 != m2 & y1 == y2) {
+        meandate <- paste0(y1, "-07-02") #July 2nd is the middle of a regular year
+      } else if(y1 != y2) {
+        meanyear <- (as.numeric(y1) + as.numeric(y2))/2
+        if(is.na(meanyear)) {
+          meandate <- meanyear 
+        } else if(stringr::str_detect(meanyear, "^[:digit:]{4}$")) {
+          meandate <- paste0(meanyear, "-01-01")  
+        } else {
+          decimalyear <- stringr::str_split(meanyear, ".") [[1]]
+          meandate <- paste0(decimalyear[[1]][1], "-07-02")   
+        }
+      }
+      dates <- meandate
+    })
+  }
+  
+  mean_negdate <- function(x) {
+    dates <- lapply(x, function(d) {
+      splitd <- stringr::str_split(d, ":")[[1]]
+      yb <- paste0(splitd)[[1]]
+      ye <- paste0(splitd)[[2]]
+      s1 <-  stringr::str_split(yb, "-")
+      s2 <- stringr::str_split(ye, "-")
+      y1 <- paste0(s1[[1]][1])
+      m1 <- paste0(s1[[1]][2])
+      y2 <- paste0(s2[[1]][1])
+      m2 <- paste0(s2[[1]][2])
+      if(m1 == m2) {
+        meandate <- paste0("-", y1, "-", m1, "-",  "15")
+      } else if(m1 != m2 & y1 == y2) {
+        meandate <- paste0("-", y1, "-07-02") #July 2nd is the middle of a regular year
+      } else if(y1 != y2) {
+        meanyear <- (as.numeric(y1) + as.numeric(y2))/2
+        if(is.na(meanyear)) {
+          meandate <- meanyear 
+        } else if(stringr::str_detect(meanyear, "^[:digit:]{4}$")) {
+          meandate <- paste0("-", meanyear, "-01-01")  
+        } else {
+          decimalyear <- stringr::str_split(meanyear, ".") [[1]]
+          meandate <- paste0("-", decimalyear[[1]][1], "-07-02")  
+        }
+      } 
+      ndate <- as.numeric(lubridate::ymd(meandate))
+      dzero <- as.numeric(lubridate::as_date("0000-01-01"))
+      dt <- as.numeric(lubridate::as_date("0000-01-01"))
+      negdate <- dzero - ndate
+      histdate <- as.numeric(lubridate::as_date(negdate) + dt)
+      dates <- lubridate::as_date(histdate)
+      #todo = fix issues with calculations here
+      dates
+    })
+  }
+  
+  if(type == "min") {
+    dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), min_date(dates), dates)
+    dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:-[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), min_negdates(dates), dates)
+  } else if(type == "max") {
+    dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), max_date(dates), dates)
+    dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:-[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), max_negdates(dates), dates)
+  } else if(type == "mean") {
+    dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), mean_date(dates), dates)
+    dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:-[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), mean_negdates(dates), dates)
+  } else dates <- dates
+  
+  dates <- unlist(dates, use.names = FALSE)
+  dates <- lubridate::as_date(dates)
+  dates
 }
 
 #' Resetting century of future events
@@ -358,4 +477,3 @@ resequence <- function(data, vars, unity = "_"){
   t(out)
   
 }
-
