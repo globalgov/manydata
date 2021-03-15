@@ -30,19 +30,18 @@ code_agreements <- function(title, date, dataset = NULL) {
   #step five: give the observation a unique ID
   uID <- stringr::str_remove_all(date, "-")
   
-  # step six: add items together correctly. the XXX is treated in the next step.
+  # step six: detect treaties from the same 'family'
+  line <- code_lineage(qID)
+  
+  # Step seven: add items together correctly
   # The following coding assumes that any other types than A (= Agreement) are linked to another treaty; this coding
   # would need to be adapted for declarations, MoU, minutes, etc
   out <- ifelse((is.na(parties) & (type == "A")), paste0(topic, "_", uID),
-                (ifelse((is.na(parties) & (type != "A")), paste0(topic, "_", "XXX", "-", type, uID),
+                (ifelse((is.na(parties) & (type != "A")), paste0(topic, "_", line, "-", type, uID),
                         (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(parties, "_", topic, uID),
                                 (ifelse((!is.na(parties) & (type == "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(topic,"_", uID),
-                                        (ifelse((!is.na(parties) & (type != "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(parties, "_", topic, "XXX", "-", type, uID),
-                                                 (ifelse((!is.na(parties) & (type != "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(topic, "XXX", "-", type, uID), NA)))))))))))
-  
-  # step seven: detect treaties from the same 'family' (the XXX should be replaced by the uID of the main treaty)
-  # This step is commented out as the coding are still on development.
-  qID <- code_lineage(qID)
+                                        (ifelse((!is.na(parties) & (type != "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(parties, "_", topic, line, "-", type, uID),
+                                                 (ifelse((!is.na(parties) & (type != "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(topic, line, "-", type, uID), NA)))))))))))
   
   out <- stringr::str_replace_all(out, "NA_", NA_character_)
   cat(sum(is.na(out)), "entries were not matched at all.\n")
@@ -149,9 +148,11 @@ code_topic <- function(x) {
 
 #' Code Agreement Lineage
 #'
-#' @param x 
-#' @importFrom textclean
-#' @importFrom english
+#' @param x A character vector of treaty title
+#' @import textclean
+#' @import english
+#' @import stringr
+#' @import dplyr
 #' @return
 #' @example 
 #' @export
