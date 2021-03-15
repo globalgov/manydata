@@ -64,11 +64,10 @@ code_agreements <- function(title, date, dataset = NULL) {
 #' Code Agreement Parties
 #'
 #' @param x A character vector of treaty titles
-#'
+#' @importFrom qState code_states
 #' @return A character vector of parties that are part of the treaty
-#' @export
-#'
 #' @examples
+#' @export
 code_parties <- function(x) {
   
   parties <- qStates::code_states(x)
@@ -81,11 +80,10 @@ code_parties <- function(x) {
 #' Code Agreement Type
 #'
 #' @param x A character vector of treaty title
-#'
 #' @return A character vector of the type of treaty
-#' @export
-#'
+#' @importFrom stringr str_replace_na
 #' @examples
+#' @export
 code_type <- function(x) {
   
   type <- case_when(
@@ -120,11 +118,11 @@ code_type <- function(x) {
 #' Code Agrement Topic
 #'
 #' @param x A character vector of treaty title
-#'
+#' @importFrom stringr str_replace_na
+#' @import dplyr
 #' @return A character vector of the treaty topic.
+#' @example 
 #' @export
-#'
-#' @examples
 code_topic <- function(x) {
   
   topic <- case_when(
@@ -152,11 +150,11 @@ code_topic <- function(x) {
 #' Code Agreement Lineage
 #'
 #' @param x 
-#'
+#' @importFrom textclean
+#' @importFrom english
 #' @return
+#' @example 
 #' @export
-#'
-#' @examples
 code_lineage <- function(s) {
   
   # After much fiddling I am going back to standardise_titles() so that we
@@ -168,16 +166,16 @@ code_lineage <- function(s) {
   , sep = "", collapse = " ")
   out <- sapply(strsplit(s, split = " "), cap, USE.NAMES = !is.null(names(s)))
   out <- trimws(out)
+  # Step one: remove known words and articles
   out <- gsub("amendment |modify |extend |verbal |protocol |additional |subsidiary |supplementary |complementary |complementario |
-                agreement |arrangement |accord |acuerdo |bilateral |technical |treaty |trait |tratado |convention |convencion |convenio |constitution |
-                charte |instrument |statute |estatuto |provisional |understanding |provisions |relating |übereinkunft |
-                Act|Declaration|Covenant|Scheme|Government Of|Law|Exchange|Letters|Notas|Memorandum|MemorÃ¡ndum|Principles of Conduct|
-                Code of Conduct |Agreed Measures |Agreed Record |Consensus |Conclusions |Decision |Directive |Regulation |Reglamento |Resolution |
-                Rules |Recommendation |Minute |Adjustment |First|Session Of |First Meeting Of |Commission |Committee |Center |
-                Statement |Communiq |Comminiq |Joint Declaration |Proclamation |Administrative Order |Strategy |Plan |Program |Improvement |Project |Study |
-                Working Party |Working Group", "", out, ignore.case = TRUE)
-  out <- gsub(" and| the| of| for", "", out, ignore.case = TRUE)
-  # need to rework regex expression to match only articles surrounded by spaces
+  agreement |arrangement |accord |acuerdo |bilateral |technical |treaty |trait |tratado |convention |convencion |convenio |constitution |
+  charte |instrument |statute |estatuto |provisional |understanding |provisions |relating |übereinkunft |
+  Act|Declaration|Covenant|Scheme|Government Of|Law|Exchange|Letters|Notas|Memorandum|MemorÃ¡ndum|Principles of Conduct|
+  Code of Conduct |Agreed Measures |Agreed Record |Consensus |Conclusions |Decision |Directive |Regulation |Reglamento |Resolution |
+  Rules |Recommendation |Minute |Adjustment |First|Session Of |First Meeting Of |Commission |Committee |Center |
+  Statement |Communiq |Comminiq |Joint Declaration |Proclamation |Administrative Order |Strategy |Plan |Program |Improvement |Project |Study |
+              Working Party |Working Group", "", out, ignore.case = TRUE)
+  out <- gsub("\\<and\\>|\\<the\\>|\\<of\\>|\\<for\\>|\\<to\\>\\<in\\>|\\<a\\>|\\<an\\>|\\<on\\>\\<and\\>|\\<the\\>|", "", out, ignore.case = TRUE)
   out <- trimws(out)
   out <- textclean::add_comma_space(out)
   out <- textclean::mgsub(out,
@@ -186,7 +184,7 @@ code_lineage <- function(s) {
                           safe = TRUE, perl = TRUE)
   ords <- english::ordinal(1:100)
   ords <- paste0(ords,
-                 if_else(stringr::str_count(ords, "\\S+") == 2,
+                 dplyr::if_else(stringr::str_count(ords, "\\S+") == 2,
                          paste0("|", gsub(" ", "-", as.character(ords))),
                          ""))
   out <- textclean::mgsub(out,
@@ -197,8 +195,19 @@ code_lineage <- function(s) {
   
   out <- as.data.frame(out)
   
+  # Step two: find duplicates
   dup <- duplicated(out)
+  out <- cbind(out, dup)
+  out <- tibble::rowid_to_column(out, "id")
   
-  # now how to assingn similar IDs to these duplicates?
+  # Step three: make sure duplicates have the same ID number
+  out <- out %>% 
+    group_by_at(vars(out)) %>% 
+    mutate(
+      dup = row_number() > 1,
+      ref = ifelse(dup, paste0(first(id)), as.character(id)))
   
-}
+  out <- out$ref
+  
+  out
+}  
