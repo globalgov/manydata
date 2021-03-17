@@ -179,6 +179,8 @@ depends <- function(packages){
            } else if(!require(x, character.only = TRUE)) {
              utils::install.packages(x, dependencies = TRUE)
              library(x, character.only = TRUE)
+           } else {
+             library(x, character.only = TRUE)
            }
          }) 
 }
