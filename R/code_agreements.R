@@ -13,7 +13,7 @@ code_agreements <- function(title, date, dataset = NULL) {
     stop("Please declare a title column.")
   }
   if(missing(date)){
-    stop("Please declare a date column.")
+    stop("Please declare a beggining date column.")
   }
   
   # Step one: create a new qID column
@@ -196,7 +196,7 @@ code_linkage <- function(s, date) {
   Rules |Recommendation |Minute |Adjustment |First|Session Of |First Meeting Of |Commission |Committee |Center |
   Statement |Communiq |Comminiq |Joint Declaration |Proclamation |Administrative Order |Strategy |Plan |Program |Improvement |Project |Study |
               Working Party |Working Group", "", out, ignore.case = TRUE)
-  out <- gsub("\\<and\\>|\\<the\\>|\\<of\\>|\\<for\\>|\\<to\\>\\<in\\>|\\<a\\>|\\<an\\>|\\<on\\>\\<and\\>|\\<the\\>|", "", out, ignore.case = TRUE)
+  out <- gsub("\\<and\\>|\\<the\\>|\\<of\\>|\\<for\\>|\\<to\\>\\<in\\>|\\<a\\>|\\<an\\>|\\<on\\>\\<and\\>|\\<the\\>", "", out, ignore.case = TRUE)
   out <- trimws(out)
   out <- textclean::add_comma_space(out)
   out <- textclean::mgsub(out,
@@ -218,28 +218,21 @@ code_linkage <- function(s, date) {
   
   # Step two: find duplicates
   dup <- duplicated(out)
-  out <- cbind(out, dup)
-  out <- tibble::rowid_to_column(out, "id")
-  
+  id <- date
+  id <- stringr::str_remove_all(id, "-")
+  id <- stringr::str_remove_all(id, "^[:digit:]{2}")
+  id <- stringr::str_remove_all(id, "[:digit:]{2}$")
+  id <- as.numeric(id)
+  out <- cbind(out, dup, id)
   
   # Step three: make sure duplicates have the same ID number
   out <- out %>% 
     group_by_at(vars(out)) %>% 
     mutate(
-      ref = min(date))
-      # dup = row_number() > 1,
-      # ref = ifelse(dup, paste0(first(id)), as.character(id)))
-  
-  
-  # line <- line %>%
-  #   dplyr::group_by(line) %>% 
-  #   dplyr::mutate(MIN = min(date))
+      dup = row_number() > 1,
+      ref = ifelse(dup, paste0(first(id)), as.character(id)))
   
   out <- out$ref
-  
-  out <- stringr::str_remove_all(out, "-")
-  out <- stringr::str_remove_all(out, "^[:digit:]{2}")
-  out <- stringr::str_remove_all(out, "[:digit:]{2}$")
   
   out
 }  
