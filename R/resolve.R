@@ -10,21 +10,31 @@ NULL
 #' @importFrom purrr map
 #' @export
 resolve_min <- function(var){
-  unlist(purrr::map(var, function(x) min(x)))
+  if(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")) {
+    resolve_dates(var, type = "min")
+  } else {
+    unlist(purrr::map(var, function(x) min(x)))
+  }
 }
 
 #' @rdname resolve
 #' @importFrom purrr map
 #' @export
 resolve_max <- function(var){
+  if(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")) {
+    resolve_dates(var, type = "max")
+  } else {
   unlist(purrr::map(var, function(x) max(x)))
+  }
 }
 
 #' @rdname resolve
 #' @importFrom purrr map
 #' @export
-resolve_mean <- function(var){
-  if(is.character(var[[1]])){
+resolve_mean <- function(var) {
+  if(is.character(var[[1]]) & stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")) {
+    resolve_dates(var, type = "mean")
+  } else if(is.character(var[[1]])) {
     resolve_median(var)
   } else {
     unlist(purrr::map(var, function(x) mean(x)))
@@ -60,7 +70,8 @@ resolve_mode <- function(var){
 }
 
 #' Resolve Date Ranges
-#'
+#' 
+#' @rdname resolve
 #' @details This function resolves ranged dates created with `standardise_dates()`
 #' by the choice type of minimum, maximun or mean dates.
 #' @param dates Ranged dates variable returned by `standardise_dates()`
