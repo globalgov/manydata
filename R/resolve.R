@@ -111,6 +111,7 @@ resolve_dates <- function(dates, type = c("mean", "min", "max")) {
       splitd <- stringr::str_split(d, ":") [[1]]
       mindate <- paste0(splitd[[1]][1])
       dates <- mindate
+      dates
     })
   }
   
@@ -124,7 +125,6 @@ resolve_dates <- function(dates, type = c("mean", "min", "max")) {
       negdate <- dzero - ndate
       histdate <- as.numeric(lubridate::as_date(negdate) + dt)
       dates <- lubridate::as_date(histdate)
-      #todo = fix issues with calculations here
       dates
     })
   }
@@ -134,6 +134,7 @@ resolve_dates <- function(dates, type = c("mean", "min", "max")) {
       splitd <- stringr::str_split(d, ":")
       maxdate <- paste0(splitd[[1]][2])
       dates <- maxdate
+      dates
     })
   }
   
@@ -146,8 +147,8 @@ resolve_dates <- function(dates, type = c("mean", "min", "max")) {
       dt <- as.numeric(lubridate::as_date("0000-01-01"))
       negdate <- dzero - ndate
       histdate <- as.numeric(lubridate::as_date(negdate) + dt)
-      dates <- lubridate::as_date(histdate)
-      #todo = fix issues with calculations here
+      h <- histdate + 730
+      dates <- lubridate::as_date(h)
       dates
     })
   }
@@ -180,6 +181,7 @@ resolve_dates <- function(dates, type = c("mean", "min", "max")) {
       }
       dates <- meandate
     })
+    dates
   }
   
   mean_negdate <- function(x) {
@@ -195,28 +197,47 @@ resolve_dates <- function(dates, type = c("mean", "min", "max")) {
       m2 <- paste0(s2[[1]][2])
       if(m1 == m2) {
         meandate <- paste0("-", y1, "-", m1, "-",  "15")
+        ndate <- as.numeric(lubridate::ymd(meandate))
+        dzero <- as.numeric(lubridate::as_date("0000-01-01"))
+        dt <- as.numeric(lubridate::as_date("0000-01-01"))
+        negdate <- dzero - ndate
+        histdate <- as.numeric(lubridate::as_date(negdate) + dt)
+        h <- histdate + 576
+        dates <- lubridate::as_date(h)
       } else if(m1 != m2 & y1 == y2) {
         meandate <- paste0("-", y1, "-07-02") #July 2nd is the middle of a regular year
+        ndate <- as.numeric(lubridate::ymd(meandate))
+        dzero <- as.numeric(lubridate::as_date("0000-01-01"))
+        dt <- as.numeric(lubridate::as_date("0000-01-01"))
+        negdate <- dzero - ndate
+        histdate <- as.numeric(lubridate::as_date(negdate) + dt)
+        h <- histdate + 366
+        dates <- lubridate::as_date(h)
       } else if(y1 != y2) {
         meanyear <- (as.numeric(y1) + as.numeric(y2))/2
-        if(is.na(meanyear)) {
-          meandate <- meanyear 
-        } else if(stringr::str_detect(meanyear, "^[:digit:]{4}$")) {
-          meandate <- paste0("-", meanyear, "-01-01")  
+        if(stringr::str_detect(meanyear, "^[:digit:]{4}$")) {
+          meandate <- paste0("-", meanyear, "-01-01")
+          ndate <- as.numeric(lubridate::ymd(meandate))
+          dzero <- as.numeric(lubridate::as_date("0000-01-01"))
+          dt <- as.numeric(lubridate::as_date("0000-01-01"))
+          negdate <- dzero - ndate
+          histdate <- as.numeric(lubridate::as_date(negdate) + dt)
+          dates <- lubridate::as_date(histdate)
         } else {
           decimalyear <- stringr::str_split(meanyear, ".") [[1]]
-          meandate <- paste0("-", decimalyear[[1]][1], "-07-02")  
+          meandate <- paste0("-", decimalyear[[1]][1], "-07-02")
+          ndate <- as.numeric(lubridate::ymd(meandate))
+          dzero <- as.numeric(lubridate::as_date("0000-01-01"))
+          dt <- as.numeric(lubridate::as_date("0000-01-01"))
+          negdate <- dzero - ndate
+          histdate <- as.numeric(lubridate::as_date(negdate) + dt)
+          h <- histdate + 366
+          dates <- lubridate::as_date(h)
         }
-      } 
-      ndate <- as.numeric(lubridate::ymd(meandate))
-      dzero <- as.numeric(lubridate::as_date("0000-01-01"))
-      dt <- as.numeric(lubridate::as_date("0000-01-01"))
-      negdate <- dzero - ndate
-      histdate <- as.numeric(lubridate::as_date(negdate) + dt)
-      dates <- lubridate::as_date(histdate)
-      #todo = fix issues with calculations here
+      }
       dates
     })
+    dates
   }
   
   if(type == "min") {
