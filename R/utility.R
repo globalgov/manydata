@@ -61,21 +61,30 @@ qtemplate <- function(template,
 
 #' Helper function for adding an author to the current package
 #' 
-#' Helper function for adding an author to the current package
+#' Helper function for adding an author to the description file of the current
+#' package.
 #' @param ORCID Character string of the author's ORCID number. If this is null,
 #' then the function switches to manual entry.
-#' @param role Character vector of role(s) the author has in the project
+#' @param role Character vector of role(s) the author has in the project. 
+#' Contributor by default. For example "c(aut, cre, ctb)".
 #' @param email Character string of the author's email
 #' @param given Character string of the author's name
 #' @param family Character string of the author's surname
 #' @param comment Character vector of the author's miscellaneous information 
-#' such as his/her institution
+#' such as his/her institution. 
 #' @return Adds a new author to the description file of the package
-#' @details The function adds an author to the description file of the current
-#' package.
+#' @details This function adds an author to the description file of the current
+#' package. This can be done in two ways. First you can specify the ORCID number
+#' of the author you want to add. This will leverage the excellent `rorcid` 
+#' package and scrape the information from the ORCID API and fill out the 
+#' description file automatically. Second, you can specify the arguments 
+#' manually if the author does not have an ORCID number. Finally, note that by
+#' default the role of the new author is set to contributor.
 #' @examples
 #' \dontrun{
-#' new_author("qData", "desc")
+#' new_author(ORCID = "0000-0002-8361-9647", role = c('auth', 'cre'))
+#' new_author(given = "John", family = "Smith",
+#' comment = "University of Somewhere")
 #' }
 #' @export
 new_author <- function(ORCID = NULL,
@@ -85,13 +94,14 @@ new_author <- function(ORCID = NULL,
                        family = NULL,
                        comment = NULL){
   if(!is.null(ORCID)){
-    # Check whether rorcid is installed
+    # Check whether rorcid is installed, if not install it
     if("rorcid" %in% rownames(utils::installed.packages()) == FALSE){
-      stop("Please install the rorcid package before proceeding.")
+      depends("rorcid")
+      depends("desc")
     }
+    # Set default role to contributor
     if(is.null(role)){
-      stop("Please specify at least one role of your author. 
-         E.g. role = c('aut', 'cre')")
+      role = c('ctb')
     }
     #Step 1: Authenticate the user to ORCID
     rorcid::orcid_auth()
@@ -127,8 +137,7 @@ new_author <- function(ORCID = NULL,
       stop("Please specify the surname of your author")
     }
     if(is.null(role)){
-      stop("Please specify at least one role of your author. 
-         E.g. role = c('aut', 'cre')")
+      role = c('ctb')
     }
     if(!is.null(email) && !grepl("@", email, fixed = TRUE)){
       stop("Please specify a correct email adress.")
