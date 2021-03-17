@@ -1,5 +1,7 @@
-#' Resolve ranged dates into single vectors
+#' Resolve ambiguous variables according to preffered output 
 #' 
+#' @details For date ranges the function resolves internal ranges according
+#' to preffered output before moving into resolving across datasets in a database.
 #' @name resolve
 #' @param dbase A qPackage database object
 #' @param dset A dataset label from within that database
@@ -8,32 +10,36 @@ NULL
 
 #' @rdname resolve
 #' @importFrom purrr map
+#' @param var variable to be resolved
 #' @export
 resolve_min <- function(var){
   if(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")) {
     resolve_dates(var, type = "min")
-  } else {
-    unlist(purrr::map(var, function(x) min(x)))
   }
+  
+  unlist(purrr::map(var, function(x) min(x)))
 }
 
 #' @rdname resolve
 #' @importFrom purrr map
+#' @param var variable to be resolved
 #' @export
 resolve_max <- function(var){
   if(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")) {
     resolve_dates(var, type = "max")
-  } else {
-  unlist(purrr::map(var, function(x) max(x)))
   }
+  
+  unlist(purrr::map(var, function(x) max(x)))
 }
 
 #' @rdname resolve
 #' @importFrom purrr map
+#' @param var variable to be resolved
 #' @export
 resolve_mean <- function(var) {
   if(is.character(var[[1]]) & stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")) {
     resolve_dates(var, type = "mean")
+    unlist(purrr::map(var, function(x) mean(x)))
   } else if(is.character(var[[1]])) {
     resolve_median(var)
   } else {
@@ -43,8 +49,13 @@ resolve_mean <- function(var) {
 
 #' @rdname resolve
 #' @importFrom purrr map
+#' @param var variable to be resolved
 #' @export
 resolve_median <- function(var){
+  
+  if(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")) {
+    resolve_dates(var, type = "mean")
+  }
   unlist(purrr::map(var, function(x){
     if(length(x)==1){
       x
@@ -60,8 +71,12 @@ resolve_median <- function(var){
 
 #' @rdname resolve
 #' @importFrom purrr map
+#' @param var variable to be resolved
 #' @export
 resolve_mode <- function(var){
+  if(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")) {
+    resolve_dates(var, type = "mean")
+  }
   Mode <- function(x) {
     ux <- unique(x)
     ux[which.max(tabulate(match(x, ux)))]
@@ -69,7 +84,7 @@ resolve_mode <- function(var){
   unlist(purrr::map(var, function(x) Mode(x)))
 }
 
-#' Resolve Date Ranges
+#' Resolve ranged dates into single vectors
 #' 
 #' @rdname resolve
 #' @details This function resolves ranged dates created with `standardise_dates()`
