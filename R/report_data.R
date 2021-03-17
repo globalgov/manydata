@@ -3,7 +3,7 @@
 #' Displays names of the database/datasets and source material of qPackage data
 #' 
 #' To quickly report the names of the data structures in a package as well
-#' as their source.
+#' as their references.
 #' @param pkg character string of the qPackage to report data on. Mandatory
 #' input.
 #' @param database vector of character strings of the qPackage to report data a 
@@ -86,9 +86,9 @@ data_source <- function(pkg, database = NULL, dataset = NULL){
 # It will allow users to compare processed datasets. E.g. which dataset in 
 # database A has more observations?
 
-#' Contrasts data in qPackages
+#' Contrasts data structures in qPackages
 #' 
-#' Allows users to quickly compare processed datasets.
+#' Allows users to quickly compare processed datasets before analysing them.
 #' @param pkg character string of the qPackage to report data on. Mandatory
 #' input.
 #' @param database vector of character strings of the qPackage to report data a 
@@ -97,6 +97,11 @@ data_source <- function(pkg, database = NULL, dataset = NULL){
 #' @param dataset character string of the qPackage to report data on a specific
 #' dataset in a specific database of a qPackage. If Null and database is 
 #' specified, returns database level metadata. Null by default.
+#' @details This function displays information about databases and datasets
+#' contained in them. Namely the number of unique ID's, the percentage of
+#' missing data, the number of observations, the number of variables, the
+#' minimum beginning date and the maximum ending date as well as the most direct
+#' URL to the original dataset.
 #' @return A dataframe with the data report
 #' @examples
 #' data_contrast(pkg = "qStates", database = "states", dataset = "COW")
@@ -131,7 +136,7 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL){
                                                    max(x$End, na.rm=T), NA),
                                             origin='1970-01-01'))),
                      purrr::map(dbs[[i]], function(x)
-                       attr(x, which = "source_link"))))
+                       attr(x, which = "source_URL"))))
         assign(paste0("tabl", i), t(get(paste0("tabl", i))))
         tmp <- get(paste0("tabl", i))
         colnames(tmp) <- c("Unique ID", "Missing Data", "Rows",
@@ -160,7 +165,8 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL){
                          MaxDate = as.character(as.Date(
                            ifelse(!all(is.na(ds$End)), 
                                   max(ds$End, na.rm=T), NA),
-                           origin = '1970-01-01')))
+                           origin = '1970-01-01')),
+                         URL = attr(ds, which = "source_URL"))
       tabl2 <- tabl %>%
         t()
       colnames(tabl2) <- dataset
@@ -189,7 +195,7 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL){
                                                  max(x$End, na.rm=T), NA),
                                           origin='1970-01-01'))),
                    purrr::map(dbs[[i]], function(x)
-                     attr(x, which = "source_link"))))
+                     attr(x, which = "source_URL"))))
       assign(paste0("tabl", i), t(get(paste0("tabl", i))))
       tmp <- get(paste0("tabl", i))
       colnames(tmp) <- c("Unique ID", "Missing Data", "Rows",
@@ -202,18 +208,19 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL){
   }
  }
 
-#' # This third function will display information about the process that the data 
+#'  This third function will display information about the process that the data 
 #' # went through to be refined and included in our qPackage.
 #' 
 #' #' Reports on qPackage data
 #' #' 
-#' #' Allows users to see the changes to the original coding that was performed by
-#' #' the preparation script.
-#' #' @param pkg character string of the qPackage to report data on. Mandatory input.
-#' #' @param database vector of character strings of the qPackage to report data a 
+#' #' Allows users to see the changes to the original coding that was performed
+#' #' by the preparation script.
+#' #' @param pkg character string of the qPackage to report data on. 
+#' #' Mandatory input.
+#' #' @param database vector of character strings of the qPackage to report data
 #' #' specific database in a qPackage. If Null, report_data returns a summary 
 #' #' of all databases in the qPackage. Null by default.
-#' #' @param dataset character string of the qPackage to report data on a specific dataset
+#' #' @param dataset character string of the qPackage to report data on
 #' #' in a specific database of a qPackage. 
 #' #' @return A dataframe with the data report
 #' @examples

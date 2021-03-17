@@ -2,7 +2,7 @@
 % Please edit documentation in R/report_data.R
 \name{data_contrast}
 \alias{data_contrast}
-\title{Contrasts data in qPackages}
+\title{Contrasts data structures in qPackages}
 \usage{
 data_contrast(pkg, database = NULL, dataset = NULL)
 }
@@ -22,7 +22,14 @@ specified, returns database level metadata. Null by default.}
 A dataframe with the data report
 }
 \description{
-Allows users to quickly compare processed datasets.
+Allows users to quickly compare processed datasets before analysing them.
+}
+\details{
+This function displays information about databases and datasets
+contained in them. Namely the number of unique ID's, the percentage of
+missing data, the number of observations, the number of variables, the
+minimum beginning date and the maximum ending date as well as the most direct
+URL to the original dataset.
 }
 \examples{
 data_contrast(pkg = "qStates", database = "states", dataset = "COW")

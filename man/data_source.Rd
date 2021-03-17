@@ -23,7 +23,7 @@ A dataframe with the data sources.
 }
 \description{
 To quickly report the names of the data structures in a package as well
-as their source.
+as their references.
 }
 \examples{
 data_source(pkg = "qStates", database = "states", dataset = "COW")
