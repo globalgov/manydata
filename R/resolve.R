@@ -6,11 +6,11 @@
 #' @param dbase A qPackage database object
 #' @param dset A dataset label from within that database
 #' @param key An ID column to collapse by
+#' @param var variable to be resolved
 NULL
 
 #' @rdname resolve
 #' @importFrom purrr map
-#' @param var variable to be resolved
 #' @export
 resolve_min <- function(var){
   if(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")) {
@@ -22,7 +22,6 @@ resolve_min <- function(var){
 
 #' @rdname resolve
 #' @importFrom purrr map
-#' @param var variable to be resolved
 #' @export
 resolve_max <- function(var){
   if(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")) {
@@ -34,7 +33,6 @@ resolve_max <- function(var){
 
 #' @rdname resolve
 #' @importFrom purrr map
-#' @param var variable to be resolved
 #' @export
 resolve_mean <- function(var) {
   if(is.character(var[[1]]) & stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")) {
@@ -49,7 +47,6 @@ resolve_mean <- function(var) {
 
 #' @rdname resolve
 #' @importFrom purrr map
-#' @param var variable to be resolved
 #' @export
 resolve_median <- function(var){
   
@@ -71,7 +68,6 @@ resolve_median <- function(var){
 
 #' @rdname resolve
 #' @importFrom purrr map
-#' @param var variable to be resolved
 #' @export
 resolve_mode <- function(var){
   if(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")) {
