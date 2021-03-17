@@ -1,3 +1,8 @@
+#' Code agreements title
+#' 
+#' Creates an ID column that contains information on the
+#' parties, the topic, the date and the relations to other
+#' agreements in the dataset. 
 #' @param title title column variable
 #' @param date date column variable
 #' @param dataset name of the dataset
@@ -29,21 +34,35 @@ code_agreements <- function(title, date, dataset = NULL) {
   
   #step five: give the observation a unique ID
   uID <- stringr::str_remove_all(date, "-")
+  uID <- stringr::str_remove_all(uID, "^[:digit:]{2}")
+  uID <- stringr::str_remove_all(uID, "[:digit:]{2}$")
   
   # step six: detect treaties from the same 'family'
-  line <- code_lineage(qID)
+  line <- code_linkage(qID, date)
   
   # Step seven: add items together correctly
   # The following coding assumes that any other types than A (= Agreement) are linked to another treaty; this coding
   # would need to be adapted for declarations, MoU, minutes, etc
-  out <- ifelse((is.na(parties) & (type == "A")), paste0(topic, "_", uID),
+  out <- ifelse((is.na(parties) & (type == "A")), paste0(topic, "_", line, "-", uID),
                 (ifelse((is.na(parties) & (type != "A")), paste0(topic, "_", line, "-", type, uID),
-                        (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(parties, "_", topic, uID),
-                                (ifelse((!is.na(parties) & (type == "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(topic,"_", uID),
+                        (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(parties, "_", topic, line, "-", uID),
+                                (ifelse((!is.na(parties) & (type == "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(topic,"_", line, "-", uID),
                                         (ifelse((!is.na(parties) & (type != "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(parties, "_", topic, line, "-", type, uID),
                                                  (ifelse((!is.na(parties) & (type != "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(topic, line, "-", type, uID), NA)))))))))))
   
   out <- stringr::str_replace_all(out, "NA_", NA_character_)
+  
+  # When line is the same number, take the date digits from the earliest one. 
+  # dataset %>% 
+  #   dplyr::group_by(line) %>% 
+  #   dplyr::mutate(MIN = min(date))
+  # 
+  # new <- stringr::str_remove_all(MIN, "-")
+  # new <- stringr::str_remove_all(MIN, "^[:digit:]{2}")
+  # new <- stringr::str_remove_all(MIN, "[:digit:]{2}$")
+  # 
+  # out <- stringr::str_replace(line, MIN)
+  
   cat(sum(is.na(out)), "entries were not matched at all.\n")
   # cat(sum(stringr::str_detect(out, "^[0-9]")), " entries were only coded by date.\n")
   cat("There were", sum(duplicated(out, incomparables = NA)), "duplicated IDs.\n")
@@ -64,8 +83,9 @@ code_agreements <- function(title, date, dataset = NULL) {
 #'
 #' @param x A character vector of treaty titles
 #' @importFrom qState code_states
-#' @return A character vector of parties that are part of the treaty
+#' @return A character vector of parties that are mentioned in the treaty title
 #' @examples
+#' IEADB$Countries <- code_parties(IEADB$Title)
 #' @export
 code_parties <- function(x) {
   
@@ -156,16 +176,16 @@ code_topic <- function(x) {
 #' @return
 #' @example 
 #' @export
-code_lineage <- function(s) {
+code_linkage <- function(s, date) {
   
   # After much fiddling I am going back to standardise_titles() so that we
-  # rely on base to do the substituition and matching need here.
+  # rely on base to do the substitution and matching need here.
   
   cap <- function(s) paste(toupper(substring(s, 1, 1)), {
     s <- substring(s, 2)
   }
   , sep = "", collapse = " ")
-  out <- sapply(strsplit(s, split = " "), cap, USE.NAMES = !is.null(names(s)))
+  out <- sapply(strsplit(as.character(s), split = " "), cap, USE.NAMES = !is.null(names(s)))
   out <- trimws(out)
   # Step one: remove known words and articles
   out <- gsub("amendment |modify |extend |verbal |protocol |additional |subsidiary |supplementary |complementary |complementario |
@@ -201,14 +221,25 @@ code_lineage <- function(s) {
   out <- cbind(out, dup)
   out <- tibble::rowid_to_column(out, "id")
   
+  
   # Step three: make sure duplicates have the same ID number
   out <- out %>% 
     group_by_at(vars(out)) %>% 
     mutate(
-      dup = row_number() > 1,
-      ref = ifelse(dup, paste0(first(id)), as.character(id)))
+      ref = min(date))
+      # dup = row_number() > 1,
+      # ref = ifelse(dup, paste0(first(id)), as.character(id)))
+  
+  
+  # line <- line %>%
+  #   dplyr::group_by(line) %>% 
+  #   dplyr::mutate(MIN = min(date))
   
   out <- out$ref
+  
+  out <- stringr::str_remove_all(out, "-")
+  out <- stringr::str_remove_all(out, "^[:digit:]{2}")
+  out <- stringr::str_remove_all(out, "[:digit:]{2}$")
   
   out
 }  
