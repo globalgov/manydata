@@ -34,8 +34,8 @@ code_agreements <- function(title, date, dataset = NULL) {
   
   #step five: give the observation a unique ID
   uID <- stringr::str_remove_all(date, "-")
-  uID <- stringr::str_remove_all(uID, "^[:digit:]{2}")
-  uID <- stringr::str_remove_all(uID, "[:digit:]{2}$")
+  # uID <- stringr::str_remove_all(uID, "^[:digit:]{2}")
+  # uID <- stringr::str_remove_all(uID, "[:digit:]{2}$")
   
   # step six: detect treaties from the same 'family'
   line <- code_linkage(qID, date)
@@ -224,8 +224,8 @@ code_linkage <- function(s, date) {
   dup <- duplicated(out)
   id <- date
   id <- stringr::str_remove_all(id, "-")
-  id <- stringr::str_remove_all(id, "^[:digit:]{2}")
-  id <- stringr::str_remove_all(id, "[:digit:]{2}$")
+  # id <- stringr::str_remove_all(id, "^[:digit:]{2}")
+  # id <- stringr::str_remove_all(id, "[:digit:]{2}$")
   id <- as.numeric(id)
   out <- cbind(out, dup, id)
   
