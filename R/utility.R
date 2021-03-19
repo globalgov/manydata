@@ -101,7 +101,7 @@ new_author <- function(ORCID = NULL,
     }
     # Set default role to contributor
     if(is.null(role)){
-      role = c('ctb')
+      role = "ctb"
     }
     #Step 1: Authenticate the user to ORCID
     rorcid::orcid_auth()
@@ -137,7 +137,7 @@ new_author <- function(ORCID = NULL,
       stop("Please specify the surname of your author")
     }
     if(is.null(role)){
-      role = c('ctb')
+      role = "ctb"
     }
     if(!is.null(email) && !grepl("@", email, fixed = TRUE)){
       stop("Please specify a correct email adress.")

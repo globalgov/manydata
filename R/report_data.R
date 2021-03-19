@@ -35,7 +35,7 @@ data_source <- function(pkg, database = NULL, dataset = NULL){
           )
         assign(paste0("tabl", i), t(get(paste0("tabl", i))))
         tmp <- get(paste0("tabl", i))
-        colnames(tmp) <- c("Reference")
+        colnames(tmp) <- "Reference"
         assign(paste0("tabl", i), tmp)
         print(paste0("References for the ", stringr::str_to_title(database),
                      " database", sep = ""))
@@ -70,7 +70,7 @@ data_source <- function(pkg, database = NULL, dataset = NULL){
           ))))
       assign(paste0("tabl", i), t(get(paste0("tabl", i))))
       tmp <- get(paste0("tabl", i))
-      colnames(tmp) <- c("Reference")
+      colnames(tmp) <- "Reference"
       assign(paste0("tabl", i), tmp)
       print(paste0("References for the ",
                    stringr::str_to_title(ls(tmp_env)[i]),
