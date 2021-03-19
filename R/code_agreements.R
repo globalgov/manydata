@@ -98,6 +98,8 @@ code_parties <- function(x) {
 code_type <- function(x) {
   
   type <- case_when(
+    # When the title contains "Protocol amending..."
+    grepl("^Protocol", x, ignore.case = T) ~ "P",
     # E stands for amendment
     grepl("amend|modify|extend|proces-verbal", x, ignore.case = T) ~ "E",
     # P stands for protocols
