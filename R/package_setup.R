@@ -360,7 +360,6 @@ setup_package <- function(packageName = NULL,
     packageAuthor <- paste0(authors, collapse = ", ")
   }
   
-  
   usethis::ui_done("Added DESCRIPTION file. Modify if necessary.")
   usethis::ui_done("Check out our new_author function if you need to add
                    authors down the line")

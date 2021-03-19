@@ -47,10 +47,10 @@ folder structures required for a qData-consistent data package.
 \examples{
 \dontrun{
 setup_package("qStates", AuthorName = c("Hollway, James", "Sposito, Henrique"),
-Role = c("aut", "ctb"))
+Role = list(c("aut", "cre", "ctb"), "ctb")
 }
 \dontrun{
 setup_package("qStates", 
-ORCID = c("0000-0002-8361-9647", "0000-0003-3420-6085"))
+ORCID = c("0000-0002-8361-9647", "0000-0003-3420-6085"), Role = c("aut", "ctb"))
 }
 }
