@@ -191,12 +191,14 @@ code_linkage <- function(s, date) {
               Working Party |Working Group", "", out, ignore.case = TRUE)
   out <- gsub("\\<and\\>|\\<the\\>|\\<of\\>|\\<for\\>|\\<to\\>|\\<in\\>|\\<a\\>|\\<an\\>|\\<on\\>\\<and\\>|\\<the\\>", "", out, ignore.case = TRUE)
   out <- trimws(out)
+  out <- stringr::str_squish(out)
   out <- textclean::add_comma_space(out)
   out <- textclean::mgsub(out,
                           paste0("(?<!\\w)", as.roman(1:100), "(?!\\w)"),
                           as.numeric(1:100),
                           safe = TRUE, perl = TRUE)
   ords <- english::ordinal(1:100)
+  
   ords <- paste0(ords,
                  dplyr::if_else(stringr::str_count(ords, "\\S+") == 2,
                          paste0("|", gsub(" ", "-", as.character(ords))),
@@ -225,7 +227,17 @@ code_linkage <- function(s, date) {
       dup = row_number() > 1,
       ref = ifelse(dup, paste0(first(id)), as.character(id)))
   
-  out <- out$ref
+  out <- out %>% group_by(ref) %>% mutate(n = n())
+  
+  out$line = dplyr::case_when(
+    out$n != 1 ~ paste(out$ref), 
+    out$n == 1 ~ "1"
+  )
   
   out
+  
+  line <- out$line
+  
+  line <- stringr::str_remove_all(line, "^1$")
+  
 }  
