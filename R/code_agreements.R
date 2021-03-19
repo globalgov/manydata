@@ -231,17 +231,15 @@ code_linkage <- function(s, date) {
       dup = row_number() > 1,
       ref = ifelse(dup, paste0(first(id)), as.character(id)))
   
-  out <- out %>% group_by(ref) %>% mutate(n = n())
-  
-  out$line = dplyr::case_when(
-    out$n != 1 ~ paste(out$ref), 
-    out$n == 1 ~ "1"
-  )
-  
-  out
+  out <- out %>% group_by(ref) %>% mutate(n = n()) %>% mutate(line = case_when(
+    n != 1 ~ paste(ref), 
+    n == 1 ~ "1"
+  ))
   
   line <- out$line
   
   line <- stringr::str_remove_all(line, "^1$")
+  
+  line
   
 }  
