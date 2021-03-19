@@ -189,7 +189,7 @@ code_linkage <- function(s, date) {
   Rules |Recommendation |Minute |Adjustment |First|Session Of |First Meeting Of |Commission |Committee |Center |
   Statement |Communiq |Comminiq |Joint Declaration |Proclamation |Administrative Order |Strategy |Plan |Program |Improvement |Project |Study |
               Working Party |Working Group", "", out, ignore.case = TRUE)
-  out <- gsub("\\<and\\>|\\<the\\>|\\<of\\>|\\<for\\>|\\<to\\>\\<in\\>|\\<a\\>|\\<an\\>|\\<on\\>\\<and\\>|\\<the\\>", "", out, ignore.case = TRUE)
+  out <- gsub("\\<and\\>|\\<the\\>|\\<of\\>|\\<for\\>|\\<to\\>|\\<in\\>|\\<a\\>|\\<an\\>|\\<on\\>\\<and\\>|\\<the\\>", "", out, ignore.case = TRUE)
   out <- trimws(out)
   out <- textclean::add_comma_space(out)
   out <- textclean::mgsub(out,
