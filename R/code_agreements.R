@@ -52,17 +52,6 @@ code_agreements <- function(title, date, dataset = NULL) {
   
   out <- stringr::str_replace_all(out, "NA_", NA_character_)
   
-  # When line is the same number, take the date digits from the earliest one. 
-  # dataset %>% 
-  #   dplyr::group_by(line) %>% 
-  #   dplyr::mutate(MIN = min(date))
-  # 
-  # new <- stringr::str_remove_all(MIN, "-")
-  # new <- stringr::str_remove_all(MIN, "^[:digit:]{2}")
-  # new <- stringr::str_remove_all(MIN, "[:digit:]{2}$")
-  # 
-  # out <- stringr::str_replace(line, MIN)
-  
   cat(sum(is.na(out)), "entries were not matched at all.\n")
   # cat(sum(stringr::str_detect(out, "^[0-9]")), " entries were only coded by date.\n")
   cat("There were", sum(duplicated(out, incomparables = NA)), "duplicated IDs.\n")
@@ -81,6 +70,7 @@ code_agreements <- function(title, date, dataset = NULL) {
 
 #' Code Agreement Parties
 #'
+#' Identify the countries that are part of the agreement.
 #' @param x A character vector of treaty titles
 #' @importFrom qState code_states
 #' @return A character vector of parties that are mentioned in the treaty title
@@ -98,10 +88,12 @@ code_parties <- function(x) {
 
 #' Code Agreement Type
 #'
+#' Identify the type of the international agreement.
 #' @param x A character vector of treaty title
 #' @return A character vector of the type of treaty
 #' @importFrom stringr str_replace_na
 #' @examples
+#' IEADB$Type <- code_type(IEADB$Title)
 #' @export
 code_type <- function(x) {
   
@@ -136,10 +128,11 @@ code_type <- function(x) {
 
 #' Code Agrement Topic
 #'
+#'Identify the main environmental issue the treaty is tackling.
 #' @param x A character vector of treaty title
 #' @importFrom stringr str_replace_na
 #' @import dplyr
-#' @return A character vector of the treaty topic.
+#' @return A character vector of the treaty topic abbreviation.
 #' @example 
 #' @export
 code_topic <- function(x) {
