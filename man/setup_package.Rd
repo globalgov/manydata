@@ -22,7 +22,8 @@ author(s)' name(s). Authors(s)last name(s) and first
 name(s) are separated by a comma.}
 
 \item{Role}{A list of vectors of the roles the package authors have
-in the project. Optional argument.}
+in the project. If there are no roles declared,
+roles are set contributor.}
 
 \item{ORCID}{A vector of strings of all the ORCID numbers of the authors.
 Needs \code{{rorcid}} package to be installed. Takes precedence over manual
@@ -46,11 +47,10 @@ folder structures required for a qData-consistent data package.
 \examples{
 \dontrun{
 setup_package("qStates", AuthorName = c("Hollway, James", "Sposito, Henrique"),
-Role = list(c("cre", "aut", "ctb"), c("ctb"))
+Role = c("aut", "ctb"))
 }
 \dontrun{
 setup_package("qStates", 
-ORCID = c("0000-0002-8361-9647", "0000-0003-3420-6085"), list(c("cre", "aut",
-"ctb"), c("ctb")))
+ORCID = c("0000-0002-8361-9647", "0000-0003-3420-6085"))
 }
 }

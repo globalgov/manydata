@@ -10,7 +10,8 @@
 #' author(s)' name(s). Authors(s)last name(s) and first 
 #' name(s) are separated by a comma.
 #' @param Role A list of vectors of the roles the package authors have
-#' in the project. Optional argument.
+#' in the project. If there are no roles declared,
+#' roles are set contributor.
 #' @param update A logical indicating whether existing files should be
 #' overwritten, by default TRUE.
 #' @param path A string, if missing default is path to the working directory
@@ -23,12 +24,11 @@
 #' @examples
 #' \dontrun{
 #' setup_package("qStates", AuthorName = c("Hollway, James", "Sposito, Henrique"),
-#' Role = list(c("cre", "aut", "ctb"), c("ctb"))
+#' Role = list(c("aut", "cre", "ctb"), "ctb")
 #' }
 #' \dontrun{
 #' setup_package("qStates", 
-#' ORCID = c("0000-0002-8361-9647", "0000-0003-3420-6085"), list(c("cre", "aut",
-#' "ctb"), c("ctb")))
+#' ORCID = c("0000-0002-8361-9647", "0000-0003-3420-6085"), Role = c("aut", "ctb"))
 #' }
 #' @export
 setup_package <- function(packageName = NULL,
@@ -80,21 +80,20 @@ setup_package <- function(packageName = NULL,
       stop("Please declare at least one author")
     }
   }
-  #Small check to see if roles are defined. If not, sets all roles to ctb except
-  # the first one.
-  # If on the other hand there are less roles than author names, sets roles to 
-  # ctb for the rest of them.
+  # Small check to see if roles are defined. If there are
+  # no roles declared sets roles to it sets roles to contributor.
   if(is.null(Role) || length(Role) != length(AuthorName)){
-    ifelse(
-      length(AuthorName)==5, Role <-
-      list(c("cre", "aut", "ctb"), c("ctb"), c("ctb"), c("ctb"), c("ctb")),
-      ifelse(length(AuthorName)==4,
-             Role <- list(c("cre", "aut", "ctb"), c("ctb"), c("ctb"), c("ctb")),
-      ifelse(length(AuthorName)==3,
-             Role <- list(c("cre", "aut", "ctb"), c("ctb"), c("ctb")),
-      ifelse(length(AuthorName)==2, Role <- 
-               list(c("cre", "aut", "ctb"), c("ctb")),
-      ifelse(length(AuthorName)==1, Role <- list(c("cre", "aut", "ctb")))))))
+    if(length(AuthorName)==1) {
+      Role = "ctb"
+    } else if(length(AuthorName)==2) {
+      Role = c("ctb", "ctb")
+    } else if(length(AuthorName)==3) {
+      Role = c("ctb", "ctb", "ctb")
+    } else if(length(AuthorName)==4) {
+      Role = c("ctb", "ctb", "ctb", "ctb")
+    } else if(length(AuthorName)==5) {
+      Role = c("ctb", "ctb", "ctb", "ctb", "ctb")
+    }
   }
   # Step 0.1 See if there are any ORCID numbers
   if(!is.null(ORCID)){
