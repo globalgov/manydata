@@ -1,3 +1,5 @@
+# qData 0.3.4
+
 # Package
 
 * Fixed #128 by suppressing issues with warnings on pkgdown website
@@ -55,7 +57,7 @@
 ## Package
 
 * Replaced logo with new 'black box' hex
-  * Added open graph image to Github account
+  * Added open graph image to GitHub account
 * Closed #83 by improving CII best practices score
 * Added `depends()` for loading and, if necessary, installing CRAN packages
 * Added `plot_releases()` function that visualises historical milestones/releases for GitHub repositories
