@@ -44,7 +44,7 @@ code_agreements <- function(title, date, dataset = NULL) {
   # The following coding assumes that any other types than A (= Agreement) are linked to another treaty; this coding
   # would need to be adapted for declarations, MoU, minutes, etc
   out <- ifelse((is.na(parties) & (type == "A")), paste0(topic, "-", uID),
-                (ifelse((is.na(parties) & (type != "A")), paste0(topic, "_", line, "-", type, uID),
+                (ifelse((is.na(parties) & (type != "A")), paste0(topic, line, "-", type, uID),
                         (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(parties, "_", topic, "-", uID),
                                 (ifelse((!is.na(parties) & (type == "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(topic, "-", uID),
                                         (ifelse((!is.na(parties) & (type != "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(parties, "_", topic, line, "-", type, uID),
