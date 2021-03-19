@@ -1,3 +1,31 @@
+# Package
+
+* Fixed #128 by suppressing issues with warnings on pkgdown website
+* Updated contributor and user vignettes for new package changes
+* Updated documentation for `new_author()` and `setup_package()` 
+
+# Collect
+
+* Updated `setup_package()` to make it more intuitive and precise for users
+  * Closed #127 by updating the form in which author arguments are taken in `setup_package()`
+  * Added role argument to `setup_package()` to make more precise 
+
+# Correct
+
+* Updated `standardise_dates()` to simplify function and testing
+  * Closed #110 by simplifying helper functions and removing redundancy in `standardise_dates()`
+  * Closed #108 by simplifying tests and removing redundancy for `standardise_dates()` 
+
+# Connect
+
+* Divided, updated and renamed `report_data()` function  
+  * Closed #131 by dividing `report_data()` into `data_source()` and `data_contrast()` functions
+  * Closed #104  by allowing users to select multiple datasets with `data_contrast()`
+  * Closed #105 by allowing for multiple databases to display in a package with `data_contrast()` 
+  * Fixed #111 by removing tests for outdated `report_data()` function
+
+# qData 0.3.3
+
 ## Package
 
 * Closed #122 by setting package logo to the correct aspect ratio
