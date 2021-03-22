@@ -527,4 +527,5 @@ add_author <- function(orcid = NULL,
                         family = family,
                         role = role,
                         email = email,
+                        comment = c(affiliation = affiliation, ORCID = orcid))
 }
