@@ -24,11 +24,11 @@
 #' @examples
 #' \dontrun{
 #' setup_package("qStates", AuthorName = c("Hollway, James", "Sposito, Henrique"),
-#' Role = list(c("aut", "cre", "ctb"), "ctb")
+#' Role = list(c("aut", "cre", "ctb"), "ctb"))
 #' }
 #' \dontrun{
 #' setup_package("qStates", 
-#' ORCID = c("0000-0002-8361-9647", "0000-0003-3420-6085"), Role = c("aut", "ctb"))
+#' ORCID = c("0000-0002-8361-9647", "0000-0003-3420-6085"))
 #' }
 #' @export
 setup_package <- function(packageName = NULL,
@@ -81,7 +81,8 @@ setup_package <- function(packageName = NULL,
     }
   }
   # Small check to see if roles are defined. If there are
-  # no roles declared sets roles to it sets roles to contributor.
+  # no roles declared it sets all roles, but first author declared, 
+  # to contributor.
   if(is.null(Role) || length(Role) != length(AuthorName)){
     if(length(AuthorName)==1) {
       Role = list(c("aut", "cre", "ctb"))

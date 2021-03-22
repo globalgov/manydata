@@ -4,14 +4,14 @@
 #' 
 #' To quickly report the names of the data structures in a package as well
 #' as their references.
-#' @param pkg character string of the qPackage to report data on. Mandatory
+#' @param pkg character string of the qPackage to report data on. Required
 #' input.
 #' @param database vector of character strings of the qPackage to report data a 
-#' specific database in a qPackage. If Null, report_data returns a summary 
-#' of all databases in the qPackage. Null by default.
+#' specific database in a qPackage. If NULL, report_data returns a summary 
+#' of all databases in the qPackage. NULL by default.
 #' @param dataset character string of the qPackage to report data on a specific 
-#' dataset in a specific database of a qPackage. If Null and database is
-#' specified, returns database level metadata. Null by default.
+#' dataset in a specific database of a qPackage. If NULL and database is
+#' specified, returns database level metadata. NULL by default.
 #' @return A dataframe with the data sources.
 #' @examples
 #' data_source(pkg = "qStates", database = "states", dataset = "COW")
@@ -89,14 +89,14 @@ data_source <- function(pkg, database = NULL, dataset = NULL){
 #' Contrasts data structures in qPackages
 #' 
 #' Allows users to quickly compare processed datasets before analysing them.
-#' @param pkg character string of the qPackage to report data on. Mandatory
+#' @param pkg character string of the qPackage to report data on. Required
 #' input.
 #' @param database vector of character strings of the qPackage to report data a 
-#' specific database in a qPackage. If Null, report_data returns a summary 
-#' of all databases in the qPackage. Null by default.
+#' specific database in a qPackage. If NULL, report_data returns a summary 
+#' of all databases in the qPackage. NULL by default.
 #' @param dataset character string of the qPackage to report data on a specific
-#' dataset in a specific database of a qPackage. If Null and database is 
-#' specified, returns database level metadata. Null by default.
+#' dataset in a specific database of a qPackage. If NULL and database is 
+#' specified, returns database level metadata. NULL by default.
 #' @details This function displays information about databases and datasets
 #' contained in them. Namely the number of unique ID's, the percentage of
 #' missing data, the number of observations, the number of variables, the
@@ -216,10 +216,10 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL){
 #' #' Allows users to see the changes to the original coding that was performed
 #' #' by the preparation script.
 #' #' @param pkg character string of the qPackage to report data on. 
-#' #' Mandatory input.
+#' #' Required input.
 #' #' @param database vector of character strings of the qPackage to report data
-#' #' specific database in a qPackage. If Null, report_data returns a summary 
-#' #' of all databases in the qPackage. Null by default.
+#' #' specific database in a qPackage. If NULL, report_data returns a summary 
+#' #' of all databases in the qPackage. NULL by default.
 #' #' @param dataset character string of the qPackage to report data on
 #' #' in a specific database of a qPackage. 
 #' #' @return A dataframe with the data report
