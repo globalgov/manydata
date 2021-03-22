@@ -65,11 +65,12 @@ qtemplate <- function(template,
 #' package.
 #' @param ORCID Character string of the author's ORCID number. If this is null,
 #' then the function switches to manual entry.
+#' @param  AuthorName A vector giving the package
+#' author(s)' name(s). Authors(s)last name(s) and first 
+#' name(s) are separated by a comma.
 #' @param role Character vector of role(s) the author has in the project. 
 #' Contributor by default. For example "c(aut, cre, ctb)".
 #' @param email Character string of the author's email
-#' @param given Character string of the author's name
-#' @param family Character string of the author's surname
 #' @param comment Character vector of the author's miscellaneous information 
 #' such as his/her institution. 
 #' @return Adds a new author to the description file of the package
@@ -83,15 +84,14 @@ qtemplate <- function(template,
 #' @examples
 #' \dontrun{
 #' new_author(ORCID = "0000-0002-8361-9647", role = c('auth', 'cre'))
-#' new_author(given = "John", family = "Smith",
+#' new_author(AuthorName = "Smith, John",
 #' comment = "University of Somewhere")
 #' }
 #' @export
 new_author <- function(ORCID = NULL,
+                       AuthorName = NULL,
                        role = NULL,
                        email = NULL,
-                       given = NULL,
-                       family = NULL,
                        comment = NULL){
   if(!is.null(ORCID)){
     # Check whether rorcid is installed, if not install it
@@ -130,11 +130,8 @@ new_author <- function(ORCID = NULL,
     )
   } else {
     #Manual entry
-    if(is.null(given)){
+    if(is.null(AuthorName)){
       stop("Please specify the name of your author")
-    }
-    if(is.null(family)){
-      stop("Please specify the surname of your author")
     }
     if(is.null(role)){
       role = "ctb"
@@ -142,6 +139,12 @@ new_author <- function(ORCID = NULL,
     if(!is.null(email) && !grepl("@", email, fixed = TRUE)){
       stop("Please specify a correct email adress.")
     }
+    
+    # Split author names and assign them
+    fullname <- stringr::str_split(AuthorName, ",")
+    given <- paste0(fullname[[1]][2])
+    family <- paste0(fullname[[1]][1])
+    
     desc::desc_add_author(given = given,
                           family = family,
                           role = role,
