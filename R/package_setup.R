@@ -84,15 +84,15 @@ setup_package <- function(packageName = NULL,
   # no roles declared sets roles to it sets roles to contributor.
   if(is.null(Role) || length(Role) != length(AuthorName)){
     if(length(AuthorName)==1) {
-      Role = "ctb"
+      Role = list(c("aut", "cre", "ctb"))
     } else if(length(AuthorName)==2) {
-      Role = c("ctb", "ctb")
+      Role = list(c("aut", "cre", "ctb"), "ctb")
     } else if(length(AuthorName)==3) {
-      Role = c("ctb", "ctb", "ctb")
+      Role = list(c("aut", "cre", "ctb"), "ctb", "ctb")
     } else if(length(AuthorName)==4) {
-      Role = c("ctb", "ctb", "ctb", "ctb")
+      Role = list(c("aut", "cre", "ctb"), "ctb", "ctb", "ctb")
     } else if(length(AuthorName)==5) {
-      Role = c("ctb", "ctb", "ctb", "ctb", "ctb")
+      Role = list(c("aut", "cre", "ctb"), "ctb", "ctb", "ctb", "ctb")
     }
   }
   # Step 0.1 See if there are any ORCID numbers
