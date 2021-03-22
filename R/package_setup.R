@@ -466,3 +466,9 @@ setup_package <- function(packageName = NULL,
 #' comment = "University of Somewhere")
 #' }
 #' @export
+add_author <- function(orcid = NULL,
+                       name = NULL,
+                       role = NULL,
+                       email = NULL,
+                       affiliation = NULL){
+}
