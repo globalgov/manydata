@@ -6,7 +6,7 @@
 #' @param ORCID A vector of strings of all the ORCID numbers of the authors.
 #' Needs `{rorcid}` package to be installed. Takes precedence over manual
 #' entries if specified.
-#' @param AuthorName A vector giving the package
+#' @param AuthorName A list of vectors giving the package
 #' author(s)' name(s). Authors(s)last name(s) and first 
 #' name(s) are separated by a comma.
 #' @param Role A list of vectors of the roles the package authors have
@@ -83,17 +83,20 @@ setup_package <- function(packageName = NULL,
   # Small check to see if roles are defined. If there are
   # no roles declared it sets all roles, but first author declared, 
   # to contributor.
+  
+  rolefirst <- c("aut", "cre", "ctb")
+  
   if(is.null(Role) || length(Role) != length(AuthorName)){
     if(length(AuthorName)==1) {
-      Role = list(c("aut", "cre", "ctb"))
+      Role = list(rolefirst)
     } else if(length(AuthorName)==2) {
-      Role = list(c("aut", "cre", "ctb"), "ctb")
+      Role = list(rolefirst, "ctb")
     } else if(length(AuthorName)==3) {
-      Role = list(c("aut", "cre", "ctb"), "ctb", "ctb")
+      Role = list(rolefirst, "ctb", "ctb")
     } else if(length(AuthorName)==4) {
-      Role = list(c("aut", "cre", "ctb"), "ctb", "ctb", "ctb")
+      Role = list(rolefirst, "ctb", "ctb", "ctb")
     } else if(length(AuthorName)==5) {
-      Role = list(c("aut", "cre", "ctb"), "ctb", "ctb", "ctb", "ctb")
+      Role = list(rolefirst, "ctb", "ctb", "ctb", "ctb")
     }
   }
   # Step 0.1 See if there are any ORCID numbers
@@ -240,112 +243,81 @@ setup_package <- function(packageName = NULL,
     }
     
     if(length(fullname) == 1) {
-      given1 <- paste0(fullname[[1]][2])
-      family1 <- paste0(fullname[[1]][1])
       qtemplate("qPackage-DESC1.dcf",
                 "DESCRIPTION",
                 data = list(package = packageName,
-                            given1 = paste0(given1),
-                            family1 = family1,
+                            given1 = stringr::str_trim(paste0(fullname[[1]][2])),
+                            family1 = paste0(fullname[[1]][1]),
                             role1 = role1),
                 path = path)
       
     } 
     
     if(length(fullname) == 2) {
-      given1 <- paste0(fullname[[1]][2])
-      family1 <- paste0(fullname[[1]][1])
-      given2 <-  paste0(fullname[[2]][2])
-      family2 <- paste0(fullname[[2]][1])
       qtemplate("qPackage-DESC2.dcf",
                 "DESCRIPTION",
                 data = list(package = packageName,
-                            given1 = paste0(given1),
-                            family1 = family1,
+                            given1 = stringr::str_trim(paste0(fullname[[1]][2])),
+                            family1 = paste0(fullname[[1]][1]),
                             role1 = role1,
-                            given2 = paste0(given2),
-                            family2 = family2,
+                            given2 = stringr::str_trim(paste0(fullname[[2]][2])),
+                            family2 = paste0(fullname[[2]][1]),
                             role2 = role2),
                 path = path)
     } 
     
     if (length(fullname) == 3) {
-      given1 <- paste0(fullname[[1]][2])
-      family1 <- paste0(fullname[[1]][1])
-      given2 <-  paste0(fullname[[2]][2])
-      family2 <- paste0(fullname[[2]][1])
-      given3 <- paste0(fullname[[3]][2])
-      family3 <- paste0(fullname[[3]][1])
       qtemplate("qPackage-DESC3.dcf",
                 "DESCRIPTION",
                 data = list(package = packageName,
-                            given1 = given1,
-                            family1 = family1,
+                            given1 = stringr::str_trim(paste0(fullname[[1]][2])),
+                            family1 = paste0(fullname[[1]][1]),
                             role1 = role1,
-                            given2 = given2,
-                            family2 = family2,
+                            given2 = stringr::str_trim(paste0(fullname[[2]][2])),
+                            family2 = paste0(fullname[[2]][1]),
                             role2 = role2,
-                            given3 = given3,
-                            family3 = family3,
+                            given3 = stringr::str_trim(paste0(fullname[[3]][2])),
+                            family3 = paste0(fullname[[3]][1]),
                             role3 = role3),
                 path = path)
     } 
-    
  
     if (length(fullname) == 4) {
-      given1 <- paste0(fullname[[1]][2])
-      family1 <- paste0(fullname[[1]][1])
-      given2 <-  paste0(fullname[[2]][2])
-      family2 <- paste0(fullname[[2]][1])
-      given3 <- paste0(fullname[[3]][2])
-      family3 <- paste0(fullname[[3]][1])
-      given4 <- paste0(fullname[[4]][2])
-      family4 <- paste0(fullname[[4]][1])
       qtemplate("qPackage-DESC4.dcf",
                 "DESCRIPTION",
                 data = list(package = packageName,
-                            given1 = given1,
-                            family1 = family1,
+                            given1 = stringr::str_trim(paste0(fullname[[1]][2])),
+                            family1 = paste0(fullname[[1]][1]),
                             role1 = role1,
-                            given2 = given2,
-                            family2 = family2,
+                            given2 = stringr::str_trim(paste0(fullname[[2]][2])),
+                            family2 = paste0(fullname[[2]][1]),
                             role2 = role2,
-                            given3 = given3,
-                            family3 = family3,
+                            given3 = stringr::str_trim(paste0(fullname[[3]][2])),
+                            family3 = paste0(fullname[[3]][1]),
                             role3 = role3,
-                            given4 = given4,
-                            family4 = given4,
+                            given4 =  stringr::str_trim(paste0(fullname[[4]][2])),
+                            family4 = paste0(fullname[[4]][1]),
                             role4 = role4),
                 path = path)
     }
     if(length(AuthorName) == 5) {
-      given1 <- paste0(fullname[[1]][2])
-      family1 <- paste0(fullname[[1]][1])
-      given2 <-  paste0(fullname[[2]][2])
-      family2 <- paste0(fullname[[2]][1])
-      given3 <- paste0(fullname[[3]][2])
-      family3 <- paste0(fullname[[3]][1])
-      given4 <- paste0(fullname[[4]][2])
-      family4 <- paste0(fullname[[4]][1])
-      given5 <- paste0(fullname[[5]][2])
-      family5 <- paste0(fullname[[5]][1])
       qtemplate("qPackage-DESC5.dcf",
                 "DESCRIPTION",
                 data = list(package = packageName,
-                            given1 = given1,
-                            family1 = family1,
+                            given1 = stringr::str_trim(paste0(fullname[[1]][2])),
+                            family1 = paste0(fullname[[1]][1]),
                             role1 = role1,
-                            given2 = given2,
-                            family2 = family2,
+                            given2 = stringr::str_trim(paste0(fullname[[2]][2])),
+                            family2 = paste0(fullname[[2]][1]),
                             role2 = role2,
-                            given3 = given3,
-                            family3 = family3,
+                            given3 = stringr::str_trim(paste0(fullname[[3]][2])),
+                            family3 = paste0(fullname[[3]][1]),
                             role3 = role3,
-                            given4 = given4,
-                            family4 = given4,
+                            given4 =  stringr::str_trim(paste0(fullname[[4]][2])),
+                            family4 = paste0(fullname[[4]][1]),
                             role4 = role4,
-                            given5 = given5,
-                            family5 = family5,
+                            given5 = stringr::str_trim(paste0(fullname[[5]][2])),
+                            family5 = paste0(fullname[[5]][1]),
                             role5 = role5),
                 path = path)
     }
