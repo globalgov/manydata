@@ -8,10 +8,6 @@ test_that("author names must be declared", {
 test_that("package name must start with the letter q", {
   expect_error(setup_package("test"), "Package name must start with a 'q'")
 })
-
-test_that("number of authors taken is correct", {
-  expect_error(setup_package("qTest", name = c("Hollway, James", "Sposito, Henrique")), "Please specify author. Add the rest by using our add_author() function.")
-})
   
 test_that("additional authors are added correctly", {
   expect_error(add_author(), "Either a correct ORCID number or name in the format 'Surname, Given Names' must be provided.")
