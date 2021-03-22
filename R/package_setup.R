@@ -43,6 +43,13 @@ setup_package <- function(package = NULL,
   # usethis:::check_not_nested(fs::path_dir(path), name)
   # usethis:::create_directory(path)
   
+  # Initialize variables to suppress an annoying note when running 
+  # devtools_check
+  given <- NULL
+  family <- NULL
+  role <- NULL
+  comment <- NULL
+  
   # Step zero: get details from existing files, if present
   if (is.null(package)){
     if (file.exists(paste0(path, "/DESCRIPTION"))){
@@ -274,7 +281,7 @@ setup_package <- function(package = NULL,
 #' @param role Character vector of role(s) the author has in the project. 
 #' Contributor by default. For example "c(aut, cre, ctb)".
 #' @param email Character string of the author's email
-#' @param comment Character vector of the author's miscellaneous information 
+#' @param affiliation Character vector of the author's miscellaneous information 
 #' such as his/her institution. 
 #' @return Adds a new author to the description file of the package
 #' @details This function adds an author to the description file of the current
@@ -297,8 +304,13 @@ add_author <- function(orcid = NULL,
                        email = NULL,
                        affiliation = NULL){
   
+  
   # Check for correct input
   if (is.null(orcid) & is.null(name)) stop("Either a correct ORCID number or name in the format 'Surname, Given Names' must be provided.")
+  
+  # Initialize variables to suppress an annoying note when running 
+  # devtools_check
+  comment <- NULL
   
   # Use ORCID data if available
   if(!is.null(orcid)){

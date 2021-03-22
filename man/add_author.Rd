@@ -25,7 +25,7 @@ Contributor by default. For example "c(aut, cre, ctb)".}
 
 \item{email}{Character string of the author's email}
 
-\item{comment}{Character vector of the author's miscellaneous information
+\item{affiliation}{Character vector of the author's miscellaneous information
 such as his/her institution.}
 }
 \value{
