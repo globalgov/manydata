@@ -13,17 +13,17 @@ add_author(
 )
 }
 \arguments{
+\item{orcid}{Character string of the author's ORCID number. If this is null,
+then the function switches to manual entry.}
+
+\item{name}{A vector giving the package
+author(s)' name(s). Authors(s)last name(s) and first
+name(s) are separated by a comma.}
+
 \item{role}{Character vector of role(s) the author has in the project.
 Contributor by default. For example "c(aut, cre, ctb)".}
 
 \item{email}{Character string of the author's email}
-
-\item{ORCID}{Character string of the author's ORCID number. If this is null,
-then the function switches to manual entry.}
-
-\item{AuthorName}{A vector giving the package
-author(s)' name(s). Authors(s)last name(s) and first
-name(s) are separated by a comma.}
 
 \item{comment}{Character vector of the author's miscellaneous information
 such as his/her institution.}
@@ -46,8 +46,8 @@ default the role of the new author is set to contributor.
 }
 \examples{
 \dontrun{
-new_author(ORCID = "0000-0002-8361-9647", role = c('auth', 'cre'))
-new_author(AuthorName = "Smith, John",
+add_author(orcid = "0000-0002-8361-9647", role = list(c("aut", "cre", "ctb"))
+add_author(name = "Smith, John",
 comment = "University of Somewhere")
 }
 }
