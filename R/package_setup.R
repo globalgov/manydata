@@ -69,7 +69,7 @@ setup_package <- function(package = NULL,
       comment <- NULL
       usethis::ui_done("Obtained lead author name from existing DESCRIPTION file.")
     } else {
-      stop("Please declare at least one author")
+      stop("Please declare one author")
     }
   }
   # Small check to see if roles are defined. If there are
