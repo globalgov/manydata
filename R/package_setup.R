@@ -471,4 +471,60 @@ add_author <- function(orcid = NULL,
                        role = NULL,
                        email = NULL,
                        affiliation = NULL){
+
+  # Check for correct input
+  if (is.null(orcid) & is.null(name)) stop("Either a correct ORCID number or name in the format 'Surname, Given Names' must be provided.")
+  
+  # Use ORCID data if available
+  if(!is.null(orcid)){
+    if(!stringr::str_detect(orcid, "^[0-9]")){
+      name <- orcid # in case user accidentally puts name in first argument
+    } else {
+      # Check whether rorcid is installed, if not install it
+      if(!"rorcid" %in% rownames(utils::installed.packages())){
+        depends("rorcid")
+      }
+      #Step 1: Authenticate with ORCID
+      rorcid::orcid_auth()
+      #Step 2: Extract the information from ORCID API (lists)
+      author <- rorcid::orcid_person(orcid)
+      employment <- rorcid::orcid_employments(orcid)
+      if(is.null(affiliation)){
+        affiliation <- c(as.character(employment[[orcid]]
+                                      [["affiliation-group"]][["summaries"]]
+                                      [[1]][["employment-summary.organization.name"]]))
+      }
+      given <- as.character(author[[orcid]][["name"]]
+                            [["given-names"]][["value"]])
+      family <- as.character(author[[orcid]][["name"]]
+                             [["family-name"]][["value"]])
+      if(is.null(email) & length(author[[orcid]][["emails"]][["email"]]) != 0){
+        email <- as.character(author[[orcid]][["emails"]][["email"]][[1]])
+      }
+    }
+  }
+  
+  if (!is.null(name)) {
+    name <- stringr::str_split(name, ", ")
+    family <- name[[1]][1]
+    given <- name[[1]][2]
+  }
+  
+  # Unless otherwise provided, new authors added are listed as 'contributors'
+  if(is.null(role)) role <- "ctb"
+  
+  if(!is.null(email) && !grepl("@", email, fixed = TRUE)){
+    stop("Please specify a correct email adress.")
+  }
+  
+  if(!"desc" %in% rownames(utils::installed.packages())){
+    depends("desc")
+  }
+  
+  # Write the new author to the description
+  # TODO: check whether author already exists and update details instead
+  desc::desc_add_author(given = given,
+                        family = family,
+                        role = role,
+                        email = email,
 }
