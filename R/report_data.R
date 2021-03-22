@@ -224,9 +224,9 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL){
 #' #' in a specific database of a qPackage. 
 #' #' @return A dataframe with the data report
 #' @examples
-#' #' evolution_data(pkg = "qStates", database = "states", dataset = "COW")
+#' #' data_evolution(pkg = "qStates", database = "states", dataset = "COW")
 #' #' @export
-#' evolution_data <- function(pkg, database, dataset){
+#' data_evolution <- function(pkg, database, dataset){
 #'   pkg_path <- find.package(pkg)
 #'   data_path <- file.path(pkg_path, "data")
 #'   #selcts all dbs
