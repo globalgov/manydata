@@ -30,6 +30,13 @@ The function accepts ORCID numbers instead of author names as well.
 setup_package("qStates", AuthorName = c("Hollway, James", "Sposito, Henrique"), Role = list(c("cre", "aut", "ctb"), c("ctb")))
 ```
 
+For adding on package contributors or authors to q Package later on, use to the `new_author()` function.
+This function also accepts ORCID numbers instead of author names. 
+
+```{r eval=FALSE}
+new_author(AuthorName = c("Bieri, Bernhard", "Peev, Esther"), Role = c("ctb", "ctb"))
+```
+
 ## Collecting data
 
 For data collection and loading into a new package with `{qData}`, the function `import_data()` 
