@@ -7,16 +7,16 @@
 data_contrast(pkg, database = NULL, dataset = NULL)
 }
 \arguments{
-\item{pkg}{character string of the qPackage to report data on. Mandatory
+\item{pkg}{character string of the qPackage to report data on. Required
 input.}
 
 \item{database}{vector of character strings of the qPackage to report data a
-specific database in a qPackage. If Null, report_data returns a summary
-of all databases in the qPackage. Null by default.}
+specific database in a qPackage. If NULL, report_data returns a summary
+of all databases in the qPackage. NULL by default.}
 
 \item{dataset}{character string of the qPackage to report data on a specific
-dataset in a specific database of a qPackage. If Null and database is
-specified, returns database level metadata. Null by default.}
+dataset in a specific database of a qPackage. If NULL and database is
+specified, returns database level metadata. NULL by default.}
 }
 \value{
 A dataframe with the data report
