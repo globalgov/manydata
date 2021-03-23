@@ -24,10 +24,8 @@
 #' @examples
 #' \dontrun{
 #' setup_package("qStates", name = "Hollway, James"))
-#' }
-#' \dontrun{
 #' setup_package("qStates", 
-#' orcid = c("0000-0002-8361-9647"))
+#'                orcid = c("0000-0002-8361-9647"))
 #' }
 #' @export
 setup_package <- function(package = NULL,
@@ -47,7 +45,6 @@ setup_package <- function(package = NULL,
   # devtools_check
   given <- NULL
   family <- NULL
-  role <- NULL
   comment <- NULL
   
   # Step zero: get details from existing files, if present
