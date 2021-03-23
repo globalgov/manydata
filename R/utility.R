@@ -59,91 +59,6 @@ qtemplate <- function(template,
   invisible(new)
 }
 
-#' Helper function for adding an author to the current package
-#' 
-#' Helper function for adding an author to the current package
-#' @param ORCID Character string of the author's ORCID number. If this is null,
-#' then the function switches to manual entry.
-#' @param role Character vector of role(s) the author has in the project
-#' @param email Character string of the author's email
-#' @param given Character string of the author's name
-#' @param family Character string of the author's surname
-#' @param comment Character vector of the author's miscellaneous information 
-#' such as his/her institution
-#' @return Adds a new author to the description file of the package
-#' @details The function adds an author to the description file of the current
-#' package.
-#' @examples
-#' \dontrun{
-#' new_author("qData", "desc")
-#' }
-#' @export
-new_author <- function(ORCID = NULL,
-                       role = NULL,
-                       email = NULL,
-                       given = NULL,
-                       family = NULL,
-                       comment = NULL){
-  if(!is.null(ORCID)){
-    # Check whether rorcid is installed
-    if("rorcid" %in% rownames(utils::installed.packages()) == FALSE){
-      stop("Please install the rorcid package before proceeding.")
-    }
-    if(is.null(role)){
-      stop("Please specify at least one role of your author. 
-         E.g. role = c('aut', 'cre')")
-    }
-    #Step 1: Authenticate the user to ORCID
-    rorcid::orcid_auth()
-    #Step 2: Extract the information from ORCID API (lists)
-    author <- rorcid::orcid_person(ORCID)
-    employment <- rorcid::orcid_employments(ORCID)
-    given <- as.character(author[[ORCID]][["name"]]
-                          [["given-names"]][["value"]])
-    family <- as.character(author[[ORCID]][["name"]]
-                           [["family-name"]][["value"]])
-    #Gives preference to ORCID email
-    if(length(author[[ORCID]][["emails"]][["email"]]) != 0){
-      email <- as.character(author[[ORCID]][["emails"]][["email"]][[1]])
-    }else{
-      email <- email
-    }
-    comment <- c(as.character(employment[[ORCID]]
-                              [["affiliation-group"]][["summaries"]]
-                              [[1]][["employment-summary.organization.name"]]))
-    #Step 3: Create the person entry in the documentation file.
-    desc::desc_add_author(given = given,
-                          family = family,
-                          role = role,
-                          email = email,
-                          comment = comment
-    )
-  } else {
-    #Manual entry
-    if(is.null(given)){
-      stop("Please specify the name of your author")
-    }
-    if(is.null(family)){
-      stop("Please specify the surname of your author")
-    }
-    if(is.null(role)){
-      stop("Please specify at least one role of your author. 
-         E.g. role = c('aut', 'cre')")
-    }
-    if(!is.null(email) && !grepl("@", email, fixed = TRUE)){
-      stop("Please specify a correct email adress.")
-    }
-    desc::desc_add_author(given = given,
-                          family = family,
-                          role = role,
-                          email = email,
-                          comment = comment
-    )
-  }
-}
-# TODO: Fix issue #91 of desc package or find a workaround that allows us
-# to add multiple comments.
-
 #' Helper function for loading packages
 #' 
 #' Helper function for loading and, if necessary, installing packages
@@ -169,6 +84,8 @@ depends <- function(packages){
              library(x, character.only = TRUE)
            } else if(!require(x, character.only = TRUE)) {
              utils::install.packages(x, dependencies = TRUE)
+             library(x, character.only = TRUE)
+           } else {
              library(x, character.only = TRUE)
            }
          }) 

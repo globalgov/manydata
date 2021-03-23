@@ -18,8 +18,7 @@
 #' @return Nested vector of POSIXct dates that includes a range of dates
 #' @importFrom stringr str_detect str_split
 #' @importFrom lubridate as_date dmy ymd
-#' @examples
-#' dates_comparison <- tibble::tribble(~Example, ~OriginalDate,
+#' @examples dates_comparison <- tibble::tribble(~Example, ~OriginalDate,
 #' "A normal date", "2010-01-01",
 #' "A historical date", "1712-01-01",
 #' "A really historical date", "712-01-01",
@@ -27,7 +26,7 @@
 #' "A clearly future date", "9999-12-31",
 #' "A not so clearly future date", "2599-12-31")
 #' dates_comparison %>% dplyr::mutate(
-#' lubridate = lubridate::as_date(OriginalDate),
+#' lubridate = suppressWarnings(lubridate::as_date(OriginalDate)),
 #' anytime = anytime::anydate(OriginalDate),
 #' qData = qData::standardise_dates(OriginalDate)
 #' ) %>% print(n = 25)
@@ -107,21 +106,7 @@ correct_date_format <- function(dates){
     if(length(dpos)==0) dpos <- setdiff(c(1,3), ypos)
     mpos <- setdiff(setdiff(1:3, ypos), dpos) # identify month
     
-    if(nrow(x)==1){
-      y <- ifelse(nchar(x[ypos])>2,
-                  ifelse(x[ypos] > thresh & x[ypos]!="9999",
-                         paste0("19", x[ypos] %% 100),
-                         formatC(x[ypos], width = 4, flag = "0")), # if 4, keep or correct
-                  ifelse(x[ypos] > (thresh %% 100),
-                         paste0("19", formatC(x[ypos], width = 2, flag = "0")), # if more than now, likely last century
-                         paste0("20", formatC(x[ypos], width = 2, flag = "0")))) # if less than now, likely this century
-      m <- formatC(x[mpos], width = 2, flag = "0")
-      if(m=="00") m <- "01"
-      d <- formatC(x[dpos], width = 2, flag = "0")
-      if(d=="00") d <- "01"
-      out <- paste(y,m,d,sep = "-")
-    } else {
-      out <- apply(x, 1, function(x){
+    out <- apply(x, 1, function(x){
         y <- ifelse(nchar(x[ypos])>2,
                     ifelse(x[ypos] > thresh & x[ypos]!="9999",
                            paste0("19",x[ypos] %% 100),
@@ -135,9 +120,9 @@ correct_date_format <- function(dates){
         if(d=="00") d <- "01"
         paste(y,m,d,sep = "-")
       })
-    }
     dates <- out
   }
+  
   dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{2}-[:digit:]{4}$"), as.character(as.Date(dates,"%d-%m-%Y")), dates) # Correct date order if need
   dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{1}-[:digit:]{1}-[:digit:]{4}$"), as.character(as.Date(dates,"%d-%m-%Y")), dates) # Correct date order and size 
   dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{2}-[:digit:]{1}-[:digit:]{4}$"), as.character(as.Date(dates,"%d-%m-%Y")), dates) # Correct date order and size
@@ -209,7 +194,6 @@ treat_historical_dates <- function(dates){
   
   dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), neg_dates_comp(dates), dates) # negative ymd dates
   dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{2}-[:digit:]{2}-[:digit:]{4}$"), neg_dates_comp(dates), dates) # negative dates in dmy format
-  # todo: expand on negative date formats taken
   dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{2}$"), neg_dates(dates), dates) # negative 2 years only dates
   dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{3}$"), neg_dates(dates), dates) # negative 3 years only dates
   dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{4}$"), neg_dates(dates), dates) # negative year only dates
