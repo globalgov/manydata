@@ -4,7 +4,6 @@
 
 * Fixed #128 by suppressing issues with warnings on pkgdown website
 * Updated contributor and user vignettes for new package changes
-* Updated documentation for `new_author()` and `setup_package()` 
 
 # Collect
 
@@ -16,6 +15,7 @@
 * Renamed `new_author()` function to `add_author()` for naming consistency
   * Closed #140 by fixing bug with `add_author()`
   * Fixed #121 by allowing `add_author()` to treat multiple comments
+* Updated documentation for `setup_package()` and `add_author()`
 
 # Correct
 
@@ -25,7 +25,7 @@
 
 # Connect
 
-* Divided, updated and renamed `report_data()` function  
+* Divided, updated and renamed `report_data()`  
   * Closed #131 by dividing `report_data()` into `data_source()` and `data_contrast()` functions
   * Closed #104  by allowing users to select multiple datasets with `data_contrast()`
   * Closed #105 by allowing for multiple databases to display in a package with `data_contrast()` 

@@ -22,13 +22,14 @@ knitr::opts_chunk$set(
 ## Discovering data
 
 The first thing users of the package will want to do is to identify
-datasets that might contribute to their research goals. Since some of
-these data packages are too big for CRAN (the main though not only R
-package repository), we expect that their developers will instead choose
-to make their packages available on Github. Github is huge though,
-either way it can be difficult to identify salient data. We have tried
-to make this easy by allowing the reporting of all datasets in the
-ecosystem that we know of that currently pass our tests.
+datasets that might contribute to their research goals. 
+Since some of these data packages are too big for CRAN 
+(the main though not only R package repository), 
+we expect that their developers will instead choose
+to make their packages available on Github. 
+Github is huge though, either way it can be difficult to identify salient data. 
+We have tried to make this easy by allowing the reporting of all datasets 
+in the ecosystem that we know of that currently pass our tests.
 
 ```{r, eval=NOT_CRAN}
 library(qData)
@@ -47,23 +48,25 @@ principles across the different packages.
 
 In `{qStates}` for example, all datasets from the states database contain 
 variables named `Beg`and `End` which represent the beginning and ending date 
-of state tenure. 
+of an episode of state sovereignty.
+
 In `{qEnviron}`, the agreements database also have the `Beg` and `End` variables 
-but those are attributed to treaties (signature and term dates). For the memberships 
-database, `Beg` and `End` represent when a relationship between states and an 
-agreement starts (either signature, ratification or entry into force) and 
-ends (either withdrawal or term).
+but those are attributed to treaties (signature and term dates). 
+For the memberships database, `Beg` and `End` represent when a relationship 
+between states and an agreement starts (either signature, ratification or entry into force) 
+and ends (either withdrawal or term).
 
 This specific variable name allows the comparison across the datasets which 
-have different sources but same informations. It enables to point out the 
-recurrence, difference or absence of observations between the datasets and extract
+have different sources but same informations. 
+It enables to point out the recurrence, 
+difference or absence of observations between the datasets and extract
 more robust data when researching on a particular governance domain. 
 
 ## Loading data
 
 For now, let us say that we wish to download the `{qStates}` package,
-which offers a set of datasets related to state actors in global
-governance. We can download and install the latest release version of
+which offers a set of datasets related to state actors in global governance. 
+We can download and install the latest release version of
 the `{qStates}` package using the same function as before, only
 specifying which package we want to 'get':
 
@@ -72,8 +75,9 @@ get_packages("globalgov/qStates")
 ```
 
 Once the qpackage has been downloaded and installed, we are free to work
-with the data it contains. This `{qStates}` package includes several
-datasets. We can get a quick summary of the datasets included in this
+with the data it contains. 
+This `{qStates}` package includes several datasets.
+We can get a quick summary of the datasets included in this
 package with the following command:
 
 ```{r}
@@ -123,7 +127,8 @@ Below we show how one might compare the data in `states` in these ways.
 
 We can bring up the database level documentation using the following command: `?states`.
 This documentation informs the user on the various datasets that are present in the database as well
-as the most important metadata of the various datasets. If we want a more detailed summary of the various levels of data 
+as the most important metadata of the various datasets. 
+If we want a more detailed summary of the various levels of data 
 and sources we can run `data_source()` and `data_contrast()` functions as outlined below.
 
 ### Using `data_source()` and `data_contrast()`
@@ -134,7 +139,8 @@ The `data_source()` function displays bibliographic references for the datasets 
 data_source(pkg = "qStates", database = NULL, dataset = NULL)
 ```
 
-The `data_contrast()` function returns a data frame with the key metadata of each level of data objects (qPackage, database, and dataset).
+The `data_contrast()` function returns a data frame with the key metadata 
+of each level of data objects (qPackage, database, and dataset).
 This metadata includes the following elements:
 
 * Number of unique observations
@@ -148,7 +154,8 @@ This metadata includes the following elements:
 data_contrast(pkg = "qStates", database = NULL, dataset = NULL)
 ```
 
-If we were specifically interested in the `COW` dataset of the `states` data base we would specify the output by setting the database and the dataset arguments to the corresponding value. 
+If we were specifically interested in the `COW` dataset of the `states` database,
+we would specify the output by setting the database and the dataset arguments to the corresponding value. 
 
 ```{r}
 data_contrast(pkg = "qStates", database = "states", dataset = "COW")
