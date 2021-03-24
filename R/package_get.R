@@ -120,7 +120,7 @@ get_packages <- function(pkg) {
     })
     
     repos <- dplyr::bind_rows(repos)
-    print(repos, width = 150)
+    print(repos, width = Inf, pillar.min_chars = Inf)
   }
   
   if (!missing(pkg)) {
