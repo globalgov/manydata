@@ -13,14 +13,16 @@ test_that("missing observations are reported correctly", {
 
 # Uniformity tests (agreements have a source ID, a string title, a signature and
 # entry into force date)
-test_that("datasets have the correct variables", {
+test_that("datasets have the required variables", {
   expect_col_exists({{{dab}}}[["{{{dat}}}"]], vars(Title))
   expect_col_exists({{{dab}}}[["{{{dat}}}"]], vars(Beg))
-  expect_col_exists({{{dab}}}[["{{{dat}}}"]], vars(ID))
+  expect_true(any(grepl("_ID$", colnames({{{dab}}}[["{{{dat}}}"]]))))
+  expect_col_exists({{{dab}}}[["{{{dat}}}"]], vars(Signature))
+  expect_col_exists({{{dab}}}[["{{{dat}}}"]], vars(Force))
 })
 
 # Dates are standardized for mandatory column
-test_that("dates are standardised", {
+test_that("Column `Beg` has standardised dates", {
   expect_col_is_date({{{dab}}}[["{{{dat}}}"]], vars(Beg))
   expect_false(any(grepl("/", {{{dab}}}[["{{{dat}}}"]]$Beg)))
   expect_false(any(grepl("^[:digit:]{2}-[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Beg)))
@@ -29,6 +31,28 @@ test_that("dates are standardised", {
   expect_false(any(grepl("^[:digit:]{1}-[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Beg)))
   expect_false(any(grepl("^[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Beg)))
   expect_false(any(grepl("^[:alpha:]$", {{{dab}}}[["{{{dat}}}"]]$Beg)))
+})
+
+test_that("Column `Signature` has standardised dates", {
+  expect_col_is_date({{{dab}}}[["{{{dat}}}"]], vars(Signature))
+  expect_false(any(grepl("/", {{{dab}}}[["{{{dat}}}"]]$Signature)))
+  expect_false(any(grepl("^[:digit:]{2}-[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Signature)))
+  expect_false(any(grepl("^[:digit:]{1}-[:digit:]{1}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Signature)))
+  expect_false(any(grepl("^[:digit:]{2}-[:digit:]{1}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Signature)))
+  expect_false(any(grepl("^[:digit:]{1}-[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Signature)))
+  expect_false(any(grepl("^[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Signature)))
+  expect_false(any(grepl("^[:alpha:]$", {{{dab}}}[["{{{dat}}}"]]$Signature)))
+})
+
+test_that("Column `Force` has standardised dates", {
+  expect_col_is_date({{{dab}}}[["{{{dat}}}"]], vars(Force))
+  expect_false(any(grepl("/", {{{dab}}}[["{{{dat}}}"]]$Force)))
+  expect_false(any(grepl("^[:digit:]{2}-[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Force)))
+  expect_false(any(grepl("^[:digit:]{1}-[:digit:]{1}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Force)))
+  expect_false(any(grepl("^[:digit:]{2}-[:digit:]{1}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Force)))
+  expect_false(any(grepl("^[:digit:]{1}-[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Force)))
+  expect_false(any(grepl("^[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Force)))
+  expect_false(any(grepl("^[:alpha:]$", {{{dab}}}[["{{{dat}}}"]]$Force)))
 })
 
 # Dates are standardized for optional columns
@@ -42,15 +66,6 @@ test_that("Columns with dates are standardized", {
     expect_false(any(grepl("^[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$End)))
     expect_false(any(grepl("^[:alpha:]$", {{{dab}}}[["{{{dat}}}"]]$End)))
   }
-  if (!is.null({{{dab}}}[["{{{dat}}}"]]$Force)) {
-    expect_false(any(grepl("/", {{{dab}}}[["{{{dat}}}"]]$Force)))
-    expect_false(any(grepl("^[:digit:]{2}-[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Force)))
-    expect_false(any(grepl("^[:digit:]{1}-[:digit:]{1}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Force)))
-    expect_false(any(grepl("^[:digit:]{2}-[:digit:]{1}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Force)))
-    expect_false(any(grepl("^[:digit:]{1}-[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Force)))
-    expect_false(any(grepl("^[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Force)))
-    expect_false(any(grepl("^[:alpha:]$", {{{dab}}}[["{{{dat}}}"]]$Force)))
-  }
   if (!is.null({{{dab}}}[["{{{dat}}}"]]$Rat)) {
     expect_false(any(grepl("/", {{{dab}}}[["{{{dat}}}"]]$Rat)))
     expect_false(any(grepl("^[:digit:]{2}-[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Rat)))
@@ -60,6 +75,13 @@ test_that("Columns with dates are standardized", {
     expect_false(any(grepl("^[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Rat)))
     expect_false(any(grepl("^[:alpha:]$", {{{dab}}}[["{{{dat}}}"]]$Rat)))
   }
+  if (!is.null({{{dab}}}[["{{{dat}}}"]]$Term)) {
+    expect_false(any(grepl("/", {{{dab}}}[["{{{dat}}}"]]$Term)))
+    expect_false(any(grepl("^[:digit:]{2}-[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Term)))
+    expect_false(any(grepl("^[:digit:]{1}-[:digit:]{1}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Term)))
+    expect_false(any(grepl("^[:digit:]{2}-[:digit:]{1}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Term)))
+    expect_false(any(grepl("^[:digit:]{1}-[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Term)))
+    expect_false(any(grepl("^[:digit:]{2}-[:digit:]{4}$", {{{dab}}}[["{{{dat}}}"]]$Term)))
+    expect_false(any(grepl("^[:alpha:]$", {{{dab}}}[["{{{dat}}}"]]$Term)))
+  }
 })
-
-

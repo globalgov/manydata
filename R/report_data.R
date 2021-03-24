@@ -9,7 +9,7 @@
 #' in a specific database of a qPackage. If Null and database is specified, returns database
 #' level metadata. Null by default.
 #' @return A dataframe with the data report
-#' @example
+#' @examples
 #' report_data(pkg = "qStates", database = "states", dataset = "COW")
 #' @export
 report_data <- function(pkg, database = NULL, dataset = NULL){
@@ -48,7 +48,6 @@ report_data <- function(pkg, database = NULL, dataset = NULL){
                         NVar = ncol(ds),
                         MinDate = min(ds$Beg),
                         MaxDate = max(ds$End),
-                        URL = attr(ds, which = "source_link"),
                         Reference = paste0(utils::capture.output(print(attr(ds, which = "source_bib"))), sep = "", collapse = "")
       )
       tabl2 <- tabl %>%

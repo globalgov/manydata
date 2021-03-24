@@ -20,7 +20,8 @@
 #' @importFrom usethis ui_done
 #' @examples
 #' \dontrun{
-#' export_data(COW, database = "states")
+#' export_data(COW, database = "states", 
+#' URL = "https://correlatesofwar.org/data-sets/state-system-membership")
 #' }
 #' @export
 export_data <- function(..., database, URL) {
@@ -90,7 +91,7 @@ export_data <- function(..., database, URL) {
   dsnvar <- lapply(db, ncol)
   dsvar <- lapply(db, colnames)
   dsvarstr <- lapply(lapply(db, colnames), str_c, collapse=", ")
-  describe <- paste0("#'\\describe{\n", paste0("#' \\item{",dsnames,": }", "{A dataset with ",dsobs," observations and the following ",dsnvar," variables: ", dsvarstr,".}", collapse = ""), "#' }")
+  describe <- paste0("#'\\describe{\n", paste0("#' \\item{",dsnames,": }", "{A dataset with ",dsobs," observations and the following ",dsnvar," variables: ", dsvarstr,".}\n", collapse = ""), "#' }")
   sourceelem <- paste0("#' @source \\url{", URL,"}", collapse = "")
   #Output
   qtemplate("qDataDBDoc.R",

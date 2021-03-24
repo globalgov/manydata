@@ -23,10 +23,13 @@ packages by helping with the set-up of packages consistent with `{qData}`.
 The function `setup_package()`, for example, establishes many of the required files and folder 
 structures for a `{qData}`-consistent data package. 
 It requires that the package name starts with a the letter "q" as well as that 
-the name of at least one author is declared.
+the name of at least one author is declared. The function accepts ORCID
+numbers instead of author names. 
 
 ```{r eval=FALSE}
-qData::setup_package("qStates", "James Hollway")
+
+setup_package("qStates", AuthorName = c("James", "Henrique"), AuthorSurname = c("Hollway", "Sposito"))
+
 ```
 
 ## Collecting data

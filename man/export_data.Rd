@@ -33,6 +33,7 @@ sources and describing variables.
 }
 \examples{
 \dontrun{
-export_data(COW, database = "states")
+export_data(COW, database = "states", 
+URL = "https://correlatesofwar.org/data-sets/state-system-membership")
 }
 }

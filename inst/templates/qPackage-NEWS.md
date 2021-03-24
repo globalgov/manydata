@@ -3,9 +3,9 @@
 * Set up {{{package}}} package using qData::setup_package()
   * Added `DESCRIPTION` file
   * Added `R` folder
-  * Added `License` file
-  * Added `Namespace` file
-  * Added `News` file
+  * Added `LICENSE` file
+  * Added `NAMESPACE` file
+  * Added `NEWS` file
   * Added `README` file
   * Added `.github` folder
   * Added `CODE_OF_CONDUCT` file
