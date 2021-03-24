@@ -75,7 +75,7 @@ get_packages <- function(pkg) {
             x <- "Unreleased"
             x
           } else {
-            x <- as.character(anytime::anydate(x))
+            x <- as.character(lubridate::as_date(x))
             x
           }
         })
