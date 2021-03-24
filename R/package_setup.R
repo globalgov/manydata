@@ -4,14 +4,14 @@
 #' @param package A string giving the desired name of the package,
 #' must start with "q"
 #' @param orcid A vector of strings of all the ORCID numbers of the authors.
-#' Needs `{rorcid}` package to be installed. Takes precedence over manual
-#' entries if specified.
+#' Needs `{rorcid}` package to be installed. 
+#' Takes precedence over manual entries if specified.
 #' @param name A list of vectors giving the package
 #' author(s)' name(s). Authors(s)last name(s) and first 
 #' name(s) are separated by a comma.
 #' @param role A list of vectors of the roles the package authors have
-#' in the project. If there are no roles declared,
-#' roles are set contributor.
+#' in the project. 
+#' If there are no roles declared, roles are set contributor.
 #' @param update A logical indicating whether existing files should be
 #' overwritten, by default TRUE.
 #' @param path A string, if missing default is path to the working directory
@@ -19,8 +19,7 @@
 #' folder structures required for a qData-consistent data package.
 #' @return A new package structure
 #' @import usethis
-#' @importFrom stringr str_replace_all
-#' @importFrom stringr str_split
+#' @importFrom stringr str_replace_all str_split
 #' @examples
 #' \dontrun{
 #' setup_package("qStates", name = "Hollway, James"))

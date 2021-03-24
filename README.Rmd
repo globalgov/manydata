@@ -58,4 +58,4 @@ library(qData)
 get_packages()
 ```
 
-Please see [the website](https://globalgov.github.io/qData/) for more information about how to use `{qData}` for both users and contributors.
+Please see [the website](https://globalgov.github.io/qData/) for more information about how to use `{qData}` as either a user or as a data contributor.

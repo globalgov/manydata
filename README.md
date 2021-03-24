@@ -69,12 +69,23 @@ library(qData)
 get_packages()
 ```
 
-    ## # A tibble: 3 x 7
-    ##   name   full_name  description     installed latest updated    contributors    
-    ##   <chr>  <chr>      <chr>           <chr>     <chr>  <date>     <chr>           
-    ## 1 qData  globalgov… An R portal fo… 0.3.2     0.3.2  2021-02-09 henriquesposito…
-    ## 2 qEnvi… globalgov… <NA>            0.0.1     0.0.1  2021-02-10 EstherPeev, BBi…
-    ## 3 qStat… globalgov… <NA>            0.0.2     0.0.2  2021-02-05 henriquesposito…
+    ## # A tibble: 3 x 6
+    ##   name     full_name         
+    ##   <chr>    <chr>             
+    ## 1 qData    globalgov/qData   
+    ## 2 qEnviron globalgov/qEnviron
+    ## 3 qStates  globalgov/qStates 
+    ##   description                                             installed latest
+    ##   <chr>                                                   <chr>     <chr> 
+    ## 1 An R portal for ensembled global governance data        0.3.5     0.3.4 
+    ## 2 qPackage for ensembled data on environmental agreements 0.0.2     0.0.2 
+    ## 3 qPackage for ensembled data on sovereign states         0.0.3     0.0.3 
+    ##   updated   
+    ##   <date>    
+    ## 1 2021-03-23
+    ## 2 2021-02-22
+    ## 3 2021-02-22
 
 Please see [the website](https://globalgov.github.io/qData/) for more
-information about how to use `{qData}` for both users and contributors.
+information about how to use `{qData}` as either a user or as a data
+contributor.
