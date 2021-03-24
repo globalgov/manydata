@@ -3,8 +3,8 @@
 # Connect
 
 * Updated `get_packages()` function
-  * Fixed bug with dates in the `get_packages()` by changing dependencies to `{lubridate}`
-  * Updated formatting of the returned tibble to display more clearly information
+  * Fixed bug with dates in `get_packages()` by changing dependencies to `{lubridate}`
+  * Updated formatting of the returned tibble to display more clearly the information on q Packages
 
 # qData 0.3.4
 
