@@ -66,15 +66,20 @@ used to discover which packages are currently available.
 
 ``` r
 library(qData)
+```
+
+    ## Warning: package 'tibble' was built under R version 4.0.4
+
+``` r
 get_packages()
 ```
 
-    ## # A tibble: 3 x 7
-    ##   name   full_name  description     installed latest updated    contributors    
-    ##   <chr>  <chr>      <chr>           <chr>     <chr>  <date>     <chr>           
-    ## 1 qData  globalgov… An R portal fo… 0.3.2     0.3.2  2021-02-09 henriquesposito…
-    ## 2 qEnvi… globalgov… <NA>            0.0.1     0.0.1  2021-02-10 EstherPeev, BBi…
-    ## 3 qStat… globalgov… <NA>            0.0.2     0.0.2  2021-02-05 henriquesposito…
+    ## # A tibble: 3 x 6
+    ##   name    full_name    description                   installed latest updated   
+    ##   <chr>   <chr>        <chr>                         <chr>     <chr>  <date>    
+    ## 1 qData   globalgov/q~ An R portal for ensembled gl~ 0.3.4     0.3.4  2021-03-23
+    ## 2 qEnvir~ globalgov/q~ qPackage for ensembled data ~ 0.0.2     0.0.2  2021-02-22
+    ## 3 qStates globalgov/q~ qPackage for ensembled data ~ 0.0.3     0.0.3  2021-02-22
 
 Please see [the website](https://globalgov.github.io/qData/) for more
 information about how to use `{qData}` for both users and contributors.

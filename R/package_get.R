@@ -23,6 +23,7 @@
 #' @importFrom httr content
 #' @importFrom remotes install_github
 #' @importFrom utils packageVersion
+#' @importFrom lubridate as_date
 #' @examples
 #' \dontrun{
 #' get_packages() # This prints a table (tibble)
@@ -113,7 +114,7 @@ get_packages <- function(pkg) {
       repo <- repo[c("name","full_name","description")]
       repo$installed <- get_installed_release(repo$name)
       repo$latest <- get_latest_release(repo$full_name)
-      repo$updated <- anytime::anydate(get_latest_date(repo$full_name))
+      repo$updated <- lubridate::as_date(get_latest_date(repo$full_name))
       # repo$contributors <- get_contributors(repo$full_name)
       repo <- tibble::as_tibble(repo)
     })
