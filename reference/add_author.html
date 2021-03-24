@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • qData</title>
+<title>Helper function for adding an author to the current package — add_author • qData</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,9 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Helper function for adding an author to the current package — add_author" />
+<meta property="og:description" content="Helper function for adding an author to the description file of the current
+package." />
 
 
 
@@ -58,7 +60,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -123,127 +125,72 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Helper function for adding an author to the current package</h1>
+    <small class="dont-index">Source: <a href='https://github.com/globalgov/qDatr/blob/master/R/package_setup.R'><code>R/package_setup.R</code></a></small>
+    <div class="hidden name"><code>add_author.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Helper function for adding an author to the description file of the current
+package.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>add_author</span><span class='op'>(</span>
+  orcid <span class='op'>=</span> <span class='cn'>NULL</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>,
+  role <span class='op'>=</span> <span class='cn'>NULL</span>,
+  email <span class='op'>=</span> <span class='cn'>NULL</span>,
+  affiliation <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-functions-for-data-providers" class="hasAnchor"><a href="#section-functions-for-data-providers" class="anchor"></a>Functions for data providers</h2>
-          <p class="section-desc"><p>These functions are to assist data providers with disseminating data on particular parts of global governance:</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="setup_package.html">setup_package()</a></code> </p>
-        </td>
-        <td><p>Create a new package in the qData ecosystem</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="add_author.html">add_author()</a></code> </p>
-        </td>
-        <td><p>Helper function for adding an author to the current package</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="import_data.html">import_data()</a></code> </p>
-        </td>
-        <td><p>Imports and establishes preparation of raw data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="export_data.html">export_data()</a></code> </p>
-        </td>
-        <td><p>Adding datasets to the qPackage</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="standardise_dates.html">standardise_dates()</a></code> </p>
-        </td>
-        <td><p>Standardises a wide range of of date inputs</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="standardise_titles.html">standardise_titles()</a></code> </p>
-        </td>
-        <td><p>Capitalises all words</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="transmutate.html">transmutate()</a></code> </p>
-        </td>
-        <td><p>Drop only columns used in formula</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="consolidate.html">consolidate()</a></code> </p>
-        </td>
-        <td><p>Get first non-missing</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-functions-for-data-consumers" class="hasAnchor"><a href="#section-functions-for-data-consumers" class="anchor"></a>Functions for data consumers</h2>
-          <p class="section-desc"><p>These functions are to assist data analysts with identifying, downloading, and analysing data on particular parts of global governance:</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="get_packages.html">get_packages()</a></code> </p>
-        </td>
-        <td><p>Find and download packages in the qData ecosystem</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_releases.html">plot_releases()</a></code> </p>
-        </td>
-        <td><p>A plotting function that visualises historical milestones/releases</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="depends.html">depends()</a></code> </p>
-        </td>
-        <td><p>Helper function for loading packages</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="report.html">data_source()</a></code> <code><a href="report.html">data_contrast()</a></code> </p>
-        </td>
-        <td><p>Set of data structure exploration functions for users</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="retain.html">retain()</a></code> </p>
-        </td>
-        <td><p>Helper function for keeping  objects from the global environment</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>orcid</th>
+      <td><p>Character string of the author's ORCID number. If this is null,
+then the function switches to manual entry.</p></td>
+    </tr>
+    <tr>
+      <th>name</th>
+      <td><p>A vector giving the package
+author(s)' name(s). Authors(s)last name(s) and first
+name(s) are separated by a comma.</p></td>
+    </tr>
+    <tr>
+      <th>role</th>
+      <td><p>Character vector of role(s) the author has in the project.
+Contributor by default. For example "c(aut, cre, ctb)".</p></td>
+    </tr>
+    <tr>
+      <th>email</th>
+      <td><p>Character string of the author's email</p></td>
+    </tr>
+    <tr>
+      <th>affiliation</th>
+      <td><p>Character vector of the author's miscellaneous information
+such as his/her institution.</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Adds a new author to the description file of the package</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function adds an author to the description file of the current
+package. This can be done in two ways. First you can specify the ORCID number
+of the author you want to add. This will leverage the excellent <code>rorcid</code>
+package and scrape the information from the ORCID API and fill out the
+description file automatically. Second, you can specify the arguments
+manually if the author does not have an ORCID number. Finally, note that by
+default the role of the new author is set to contributor.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Helper function for loading CRAN packages — depends • qData</title>
+<title>Helper function for loading packages — depends • qData</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Helper function for loading CRAN packages — depends" />
-<meta property="og:description" content="Helper function for loading and, if necessary, installing CRAN packages" />
+<meta property="og:title" content="Helper function for loading packages — depends" />
+<meta property="og:description" content="Helper function for loading and, if necessary, installing packages" />
 
 
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">qData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
       </span>
     </div>
 
@@ -126,13 +126,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Helper function for loading CRAN packages</h1>
+    <h1>Helper function for loading packages</h1>
     <small class="dont-index">Source: <a href='https://github.com/globalgov/qDatr/blob/master/R/utility.R'><code>R/utility.R</code></a></small>
     <div class="hidden name"><code>depends.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Helper function for loading and, if necessary, installing CRAN packages</p>
+    <p>Helper function for loading and, if necessary, installing packages</p>
     </div>
 
     <pre class="usage"><span class='fu'>depends</span><span class='op'>(</span><span class='va'>packages</span><span class='op'>)</span></pre>
@@ -142,18 +142,32 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>packages</th>
-      <td><p>Character vector of packages to install from CRAN</p></td>
+      <td><p>Character vector of packages to install from CRAN or GitHub</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Loads and, if necessary, first installs CRAN packages</p>
+    <p>Loads and, if necessary, first installs packages</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The function looks up required packages and loads the ones
-already installed, while installing and loading for packages not installed</p>
+already installed, while installing and loading for packages not installed.
+For CRAN packages the package name is required as argument,
+for GitHub username/repo are required as argument.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>depends</span><span class='op'>(</span><span class='st'>"qData"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [[1]]
+#&gt; [1] "qData"     "tibble"    "stats"     "graphics"  "grDevices" "utils"    
+#&gt; [7] "datasets"  "methods"   "base"     
+#&gt; </div><div class='input'><span class='fu'>depends</span><span class='op'>(</span><span class='st'>"globalgov/qStates"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Using github PAT from envvar GITHUB_PAT</span></div><div class='output co'>#&gt; <span class='message'>Skipping install of 'qStates' from a github remote, the SHA1 (352455f2) has not changed since last install.</span>
+#&gt; <span class='message'>  Use `force = TRUE` to force installation</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: pointblank</span></div><div class='output co'>#&gt; [[1]]
+#&gt;  [1] "qStates"    "pointblank" "qData"      "tibble"     "stats"     
+#&gt;  [6] "graphics"   "grDevices"  "utils"      "datasets"   "methods"   
+#&gt; [11] "base"      
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

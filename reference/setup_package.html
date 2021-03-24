@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">qData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
       </span>
     </div>
 
@@ -136,8 +136,10 @@
     </div>
 
     <pre class="usage"><span class='fu'>setup_package</span><span class='op'>(</span>
-  packageName <span class='op'>=</span> <span class='cn'>NULL</span>,
-  packageAuthor <span class='op'>=</span> <span class='cn'>NULL</span>,
+  package <span class='op'>=</span> <span class='cn'>NULL</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>,
+  role <span class='op'>=</span> <span class='cn'>NULL</span>,
+  orcid <span class='op'>=</span> <span class='cn'>NULL</span>,
   update <span class='op'>=</span> <span class='cn'>TRUE</span>,
   path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
@@ -146,15 +148,27 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>packageName</th>
+      <th>package</th>
       <td><p>A string giving the desired name of the package,
 must start with "q"</p></td>
     </tr>
     <tr>
-      <th>packageAuthor</th>
-      <td><p>A string, list or vector giving the package
-author(s), required. Only first and last names of up to two authors
-are accepted by the function as of now.</p></td>
+      <th>name</th>
+      <td><p>A list of vectors giving the package
+author(s)' name(s). Authors(s)last name(s) and first
+name(s) are separated by a comma.</p></td>
+    </tr>
+    <tr>
+      <th>role</th>
+      <td><p>A list of vectors of the roles the package authors have
+in the project.
+If there are no roles declared, roles are set contributor.</p></td>
+    </tr>
+    <tr>
+      <th>orcid</th>
+      <td><p>A vector of strings of all the ORCID numbers of the authors.
+Needs <code>{rorcid}</code> package to be installed.
+Takes precedence over manual entries if specified.</p></td>
     </tr>
     <tr>
       <th>update</th>
@@ -176,10 +190,7 @@ overwritten, by default TRUE.</p></td>
 folder structures required for a qData-consistent data package.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>setup_package</span><span class='op'>(</span><span class='st'>"qStates"</span>, <span class='st'>"James Hollway, Henrique Sposito"</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

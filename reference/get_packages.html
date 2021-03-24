@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">qData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
       </span>
     </div>
 
@@ -142,7 +142,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>pkg</th>
-      <td><p>A character vector of package names</p></td>
+      <td><p>A character vector of package names or number of a package</p></td>
     </tr>
     </table>
 
@@ -153,8 +153,9 @@ to the console with details on packages that are currently available within
 the qData ecosystem.
 This includes the name and description of the package,
 the latest installed and release version number, and the latest release date,
-and a string of contributors.</p>
-<p>If one or more package names are provided, these will be installed from Github.</p>
+and a string of contributors. It also include a list of numbers which orders
+the package and can be used to load the respective package instead of the name.
+If one or more package names are provided, these will be installed from Github.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The function finds and download other packages that belong to

@@ -4,6 +4,9 @@
     <loc>https://globalgov.github.io/qData//index.html</loc>
   </url>
   <url>
+    <loc>https://globalgov.github.io/qData//reference/add_author.html</loc>
+  </url>
+  <url>
     <loc>https://globalgov.github.io/qData//reference/consolidate.html</loc>
   </url>
   <url>
@@ -40,7 +43,7 @@
     <loc>https://globalgov.github.io/qData//reference/repaint.html</loc>
   </url>
   <url>
-    <loc>https://globalgov.github.io/qData//reference/report_data.html</loc>
+    <loc>https://globalgov.github.io/qData//reference/report.html</loc>
   </url>
   <url>
     <loc>https://globalgov.github.io/qData//reference/resequence.html</loc>
@@ -64,7 +67,7 @@
     <loc>https://globalgov.github.io/qData//reference/transmutate.html</loc>
   </url>
   <url>
-    <loc>https://globalgov.github.io/qData//articles/developer.html</loc>
+    <loc>https://globalgov.github.io/qData//articles/contributor.html</loc>
   </url>
   <url>
     <loc>https://globalgov.github.io/qData//articles/user.html</loc>
