@@ -116,10 +116,10 @@ get_packages <- function(pkg) {
       repo$latest <- get_latest_release(repo$full_name)
       repo$updated <- lubridate::as_date(get_latest_date(repo$full_name))
       # repo$contributors <- get_contributors(repo$full_name)
-      repo <- tibble::as_tibble(repo)
+      repo <- as.data.frame(repo)
     })
     
-    repos <- dplyr::bind_rows(repos)
+    repos <- tibble::as_tibble(dplyr::bind_rows(repos))
     print(repos, width = Inf, pillar.min_chars = Inf)
   }
   
