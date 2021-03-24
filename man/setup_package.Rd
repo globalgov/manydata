@@ -22,12 +22,12 @@ author(s)' name(s). Authors(s)last name(s) and first
 name(s) are separated by a comma.}
 
 \item{role}{A list of vectors of the roles the package authors have
-in the project. If there are no roles declared,
-roles are set contributor.}
+in the project.
+If there are no roles declared, roles are set contributor.}
 
 \item{orcid}{A vector of strings of all the ORCID numbers of the authors.
-Needs \code{{rorcid}} package to be installed. Takes precedence over manual
-entries if specified.}
+Needs \code{{rorcid}} package to be installed.
+Takes precedence over manual entries if specified.}
 
 \item{update}{A logical indicating whether existing files should be
 overwritten, by default TRUE.}
