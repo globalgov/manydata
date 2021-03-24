@@ -13,7 +13,7 @@ code_agreements <- function(title, date, dataset = NULL) {
     stop("Please declare a title column.")
   }
   if(missing(date)){
-    stop("Please declare a beggining date column.")
+    stop("Please declare a beginning date column.")
   }
   
   # Step one: create a new qID column
@@ -72,7 +72,7 @@ code_agreements <- function(title, date, dataset = NULL) {
 #'
 #' Identify the countries that are part of the agreement.
 #' @param x A character vector of treaty titles
-#' @importFrom qState code_states
+#' @importFrom qStates code_states
 #' @return A character vector of parties that are mentioned in the treaty title
 #' @examples
 #' IEADB$Countries <- code_parties(IEADB$Title)
@@ -128,14 +128,13 @@ code_type <- function(x) {
   # What happens when multiple types are detected in title?
 }
 
-#' Code Agrement Topic
+#' Code Agreement Topic
 #'
-#'Identify the main environmental issue the treaty is tackling.
+#' Identify the main environmental issue the treaty is tackling.
 #' @param x A character vector of treaty title
 #' @importFrom stringr str_replace_na
 #' @import dplyr
 #' @return A character vector of the treaty topic abbreviation.
-#' @example 
 #' @export
 code_topic <- function(x) {
   
@@ -168,8 +167,6 @@ code_topic <- function(x) {
 #' @import english
 #' @import stringr
 #' @import dplyr
-#' @return
-#' @example 
 #' @export
 code_linkage <- function(s, date) {
   
