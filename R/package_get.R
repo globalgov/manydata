@@ -75,7 +75,7 @@ get_packages <- function(pkg) {
             x <- "Unreleased"
             x
           } else {
-            x <- as.character(lubridate::as_date(x))
+            x <- as.character(x)
             x
           }
         })
@@ -120,7 +120,7 @@ get_packages <- function(pkg) {
     })
     
     repos <- dplyr::bind_rows(repos)
-    print(repos)
+    print(repos, width = 150)
   }
   
   if (!missing(pkg)) {
