@@ -5,6 +5,7 @@
 * Updated `get_packages()` function
   * Fixed bug with dates in `get_packages()` by changing dependencies to `{lubridate}`
   * Updated formatting of the returned tibble to display more clearly the information on qPackages
+  * Fixed #144 by substituting NA where a listed qPackage is not installed locally
 
 # qData 0.3.4
 
