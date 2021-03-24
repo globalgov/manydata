@@ -66,6 +66,11 @@ used to discover which packages are currently available.
 
 ``` r
 library(qData)
+```
+
+    ## Warning: package 'tibble' was built under R version 4.0.4
+
+``` r
 get_packages()
 ```
 
@@ -77,12 +82,12 @@ get_packages()
     ## 3 qStates  globalgov/qStates 
     ##   description                                             installed latest
     ##   <chr>                                                   <chr>     <chr> 
-    ## 1 An R portal for ensembled global governance data        0.3.5     0.3.4 
+    ## 1 An R portal for ensembled global governance data        0.3.5     0.3.5 
     ## 2 qPackage for ensembled data on environmental agreements 0.0.2     0.0.2 
     ## 3 qPackage for ensembled data on sovereign states         0.0.3     0.0.3 
     ##   updated   
     ##   <date>    
-    ## 1 2021-03-23
+    ## 1 2021-03-24
     ## 2 2021-02-22
     ## 3 2021-02-22
 
