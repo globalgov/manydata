@@ -226,12 +226,29 @@ code_linkage <- function(s, date) {
   id <- as.numeric(id)
   out <- cbind(out, dup, id)
   
+  # Step two: alternative way to find fuzzy duplicates
+  # match <- out %>% 
+  #   tidy_comb_all(out) %>% 
+  #   tidy_stringdist() %>% 
+  #   
+  #   match <- match %>% 
+  #   dplyr::filter(lv <= 20)
+  
+  a <- out %>% 
+    dplyr::filter(!stringr::str_detect(out, "Protocol|Amendement|Amendments|amending|extending"))
+  
+  b <- out %>% 
+    dplyr::filter(!stringr::str_detect(out, "Protocol|Amendement|Amendments|amending|extending")) 
+  
+  out <- fuzzyjoin::stringdist_join(a, b, by = "out", method = "lcs", max_dist = 17, distance_col = "dist")
+  
+
   # Step three: make sure duplicates have the same ID number
   out <- out %>% 
-    group_by_at(vars(out)) %>% 
+    group_by_at(vars(out.x)) %>% 
     mutate(
       dup = row_number() > 1,
-      ref = ifelse(dup, paste0(first(id)), as.character(id)))
+      ref = ifelse(dup, paste0(first(id.y)), as.character(id.y)))
   
   out <- out %>% group_by(ref) %>% mutate(n = n()) %>% mutate(line = case_when(
     n != 1 ~ paste(ref), 
