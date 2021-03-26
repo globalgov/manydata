@@ -3,20 +3,22 @@
 #' @details For date ranges the function resolves internal ranges according
 #' to preffered output before moving into resolving across datasets in a database.
 #' @name resolve
-#' @param dbase A qPackage database object
-#' @param dset A dataset label from within that database
-#' @param key An ID column to collapse by
-#' @param var variable to be resolved
+#' @param var Variable to be resolved
+#' @param type How do you want date ranges to be solved?
 NULL
 
 #' @rdname resolve
 #' @importFrom purrr map
 #' @export
 resolve_min <- function(var){
-  if(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")) {
-    resolve_dates(var, type = "min")
-  }
   
+  var <- ifelse(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"),
+                resolve_dates(var, type = "min"), var) 
+  
+  if(lubridate::is.Date(var)) {
+    var <- as.character(var)
+  }
+    
   unlist(purrr::map(var, function(x) min(x)))
 }
 
@@ -24,8 +26,12 @@ resolve_min <- function(var){
 #' @importFrom purrr map
 #' @export
 resolve_max <- function(var){
-  if(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")) {
-    resolve_dates(var, type = "max")
+  
+  var <- ifelse(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"),
+                resolve_dates(var, type = "max"), var) 
+  
+  if(lubridate::is.Date(var)) {
+    var <- as.character(var)
   }
   
   unlist(purrr::map(var, function(x) max(x)))
@@ -35,10 +41,15 @@ resolve_max <- function(var){
 #' @importFrom purrr map
 #' @export
 resolve_mean <- function(var) {
-  if(is.character(var[[1]]) & stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")) {
-    resolve_dates(var, type = "mean")
-    unlist(purrr::map(var, function(x) mean(x)))
-  } else if(is.character(var[[1]])) {
+  
+  var <- ifelse(is.character(var[[1]]) & stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"),
+                resolve_dates(var, type = "mean"), var) 
+  
+  if(lubridate::is.Date(var)) {
+    var <- as.character(var)
+  }
+  
+  if(is.character(var[[1]])) {
     resolve_median(var)
   } else {
     unlist(purrr::map(var, function(x) mean(x)))
@@ -50,9 +61,13 @@ resolve_mean <- function(var) {
 #' @export
 resolve_median <- function(var){
   
-  if(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")) {
-    resolve_dates(var, type = "mean")
+  var <- ifelse(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"),
+                resolve_dates(var, type = "mean"), var) 
+  
+  if(lubridate::is.Date(var)) {
+    var <- as.character(var)
   }
+  
   unlist(purrr::map(var, function(x){
     if(length(x)==1){
       x
@@ -70,9 +85,14 @@ resolve_median <- function(var){
 #' @importFrom purrr map
 #' @export
 resolve_mode <- function(var){
-  if(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")) {
-    resolve_dates(var, type = "mean")
+  
+  var <- ifelse(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"),
+                resolve_dates(var, type = "mean"), var) 
+  
+  if(lubridate::is.Date(var)) {
+    var <- as.character(var)
   }
+  
   Mode <- function(x) {
     ux <- unique(x)
     ux[which.max(tabulate(match(x, ux)))]
@@ -85,22 +105,24 @@ resolve_mode <- function(var){
 #' @rdname resolve
 #' @details This function resolves ranged dates created with `standardise_dates()`
 #' by the choice type of minimum, maximun or mean dates.
-#' @param dates Ranged dates variable returned by `standardise_dates()`
-#' @param type How do you want the range to be solved?
+#' @param var Ranged dates variable returned by `standardise_dates()`
+#' @param type How do you want date ranges to be solved?
 #' @import lubridate
 #' @import stringr
 #' @return a date column
 #' @examples
 #' @export
-resolve_dates <- function(dates, type = c("mean", "min", "max")) {
+resolve_dates <- function(var, type = c("mean", "min", "max")) {
   
-  if(!is.character(dates)) {
+  if(!is.character(var)) {
     stop("Please make sure date column has been parsed with standardise_dates() first")
   }
   
   if(missing(type)) {
-    resolve_dates(dates, type = "mean")
+    type = "mean"
   } 
+  
+  dates <- lapply(var, as.character)
   
   min_date <- function(x) {
     dates <- lapply(x, function(d) {
@@ -160,7 +182,7 @@ resolve_dates <- function(dates, type = c("mean", "min", "max")) {
       m1 <- paste0(s1[[1]][2])
       y2 <- paste0(s2[[1]][1])
       m2 <- paste0(s2[[1]][2])
-      if(m1 == m2) {
+      if(m1 == m2 & y1 == y2) {
         meandate <- paste0(y1, "-", m1, "-",  "15")
       } else if(m1 != m2 & y1 == y2) {
         meandate <- paste0(y1, "-07-02") #July 2nd is the middle of a regular year
@@ -191,7 +213,7 @@ resolve_dates <- function(dates, type = c("mean", "min", "max")) {
       m1 <- paste0(s1[[1]][2])
       y2 <- paste0(s2[[1]][1])
       m2 <- paste0(s2[[1]][2])
-      if(m1 == m2) {
+      if(m1 == m2 & y1 == y2) {
         meandate <- paste0("-", y1, "-", m1, "-",  "15")
         ndate <- as.numeric(lubridate::ymd(meandate))
         dzero <- as.numeric(lubridate::as_date("0000-01-01"))
