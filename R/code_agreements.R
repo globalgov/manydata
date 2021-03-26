@@ -31,6 +31,7 @@ code_agreements <- function(title, date, dataset = NULL) {
   # Step four: code agreement type 
   # Categories and key words still need some adjustments
   type <- code_type(qID)
+  abbreviation <- known_agreements(qID)
   
   #step five: give the observation a unique ID
   uID <- stringr::str_remove_all(date, "-")
@@ -43,75 +44,16 @@ code_agreements <- function(title, date, dataset = NULL) {
   # Step seven: add items together correctly
   # The following coding assumes that any other types than A (= Agreement) are linked to another treaty; this coding
   # would need to be adapted for declarations, MoU, minutes, etc
-  out <- ifelse((is.na(parties) & (type == "A")), paste0(topic, "-", uID),
-                (ifelse((is.na(parties) & (type != "A")), paste0(topic, line, "-", type, uID),
-                        (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(parties, "_", topic, "-", uID),
-                                (ifelse((!is.na(parties) & (type == "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(topic, "-", uID),
-                                        (ifelse((!is.na(parties) & (type != "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(parties, "_", topic, line, "-", type, uID),
-                                                 (ifelse((!is.na(parties) & (type != "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(topic, line, "-", type, uID), NA)))))))))))
+  out <- ifelse(!is.na(abbreviation), paste0(abbreviation, "-", type, uID),
+                ifelse((is.na(parties) & (type == "A")), paste0(topic, "-", uID),
+                       (ifelse((is.na(parties) & (type != "A")), paste0(topic, line, "-", type, uID),
+                               (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(parties, "_", topic, "-", uID),
+                                       (ifelse((!is.na(parties) & (type == "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(topic, "-", uID),
+                                               (ifelse((!is.na(parties) & (type != "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(parties, "_", topic, line, "-", type, uID),
+                                                       (ifelse((!is.na(parties) & (type != "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(topic, line, "-", type, uID), NA))))))))))))
   
   out <- stringr::str_replace_all(out, "NA_", NA_character_)
-  
-  # Assign the specific abbreviation to the "known" treaties 
-  out <- ifelse(stringr::str_detect(qID, "^United Nations Convention On The Law Of The Sea$"), paste0("UNCLOS","_", uID),
-                ifelse(stringr::str_detect(qID, "United Nations Convention On The Law Of The Sea"), paste0("UNCLOS_19821210","-", type, uID), out))
-  
-  out <- ifelse(stringr::str_detect(qID, "^Convention On Biological Diversity$"), paste0("CBD","_", uID),
-                ifelse(stringr::str_detect(qID, "Convention On Biological Diversity"), paste0("CBD_19920605","-", type, uID), out))
-  
-  out <- ifelse(stringr::str_detect(qID, "^Convention On The Conservation Of Antarctic Marine Living Resources$"), paste0("CCAMLR","_", uID),
-                ifelse(stringr::str_detect(qID, "Convention On The Conservation Of Antarctic Marine Living Resources"), paste0("CCAMLR_19800520","-", type, uID), out))
-  
-  out <- ifelse(stringr::str_detect(qID, "^Convention On International Trade In Endangered Species Of Wild Fauna And Flora$"), paste0("CITES","_", uID),
-                ifelse(stringr::str_detect(qID, "Convention On International Trade In Endangered Species Of Wild Fauna And Flora"), paste0("CITES_19730303","-", type, uID), out))
-  
-  out <- ifelse(stringr::str_detect(qID, "^International Convention On Civil Liability For Oil Pollution Damage$"), paste0("CLC","_", uID),
-                ifelse(stringr::str_detect(qID, "International Convention On Civil Liability For Oil Pollution Damage"), paste0("CLC_19691129","-", type, uID), out))
-  
-  out <- ifelse(stringr::str_detect(qID, "^Antarctic Mineral Resources Convention$"), paste0("CRAMRA","_", uID),
-                ifelse(stringr::str_detect(qID, "Antarctic Mineral Resources Convention"), paste0("CRAMRA_19880602","-", type, uID), out))
-  
-  out <- ifelse(stringr::str_detect(qID, "^Convention On The Protection And Use Of Transboundary Watercourses And International Lakes$"), paste0("ECE","_", uID),
-                ifelse(stringr::str_detect(qID, "Convention On The Protection And Use Of Transboundary Watercourses And International Lakes"), paste0("ECE_19920317","-", type, uID), out))
-  
-  out <- ifelse(stringr::str_detect(qID, "^Convention On Long-Range Transboundary Air Pollution$"), paste0("LRTAP","_", uID),
-                ifelse(stringr::str_detect(qID, "Convention On Long-Range Transboundary Air Pollution"), paste0("LRTAP_19791113","-", type, uID), out))
-  
-  out <- ifelse(stringr::str_detect(qID, "^International Convention For The Prevention Of Pollution From Ships$"), paste0("MARPOL","_", uID),
-                ifelse(stringr::str_detect(qID, "International Convention For The Prevention Of Pollution From Ships"), paste0("MARPOL_19731102","-", type, uID), out))
-  
-  out <- ifelse(stringr::str_detect(qID, "^North American Agreement On Environmental Cooperation$"), paste0("NAAEC","_", uID),
-                ifelse(stringr::str_detect(qID, "North American Agreement On Environmental Cooperation"), paste0("NAAEC_19930914","-", type, uID), out))
-  
-  out <- ifelse(stringr::str_detect(qID, "^Constitutional Agreement Of The Latin American Organization For Fisheries Development$"), paste0("OLDEPESCA","_", uID),
-                ifelse(stringr::str_detect(qID, "Constitutional Agreement Of The Latin American Organization For Fisheries Development"), paste0("OLDEPESCA_19821029","-", type, uID), out))
-  
-  out <- ifelse(stringr::str_detect(qID, "^International Convention On Oil Pollution Preparedness, Response And Cooperation$"), paste0("OPRC","_", uID),
-                ifelse(stringr::str_detect(qID, "International Convention On Oil Pollution Preparedness, Response And Cooperation"), paste0("OPRC_19901130","-", type, uID), out))
-  
-  out <- ifelse(stringr::str_detect(qID, "^Convention For The Protection Of The Marine Environment Of The North East Atlantic$"), paste0("OSPAR","_", uID),
-                ifelse(stringr::str_detect(qID, "Convention For The Protection Of The Marine Environment Of The North East Atlantic"), paste0("OSPAR_19920922","-", type, uID), out))
-  
-  out <- ifelse(stringr::str_detect(qID, "^Paris Agreement Under The United Nations Framework Convention On Climate Change$"), paste0("PARIS","_", uID),
-                ifelse(stringr::str_detect(qID, "Paris Agreement Under The United Nations Framework Convention On Climate Change"), paste0("PARIS_20151212","-", type, uID), out))
-  
-  out <- ifelse(stringr::str_detect(qID, "^Convention On The Prior Informed Consent Procedure For Certain Hazardous Chemicals And Pesticides In International Trade$"), paste0("PIC","_", uID),
-                ifelse(stringr::str_detect(qID, "Convention On The Prior Informed Consent Procedure For Certain Hazardous Chemicals And Pesticides In International Trade"), paste0("PIC_19980910","-", type, uID), out))
-  
-  out <- ifelse(stringr::str_detect(qID, "^Convention On Wetlands Of International Importance Especially As Waterfowl Habitat$"), paste0("RAMSA","_", uID),
-                ifelse(stringr::str_detect(qID, "Convention On Wetlands Of International Importance Especially As Waterfowl Habitat"), paste0("RAMSA_19710202","-", type, uID), out))
-  
-  out <- ifelse(stringr::str_detect(qID, "^Rio Declaration On Environment And Development$"), paste0("RIO","_", uID), out)
-  
-  out <- ifelse(stringr::str_detect(qID, "^Convention To Combat Desertification In Those Countries Experiencing Serious Drought And/Or Desertification, Particularly In Africa$"), paste0("UNCCD","_", uID),
-                ifelse(stringr::str_detect(qID, "Convention To Combat Desertification In Those Countries Experiencing Serious Drought And/Or Desertification, Particularly In Africa"), paste0("UNCCD_19940617","-", type, uID), out))
-  
-  out <- ifelse(stringr::str_detect(qID, "^United Nations Framework Convention On Climate Change$"), paste0("UNFCCC","_", uID),
-                ifelse(stringr::str_detect(qID, "United Nations Framework Convention On Climate Change"), paste0("UNFCCC_19920509","-", type, uID), out))
-  
-  out <- ifelse(stringr::str_detect(qID, "^Convention For The Protection Of The Ozone Layer$"), paste0("VIENNA","_", uID),
-                ifelse(stringr::str_detect(qID, "Convention For The Protection Of The Ozone Layer"), paste0("VIENNA_19850322","-", type, uID), out))
-  
+
   cat(sum(is.na(out)), "entries were not matched at all.\n")
   # cat(sum(stringr::str_detect(out, "^[0-9]")), " entries were only coded by date.\n")
   cat("There were", sum(duplicated(out, incomparables = NA)), "duplicated IDs.\n")
@@ -188,6 +130,45 @@ code_type <- function(x) {
   # What happens when multiple types are detected in title?
 }
 
+
+#' Known agreements abbreviation
+#'
+#' @param x 
+#'
+#' @return Abbreviation of known treaty and signature date as an ID
+#' @export
+#'
+#' @examples
+known_agreements <- function(x){
+  
+  # Assign the specific abbreviation to the "known" treaties 
+  abbreviation <- case_when(
+    grepl("United Nations Convention On The Law Of The Sea", x, ignore.case = T) ~ "UNCLOS_19821210",
+    grepl("Convention On Biological Diversity", x, ignore.case = T) ~ "CBD_19920605",
+    grepl("Convention On The Conservation Of Antarctic Marine Living Resources", x, ignore.case = T) ~ "CCAMLR_19800520",
+    grepl("Convention On International Trade In Endangered Species Of Wild Fauna And Flora", x, ignore.case = T) ~ "CITES_19730303",
+    grepl("International Convention On Civil Liability For Oil Pollution Damage", x, ignore.case = T) ~ "CLC_19691129",
+    grepl("Antarctic Mineral Resources Convention", x, ignore.case = T) ~ "CRAMRA_19880602",
+    grepl("Convention On The Protection And Use Of Transboundary Watercourses And International Lakes", x, ignore.case = T) ~ "CECE_19920317",
+    grepl("Convention On Long-Range Transboundary Air Pollution", x, ignore.case = T) ~ "LRTAP_19791113",
+    grepl("International Convention For The Prevention Of Pollution From Ships", x, ignore.case = T) ~ "MARPOL_19731102",
+    grepl("North American Agreement On Environmental Cooperation", x, ignore.case = T) ~ "NAAEC_19930914",
+    grepl("Constitutional Agreement Of The Latin American Organization For Fisheries Development", x, ignore.case = T) ~ "OLDEPESCA_19821029",
+    grepl("International Convention On Oil Pollution Preparedness, Response And Cooperation", x, ignore.case = T) ~ "OPRC_19901130",
+    grepl("Convention For The Protection Of The Marine Environment Of The North East Atlantic", x, ignore.case = T) ~ "OSPAR_19920922",
+    grepl("Paris Agreement Under The United Nations Framework Convention On Climate Change", x, ignore.case = T) ~ "PARIS_20151212",
+    grepl("Convention On The Prior Informed Consent Procedure For Certain Hazardous Chemicals And Pesticides In International Trade", x, ignore.case = T) ~ "PIC_19980910",
+    grepl("Convention On Wetlands Of International Importance Especially As Waterfowl Habitat", x, ignore.case = T) ~ "RAMSA_19710202",
+    grepl("Convention To Combat Desertification In Those Countries Experiencing Serious Drought And/Or Desertification, Particularly In Africa", x, ignore.case = T) ~ "UNCCD_19940617",
+    grepl("United Nations Framework Convention On Climate Change", x, ignore.case = T) ~ "UNFCCC_19920509",
+    grepl("Convention For The Protection Of The Ozone Layer", x, ignore.case = T) ~ "VIENNA_19850322",
+    )
+  
+  abbreviation
+  
+}
+
+
 #' Code Agreement Topic
 #'
 #' Identify the main environmental issue the treaty is tackling.
@@ -200,20 +181,21 @@ code_topic <- function(x) {
   
   topic <- case_when(
     grepl("Waste|disposal|pollut|toxic|hazard", x, ignore.case = T) ~ "WAS",
-    grepl("species|habitat|ecosystems|biological diversity|genetic resources|biosphere|birds", x, ignore.case = T) ~ "SPE",
+    grepl("species|habitat|ecosystems|biological diversity|genetic resources|biosphere|birds|locusts", x, ignore.case = T) ~ "SPE",
     grepl("air|atmos|climate|outer space|ozone|emissions", x, ignore.case = T) ~ "AIR",
-    grepl("water|freshwater|river|rhine|hydro|basin|drought|ocean|shelf", x, ignore.case = T) ~ "WAT",
-    grepl("Soil|Wetland|Desert|Erosion|Land", x, ignore.case = F) ~ "SOI",
-    grepl("nature|environment|biodiversity|flora|plant|fruit|vegetable|seed|forest|tree|conservation", x, ignore.case = T) ~ "BIO",
+    grepl("water|freshwater|river|rhine|hydro|basin|drought|ocean|shelf|Atlantic|Lake", x, ignore.case = T) ~ "WAT",
+    grepl("Soil|Wetland|Desert|Erosion|Land|Archipelago", x, ignore.case = F) ~ "SOI",
+    grepl("nature|environment|biodiversity|flora|plant|fruit|vegetable|seed|forest|tree|conservation|preservation", x, ignore.case = T) ~ "BIO",
     grepl("fish|salmon|herring|tuna|aquaculture|mariculture|molluscs|whaling", x, ignore.case = T) ~ "FIS",
     grepl("agricultur|food|livestock|crop|irrigation|cattle|meat|farm|cultivate", x, ignore.case = T) ~ "AGR",
     grepl("culture|scien|techno|trade|research|exploration|navigation|data|information", x, ignore.case = T) ~ "BOT",
     grepl("energy|nuclear|oil|mining|gas|hydro|power", x, ignore.case = T) ~ "NUC",
     grepl("accidents", x, ignore.case = T) ~ "ACC",
-    grepl("chemicals, pesticides|toxin", x, ignore.case = T) ~ "CHE",
+    grepl("chemicals, pesticides|toxin|Lead", x, ignore.case = T) ~ "CHE",
     grepl("climate", x, ignore.case = T) ~ "CLC",
     grepl("noise", x, ignore.case = T) ~ "NOI",
-    grepl("resource|resources|timber|antartic", x, ignore.case = T) ~ "RES",
+    grepl("disease|diseases", x, ignore.case = T) ~ "DIS",
+    grepl("resource|resources|timber|antartic|fur|Ivory|Horn", x, ignore.case = T) ~ "RES",
   )
   # If not topic is found, category will be "OTH"
   topic <- stringr::str_replace_na(topic, "OTH")
@@ -279,30 +261,32 @@ code_linkage <- function(s, date) {
   
   out <- as.data.frame(out)
   
-  type <- case_when(
-    # When the title contains "Protocol amending..."
-    grepl("^Protocol", out, ignore.case = T) ~ "P",
-    # E stands for amendment
-    grepl("amend|modify|extend|proces-verbal", out, ignore.case = T) ~ "E",
-    # P stands for protocols
-    grepl("protocol|subsidiary|supplementary|complÃ©mentaire|complementar|complementario|annex |annexes ", out, ignore.case = T) ~ "P",
-    # A stands for agreements
-    grepl("agreement|arrangement|accord|acuerdo|bilateral co|technical co|treat|trait|tratado|convention|convencion|convenio|constitution|charte|instrument|statute|estatuto|provisional understanding|provisions relating|übereinkunft", out, ignore.case = T) ~ "A",
-    grepl("Act|Declaration|Covenant|Scheme|Government Of|Law", out, ignore.case = T) ~ "A",
-    # X stands for exchanges of notes
-    grepl("Exchange|Letters|Notas", out, ignore.case = T) ~ "X",
-    # Y stands for memorandum of understanding
-    grepl("Memorandum|MemorÃ¡ndum|Principles of Conduct|Code of Conduct", out, ignore.case = T) ~ "Y",
-    # W stands for resolutions
-    grepl("Agreed Measures|Agreed Record|Consensus|Conclusions|Decision|Directive|Regulation|Reglamento|Resolution|Rules|Recommendation", out, ignore.case = T) ~ "W",
-    # Q stands for minutes
-    grepl("Minute|Adjustment|First Session Of|First Meeting Of|Commission|Committee|Center", out, ignore.case = T) ~ "Q",
-    # V stands for declarations
-    grepl("Statement|Communiq|Comminiq|Joint Declaration|Proclamation|Administrative Order", out, ignore.case = T) ~ "V",
-    # S stands for strategies
-    grepl("Strategy|Plan|Program|Improvement|Project|Study|Working Party|Working Group", out, ignore.case = T) ~ "S",
-  )
   
+  # Add type to limit duplicates
+  # type <- case_when(
+  #   # When the title contains "Protocol amending..."
+  #   grepl("^Protocol", out, ignore.case = T) ~ "P",
+  #   # E stands for amendment
+  #   grepl("amend|modify|extend|proces-verbal", out, ignore.case = T) ~ "E",
+  #   # P stands for protocols
+  #   grepl("protocol|subsidiary|supplementary|complÃ©mentaire|complementar|complementario|annex |annexes ", out, ignore.case = T) ~ "P",
+  #   # A stands for agreements
+  #   grepl("agreement|arrangement|accord|acuerdo|bilateral co|technical co|treat|trait|tratado|convention|convencion|convenio|constitution|charte|instrument|statute|estatuto|provisional understanding|provisions relating|übereinkunft", out, ignore.case = T) ~ "A",
+  #   grepl("Act|Declaration|Covenant|Scheme|Government Of|Law", out, ignore.case = T) ~ "A",
+  #   # X stands for exchanges of notes
+  #   grepl("Exchange|Letters|Notas", out, ignore.case = T) ~ "X",
+  #   # Y stands for memorandum of understanding
+  #   grepl("Memorandum|MemorÃ¡ndum|Principles of Conduct|Code of Conduct", out, ignore.case = T) ~ "Y",
+  #   # W stands for resolutions
+  #   grepl("Agreed Measures|Agreed Record|Consensus|Conclusions|Decision|Directive|Regulation|Reglamento|Resolution|Rules|Recommendation", out, ignore.case = T) ~ "W",
+  #   # Q stands for minutes
+  #   grepl("Minute|Adjustment|First Session Of|First Meeting Of|Commission|Committee|Center", out, ignore.case = T) ~ "Q",
+  #   # V stands for declarations
+  #   grepl("Statement|Communiq|Comminiq|Joint Declaration|Proclamation|Administrative Order", out, ignore.case = T) ~ "V",
+  #   # S stands for strategies
+  #   grepl("Strategy|Plan|Program|Improvement|Project|Study|Working Party|Working Group", out, ignore.case = T) ~ "S",
+  # )
+  # 
   
   # Step two: find duplicates
   dup <- duplicated(out)
@@ -315,12 +299,7 @@ code_linkage <- function(s, date) {
   out <- cbind(out, dup, id)
   
   # Step two: alternative way to find fuzzy duplicates
-  # match <- out %>% 
-  #   tidy_comb_all(out) %>% 
-  #   tidy_stringdist() %>% 
-  #   
-  #   match <- match %>% 
-  #   dplyr::filter(lv <= 20)
+  # This method increases the number of treaties match with treaties that are not related
   
   # a <- out %>% 
   #   dplyr::filter(stringr::str_detect(out, "verbal|protocol|additional|subsidiary|supplementary|
