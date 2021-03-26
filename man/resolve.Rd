@@ -31,14 +31,18 @@ resolve_dates(var, type = c("mean", "min", "max"))
 a date column
 }
 \description{
-Resolve ambiguous variables according to preffered output
-
-Resolve ranged dates into single vectors
+The resolve family of function resolves various ambiguous data formats
+according to user preferences.For date ranges the function resolves internal ranges
+according to preffered output before moving into resolving across datasets in a database.
 }
 \details{
-For date ranges the function resolves internal ranges according
-to preffered output before moving into resolving across datasets in a database.
-
+\code{resolve_dates()} resolves ranged dates into single vectors
 This function resolves ranged dates created with \code{standardise_dates()}
 by the choice type of minimum, maximun or mean dates.
+}
+\examples{
+dates <- data.frame(dates = c("2010-01-01:2010-12-31", "1816-01-01:1916-01-01"))
+resolve_dates(dates$dates, type = "min")
+resolve_dates(dates$dates, type = "max")
+resolve_dates(dates$dates, type = "mean")
 }

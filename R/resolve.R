@@ -1,7 +1,8 @@
 #' Resolve ambiguous variables according to preffered output 
 #' 
-#' @details For date ranges the function resolves internal ranges according
-#' to preffered output before moving into resolving across datasets in a database.
+#' @description The resolve family of function resolves various ambiguous data formats
+#' according to user preferences.For date ranges the function resolves internal ranges
+#' according to preffered output before moving into resolving across datasets in a database.
 #' @name resolve
 #' @param var Variable to be resolved
 #' @param type How do you want date ranges to be solved?
@@ -9,6 +10,7 @@ NULL
 
 #' @rdname resolve
 #' @importFrom purrr map
+#' @example resolve_min(qStates::states$COW$Beg)
 #' @export
 resolve_min <- function(var){
   
@@ -24,6 +26,7 @@ resolve_min <- function(var){
 
 #' @rdname resolve
 #' @importFrom purrr map
+#' @example resolve_max(qStates::states$COW$End)
 #' @export
 resolve_max <- function(var){
   
@@ -39,6 +42,7 @@ resolve_max <- function(var){
 
 #' @rdname resolve
 #' @importFrom purrr map
+#' @example resolve_mean(qStates::states$COW$ID)
 #' @export
 resolve_mean <- function(var) {
   
@@ -58,6 +62,7 @@ resolve_mean <- function(var) {
 
 #' @rdname resolve
 #' @importFrom purrr map
+#' @example resolve_median(qStates::states$COW$Beg)
 #' @export
 resolve_median <- function(var){
   
@@ -83,6 +88,7 @@ resolve_median <- function(var){
 
 #' @rdname resolve
 #' @importFrom purrr map
+#' @example resolve_mode(qStates::states$COW$Label)
 #' @export
 resolve_mode <- function(var){
   
@@ -100,10 +106,9 @@ resolve_mode <- function(var){
   unlist(purrr::map(var, function(x) Mode(x)))
 }
 
-#' Resolve ranged dates into single vectors
-#' 
 #' @rdname resolve
-#' @details This function resolves ranged dates created with `standardise_dates()`
+#' @details `resolve_dates()` resolves ranged dates into single vectors
+#' This function resolves ranged dates created with `standardise_dates()`
 #' by the choice type of minimum, maximun or mean dates.
 #' @param var Ranged dates variable returned by `standardise_dates()`
 #' @param type How do you want date ranges to be solved?
@@ -111,6 +116,10 @@ resolve_mode <- function(var){
 #' @import stringr
 #' @return a date column
 #' @examples
+#' dates <- data.frame(dates = c("2010-01-01:2010-12-31", "1816-01-01:1916-01-01"))
+#' resolve_dates(dates$dates, type = "min")
+#' resolve_dates(dates$dates, type = "max")
+#' resolve_dates(dates$dates, type = "mean")
 #' @export
 resolve_dates <- function(var, type = c("mean", "min", "max")) {
   
