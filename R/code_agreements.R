@@ -8,7 +8,7 @@
 #' @param dataset name of the dataset
 #' @example
 #' \dontrun{
-#' IEADB$qID <- code_agreements(IEADB$Title)
+#' IEADB$qID <- code_agreements(IEADB$Title, IEADB$Signature)
 #' }
 #' @export
 code_agreements <- function(title, date, dataset = NULL) {
