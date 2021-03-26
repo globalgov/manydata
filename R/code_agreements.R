@@ -105,16 +105,20 @@ code_type <- function(x) {
     # E stands for amendment
     grepl("amend|modify|extend|proces-verbal", x, ignore.case = T) ~ "E",
     # P stands for protocols
-    grepl("protocol|additional|subsidiary|supplementary|complÃ©mentaire|complementar|complementario|annex |annexes ", x, ignore.case = T) ~ "P",
+    grepl("protocol|additional|subsidiary|supplementary|complÃ©mentaire|
+          complementar|complementario|annex |annexes ", x, ignore.case = T) ~ "P",
     # A stands for agreements
-    grepl("agreement|arrangement|accord|acuerdo|bilateral co|technical co|treat|trait|tratado|convention|convencion|convenio|constitution|charte|instrument|statute|estatuto|provisional understanding|provisions relating|übereinkunft", x, ignore.case = T) ~ "A",
+    grepl("agreement|arrangement|accord|acuerdo|bilateral co|technical co|treat|trait|tratado|convention|convencion|
+          convenio|constitution|charte|instrument|statute|estatuto|provisional understanding|
+          provisions relating|übereinkunft", x, ignore.case = T) ~ "A",
     grepl("Act|Declaration|Covenant|Scheme|Government Of|Law", x, ignore.case = T) ~ "A",
     # X stands for exchanges of notes
     grepl("Exchange|Letters|Notas", x, ignore.case = T) ~ "X",
     # Y stands for memorandum of understanding
     grepl("Memorandum|MemorÃ¡ndum|Principles of Conduct|Code of Conduct", x, ignore.case = T) ~ "Y",
     # W stands for resolutions
-    grepl("Agreed Measures|Agreed Record|Consensus|Conclusions|Decision|Directive|Regulation|Reglamento|Resolution|Rules|Recommendation", x, ignore.case = T) ~ "W",
+    grepl("Agreed Measures|Agreed Record|Consensus|Conclusions|Decision|Directive|Regulation|
+          Reglamento|Resolution|Rules|Recommendation", x, ignore.case = T) ~ "W",
     # Q stands for minutes
     grepl("Minute|Adjustment|First Session Of|First Meeting Of|Commission|Committee|Center", x, ignore.case = T) ~ "Q",
     # V stands for declarations
@@ -122,8 +126,26 @@ code_type <- function(x) {
     # S stands for strategies
     grepl("Strategy|Plan|Program|Improvement|Project|Study|Working Party|Working Group", x, ignore.case = T) ~ "S",
   )
+  
+  # Find a way to extract agreement/protocol/ammendment number and paste it to topic
+  # date.pattern <- c("^[:digit:]{2}-[:digit:]{2}-[:digit:]{2}$", "^[:digit:]{2}-[:digit:]{2}-[:digit:]{4}$",
+  #                   "^[:digit:]{2}/[:digit:]{2}/[:digit:]{2}$", "^[:digit:]{2}/[:digit:]{2}/[:digit:]{4}$",
+  #                   "^[:digit:]{2}.[:digit:]{2}.[:digit:]{2}$", "^[:digit:]{2}.[:digit:]{2}.[:digit:]{4}$",
+  #                   "^[:digit:]{2}.[:digit:]{4}$", "^[:digit:]{2}/[:digit:]{4}$", "^[:digit:]{2}-[:digit:]{4}$",
+  #                   "^[:digit:]{2} [:alpha:]{3} [:digit:]{4}$", "^[:digit:]{2} [:alpha:]{4} [:digit:]{4}$",
+  #                   "^[:digit:]{2} [:alpha:]{5} [:digit:]{4}$", "^[:digit:]{2} [:alpha:]{6} [:digit:]{4}$",
+  #                   "^[:digit:]{2} [:alpha:]{7} [:digit:]{4}$", "^[:digit:]{2} [:alpha:]{8} [:digit:]{4}$", 
+  #                   "^[:digit:]{2} [:alpha:]{9} [:digit:]{4}$", "^[:digit:]{1} [:alpha:]{3} [:digit:]{4}$", 
+  #                   "^[:digit:]{1} [:alpha:]{4} [:digit:]{4}$", "^[:digit:]{1} [:alpha:]{5} [:digit:]{4}$", 
+  #                   "^[:digit:]{1} [:alpha:]{6} [:digit:]{4}$", "^[:digit:]{1} [:alpha:]{7} [:digit:]{4}$", 
+  #                   "^[:digit:]{1} [:alpha:]{8} [:digit:]{4}$", "^[:digit:]{1} [:alpha:]{9} [:digit:]{4}$") 
+  # number <- stringr::str_remove_all(number, date.pattern)
+  # number <- number <- ifelse(stringr::str_detect(x, "[:digit:]$"), stringr::str_extract(x, "[:digit:]"), "")
+  
   # When no type is found
   type <- stringr::str_replace_na(type, "O")
+  
+  # type <- paste0(type, number)
   
   type
   # What happens when multiple types are detected in title?
@@ -273,8 +295,8 @@ code_linkage <- function(x, date) {
   
   ords <- paste0(ords,
                  dplyr::if_else(stringr::str_count(ords, "\\S+") == 2,
-                         paste0("|", gsub(" ", "-", as.character(ords))),
-                         ""))
+                                paste0("|", gsub(" ", "-", as.character(ords))),
+                                ""))
   out <- textclean::mgsub(out,
                           paste0("(?<!\\w)", ords, "(?!\\w)"),
                           as.numeric(1:100),
@@ -283,36 +305,6 @@ code_linkage <- function(x, date) {
   
   out <- as.data.frame(out)
   
-<<<<<<< HEAD
-=======
-  
-  # Add type to limit duplicates
-  # type <- case_when(
-  #   # When the title contains "Protocol amending..."
-  #   grepl("^Protocol", out, ignore.case = T) ~ "P",
-  #   # E stands for amendment
-  #   grepl("amend|modify|extend|proces-verbal", out, ignore.case = T) ~ "E",
-  #   # P stands for protocols
-  #   grepl("protocol|subsidiary|supplementary|complÃ©mentaire|complementar|complementario|annex |annexes ", out, ignore.case = T) ~ "P",
-  #   # A stands for agreements
-  #   grepl("agreement|arrangement|accord|acuerdo|bilateral co|technical co|treat|trait|tratado|convention|convencion|convenio|constitution|charte|instrument|statute|estatuto|provisional understanding|provisions relating|übereinkunft", out, ignore.case = T) ~ "A",
-  #   grepl("Act|Declaration|Covenant|Scheme|Government Of|Law", out, ignore.case = T) ~ "A",
-  #   # X stands for exchanges of notes
-  #   grepl("Exchange|Letters|Notas", out, ignore.case = T) ~ "X",
-  #   # Y stands for memorandum of understanding
-  #   grepl("Memorandum|MemorÃ¡ndum|Principles of Conduct|Code of Conduct", out, ignore.case = T) ~ "Y",
-  #   # W stands for resolutions
-  #   grepl("Agreed Measures|Agreed Record|Consensus|Conclusions|Decision|Directive|Regulation|Reglamento|Resolution|Rules|Recommendation", out, ignore.case = T) ~ "W",
-  #   # Q stands for minutes
-  #   grepl("Minute|Adjustment|First Session Of|First Meeting Of|Commission|Committee|Center", out, ignore.case = T) ~ "Q",
-  #   # V stands for declarations
-  #   grepl("Statement|Communiq|Comminiq|Joint Declaration|Proclamation|Administrative Order", out, ignore.case = T) ~ "V",
-  #   # S stands for strategies
-  #   grepl("Strategy|Plan|Program|Improvement|Project|Study|Working Party|Working Group", out, ignore.case = T) ~ "S",
-  # )
-  # 
-  
->>>>>>> 4f3860fce5c19ffb2f6c6c6b72fa861f9523ad76
   # Step two: find duplicates
   dup <- duplicated(out)
   id <- date
@@ -323,7 +315,6 @@ code_linkage <- function(x, date) {
   id <- paste0(type, id)
   out <- cbind(out, dup, id)
   
-<<<<<<< HEAD
   # An alternative way to find fuzzy duplicates
   # match <- out %>% 
   #   tidy_comb_all(out) %>% 
@@ -331,11 +322,6 @@ code_linkage <- function(x, date) {
   #   
   #   match <- match %>% 
   #   dplyr::filter(lv <= 20)
-=======
-  # Step two: alternative way to find fuzzy duplicates
-  # This method increases the number of treaties match with treaties that are not related
-  
->>>>>>> 4f3860fce5c19ffb2f6c6c6b72fa861f9523ad76
   # a <- out %>% 
   #   dplyr::filter(stringr::str_detect(out, "verbal|protocol|additional|subsidiary|supplementary|
   #                                      complÃ©mentaire|complementar|complementario|annex |annexes|Verbal|
@@ -350,7 +336,7 @@ code_linkage <- function(x, date) {
   # 
   # out <- fuzzyjoin::stringdist_inner_join(a, b, by = "out", method = "lv", max_dist = 12, distance_col = "dist")
   
-
+  
   # Step three: make sure duplicates have the same ID number
   out <- out %>% 
     group_by_at(vars(out)) %>% 
