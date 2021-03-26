@@ -39,7 +39,7 @@ dates_comparison <- tibble::tribble(~Example, ~OriginalDate,
 "A clearly future date", "9999-12-31",
 "A not so clearly future date", "2599-12-31")
 dates_comparison \%>\% dplyr::mutate(
-lubridate = lubridate::as_date(OriginalDate),
+lubridate = suppressWarnings(lubridate::as_date(OriginalDate)),
 anytime = anytime::anydate(OriginalDate),
 qData = qData::standardise_dates(OriginalDate)
 ) \%>\% print(n = 25)

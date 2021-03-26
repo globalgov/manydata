@@ -7,7 +7,8 @@
 \alias{resolve_mean}
 \alias{resolve_median}
 \alias{resolve_mode}
-\title{Resolve ranged dates into single vectors}
+\alias{resolve_dates}
+\title{Resolve ambiguous variables according to preffered output}
 \usage{
 resolve_min(var)
 
@@ -18,14 +19,26 @@ resolve_mean(var)
 resolve_median(var)
 
 resolve_mode(var)
+
+resolve_dates(var, type = c("mean", "min", "max"))
 }
 \arguments{
-\item{dbase}{A qPackage database object}
+\item{var}{Ranged dates variable returned by \code{standardise_dates()}}
 
-\item{dset}{A dataset label from within that database}
-
-\item{key}{An ID column to collapse by}
+\item{type}{How do you want date ranges to be solved?}
+}
+\value{
+a date column
 }
 \description{
+Resolve ambiguous variables according to preffered output
+
 Resolve ranged dates into single vectors
+}
+\details{
+For date ranges the function resolves internal ranges according
+to preffered output before moving into resolving across datasets in a database.
+
+This function resolves ranged dates created with \code{standardise_dates()}
+by the choice type of minimum, maximun or mean dates.
 }

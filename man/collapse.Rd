@@ -9,9 +9,9 @@
 \usage{
 collapse_select(dbase, dset)
 
-collapse_full(dbase, key)
+collapse_full(dbase, key, resolve = NULL)
 
-collapse_consensus(dbase, key)
+collapse_consensus(dbase, key, resolve = NULL)
 }
 \arguments{
 \item{dbase}{A qPackage database object}
@@ -19,6 +19,9 @@ collapse_consensus(dbase, key)
 \item{dset}{A dataset label from within that database}
 
 \item{key}{An ID column to collapse by}
+
+\item{resolve}{How do you want differences to be resolved?
+It takes "max", "min", "mean", "mode" and "median" options.}
 }
 \description{
 Collapse a database into a single data frame/tibble
