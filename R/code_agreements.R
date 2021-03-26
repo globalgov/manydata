@@ -35,7 +35,7 @@ code_agreements <- function(title, date, dataset = NULL) {
   # Step four: code agreement type 
   # Categories and key words still need some adjustments
   type <- code_type(qID)
-  abbrev <- known_agreements(qID)
+  abbrev <- code_known_agreements(qID)
   
   #step five: give the observation a unique ID
   uID <- stringr::str_remove_all(date, "-")
@@ -165,7 +165,7 @@ code_type <- function(x) {
 #' @param x A character vector of treaty title
 #' @return A character vector with abbreviation of known treaties
 #' @export
-known_agreements <- function(x){
+code_known_agreements <- function(x){
   
   # Assign the specific abbreviation to the "known" treaties 
   abbrev <- case_when(
