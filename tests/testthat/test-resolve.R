@@ -16,3 +16,12 @@ test_that("resolve_dates() returns date output correctly", {
   sdate <- resolve_dates(sdate, "max")
   expect_true(lubridate::is.Date(sdate))
 })
+
+test_that("resolve treats date ranges correctly", {
+  test <- tibble(var = c("2010-01-01:2010-12-31", "1995-10-30", "1816-01-01", "1816-01-01:1916-01-01", NA))
+  expect_equal(resolve_min(test$var), c("2010-01-01", "1995-10-30", "1816-01-01", "1816-01-01", NA))
+  expect_equal(resolve_max(test$var), c("2010-12-31", "1995-10-30", "1816-01-01", "1916-01-01", NA))
+  expect_equal(resolve_mean(test$var), c("2010-02-07", "1995-10-30", "1816-01-01", "1866-01-01", NA))
+  expect_equal(resolve_median(test$var), c("2010-02-07", "1995-10-30", "1816-01-01", "1866-01-01", NA))
+  expect_equal(resolve_mode(test$var), c("2010-02-07", "1995-10-30", "1816-01-01", "1866-01-01", NA))
+})
