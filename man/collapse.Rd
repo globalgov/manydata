@@ -24,5 +24,7 @@ collapse_consensus(dbase, key, resolve = NULL)
 It takes "max", "min", "mean", "mode" and "median" options.}
 }
 \description{
-Collapse a database into a single data frame/tibble
+The collapse family of functions collapses
+lists of datasets that form a database in qPackages
+according to user preferences.
 }
