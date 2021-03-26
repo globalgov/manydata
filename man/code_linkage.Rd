@@ -4,7 +4,7 @@
 \alias{code_linkage}
 \title{Code Agreement Lineage}
 \usage{
-code_linkage(s, date)
+code_linkage(x, date)
 }
 \arguments{
 \item{x}{A character vector of treaty title}

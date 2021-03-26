@@ -6,6 +6,10 @@
 #' @param title title column variable
 #' @param date date column variable
 #' @param dataset name of the dataset
+#' @example
+#' \dontrun{
+#' IEADB$qID <- code_agreements(IEADB$Title)
+#' }
 #' @export
 code_agreements <- function(title, date, dataset = NULL) {
 
@@ -31,7 +35,7 @@ code_agreements <- function(title, date, dataset = NULL) {
   # Step four: code agreement type 
   # Categories and key words still need some adjustments
   type <- code_type(qID)
-  abbreviation <- known_agreements(qID)
+  abbrev <- known_agreements(qID)
   
   #step five: give the observation a unique ID
   uID <- stringr::str_remove_all(date, "-")
@@ -43,8 +47,8 @@ code_agreements <- function(title, date, dataset = NULL) {
   
   # Step seven: add items together correctly
   # The following coding assumes that any other types than A (= Agreement) are linked to another treaty; this coding
-  # would need to be adapted for declarations, MoU, minutes, etc
-  out <- ifelse(!is.na(abbreviation), paste0(abbreviation, "-", type, uID),
+  # would need to be adapted for declarations, minutes, etc
+  out <- ifelse(!is.na(abbrev), paste0(abbrev, "-", type, uID),
                 ifelse((is.na(parties) & (type == "A")), paste0(topic, "-", uID),
                        (ifelse((is.na(parties) & (type != "A")), paste0(topic, line, "-", type, uID),
                                (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(parties, "_", topic, "-", uID),
@@ -76,8 +80,10 @@ code_agreements <- function(title, date, dataset = NULL) {
 #' @param x A character vector of treaty titles
 #' @importFrom qStates code_states
 #' @return A character vector of parties that are mentioned in the treaty title
-#' @examples
+#' @example
+#' \dontrun{
 #' IEADB$Countries <- code_parties(IEADB$Title)
+#' }
 #' @export
 code_parties <- function(x) {
   
@@ -95,7 +101,9 @@ code_parties <- function(x) {
 #' @return A character vector of the type of treaty
 #' @importFrom stringr str_replace_na
 #' @examples
+#' \dontrun{
 #' IEADB$Type <- code_type(IEADB$Title)
+#' }
 #' @export
 code_type <- function(x) {
   
@@ -154,16 +162,13 @@ code_type <- function(x) {
 
 #' Known agreements abbreviation
 #'
-#' @param x 
-#'
-#' @return Abbreviation of known treaty and signature date as an ID
+#' @param x A character vector of treaty title
+#' @return A character vector with abbreviation of known treaties
 #' @export
-#'
-#' @examples
 known_agreements <- function(x){
   
   # Assign the specific abbreviation to the "known" treaties 
-  abbreviation <- case_when(
+  abbrev <- case_when(
     grepl("United Nations Convention On The Law Of The Sea", x, ignore.case = T) ~ "UNCLOS_19821210",
     grepl("Convention On Biological Diversity", x, ignore.case = T) ~ "CBD_19920605",
     grepl("Convention On The Conservation Of Antarctic Marine Living Resources", x, ignore.case = T) ~ "CCAMLR_19800520",
@@ -185,7 +190,7 @@ known_agreements <- function(x){
     grepl("Convention For The Protection Of The Ozone Layer", x, ignore.case = T) ~ "VIENNA_19850322",
     )
   
-  abbreviation
+  abbrev
   
 }
 
@@ -195,8 +200,11 @@ known_agreements <- function(x){
 #' Identify the main environmental issue the treaty is tackling.
 #' @param x A character vector of treaty title
 #' @importFrom stringr str_replace_na
-#' @import dplyr
 #' @return A character vector of the treaty topic abbreviation.
+#' @example 
+#' \dontrun{
+#' IEADB$Type <- code_topic(IEADB$Title)
+#' }
 #' @export
 code_topic <- function(x) {
   
@@ -231,6 +239,10 @@ code_topic <- function(x) {
 #' @import english
 #' @import stringr
 #' @import dplyr
+#' @example 
+#' \dontrun{
+#' IEADB$Type <- code_linkage(IEADB$Title)
+#' }
 #' @export
 code_linkage <- function(x, date) {
   

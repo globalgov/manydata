@@ -16,5 +16,7 @@ A character vector of the type of treaty
 Identify the type of the international agreement.
 }
 \examples{
+\dontrun{
 IEADB$Type <- code_type(IEADB$Title)
+}
 }
