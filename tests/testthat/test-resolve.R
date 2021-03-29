@@ -10,9 +10,7 @@ test_that("resolve works", {
 test_that("resolve_dates() returns date output correctly", {
   dates6 <- data.frame(date = c("30/4/1990", "NA", "2010-12-30", "Obsolete?", "2010-00-00", "2599-01-01"))
   sdate <- standardise_dates(dates6$date)
-  expect_equal(as.character(resolve_dates(sdate, type = "min")), c("1990-04-30", NA, "2010-12-30", NA, "2010-01-01", "9999-12-31"))
-  expect_equal(as.character(resolve_dates(sdate, type = "max")), c("1990-04-30", NA, "2010-12-30", NA, "2010-12-31", "9999-12-31"))
-  expect_equal(as.character(resolve_dates(sdate, type = "mean")), c("1990-04-30", NA, "2010-12-30", NA, "2010-07-02", "9999-12-31"))
+  expect_equal(as.character(resolve_dates(sdate, resolve = "min")), c("1990-04-30", NA, "2010-12-30", NA, "2010-01-01", "9999-12-31"))
   sdate <- resolve_dates(sdate, "max")
   expect_true(lubridate::is.Date(sdate))
 })

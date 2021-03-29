@@ -20,7 +20,7 @@ resolve_median(var)
 
 resolve_mode(var)
 
-resolve_dates(var, resolve = c("mean", "min", "max"))
+resolve_dates(var, resolve = NULL)
 }
 \arguments{
 \item{var}{Ranged dates variable returned by \code{standardise_dates()}}
