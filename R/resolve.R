@@ -116,7 +116,7 @@ resolve_mode <- function(var){
 #' resolve_dates(dates$dates, resolve = "max")
 #' resolve_dates(dates$dates, resolve = "mean")
 #' @export
-resolve_dates <- function(var, resolve = c("mean", "min", "max")) {
+resolve_dates <- function(var, resolve = NULL) {
   
   if(!is.character(var)) {
     stop("Please make sure date column has been parsed with standardise_dates() first")
@@ -190,12 +190,9 @@ resolve_dates <- function(var, resolve = c("mean", "min", "max")) {
       d2 <- paste0(s2[[1]][3])
       if(m1 == m2 & y1 == y2) {
         meanday <- (as.numeric(d1) + as.numeric(d2))/2
-        if(stringr::str_detect(meanday, "^[:digit:]{2}.[:digit:]{1}$")) {
-          meanday <- stringr::str_split(meanday, "\\.")
-          meandate <- paste0(y1, "-", m1, "-", meanday[[1]][1])
-        } else {
-          meandate <- paste0(y1, "-", m1, "-", meanday)
-        }
+        meanday <- as.character(meanday)
+        meandate <- ifelse(stringr::str_detect(meanday, "^[:digit:]{2}.[:digit:]{1}$"), paste0(stringr::str_split(meanday, "\\.")[[1]][1]), meanday) 
+        meandate  <- paste0(y1, "-", m1, "-", meandate)
       } else if(m1 != m2 & y1 == y2) {
         meandate <- paste0(y1, "-07-02") #July 2nd is the middle of a regular year
       } else if(y1 != y2) {
@@ -208,7 +205,7 @@ resolve_dates <- function(var, resolve = c("mean", "min", "max")) {
           decimalyear <- stringr::str_split(meanyear, ".") [[1]]
           meandate <- paste0(decimalyear[[1]][1], "-07-02")   
         }
-      }
+      } 
       dates <- meandate
     })
     dates
@@ -229,12 +226,9 @@ resolve_dates <- function(var, resolve = c("mean", "min", "max")) {
       d2 <- paste0(s2[[1]][3])
       if(m1 == m2 & y1 == y2) {
         meanday <- (as.numeric(d1) + as.numeric(d2))/2
-        if(stringr::str_detect(meanday, "^[:digit:]{2}.[:digit:]{1}$")) {
-          meanday <- stringr::str_split(meanday, "\\.")
-          meandate <- paste0(y1, "-", m1, "-", meanday[[1]][1])
-        } else {
-          meandate <- paste0(y1, "-", m1, "-", meanday)
-        }
+        meanday <- as.character(meanday)
+        meandate <- ifelse(stringr::str_detect(meanday, "^[:digit:]{2}.[:digit:]{1}$"), paste0(stringr::str_split(meanday, "\\.")[[1]][1]), meanday) 
+        meandate  <- paste0(y1, "-", m1, "-", meandate)
         ndate <- as.numeric(lubridate::ymd(meandate))
         dzero <- as.numeric(lubridate::as_date("0000-01-01"))
         dt <- as.numeric(lubridate::as_date("0000-01-01"))
@@ -278,17 +272,17 @@ resolve_dates <- function(var, resolve = c("mean", "min", "max")) {
     dates
   }
   
-  if(resolve == "min") {
+  if (resolve == "min") {
     dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), min_date(dates), dates)
     dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:-[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), min_negdates(dates), dates)
-  } else if(resolve == "max") {
+  } else if (resolve == "max") {
     dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), max_date(dates), dates)
     dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:-[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), max_negdates(dates), dates)
-  } else if(resolve == "mean") {
+  } else if (resolve == "mean") {
     dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), mean_date(dates), dates)
     dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:-[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), mean_negdates(dates), dates)
-  } else dates <- dates
-  
+  }
+
   dates <- unlist(dates, use.names = FALSE)
   dates <- lubridate::as_date(dates)
   dates
