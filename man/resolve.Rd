@@ -20,12 +20,12 @@ resolve_median(var)
 
 resolve_mode(var)
 
-resolve_dates(var, type = c("mean", "min", "max"))
+resolve_dates(var, resolve = c("mean", "min", "max"))
 }
 \arguments{
 \item{var}{Ranged dates variable returned by \code{standardise_dates()}}
 
-\item{type}{How do you want date ranges to be solved?}
+\item{resolve}{How do you want date ranges to be solved?}
 }
 \value{
 a date column
@@ -38,11 +38,11 @@ according to preffered output before moving into resolving across datasets in a 
 \details{
 \code{resolve_dates()} resolves ranged dates into single vectors
 This function resolves ranged dates created with \code{standardise_dates()}
-by the choice type of minimum, maximun or mean dates.
+by the choice resolve of minimum, maximun or mean dates.
 }
 \examples{
 dates <- data.frame(dates = c("2010-01-01:2010-12-31", "1816-01-01:1916-01-01"))
-resolve_dates(dates$dates, type = "min")
-resolve_dates(dates$dates, type = "max")
-resolve_dates(dates$dates, type = "mean")
+resolve_dates(dates$dates, resolve = "min")
+resolve_dates(dates$dates, resolve = "max")
+resolve_dates(dates$dates, resolve = "mean")
 }

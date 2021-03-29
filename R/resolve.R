@@ -5,7 +5,7 @@
 #' according to preffered output before moving into resolving across datasets in a database.
 #' @name resolve
 #' @param var Variable to be resolved
-#' @param type How do you want date ranges to be solved?
+#' @param resolve How do you want date ranges to be solved?
 NULL
 
 #' @rdname resolve
@@ -15,7 +15,7 @@ NULL
 resolve_min <- function(var){
   
   var <- ifelse(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"),
-                resolve_dates(var, type = "min"), var) 
+                resolve_dates(var, resolve = "min"), var) 
   
   if(lubridate::is.Date(var)) {
     var <- as.character(var)
@@ -31,7 +31,7 @@ resolve_min <- function(var){
 resolve_max <- function(var){
   
   var <- ifelse(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"),
-                resolve_dates(var, type = "max"), var) 
+                resolve_dates(var, resolve = "max"), var) 
   
   if(lubridate::is.Date(var)) {
     var <- as.character(var)
@@ -47,7 +47,7 @@ resolve_max <- function(var){
 resolve_mean <- function(var) {
   
   var <- ifelse(is.character(var[[1]]) & stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"),
-                resolve_dates(var, type = "mean"), var) 
+                resolve_dates(var, resolve = "mean"), var) 
   
   if(lubridate::is.Date(var)) {
     var <- as.character(var)
@@ -67,7 +67,7 @@ resolve_mean <- function(var) {
 resolve_median <- function(var){
   
   var <- ifelse(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"),
-                resolve_dates(var, type = "mean"), var) 
+                resolve_dates(var, resolve = "mean"), var) 
   
   if(lubridate::is.Date(var)) {
     var <- as.character(var)
@@ -93,7 +93,7 @@ resolve_median <- function(var){
 resolve_mode <- function(var){
   
   var <- ifelse(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"),
-                resolve_dates(var, type = "mean"), var) 
+                resolve_dates(var, resolve = "mean"), var) 
   
   if(lubridate::is.Date(var)) {
     var <- as.character(var)
@@ -109,26 +109,26 @@ resolve_mode <- function(var){
 #' @rdname resolve
 #' @details `resolve_dates()` resolves ranged dates into single vectors
 #' This function resolves ranged dates created with `standardise_dates()`
-#' by the choice type of minimum, maximun or mean dates.
+#' by the choice resolve of minimum, maximun or mean dates.
 #' @param var Ranged dates variable returned by `standardise_dates()`
-#' @param type How do you want date ranges to be solved?
+#' @param resolve How do you want date ranges to be solved?
 #' @import lubridate
 #' @import stringr
 #' @return a date column
 #' @examples
 #' dates <- data.frame(dates = c("2010-01-01:2010-12-31", "1816-01-01:1916-01-01"))
-#' resolve_dates(dates$dates, type = "min")
-#' resolve_dates(dates$dates, type = "max")
-#' resolve_dates(dates$dates, type = "mean")
+#' resolve_dates(dates$dates, resolve = "min")
+#' resolve_dates(dates$dates, resolve = "max")
+#' resolve_dates(dates$dates, resolve = "mean")
 #' @export
-resolve_dates <- function(var, type = c("mean", "min", "max")) {
+resolve_dates <- function(var, resolve = c("mean", "min", "max")) {
   
   if(!is.character(var)) {
     stop("Please make sure date column has been parsed with standardise_dates() first")
   }
   
-  if(missing(type)) {
-    type = "mean"
+  if(missing(resolve)) {
+    resolve = "mean"
   } 
   
   dates <- lapply(var, as.character)
@@ -189,10 +189,18 @@ resolve_dates <- function(var, type = c("mean", "min", "max")) {
       s2 <- stringr::str_split(ye, "-")
       y1 <- paste0(s1[[1]][1])
       m1 <- paste0(s1[[1]][2])
+      d1 <- paste0(s2[[1]][3])
       y2 <- paste0(s2[[1]][1])
       m2 <- paste0(s2[[1]][2])
+      d2 <- paste0(s2[[1]][3])
       if(m1 == m2 & y1 == y2) {
-        meandate <- paste0(y1, "-", m1, "-",  "15")
+        meanday <- (as.numeric(y1) + as.numeric(y2))/2
+        if(stringr::str_detect(meanday, "^[:digit:]{2}.[:digit:]{1}$")) {
+          meanday <- stringr::str_split(meanday, "\\.")
+          meanyear <- paste0(meanday[[1]][1])
+        } else {
+          meandate <- meanyear
+        }
       } else if(m1 != m2 & y1 == y2) {
         meandate <- paste0(y1, "-07-02") #July 2nd is the middle of a regular year
       } else if(y1 != y2) {
@@ -267,13 +275,13 @@ resolve_dates <- function(var, type = c("mean", "min", "max")) {
     dates
   }
   
-  if(type == "min") {
+  if(resolve == "min") {
     dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), min_date(dates), dates)
     dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:-[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), min_negdates(dates), dates)
-  } else if(type == "max") {
+  } else if(resolve == "max") {
     dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), max_date(dates), dates)
     dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:-[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), max_negdates(dates), dates)
-  } else if(type == "mean") {
+  } else if(resolve == "mean") {
     dates <- ifelse(stringr::str_detect(dates, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), mean_date(dates), dates)
     dates <- ifelse(stringr::str_detect(dates, "^-[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:-[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), mean_negdates(dates), dates)
   } else dates <- dates
