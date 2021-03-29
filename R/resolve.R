@@ -189,7 +189,7 @@ resolve_dates <- function(var, resolve = c("mean", "min", "max")) {
       s2 <- stringr::str_split(ye, "-")
       y1 <- paste0(s1[[1]][1])
       m1 <- paste0(s1[[1]][2])
-      d1 <- paste0(s2[[1]][3])
+      d1 <- paste0(s1[[1]][3])
       y2 <- paste0(s2[[1]][1])
       m2 <- paste0(s2[[1]][2])
       d2 <- paste0(s2[[1]][3])
@@ -197,9 +197,9 @@ resolve_dates <- function(var, resolve = c("mean", "min", "max")) {
         meanday <- (as.numeric(y1) + as.numeric(y2))/2
         if(stringr::str_detect(meanday, "^[:digit:]{2}.[:digit:]{1}$")) {
           meanday <- stringr::str_split(meanday, "\\.")
-          meanyear <- paste0(meanday[[1]][1])
+          meandate <- paste0(meanday[[1]][1])
         } else {
-          meandate <- meanyear
+          meandate <- meanday
         }
       } else if(m1 != m2 & y1 == y2) {
         meandate <- paste0(y1, "-07-02") #July 2nd is the middle of a regular year
@@ -221,17 +221,25 @@ resolve_dates <- function(var, resolve = c("mean", "min", "max")) {
   
   mean_negdate <- function(x) {
     dates <- lapply(x, function(d) {
-      splitd <- stringr::str_split(d, ":")[[1]]
-      yb <- paste0(splitd)[[1]]
-      ye <- paste0(splitd)[[2]]
+      splitd <- stringr::str_split(d, ":")[1]
+      yb <- paste0(splitd[[1]][1])
+      ye <- paste0(splitd[[1]][2])
       s1 <-  stringr::str_split(yb, "-")
       s2 <- stringr::str_split(ye, "-")
       y1 <- paste0(s1[[1]][1])
       m1 <- paste0(s1[[1]][2])
+      d1 <- paste0(s1[[1]][3])
       y2 <- paste0(s2[[1]][1])
       m2 <- paste0(s2[[1]][2])
+      d2 <- paste0(s2[[1]][3])
       if(m1 == m2 & y1 == y2) {
-        meandate <- paste0("-", y1, "-", m1, "-",  "15")
+        meanday <- (as.numeric(y1) + as.numeric(y2))/2
+        if(stringr::str_detect(meanday, "^[:digit:]{2}.[:digit:]{1}$")) {
+          meanday <- stringr::str_split(meanday, "\\.")
+          meandate <- paste0(meanday[[1]][1])
+        } else {
+          meandate <- meanday
+        }
         ndate <- as.numeric(lubridate::ymd(meandate))
         dzero <- as.numeric(lubridate::as_date("0000-01-01"))
         dt <- as.numeric(lubridate::as_date("0000-01-01"))
