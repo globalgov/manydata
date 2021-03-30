@@ -32,6 +32,7 @@ data_source <- function(pkg, database = NULL, dataset = NULL){
       lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
       dbs <-  mget(ls(tmp_env), tmp_env)
       dbs <- dbs[database]
+      outlist <- list()
       for (i in c(1:length(dbs))) {
         assign(paste0("tabl", i), rbind(purrr::map(dbs[[i]], function(x) 
           paste0(utils::capture.output(
@@ -44,7 +45,11 @@ data_source <- function(pkg, database = NULL, dataset = NULL){
         print(paste0("References for the ", stringr::str_to_title(database),
                      " database", sep = ""))
         print(get(paste0("tabl", i)))
+        #List output
+        outlist[i] <- list(get(paste0("tabl", i)))
       }
+      names(outlist) <- names(dbs)
+      invisible(outlist)
     } else {
       #data_source("pkg", "database", "dataset")
       tmp_env <- new.env()
@@ -67,6 +72,8 @@ data_source <- function(pkg, database = NULL, dataset = NULL){
     tmp_env <- new.env()
     lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
     dbs <-  mget(ls(tmp_env), tmp_env)
+    #Initialize the list
+    outlist <- list()
     for (i in c(1:length(dbs))) {
       assign(paste0("tabl", i), rbind(purrr::map(dbs[[i]], function(x) 
         paste0(utils::capture.output(
@@ -75,12 +82,19 @@ data_source <- function(pkg, database = NULL, dataset = NULL){
       assign(paste0("tabl", i), t(get(paste0("tabl", i))))
       tmp <- get(paste0("tabl", i))
       colnames(tmp) <- "Reference"
+      names(tmp) <- names(dbs[[i]])
+      #Clear attr from object for a prettier print to console
+      attr(tmp, "names") <- NULL
       assign(paste0("tabl", i), tmp)
       print(paste0("References for the ",
                    stringr::str_to_title(ls(tmp_env)[i]),
                    " database", sep = ""))
       print(get(paste0("tabl", i)))
+      #Append to list output
+      outlist[i] <- list(get(paste0("tabl", i)))
     }
+    names(outlist) <- names(dbs)
+    invisible(outlist)
   }
 }
 
@@ -106,6 +120,7 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL){
       lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
       dbs <-  mget(ls(tmp_env), tmp_env)
       dbs <- dbs[database]
+      outlist <- list()
       for (i in c(1:length(dbs))) {
         assign(paste0("tabl", i), 
                rbind(purrr::map(dbs[[i]], function(x) length(unique(x$ID))),
@@ -126,14 +141,21 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL){
                      purrr::map(dbs[[i]], function(x)
                        attr(x, which = "source_URL"))))
         assign(paste0("tabl", i), t(get(paste0("tabl", i))))
-        tmp <- get(paste0("tabl", i))
+        tmp <- as.data.frame(get(paste0("tabl", i)))
         colnames(tmp) <- c("Unique ID", "Missing Data", "Rows",
                            "Columns", "Beg", "End", "URL")
         assign(paste0("tabl", i), tmp)
-        print(paste0(stringr::str_to_title(database), 
+        #Print things
+        print(paste0(stringr::str_to_title(database[i]), 
                      " database", sep = ""))
         print(get(paste0("tabl", i)))
+        # Append objects to outlist
+        outlist[i] <- list(get(paste0("tabl", i)))
       }
+      #Name elements in list
+      names(outlist) <- database
+      #Quiet return
+      invisible(outlist)
     } else {
       #data_contrast("pkg", "database", "dataset")
       tmp_env <- new.env()
@@ -155,11 +177,11 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL){
                                   max(ds$End, na.rm=T), NA),
                            origin = '1970-01-01')),
                          URL = attr(ds, which = "source_URL"))
-      tabl2 <- tabl %>%
-        t()
+      tabl2 <- as.data.frame(t(tabl))
       colnames(tabl2) <- dataset
       print(paste0(dataset, " dataset from the ",
                    stringr::str_to_title(database), " database", sep = ""))
+      print(tabl2)
       tabl2
     }
   } else {
@@ -167,6 +189,7 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL){
     tmp_env <- new.env()
     lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
     dbs <-  mget(ls(tmp_env), tmp_env)
+    outlist <- list()
     for (i in c(1:length(dbs))) {
       assign(paste0("tabl", i),
              rbind(purrr::map(dbs[[i]], function(x) length(unique(x$ID))),
@@ -185,14 +208,20 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL){
                    purrr::map(dbs[[i]], function(x)
                      attr(x, which = "source_URL"))))
       assign(paste0("tabl", i), t(get(paste0("tabl", i))))
-      tmp <- get(paste0("tabl", i))
+      tmp <- as.data.frame(get(paste0("tabl", i)))
       colnames(tmp) <- c("Unique ID", "Missing Data", "Rows",
                          "Columns", "Beg", "End", "URL")
       assign(paste0("tabl", i), tmp)
       print(paste0(stringr::str_to_title(ls(tmp_env)[i]),
                    " database", sep = ""))
       print(get(paste0("tabl", i)))
+      #Append to outlist
+      outlist[i] <- list(get(paste0("tabl", i)))
     }
+    # Name elements in list
+    names(outlist) <- pkg_dbs
+    #Quiet return
+    invisible(outlist)
   }
  }
 
