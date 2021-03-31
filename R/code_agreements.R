@@ -25,6 +25,9 @@ code_agreements <- function(title, date, dataset = NULL) {
   # Eventually this will connect to a centralized GitHub repo or SQL file for 
   # smarter, interactive and more consistent coding of agreement titles. 
   
+  # Possible additional step: add areas abbreviation
+  areas <- code_areas(qID)
+  
   # Step two: code parties if present
   parties <- code_parties(qID)
   
@@ -48,13 +51,13 @@ code_agreements <- function(title, date, dataset = NULL) {
   # Step seven: add items together correctly
   # The following coding assumes that any other types than A (= Agreement) are linked to another treaty; this coding
   # would need to be adapted for declarations, minutes, etc
-  out <- ifelse(!is.na(abbrev), paste0(abbrev, "-", type,"-", uID),
-                ifelse((is.na(parties) & (type == "A")), paste0(topic, "-", uID),
-                       (ifelse((is.na(parties) & (type != "A")), paste0(topic, line, "-", type, "-", uID),
-                               (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(parties, "_", topic, "-", uID),
-                                       (ifelse((!is.na(parties) & (type == "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(topic, "-", uID),
-                                               (ifelse((!is.na(parties) & (type != "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(parties, "_", topic, line, "-", type, "-", uID),
-                                                       (ifelse((!is.na(parties) & (type != "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(topic, line, "-", type, "-", uID), NA))))))))))))
+  out <- ifelse(!is.na(abbrev), paste0(areas, abbrev, "-", type,"-", uID),
+                ifelse((is.na(parties) & (type == "A")), paste0(areas, topic, "-", uID),
+                       (ifelse((is.na(parties) & (type != "A")), paste0(areas, topic, line, "-", type, "-", uID),
+                               (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(areas, parties, "_", topic, "-", uID),
+                                       (ifelse((!is.na(parties) & (type == "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(areas, topic, "-", uID),
+                                               (ifelse((!is.na(parties) & (type != "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(areas, parties, "_", topic, line, "-", type, "-", uID),
+                                                       (ifelse((!is.na(parties) & (type != "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(areas, topic, line, "-", type, "-", uID), NA))))))))))))
   
   out <- stringr::str_replace_all(out, "NA_", NA_character_)
 
@@ -352,3 +355,55 @@ code_linkage <- function(x, date) {
   line
   
 }  
+
+#' Code the Treaty Areas
+#'
+#' @param x
+#'
+#' @return
+#' @export
+#'
+#' @examples
+code_areas <- function(x){
+  areas <- case_when(
+    # Coding for region abbreviations
+    grepl("Central America", x, ignore.case = T) ~ "CAM_",
+    grepl("Latin America", x, ignore.case = T) ~ "LA_",
+    grepl(" North America ", x, ignore.case = T) ~ "NA_",
+    grepl("Inter-American", x, ignore.case = T) ~ "I-A_",
+    grepl("Near East", x, ignore.case = T) ~ "NE_",
+    grepl("European", x, ignore.case = T) ~ "EUR_",
+    grepl("Eastern and Central Europe", x, ignore.case = T) ~ "ECE_",
+    grepl("East Africa|Eastern Africa", x, ignore.case = T) ~ "EA_",
+    grepl("Central Africa", x, ignore.case = T) ~ "CAF_",
+    grepl("Southern Africa|South African", x, ignore.case = T) ~ "SA_",
+    grepl("African continent", x, ignore.case = T) ~ "AFR_",
+    grepl("Southern Hemisphere|South Hemisphere", x, ignore.case = T) ~ "SH_",
+    grepl("Caribbean", x, ignore.case = T) ~ "CAR_",
+    grepl("Southeast Asia", x, ignore.case = T) ~ "SEA_",
+    grepl("Central Asia", x, ignore.case = T) ~ "CAS_",
+    grepl("South Asia", x, ignore.case = T) ~ "SAS_",
+    grepl("asia pacific|asian pacific", x, ignore.case = T) ~ "AP_",
+    grepl("Pacific Island", x, ignore.case = T) ~ "PI_",
+    grepl("Antarctic", x, ignore.case = T) ~ "ANT_",
+    grepl("Arctic", x, ignore.case = T) ~ "ARC_",
+    # Coding for ocean abbreviations
+    grepl("Northwest Atlantic", x, ignore.case = T) ~ "O-NWA_",
+    grepl("Northeast Atlantic", x, ignore.case = T) ~ "O-NEA_",
+    grepl("American North Atlantic", x, ignore.case = T) ~ "O-ANA_",
+    grepl("North Atlantic", x, ignore.case = T) ~ "O-NA_",
+    grepl("Southeast Atlantic|South East Atlantic", x, ignore.case = T) ~ "O-SEA_",
+    grepl("South Atlantic", x, ignore.case = T) ~ "O-SA_",
+    grepl("African Atlantic", x, ignore.case = T) ~ "O-AA_",
+    grepl("Atlantic", x, ignore.case = T) ~ "O-A_",
+    grepl("Eastern Pacific", x, ignore.case = T) ~ "O-EP_",
+    grepl("Northeast Pacific", x, ignore.case = T) ~ "O-NP_",
+    grepl("South Pacific", x, ignore.case = T) ~ "O-SP_",
+    grepl("Western Central Pacific", x, ignore.case = T) ~ "O-WCP_",
+    grepl("Pacific", x, ignore.case = T) ~ "PAC_",
+  )
+
+  areas <- stringr::str_replace_na(areas, "")
+  areas
+}
+
