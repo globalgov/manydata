@@ -135,28 +135,28 @@ code_type <- function(x) {
     grepl("Strategy|Plan|Program|Improvement|Project|Study|Working Party|Working Group", x, ignore.case = T) ~ "S",
   )
   
+  # This need to be exapanded and,then, simplified but it works for now. As for below, the package english appears
+  # to only transform numbers to text, not the other way around. As well, it appears that str_remove () function does
+  # not work well when too many regex are parsed through so it is separated.
+  number <- x
+  number <- gsub("\\<one\\>|\\<first\\>", "1", number)
+  number <- gsub("\\<two\\>|\\<second\\>", "2", number)
+  number <- gsub("\\<three\\>|\\<third\\>", "3", number)
+  number <- gsub("\\<four\\>|\\<fourth\\>", "4", number)
+  number <- gsub("\\<five\\>|\\<fifth\\>", "5", number)
+  number <- gsub("\\<six\\>|\\<sixth\\>", "6", number)
+  number <- gsub("\\<seven\\>|\\<seventh\\>", "7", number)
+  number <- gsub("\\<eight\\>|\\<eighth\\>", "8", number)
+  number <- gsub("\\<nine\\>|\\<ninth\\>", "9", number)
+  number <- stringr::str_remove(number, "[:digit:]{2}\\s[:alpha:]{3}\\s[:digit:]{4}|[:digit:]{2}\\s[:alpha:]{4}\\s[:digit:]{4}")
+  number <- stringr::str_remove(number, "[:digit:]{2}\\s[:alpha:]{5}\\s[:digit:]{4}|[:digit:]{2}\\s[:alpha:]{6}\\s[:digit:]{4}")
+  number <- stringr::str_remove(number,  "[:digit:]{2}\\s[:alpha:]{7}\\s[:digit:]{4}|[:digit:]{2}\\s[:alpha:]{8}\\s[:digit:]{4}")
+  number <- stringr::str_remove(number, "[:digit:]{2}\\s[:alpha:]{9}\\s[:digit:]{4}| [:digit:]{1}\\s[:alpha:]{3}\\s[:digit:]{4}")
+  number <- stringr::str_remove(number, "[:digit:]{1}\\s[:alpha:]{4}\\s[:digit:]{4}| [:digit:]{1}\\s[:alpha:]{5}\\s[:digit:]{4}")
+  number <- stringr::str_remove(number, "[:digit:]{1}\\s[:alpha:]{6}\\s[:digit:]{4}| [:digit:]{1}\\s[:alpha:]{7}\\s[:digit:]{4}")
+  number <- stringr::str_remove(number, "[:digit:]{1}\\s[:alpha:]{8}\\s[:digit:]{4}| [:digit:]{1}\\s[:alpha:]{9}\\s[:digit:]{4}")
+  # Spelling of numbers should also be considered here
   
-  # Find a way to extract agreement/protocol/ammendment number and paste it to topic
-  # date.pattern <- c("^[:digit:]{2}-[:digit:]{2}-[:digit:]{2}$", "^[:digit:]{2}-[:digit:]{2}-[:digit:]{4}$",
-  #                   "^[:digit:]{2}/[:digit:]{2}/[:digit:]{2}$", "^[:digit:]{2}/[:digit:]{2}/[:digit:]{4}$",
-  #                   "^[:digit:]{2}.[:digit:]{2}.[:digit:]{2}$", "^[:digit:]{2}.[:digit:]{2}.[:digit:]{4}$",
-  #                   "^[:digit:]{2}.[:digit:]{4}$", "^[:digit:]{2}/[:digit:]{4}$", "^[:digit:]{2}-[:digit:]{4}$",
-  #                   "^[:digit:]{2}\\s[:alpha:]{3}\\s[:digit:]{4}$", "^[:digit:]{2}\\s[:alpha:]{4}\\s[:digit:]{4}$",
-  #                   "^[:digit:]{2}\\s[:alpha:]{5}\\s[:digit:]{4}$", "^[:digit:]{2}\\s[:alpha:]{6}\\s[:digit:]{4}$",
-  #                   "^[:digit:]{2}\\s[:alpha:]{7}\\s[:digit:]{4}$", "^[:digit:]{2}\\s[:alpha:]{8}\\s[:digit:]{4}$",
-  #                   "^[:digit:]{2}\\s[:alpha:]{9}\\s[:digit:]{4}$", "^[:digit:]{1}\\s[:alpha:]{3}\\s[:digit:]{4}$",
-  #                   "^[:digit:]{1}\\s[:alpha:]{4}\\s[:digit:]{4}$", "^[:digit:]{1}\\s[:alpha:]{5}\\s[:digit:]{4}$",
-  #                   "^[:digit:]{1}\\s[:alpha:]{6}\\s[:digit:]{4}$", "^[:digit:]{1}\\s[:alpha:]{7}\\s[:digit:]{4}$",
-  #                   "^[:digit:]{1}\\s[:alpha:]{8}\\s[:digit:]{4}$", "^[:digit:]{1}\\s[:alpha:]{9}\\s[:digit:]{4}$",
-  #                   "^[:alpha:]{8}\\s[:digit:]{2}\\,\\s[:digit:]{4}$")
-  number <- stringr::str_remove_all(x, "[:digit:]{2}\\s[:alpha:]{3}\\s[:digit:]{4}|[:digit:]{2}\\s[:alpha:]{4}\\s[:digit:]{4}|
-                                    [:digit:]{2}\\s[:alpha:]{5}\\s[:digit:]{4}|[:digit:]{2}\\s[:alpha:]{6}\\s[:digit:]{4}|
-                                    [:digit:]{2}\\s[:alpha:]{7}\\s[:digit:]{4}|[:digit:]{2}\\s[:alpha:]{8}\\s[:digit:]{4}|
-                                    [:digit:]{2}\\s[:alpha:]{9}\\s[:digit:]{4}|[:digit:]{1}\\s[:alpha:]{3}\\s[:digit:]{4}|
-                                    [:digit:]{1}\\s[:alpha:]{4}\\s[:digit:]{4}|[:digit:]{1}\\s[:alpha:]{5}\\s[:digit:]{4}|
-                                    [:digit:]{1}\\s[:alpha:]{6}\\s[:digit:]{4}|[:digit:]{1}\\s[:alpha:]{7}\\s[:digit:]{4}|
-                                    [:digit:]{1}\\s[:alpha:]{8}\\s[:digit:]{4}|[:digit:]{1}\\s[:alpha:]{9}\\s[:digit:]{4}|
-                                    [:alpha:]{8}\\s[:digit:]{2}\\,\\s[:digit:]{4}")
   number <- ifelse(stringr::str_detect(number, "[:digit:]{1}|[:digit:]{2}"), stringr::str_extract(number, "[:digit:]{1}|[:digit:]{2}"), "")
   
   # When no type is found
