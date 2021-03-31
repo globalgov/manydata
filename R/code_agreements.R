@@ -369,7 +369,7 @@ code_areas <- function(x){
     # Coding for region abbreviations
     grepl("Central America", x, ignore.case = T) ~ "CAM_",
     grepl("Latin America", x, ignore.case = T) ~ "LA_",
-    grepl(" North America ", x, ignore.case = T) ~ "NA_",
+    grepl("North America\\s", x, ignore.case = F) ~ "NA_",
     grepl("Inter-American", x, ignore.case = T) ~ "I-A_",
     grepl("Near East", x, ignore.case = T) ~ "NE_",
     grepl("European", x, ignore.case = T) ~ "EUR_",
@@ -390,17 +390,16 @@ code_areas <- function(x){
     # Coding for ocean abbreviations
     grepl("Northwest Atlantic", x, ignore.case = T) ~ "O-NWA_",
     grepl("Northeast Atlantic", x, ignore.case = T) ~ "O-NEA_",
-    grepl("American North Atlantic", x, ignore.case = T) ~ "O-ANA_",
-    grepl("North Atlantic", x, ignore.case = T) ~ "O-NA_",
+    # grepl("North Atlantic", x, ignore.case = T) ~ "O-NA_",
     grepl("Southeast Atlantic|South East Atlantic", x, ignore.case = T) ~ "O-SEA_",
     grepl("South Atlantic", x, ignore.case = T) ~ "O-SA_",
     grepl("African Atlantic", x, ignore.case = T) ~ "O-AA_",
-    grepl("Atlantic", x, ignore.case = T) ~ "O-A_",
+    # grepl("Atlantic", x, ignore.case = T) ~ "O-A_",
     grepl("Eastern Pacific", x, ignore.case = T) ~ "O-EP_",
     grepl("Northeast Pacific", x, ignore.case = T) ~ "O-NP_",
     grepl("South Pacific", x, ignore.case = T) ~ "O-SP_",
     grepl("Western Central Pacific", x, ignore.case = T) ~ "O-WCP_",
-    grepl("Pacific", x, ignore.case = T) ~ "PAC_",
+    # grepl("Pacific", x, ignore.case = T) ~ "PAC_",
   )
 
   areas <- stringr::str_replace_na(areas, "")
