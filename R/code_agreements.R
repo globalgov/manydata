@@ -48,13 +48,13 @@ code_agreements <- function(title, date, dataset = NULL) {
   # Step seven: add items together correctly
   # The following coding assumes that any other types than A (= Agreement) are linked to another treaty; this coding
   # would need to be adapted for declarations, minutes, etc
-  out <- ifelse(!is.na(abbrev), paste0(abbrev, "-", type, uID),
+  out <- ifelse(!is.na(abbrev), paste0(abbrev, "-", type,"-", uID),
                 ifelse((is.na(parties) & (type == "A")), paste0(topic, "-", uID),
-                       (ifelse((is.na(parties) & (type != "A")), paste0(topic, line, "-", type, uID),
+                       (ifelse((is.na(parties) & (type != "A")), paste0(topic, line, "-", type, "-", uID),
                                (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(parties, "_", topic, "-", uID),
                                        (ifelse((!is.na(parties) & (type == "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(topic, "-", uID),
-                                               (ifelse((!is.na(parties) & (type != "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(parties, "_", topic, line, "-", type, uID),
-                                                       (ifelse((!is.na(parties) & (type != "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(topic, line, "-", type, uID), NA))))))))))))
+                                               (ifelse((!is.na(parties) & (type != "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(parties, "_", topic, line, "-", type, "-", uID),
+                                                       (ifelse((!is.na(parties) & (type != "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(topic, line, "-", type, "-", uID), NA))))))))))))
   
   out <- stringr::str_replace_all(out, "NA_", NA_character_)
 
@@ -135,25 +135,26 @@ code_type <- function(x) {
     grepl("Strategy|Plan|Program|Improvement|Project|Study|Working Party|Working Group", x, ignore.case = T) ~ "S",
   )
   
+  
   # Find a way to extract agreement/protocol/ammendment number and paste it to topic
-  # date.pattern <- c("^[:digit:]{2}-[:digit:]{2}-[:digit:]{2}$", "^[:digit:]{2}-[:digit:]{2}-[:digit:]{4}$",
-  #                   "^[:digit:]{2}/[:digit:]{2}/[:digit:]{2}$", "^[:digit:]{2}/[:digit:]{2}/[:digit:]{4}$",
-  #                   "^[:digit:]{2}.[:digit:]{2}.[:digit:]{2}$", "^[:digit:]{2}.[:digit:]{2}.[:digit:]{4}$",
-  #                   "^[:digit:]{2}.[:digit:]{4}$", "^[:digit:]{2}/[:digit:]{4}$", "^[:digit:]{2}-[:digit:]{4}$",
-  #                   "^[:digit:]{2} [:alpha:]{3} [:digit:]{4}$", "^[:digit:]{2} [:alpha:]{4} [:digit:]{4}$",
-  #                   "^[:digit:]{2} [:alpha:]{5} [:digit:]{4}$", "^[:digit:]{2} [:alpha:]{6} [:digit:]{4}$",
-  #                   "^[:digit:]{2} [:alpha:]{7} [:digit:]{4}$", "^[:digit:]{2} [:alpha:]{8} [:digit:]{4}$", 
-  #                   "^[:digit:]{2} [:alpha:]{9} [:digit:]{4}$", "^[:digit:]{1} [:alpha:]{3} [:digit:]{4}$", 
-  #                   "^[:digit:]{1} [:alpha:]{4} [:digit:]{4}$", "^[:digit:]{1} [:alpha:]{5} [:digit:]{4}$", 
-  #                   "^[:digit:]{1} [:alpha:]{6} [:digit:]{4}$", "^[:digit:]{1} [:alpha:]{7} [:digit:]{4}$", 
-  #                   "^[:digit:]{1} [:alpha:]{8} [:digit:]{4}$", "^[:digit:]{1} [:alpha:]{9} [:digit:]{4}$") 
-  # number <- stringr::str_remove_all(number, date.pattern)
-  # number <- number <- ifelse(stringr::str_detect(x, "[:digit:]$"), stringr::str_extract(x, "[:digit:]"), "")
+  date.pattern <- c("[:digit:]{2}-[:digit:]{2}-[:digit:]{2}", "[:digit:]{2}-[:digit:]{2}-[:digit:]{4}",
+                    "[:digit:]{2}/[:digit:]{2}/[:digit:]{2}", "[:digit:]{2}/[:digit:]{2}/[:digit:]{4}",
+                    "[:digit:]{2}.[:digit:]{2}.[:digit:]{2}", "[:digit:]{2}.[:digit:]{2}.[:digit:]{4}",
+                    "[:digit:]{2}.[:digit:]{4}", "[:digit:]{2}/[:digit:]{4}", "[:digit:]{2}-[:digit:]{4}",
+                    "[:digit:]{2} [:alpha:]{3} [:digit:]{4}", "[:digit:]{2} [:alpha:]{4} [:digit:]{4}",
+                    "[:digit:]{2} [:alpha:]{5} [:digit:]{4}", "[:digit:]{2} [:alpha:]{6} [:digit:]{4}",
+                    "[:digit:]{2} [:alpha:]{7} [:digit:]{4}", "[:digit:]{2} [:alpha:]{8} [:digit:]{4}",
+                    "[:digit:]{2} [:alpha:]{9} [:digit:]{4}", "[:digit:]{1} [:alpha:]{3} [:digit:]{4}",
+                    "[:digit:]{1} [:alpha:]{4} [:digit:]{4}", "[:digit:]{1} [:alpha:]{5} [:digit:]{4}",
+                    "[:digit:]{1} [:alpha:]{6} [:digit:]{4}", "[:digit:]{1} [:alpha:]{7} [:digit:]{4}",
+                    "[:digit:]{1} [:alpha:]{8} [:digit:]{4}", "[:digit:]{1} [:alpha:]{9} [:digit:]{4}")
+  number <- stringr::str_remove_all(x, date.pattern)
+  number <- ifelse(stringr::str_detect(number, "[:digit:]{1}|[:digit:]{2}"), stringr::str_extract(number, "[:digit:]{1}|[:digit:]{2}"), "")
   
   # When no type is found
   type <- stringr::str_replace_na(type, "O")
   
-  # type <- paste0(type, number)
+  type <- paste0(type, number)
   
   type
   # What happens when multiple types are detected in title?
