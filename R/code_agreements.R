@@ -137,18 +137,26 @@ code_type <- function(x) {
   
   
   # Find a way to extract agreement/protocol/ammendment number and paste it to topic
-  date.pattern <- c("[:digit:]{2}-[:digit:]{2}-[:digit:]{2}", "[:digit:]{2}-[:digit:]{2}-[:digit:]{4}",
-                    "[:digit:]{2}/[:digit:]{2}/[:digit:]{2}", "[:digit:]{2}/[:digit:]{2}/[:digit:]{4}",
-                    "[:digit:]{2}.[:digit:]{2}.[:digit:]{2}", "[:digit:]{2}.[:digit:]{2}.[:digit:]{4}",
-                    "[:digit:]{2}.[:digit:]{4}", "[:digit:]{2}/[:digit:]{4}", "[:digit:]{2}-[:digit:]{4}",
-                    "[:digit:]{2} [:alpha:]{3} [:digit:]{4}", "[:digit:]{2} [:alpha:]{4} [:digit:]{4}",
-                    "[:digit:]{2} [:alpha:]{5} [:digit:]{4}", "[:digit:]{2} [:alpha:]{6} [:digit:]{4}",
-                    "[:digit:]{2} [:alpha:]{7} [:digit:]{4}", "[:digit:]{2} [:alpha:]{8} [:digit:]{4}",
-                    "[:digit:]{2} [:alpha:]{9} [:digit:]{4}", "[:digit:]{1} [:alpha:]{3} [:digit:]{4}",
-                    "[:digit:]{1} [:alpha:]{4} [:digit:]{4}", "[:digit:]{1} [:alpha:]{5} [:digit:]{4}",
-                    "[:digit:]{1} [:alpha:]{6} [:digit:]{4}", "[:digit:]{1} [:alpha:]{7} [:digit:]{4}",
-                    "[:digit:]{1} [:alpha:]{8} [:digit:]{4}", "[:digit:]{1} [:alpha:]{9} [:digit:]{4}")
-  number <- stringr::str_remove_all(x, date.pattern)
+  # date.pattern <- c("^[:digit:]{2}-[:digit:]{2}-[:digit:]{2}$", "^[:digit:]{2}-[:digit:]{2}-[:digit:]{4}$",
+  #                   "^[:digit:]{2}/[:digit:]{2}/[:digit:]{2}$", "^[:digit:]{2}/[:digit:]{2}/[:digit:]{4}$",
+  #                   "^[:digit:]{2}.[:digit:]{2}.[:digit:]{2}$", "^[:digit:]{2}.[:digit:]{2}.[:digit:]{4}$",
+  #                   "^[:digit:]{2}.[:digit:]{4}$", "^[:digit:]{2}/[:digit:]{4}$", "^[:digit:]{2}-[:digit:]{4}$",
+  #                   "^[:digit:]{2}\\s[:alpha:]{3}\\s[:digit:]{4}$", "^[:digit:]{2}\\s[:alpha:]{4}\\s[:digit:]{4}$",
+  #                   "^[:digit:]{2}\\s[:alpha:]{5}\\s[:digit:]{4}$", "^[:digit:]{2}\\s[:alpha:]{6}\\s[:digit:]{4}$",
+  #                   "^[:digit:]{2}\\s[:alpha:]{7}\\s[:digit:]{4}$", "^[:digit:]{2}\\s[:alpha:]{8}\\s[:digit:]{4}$",
+  #                   "^[:digit:]{2}\\s[:alpha:]{9}\\s[:digit:]{4}$", "^[:digit:]{1}\\s[:alpha:]{3}\\s[:digit:]{4}$",
+  #                   "^[:digit:]{1}\\s[:alpha:]{4}\\s[:digit:]{4}$", "^[:digit:]{1}\\s[:alpha:]{5}\\s[:digit:]{4}$",
+  #                   "^[:digit:]{1}\\s[:alpha:]{6}\\s[:digit:]{4}$", "^[:digit:]{1}\\s[:alpha:]{7}\\s[:digit:]{4}$",
+  #                   "^[:digit:]{1}\\s[:alpha:]{8}\\s[:digit:]{4}$", "^[:digit:]{1}\\s[:alpha:]{9}\\s[:digit:]{4}$",
+  #                   "^[:alpha:]{8}\\s[:digit:]{2}\\,\\s[:digit:]{4}$")
+  number <- stringr::str_remove_all(x, "[:digit:]{2}\\s[:alpha:]{3}\\s[:digit:]{4}|[:digit:]{2}\\s[:alpha:]{4}\\s[:digit:]{4}|
+                                    [:digit:]{2}\\s[:alpha:]{5}\\s[:digit:]{4}|[:digit:]{2}\\s[:alpha:]{6}\\s[:digit:]{4}|
+                                    [:digit:]{2}\\s[:alpha:]{7}\\s[:digit:]{4}|[:digit:]{2}\\s[:alpha:]{8}\\s[:digit:]{4}|
+                                    [:digit:]{2}\\s[:alpha:]{9}\\s[:digit:]{4}|[:digit:]{1}\\s[:alpha:]{3}\\s[:digit:]{4}|
+                                    [:digit:]{1}\\s[:alpha:]{4}\\s[:digit:]{4}|[:digit:]{1}\\s[:alpha:]{5}\\s[:digit:]{4}|
+                                    [:digit:]{1}\\s[:alpha:]{6}\\s[:digit:]{4}|[:digit:]{1}\\s[:alpha:]{7}\\s[:digit:]{4}|
+                                    [:digit:]{1}\\s[:alpha:]{8}\\s[:digit:]{4}|[:digit:]{1}\\s[:alpha:]{9}\\s[:digit:]{4}|
+                                    [:alpha:]{8}\\s[:digit:]{2}\\,\\s[:digit:]{4}")
   number <- ifelse(stringr::str_detect(number, "[:digit:]{1}|[:digit:]{2}"), stringr::str_extract(number, "[:digit:]{1}|[:digit:]{2}"), "")
   
   # When no type is found
