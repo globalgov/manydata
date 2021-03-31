@@ -80,8 +80,6 @@ standardise_date_input <- function(dates){
     dates
   }
   
-  dates <- stringr::str_replace_all (dates, "^NA$", "") # makes NAs will not create errors
-  #todo: fix how NAs are reported and stanrdadize how missing variables are treated
   dates <- stringr::str_remove_all(dates, "(0000-00-00|00-00-0000|00-00-00)") # standardising null dates
   dates <- stringr::str_replace_all(dates, "\\.", "-") # standardising separaters
   dates <- stringr::str_replace_all(dates, "\\/", "-") # standardising separaters
@@ -93,6 +91,7 @@ standardise_date_input <- function(dates){
   dates <- stringr::str_remove_all(dates, "(ad|AD|Ad|aD)") # remove after christ
   dates <- ifelse(stringr::str_detect(dates, "(bc|BC|Bc|bC)"), as_bc_dates(dates), dates) # replacing BC for corresponding negative dates
   dates <- stringr::str_trim(dates, side = "both") # removes trailing white spaces
+  dates <- ifelse(nchar(dates) == 0, "NA", dates) # stanrdadize how missing variables are treated
 }
 
 correct_date_format <- function(dates){
@@ -176,7 +175,7 @@ treat_historical_dates <- function(dates){
         d <- paste0("-00", d, "-01-01:","-00", d, "-12-31")
       } else if(stringr::str_detect(d, "^-[:digit:]{4}-[:digit:]{2}$")){ # month only
         start <- paste0(d, "-01")
-        d <- paste0(start, ":", d, "-", days_in_month(month(ymd(start))))
+        d <- paste0(start, ":", d, "-", lubridate::days_in_month(lubridate::month(lubridate::ymd(start))))
       } else d <- d
       d
     })
@@ -215,7 +214,7 @@ treat_incomplete_dates <- function(dates){
       d <- paste0("00", d, "-01-01:","00", d, "-12-31")
     } else if(stringr::str_detect(d, "^[:digit:]{4}-[:digit:]{2}$")){ # month only
       start <- paste0(d, "-01")
-      d <- paste0(start, ":", d, "-", days_in_month(month(ymd(start))))
+      d <- paste0(start, ":", d, "-", lubridate::days_in_month(lubridate::month(lubridate::ymd(start))))
     } else d <- d
     d
   }) 
