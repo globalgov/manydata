@@ -28,6 +28,7 @@ code_agreements <- function(title, date, dataset = NULL) {
   # Possible additional step: add areas abbreviation
   areas <- code_areas(qID)
   
+  
   # Step two: code parties if present
   parties <- code_parties(qID)
   
@@ -42,6 +43,9 @@ code_agreements <- function(title, date, dataset = NULL) {
   
   #step five: give the observation a unique ID
   uID <- stringr::str_remove_all(date, "-")
+  # Temporary solution for treaties without signature date
+  uID <- stringr::str_replace_na(uID, "99991231")
+  
   # uID <- stringr::str_remove_all(uID, "^[:digit:]{2}")
   # uID <- stringr::str_remove_all(uID, "[:digit:]{2}$")
   
@@ -158,6 +162,7 @@ code_type <- function(x) {
   number <- stringr::str_remove(number, "[:digit:]{1}\\s[:alpha:]{4}\\s[:digit:]{4}| [:digit:]{1}\\s[:alpha:]{5}\\s[:digit:]{4}")
   number <- stringr::str_remove(number, "[:digit:]{1}\\s[:alpha:]{6}\\s[:digit:]{4}| [:digit:]{1}\\s[:alpha:]{7}\\s[:digit:]{4}")
   number <- stringr::str_remove(number, "[:digit:]{1}\\s[:alpha:]{8}\\s[:digit:]{4}| [:digit:]{1}\\s[:alpha:]{9}\\s[:digit:]{4}")
+  number <- stringr::str_remove(number, "[:digit:]{4}")
   # Spelling of numbers should also be considered here
   
   number <- ifelse(stringr::str_detect(number, "[:digit:]{1}|[:digit:]{2}"), stringr::str_extract(number, "[:digit:]{1}|[:digit:]{2}"), "")
@@ -369,7 +374,7 @@ code_areas <- function(x){
     # Coding for region abbreviations
     grepl("Central America|Caribbean", x, ignore.case = T) ~ "CAM_",
     grepl("Latin America| South America", x, ignore.case = T) ~ "LA_",
-    grepl("North America\\s", x, ignore.case = F) ~ "NA_",
+    # grepl("North America", x, ignore.case = F) ~ "NA_",
     grepl("Near East|Middle East| Middle East and North Africa", x, ignore.case = T) ~ "MEA_",
     grepl("Oceania", x, ignore.case = T) ~ "OCE_",
     grepl("Eastern and Central Europe|European|Western Europe", x, ignore.case = T) ~ "WEU_",
@@ -382,13 +387,18 @@ code_areas <- function(x){
     grepl("Antarctic", x, ignore.case = T) ~ "ANT_",
     grepl("Arctic", x, ignore.case = T) ~ "ARC_",
     # Coding for ocean abbreviations
-    grepl("Northwest Atlantic|Northeast Atlantic|North Atlantic", x, ignore.case = T) ~ "ONA_",
+    # grepl("Northwest Atlantic|Northeast Atlantic|North Atlantic", x, ignore.case = T) ~ "ONA_",
     grepl("Southeast Atlantic|South East Atlantic|South Atlantic|African Atlantic", x, ignore.case = T) ~ "OSA_",
-    grepl("Atlantic", x, ignore.case = T) ~ "OA_",
     grepl("Eastern Pacific|Northeast Pacific|Western Central Pacific", x, ignore.case = T) ~ "OPAC_",
     grepl("South Pacific|Southern Pacific", x, ignore.case = T) ~ "OSP_",
-    grepl("Pacific", x, ignore.case = T) ~ "OP_",
   )
+
+
+  # areas <- ifelse(stringr::str_detect(x, "Central America|Caribbean"), "CAM_",
+  #                 ifelse(stringr::str_detect(x, "Northwest Atlantic|Northeast Atlantic|North Atlantic"), "ONA_",
+  #                        ifelse(stringr::str_detect(x, "Southeast Atlantic|South East Atlantic|South Atlantic|African Atlantic"), "OSA_",
+  #                               ifelse(stringr::str_detect(x, "Atlantic"), "OA_",NA))))
+  #
 
   areas <- stringr::str_replace_na(areas, "")
   areas
