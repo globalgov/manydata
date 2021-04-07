@@ -1,0 +1,61 @@
+---
+title: "Codebook for code_agreements"
+output:
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+The function creates a new column of qID based on information extracted from the treaty title column of a dataset. This allows to assign unique ID to treaties and should facilitate the analysis of multiple datasets and the detection of duplicates or treaties from the same family. The function works through different steps.
+
+### Step one - parties
+The first element extracted from the title is the state that is part to the treaty. The function `code_states()` from `qStates` is used. 
+
+**Example**
+
+```{r}
+library(qEnviron)
+NEW <- qEnviron::agreements$IEADB %>% 
+  dplyr::mutate(parties = qStates::code_states(qEnviron::agreements$IEADB$Title))
+NEW %>% dplyr::select(Title, parties) %>% head()
+
+```
+
+### Step two - unique number
+Each treaty contains a unique number in their qID which refer to the signature date. The number has therefore eight numbers that are under the YYYYMMDD format. 
+
+### Step three - type
+The function detects the type of treaty and assign a letter that will be included in the final ID. If the treaty is an agreement, the **A** will not appear. For all the others, like protocols, amendments, the assigned letter (respectively P, E, etc) appears in the qID. 
+For amendments or protocol, their number is also extracted from the title to be included in the qID.
+
+### Step four - topic
+Based on a list of key terms, the topics that are mentioned in the title will appear in the qID. 
+
+**Example**
+
+**Title** | **Topic**
+--- | ---
+Newfoundland Fisheries Convention | WAT
+Convention Relating To Fur Seals In Bering Sea | RES
+
+### Step five - linkage
+Treaties from the same family can be detected through this step. The YYYYMMDD number assigned to the "mother" treaty is used for all the other treaties deriving from it. 
+
+### Step six - areas
+If a treaty title mentions one specific region, the abbreviation of this region is integrated to the qID as well. 
+
+### Step seven - known agreements
+Some treaties already have known abbreviation (UNCLOS, UNFCCC, MARPOL, etc). The qID of these treaties contain their abbreviation instead of the areas and topic. 
+
+### Step eight - paste all elements together to form the qID
+
+**Type** | **Pasting** | **Pasting**
+--- | --- |--- 
+Bilateral | MEX-USA_WAT-19060521 | Parties_topic-number
+Bilateral + Protocol | CAN-USA_WAT-P1-19370728 | Parties_topic-type(number)-number
+Multilateral | SSA_SPE-20050205 | areas_topic_number
+Multi + Protocol | SSA_OTHA19920817-E2-20070817 | areas_topic,linkage - type(number)-number
+
+
+
