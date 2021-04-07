@@ -93,13 +93,18 @@ code_agreements <- function(title, date, dataset = NULL) {
 #' }
 #' @export
 code_parties <- function(x) {
-  
   parties <- qStates::code_states(x)
-  parties <- ifelse(stringr::str_detect(x, "European Community"), paste0(parties,"_EU"), parties)
   parties <- stringr::str_replace_all(parties, "_", "-")
   parties[!grepl("-", parties)] <- NA
+  # Some agreements are made between unions of countries and others,
+  # but are still considered bilateral. In these cases, abreeviations
+  # will have 2 letters instead of 3.
+  unions <- case_when(grepl("European Community", x, ignore.case = T) ~ "EC",
+                     grepl("European Union", x, ignore.case = T) ~ "EU",
+                     grepl("African Union", x, ignore.case = T) ~ "AU")
+  unions <- stringr::str_replace_na(unions, "O")
+  parties <- paste0(unions, "-", parties)
   parties
-  
 }
 
 #' Code Agreement Type
@@ -364,12 +369,9 @@ code_linkage <- function(x, date) {
 
 #' Code the Treaty Areas
 #'
-#' @param x
-#'
-#' @return
-#' @export
-#'
+#' @param x A character vector of treaty title
 #' @examples
+#' @export
 code_areas <- function(x){
   areas <- case_when(
     # Coding for region abbreviations
@@ -405,15 +407,11 @@ code_areas <- function(x){
   areas
 }
 
-#' Title
+#' Codebook for qID
 #'
-#' @return
+#' @return a help document with the codebook for qID
+#' codebook_agreements()
 #' @export
-#'
-#' @examples
-code_agree_doc <- function(){
-  knitr::knit("qData/code_agree.Rmd")
-  # qtemplate("code_agree.Rmd",
-  #           path = path,
-  #           open = FALSE)
+codebook_agreements <- function() {
+  rmarkdown::render("qData/inst/code_agreements_codebook.Rmd", params = "ask")
 }
