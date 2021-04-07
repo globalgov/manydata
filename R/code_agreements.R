@@ -44,7 +44,7 @@ code_agreements <- function(title, date, dataset = NULL) {
   #step five: give the observation a unique ID
   uID <- stringr::str_remove_all(date, "-")
   # Temporary solution for treaties without signature date
-  uID <- stringr::str_replace_na(uID, "99991231")
+  uID <- stringr::str_replace_na(uID, "")
   
   # uID <- stringr::str_remove_all(uID, "^[:digit:]{2}")
   # uID <- stringr::str_remove_all(uID, "[:digit:]{2}$")
@@ -95,6 +95,7 @@ code_agreements <- function(title, date, dataset = NULL) {
 code_parties <- function(x) {
   
   parties <- qStates::code_states(x)
+  parties <- ifelse(stringr::str_detect(x, "European Community"), paste0(parties,"_EU"), parties)
   parties <- stringr::str_replace_all(parties, "_", "-")
   parties[!grepl("-", parties)] <- NA
   parties
@@ -404,3 +405,15 @@ code_areas <- function(x){
   areas
 }
 
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
+code_agree_doc <- function(){
+  knitr::knit("qData/code_agree.Rmd")
+  # qtemplate("code_agree.Rmd",
+  #           path = path,
+  #           open = FALSE)
+}
