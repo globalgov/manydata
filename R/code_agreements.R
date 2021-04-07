@@ -59,9 +59,11 @@ code_agreements <- function(title, date, dataset = NULL) {
                 ifelse((is.na(parties) & (type == "A")), paste0(areas, topic, "-", uID),
                        (ifelse((is.na(parties) & (type != "A")), paste0(areas, topic, line, "-", type, "-", uID),
                                (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(areas, parties, "_", topic, "-", uID),
+                                       (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{2}-[:alpha:]{3}$"))), paste0(areas, parties, "_", topic, "-", uID),
                                        (ifelse((!is.na(parties) & (type == "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(areas, topic, "-", uID),
                                                (ifelse((!is.na(parties) & (type != "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(areas, parties, "_", topic, line, "-", type, "-", uID),
-                                                       (ifelse((!is.na(parties) & (type != "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(areas, topic, line, "-", type, "-", uID), NA))))))))))))
+                                                       (ifelse((!is.na(parties) & (type != "A") & (stringr::str_detect(parties, "^[:alpha:]{2}-[:alpha:]{3}$"))), paste0(areas, parties, "_", topic, line, "-", type, "-", uID),
+                                                               (ifelse((!is.na(parties) & (type != "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(areas, topic, line, "-", type, "-", uID), NA))))))))))))))))
   
   out <- stringr::str_replace_all(out, "NA_", NA_character_)
 
@@ -97,13 +99,13 @@ code_parties <- function(x) {
   parties <- stringr::str_replace_all(parties, "_", "-")
   parties[!grepl("-", parties)] <- NA
   # Some agreements are made between unions of countries and others,
-  # but are still considered bilateral. In these cases, abreeviations
+  # but are still considered bilateral. In these cases, abbreviations
   # will have 2 letters instead of 3.
   unions <- case_when(grepl("European Community", x, ignore.case = T) ~ "EC",
                      grepl("European Union", x, ignore.case = T) ~ "EU",
                      grepl("African Union", x, ignore.case = T) ~ "AU")
-  unions <- stringr::str_replace_na(unions, "O")
-  parties <- paste0(unions, "-", parties)
+  # unions <- stringr::str_replace_na(unions, "O")
+  parties <- ifelse(!is.na(unions), paste0(unions, "-", parties), parties)
   parties
 }
 
