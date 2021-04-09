@@ -4,10 +4,13 @@ output:
   pdf_document: default
 ---
 
-The function creates a new column of qID based on information extracted from the treaty title column of a dataset. This allows to assign unique ID to treaties and should facilitate the analysis of multiple datasets and the detection of duplicates or treaties from the same family. The function works through different steps.
+The function creates a new column of qID based on information extracted from the treaty title column of a dataset. This allows to assign unique ID to 
+treaties and should facilitate the analysis of multiple datasets and the detection of duplicates or treaties from the same family. The function works 
+through different steps.
 
 ### How to read a qID
-A qID is a meaningful shorthand ID created from a combination of elements extracted from the agreement title and date. The qID allows users to identify bilateral treaties, treaty topics, type, linkage and more. 
+A qID is a meaningful shorthand ID created from a combination of elements extracted from the agreement title and date. The qID allows users to identify 
+bilateral treaties, treaty topics, type, linkage and more. 
 
 **Type** | **Pasting** | **Pasting**
 --- | --- |--- 
@@ -25,7 +28,7 @@ Multilateral | SPE_20050205A | topic_uID, type
 Multilateral + Protocol | OTH_19920817E2_20070817 | topic_uID,type(number)_linkage
 
 A multilateral treaty that is an agreement will have the following qID: "SPE_20050205A" which indicates the topic (SPE), signature date of the agreement 
-(20050205), and the type (A). A multilateral treaty that is not an agreement will have this qID format: "OTH_19920817E2_20070817". This represents the topic 
+(20050205), and the type (A). A multilateral treaty that is not an agreement will have this qID format: "OTH_19920817E2_20070817". This represents the topic
 (OTH), the signature date of the amendment (19920817), the type (E), the number of amendment (2) with the linkage number (20070817) which is the signature 
 date of the "mother" treaty. 
 
@@ -100,4 +103,28 @@ other treaties deriving from it as the last digits in their qID.
 
 ### Known Agreements
 
-Some treaties already have known abbreviation (UNCLOS, UNFCCC, MARPOL, etc). The qID of these treaties contain their abbreviation instead of the topic.
+Some treaties already have known abbreviation. The qID of these treaties contain their abbreviation instead of the topic.
+
+**Example**
+
+**Know Agreements** | **Topic**
+--- | ---
+"United Nations Convention On The Law Of The Sea" | UNCLOS
+"Convention On Biological Diversity" | CBD
+"Convention On The Conservation Of Antarctic Marine Living Resources" | CCAMLR
+"Convention On International Trade In Endangered Species Of Wild Fauna And Flora" | CITES
+"International Convention On Civil Liability For Oil Pollution Damage" | CLC
+"Antarctic Mineral Resources Convention" | CRAMRA
+"Convention On The Protection And Use Of Transboundary Watercourses And International Lakes" | CECE
+"Convention On Long-Range Transboundary Air Pollution" | LRTAP
+"International Convention For The Prevention Of Pollution From Ships" | MARPOL
+"North American Agreement On Environmental Cooperation" | NAAEC
+"Constitutional Agreement Of The Latin American Organization For Fisheries Development" | OLDEPESCA
+"International Convention On Oil Pollution Preparedness, Response And Cooperation" | OPRC
+"Convention For The Protection Of The Marine Environment Of The North East Atlantic" | OSPAR
+"Paris Agreement Under The United Nations Framework Convention On Climate Change" | PARIS
+"Convention On The Prior Informed Consent Procedure For Certain Hazardous Chemicals And Pesticides In International Trade" | PIC
+"Convention On Wetlands Of International Importance Especially As Waterfowl Habitat" | RAMSA
+"Convention To Combat Desertification In Those Countries Experiencing Serious Drought And/Or Desertification, Particularly In Africa" | UNCCD
+"United Nations Framework Convention On Climate Change" | UNFCCC
+"Convention For The Protection Of The Ozone Layer" | VIENNA
