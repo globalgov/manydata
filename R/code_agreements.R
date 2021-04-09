@@ -44,7 +44,8 @@ code_agreements <- function(title, date, dataset = NULL) {
   #step five: give the observation a unique ID
   uID <- stringr::str_remove_all(date, "-")
   # Temporary solution for treaties without signature date
-  uID <- stringr::str_replace_na(uID, "")
+  # uID <- stringr::str_replace_na(uID, "")
+  uID[is.na(uID)] <- paste0("9999", sample(1000:9999, sum(is.na(uID)), replace = TRUE))
   
   # uID <- stringr::str_remove_all(uID, "^[:digit:]{2}")
   # uID <- stringr::str_remove_all(uID, "[:digit:]{2}$")
@@ -368,6 +369,9 @@ code_linkage <- function(x, date) {
   
   line <- stringr::str_remove_all(line, "^1$")
   
+  # Some protocols/amendments have an empty line because the "mother" treaty is not in the dataset
+  # Could be replaced by a number indicating the missing linkage? like "00000000"?
+  # line <- stringr::str_replace_all(line, "^$", "00000000")
   line
   
 }  
