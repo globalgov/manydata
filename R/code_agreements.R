@@ -80,6 +80,8 @@ code_agreements <- function(title, date, dataset = NULL) {
     cbind(dataset, qID) 
   }
   
+  codebook_agreements()
+  
   qID 
 
 }
@@ -413,7 +415,7 @@ code_areas <- function(x){
 
 #' Codebook for qID
 #'
-#' @return a help document with the codebook for qID
+#' @return a help document with the codebook for qID in the viewer pane
 #' codebook_agreements()
 #' @export
 codebook_agreements <- function() {
