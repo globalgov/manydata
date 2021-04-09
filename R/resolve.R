@@ -284,6 +284,6 @@ resolve_dates <- function(var, resolve = NULL) {
   }
 
   dates <- unlist(dates, use.names = FALSE)
-  dates <- lubridate::as_date(dates)
+  dates <-lubridate::ymd(lubridate::as_date(dates))
   dates
 }
