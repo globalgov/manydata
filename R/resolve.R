@@ -1,8 +1,8 @@
-#' Resolve ambiguous variables according to preffered output 
+#' Resolve ambiguous variables according to preferred output 
 #' 
 #' @description The resolve family of function resolves various ambiguous data formats
 #' according to user preferences.For date ranges the function resolves internal ranges
-#' according to preffered output before moving into resolving across datasets in a database.
+#' according to preferred output before moving into resolving across datasets in a database.
 #' @name resolve
 #' @param var Variable to be resolved
 #' @param resolve How do you want date ranges to be solved?
@@ -14,11 +14,7 @@ NULL
 #' @export
 resolve_min <- function(var){
   
-  var <- ifelse(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), resolve_dates(var, "min"), var) 
-  
-  if(lubridate::is.Date(var)) {
-    var <- as.character(var)
-  }
+  var <- dplyr::if_else(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), as.character(resolve_dates(var, "min")), as.character(var)) 
     
   unlist(purrr::map(var, function(x) min(x)))
 }
@@ -26,14 +22,10 @@ resolve_min <- function(var){
 #' @rdname resolve
 #' @importFrom purrr map
 #' @example resolve_max(qStates::states$COW$End)
-#' @export
+#' @export 
 resolve_max <- function(var){
   
-  var <- ifelse(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), resolve_dates(var, "max"), var) 
-  
-  if(lubridate::is.Date(var)) {
-    var <- as.character(var)
-  }
+  var <- dplyr::if_else(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), as.character(resolve_dates(var, "max")), as.character(var)) 
   
   unlist(purrr::map(var, function(x) max(x)))
 }
@@ -44,11 +36,8 @@ resolve_max <- function(var){
 #' @export
 resolve_mean <- function(var) {
   
-  var <- ifelse(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), resolve_dates(var, "mean"), var) 
+  var <- dplyr::if_else(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), as.character(resolve_dates(var, "mean")), as.character(var)) 
   
-  if(lubridate::is.Date(var)) {
-    var <- as.character(var)
-  }
   
   if(is.character(var[[1]])) {
     resolve_median(var)
@@ -63,11 +52,7 @@ resolve_mean <- function(var) {
 #' @export
 resolve_median <- function(var){
   
-  var <- ifelse(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), resolve_dates(var), var) 
-  
-  if(lubridate::is.Date(var)) {
-    var <- as.character(var)
-  }
+  var <- dplyr::if_else(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), as.character(resolve_dates(var)), as.character(var)) 
   
   unlist(purrr::map(var, function(x){
     if(length(x)==1){
@@ -88,7 +73,7 @@ resolve_median <- function(var){
 #' @export
 resolve_mode <- function(var){
   
-  var <- ifelse(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), resolve_dates(var), var) 
+  var <- dplyr::if_else(stringr::str_detect(var, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$"), as.character(resolve_dates(var)), as.character(var))
   
   if(lubridate::is.Date(var)) {
     var <- as.character(var)
@@ -125,12 +110,12 @@ resolve_dates <- function(var, resolve = NULL) {
   if(missing(resolve)) {
     resolve = "mean"
   }
-  
+
   dates <- unlist(var)
   
   min_date <- function(x) {
     dates <- lapply(x, function(d) {
-      splitd <- stringr::str_split(d, ":") [[1]]
+      splitd <- stringr::str_split(d, ":")[[1]]
       mindate <- paste0(splitd[[1]][1])
       dates <- mindate
       dates
@@ -189,10 +174,14 @@ resolve_dates <- function(var, resolve = NULL) {
       m2 <- paste0(s2[[1]][2])
       d2 <- paste0(s2[[1]][3])
       if(m1 == m2 & y1 == y2) {
+        if(is.na(d)){
+          meandate <- NA #Did this small tweak to deal with some of the NA related warnings, replicate this for the other functions
+        } else {
         meanday <- (as.numeric(d1) + as.numeric(d2))/2
         meanday <- as.character(meanday)
         meandate <- ifelse(stringr::str_detect(meanday, "^[:digit:]{2}.[:digit:]{1}$"), paste0(stringr::str_split(meanday, "\\.")[[1]][1]), meanday) 
         meandate  <- paste0(y1, "-", m1, "-", meandate)
+        }
       } else if(m1 != m2 & y1 == y2) {
         meandate <- paste0(y1, "-07-02") #July 2nd is the middle of a regular year
       } else if(y1 != y2) {
@@ -284,6 +273,6 @@ resolve_dates <- function(var, resolve = NULL) {
   }
 
   dates <- unlist(dates, use.names = FALSE)
-  dates <-lubridate::ymd(lubridate::as_date(dates))
+  dates <- anytime::anydate(dates) # Solution: put a suppresswarnings here, or use anytime, lubridate spits out lots of warnings when dealing with NA's
   dates
 }
