@@ -4,9 +4,6 @@ output:
   pdf_document: default
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-```
 The function creates a new column of qID based on information extracted from the treaty title column of a dataset. This allows to assign unique ID to treaties and should facilitate the analysis of multiple datasets and the detection of duplicates or treaties from the same family. The function works through different steps.
 
 ### How to read a qID
@@ -21,53 +18,84 @@ Multi + Protocol | OTH_19920817E2_20070817 | topic_uID,type(number)_linkage
 Known treaties | 	UNCLOS_19821210 | abbreviation_uID
 Protocol of known treaties | MARPOL_19731102_19900316E | abbreviation_linkage_uID,type(number)
 
-A bilateral treaty that is an agreement will have the following qID: "WAT_19060521A_MEX-USA". This is a combination of the topic (WAT) and date (19060521) with the type(A) and the parties to agreement (MEX-USA). A bilateral treaty that is any other type than an agreement (e.g. protocol, amendments) will have the qID under this format: "WAT_18840921E3_BAD-CHE_18830703". The topic (WAT), the date of signature of the amendment (18840921), the type (E) which refers to amendment, the number of amendment (3), the parties (BAD-CHE) and finally the signature date of the "mother" treaty (18830703) are all pasted together.
-A multilateral treaty that is an agreement will have the following qID: "SPE_20050205A" which indicates the topic (SPE), signature date of the agreement (20050205), and the type (A). A multilateral treaty that is not an agreement will have this qID form: "OTH_19920817E2_20070817". This represents the topic (OTH), the signature date of the amendment (19920817), the type (E), the number of amendment (2) with the linkage number (20070817) which is the signature date of the "mother" treaty. 
-The known treaties have simplified qID, as the topic and parties are not mentioned. For example, the United Nations Convention On The Law Of The Sea will have the following qID: "UNCLOC_19821210A" which is the known abbreviation (UNCLOS), the signature date (19821210) with the type (A). The protocols or amendments of the known treaties will have this qID: "MARPOL_19890317E2_19731102". It indicates the known abbreviation (MARPOL), the signature date of this specific amendment (19890317), the type of treaty (E), its number (2) and the signature date of the "mother" treaty (19731102).
+A bilateral treaty that is an agreement will have the following qID: "WAT_19060521A_MEX-USA". This is a combination of the topic (WAT) and date (19060521) 
+with the type(A) and the parties to agreement (MEX-USA). A bilateral treaty that is any other type than an agreement (e.g. protocol, amendments) will have 
+the qID under this format: "WAT_18840921E3_BAD-CHE_18830703". The topic (WAT), the date of signature of the amendment (18840921), the type (E) which refers 
+to amendment, the number of amendment (3), the parties (BAD-CHE) and finally the signature date of the "mother" treaty (18830703).
 
-There are also several steps to how the code_agreements() function work. Each step relies on a helper function to extract certain elements that later will be joined together. Each of the functions used for the steps can also be used as a standalone function to generate certain types of information. For more information on the code_agreements functions and the helper functions, please also run `?code_agreements()`. 
+**Type** | **Pasting** | **Pasting**
+--- | --- |--- 
+Multilateral | SPE_20050205A | topic_uID, type
+Multi + Protocol | OTH_19920817E2_20070817 | topic_uID,type(number)_linkage
 
-### Step one - parties
-The first element extracted from the title is the state that is part to the treaty. The function `code_states()` from `qStates` is used. 
+A multilateral treaty that is an agreement will have the following qID: "SPE_20050205A" which indicates the topic (SPE), signature date of the agreement 
+(20050205), and the type (A). A multilateral treaty that is not an agreement will have this qID form: "OTH_19920817E2_20070817". This represents the topic 
+(OTH), the signature date of the amendment (19920817), the type (E), the number of amendment (2) with the linkage number (20070817) which is the signature 
+date of the "mother" treaty. 
 
-**Example**
+**Type** | **Pasting** | **Pasting**
+--- | --- |--- 
+Known treaties | 	UNCLOS_19821210 | abbreviation_uID
+Protocol of known treaties | MARPOL_19731102_19900316E | abbreviation_linkage_uID,type(number)
 
-```{r}
-library(qEnviron)
-NEW <- qEnviron::agreements$IEADB %>% 
-  dplyr::mutate(parties = qStates::code_states(qEnviron::agreements$IEADB$Title))
-NEW %>% dplyr::select(Title, parties) %>% head()
+Famous multilateral treaties have a simplified qID with an knowm abbreviation instead of the topic. For example, the United Nations Convention On The Law Of
+The Sea will have the following qID: "UNCLOC_19821210A" which is the known abbreviation (UNCLOS), the signature date (19821210) with the type (A). The 
+protocols or amendments of the known treaties will have this qID: "MARPOL_19890317E2_19731102". It indicates the known abbreviation (MARPOL), the signature 
+date of this specific amendment (19890317), the type of treaty (E), its number (2) and the signature date of the "mother" treaty (19731102).
 
-```
+There are also several steps to how the code_agreements() function work. Each step relies on a helper function to extract certain elements that later will 
+be joined together to form a qID. Each of the functions can also be used as a standalone function to generate certain types of information. For more 
+information on the code_agreements functions and the helper functions, please also run `?code_agreements()`. 
 
-### Step two - unique number (uID)
+### Codebook
+
+A more detailed description of how each portion of a qID is coded. 
+
+### Parties
+
+The first element extracted from the title is the state that is part to the treaty. The function `code_states()` from `qStates` is used. It returns 3 digit ISO codes for states.
+
+### Unique number (uID)
+
 Each treaty contains a unique number in their qID which refer to the signature date. The number has therefore eight numbers that are under the YYYYMMDD format and is called uID. 
 
-### Step three - type
-The function detects the type of treaty and assign a letter that will be included in the final ID. If the treaty is an agreement, the **A** will not appear. For all the others, like protocols, amendments, the assigned letter (respectively P, E, etc) appears in the qID. 
-For amendments or protocol, their number is also extracted from the title to be included in the qID.
+### Type
 
-### Step four - topic
-Based on a list of key terms, the topics that are mentioned in the title will appear in the qID. 
+The function detects the type of treaty and assign a letter that will be included in the final ID. If the treaty is an agreement, the **A** will not appear. 
+For all the others, like protocols, amendments, the assigned letter (respectively P, E, etc) appears in the qID. 
+For amendments or protocol, their ordering number is also extracted from the title to be included in the qID.
+
+### Topic
+
+Based on a list of key terms, the topics that are mentioned in the title will appear in the qID. Some of the topics covered are 
 
 **Example**
 
-**Title** | **Topic**
+**Words** | **Topic**
 --- | ---
-Newfoundland Fisheries Convention | WAT
-Convention Relating To Fur Seals In Bering Sea | RES
+Waste,disposal,pollut, toxic, hazard | WAS
+species,habitat,ecosystems,biological diversity,genetic resources,biosphere,birds,locusts | SPE
+air,atmos,climate,outer space,ozone,emissions | AIR
+water,freshwater,river,rhine,hydro,basin,drought,ocean,shelf,Atlantic,Lake | WAT
+Soil,Wetland,Desert,Erosion,Land,Archipelago | SOI
+nature,environment,biodiversity,flora,plant,fruit,vegetable,seed,forest,tree,conservation,preservation | BIO
+fish,salmon,herring,tuna,aquaculture,mariculture,molluscs,whaling | FIS
+agricultur,food,livestock,crop,irrigation,cattle,meat,farm,cultivate | AGR
+culture,scien,techno,trade,research,exploration,navigation,data,information | BOT
+energy,nuclear,oil,mining,gas,hydro,power | NUC
+accidents | ACC
+chemicals, pesticides,toxin,Lead | CHE
+climate | CLC
+noise | NOI
+disease,diseases | DIS
+resource,resources,timber,antartic,fur,Ivory,Horn | RES
 
-### Step five - linkage
-Treaties from the same family can be detected through this step. The YYYYMMDD number assigned to the "mother" treaty is used for all the other treaties deriving from it. 
+### Linkages between Agreements
 
-### Step six - areas
-If a treaty title mentions one specific region, the abbreviation of this region is integrated to the qID as well. 
+Treaties from the same family can be detected through by removing predicatble words that are added to treaty titles (e.g. amendment, protocol, meeting) and 
+identifying duplicates based on the core words used to refer to main agreement. The YYYYMMDD number assigned to the "mother" treaty is used for all the 
+other treaties deriving from it as the last digits in their qID.
 
-### Step seven - known agreements
-Some treaties already have known abbreviation (UNCLOS, UNFCCC, MARPOL, etc). The qID of these treaties contain their abbreviation instead of the areas and topic. 
+### Known Agreements
 
-### Step eight - paste all elements together to form the qID
-All the elements are then pasted all together following the coding scheme described in the "How to read a qID" part. 
-
-
-
+Some treaties already have known abbreviation (UNCLOS, UNFCCC, MARPOL, etc). The qID of these treaties contain their abbreviation instead of the topic.

@@ -223,7 +223,6 @@ code_known_agreements <- function(x){
   
 }
 
-
 #' Code Agreement Topic
 #'
 #' Identify the main environmental issue the treaty is tackling.
