@@ -1,0 +1,123 @@
+---
+title: "Agreements"
+author: "James Hollway"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Outlining the problem
+
+One of the central problems in ensembled data packages is 
+setting equivalences between observations from different datasets.
+This is a central problem because it is what enables us to _relate_ datasets
+to one another.
+
+What is required is some classificatory scheme so that same is recognised as same
+and different observations are recognised as different.
+In many cases, it is useful to have some kind of registry of unique units
+that existing and, importantly, new data can be read against.
+
+There are several important features of such a registry that,
+while not _required_ are certainly very helpful:
+
+1. **Authoritative**: the registry should be a singular source
+1. **Comprehensivity**: the registry should ideally cover all possible units
+1. **Succinct**: the registry codes should be as short as possible
+1. **Intelligible**: the registry codes should be as meaningful for humans as possible
+
+For some databases, unique identifiers are not too much of a problem because
+there exists a relatively comprehensive, authoritative, succinct, and intelligible registry.
+An example of this is the central `states` database in the `{qStates}` package.
+Here we can rely on ISO-3166 alpha-3 codes for most modern states,
+complementing them with COW or other codes for more historical states.
+This combined registry is made available through the `qStates::code_states()` function.
+
+But we are not aware comprehensive, authoritative, succinct, and intelligible registry of treaties.
+To solve this problem, we need to think both about how observations might be coded
+and what this codes might represent.
+
+## Setting up the problem
+
+To test different solutions to the problem, 
+we construct a sample of treaty titles from three different datasets in the `qEnviron::agreements` database.
+Let's take only titles of treaties established in a particular decade, the 1980s, 
+so that we can increase the probability of matches. 
+
+```{r data}
+library(qData)
+titles <- lapply(qEnviron::agreements, function(x) x[x$Beg > "1980-01-01" & x$Beg < "1990-01-01", ])
+titles <- unlist(purrr::map(titles, "Title"))
+titles <- na.omit(titles)
+titles <- sample(titles, 100)
+titles <- titles[order(titles)]
+titles
+```
+
+## Options for solutions
+
+### Everything unique
+
+First we could simply offer a unique code for each title.
+Obviously this errs on the side of false negatives for many titles
+that are quite obviously (for humans) equivalent.
+
+### Strict match
+
+Here we only consider equivalent those titles that are exactly the same as one another.
+
+```{r}
+anyDuplicated(titles)
+```
+
+Note that this is probably boosted by our use of `qData::standardise_titles()` in qPackages,
+but misses a number of more problematic cases.
+For example a "Treaty Of..." and "Treaty For..." would be considered distinct,
+as would "Antarctic Treaty" and "Antarctic Treaty 1959",
+even though they ought to be rendered equivalent.
+
+### Fuzzy match
+
+Fuzzy matching relies on...
+
+```{r}
+stringdist::seq_dist(titles)
+```
+
+There are some important disadvantages here, however:
+
+1. is computationally expensive/takes a long time
+1. errs on the side of false positives
+
+### Identifying information extraction
+
+Another option is to extract identifying information from the titles,
+rendering as equivalent any titles that have the same identifying information.
+
+The key question here is which information to extract from the titles.
+It needs to be enough information to render as distinct those titles that are indeed distinct,
+but that ignores both less salient information (e.g. "Of" versus "For")
+and addenda (e.g. the year at the end of the treaty title).
+
+The less information we require for a match, the higher the false positive rate,
+and the more information we require, the higher the false negative rate.
+
+Using our current version of `{qData}` we obtain:
+
+```{r}
+qData::code_agreements(titles, ??)
+
+```
+
+
+
