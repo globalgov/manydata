@@ -6,7 +6,7 @@
 #' @param title title column variable
 #' @param date date column variable
 #' @param dataset name of the dataset
-#' @example
+#' @examples
 #' \dontrun{
 #' IEADB$qID <- code_agreements(IEADB$Title, IEADB$Signature)
 #' }
@@ -93,7 +93,7 @@ code_agreements <- function(title, date, dataset = NULL) {
 #' @param x A character vector of treaty titles
 #' @importFrom qStates code_states
 #' @return A character vector of parties that are mentioned in the treaty title
-#' @example
+#' @examples
 #' \dontrun{
 #' IEADB$Countries <- code_parties(IEADB$Title)
 #' }
@@ -230,7 +230,7 @@ code_known_agreements <- function(x){
 #' @param x A character vector of treaty title
 #' @importFrom stringr str_replace_na
 #' @return A character vector of the treaty topic abbreviation.
-#' @example 
+#' @examples
 #' \dontrun{
 #' IEADB$Type <- code_topic(IEADB$Title)
 #' }
@@ -268,7 +268,7 @@ code_topic <- function(x) {
 #' @import english
 #' @import stringr
 #' @import dplyr
-#' @example 
+#' @examples
 #' \dontrun{
 #' IEADB$Type <- code_linkage(IEADB$Title)
 #' }
@@ -379,7 +379,6 @@ code_linkage <- function(x, date) {
 #' Code the Treaty Areas
 #'
 #' @param x A character vector of treaty title
-#' @examples
 #' @export
 code_areas <- function(x){
   areas <- case_when(

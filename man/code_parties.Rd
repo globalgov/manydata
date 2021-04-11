@@ -15,3 +15,8 @@ A character vector of parties that are mentioned in the treaty title
 \description{
 Identify the countries that are part of the agreement.
 }
+\examples{
+\dontrun{
+IEADB$Countries <- code_parties(IEADB$Title)
+}
+}

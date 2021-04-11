@@ -18,3 +18,8 @@ Creates an ID column that contains information on the
 parties, the topic, the date and the relations to other
 agreements in the dataset.
 }
+\examples{
+\dontrun{
+IEADB$qID <- code_agreements(IEADB$Title, IEADB$Signature)
+}
+}

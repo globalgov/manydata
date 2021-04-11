@@ -15,3 +15,8 @@ A character vector of the treaty topic abbreviation.
 \description{
 Identify the main environmental issue the treaty is tackling.
 }
+\examples{
+\dontrun{
+IEADB$Type <- code_topic(IEADB$Title)
+}
+}

@@ -12,3 +12,8 @@ code_linkage(x, date)
 \description{
 Code Agreement Lineage
 }
+\examples{
+\dontrun{
+IEADB$Type <- code_linkage(IEADB$Title)
+}
+}
