@@ -17,6 +17,6 @@ Identify the type of the international agreement.
 }
 \examples{
 \dontrun{
-IEADB$Type <- code_type(IEADB$Title)
+IEADB$type <- code_type(IEADB$Title)
 }
 }

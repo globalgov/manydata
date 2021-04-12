@@ -89,7 +89,7 @@ code_agreements <- function(title, date, dataset = NULL) {
 #' @return A character vector of parties that are mentioned in the treaty title
 #' @examples
 #' \dontrun{
-#' IEADB$Countries <- code_parties(IEADB$Title)
+#' IEADB$parties <- code_parties(IEADB$Title)
 #' }
 #' @export
 code_parties <- function(x) {
@@ -115,7 +115,7 @@ code_parties <- function(x) {
 #' @importFrom stringr str_replace_na
 #' @examples
 #' \dontrun{
-#' IEADB$Type <- code_type(IEADB$Title)
+#' IEADB$type <- code_type(IEADB$Title)
 #' }
 #' @export
 code_type <- function(x) {
@@ -183,7 +183,14 @@ code_type <- function(x) {
   # What happens when multiple types are detected in title?
 }
 
-
+#' Cretes Unique ID numbers from dates
+#'
+#' @param x A date variable
+#' @return A character vector with condensed dates
+#' \dontrun{
+#' IEADB$uID <- code_dates(IEADB$dates)
+#' }
+#' @export
 code_dates <- function(x) {
 
   uID <- stringr::str_remove_all(x, "-")
@@ -197,6 +204,9 @@ code_dates <- function(x) {
 #'
 #' @param x A character vector of treaty title
 #' @return A character vector with abbreviation of known treaties
+#' \dontrun{
+#' IEADB$abrevv <- code_known_agreements(IEADB$titles)
+#' }
 #' @export
 code_known_agreements <- function(x){
   
@@ -235,7 +245,7 @@ code_known_agreements <- function(x){
 #' @return A character vector of the treaty topic abbreviation.
 #' @examples
 #' \dontrun{
-#' IEADB$Type <- code_topic(IEADB$Title)
+#' IEADB$topic <- code_topic(IEADB$Title)
 #' }
 #' @export
 code_topic <- function(x) {
@@ -267,6 +277,11 @@ code_topic <- function(x) {
 #' Code the Treaty Areas
 #'
 #' @param x A character vector of treaty title
+#' @return A character vector of the treaty area
+#' @examples
+#' \dontrun{
+#' IEADB$area <- Code_areas(IEADB$Title)
+#' }
 #' @export
 code_areas <- function(x){
   areas <- case_when(
@@ -305,13 +320,14 @@ code_areas <- function(x){
 #' Code Agreement Lineage
 #'
 #' @param x A character vector of treaty title
+#' @param date A date variable
 #' @import textclean
 #' @import english
 #' @import stringr
 #' @import dplyr
 #' @examples
 #' \dontrun{
-#' IEADB$Type <- code_linkage(IEADB$Title)
+#' IEADB$line <- code_linkage(IEADB$Title)
 #' }
 #' @export
 code_linkage <- function(x, date) {

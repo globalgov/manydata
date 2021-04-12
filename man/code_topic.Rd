@@ -17,6 +17,6 @@ Identify the main environmental issue the treaty is tackling.
 }
 \examples{
 \dontrun{
-IEADB$Type <- code_topic(IEADB$Title)
+IEADB$topic <- code_topic(IEADB$Title)
 }
 }

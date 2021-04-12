@@ -2,6 +2,7 @@
 
 export(code_agreements)
 export(code_areas)
+export(code_dates)
 export(code_known_agreements)
 export(code_linkage)
 export(code_parties)

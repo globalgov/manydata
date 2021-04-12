@@ -17,6 +17,6 @@ Identify the countries that are part of the agreement.
 }
 \examples{
 \dontrun{
-IEADB$Countries <- code_parties(IEADB$Title)
+IEADB$parties <- code_parties(IEADB$Title)
 }
 }

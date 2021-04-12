@@ -8,12 +8,14 @@ code_linkage(x, date)
 }
 \arguments{
 \item{x}{A character vector of treaty title}
+
+\item{date}{A date variable}
 }
 \description{
 Code Agreement Lineage
 }
 \examples{
 \dontrun{
-IEADB$Type <- code_linkage(IEADB$Title)
+IEADB$line <- code_linkage(IEADB$Title)
 }
 }

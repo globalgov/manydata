@@ -11,6 +11,9 @@ code_known_agreements(x)
 }
 \value{
 A character vector with abbreviation of known treaties
+\dontrun{
+IEADB$abrevv <- code_known_agreements(IEADB$titles)
+}
 }
 \description{
 Known agreements abbreviation

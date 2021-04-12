@@ -9,6 +9,14 @@ code_areas(x)
 \arguments{
 \item{x}{A character vector of treaty title}
 }
+\value{
+A character vector of the treaty area
+}
 \description{
 Code the Treaty Areas
+}
+\examples{
+\dontrun{
+IEADB$area <- Code_areas(IEADB$Title)
+}
 }
