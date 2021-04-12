@@ -9,11 +9,13 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-The function creates a new column of qID based on information extracted from the treaty title column of a dataset. This allows to assign unique ID to 
-treaties and should facilitate the analysis of multiple datasets and the detection of duplicates or treaties from the same family. The function works 
-through different steps.
+## Agreements Codebook
+
+The `code_agreements()` function creates a unique qID based on information extracted from a title column of a dataset. This facilitates the analysis of 
+multiple datasets and the detection of treaties from the same family.
 
 ### How to read a qID
+
 A qID is a meaningful shorthand ID created from a combination of elements extracted from the agreement title and date. The qID allows users to identify 
 bilateral treaties, treaty topics, type, linkage and more. 
 

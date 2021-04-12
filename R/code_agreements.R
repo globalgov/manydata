@@ -6,6 +6,8 @@
 #' @param title title column variable
 #' @param date date column variable
 #' @param dataset name of the dataset
+#' @import usethis ui_done
+#' @import stringr 
 #' @examples
 #' \dontrun{
 #' IEADB$qID <- code_agreements(IEADB$Title, IEADB$Signature)
@@ -25,30 +27,25 @@ code_agreements <- function(title, date, dataset = NULL) {
   # Eventually this will connect to a centralized GitHub repo or SQL file for 
   # smarter, interactive and more consistent coding of agreement titles. 
   
-  # Possible additional step: add areas abbreviation
-  # areas <- code_areas(qID)
-  
-  
   # Step two: code parties if present
   parties <- code_parties(qID)
   
-  # Step three: code agreement topic
+  # Step three: code agreement topic and area
   # Categories and key words still need some adjustements
+  # This does not appear on qID but information is extracted for
+  #future usage
   topic <- code_topic(qID)
+  area <- code_areas(qID)
   
   # Step four: code agreement type 
-  # Categories and key words still need some adjustments
+  # For known agreements abbreviations are assigned
   type <- code_type(qID)
   abbrev <- code_known_agreements(qID)
   
   #step five: give the observation a unique ID
   uID <- stringr::str_remove_all(date, "-")
   # Temporary solution for treaties without signature date
-  # uID <- stringr::str_replace_na(uID, "")
   uID[is.na(uID)] <- paste0("9999", sample(1000:9999, sum(is.na(uID)), replace = TRUE))
-  
-  # uID <- stringr::str_remove_all(uID, "^[:digit:]{2}")
-  # uID <- stringr::str_remove_all(uID, "[:digit:]{2}$")
   
   # step six: detect treaties from the same 'family'
   line <- code_linkage(qID, date)
@@ -58,14 +55,14 @@ code_agreements <- function(title, date, dataset = NULL) {
   # would need to be adapted for declarations, minutes, etc
   out <- ifelse((!is.na(abbrev) & (type == "A")), paste0(abbrev, "_", uID, type),
                 (ifelse((!is.na(abbrev) & (type != "A")), paste0(abbrev, "_", uID, type, "_", line),
-                        (ifelse((is.na(parties) & (type == "A")), paste0(topic, "_", uID, type),
-                                (ifelse((is.na(parties) & (type != "A")), paste0(topic, "_" ,uID, type,"_", line),
-                                        (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(topic, "_", uID, type, "_", parties),
-                                                (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{2}-[:alpha:]{3}$"))), paste0(topic, "_", uID, type, "_", parties),
+                        (ifelse((is.na(parties) & (type == "A")), paste0(uID, type),
+                                (ifelse((is.na(parties) & (type != "A")), paste0(uID, type,"_", line),
+                                        (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(uID, type, "_", parties),
+                                                (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{2}-[:alpha:]{3}$"))), paste0(uID, type, "_", parties),
                                                         (ifelse((!is.na(parties) & (type == "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(topic, "_", uID, type),
-                                                                (ifelse((!is.na(parties) & (type != "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(topic, "_", uID, type, "_", parties, "_", line),
-                                                                        (ifelse((!is.na(parties) & (type != "A") & (stringr::str_detect(parties, "^[:alpha:]{2}-[:alpha:]{3}$"))), paste0(topic, "_", uID, type, "_", parties, "_", line),
-                                                                                (ifelse((!is.na(parties) & (type != "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(topic, "_", uID, type, "_", line), NA)))))))))))))))))))
+                                                                (ifelse((!is.na(parties) & (type != "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(uID, type, "_", parties, "_", line),
+                                                                        (ifelse((!is.na(parties) & (type != "A") & (stringr::str_detect(parties, "^[:alpha:]{2}-[:alpha:]{3}$"))), paste0(uID, type, "_", parties, "_", line),
+                                                                                (ifelse((!is.na(parties) & (type != "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(uID, type, "_", line), NA)))))))))))))))))))
   
   out <- stringr::str_replace_all(out, "NA_", NA_character_)
 
@@ -75,15 +72,14 @@ code_agreements <- function(title, date, dataset = NULL) {
   
   qID <- out
   
-  # Step eight: add new qID column to data
-  
+  # Step eight: add new qID column to data if dataset argument is provided
   if(is.null(dataset) == FALSE) {
     cbind(dataset, qID) 
   }
   
-  codebook_agreements()
-  
   qID 
+  
+  usethis::ui_done("Please run `vignette('agreements_codebook')` for more information on qIDs.")
 
 }
 
@@ -261,6 +257,44 @@ code_topic <- function(x) {
   topic
 }
 
+#' Code the Treaty Areas
+#'
+#' @param x A character vector of treaty title
+#' @export
+code_areas <- function(x){
+  areas <- case_when(
+    # Coding for region abbreviations
+    grepl("Central America|Caribbean", x, ignore.case = T) ~ "CAM_",
+    grepl("Latin America| South America", x, ignore.case = T) ~ "LA_",
+    # grepl("North America", x, ignore.case = F) ~ "NA_",
+    grepl("Near East|Middle East| Middle East and North Africa", x, ignore.case = T) ~ "MEA_",
+    grepl("Oceania", x, ignore.case = T) ~ "OCE_",
+    grepl("Eastern and Central Europe|European|Western Europe", x, ignore.case = T) ~ "WEU_",
+    grepl("East Africa|Eastern Africa|Sub-Saharan Africa|Central Africa|Southern Africa", x, ignore.case = T) ~ "SSA_",
+    grepl("Southern Hemisphere|South Hemisphere", x, ignore.case = T) ~ "SH_",
+    grepl("Southeastern Asia|South Asia", x, ignore.case = T) ~ "SEA_",
+    grepl("Central Asia", x, ignore.case = T) ~ "CAS_",
+    grepl("asia pacific|asian pacific", x, ignore.case = T) ~ "AP_",
+    grepl("Pacific Island", x, ignore.case = T) ~ "PI_",
+    grepl("Antarctic", x, ignore.case = T) ~ "ANT_",
+    grepl("Arctic", x, ignore.case = T) ~ "ARC_",
+    # Coding for ocean abbreviations
+    # grepl("Northwest Atlantic|Northeast Atlantic|North Atlantic", x, ignore.case = T) ~ "ONA_",
+    grepl("Southeast Atlantic|South East Atlantic|South Atlantic|African Atlantic", x, ignore.case = T) ~ "OSA_",
+    grepl("Eastern Pacific|Northeast Pacific|Western Central Pacific", x, ignore.case = T) ~ "OPAC_",
+    grepl("South Pacific|Southern Pacific", x, ignore.case = T) ~ "OSP_",
+  )
+  
+  # areas <- ifelse(stringr::str_detect(x, "Central America|Caribbean"), "CAM_",
+  #                 ifelse(stringr::str_detect(x, "Northwest Atlantic|Northeast Atlantic|North Atlantic"), "ONA_",
+  #                        ifelse(stringr::str_detect(x, "Southeast Atlantic|South East Atlantic|South Atlantic|African Atlantic"), "OSA_",
+  #                               ifelse(stringr::str_detect(x, "Atlantic"), "OA_",NA))))
+  #
+  
+  areas <- stringr::str_replace_na(areas, "")
+  areas
+}
+
 #' Code Agreement Lineage
 #'
 #' @param x A character vector of treaty title
@@ -375,51 +409,3 @@ code_linkage <- function(x, date) {
   line
   
 }  
-
-#' Code the Treaty Areas
-#'
-#' @param x A character vector of treaty title
-#' @export
-code_areas <- function(x){
-  areas <- case_when(
-    # Coding for region abbreviations
-    grepl("Central America|Caribbean", x, ignore.case = T) ~ "CAM_",
-    grepl("Latin America| South America", x, ignore.case = T) ~ "LA_",
-    # grepl("North America", x, ignore.case = F) ~ "NA_",
-    grepl("Near East|Middle East| Middle East and North Africa", x, ignore.case = T) ~ "MEA_",
-    grepl("Oceania", x, ignore.case = T) ~ "OCE_",
-    grepl("Eastern and Central Europe|European|Western Europe", x, ignore.case = T) ~ "WEU_",
-    grepl("East Africa|Eastern Africa|Sub-Saharan Africa|Central Africa|Southern Africa", x, ignore.case = T) ~ "SSA_",
-    grepl("Southern Hemisphere|South Hemisphere", x, ignore.case = T) ~ "SH_",
-    grepl("Southeastern Asia|South Asia", x, ignore.case = T) ~ "SEA_",
-    grepl("Central Asia", x, ignore.case = T) ~ "CAS_",
-    grepl("asia pacific|asian pacific", x, ignore.case = T) ~ "AP_",
-    grepl("Pacific Island", x, ignore.case = T) ~ "PI_",
-    grepl("Antarctic", x, ignore.case = T) ~ "ANT_",
-    grepl("Arctic", x, ignore.case = T) ~ "ARC_",
-    # Coding for ocean abbreviations
-    # grepl("Northwest Atlantic|Northeast Atlantic|North Atlantic", x, ignore.case = T) ~ "ONA_",
-    grepl("Southeast Atlantic|South East Atlantic|South Atlantic|African Atlantic", x, ignore.case = T) ~ "OSA_",
-    grepl("Eastern Pacific|Northeast Pacific|Western Central Pacific", x, ignore.case = T) ~ "OPAC_",
-    grepl("South Pacific|Southern Pacific", x, ignore.case = T) ~ "OSP_",
-  )
-
-
-  # areas <- ifelse(stringr::str_detect(x, "Central America|Caribbean"), "CAM_",
-  #                 ifelse(stringr::str_detect(x, "Northwest Atlantic|Northeast Atlantic|North Atlantic"), "ONA_",
-  #                        ifelse(stringr::str_detect(x, "Southeast Atlantic|South East Atlantic|South Atlantic|African Atlantic"), "OSA_",
-  #                               ifelse(stringr::str_detect(x, "Atlantic"), "OA_",NA))))
-  #
-
-  areas <- stringr::str_replace_na(areas, "")
-  areas
-}
-
-#' Codebook for qID
-#'
-#' @return a help document with the codebook for qID in the viewer pane
-#' codebook_agreements()
-#' @export
-codebook_agreements <- function() {
-  rmarkdown::render("qData/inst/code_agreements_codebook.Rmd", params = "ask")
-}
