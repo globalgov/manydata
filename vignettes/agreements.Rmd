@@ -56,10 +56,10 @@ so that we can increase the probability of matches.
 
 ```{r data}
 library(qData)
-titles <- lapply(qEnviron::agreements, function(x) x[x$Beg > "1980-01-01" & x$Beg < "1990-01-01", ])
-titles <- unlist(purrr::map(titles, "Title"))
+samples <- lapply(qEnviron::agreements, function(x) x[x$Beg > "1980-01-01" & x$Beg < "1990-01-01", ])
+titles <- unlist(purrr::map(samples, "Title"))
 titles <- na.omit(titles)
-titles <- sample(titles, 100)
+titles <- sample(titles, 200)
 titles <- titles[order(titles)]
 titles
 ```
@@ -94,14 +94,14 @@ Fuzzy matching relies on...
 stringdist::seq_dist(titles)
 ```
 
-There are some important disadvantages here, however:
+There are some important advantages here, however:
 
 1. is computationally expensive/takes a long time
 1. errs on the side of false positives
 
 ### Identifying information extraction
 
-Another option is to extract identifying information from the titles,
+Another option is to extract identifying information from the titles and dates,
 rendering as equivalent any titles that have the same identifying information.
 
 The key question here is which information to extract from the titles.
@@ -115,9 +115,56 @@ and the more information we require, the higher the false negative rate.
 Using our current version of `{qData}` we obtain:
 
 ```{r}
-qData::code_agreements(titles, ??)
 
+dates <- unlist(purrr::map(samples, "Beg"))
+dates <- sample(dates, 200)
+
+qData::code_agreements(titles, dates)
 ```
 
+## How `code_agreements()` work
 
+The function extracts important information from treaty titles and dates each step if the way to make sure duplicates are actual duplicates as well as
+to identify linkages between treaties. 
 
+### Parties 
+
+Parties to an agreement are extracted from titles.
+
+```{r}
+qData::code_parties(titles)
+```
+
+### Type
+
+The type of treaty s extracted.
+
+```{r}
+qData::code_type(titles)
+```
+
+### Date
+
+The date of the treaty is condensed to form a unique ID number. 
+
+```{r}
+qData::code_dates(dates)
+```
+
+### Linkage
+
+Detects the family a treaty might belong to.
+
+```{r}
+qData::code_linkage(titles, dates)
+```
+
+### Known Agreements
+
+Are these a famous agreements for which abbreviations are known?
+
+```{r}
+qData::code_known_agreements(titles)
+```
+
+Once added together the information forms a qID which is more authoritative, comprehensible, succinct and intelligible then other naming conventions.  

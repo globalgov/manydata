@@ -1,5 +1,5 @@
 ---
-title: "Codebook for qIDs"
+title: "Agreements Codebook"
 author: "James Hollway"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -15,8 +15,6 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
-
-## Agreements Codebook
 
 The `code_agreements()` function creates a unique qID based on information extracted from a title column of a dataset. This facilitates the analysis of 
 multiple datasets and the detection of treaties from the same family.

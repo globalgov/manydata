@@ -42,10 +42,8 @@ code_agreements <- function(title, date, dataset = NULL) {
   type <- code_type(qID)
   abbrev <- code_known_agreements(qID)
   
-  #step five: give the observation a unique ID
-  uID <- stringr::str_remove_all(date, "-")
-  # Temporary solution for treaties without signature date
-  uID[is.na(uID)] <- paste0("9999", sample(1000:9999, sum(is.na(uID)), replace = TRUE))
+  #step five: give the observation a unique ID by dates
+  uID <- code_dates(date)
   
   # step six: detect treaties from the same 'family'
   line <- code_linkage(qID, date)
@@ -59,7 +57,7 @@ code_agreements <- function(title, date, dataset = NULL) {
                                 (ifelse((is.na(parties) & (type != "A")), paste0(uID, type,"_", line),
                                         (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(uID, type, "_", parties),
                                                 (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{2}-[:alpha:]{3}$"))), paste0(uID, type, "_", parties),
-                                                        (ifelse((!is.na(parties) & (type == "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(topic, "_", uID, type),
+                                                        (ifelse((!is.na(parties) & (type == "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(uID, type),
                                                                 (ifelse((!is.na(parties) & (type != "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(uID, type, "_", parties, "_", line),
                                                                         (ifelse((!is.na(parties) & (type != "A") & (stringr::str_detect(parties, "^[:alpha:]{2}-[:alpha:]{3}$"))), paste0(uID, type, "_", parties, "_", line),
                                                                                 (ifelse((!is.na(parties) & (type != "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(uID, type, "_", line), NA)))))))))))))))))))
@@ -72,7 +70,7 @@ code_agreements <- function(title, date, dataset = NULL) {
   
   qID <- out
   
-  usethis::ui_done("Please run `vignette('agreements_codebook')` for more information on qIDs.")
+  usethis::ui_done("Please run `vignette('codebook')` for more information on qIDs.")
   
   # Step eight: add new qID column to data if dataset argument is provided
   if(is.null(dataset) == FALSE) {
@@ -185,6 +183,15 @@ code_type <- function(x) {
   # What happens when multiple types are detected in title?
 }
 
+
+code_dates <- function(x) {
+
+  uID <- stringr::str_remove_all(x, "-")
+  # Temporary solution for treaties without signature date
+  uID[is.na(uID)] <- paste0("9999", sample(1000:9999, sum(is.na(uID)), replace = TRUE))
+  uID
+
+}
 
 #' Known agreements abbreviation
 #'
