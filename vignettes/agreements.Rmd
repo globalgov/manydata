@@ -167,4 +167,5 @@ Are these a famous agreements for which abbreviations are known?
 qData::code_known_agreements(titles)
 ```
 
-Once added together the information forms a qID which is more authoritative, comprehensible, succinct and intelligible then other naming conventions.  
+Once added together the information extracted from treaty title and date forms a qID which is more authoritative, comprehensible, succinct and intelligible 
+than other naming conventions.  
