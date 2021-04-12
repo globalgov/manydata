@@ -6,7 +6,7 @@
 #' @param title title column variable
 #' @param date date column variable
 #' @param dataset name of the dataset
-#' @import usethis ui_done
+#' @import usethis
 #' @import stringr 
 #' @examples
 #' \dontrun{
@@ -72,14 +72,14 @@ code_agreements <- function(title, date, dataset = NULL) {
   
   qID <- out
   
+  usethis::ui_done("Please run `vignette('agreements_codebook')` for more information on qIDs.")
+  
   # Step eight: add new qID column to data if dataset argument is provided
   if(is.null(dataset) == FALSE) {
-    cbind(dataset, qID) 
+    cbind(dataset, qID)
   }
   
   qID 
-  
-  usethis::ui_done("Please run `vignette('agreements_codebook')` for more information on qIDs.")
 
 }
 
