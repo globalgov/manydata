@@ -23,4 +23,4 @@ test_that("resolve treats date ranges correctly", {
   expect_equal(resolve_median(test$var), c("2010-07-02", "1995-10-30", "1816-01-01", "1866-01-01", NA))
   expect_equal(resolve_mode(test$var), c("2010-07-02", "1995-10-30", "1816-01-01", "1866-01-01", NA))
 })
-#Passes but still some residual warnings 
+# Passed

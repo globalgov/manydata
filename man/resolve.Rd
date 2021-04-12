@@ -8,7 +8,7 @@
 \alias{resolve_median}
 \alias{resolve_mode}
 \alias{resolve_dates}
-\title{Resolve ambiguous variables according to preffered output}
+\title{Resolve ambiguous variables according to preferred output}
 \usage{
 resolve_min(var)
 
@@ -33,7 +33,7 @@ a date column
 \description{
 The resolve family of function resolves various ambiguous data formats
 according to user preferences.For date ranges the function resolves internal ranges
-according to preffered output before moving into resolving across datasets in a database.
+according to preferred output before moving into resolving across datasets in a database.
 }
 \details{
 \code{resolve_dates()} resolves ranged dates into single vectors

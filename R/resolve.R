@@ -173,9 +173,15 @@ resolve_dates <- function(var, resolve = NULL) {
       y2 <- paste0(s2[[1]][1])
       m2 <- paste0(s2[[1]][2])
       d2 <- paste0(s2[[1]][3])
-      if(m1 == m2 & y1 == y2) {
-        if(is.na(d)){
+      # Special cases
+      if (is.na(d)){
           meandate <- NA #Did this small tweak to deal with some of the NA related warnings, replicate this for the other functions
+      } else if (!stringr::str_detect(d, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")){
+        meandate <- d #Did this small tweak to deal with some of the single date related warnings
+      } else {
+        if(m1 == m2 & y1 == y2) {
+        if(is.na(d)){
+          meandate <- NA #Did this small tweak to deal with some of the NA related warnings
         } else {
         meanday <- (as.numeric(d1) + as.numeric(d2))/2
         meanday <- as.character(meanday)
@@ -185,7 +191,8 @@ resolve_dates <- function(var, resolve = NULL) {
       } else if(m1 != m2 & y1 == y2) {
         meandate <- paste0(y1, "-07-02") #July 2nd is the middle of a regular year
       } else if(y1 != y2) {
-        meanyear <- (as.numeric(y1) + as.numeric(y2))/2
+        meanyear <- (as.numeric(y1) + as.numeric(y2))/2 # unique dates triggered
+        # this warning here since y1 = date and y2 = NA
         if(is.na(meanyear)) {
           meandate <- meanyear 
         } else if(stringr::str_detect(meanyear, "^[:digit:]{4}$")) {
@@ -193,8 +200,9 @@ resolve_dates <- function(var, resolve = NULL) {
         } else {
           decimalyear <- stringr::str_split(meanyear, ".") [[1]]
           meandate <- paste0(decimalyear[[1]][1], "-07-02")   
-        }
-      } 
+          }
+        } 
+      }
       dates <- meandate
     })
     dates
@@ -213,40 +221,26 @@ resolve_dates <- function(var, resolve = NULL) {
       y2 <- paste0(s2[[1]][1])
       m2 <- paste0(s2[[1]][2])
       d2 <- paste0(s2[[1]][3])
-      if(m1 == m2 & y1 == y2) {
-        meanday <- (as.numeric(d1) + as.numeric(d2))/2
-        meanday <- as.character(meanday)
-        meandate <- ifelse(stringr::str_detect(meanday, "^[:digit:]{2}.[:digit:]{1}$"), paste0(stringr::str_split(meanday, "\\.")[[1]][1]), meanday) 
-        meandate  <- paste0(y1, "-", m1, "-", meandate)
-        ndate <- as.numeric(lubridate::ymd(meandate))
-        dzero <- as.numeric(lubridate::as_date("0000-01-01"))
-        dt <- as.numeric(lubridate::as_date("0000-01-01"))
-        negdate <- dzero - ndate
-        histdate <- as.numeric(lubridate::as_date(negdate) + dt)
-        h <- histdate + 576
-        dates <- lubridate::as_date(h)
-      } else if(m1 != m2 & y1 == y2) {
-        meandate <- paste0("-", y1, "-07-02") #July 2nd is the middle of a regular year
-        ndate <- as.numeric(lubridate::ymd(meandate))
-        dzero <- as.numeric(lubridate::as_date("0000-01-01"))
-        dt <- as.numeric(lubridate::as_date("0000-01-01"))
-        negdate <- dzero - ndate
-        histdate <- as.numeric(lubridate::as_date(negdate) + dt)
-        h <- histdate + 366
-        dates <- lubridate::as_date(h)
-      } else if(y1 != y2) {
-        meanyear <- (as.numeric(y1) + as.numeric(y2))/2
-        if(stringr::str_detect(meanyear, "^[:digit:]{4}$")) {
-          meandate <- paste0("-", meanyear, "-01-01")
+      # Special cases
+      if (is.na(d)){
+        meandate <- NA #Did this small tweak to deal with some of the NA related warnings, replicate this for the other functions
+      } else if (!stringr::str_detect(d, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")){
+        meandate <- d #Did this small tweak to deal with some of the single date related warnings
+      } else {
+        if(m1 == m2 & y1 == y2) {
+          meanday <- (as.numeric(d1) + as.numeric(d2))/2
+          meanday <- as.character(meanday)
+          meandate <- ifelse(stringr::str_detect(meanday, "^[:digit:]{2}.[:digit:]{1}$"), paste0(stringr::str_split(meanday, "\\.")[[1]][1]), meanday) 
+          meandate  <- paste0(y1, "-", m1, "-", meandate)
           ndate <- as.numeric(lubridate::ymd(meandate))
           dzero <- as.numeric(lubridate::as_date("0000-01-01"))
           dt <- as.numeric(lubridate::as_date("0000-01-01"))
           negdate <- dzero - ndate
           histdate <- as.numeric(lubridate::as_date(negdate) + dt)
-          dates <- lubridate::as_date(histdate)
-        } else {
-          decimalyear <- stringr::str_split(meanyear, ".") [[1]]
-          meandate <- paste0("-", decimalyear[[1]][1], "-07-02")
+          h <- histdate + 576
+          dates <- lubridate::as_date(h)
+        } else if(m1 != m2 & y1 == y2) {
+          meandate <- paste0("-", y1, "-07-02") #July 2nd is the middle of a regular year
           ndate <- as.numeric(lubridate::ymd(meandate))
           dzero <- as.numeric(lubridate::as_date("0000-01-01"))
           dt <- as.numeric(lubridate::as_date("0000-01-01"))
@@ -254,6 +248,27 @@ resolve_dates <- function(var, resolve = NULL) {
           histdate <- as.numeric(lubridate::as_date(negdate) + dt)
           h <- histdate + 366
           dates <- lubridate::as_date(h)
+        } else if(y1 != y2) {
+          meanyear <- (as.numeric(y1) + as.numeric(y2))/2
+          if(stringr::str_detect(meanyear, "^[:digit:]{4}$")) {
+            meandate <- paste0("-", meanyear, "-01-01")
+            ndate <- as.numeric(lubridate::ymd(meandate))
+            dzero <- as.numeric(lubridate::as_date("0000-01-01"))
+            dt <- as.numeric(lubridate::as_date("0000-01-01"))
+            negdate <- dzero - ndate
+            histdate <- as.numeric(lubridate::as_date(negdate) + dt)
+            dates <- lubridate::as_date(histdate)
+          } else {
+            decimalyear <- stringr::str_split(meanyear, ".") [[1]]
+            meandate <- paste0("-", decimalyear[[1]][1], "-07-02")
+            ndate <- as.numeric(lubridate::ymd(meandate))
+            dzero <- as.numeric(lubridate::as_date("0000-01-01"))
+            dt <- as.numeric(lubridate::as_date("0000-01-01"))
+            negdate <- dzero - ndate
+            histdate <- as.numeric(lubridate::as_date(negdate) + dt)
+            h <- histdate + 366
+            dates <- lubridate::as_date(h)
+          }
         }
       }
       dates
