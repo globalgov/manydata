@@ -27,20 +27,33 @@ collapse_select <- function(dbase, dset){
 #' @export
 collapse_full <- function(dbase, key, resolve = NULL){
   
-  if(is.null(resolve)) {
-  key <- resolve_mean(key)
+  #Note: Key is wrong here since its a string and the input required by resolve 
+  # is a df column
+  if(is.null(resolve) || resolve == "mean") {
+    for (i in c(1:length(dbase))) {
+      dbase[[i]][key] <- resolve_mean(pull(dbase[[i]], key))
+    }
   } else if(resolve == "max") {
-  key <- resolve_max(key)
+    for (i in c(1:length(dbase))) {
+      dbase[[i]][key] <- resolve_max(pull(dbase[[i]], key))
+    }
   } else if (resolve == "min") {
-  key <- resolve_min(key)
+    for (i in c(1:length(dbase))) {
+      dbase[[i]][key] <- resolve_min(pull(dbase[[i]], key))
+    }
   } else if (resolve == "median") {
-  key <- resolve_median(key)
+    for (i in c(1:length(dbase))) {
+      dbase[[i]][key] <- resolve_median(pull(dbase[[i]], key))
+    }
   } else if (resolve == "mode") {
-  key <- resolve_mode(key)
+    for (i in c(1:length(dbase))) {
+      dbase[[i]][key] <- resolve_mode(pull(dbase[[i]], key))
+    }
   }
-    
-  purrr::reduce(dbase, function(x, y) dplyr::full_join(x, y, by = key))
+  
+  purrr::reduce(dbase, full_join, by = key)
 }
+#Check this vs function (xy)
 
 #' @rdname collapse
 #' @importFrom purrr reduce
