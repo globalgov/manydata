@@ -5,6 +5,8 @@
 \alias{collapse_select}
 \alias{collapse_full}
 \alias{collapse_consensus}
+\alias{collapse_left}
+\alias{collapse_right}
 \title{Collapse a database into a single data frame/tibble}
 \usage{
 collapse_select(dbase, dset)
@@ -12,6 +14,10 @@ collapse_select(dbase, dset)
 collapse_full(dbase, key, resolve = NULL)
 
 collapse_consensus(dbase, key, resolve = NULL)
+
+collapse_left(dbase, key, resolve = NULL)
+
+collapse_right(dbase, key, resolve = NULL)
 }
 \arguments{
 \item{dbase}{A qPackage database object}
