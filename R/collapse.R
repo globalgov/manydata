@@ -48,18 +48,97 @@ collapse_full <- function(dbase, key, resolve = NULL){
 #' @example collapse_consensus(qStates::states, "ID")
 #' @export
 collapse_consensus <- function(dbase, key, resolve = NULL){
-
-  if(is.null(resolve)) {
-    key <- resolve_mean(key)
+# Let's rename this one collapse_inner for consistency ?
+  if(is.null(resolve) || resolve == "mean") {
+    for (i in c(1:length(dbase))) {
+      dbase[[i]][key] <- resolve_mean(pull(dbase[[i]], key))
+    }
   } else if(resolve == "max") {
-    key <- resolve_max(key)
+    for (i in c(1:length(dbase))) {
+      dbase[[i]][key] <- resolve_max(pull(dbase[[i]], key))
+    }
   } else if (resolve == "min") {
-    key <- resolve_min(key)
+    for (i in c(1:length(dbase))) {
+      dbase[[i]][key] <- resolve_min(pull(dbase[[i]], key))
+    }
   } else if (resolve == "median") {
-    key <- resolve_median(key)
+    for (i in c(1:length(dbase))) {
+      dbase[[i]][key] <- resolve_median(pull(dbase[[i]], key))
+    }
   } else if (resolve == "mode") {
-    key <- resolve_mode(key)
+    for (i in c(1:length(dbase))) {
+      dbase[[i]][key] <- resolve_mode(pull(dbase[[i]], key))
+    }
   }
   
   purrr::reduce(dbase, function(x, y) dplyr::inner_join(x, y, by = key))
 }
+
+# collapse_left
+
+#' @rdname collapse
+#' @importFrom purrr reduce
+#' @importFrom dplyr left_join
+#' @example collapse_left(qStates::states, "ID")
+#' @export
+collapse_left <- function(dbase, key, resolve = NULL){
+  
+  if(is.null(resolve) || resolve == "mean") {
+    for (i in c(1:length(dbase))) {
+      dbase[[i]][key] <- resolve_mean(pull(dbase[[i]], key))
+    }
+  } else if(resolve == "max") {
+    for (i in c(1:length(dbase))) {
+      dbase[[i]][key] <- resolve_max(pull(dbase[[i]], key))
+    }
+  } else if (resolve == "min") {
+    for (i in c(1:length(dbase))) {
+      dbase[[i]][key] <- resolve_min(pull(dbase[[i]], key))
+    }
+  } else if (resolve == "median") {
+    for (i in c(1:length(dbase))) {
+      dbase[[i]][key] <- resolve_median(pull(dbase[[i]], key))
+    }
+  } else if (resolve == "mode") {
+    for (i in c(1:length(dbase))) {
+      dbase[[i]][key] <- resolve_mode(pull(dbase[[i]], key))
+    }
+  }
+  
+  purrr::reduce(dbase, function(x, y) dplyr::left_join(x, y, by = key))
+}
+
+# Collapse_right
+
+#' @rdname collapse
+#' @importFrom purrr reduce
+#' @importFrom dplyr right_join
+#' @example collapse_right(qStates::states, "ID")
+#' @export
+collapse_right <- function(dbase, key, resolve = NULL){
+  
+  if(is.null(resolve) || resolve == "mean") {
+    for (i in c(1:length(dbase))) {
+      dbase[[i]][key] <- resolve_mean(pull(dbase[[i]], key))
+    }
+  } else if(resolve == "max") {
+    for (i in c(1:length(dbase))) {
+      dbase[[i]][key] <- resolve_max(pull(dbase[[i]], key))
+    }
+  } else if (resolve == "min") {
+    for (i in c(1:length(dbase))) {
+      dbase[[i]][key] <- resolve_min(pull(dbase[[i]], key))
+    }
+  } else if (resolve == "median") {
+    for (i in c(1:length(dbase))) {
+      dbase[[i]][key] <- resolve_median(pull(dbase[[i]], key))
+    }
+  } else if (resolve == "mode") {
+    for (i in c(1:length(dbase))) {
+      dbase[[i]][key] <- resolve_mode(pull(dbase[[i]], key))
+    }
+  }
+  
+  purrr::reduce(dbase, function(x, y) dplyr::right_join(x, y, by = key))
+}
+
