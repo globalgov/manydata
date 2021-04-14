@@ -70,7 +70,7 @@ code_agreements <- function(title, date, dataset = NULL) {
   
   qID <- out
   
-  usethis::ui_done("Please run `vignette('codebook')` for more information on qIDs.")
+  usethis::ui_done("Please run `vignette('agreements')` for more information.")
   
   # Step eight: add new qID column to data if dataset argument is provided
   if(is.null(dataset) == FALSE) {
@@ -267,7 +267,8 @@ code_topic <- function(x) {
     grepl("noise", x, ignore.case = T) ~ "NOI",
     grepl("disease|diseases", x, ignore.case = T) ~ "DIS",
     grepl("resource|resources|timber|antartic|fur|Ivory|Horn", x, ignore.case = T) ~ "RES",
-  )
+  ) 
+  
   # If not topic is found, category will be "OTH"
   topic <- stringr::str_replace_na(topic, "OTH")
   
