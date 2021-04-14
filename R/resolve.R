@@ -175,7 +175,7 @@ resolve_dates <- function(var, resolve = NULL) {
       d2 <- paste0(s2[[1]][3])
       # Special cases
       if (is.na(d)){
-          meandate <- NA #Did this small tweak to deal with some of the NA related warnings, replicate this for the other functions
+          meandate <- NA #Did this small tweak to deal with some of the NA related warnings
       } else if (!stringr::str_detect(d, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")){
         meandate <- d #Did this small tweak to deal with some of the single date related warnings
       } else {
@@ -223,7 +223,7 @@ resolve_dates <- function(var, resolve = NULL) {
       d2 <- paste0(s2[[1]][3])
       # Special cases
       if (is.na(d)){
-        meandate <- NA #Did this small tweak to deal with some of the NA related warnings, replicate this for the other functions
+        meandate <- NA #Did this small tweak to deal with some of the NA related warnings
       } else if (!stringr::str_detect(d, "^[:digit:]{4}-[:digit:]{2}-[:digit:]{2}:[:digit:]{4}-[:digit:]{2}-[:digit:]{2}$")){
         meandate <- d #Did this small tweak to deal with some of the single date related warnings
       } else {
@@ -288,6 +288,7 @@ resolve_dates <- function(var, resolve = NULL) {
   }
 
   dates <- unlist(dates, use.names = FALSE)
-  dates <- anytime::anydate(dates) # Solution: put a suppresswarnings here, or use anytime, lubridate spits out lots of warnings when dealing with NA's
+  dates <- anytime::anydate(dates) # Solution: put a suppresswarnings here
+  # or use anytime, lubridate spits out lots of warnings when dealing with NA's
   dates
 }

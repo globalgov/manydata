@@ -1,34 +1,40 @@
-#' Collapse a database into a single data frame/tibble
+#' Select one or multiple columns from a list of datasets
 #' 
-#' @description The collapse family of functions collapses
-#' lists of datasets that form a database in qPackages
-#' according to user preferences.
-#' @name collapse
+#' collapse_select allows users to select one or multiple columns
+#' from a dataset in a database.
 #' @param dbase A qPackage database object
 #' @param dset A dataset label from within that database
-#' @param key An ID column to collapse by
-#' @param resolve How do you want differences to be resolved?
-#' It takes "max", "min", "mean", "mode" and "median" options.
-#'
-NULL
-
-#' @rdname collapse
+#' @return A tibble with the collapsed data.
 #' @importFrom purrr pluck
-#' @example collapse_select(qStates::states, "COW")
+#' @examples
+#' \dontrun{
+#' collapse_select(qStates::states, "COW")
+#' }
 #' @export
+
 collapse_select <- function(dbase, dset){
   purrr::pluck(dbase, dset)
 }
 
-#' @rdname collapse
+#' Collapse a database into a single data frame/tibble
+#' 
+#' collapse_full() allows users to perform a full join on one or
+#' more datasets in a database for further analysis.
+#' @param dbase A qPackage database object (can be subsetted)
+#' @param key An ID column to collapse by
+#' @param resolve How do you want differences to be resolved?
+#' It takes "max", "min", "mean", "mode" and "median" options.
+#' @return A tibble with the collapsed data.
+#' @examples
+#' \dontrun{
+#' collapse_full(qStates::states[1:2], "ID")
+#' }
 #' @importFrom purrr reduce
 #' @importFrom dplyr full_join
-#' @example collapse_full(qStates::states, "ID")
 #' @export
+
 collapse_full <- function(dbase, key, resolve = NULL){
   
-  #Note: Key is wrong here since its a string and the input required by resolve 
-  # is a df column
   if(is.null(resolve) || resolve == "mean") {
     for (i in c(1:length(dbase))) {
       dbase[[i]][key] <- resolve_mean(pull(dbase[[i]], key))
@@ -51,16 +57,27 @@ collapse_full <- function(dbase, key, resolve = NULL){
     }
   }
   
-  purrr::reduce(dbase, full_join, by = key)
+  purrr::reduce(dbase, function(x, y) dplyr::full_join(x, y, by = key))
 }
-#Check this vs function (xy)
 
-#' @rdname collapse
+#' Collapse a database into a single data frame/tibble
+#' 
+#' collapse_inner() allows users to perform an inner join on one or
+#' more datasets in a database for further analysis.
+#' @param dbase A qPackage database object (can be subsetted)
+#' @param key An ID column to collapse by
+#' @param resolve How do you want differences to be resolved?
+#' It takes "max", "min", "mean", "mode" and "median" options.
+#' @return A tibble with the collapsed data.
+#' @examples
+#' \dontrun{
+#' collapse_inner(qStates::states[1:2], "ID")
+#' }
 #' @importFrom purrr reduce
 #' @importFrom dplyr inner_join
-#' @example collapse_consensus(qStates::states, "ID")
 #' @export
-collapse_consensus <- function(dbase, key, resolve = NULL){
+
+collapse_inner <- function(dbase, key, resolve = NULL){
 # Let's rename this one collapse_inner for consistency ?
   if(is.null(resolve) || resolve == "mean") {
     for (i in c(1:length(dbase))) {
@@ -87,13 +104,23 @@ collapse_consensus <- function(dbase, key, resolve = NULL){
   purrr::reduce(dbase, function(x, y) dplyr::inner_join(x, y, by = key))
 }
 
-# collapse_left
-
-#' @rdname collapse
+#' Collapse a database into a single data frame/tibble
+#' 
+#' collapse_left() allows users to perform a left join on one or
+#' more datasets in a database for further analysis.
+#' @param dbase A qPackage database object (can be subsetted)
+#' @param key An ID column to collapse by
+#' @param resolve How do you want differences to be resolved?
+#' It takes "max", "min", "mean", "mode" and "median" options.
+#' @return A tibble with the collapsed data.
+#' @examples
+#' \dontrun{
+#' collapse_left(qStates::states[1:2], "ID")
+#' }
 #' @importFrom purrr reduce
 #' @importFrom dplyr left_join
-#' @example collapse_left(qStates::states, "ID")
 #' @export
+
 collapse_left <- function(dbase, key, resolve = NULL){
   
   if(is.null(resolve) || resolve == "mean") {
@@ -121,13 +148,23 @@ collapse_left <- function(dbase, key, resolve = NULL){
   purrr::reduce(dbase, function(x, y) dplyr::left_join(x, y, by = key))
 }
 
-# Collapse_right
-
-#' @rdname collapse
+#' Collapse a database into a single data frame/tibble
+#' 
+#' collapse_right() allows users to perform a left join on one or
+#' more datasets in a database for further analysis.
+#' @param dbase A qPackage database object (can be subsetted)
+#' @param key An ID column to collapse by
+#' @param resolve How do you want differences to be resolved?
+#' It takes "max", "min", "mean", "mode" and "median" options.
+#' @return A tibble with the collapsed data.
+#' @examples
+#' \dontrun{
+#' collapse_right(qStates::states[1:2], "ID")
+#' }
 #' @importFrom purrr reduce
 #' @importFrom dplyr right_join
-#' @example collapse_right(qStates::states, "ID")
 #' @export
+
 collapse_right <- function(dbase, key, resolve = NULL){
   
   if(is.null(resolve) || resolve == "mean") {
@@ -154,4 +191,3 @@ collapse_right <- function(dbase, key, resolve = NULL){
   
   purrr::reduce(dbase, function(x, y) dplyr::right_join(x, y, by = key))
 }
-
