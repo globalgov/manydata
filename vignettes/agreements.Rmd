@@ -122,38 +122,84 @@ dates <- sample(dates, 200)
 qData::code_agreements(titles, dates)
 ```
 
+## How to read a qID
+
+A qID is a meaningful shorthand ID created from a combination of elements extracted from the agreement title and date. The qID allows users to identify 
+bilateral treaties, date, type and linkage. 
+
+**Type** | **Pasting** | **Pasting**
+--- | --- |--- 
+Bilateral | 19060521A_MEX-USA | uID, type_parties
+Bilateral + Protocol | 18840921E3_18840921_BAD-CHE | uID,type(number)_linkage_parties
+
+A bilateral treaty that is an agreement will have the following qID: "19060521A_MEX-USA". This is a combination of the date (19060521) 
+with the type(A) and the parties to agreement (MEX-USA). A bilateral treaty that is any other type than an agreement (e.g. protocol, amendments) will have 
+the qID under this format: "18840921E3_BAD-CHE_18830703". The date of signature of the amendment (18840921), the type (E) which refers 
+to amendment, the number of amendment (3), the parties (BAD-CHE) and finally the signature date of the "mother" treaty (18830703).
+
+**Type** | **Pasting** | **Pasting**
+--- | --- |--- 
+Multilateral | 20050205A | uID, type
+Multilateral + Protocol | 19920817E2_20070817 | uID,type(number)_linkage
+
+A multilateral treaty that is an agreement will have the following qID: "20050205A" which indicates the signature date of the agreement 
+(20050205) and the type (A). A multilateral treaty that is not an agreement will have this qID format: "19920817E2_20070817". This represents the signature date of the amendment (19920817), the type (E), the number of amendment (2) and the linkage number (20070817) which is the signature 
+date of the "mother" treaty. 
+
+**Type** | **Pasting** | **Pasting**
+--- | --- |--- 
+Known treaties | 	UNCLOS_19821210 | abbreviation_uID
+Amendment of known treaties | MARPOL_19731102_19900316E | abbreviation_linkage_uID,type(number)
+
+Famous multilateral treaties have a simplified qID with an known abbreviation. For example, the United Nations Convention On The Law Of
+The Sea will have the following qID: "UNCLOC_19821210A" which is the known abbreviation (UNCLOS), the signature date (19821210) with the type (A). The 
+protocols or amendments of the known treaties will have this qID format: "MARPOL_19890317E2_19731102". It indicates the known abbreviation (MARPOL), the signature date of this specific amendment (19890317), the type of treaty (E), its number (2) and the signature date of the "mother" treaty (19731102).
+
 ## How `code_agreements()` work
 
 The function extracts important information from treaty titles and dates each step if the way to make sure duplicates are actual duplicates as well as
-to identify linkages between treaties. 
+to identify linkages between treaties.   
 
-### Parties 
+### Parties
 
-Parties to an agreement are extracted from titles.
+The first element extracted from the title is the state that is part to the treaty. The function `code_states()` from `qStates` is used. It returns 3 digit 
+ISO codes for states.
 
 ```{r}
 qData::code_parties(titles)
 ```
 
-### Type
-
-The type of treaty s extracted.
-
-```{r}
-qData::code_type(titles)
-```
-
 ### Date
 
-The date of the treaty is condensed to form a unique ID number. 
+Each treaty contains a unique number in their qID which refer to the signature date. The number has therefore eight numbers that are under the YYYYMMDD 
+format. 
 
 ```{r}
 qData::code_dates(dates)
 ```
 
+### Type
+
+The function detects the type of treaty and assign a letter that will be included in the final ID. 
+
+```{r}
+qData::code_type(titles)
+```
+
+* Agreements = **A**
+* Amendments = **E**
+* Protocol = **P**
+* Exchange of Notes = **X**
+* Memorandum of Understanding = **Y**
+* Strategy = **S**
+
+For amendments or protocol, their ordering number is also extracted from the title to be included in the qID. 
+
 ### Linkage
 
-Detects the family a treaty might belong to.
+Detects the family a treaty might belong to. Treaties from the same family can be detected by removing predictable words that are added to treaty titles 
+(e.g. amendment, protocol, meeting) and identifying duplicates based on the core words used to refer to main agreement. The YYYYMMDD number assigned to the 
+"mother" treaty is used for all the other treaties deriving from it as the last digits in their qID.
 
 ```{r}
 qData::code_linkage(titles, dates)
@@ -161,11 +207,35 @@ qData::code_linkage(titles, dates)
 
 ### Known Agreements
 
-Are these a famous agreements for which abbreviations are known?
+Are these a famous agreements for which abbreviations are known? Some treaties already have known abbreviation. The qID of these treaties contain their abbreviation.
 
 ```{r}
 qData::code_known_agreements(titles)
 ```
 
+**Example**
+
+**Know Agreements** | **Abbreviation**
+--- | ---
+"United Nations Convention On The Law Of The Sea" | UNCLOS
+"Convention On Biological Diversity" | CBD
+"Convention On The Conservation Of Antarctic Marine Living Resources" | CCAMLR
+"Convention On International Trade In Endangered Species Of Wild Fauna And Flora" | CITES
+"International Convention On Civil Liability For Oil Pollution Damage" | CLC
+"Antarctic Mineral Resources Convention" | CRAMRA
+"Convention On The Protection And Use Of Transboundary Watercourses And International Lakes" | CECE
+"Convention On Long-Range Transboundary Air Pollution" | LRTAP
+"International Convention For The Prevention Of Pollution From Ships" | MARPOL
+"North American Agreement On Environmental Cooperation" | NAAEC
+"Constitutional Agreement Of The Latin American Organization For Fisheries Development" | OLDEPESCA
+"International Convention On Oil Pollution Preparedness, Response And Cooperation" | OPRC
+"Convention For The Protection Of The Marine Environment Of The North East Atlantic" | OSPAR
+"Paris Agreement Under The United Nations Framework Convention On Climate Change" | PARIS
+"Convention On The Prior Informed Consent Procedure For Certain Hazardous Chemicals And Pesticides In International Trade" | PIC
+"Convention On Wetlands Of International Importance Especially As Waterfowl Habitat" | RAMSA
+"Convention To Combat Desertification In Those Countries Experiencing Serious Drought And/Or Desertification, Particularly In Africa" | UNCCD
+"United Nations Framework Convention On Climate Change" | UNFCCC
+"Convention For The Protection Of The Ozone Layer" | VIENNA
+
 Once added together the information extracted from treaty title and date forms a qID which is more authoritative, comprehensible, succinct and intelligible 
-than other naming conventions.  
+than other naming conventions.
