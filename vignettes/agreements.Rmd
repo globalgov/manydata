@@ -63,23 +63,13 @@ titles <- data.frame(titles)
 dates <- lubridate::as_date(unlist(purrr::map(samples, "Beg")))
 dates <- na.omit(lubridate::as_date(dates))
 agreements <- data.frame(cbind(titles, dates))
-
 agreements <- agreements[order(dates),]
 agreements <- head(agreements, 200)
-knitr::kable(head(agreements, 15), caption = "Sample from IEADB") %>%
+knitr::kable(agreements) %>%
   kableExtra::column_spec(1, width = "5em") %>% 
   kableExtra::column_spec(2, width = "40em")
-
-
 ```
 
-
-```{r}
-
-library(readr)
-hand_coded_sample <- read_csv("inst/templates/hand-coded-sample.csv")
-
-```
 
 ## Options for solutions
 
@@ -95,6 +85,7 @@ Here we only consider equivalent those titles that are exactly the same as one a
 
 ```{r}
 agreements$duplicates <- ifelse(duplicated(agreements$titles), "1", "0")
+sum(duplicated(agreements$titles))
 ```
 
 Note that this is probably boosted by our use of `qData::standardise_titles()` in qPackages,
@@ -102,10 +93,20 @@ but misses a number of more problematic cases.
 For example a "Treaty Of..." and "Treaty For..." would be considered distinct,
 as would "Antarctic Treaty" and "Antarctic Treaty 1959",
 even though they ought to be rendered equivalent.
+Compare, for example, the number of duplicates found with strict match and with
+manual coding of duplicates for the same sample. 
+
+```{r}
+library(readr)
+hand_coded_sample <- read_delim("inst/templates/hand-coded-sample.csv", ";", escape_double = FALSE, trim_ws = TRUE)
+hand_code_duplicates <- hand_coded_sample %>%  dplyr::select(duplicate)
+agreements$hand_code_duplicates <- hand_code_duplicates
+sum(agreements$hand_code_duplicates)
+```
 
 ### Fuzzy match
 
-Fuzzy matching relies on...
+Fuzzy matching relies on stringdist to match observations.
 
 ```{r}
   a <- agreements %>%
@@ -121,7 +122,9 @@ Fuzzy matching relies on...
                                        Complementar|Complementario|Annex |Annexes"))
 
   out <- as.data.frame(fuzzyjoin::stringdist_inner_join(a, b, by = "titles", method = "lv", max_dist = 50, distance_col = "dist"))
-
+  
+  out
+  # tofix: this should be added as another column to the dataset, even if binary...
 ```
 
 There are some important advantages here, however:
@@ -146,6 +149,7 @@ Using our current version of `{qData}` we obtain:
 
 ```{r}
 agreements$qID <- qData::code_agreements(agreements$titles, agreements$dates)
+agreements$qID
 ```
 
 ## How to read a qID
