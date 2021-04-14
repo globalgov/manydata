@@ -59,13 +59,26 @@ library(qData)
 samples <- lapply(qEnviron::agreements, function(x) x[x$Beg > "1980-01-01" & x$Beg < "1990-01-01", ])
 titles <- unlist(purrr::map(samples, "Title"))
 titles <- na.omit(titles)
-dates <- unlist(purrr::map(samples, "Beg"))
-dates <- na.omit(dates)
-agreements <- as.data.frame(cbind(titles, dates))
-# tofix: dates appear in numeric format
+titles <- data.frame(titles)
+dates <- lubridate::as_date(unlist(purrr::map(samples, "Beg")))
+dates <- na.omit(lubridate::as_date(dates))
+agreements <- data.frame(cbind(titles, dates))
+
 agreements <- agreements[order(dates),]
 agreements <- head(agreements, 200)
-agreements
+knitr::kable(head(agreements, 15), caption = "Sample from IEADB") %>%
+  kableExtra::column_spec(1, width = "5em") %>% 
+  kableExtra::column_spec(2, width = "40em")
+
+
+```
+
+
+```{r}
+
+library(readr)
+hand_coded_sample <- read_csv("inst/templates/hand-coded-sample.csv")
+
 ```
 
 ## Options for solutions
@@ -95,7 +108,20 @@ even though they ought to be rendered equivalent.
 Fuzzy matching relies on...
 
 ```{r}
-stringdist::seq_dist(agreements$titles)
+  a <- agreements %>%
+    dplyr::filter(stringr::str_detect(agreements$titles, "verbal|protocol|additional|subsidiary|supplementary|
+                                       complÃ©mentaire|complementar|complementario|annex |annexes|Verbal|
+                                       Protocol|Additional|Subsidiary|Supplementary|ComplÃ©mentaire|
+                                       Complementar|Complementario|Annex |Annexes"))
+
+  b <- agreements %>%
+    dplyr::filter(!stringr::str_detect(agreements$titles, "verbal|protocol|additional|subsidiary|supplementary|
+                                       complÃ©mentaire|complementar|complementario|annex |annexes|Verbal|
+                                       Protocol|Additional|Subsidiary|Supplementary|ComplÃ©mentaire|
+                                       Complementar|Complementario|Annex |Annexes"))
+
+  out <- as.data.frame(fuzzyjoin::stringdist_inner_join(a, b, by = "titles", method = "lv", max_dist = 50, distance_col = "dist"))
+
 ```
 
 There are some important advantages here, however:
