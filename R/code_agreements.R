@@ -344,7 +344,7 @@ code_linkage <- function(x, date) {
   out <- sapply(strsplit(as.character(x), split = " "), cap, USE.NAMES = !is.null(names(x)))
   out <- trimws(out)
   # Step one: remove known words and articles
-  out <- gsub("\\<amendment\\>|\\<amendments\\>|\\<amending\\>|\\<modifying\\>|\\<modify\\>|\\<extension\\>|\\<extend\\>|\\<extending\\>|\\<verbal\\>|\\<protocol\\>|\\<protocol\\>|
+  out <- gsub("\\<amendment\\>|\\<amendments\\>|\\<amend\\>|\\<amending\\>|\\<modifying\\>|\\<modify\\>|\\<extension\\>|\\<extend\\>|\\<extending\\>|\\<verbal\\>|\\<protocol\\>|
               \\<additional\\>|\\<subsidiary\\>|\\<supplementary\\>|\\<complementary\\>|\\<complementario\\>|\\<agreement\\>|\\<agreements\\>|\\<arrangement\\>|\\<arrangements\\>|
               \\<accord\\>|\\<acuerdo\\>|\\<bilateral\\>|\\<technical\\>|\\<treaty\\>|\\<trait\\>|\\<tratado\\>|\\<convention\\>|\\<convencion\\>|\\<convenio\\>|\\<constitution\\>|
               \\<charte\\>|\\<instrument\\>|\\<statute\\>|\\<estatuto\\>|\\<provisional\\>|\\<understanding\\>|\\<provisions\\>|\\<relating\\>|\\<übereinkunft\\>|\\<Act\\>|\\<Acts\\>|
