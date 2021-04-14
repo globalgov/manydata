@@ -56,12 +56,9 @@ so that we can increase the probability of matches.
 
 ```{r data}
 library(qData)
-samples <- lapply(qEnviron::agreements, function(x) x[x$Beg > "1980-01-01" & x$Beg < "1990-01-01", ])
-titles <- unlist(purrr::map(samples, "Title"))
-titles <- na.omit(titles)
-titles <- sample(titles, 200)
-titles <- titles[order(titles)]
-titles
+agreements <- qEnviron::agreements$IEADB %>% dplyr::filter(Beg > "1980-01-01" & Beg < "1990-01-01") %>% dplyr::select(Title, Beg)
+agreements <- head(agreements, 200)
+agreements
 ```
 
 ## Options for solutions
@@ -77,7 +74,7 @@ that are quite obviously (for humans) equivalent.
 Here we only consider equivalent those titles that are exactly the same as one another.
 
 ```{r}
-anyDuplicated(titles)
+agreements$duplicates <- ifelse(duplicated(agreements$Title), "1", "0")
 ```
 
 Note that this is probably boosted by our use of `qData::standardise_titles()` in qPackages,
@@ -91,7 +88,7 @@ even though they ought to be rendered equivalent.
 Fuzzy matching relies on...
 
 ```{r}
-stringdist::seq_dist(titles)
+stringdist::seq_dist(agreements$Title)
 ```
 
 There are some important advantages here, however:
@@ -115,11 +112,7 @@ and the more information we require, the higher the false negative rate.
 Using our current version of `{qData}` we obtain:
 
 ```{r}
-
-dates <- unlist(purrr::map(samples, "Beg"))
-dates <- sample(dates, 200)
-
-qData::code_agreements(titles, dates)
+agreements$qID <- qData::code_agreements(agreements$Title, agreements$Beg)
 ```
 
 ## How to read a qID
