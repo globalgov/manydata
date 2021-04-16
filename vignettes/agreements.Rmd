@@ -138,7 +138,7 @@ Fuzzy matching relies on stringdist to match observations.
   
   out <- merge(agreements, out, by = "titles", all.x = TRUE)
   
-  out <- out %>% dplyr::distinct(titles, date, duplicates_fuzzyjoin, dist) %>% 
+  out <- out %>% dplyr::distinct(titles, dates, duplicates_fuzzyjoin, dist) %>% 
     dplyr::arrange(dates)
   
   knitr::kable(out) %>%
