@@ -215,9 +215,12 @@ roc <- roc %>% dplyr::mutate(x1 = 1 - specificity) %>%
 
 ggplot2::ggplot(data = roc, ggplot2::aes(x= specificity, y=sensitivity)) + 
   ggplot2::geom_point(ggplot2::aes(color = model, group = model)) +
-  ggplot2::geom_abline() + 
   #ggplot2::geom_line(ggplot2::aes(color = model, group= model)) +
-  ggplot2::theme_classic() + ggplot2::ggtitle("ROC Curve")
+  ggplot2::theme_classic() + ggplot2::ggtitle("ROC Curve") +
+  ggplot2::xlim(x = c(0, 1)) +
+  ggplot2::ylim(y = c(0, 1)) +
+  ggplot2::geom_abline(intercept = 0, slope = 1)
+
 ```
 
 ## How to read a qID
