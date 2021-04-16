@@ -213,9 +213,10 @@ roc
 roc <- roc %>% dplyr::mutate(x1 = 1 - specificity) %>% 
   dplyr::rename("1 - specificity" = "x1")
 
-ggplot2::ggplot(data = roc, ggplot2::aes(x= `1 - specificity`, y=sensitivity)) + 
-  ggplot2::geom_abline(intercept = 0, slope = 1, color = "black") + 
-  ggplot2::geom_line(ggplot2::aes(color = model, group= model)) +
+ggplot2::ggplot(data = roc, ggplot2::aes(x= specificity, y=sensitivity)) + 
+  ggplot2::geom_point(ggplot2::aes(color = model, group = model)) +
+  ggplot2::geom_abline() + 
+  #ggplot2::geom_line(ggplot2::aes(color = model, group= model)) +
   ggplot2::theme_classic() + ggplot2::ggtitle("ROC Curve")
 ```
 
