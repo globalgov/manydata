@@ -190,6 +190,8 @@ agreements$qID <- qData::code_agreements(agreements$titles, agreements$dates)
   kableExtra::column_spec(3, width = "10em")
 ```
 
+Not only `code_agreements()` finds duplicates, but it also references to the type of treaty an observation is and to which other observation agreement is linked to. More details in how to read a qID are given below.
+
 ### Comparing specificity versus sensitivity
 
 Since we hand coded the duplicates and know how many are actual duplicates and not, we can compare the specificity versus sensitivity for each of the 
