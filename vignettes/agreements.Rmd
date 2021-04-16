@@ -186,7 +186,7 @@ Since we hand coded the duplicates and know how many are actual duplicates and n
 possible solutions discussed above. 
 
 ```{r}
-errortype <- data.frame(model = c("dupicates", "fuzzy_match", "code_agreements"),
+errortype <- data.frame(model = c("duplicates", "fuzzy_match", "code_agreements"),
                   true_pos = c(36, 80, 64),
                   false_pos = c(0, 3, 0),
                   false_neg = c(94, 47, 66),
