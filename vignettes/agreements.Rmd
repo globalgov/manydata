@@ -110,8 +110,8 @@ hand_code_duplicates <- hand_coded_sample %>%  dplyr::select(duplicate) %>%
 sum(hand_code_duplicates)
 agreements <- cbind(agreements, hand_code_duplicates)
 knitr::kable(agreements, align = "lllcc") %>%
-  kableExtra::column_spec(1, width = "10em") %>% 
-  kableExtra::column_spec(2, width = "30em") %>% 
+  kableExtra::column_spec(1, width = "0em") %>% 
+  kableExtra::column_spec(2, width = "35em") %>% 
   kableExtra::column_spec(3, width = "10em") %>% 
   kableExtra::column_spec(4, width = "10em") %>% 
   kableExtra::column_spec(5, width = "10em")
