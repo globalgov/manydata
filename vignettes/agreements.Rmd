@@ -59,6 +59,7 @@ library(qData)
 samples <- lapply(qEnviron::agreements, function(x) x[x$Beg > "1980-01-01" & x$Beg < "1990-01-01", ])
 titles <- unlist(purrr::map(samples, "Title"))
 titles <- na.omit(titles)
+titles <- standardise_titles(titles)
 titles <- data.frame(titles)
 dates <- lubridate::as_date(unlist(purrr::map(samples, "Beg")))
 dates <- na.omit(lubridate::as_date(dates))
@@ -86,6 +87,12 @@ Here we only consider equivalent those titles that are exactly the same as one a
 ```{r}
 agreements$duplicates <- ifelse(duplicated(agreements$titles), "1", "0")
 sum(duplicated(agreements$titles))
+
+knitr::kable(agreements, align = "llcc") %>%
+  kableExtra::column_spec(1, width = "6em") %>% 
+  kableExtra::column_spec(2, width = "30em") %>% 
+  kableExtra::column_spec(3, width = "6em") %>% 
+  kableExtra::column_spec(4, width = "10em")
 ```
 
 Note that this is probably boosted by our use of `qData::standardise_titles()` in qPackages,
@@ -98,10 +105,22 @@ manual coding of duplicates for the same sample.
 
 ```{r}
 library(readr)
-hand_coded_sample <- read_delim("inst/templates/hand-coded-sample.csv", ";", escape_double = FALSE, trim_ws = TRUE)
-hand_code_duplicates <- hand_coded_sample %>%  dplyr::select(duplicate)
-agreements$hand_code_duplicates <- hand_code_duplicates
-sum(agreements$hand_code_duplicates)
+hand_coded_sample <- read_delim("hand-coded-sample.csv", ";", escape_double = FALSE, trim_ws = TRUE)
+hand_code_duplicates <- hand_coded_sample %>%  dplyr::select(duplicate) %>% 
+  dplyr::rename("Hand_code_duplicates" = "duplicate")
+hand_coded_sample <- cbind(agreements, hand_code_duplicates)
+# agreements$hand_code_duplicates <- hand_code_duplicates
+# sum(agreements$hand_code_duplicates)
+
+hand_coded_sample <- hand_coded_sample %>% dplyr::select(titles, dates, duplicates, Hand_code_duplicates)
+knitr::kable(hand_coded_sample, align = "lllcc") %>%
+  kableExtra::column_spec(1, width = "10em") %>% 
+  kableExtra::column_spec(2, width = "30em") %>% 
+  kableExtra::column_spec(3, width = "10em") %>% 
+  kableExtra::column_spec(4, width = "10em") %>% 
+  kableExtra::column_spec(5, width = "10em")
+
+
 ```
 
 ### Fuzzy match
@@ -109,21 +128,26 @@ sum(agreements$hand_code_duplicates)
 Fuzzy matching relies on stringdist to match observations.
 
 ```{r}
-  a <- agreements %>%
-    dplyr::filter(stringr::str_detect(agreements$titles, "verbal|protocol|additional|subsidiary|supplementary|
-                                       complÃ©mentaire|complementar|complementario|annex |annexes|Verbal|
-                                       Protocol|Additional|Subsidiary|Supplementary|ComplÃ©mentaire|
-                                       Complementar|Complementario|Annex |Annexes"))
+  a <- agreements
+  b <- agreements 
 
-  b <- agreements %>%
-    dplyr::filter(!stringr::str_detect(agreements$titles, "verbal|protocol|additional|subsidiary|supplementary|
-                                       complÃ©mentaire|complementar|complementario|annex |annexes|Verbal|
-                                       Protocol|Additional|Subsidiary|Supplementary|ComplÃ©mentaire|
-                                       Complementar|Complementario|Annex |Annexes"))
-
-  out <- as.data.frame(fuzzyjoin::stringdist_inner_join(a, b, by = "titles", method = "lv", max_dist = 50, distance_col = "dist"))
+  out <- as.data.frame(fuzzyjoin::stringdist_left_join(a, b, by = "titles", method = "lv", max_dist = 30, distance_col = "dist"))
+  out <- out %>% dplyr::filter(dist > 0) %>% 
+    dplyr::rename("titles" = "titles.x",
+                  "duplicates_fuzzyjoin" = "titles.y")
   
-  out
+  out <- out %>% dplyr::select(titles, duplicates_fuzzyjoin, dist)
+  
+  out <- merge(agreements, out, by = "titles", all.x = TRUE)
+  
+  out <- out %>% dplyr::distinct(titles, dates, duplicates_fuzzyjoin, dist) %>% 
+    dplyr::arrange(dates)
+  
+  knitr::kable(out) %>%
+  kableExtra::column_spec(1, width = "30em") %>% 
+  kableExtra::column_spec(2, width = "10em") %>%
+    kableExtra::column_spec(3, width = "15em")
+    
   # tofix: this should be added as another column to the dataset, even if binary...
 ```
 
@@ -149,7 +173,13 @@ Using our current version of `{qData}` we obtain:
 
 ```{r}
 agreements$qID <- qData::code_agreements(agreements$titles, agreements$dates)
-agreements$qID
+
+# agreements$qID
+
+  knitr::kable(agreements, align = "lccc") %>%
+  kableExtra::column_spec(1, width = "5em") %>% 
+  kableExtra::column_spec(2, width = "30em") %>% 
+    kableExtra::column_spec(3, width = "10em")
 ```
 
 ## How to read a qID
