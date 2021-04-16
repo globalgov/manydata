@@ -123,30 +123,40 @@ Fuzzy matching relies on stringdist to match observations.
 
 ```{r}
   a <- agreements
-  b <- agreements 
+  b <- agreements
 
-  out <- as.data.frame(fuzzyjoin::stringdist_left_join(a, b, by = "titles", method = "lv", max_dist = 30, distance_col = "dist"))
-
-  # fuzzy_match <- ifelse(out$dist != 0, 1, 0)
-  # agreements <-cbind(agreements, fuzzy_match)
+  out <- as.data.frame(fuzzyjoin::stringdist_inner_join(a, b, by = "titles", method = "lv", max_dist = 20, distance_col = "distance"))
+  # The Levenshtein distance is set to 20 to accomodate for matching between ammendments and protocols to the same treaty. 
+  # As well as to account for discrepanceis in articles and other words.
+  # Here we only select the titles that are matched below the maximun distance.
   
-  out <- out %>% dplyr::filter(dist > 0) %>% 
+  out <- out %>% dplyr::filter(distance > 0) %>% 
     dplyr::rename("titles" = "titles.x",
-                  "duplicates_fuzzyjoin" = "titles.y")
-  
-  out <- out %>% dplyr::select(titles, duplicates_fuzzyjoin, dist)
-  
-  out <- merge(agreements, out, by = "titles", all.x = TRUE)
-  
-  out <- out %>% dplyr::distinct(titles, dates, duplicates_fuzzyjoin, dist) %>% 
-    dplyr::arrange(dates)
+                  "fuzzy_match" = "titles.y") %>% 
+    dplyr::select(titles, dates.x, fuzzy_match, dates.y, distance)
+  # We exclude the ones which are a perfect match for now as we know there are 36 of these.
   
   knitr::kable(out) %>%
   kableExtra::column_spec(1, width = "30em") %>% 
-  kableExtra::column_spec(2, width = "10em") %>%
-    kableExtra::column_spec(3, width = "15em")
-    
-  # tofix: this should be added as another column to the dataset, even if binary...
+  kableExtra::column_spec(2, width = "8em") %>%
+  kableExtra::column_spec(3, width = "30em") %>% 
+  kableExtra::column_spec(4, width = "8em") %>%
+  kableExtra::column_spec(5, width = "8em") 
+  # Fuzzy matching has found 46 variables that match at the set distance level. Though, are these really a match? 
+  # As you can see from the table below, while most of the cases matched appear connected, some of the matching is indeed fuzzy.
+  
+  c <- data.frame(out)
+  c$date <- lubridate::as_date(out$dates.x)
+  d <- as.data.frame(out)
+  d$date <- lubridate::as_date(out$dates.y)
+  e <- dplyr::inner_join(c, d)
+  summary(e)
+  # We create two other sub-datasets with the date collumn of the fuzzy matches in each of the original datasets. 
+  # We join them to see which fuzzy matches actually have the same dates, as these are very likely good matches.  
+  # We find that out of the 46 fuzzy matches 30 are true positives while 16 could be considered false positives. 
+  # While these are often protocols and agreements to the same treaty, it is hard to extract this information using fuzzy match. 
+  # Moreover, there are considerable difficulties in setting a maximum distance that is not too small for fuzzy match to be helpful
+  # and not too big that matches are not meaningful anymore.
 ```
 
 There are some important advantages here, however:
@@ -177,7 +187,7 @@ agreements$qID <- qData::code_agreements(agreements$titles, agreements$dates)
   knitr::kable(agreements, align = "lccc") %>%
   kableExtra::column_spec(1, width = "5em") %>% 
   kableExtra::column_spec(2, width = "30em") %>% 
-    kableExtra::column_spec(3, width = "10em")
+  kableExtra::column_spec(3, width = "10em")
 ```
 
 ### Comparing specificity versus sensitivity
@@ -187,9 +197,9 @@ possible solutions discussed above.
 
 ```{r}
 errortype <- data.frame(model = c("duplicates", "fuzzy_match", "code_agreements"),
-                  true_pos = c(36, 80, 64),
-                  false_pos = c(0, 3, 0),
-                  false_neg = c(94, 47, 66),
+                  true_pos = c(36, 66, 64),
+                  false_pos = c(0, 16, 0),
+                  false_neg = c(94, 48, 66),
                   true_neg = c(70, 70, 70))
 
 #todo: update fuzzy match scores
@@ -204,8 +214,8 @@ roc <- roc %>% dplyr::mutate(x1 = 1 - specificity) %>%
   dplyr::rename("1 - specificity" = "x1")
 
 ggplot2::ggplot(data = roc, ggplot2::aes(x= `1 - specificity`, y=sensitivity)) + 
-  ggplot2::geom_point(ggplot2::aes(color = model, group = model)) +
-  # ggplot2::geom_abline(intercept = 0, slope = 1, color = "black") + ggplot2::geom_line(ggplot2::aes(color = model, group= model)) +
+  ggplot2::geom_abline(intercept = 0, slope = 1, color = "black") + 
+  ggplot2::geom_line(ggplot2::aes(color = model, group= model)) +
   ggplot2::theme_classic() + ggplot2::ggtitle("ROC Curve")
 ```
 
