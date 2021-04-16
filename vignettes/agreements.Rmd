@@ -87,7 +87,6 @@ Here we only consider equivalent those titles that are exactly the same as one a
 ```{r}
 agreements$duplicates <- ifelse(duplicated(agreements$titles), "1", "0")
 sum(duplicated(agreements$titles))
-
 knitr::kable(agreements, align = "llcc") %>%
   kableExtra::column_spec(1, width = "6em") %>% 
   kableExtra::column_spec(2, width = "30em") %>% 
@@ -107,20 +106,15 @@ manual coding of duplicates for the same sample.
 library(readr)
 hand_coded_sample <- read_delim("hand-coded-sample.csv", ";", escape_double = FALSE, trim_ws = TRUE)
 hand_code_duplicates <- hand_coded_sample %>%  dplyr::select(duplicate) %>% 
-  dplyr::rename("Hand_code_duplicates" = "duplicate")
-hand_coded_sample <- cbind(agreements, hand_code_duplicates)
-# agreements$hand_code_duplicates <- hand_code_duplicates
-# sum(agreements$hand_code_duplicates)
-
-hand_coded_sample <- hand_coded_sample %>% dplyr::select(titles, dates, duplicates, Hand_code_duplicates)
-knitr::kable(hand_coded_sample, align = "lllcc") %>%
+  dplyr::rename("hand_code_duplicates" = "duplicate")
+sum(hand_code_duplicates)
+agreements <- cbind(agreements, hand_code_duplicates)
+knitr::kable(agreements, align = "lllcc") %>%
   kableExtra::column_spec(1, width = "10em") %>% 
   kableExtra::column_spec(2, width = "30em") %>% 
   kableExtra::column_spec(3, width = "10em") %>% 
   kableExtra::column_spec(4, width = "10em") %>% 
   kableExtra::column_spec(5, width = "10em")
-
-
 ```
 
 ### Fuzzy match
@@ -132,6 +126,10 @@ Fuzzy matching relies on stringdist to match observations.
   b <- agreements 
 
   out <- as.data.frame(fuzzyjoin::stringdist_left_join(a, b, by = "titles", method = "lv", max_dist = 30, distance_col = "dist"))
+
+  # fuzzy_match <- ifelse(out$dist != 0, 1, 0)
+  # agreements <-cbind(agreements, fuzzy_match)
+  
   out <- out %>% dplyr::filter(dist > 0) %>% 
     dplyr::rename("titles" = "titles.x",
                   "duplicates_fuzzyjoin" = "titles.y")
@@ -140,7 +138,7 @@ Fuzzy matching relies on stringdist to match observations.
   
   out <- merge(agreements, out, by = "titles", all.x = TRUE)
   
-  out <- out %>% dplyr::distinct(titles, dates, duplicates_fuzzyjoin, dist) %>% 
+  out <- out %>% dplyr::distinct(titles, date, duplicates_fuzzyjoin, dist) %>% 
     dplyr::arrange(dates)
   
   knitr::kable(out) %>%
@@ -180,6 +178,31 @@ agreements$qID <- qData::code_agreements(agreements$titles, agreements$dates)
   kableExtra::column_spec(1, width = "5em") %>% 
   kableExtra::column_spec(2, width = "30em") %>% 
     kableExtra::column_spec(3, width = "10em")
+```
+
+### Comparing specificity versus sensitivity
+
+Since we hand coded the duplicates and know how many are actual duplicates and not, we can compare the specificity versus sensitivity for each of the 
+possible solutions discussed above. 
+
+```{r}
+errortype <- data.frame(model = c("dupicates", "fuzzy_match", "code_agreements"),
+                  true_pos = c(36, 80, 64),
+                  false_pos = c(0, 3, 0),
+                  false_neg = c(94, 47, 66),
+                  true_neg = c(70, 70, 70))
+
+#todo: update fuzzy match scores
+
+roc <- errortype %>% dplyr::mutate(sensitivity = true_pos / (true_pos + false_neg),
+				             specificity = true_neg / (true_neg + false_pos)) %>%
+	     dplyr::group_by(model)
+
+roc
+
+ggplot2::ggplot(data = roc, aes(x=1 - specificity, y=sensitivity)) + 
+  geom_abline(intercept = 0, slope = 1, color = "black") + geom_line(aes(color = model, group= model)) +
+  theme_classic() + ggtitle("ROC Curve")
 ```
 
 ## How to read a qID
