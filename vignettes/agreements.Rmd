@@ -142,6 +142,12 @@ manual coding of duplicates for the same sample.
 
 Fuzzy matching relies on `stringdist` to match observations.
 
+```{r fuzzy}
+library(stringdist)
+fuzzy <- stringdist::stringsimmatrix(agreements$titles, agreements$titles)
+diag(fuzzy) <- 0
+agreements$fuzzy <- apply(fuzzy, 1, max)
+WVPlots::ROCPlot(agreements, "fuzzy", "duplicate", 1, title = "Fuzzy")
   # a <- agreements
   # b <- agreements
   # 
