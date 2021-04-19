@@ -205,18 +205,36 @@ and the more information we require, the higher the false negative rate.
 
 Using our current version of `{qData}` we obtain:
 
-```{r}
+```{r qid}
 agreements$qID <- qData::code_agreements(agreements$titles, agreements$dates)
+agreements$idinfo <- ifelse(duplicated(agreements$qID) | 
+                                  duplicated(agreements$qID, fromLast = TRUE), 1, 0)
+WVPlots::ROCPlot(agreements, "idinfo", "duplicate", 1, title = "ID Strict")
 
 # agreements$qID
-
-  knitr::kable(agreements, align = "lccc") %>%
-  kableExtra::column_spec(1, width = "5em") %>% 
-  kableExtra::column_spec(2, width = "30em") %>% 
-  kableExtra::column_spec(3, width = "10em")
+# 
+#   knitr::kable(agreements, align = "lccc") %>%
+#   kableExtra::column_spec(1, width = "5em") %>% 
+#   kableExtra::column_spec(2, width = "30em") %>% 
+#   kableExtra::column_spec(3, width = "10em")
 ```
 
 Not only `code_agreements()` finds duplicates, but it also references to the type of treaty an observation is and to which other observation agreement is linked to. More details in how to read a qID are given below.
+
+
+```{r qsim}
+qsim <- stringdist::stringsimmatrix(agreements$qID, agreements$qID)
+diag(qsim) <- 0
+agreements$qsim <- apply(qsim, 1, max)
+WVPlots::ROCPlot(agreements, "qsim", "duplicate", 1, title = "ID Sim")
+
+# agreements$qID
+# 
+#   knitr::kable(agreements, align = "lccc") %>%
+#   kableExtra::column_spec(1, width = "5em") %>% 
+#   kableExtra::column_spec(2, width = "30em") %>% 
+#   kableExtra::column_spec(3, width = "10em")
+```
 
 ### Comparing specificity versus sensitivity
 
