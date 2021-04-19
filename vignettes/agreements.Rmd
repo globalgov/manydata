@@ -43,7 +43,7 @@ Here we can rely on ISO-3166 alpha-3 codes for most modern states,
 complementing them with COW or other codes for more historical states.
 This combined registry is made available through the `qStates::code_states()` function.
 
-But we are not aware comprehensive, authoritative, succinct, and intelligible registry of treaties.
+But we are not aware of comprehensive, authoritative, succinct, and intelligible registry of treaties.
 To solve this problem, we need to think both about how observations might be coded
 and what this codes might represent.
 
@@ -77,8 +77,8 @@ knitr::kable(agreements) %>%
 ### Everything unique
 
 First we could simply offer a unique code for each title.
-Obviously this errs on the side of false negatives for many titles
-that are quite obviously (for humans) equivalent.
+Obviously this would generate errors on the side of false negatives 
+for many titles that are quite obviously (for humans) equivalent.
 
 ### Strict match
 
@@ -119,7 +119,7 @@ knitr::kable(agreements, align = "lllcc") %>%
 
 ### Fuzzy match
 
-Fuzzy matching relies on stringdist to match observations.
+Fuzzy matching relies on `stringdist` to match observations.
 
 ```{r}
   a <- agreements
@@ -162,7 +162,7 @@ Fuzzy matching relies on stringdist to match observations.
 There are some important advantages here, however:
 
 1. is computationally expensive/takes a long time
-1. errs on the side of false positives
+1. errors on the side of false positives
 
 ### Identifying information extraction
 
