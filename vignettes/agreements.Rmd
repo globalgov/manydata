@@ -100,11 +100,28 @@ First we could simply offer a unique code for each title.
 Obviously this would generate errors on the side of false negatives 
 for many titles that are quite obviously (for humans) equivalent.
 
+```{r unique}
+agreements$unique <- 0
+library(WVPlots)
+WVPlots::ROCPlot(agreements, "unique", "duplicate", 1, title = "Unique")
+```
+
+### Random
+
+```{r random}
+agreements$random <- runif(200)
+library(WVPlots)
+WVPlots::ROCPlot(agreements, "random", "duplicate", 1, title = "Random")
+```
+
 ### Strict match
 
 Here we only consider equivalent those titles that are exactly the same as one another.
 
-```{r}
+```{r strict}
+agreements$strict <- ifelse(duplicated(agreements$titles) | 
+                                  duplicated(agreements$titles, fromLast = TRUE), 1, 0)
+WVPlots::ROCPlot(agreements, "strict", "duplicate", 1, title = "Strict")
 # sum(duplicated(agreements$titles))
 # knitr::kable(agreements, align = "llcc") %>%
   # kableExtra::column_spec(1, width = "6em") %>% 
