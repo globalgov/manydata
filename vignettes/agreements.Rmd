@@ -54,7 +54,7 @@ we construct a sample of treaty titles from three different datasets in the `qEn
 Let's take only titles of treaties established in a particular decade, the 1980s, 
 so that we can increase the probability of matches. 
 
-```{r data}
+```{r data, eval=FALSE}
 library(qData)
 samples <- lapply(qEnviron::agreements, function(x) x[x$Beg > "1980-01-01" & x$Beg < "1990-01-01", ])
 titles <- unlist(purrr::map(samples, "Title"))
@@ -72,6 +72,26 @@ knitr::kable(agreements) %>%
 ```
 
 
+```{r}
+library(qData)
+library(readr)
+hand_coded_sample <- read_delim("hand-coded-sample.csv", ";", escape_double = FALSE, trim_ws = TRUE)
+# hand_code_duplicates <- hand_coded_sample %>%  dplyr::select(duplicate) %>% 
+#   dplyr::rename("hand_code_duplicates" = "duplicate")
+# sum(hand_code_duplicates)
+# agreements <- cbind(agreements, hand_code_duplicates)
+agreements <- hand_coded_sample %>%
+  dplyr::mutate(dates = standardise_dates(dates)) %>%
+  dplyr::select(-c(X5,X7))
+agreements
+# knitr::kable(agreements, align = "lllcc") %>%
+  # kableExtra::column_spec(1, width = "0em") %>% 
+  # kableExtra::column_spec(2, width = "35em") %>% 
+  # kableExtra::column_spec(3, width = "10em") %>% 
+  # kableExtra::column_spec(4, width = "10em") %>% 
+  # kableExtra::column_spec(5, width = "10em")
+```
+
 ## Options for solutions
 
 ### Everything unique
@@ -85,13 +105,12 @@ for many titles that are quite obviously (for humans) equivalent.
 Here we only consider equivalent those titles that are exactly the same as one another.
 
 ```{r}
-agreements$duplicates <- ifelse(duplicated(agreements$titles), "1", "0")
-sum(duplicated(agreements$titles))
-knitr::kable(agreements, align = "llcc") %>%
-  kableExtra::column_spec(1, width = "6em") %>% 
-  kableExtra::column_spec(2, width = "30em") %>% 
-  kableExtra::column_spec(3, width = "6em") %>% 
-  kableExtra::column_spec(4, width = "10em")
+# sum(duplicated(agreements$titles))
+# knitr::kable(agreements, align = "llcc") %>%
+  # kableExtra::column_spec(1, width = "6em") %>% 
+  # kableExtra::column_spec(2, width = "30em") %>% 
+  # kableExtra::column_spec(3, width = "6em") %>% 
+  # kableExtra::column_spec(4, width = "10em")
 ```
 
 Note that this is probably boosted by our use of `qData::standardise_titles()` in qPackages,
@@ -100,58 +119,42 @@ For example a "Treaty Of..." and "Treaty For..." would be considered distinct,
 as would "Antarctic Treaty" and "Antarctic Treaty 1959",
 even though they ought to be rendered equivalent.
 Compare, for example, the number of duplicates found with strict match and with
-manual coding of duplicates for the same sample. 
-
-```{r}
-library(readr)
-hand_coded_sample <- read_delim("hand-coded-sample.csv", ";", escape_double = FALSE, trim_ws = TRUE)
-hand_code_duplicates <- hand_coded_sample %>%  dplyr::select(duplicate) %>% 
-  dplyr::rename("hand_code_duplicates" = "duplicate")
-sum(hand_code_duplicates)
-agreements <- cbind(agreements, hand_code_duplicates)
-knitr::kable(agreements, align = "lllcc") %>%
-  kableExtra::column_spec(1, width = "0em") %>% 
-  kableExtra::column_spec(2, width = "35em") %>% 
-  kableExtra::column_spec(3, width = "10em") %>% 
-  kableExtra::column_spec(4, width = "10em") %>% 
-  kableExtra::column_spec(5, width = "10em")
-```
+manual coding of duplicates for the same sample.
 
 ### Fuzzy match
 
 Fuzzy matching relies on `stringdist` to match observations.
 
-```{r}
-  a <- agreements
-  b <- agreements
-
-  out <- as.data.frame(fuzzyjoin::stringdist_inner_join(a, b, by = "titles", method = "lv", max_dist = 20, distance_col = "distance"))
-  # The Levenshtein distance is set to 20 to accomodate for matching between ammendments and protocols to the same treaty. 
-  # As well as to account for discrepanceis in articles and other words.
-  # Here we only select the titles that are matched below the maximun distance.
+  # a <- agreements
+  # b <- agreements
+  # 
+  # out <- as.data.frame(fuzzyjoin::stringdist_inner_join(a, b, by = "titles", method = "lv", max_dist = 20, distance_col = "distance"))
+  # The Levenshtein distance is set to 20 to accommodate matching between amendments and protocols to the same treaty. 
+  # As well as to account for discrepancies in articles and other words.
+  # Here we only select the titles that are matched below the maximum distance.
   
-  out <- out %>% dplyr::filter(distance > 0) %>% 
-    dplyr::rename("titles" = "titles.x",
-                  "fuzzy_match" = "titles.y") %>% 
-    dplyr::select(titles, dates.x, fuzzy_match, dates.y, distance)
+  # out <- out %>% dplyr::filter(distance > 0) %>% 
+  #   dplyr::rename("titles" = "titles.x",
+  #                 "fuzzy_match" = "titles.y") %>% 
+  #   dplyr::select(titles, dates.x, fuzzy_match, dates.y, distance)
   # We exclude the ones which are a perfect match for now as we know there are 36 of these.
   
-  knitr::kable(out) %>%
-  kableExtra::column_spec(1, width = "30em") %>% 
-  kableExtra::column_spec(2, width = "8em") %>%
-  kableExtra::column_spec(3, width = "30em") %>% 
-  kableExtra::column_spec(4, width = "8em") %>%
-  kableExtra::column_spec(5, width = "8em") 
+  # knitr::kable(out) %>%
+  # kableExtra::column_spec(1, width = "30em") %>% 
+  # kableExtra::column_spec(2, width = "8em") %>%
+  # kableExtra::column_spec(3, width = "30em") %>% 
+  # kableExtra::column_spec(4, width = "8em") %>%
+  # kableExtra::column_spec(5, width = "8em") 
   # Fuzzy matching has found 46 variables that match at the set distance level. Though, are these really a match? 
   # As you can see from the table below, while most of the cases matched appear connected, some of the matching is indeed fuzzy.
   
-  c <- data.frame(out)
-  c$date <- lubridate::as_date(out$dates.x)
-  d <- as.data.frame(out)
-  d$date <- lubridate::as_date(out$dates.y)
-  e <- dplyr::inner_join(c, d)
-  summary(e)
-  # We create two other sub-datasets with the date collumn of the fuzzy matches in each of the original datasets. 
+  # c <- data.frame(out)
+  # c$date <- lubridate::as_date(out$dates.x)
+  # d <- as.data.frame(out)
+  # d$date <- lubridate::as_date(out$dates.y)
+  # e <- dplyr::inner_join(c, d)
+  # summary(e)
+  # We create two other sub-datasets with the date column of the fuzzy matches in each of the original datasets. 
   # We join them to see which fuzzy matches actually have the same dates, as these are very likely good matches.  
   # We find that out of the 46 fuzzy matches 30 are true positives while 16 could be considered false positives. 
   # While these are often protocols and agreements to the same treaty, it is hard to extract this information using fuzzy match. 
@@ -197,7 +200,7 @@ Not only `code_agreements()` finds duplicates, but it also references to the typ
 Since we hand coded the duplicates and know how many are actual duplicates and not, we can compare the specificity versus sensitivity for each of the 
 possible solutions discussed above. 
 
-```{r}
+```{r, eval=FALSE}
 errortype <- data.frame(model = c("duplicates", "fuzzy_match", "code_agreements", "hand_code"),
                   true_pos = c(36, 66, 64, 130),
                   false_pos = c(0, 16, 0, 0),
@@ -311,7 +314,7 @@ to identify linkages between treaties.
 The first element extracted from the title is the state that is part to the treaty. The function `code_states()` from `qStates` is used. It returns 3 digit 
 ISO codes for states.
 
-```{r}
+```{r, eval=FALSE}
 qData::code_parties(titles)
 ```
 
@@ -320,7 +323,7 @@ qData::code_parties(titles)
 Each treaty contains a unique number in their qID which refer to the signature date. The number has therefore eight numbers that are under the YYYYMMDD 
 format. 
 
-```{r}
+```{r, eval=FALSE}
 qData::code_dates(dates)
 ```
 
@@ -328,7 +331,7 @@ qData::code_dates(dates)
 
 The function detects the type of treaty and assign a letter that will be included in the final ID. 
 
-```{r}
+```{r, eval=FALSE}
 qData::code_type(titles)
 ```
 
@@ -347,7 +350,7 @@ Detects the family a treaty might belong to. Treaties from the same family can b
 (e.g. amendment, protocol, meeting) and identifying duplicates based on the core words used to refer to main agreement. The YYYYMMDD number assigned to the 
 "mother" treaty is used for all the other treaties deriving from it as the last digits in their qID.
 
-```{r}
+```{r, eval=FALSE}
 qData::code_linkage(titles, dates)
 ```
 
@@ -355,7 +358,7 @@ qData::code_linkage(titles, dates)
 
 Are these a famous agreements for which abbreviations are known? Some treaties already have known abbreviation. The qID of these treaties contain their abbreviation.
 
-```{r}
+```{r, eval=FALSE}
 qData::code_known_agreements(titles)
 ```
 
