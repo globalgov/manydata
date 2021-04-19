@@ -56,6 +56,7 @@ so that we can increase the probability of matches.
 
 ```{r data, eval=FALSE}
 library(qData)
+library(dplyr)
 samples <- lapply(qEnviron::agreements, function(x) x[x$Beg > "1980-01-01" & x$Beg < "1990-01-01", ])
 titles <- unlist(purrr::map(samples, "Title"))
 titles <- na.omit(titles)
@@ -171,9 +172,9 @@ WVPlots::ROCPlot(agreements, "qsim", "duplicate", 1, title = "ID Sim")
 
 We can compare the specificity versus sensitivity for each of the possible solutions discussed above in the same ROC plot. 
 
-```{r, eval=FALSE}
-WVPlots::ROCPlotList(frame = agreements, xvar_names = c("strict", "fuzzy", "idinfo", "qsim"), truthVar = "duplicate", truthTarget = TRUE,
-   title = "Comparing the different solutions")
+```{r comparison}
+WVPlots::ROCPlotList(frame = agreements, xvar_names = c("strict", "fuzzy", "idinfo", "qsim"), 
+                     truthVar = "duplicate", truthTarget = TRUE, title = "Comparing the different solutions")
 ```
 
 ## How to read a qID
