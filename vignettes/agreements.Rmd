@@ -224,7 +224,7 @@ The first element extracted from the title is the state that is part to the trea
 ISO codes for states.
 
 ```{r, eval=FALSE}
-qData::code_parties(titles)
+qData::code_parties(agreements$titles)
 ```
 
 ### Date
@@ -233,7 +233,7 @@ Each treaty contains a unique number in their qID which refer to the signature d
 format. 
 
 ```{r, eval=FALSE}
-qData::code_dates(dates)
+qData::code_dates(agreements$dates)
 ```
 
 ### Type
@@ -241,7 +241,7 @@ qData::code_dates(dates)
 The function detects the type of treaty and assign a letter that will be included in the final ID. 
 
 ```{r, eval=FALSE}
-qData::code_type(titles)
+qData::code_type(agreements$titles)
 ```
 
 * Agreements = **A**
@@ -260,7 +260,7 @@ Detects the family a treaty might belong to. Treaties from the same family can b
 "mother" treaty is used for all the other treaties deriving from it as the last digits in their qID.
 
 ```{r, eval=FALSE}
-qData::code_linkage(titles, dates)
+qData::code_linkage(agreements$titles, agreements$dates)
 ```
 
 ### Known Agreements
@@ -268,7 +268,7 @@ qData::code_linkage(titles, dates)
 Are these a famous agreements for which abbreviations are known? Some treaties already have known abbreviation. The qID of these treaties contain their abbreviation.
 
 ```{r, eval=FALSE}
-qData::code_known_agreements(titles)
+qData::code_known_agreements(agreements$titles)
 ```
 
 **Example**
@@ -280,20 +280,11 @@ qData::code_known_agreements(titles)
 "Convention On The Conservation Of Antarctic Marine Living Resources" | CCAMLR
 "Convention On International Trade In Endangered Species Of Wild Fauna And Flora" | CITES
 "International Convention On Civil Liability For Oil Pollution Damage" | CLC
-"Antarctic Mineral Resources Convention" | CRAMRA
-"Convention On The Protection And Use Of Transboundary Watercourses And International Lakes" | CECE
-"Convention On Long-Range Transboundary Air Pollution" | LRTAP
 "International Convention For The Prevention Of Pollution From Ships" | MARPOL
-"North American Agreement On Environmental Cooperation" | NAAEC
 "Constitutional Agreement Of The Latin American Organization For Fisheries Development" | OLDEPESCA
-"International Convention On Oil Pollution Preparedness, Response And Cooperation" | OPRC
-"Convention For The Protection Of The Marine Environment Of The North East Atlantic" | OSPAR
 "Paris Agreement Under The United Nations Framework Convention On Climate Change" | PARIS
-"Convention On The Prior Informed Consent Procedure For Certain Hazardous Chemicals And Pesticides In International Trade" | PIC
 "Convention On Wetlands Of International Importance Especially As Waterfowl Habitat" | RAMSA
-"Convention To Combat Desertification In Those Countries Experiencing Serious Drought And/Or Desertification, Particularly In Africa" | UNCCD
 "United Nations Framework Convention On Climate Change" | UNFCCC
-"Convention For The Protection Of The Ozone Layer" | VIENNA
 
 Once added together the information extracted from treaty title and date forms a qID which is more authoritative, comprehensible, succinct and intelligible 
 than other naming conventions.
