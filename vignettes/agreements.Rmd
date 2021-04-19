@@ -198,30 +198,73 @@ Since we hand coded the duplicates and know how many are actual duplicates and n
 possible solutions discussed above. 
 
 ```{r}
-errortype <- data.frame(model = c("duplicates", "fuzzy_match", "code_agreements"),
-                  true_pos = c(36, 66, 64),
-                  false_pos = c(0, 16, 0),
-                  false_neg = c(94, 48, 66),
-                  true_neg = c(70, 70, 70))
+errortype <- data.frame(model = c("duplicates", "fuzzy_match", "code_agreements", "hand_code"),
+                  true_pos = c(36, 66, 64, 130),
+                  false_pos = c(0, 16, 0, 0),
+                  false_neg = c(94, 48, 66, 0),
+                  true_neg = c(70, 70, 70, 70)) %>% 
+  dplyr::mutate(sensitivity = true_pos / (true_pos + false_neg),
+				             specificity = 1 - (true_neg / (true_neg + false_pos)),
+				             accuracy = (true_pos + true_neg)/200,
+				             inaccuracy = 1 - ((true_pos + true_neg)/200))
 
-#todo: update fuzzy match scores
+# For fuzzy match the true positives score include the ones fuzzy matched (30) plus the exact duplicates (36).
+# An illustrative comparison table ...
+errortype
 
-roc <- errortype %>% dplyr::mutate(sensitivity = true_pos / (true_pos + false_neg),
-				             specificity = true_neg / (true_neg + false_pos)) %>%
-	     dplyr::group_by(model)
+# Let's create an ROC plot for to illustrate better each model
+error <- data.frame(hand_code = 1:200, duplicates = 1:200, fuzzy_match = 1:200, code_agreements = 1:200)
+error <- error %>% dplyr::mutate(hand_code = ifelse(error$hand_code < 131, 1, 0), 
+                                 duplicates = ifelse(error$duplicates < 37, 1, 0),
+                                 fuzzy_match = ifelse(error$fuzzy_match > 130 & error$fuzzy_match < 147, 1, fuzzy_match),
+                                 fuzzy_match = ifelse(error$fuzzy_match < 67, 1, fuzzy_match),
+                                 fuzzy_match = ifelse(error$fuzzy_match > 146, 0, fuzzy_match),
+                                 fuzzy_match = ifelse(error$fuzzy_match > 66 & error$fuzzy_match < 131, 0, fuzzy_match),
+                                 code_agreements = ifelse(error$code_agreements < 65, 1, 0)) 
+error <- error[sample(nrow(error)),]
+row.names(error) <- NULL
+# Shuffling things around to avoid unwarranted correlations
 
-roc
+strict <- glm(hand_code ~ duplicates, data = error) 
+fuzzy <- glm(hand_code ~ fuzzy_match, data = error)
+code <- glm(hand_code ~ code_agreements, data = error) 
 
-roc <- roc %>% dplyr::mutate(x1 = 1 - specificity) %>% 
-  dplyr::rename("1 - specificity" = "x1")
+library(ROCR)
 
-ggplot2::ggplot(data = roc, ggplot2::aes(x= specificity, y=sensitivity)) + 
-  ggplot2::geom_point(ggplot2::aes(color = model, group = model)) +
-  #ggplot2::geom_line(ggplot2::aes(color = model, group= model)) +
-  ggplot2::theme_classic() + ggplot2::ggtitle("ROC Curve") +
-  ggplot2::xlim(x = c(0, 1)) +
-  ggplot2::ylim(y = c(0, 1)) +
-  ggplot2::geom_abline(intercept = 0, slope = 1)
+strict_plot <- predict(strict, error, type = 'response')
+strict_plot <- prediction(strict_plot, error$hand_code)
+eval_strict <- performance(strict_plot, "sens", "spec")
+plot(eval_strict)
+
+fuzzy_plot <- predict(fuzzy, error, type = 'response')
+fuzzy_plot <- prediction(fuzzy_plot, error$hand_code)
+eval_fuzzy <- performance(fuzzy_plot, "sens", "spec")
+plot(eval_fuzzy)
+
+code_plot <- predict(code, error, type = 'response')
+code_plot <- prediction(code_plot, error$hand_code)
+eval_code <- performance(code_plot, "sens", "spec")
+plot(eval_code)
+
+plot(NULL,xlim=c(0,1),ylim=c(0,1),
+xlab="Sensitivity",ylab="Specificity")
+lines(eval_strict@x.values[[1]],eval_strict@y.values[[1]])
+lines(eval_fuzzy@x.values[[1]],eval_fuzzy@y.values[[1]])
+lines(eval_code@x.values[[1]],eval_code@y.values[[1]])
+# Lines 249-253 above must be run altogether otherwise error is produced 
+
+# Another option
+library(pROC)
+
+roc1 = roc(hand_code ~ duplicates, data = error)
+roc2 = roc(hand_code ~ fuzzy_match, data = error)
+roc3 = roc(hand_code ~ code_agreements, data = error)
+
+plot(roc1, col = 1, lty = 2, main = "ROC")
+plot(roc2, col = 3, lty = 3, add = TRUE)
+plot(roc3, col = 6, lty = 3, add = TRUE)
+# Lines 263-255 above must be run altogether otherwise error is produced 
+# tofix: need to add subtitles and make it pretty still...
 
 ```
 
