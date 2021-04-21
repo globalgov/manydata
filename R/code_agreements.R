@@ -198,6 +198,8 @@ code_dates <- function(x) {
   uID <- stringr::str_remove_all(x, "-")
   # For treaties without signature date
   uID[is.na(uID)] <- paste0("9999", sample(1000:9999, sum(is.na(uID)), replace = TRUE))
+  # When the date is a range, the uID is taking only the first value of the dates range (temporary solution)
+  uID <- stringr::str_remove_all(uID, "\\:[:digit:]{8}$")
   uID
 
 }
