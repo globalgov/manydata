@@ -16,3 +16,8 @@ A character vector with condensed dates
 Agreements should have a unique identification number that is meaningful,
 we condense their signature date to produce this number.
 }
+\examples{
+\dontrun{
+IEADB$uID <- code_dates(IEADB$dates)
+}
+}

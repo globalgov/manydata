@@ -6,8 +6,9 @@
 #' @param title title column variable
 #' @param date date column variable
 #' @param dataset name of the dataset, optional
-#' @import usethis
-#' @import stringr 
+#' @importFrom usethis ui_done
+#' @importFrom stringr str_replace_all
+#' @importFrom stringr str_detect
 #' @examples
 #' \dontrun{
 #' IEADB$qID <- code_agreements(IEADB$Title, IEADB$Signature)
@@ -112,7 +113,6 @@ code_parties <- function(x) {
 #' Identify the type of international agreement.
 #' @param x A character vector of treaty title
 #' @return A character vector of the type of treaty
-#' @import stringr
 #' @importFrom dplyr case_when
 #' @examples
 #' \dontrun{
@@ -188,6 +188,7 @@ code_type <- function(x) {
 #' @param x A date variable
 #' @return A character vector with condensed dates
 #' @importFrom stringr str_remove_all
+#' @examples
 #' \dontrun{
 #' IEADB$uID <- code_dates(IEADB$dates)
 #' }
@@ -207,6 +208,7 @@ code_dates <- function(x) {
 #' @param x A character vector of treaty title
 #' @return A character vector with abbreviation of known treaties
 #' @importFrom dplyr case_when
+#' @examples
 #' \dontrun{
 #' IEADB$abrevv <- code_known_agreements(IEADB$titles)
 #' }
@@ -244,9 +246,9 @@ code_known_agreements <- function(x){
 #'
 #' Identify the main environmental issue the treaty is tackling.
 #' @param x A character vector of treaty title
+#' @return A character vector of the treaty topic abbreviation.
 #' @importFrom stringr str_replace_na
 #' @importFrom dplyr case_when
-#' @return A character vector of the treaty topic abbreviation.
 #' @examples
 #' \dontrun{
 #' IEADB$topic <- code_topic(IEADB$Title)
@@ -284,7 +286,6 @@ code_topic <- function(x) {
 #' Identify the areas the treaty title refers to.
 #' @param x A character vector of treaty title
 #' @return A character vector of the treaty area
-#' @importFrom dplyr case_when
 #' @importFrom stringr str_replace_na
 #' @examples
 #' \dontrun{

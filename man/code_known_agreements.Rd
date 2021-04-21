@@ -15,3 +15,8 @@ A character vector with abbreviation of known treaties
 \description{
 Some agreements have known abbreviations that facilitate their identification.
 }
+\examples{
+\dontrun{
+IEADB$abrevv <- code_known_agreements(IEADB$titles)
+}
+}

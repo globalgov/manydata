@@ -62,7 +62,8 @@ Suggests:
     readxl,
     knitr,
     bibtex,
-    rorcid
+    rorcid,
+    WVPlots
 Remotes: globalgov/qStates
 Encoding: UTF-8
 LazyData: true

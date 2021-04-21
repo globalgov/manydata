@@ -56,7 +56,6 @@ so that we can increase the probability of matches.
 
 ```{r data, eval=FALSE}
 library(qData)
-library(dplyr)
 samples <- lapply(qEnviron::agreements, function(x) x[x$Beg > "1980-01-01" & x$Beg < "1990-01-01", ])
 titles <- unlist(purrr::map(samples, "Title"))
 titles <- na.omit(titles)
