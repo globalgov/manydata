@@ -62,6 +62,8 @@ code_agreements <- function(title, date, dataset = NULL) {
                                                                         (ifelse((!is.na(parties) & (type != "A") & (stringr::str_detect(parties, "^[:alpha:]{2}-[:alpha:]{3}$"))), paste0(uID, type, "_", parties, "_", line),
                                                                                 (ifelse((!is.na(parties) & (type != "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(uID, type, "_", line), NA)))))))))))))))))))
   
+  # When line is left empty, the last "_" of the qID should be deleted
+  out <- stringr::str_remove_all(out, "_$")
   out <- stringr::str_replace_all(out, "NA_", NA_character_)
 
   cat(sum(is.na(out)), "entries were not matched at all.\n")
@@ -397,6 +399,8 @@ code_linkage <- function(x, date) {
   dup <- duplicated(out)
   id <- date
   id <- stringr::str_remove_all(id, "-")
+  # When date is a range, remove the last date (temporary solution to deal with date range)
+  id <- stringr::str_remove_all(id, "\\:[:digit:]{8}$")
   id <- paste0(type, id)
   out <- cbind(out, dup, id)
   
