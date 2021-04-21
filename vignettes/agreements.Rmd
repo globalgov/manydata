@@ -84,11 +84,24 @@ agreements
 
 ## Options for solutions
 
+### A perfect match
+
+If we use the hand coded duplicates to identify all duplicates in the dataset we find rates of true positives and false positives in a receiver operating characteristics (ROC) graph we find that it matches perfectly as the area under curve (AUC) is maximized (equals 1). That is, we identify all true positives and no false positives.   
+
+```{r unique, warning=FALSE, message=FALSE}
+agreements$unique <- 0
+library(WVPlots)
+WVPlots::ROCPlot(agreements, "duplicate", "duplicate", 1, title = "Unique")
+```
+
+In reality, we often do not get a perfect score as we do not know all the true duplicates ...
+
 ### Everything unique
 
-First we could simply offer a unique code for each title.
+First we could simply offer a unique code for each title, no duplicates.
 Obviously this would generate errors on the side of false negatives 
 for many titles that are quite obviously (for humans) equivalent.
+That is, the graph illustrate that we find zero false positives as well as zero true positives.
 
 ```{r unique, warning=FALSE, message=FALSE}
 agreements$unique <- 0
@@ -97,6 +110,9 @@ WVPlots::ROCPlot(agreements, "unique", "duplicate", 1, title = "Unique")
 ```
 
 ### Random
+
+If we randomly cretae a variable with 200 values, we can also use to find duplicates.
+The random scoares improve a bit the AUC scores by matching some true positives, but they also generate some false positives.
 
 ```{r random, warning=FALSE, message=FALSE}
 agreements$random <- runif(200)
@@ -114,11 +130,12 @@ agreements$strict <- ifelse(duplicated(agreements$titles) |
 WVPlots::ROCPlot(agreements, "strict", "duplicate", 1, title = "Strict")
 ```
 
-Note that this is probably boosted by our use of `qData::standardise_titles()` in qPackages,
+Note that the AUC probably boosted by our use of `qData::standardise_titles()` in qPackages,
 but misses a number of more problematic cases.
 For example a "Treaty Of..." and "Treaty For..." would be considered distinct,
 as would "Antarctic Treaty" and "Antarctic Treaty 1959",
 even though they ought to be rendered equivalent.
+Strict match generates no false positives but it only captures a few of the true positives.
 
 ### Fuzzy match
 

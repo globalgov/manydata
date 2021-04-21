@@ -14,6 +14,5 @@ test_that("Code_agreements helper functions work properly", {
   expect_equal(code_dates(data$date), c("19800508", "19810130", "19710202", "19821203"))
   expect_equal(code_known_agreements(data$title), c(NA, NA, "RAMSA", "RAMSA"))
   expect_equal(code_linkage(data$title, data$date), c("", "", "A19710202", "A19710202"))
-  # Should we return NAs here?
 })
     
