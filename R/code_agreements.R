@@ -33,7 +33,7 @@ code_agreements <- function(title, date, dataset = NULL) {
   # Step three: code agreement topic and area
   # Categories and key words still need some adjustements
   # This does not appear on qID but information is extracted for
-  # future usage
+  # future usage.
   topic <- code_topic(qID)
   area <- code_areas(qID)
   
@@ -109,7 +109,7 @@ code_parties <- function(x) {
 
 #' Code Agreement Type
 #'
-#' Identify the type of the international agreement.
+#' Identify the type of international agreement.
 #' @param x A character vector of treaty title
 #' @return A character vector of the type of treaty
 #' @import stringr
@@ -184,7 +184,7 @@ code_type <- function(x) {
 #' Cretes Unique ID numbers from dates
 #'
 #' Agreements should have a unique identification number that is meaningful,
-#' so we condense their signature date to produce this number.
+#' we condense their signature date to produce this number.
 #' @param x A date variable
 #' @return A character vector with condensed dates
 #' @importFrom stringr str_remove_all
@@ -195,7 +195,7 @@ code_type <- function(x) {
 code_dates <- function(x) {
 
   uID <- stringr::str_remove_all(x, "-")
-  # Temporary solution for treaties without signature date
+  # For treaties without signature date
   uID[is.na(uID)] <- paste0("9999", sample(1000:9999, sum(is.na(uID)), replace = TRUE))
   uID
 
@@ -203,7 +203,7 @@ code_dates <- function(x) {
 
 #' Known agreements abbreviation
 #' 
-#' Some agreements have known abbreviations that facilitate identification.
+#' Some agreements have known abbreviations that facilitate their identification.
 #' @param x A character vector of treaty title
 #' @return A character vector with abbreviation of known treaties
 #' @importFrom dplyr case_when
