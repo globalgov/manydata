@@ -12,7 +12,7 @@ code_linkage(x, date)
 \item{date}{A date variable}
 }
 \description{
-Code Agreement Lineage
+Identify the linkage between amendments and protocols to a main agreement.
 }
 \examples{
 \dontrun{

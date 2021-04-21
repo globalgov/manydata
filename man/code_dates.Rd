@@ -11,10 +11,8 @@ code_dates(x)
 }
 \value{
 A character vector with condensed dates
-\dontrun{
-IEADB$uID <- code_dates(IEADB$dates)
-}
 }
 \description{
-Cretes Unique ID numbers from dates
+Agreements should have a unique identification number that is meaningful,
+so we condense their signature date to produce this number.
 }

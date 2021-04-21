@@ -11,11 +11,11 @@ code_agreements(title, date, dataset = NULL)
 
 \item{date}{date column variable}
 
-\item{dataset}{name of the dataset}
+\item{dataset}{name of the dataset, optional}
 }
 \description{
 Creates an ID column that contains information on the
-parties, the topic, the date and the relations to other
+parties, the type of agreement, the date and the relations to other
 agreements in the dataset.
 }
 \examples{

@@ -1,11 +1,11 @@
 #' Code agreements title
 #' 
 #' Creates an ID column that contains information on the
-#' parties, the topic, the date and the relations to other
+#' parties, the type of agreement, the date and the relations to other
 #' agreements in the dataset. 
 #' @param title title column variable
 #' @param date date column variable
-#' @param dataset name of the dataset
+#' @param dataset name of the dataset, optional
 #' @import usethis
 #' @import stringr 
 #' @examples
@@ -33,12 +33,12 @@ code_agreements <- function(title, date, dataset = NULL) {
   # Step three: code agreement topic and area
   # Categories and key words still need some adjustements
   # This does not appear on qID but information is extracted for
-  #future usage
+  # future usage
   topic <- code_topic(qID)
   area <- code_areas(qID)
   
   # Step four: code agreement type 
-  # For known agreements abbreviations are assigned
+  # For known agreements abbreviations are also assigned
   type <- code_type(qID)
   abbrev <- code_known_agreements(qID)
   
@@ -49,8 +49,7 @@ code_agreements <- function(title, date, dataset = NULL) {
   line <- code_linkage(qID, date)
   
   # Step seven: add items together correctly
-  # The following coding assumes that any other types than A (= Agreement) are linked to another treaty; this coding
-  # would need to be adapted for declarations, minutes, etc
+  # The following coding assumes that any other types than A (= Agreement) are linked to another treaty.
   out <- ifelse((!is.na(abbrev) & (type == "A")), paste0(abbrev, "_", uID, type),
                 (ifelse((!is.na(abbrev) & (type != "A")), paste0(abbrev, "_", uID, type, "_", line),
                         (ifelse((is.na(parties) & (type == "A")), paste0(uID, type),
@@ -86,6 +85,7 @@ code_agreements <- function(title, date, dataset = NULL) {
 #' Identify the countries that are part of the agreement.
 #' @param x A character vector of treaty titles
 #' @importFrom qStates code_states
+#' @importFrom stringr str_replace_all
 #' @return A character vector of parties that are mentioned in the treaty title
 #' @examples
 #' \dontrun{
@@ -112,7 +112,8 @@ code_parties <- function(x) {
 #' Identify the type of the international agreement.
 #' @param x A character vector of treaty title
 #' @return A character vector of the type of treaty
-#' @importFrom stringr str_replace_na
+#' @import stringr
+#' @importFrom dplyr case_when
 #' @examples
 #' \dontrun{
 #' IEADB$type <- code_type(IEADB$Title)
@@ -149,9 +150,8 @@ code_type <- function(x) {
     grepl("Strategy|Plan|Program|Improvement|Project|Study|Working Party|Working Group", x, ignore.case = T) ~ "S",
   )
   
-  # This need to be exapanded and,then, simplified but it works for now. As for below, the package english appears
-  # to only transform numbers to text, not the other way around. As well, it appears that str_remove () function does
-  # not work well when too many regex are parsed through so it is separated.
+  # Extracts meaningful ordering numbers for protocols and amendments
+  
   number <- x
   number <- gsub("\\<one\\>|\\<first\\>", "1", number)
   number <- gsub("\\<two\\>|\\<second\\>", "2", number)
@@ -170,7 +170,6 @@ code_type <- function(x) {
   number <- stringr::str_remove(number, "[:digit:]{1}\\s[:alpha:]{6}\\s[:digit:]{4}| [:digit:]{1}\\s[:alpha:]{7}\\s[:digit:]{4}")
   number <- stringr::str_remove(number, "[:digit:]{1}\\s[:alpha:]{8}\\s[:digit:]{4}| [:digit:]{1}\\s[:alpha:]{9}\\s[:digit:]{4}")
   number <- stringr::str_remove(number, "[:digit:]{4}")
-  # Spelling of numbers should also be considered here
   
   number <- ifelse(stringr::str_detect(number, "[:digit:]{1}|[:digit:]{2}"), stringr::str_extract(number, "[:digit:]{1}|[:digit:]{2}"), "")
   
@@ -180,13 +179,15 @@ code_type <- function(x) {
   type <- paste0(type, number)
   
   type
-  # What happens when multiple types are detected in title?
 }
 
 #' Cretes Unique ID numbers from dates
 #'
+#' Agreements should have a unique identification number that is meaningful,
+#' so we condense their signature date to produce this number.
 #' @param x A date variable
 #' @return A character vector with condensed dates
+#' @importFrom stringr str_remove_all
 #' \dontrun{
 #' IEADB$uID <- code_dates(IEADB$dates)
 #' }
@@ -201,9 +202,11 @@ code_dates <- function(x) {
 }
 
 #' Known agreements abbreviation
-#'
+#' 
+#' Some agreements have known abbreviations that facilitate identification.
 #' @param x A character vector of treaty title
 #' @return A character vector with abbreviation of known treaties
+#' @importFrom dplyr case_when
 #' \dontrun{
 #' IEADB$abrevv <- code_known_agreements(IEADB$titles)
 #' }
@@ -242,6 +245,7 @@ code_known_agreements <- function(x){
 #' Identify the main environmental issue the treaty is tackling.
 #' @param x A character vector of treaty title
 #' @importFrom stringr str_replace_na
+#' @importFrom dplyr case_when
 #' @return A character vector of the treaty topic abbreviation.
 #' @examples
 #' \dontrun{
@@ -276,9 +280,12 @@ code_topic <- function(x) {
 }
 
 #' Code the Treaty Areas
-#'
+#' 
+#' Identify the areas the treaty title refers to.
 #' @param x A character vector of treaty title
 #' @return A character vector of the treaty area
+#' @importFrom dplyr case_when
+#' @importFrom stringr str_replace_na
 #' @examples
 #' \dontrun{
 #' IEADB$area <- Code_areas(IEADB$Title)
@@ -319,7 +326,8 @@ code_areas <- function(x){
 }
 
 #' Code Agreement Lineage
-#'
+#' 
+#' Identify the linkage between amendments and protocols to a main agreement.
 #' @param x A character vector of treaty title
 #' @param date A date variable
 #' @import textclean
@@ -389,28 +397,6 @@ code_linkage <- function(x, date) {
   id <- paste0(type, id)
   out <- cbind(out, dup, id)
   
-  # An alternative way to find fuzzy duplicates
-  # match <- out %>% 
-  #   tidy_comb_all(out) %>% 
-  #   tidy_stringdist() %>% 
-  #   
-  #   match <- match %>% 
-  #   dplyr::filter(lv <= 20)
-  # a <- out %>% 
-  #   dplyr::filter(stringr::str_detect(out, "verbal|protocol|additional|subsidiary|supplementary|
-  #                                      complÃ©mentaire|complementar|complementario|annex |annexes|Verbal|
-  #                                      Protocol|Additional|Subsidiary|Supplementary|ComplÃ©mentaire|
-  #                                      Complementar|Complementario|Annex |Annexes"))
-  # 
-  # b <- out %>% 
-  #   dplyr::filter(!stringr::str_detect(out, "verbal|protocol|additional|subsidiary|supplementary|
-  #                                      complÃ©mentaire|complementar|complementario|annex |annexes|Verbal|
-  #                                      Protocol|Additional|Subsidiary|Supplementary|ComplÃ©mentaire|
-  #                                      Complementar|Complementario|Annex |Annexes"))
-  # 
-  # out <- fuzzyjoin::stringdist_inner_join(a, b, by = "out", method = "lv", max_dist = 12, distance_col = "dist")
-  
-  
   # Step three: make sure duplicates have the same ID number
   out <- out %>% 
     group_by_at(vars(out)) %>% 
@@ -427,9 +413,6 @@ code_linkage <- function(x, date) {
   
   line <- stringr::str_remove_all(line, "^1$")
   
-  # Some protocols/amendments have an empty line because the "mother" treaty is not in the dataset
-  # Could be replaced by a number indicating the missing linkage? like "00000000"?
-  # line <- stringr::str_replace_all(line, "^$", "00000000")
   line
   
 }  
