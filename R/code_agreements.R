@@ -45,6 +45,9 @@ code_agreements <- function(title, date, dataset = NULL) {
   
   #step five: give the observation a unique ID by dates
   uID <- code_dates(date)
+  A <- stringr::str_extract_all(qID, "^[:alpha:]")
+  B <- stringr::str_extract_all(qID, "[:alpha:]$")
+  uID <- stringr::str_replace_all(uID, "\\:[:digit:]{8}$", paste0(A,B))
   
   # step six: detect treaties from the same 'family'
   line <- code_linkage(qID, date)
@@ -201,7 +204,8 @@ code_dates <- function(x) {
   # For treaties without signature date
   uID[is.na(uID)] <- paste0("9999", sample(1000:9999, sum(is.na(uID)), replace = TRUE))
   # When the date is a range, the uID is taking only the first value of the dates range (temporary solution)
-  uID <- stringr::str_remove_all(uID, "\\:[:digit:]{8}$")
+  
+  # uID <- stringr::str_remove_all(uID, "\\:[:digit:]{8}$")
   uID
 
 }
