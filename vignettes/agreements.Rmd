@@ -87,6 +87,8 @@ agreements <- hand_coded_sample %>%
 agreements
 library(WVPlots)
 WVPlots::ROCPlot(agreements, "duplicate", "duplicate", 1, title = "Duplicates Match")
+# WVPlots::PRPlot(agreements, "duplicate", "duplicate", 1, title = "Duplicates Match")
+# Precision recall (PR) plots are also available for comparing solutions.
 ```
 
 In reality, we often do not get a perfect score as we do not know all the true duplicates. The next sections illustrate how the AUC score varies depending 
@@ -103,6 +105,7 @@ That is, the graph illustrates that we find zero false positives as well as zero
 agreements$unique <- 0
 library(WVPlots)
 WVPlots::ROCPlot(agreements, "unique", "duplicate", 1, title = "Unique")
+# WVPlots::PRPlot(agreements, "unique", "duplicate", 1, title = "Unique")
 ```
 
 ### Random
@@ -114,6 +117,8 @@ The random scores improve margianlly the AUC scores by matching some true positi
 agreements$random <- runif(200)
 library(WVPlots)
 WVPlots::ROCPlot(agreements, "random", "duplicate", 1, title = "Random")
+# WVPlots::PRPlot(agreements, "random", "duplicate", 1, title = "Random")
+# PR results also illustrate well how Unique duplicate matches work.
 ```
 
 ### Strict match
@@ -124,6 +129,8 @@ Here we only consider equivalent those titles that are exactly the same as one a
 agreements$strict <- ifelse(duplicated(agreements$titles) | 
                                   duplicated(agreements$titles, fromLast = TRUE), 1, 0)
 WVPlots::ROCPlot(agreements, "strict", "duplicate", 1, title = "Strict")
+# WVPlots::PRPlot(agreements, "strict", "duplicate", 1, title = "Strict")
+# PR plot is consistent with ROC plot and shows little imporvement from a random match.
 ```
 
 Note that the AUC probably boosted by our use of `qData::standardise_titles()` in qPackages,
@@ -143,6 +150,8 @@ fuzzy <- stringdist::stringsimmatrix(agreements$titles, agreements$titles)
 diag(fuzzy) <- 0
 agreements$fuzzy <- apply(fuzzy, 1, max)
 WVPlots::ROCPlot(agreements, "fuzzy", "duplicate", 1, title = "Fuzzy")
+# WVPlots::PRPlot(agreements, "fuzzy", "duplicate", 1, title = "Fuzzy")
+# Improvements are also visible in the PR plot. 
 ```
 
 There are some important advantages here, as it allows to increase the duplicates found in the dataset, however:
@@ -170,6 +179,8 @@ agreements$qID <- qData::code_agreements(agreements$titles, agreements$dates)
 agreements$idinfo <- ifelse(duplicated(agreements$qID) | 
                                   duplicated(agreements$qID, fromLast = TRUE), 1, 0)
 WVPlots::ROCPlot(agreements, "idinfo", "duplicate", 1, title = "ID Strict")
+# WVPlots::PRPlot(agreements, "idinfo", "duplicate", 1, title = "ID Strict")
+# PR plot illustrate similarities betwwen a perfect match and qID match.
 ```
 
 Not only `code_agreements()` finds duplicates more accurately, but it also references to the type of treaty an observation is and to which other observation
@@ -180,6 +191,8 @@ qsim <- stringdist::stringsimmatrix(agreements$qID, agreements$qID)
 diag(qsim) <- 0
 agreements$qsim <- apply(qsim, 1, max)
 WVPlots::ROCPlot(agreements, "qsim", "duplicate", 1, title = "ID Sim")
+# WVPlots::PRPlot(agreements, "qsim", "duplicate", 1, title = "ID Sim")
+# Better than above!
 ```
 
 ### Comparing specificity versus sensitivity
