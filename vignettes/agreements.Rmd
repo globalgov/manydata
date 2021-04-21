@@ -86,7 +86,7 @@ agreements
 
 ### A perfect match
 
-If we use the hand coded duplicates to identify all duplicates in the dataset we find rates of true positives and false positives in a receiver operating characteristics (ROC) graph we find that it matches perfectly as the area under curve (AUC) is maximized (equals 1). That is, we identify all true positives and no false positives.   
+If we use the hand coded duplicates to identify all duplicates in the dataset, the rates of true positives and false positives are represented the receiver operating characteristics (ROC) graph below. The area under the curve (AUC score) represented in dark gray in the graph is maximized (equals 1). That is, we identify all true positives and no false positives.   
 
 ```{r unique, warning=FALSE, message=FALSE}
 agreements$unique <- 0
@@ -94,7 +94,7 @@ library(WVPlots)
 WVPlots::ROCPlot(agreements, "duplicate", "duplicate", 1, title = "Unique")
 ```
 
-In reality, we often do not get a perfect score as we do not know all the true duplicates ...
+In reality, we often do not get a perfect score as we do not know all the true duplicates. The next sections illustrate how the AUC score varies depending on the method used to deal with duplicates.
 
 ### Everything unique
 
@@ -111,8 +111,8 @@ WVPlots::ROCPlot(agreements, "unique", "duplicate", 1, title = "Unique")
 
 ### Random
 
-If we randomly cretae a variable with 200 values, we can also use to find duplicates.
-The random scoares improve a bit the AUC scores by matching some true positives, but they also generate some false positives.
+If we randomly create a variable with 200 values, we can also use to find duplicates.
+The random scores improve a bit the AUC scores by matching some true positives, but they also generate a few false positives where the blue curve goes under the black curve.
 
 ```{r random, warning=FALSE, message=FALSE}
 agreements$random <- runif(200)
@@ -148,11 +148,10 @@ diag(fuzzy) <- 0
 agreements$fuzzy <- apply(fuzzy, 1, max)
 WVPlots::ROCPlot(agreements, "fuzzy", "duplicate", 1, title = "Fuzzy")
 ```
-
-There are some important advantages here, however:
+There are some important advantages here, as it allows to increase the duplicates found in the dataset, however:
 
 1. is computationally expensive/takes a long time
-1. errors on the side of false positives
+2. errors on the side of false positives depending on max. distance specification (when max. distance increases, chances of generating false positives increases as well)
 
 ### Identifying information extraction
 
