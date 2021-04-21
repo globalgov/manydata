@@ -13,7 +13,7 @@ code_type(x)
 A character vector of the type of treaty
 }
 \description{
-Identify the type of the international agreement.
+Identify the type of international agreement.
 }
 \examples{
 \dontrun{

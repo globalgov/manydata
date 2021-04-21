@@ -13,5 +13,5 @@ code_known_agreements(x)
 A character vector with abbreviation of known treaties
 }
 \description{
-Some agreements have known abbreviations that facilitate identification.
+Some agreements have known abbreviations that facilitate their identification.
 }

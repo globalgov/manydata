@@ -14,5 +14,5 @@ A character vector with condensed dates
 }
 \description{
 Agreements should have a unique identification number that is meaningful,
-so we condense their signature date to produce this number.
+we condense their signature date to produce this number.
 }
