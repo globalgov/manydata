@@ -38,7 +38,7 @@ standardise_titles <- standardize_titles <- function(s, strict = FALSE) {
     } else if(out$.[k] == "en") {
       out$out[k] == out$out[k]
     } else {
-      out$out[k] <- translateR::translate(content.vec = out$out[k], google.api.key = "AIzaSyAaUBk7shVjjsqKH9yN7um7ybGzaLWuCjw", source.lang = out$.[k], target.lang = "en")
+      out$out[k] <- translateR::translate(content.vec = out$out[k], google.api.key = "KEY", source.lang = out$.[k], target.lang = "en")
       # API key is mine, we need to rethink how to do this for the project at a larger scale
     }
   }
