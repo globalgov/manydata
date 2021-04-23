@@ -192,7 +192,7 @@ code_type <- function(x) {
 #' @importFrom stringr str_remove_all
 #' @examples
 #' \dontrun{
-#' IEADB$uID <- code_dates(IEADB$dates)
+#' IEADB$uID <- code_dates(IEADB$Title, IEADB$dates)
 #' }
 #' @export
 code_dates <- function(title, date) {
