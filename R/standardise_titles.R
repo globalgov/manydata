@@ -18,12 +18,27 @@
 #' }
 #' @export
 standardise_titles <- standardize_titles <- function(s, strict = FALSE) {
-  cap <- function(s) paste(toupper(substring(s, 1, 1)), {
+  cap<- function(s) paste(toupper(substring(s, 1, 1)), {
     s <- substring(s, 2)
     if (strict) tolower(s) else s
-    }
-    , sep = "", collapse = " ")
+  }
+  , sep = "", collapse = " ")
   out <- sapply(strsplit(s, split = " "), cap, USE.NAMES = !is.null(names(s)))
+  # For titles in other languages than english, we need to dectct language first
+  lang <- out %>% 
+    sapply(., purrr::map_chr, cld2::detect_language) %>% 
+    data.frame(check.names = FALSE)
+  out <- cbind(out, lang)
+  # Translating only the titles not in English
+  for (k in 1:nrow(out)){
+    if(out$.[k] == "en") {
+      out$out[k] == out$out[k]
+    } else {
+      out$out[k] <- translateR::translate(content.vec = out$out[k], google.api.key = "AIzaSyAaUBk7shVjjsqKH9yN7um7ybGzaLWuCjw", source.lang = out$.[k], target.lang = "en")
+      # API key is mine, we need to rethink how to do this for the project at a larger scale
+    }
+  }
+  out <- out$out
   out[out == "NANA"] <- NA
   out <- trimws(out)
   out <- gsub("\\.(?=\\.*$)", "", out, perl = TRUE)
