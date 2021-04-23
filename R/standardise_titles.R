@@ -11,8 +11,6 @@
 #' @import stringr
 #' @import dplyr
 #' @importFrom utils as.roman
-#' @import translateR
-#' @import cld2
 #' @examples
 #' \dontrun{
 #' e <- standardise_titles("A treaty concerning things")
