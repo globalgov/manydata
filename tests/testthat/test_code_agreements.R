@@ -13,7 +13,7 @@ test_that("Code_agreements() properly returns qIDs", {
 test_that("Code_agreements helper functions work properly", {
   expect_equal(code_parties(data$title), c("CPV-PRT", NA, NA, NA, NA, NA))
   expect_equal(code_type(data$title), c("A", "A", "A", "P", "A", "E1"))
-  expect_equal(code_dates(data$date), c("19800508", "19810130", "19710202", "19821203", "19761203", "19830429"))
+  expect_equal(code_dates(data$title, data$date), c("19800508", "19810130", "19710202", "19821203", "19761203", "19830429"))
   expect_equal(code_known_agreements(data$title), c(NA, NA, "RAMSA", "RAMSA", NA, NA))
   expect_equal(code_linkage(data$title, data$date), c("", "", "A19710202", "A19710202", "A19761203", "A19761203"))
 })

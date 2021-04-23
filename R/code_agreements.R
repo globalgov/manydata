@@ -44,7 +44,7 @@ code_agreements <- function(title, date, dataset = NULL) {
   abbrev <- code_known_agreements(qID)
   
   #step five: give the observation a unique ID by dates
-  uID <- code_dates(title, date)
+  uID <- code_dates(qID, date)
   
   # step six: detect treaties from the same 'family'
   line <- code_linkage(qID, date)
