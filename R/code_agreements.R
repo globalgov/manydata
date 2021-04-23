@@ -42,9 +42,10 @@ code_agreements <- function(title, date, dataset = NULL) {
   # For known agreements abbreviations are also assigned
   type <- code_type(qID)
   abbrev <- code_known_agreements(qID)
+  abbrev_dates <- known_agreement_dates(qID)
   
   #step five: give the observation a unique ID by dates
-  uID <- code_dates(qID, date)
+  uID <- code_dates(title, date)
   
   # step six: detect treaties from the same 'family'
   line <- code_linkage(qID, date)
@@ -52,7 +53,7 @@ code_agreements <- function(title, date, dataset = NULL) {
   # Step seven: add items together correctly
   # The following coding assumes that any other types than A (= Agreement) are linked to another treaty.
   out <- ifelse((!is.na(abbrev) & (type == "A")), paste0(abbrev, "_", uID, type),
-                (ifelse((!is.na(abbrev) & (type != "A")), paste0(abbrev, "_", uID, type, "_", line),
+                (ifelse((!is.na(abbrev) & (type != "A")), paste0(abbrev, "_", uID, type, "_", abbrev_dates),
                         (ifelse((is.na(parties) & (type == "A")), paste0(uID, type),
                                 (ifelse((is.na(parties) & (type != "A")), paste0(uID, type,"_", line),
                                         (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(uID, type, "_", parties),
@@ -183,7 +184,7 @@ code_type <- function(x) {
   type
 }
 
-#' Cretes Unique ID numbers from dates
+#' Creates Unique ID numbers from dates
 #'
 #' Agreements should have a unique identification number that is meaningful,
 #' we condense their signature date to produce this number.
@@ -253,8 +254,47 @@ code_known_agreements <- function(x){
     )
   
   abbrev
-  
 }
+
+
+#' Code Known Agreement Signature Date
+#' 
+#' Identify known agreements and assign the signature date
+#' @param x A character vector of treaty title
+#' @return A character vector of treaty signature dates
+#' @importFrom dplyr case_when
+#' @examples
+#' \dontrun{
+#' IEADB$abrev_dates <- known_agreements_dates(IEADB$titles)
+#' }
+#' @export
+
+known_agreement_dates <- function(x){
+  abbrev_dates <- case_when(
+    grepl("United Nations Convention On The Law Of The Sea", x, ignore.case = T) ~ "19821210",
+    grepl("Convention On Biological Diversity", x, ignore.case = T) ~ "19920605",
+    grepl("Convention On The Conservation Of Antarctic Marine Living Resources", x, ignore.case = T) ~ "19800520",
+    grepl("Convention On International Trade In Endangered Species Of Wild Fauna And Flora", x, ignore.case = T) ~ "19730303",
+    grepl("International Convention On Civil Liability For Oil Pollution Damage", x, ignore.case = T) ~ "19691129",
+    grepl("Antarctic Mineral Resources Convention", x, ignore.case = T) ~ "19880602",
+    grepl("Convention On The Protection And Use Of Transboundary Watercourses And International Lakes", x, ignore.case = T) ~ "19920317",
+    grepl("Convention On Long-Range Transboundary Air Pollution", x, ignore.case = T) ~ "19791113",
+    grepl("International Convention For The Prevention Of Pollution From Ships", x, ignore.case = T) ~ "19731102",
+    grepl("North American Agreement On Environmental Cooperation", x, ignore.case = T) ~ "19930914",
+    grepl("Constitutional Agreement Of The Latin American Organization For Fisheries Development", x, ignore.case = T) ~ "19821029",
+    grepl("International Convention On Oil Pollution Preparedness, Response And Cooperation", x, ignore.case = T) ~ "19901130",
+    grepl("Convention For The Protection Of The Marine Environment Of The North East Atlantic", x, ignore.case = T) ~ "19920922",
+    grepl("Paris Agreement Under The United Nations Framework Convention On Climate Change", x, ignore.case = T) ~ "20151212",
+    grepl("Convention On The Prior Informed Consent Procedure For Certain Hazardous Chemicals And Pesticides In International Trade", x, ignore.case = T) ~ "19980910",
+    grepl("Convention On Wetlands Of International Importance Especially As Waterfowl Habitat", x, ignore.case = T) ~ "19710202",
+    grepl("Convention To Combat Desertification In Those Countries Experiencing Serious Drought And/Or Desertification, Particularly In Africa", x, ignore.case = T) ~ "19940617",
+    grepl("United Nations Framework Convention On Climate Change", x, ignore.case = T) ~ "19920509",
+    grepl("Convention For The Protection Of The Ozone Layer", x, ignore.case = T) ~ "19850322",
+  )
+  abrrev_dates <- stringr::str_replace_na(abbrev_dates, "")
+  abbrev_dates
+}
+
 
 #' Code Agreement Topic
 #'
