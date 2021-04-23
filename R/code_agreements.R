@@ -413,7 +413,7 @@ code_linkage <- function(x, date) {
   id <- stringr::str_remove_all(id, "-")
   # When date is a range, remove the last date (temporary solution to deal with date range)
   id <- stringr::str_remove_all(id, "\\:[:digit:]{8}$")
-  id <- paste0(type, id)
+  id <- paste0(id, type)
   out <- cbind(out, dup, id)
   
   # Step three: make sure duplicates have the same ID number
