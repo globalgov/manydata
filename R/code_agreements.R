@@ -41,9 +41,9 @@ code_agreements <- function(title, date, dataset = NULL) {
   # Step four: code agreement type 
   # For known agreements abbreviations are also assigned
   type <- code_type(qID)
-  abbrev_s <- code_known_agreements(qID)
-  abbrev <- sapply(strsplit(abbrev_s, "\\s"), `[`, 1)
-  abbrev_dates <- sapply(strsplit(abbrev_s, "\\s"), `[`, 2)
+  abbrev <- code_known_agreements(qID)
+  # abbrev <- sapply(strsplit(abbrev_s, "\\s"), `[`, 1)
+  # abbrev_dates <- sapply(strsplit(abbrev_s, "\\s"), `[`, 2)
   
   #step five: give the observation a unique ID by dates
   uID <- code_dates(title, date)
@@ -53,15 +53,15 @@ code_agreements <- function(title, date, dataset = NULL) {
   
   # Step seven: add items together correctly
   # The following coding assumes that any other types than A (= Agreement) are linked to another treaty.
-  out <- ifelse((!is.na(abbrev) & (type == "A")), paste0(abbrev, "_", uID, type),
-                (ifelse((!is.na(abbrev) & (type != "A")), paste0(abbrev, "_", uID, type, "_", abbrev_dates),
+  out <- ifelse((!is.na(abbrev) & (type == "A")), paste0(abbrev),
+                (ifelse((!is.na(abbrev) & (type != "A")), paste0(uID, type, "_", abbrev),
                         (ifelse((is.na(parties) & (type == "A")), paste0(uID, type),
                                 (ifelse((is.na(parties) & (type != "A")), paste0(uID, type,"_", line),
                                         (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(uID, type, "_", parties),
                                                 (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{2}-[:alpha:]{3}$"))), paste0(uID, type, "_", parties),
                                                         (ifelse((!is.na(parties) & (type == "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(uID, type),
-                                                                (ifelse((!is.na(parties) & (type != "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(uID, type, "_", parties, "_", line),
-                                                                        (ifelse((!is.na(parties) & (type != "A") & (stringr::str_detect(parties, "^[:alpha:]{2}-[:alpha:]{3}$"))), paste0(uID, type, "_", parties, "_", line),
+                                                                (ifelse((!is.na(parties) & (type != "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(uID, type, "_", line,"_", parties),
+                                                                        (ifelse((!is.na(parties) & (type != "A") & (stringr::str_detect(parties, "^[:alpha:]{2}-[:alpha:]{3}$"))), paste0(uID, type, "_", line, "_", parties),
                                                                                 (ifelse((!is.na(parties) & (type != "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(uID, type, "_", line), NA)))))))))))))))))))
   
   # When line is left empty, the last "_" of the qID should be deleted
@@ -233,27 +233,26 @@ code_known_agreements <- function(x){
   
   # Assign the specific abbreviation to the "known" treaties 
   abbrev <- case_when(
-    grepl("United Nations Convention On The Law Of The Sea", x, ignore.case = T) ~ "UNCLOS 19821210",
-    grepl("Convention On Biological Diversity", x, ignore.case = T) ~ "CBD 19920605",
-    grepl("Convention On The Conservation Of Antarctic Marine Living Resources", x, ignore.case = T) ~ "CCAMLR 19800520",
-    grepl("Convention On International Trade In Endangered Species Of Wild Fauna And Flora", x, ignore.case = T) ~ "CITES 19730303",
-    grepl("International Convention On Civil Liability For Oil Pollution Damage", x, ignore.case = T) ~ "CLC 19691129",
-    grepl("Antarctic Mineral Resources Convention", x, ignore.case = T) ~ "CRAMRA 19880602",
-    grepl("Convention On The Protection And Use Of Transboundary Watercourses And International Lakes", x, ignore.case = T) ~ "CECE 19920317",
-    grepl("Convention On Long-Range Transboundary Air Pollution", x, ignore.case = T) ~ "LRTAP 19791113",
-    grepl("International Convention For The Prevention Of Pollution From Ships", x, ignore.case = T) ~ "MARPOL 19731102",
-    grepl("North American Agreement On Environmental Cooperation", x, ignore.case = T) ~ "NAAEC 19930914",
-    grepl("Constitutional Agreement Of The Latin American Organization For Fisheries Development", x, ignore.case = T) ~ "OLDEPESCA 19821029",
-    grepl("International Convention On Oil Pollution Preparedness, Response And Cooperation", x, ignore.case = T) ~ "OPRC 19901130",
-    grepl("Convention For The Protection Of The Marine Environment Of The North East Atlantic", x, ignore.case = T) ~ "OSPAR 19920922",
-    grepl("Paris Agreement Under The United Nations Framework Convention On Climate Change", x, ignore.case = T) ~ "PARIS 20151212",
-    grepl("Convention On The Prior Informed Consent Procedure For Certain Hazardous Chemicals And Pesticides In International Trade", x, ignore.case = T) ~ "PIC 19980910",
-    grepl("Convention On Wetlands Of International Importance Especially As Waterfowl Habitat", x, ignore.case = T) ~ "RAMSA 19710202",
-    grepl("Convention To Combat Desertification In Those Countries Experiencing Serious Drought And/Or Desertification, Particularly In Africa", x, ignore.case = T) ~ "UNCCD 19940617",
-    grepl("United Nations Framework Convention On Climate Change", x, ignore.case = T) ~ "UNFCCC 19920509",
-    grepl("Convention For The Protection Of The Ozone Layer", x, ignore.case = T) ~ "VIENNA 19850322",
+    grepl("United Nations Convention On The Law Of The Sea", x, ignore.case = T) ~ "UNCLOS19821210",
+    grepl("Convention On Biological Diversity", x, ignore.case = T) ~ "CBD19920605",
+    grepl("Convention On The Conservation Of Antarctic Marine Living Resources", x, ignore.case = T) ~ "CCAMLR19800520",
+    grepl("Convention On International Trade In Endangered Species Of Wild Fauna And Flora", x, ignore.case = T) ~ "CITES19730303",
+    grepl("International Convention On Civil Liability For Oil Pollution Damage", x, ignore.case = T) ~ "CLC19691129",
+    grepl("Antarctic Mineral Resources Convention", x, ignore.case = T) ~ "CRAMRA19880602",
+    grepl("Convention On The Protection And Use Of Transboundary Watercourses And International Lakes", x, ignore.case = T) ~ "CECE19920317",
+    grepl("Convention On Long-Range Transboundary Air Pollution", x, ignore.case = T) ~ "LRTAP19791113",
+    grepl("International Convention For The Prevention Of Pollution From Ships", x, ignore.case = T) ~ "MARPOL19731102",
+    grepl("North American Agreement On Environmental Cooperation", x, ignore.case = T) ~ "NAAEC19930914",
+    grepl("Constitutional Agreement Of The Latin American Organization For Fisheries Development", x, ignore.case = T) ~ "OLDEPESCA19821029",
+    grepl("International Convention On Oil Pollution Preparedness, Response And Cooperation", x, ignore.case = T) ~ "OPRC19901130",
+    grepl("Convention For The Protection Of The Marine Environment Of The North East Atlantic", x, ignore.case = T) ~ "OSPAR19920922",
+    grepl("Paris Agreement Under The United Nations Framework Convention On Climate Change", x, ignore.case = T) ~ "PARIS20151212",
+    grepl("Convention On The Prior Informed Consent Procedure For Certain Hazardous Chemicals And Pesticides In International Trade", x, ignore.case = T) ~ "PIC19980910",
+    grepl("Convention On Wetlands Of International Importance Especially As Waterfowl Habitat", x, ignore.case = T) ~ "RAMSA19710202",
+    grepl("Convention To Combat Desertification In Those Countries Experiencing Serious Drought And/Or Desertification, Particularly In Africa", x, ignore.case = T) ~ "UNCCD19940617",
+    grepl("United Nations Framework Convention On Climate Change", x, ignore.case = T) ~ "UNFCCC19920509",
+    grepl("Convention For The Protection Of The Ozone Layer", x, ignore.case = T) ~ "VIENNA19850322",
     )
-  abbrev <- stringr::str_replace_na(abbrev, "")
   abbrev
 }
 
