@@ -25,10 +25,12 @@ data2 <- data.frame(title = c("Agreement Between Cape Verde And Portugal On Fish
                              "Protocol To Amend The Convention On Wetlands Of International Importance Especially As Waterfowl Habitat", 
                              "Convention On The Protection Of The Rhine Against Pollution By Chlorides",
                              "Amendment 1 to the Convention On The Protection Of The Rhine Against Pollution By Chlorides"),
-                   date = c("1980", "1981", "1971", "1982", "1976", "1983"))
+                   date = c("1980-01-01:1980-12-31", "1981-01-01:1981-12-31", "1971-01-01:1971-12-31", 
+                            "1982-01-01:1982-12-31", "1976-01-01:1976-12-31", "1983-01-01:1983-12-31"))
 test_that("code_dates() helper function treats date range correctly", {
   # Add title to the code_dates function arguments 
-  expect_equal(code_dates(data2$title, data2$date), c("1980AT", "1981TR", "1971CT", "1982PS", "1976CS", "1983AS"))
+  expect_equal(code_dates(data2$title, data2$date), c("1980ACT01", "1981TTO01", "1971CAT01", "1982PTT01", 
+                                                      "1976CPS01", "1983ALS01"))
 })
 
 
