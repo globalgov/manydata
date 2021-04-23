@@ -54,7 +54,7 @@ we construct a sample of treaty titles from three different datasets in the `qEn
 Let's take only titles of treaties established in a particular decade, the 1980s, 
 so that we can increase the probability of matches. 
 
-```{r data, eval=FALSE}
+```{r data, echo = FALSE, warning=FALSE, message=FALSE}
 library(qData)
 samples <- lapply(qEnviron::agreements, function(x) x[x$Beg > "1980-01-01" & x$Beg < "1990-01-01", ])
 titles <- unlist(purrr::map(samples, "Title"))
@@ -66,7 +66,6 @@ dates <- na.omit(lubridate::as_date(dates))
 agreements <- data.frame(cbind(titles, dates))
 agreements <- agreements[order(dates),]
 agreements <- head(agreements, 200)
-agreements
 ```
 
 ## Options for solutions
@@ -81,9 +80,9 @@ The rates of true positives and false positives are represented the receiver ope
 library(qData)
 library(readr)
 hand_coded_sample <- read_delim("hand-coded-sample.csv", ";", escape_double = FALSE, trim_ws = TRUE)
-agreements <- hand_coded_sample %>%
-  dplyr::mutate(dates = standardise_dates(dates)) %>%
-  dplyr::select(-c(X5,X7))
+hand_coded_sample <- dplyr::select(hand_coded_sample, "duplicate", "Linkage")
+agreements <- cbind(agreements, hand_coded_sample) %>%
+  dplyr::mutate(dates = standardise_dates(dates))
 agreements
 library(WVPlots)
 WVPlots::ROCPlot(agreements, "duplicate", "duplicate", 1, title = "Duplicates Match")
@@ -226,20 +225,19 @@ to amendment, the number of amendment (3), the parties (BAD-CHE) and finally the
 **Type** | **Pasting** | **Pasting**
 --- | --- |--- 
 Multilateral | 20050205A | uID, type
-Multilateral + Protocol | 19920817E2_20070817 | uID,type(number)_linkage
+Multilateral + Protocol | 19920817E2_20070817A | uID,type(number)_linkage
 
 A multilateral treaty that is an agreement will have the following qID: "20050205A" which indicates the signature date of the agreement 
-(20050205) and the type (A). A multilateral treaty that is not an agreement will have this qID format: "19920817E2_20070817". This represents the signature date of the amendment (19920817), the type (E), the number of amendment (2) and the linkage number (20070817) which is the signature 
-date of the "mother" treaty. 
+(20050205) and the type (A). A multilateral treaty that is not an agreement will have this qID format: "19920817E2_20070817". This represents the signature date of the amendment (19920817), the type (E), the number of amendment (2) and the linkage number (20070817A) which is the qID of the "mother" treaty. 
 
 **Type** | **Pasting** | **Pasting**
 --- | --- |--- 
-Known treaties | 	UNCLOS_19821210 | abbreviation_uID
-Amendment of known treaties | MARPOL_19731102_19900316E | abbreviation_linkage_uID,type(number)
+Known treaties | 	UNCLOS19821210 | abbreviation, uID
+Amendment of known treaties | 19900316E_MARPOL19731102| uID,type(number), abbreviation, uID
 
 Famous multilateral treaties have a simplified qID with an known abbreviation. For example, the United Nations Convention On The Law Of
-The Sea will have the following qID: "UNCLOC_19821210A" which is the known abbreviation (UNCLOS), the signature date (19821210) with the type (A). The 
-protocols or amendments of the known treaties will have this qID format: "MARPOL_19890317E2_19731102". It indicates the known abbreviation (MARPOL), the signature date of this specific amendment (19890317), the type of treaty (E), its number (2) and the signature date of the "mother" treaty (19731102).
+The Sea will have the following qID: "UNCLOC19821210" which is the known abbreviation (UNCLOS) and the signature date (19821210). The 
+protocols or amendments of the known treaties will have this qID format: "19890317E2_MARPOL19731102". It indicates the known abbreviation (MARPOL), the signature date of this specific amendment (19890317), the type of treaty (E), its number (2) and the signature date of the "mother" treaty (19731102).
 
 ## How `code_agreements()` work
 
@@ -266,7 +264,7 @@ qData::code_dates(agreements$dates)
 
 ### Type
 
-The function detects the type of treaty and assign a letter that will be included in the final ID. 
+The function detects the type of treaty and assign a letter that will be included in the final qID. 
 
 ```{r type, eval=FALSE}
 qData::code_type(agreements$titles)
@@ -284,7 +282,7 @@ For amendments or protocol, their ordering number, if present, is also extracted
 ### Linkage
 
 Detects the family a treaty might belong to. Treaties from the same family can be detected by removing predictable words that are added to treaty titles 
-(e.g. amendment, protocol, meeting) and identifying duplicates based on the core words used to refer to main agreement. The YYYYMMDD number assigned to the 
+(e.g. amendment, protocol, meeting) and identifying duplicates based on the core words used to refer to main agreement. The qID assigned to the 
 "mother" treaty is used for all the other treaties deriving from it as the last digits in their qID.
 
 ```{r linkage, eval=FALSE}
@@ -293,7 +291,7 @@ qData::code_linkage(agreements$titles, agreements$dates)
 
 ### Known Agreements
 
-Are these a famous agreements for which abbreviations are known? Some treaties already have known abbreviation. The qID of these treaties contain their abbreviation.
+Are these a famous agreements for which abbreviations are known? Some treaties already have known abbreviation. The qID of these treaties contain their abbreviation and signature date,
 
 ```{r known agreements, eval=FALSE}
 qData::code_known_agreements(agreements$titles)
@@ -302,16 +300,16 @@ qData::code_known_agreements(agreements$titles)
 
 **Know Agreements** | **Abbreviation**
 --- | ---
-"United Nations Convention On The Law Of The Sea" | UNCLOS
-"Convention On Biological Diversity" | CBD
-"Convention On The Conservation Of Antarctic Marine Living Resources" | CCAMLR
-"Convention On International Trade In Endangered Species Of Wild Fauna And Flora" | CITES
-"International Convention On Civil Liability For Oil Pollution Damage" | CLC
-"International Convention For The Prevention Of Pollution From Ships" | MARPOL
-"Constitutional Agreement Of The Latin American Organization For Fisheries Development" | OLDEPESCA
-"Paris Agreement Under The United Nations Framework Convention On Climate Change" | PARIS
-"Convention On Wetlands Of International Importance Especially As Waterfowl Habitat" | RAMSA
-"United Nations Framework Convention On Climate Change" | UNFCCC
+"United Nations Convention On The Law Of The Sea" | UNCLOS19821210
+"Convention On Biological Diversity" | CBD19920605
+"Convention On The Conservation Of Antarctic Marine Living Resources" | CCAMLR19800520
+"Convention On International Trade In Endangered Species Of Wild Fauna And Flora" | CITES19730303
+"International Convention On Civil Liability For Oil Pollution Damage" | CLC19691129
+"International Convention For The Prevention Of Pollution From Ships" | MARPOL 19731102
+"Constitutional Agreement Of The Latin American Organization For Fisheries Development" | OLDEPESCA19821029
+"Paris Agreement Under The United Nations Framework Convention On Climate Change" | PARIS20151212
+"Convention On Wetlands Of International Importance Especially As Waterfowl Habitat" | RAMSA19710202
+"United Nations Framework Convention On Climate Change" | UNFCCC19920509
 
 Once added together the information extracted from treaty title and date forms a qID which is more authoritative, comprehensible, succinct and intelligible 
 than other naming conventions.
