@@ -214,30 +214,30 @@ bilateral treaties, date, type and linkage.
 
 **Type** | **Pasting** | **Pasting**
 --- | --- |--- 
-Bilateral | 19060521A_MEX-USA | uID, type_parties
-Bilateral + Protocol | 18840921E3_18840921_BAD-CHE | uID,type(number)_linkage_parties
+Bilateral | 19060521_MEX-USA | uID, type_parties
+Bilateral + Protocol | 18840921E3_18830703_BAD-CHE | uID,type(number)_linkage_parties
 
-A bilateral treaty that is an agreement will have the following qID: "19060521A_MEX-USA". This is a combination of the date (19060521) 
-with the type(A) and the parties to agreement (MEX-USA). A bilateral treaty that is any other type than an agreement (e.g. protocol, amendments) will have 
-the qID under this format: "18840921E3_BAD-CHE_18830703". The date of signature of the amendment (18840921), the type (E) which refers 
-to amendment, the number of amendment (3), the parties (BAD-CHE) and finally the signature date of the "mother" treaty (18830703).
+A bilateral treaty that is an agreement will have the following qID: "19060521_MEX-USA". This is a combination of the date (19060521) 
+with the parties to agreement (MEX-USA). A bilateral treaty that is any other type than an agreement (e.g. protocol, amendments) will have 
+the qID under this format: "18840921E3_18830703_BAD-CHE ". The date of signature of the amendment (18840921), the type (E) which refers 
+to amendment, the number of amendment (3), the signature date of the "mother" treaty (18830703) and the parties (BAD-CHE).
 
 **Type** | **Pasting** | **Pasting**
 --- | --- |--- 
 Multilateral | 20050205A | uID, type
-Multilateral + Protocol | 19920817E2_20070817A | uID,type(number)_linkage
+Multilateral + Protocol | 20070817E2_19920817A | uID,type(number)_linkage
 
 A multilateral treaty that is an agreement will have the following qID: "20050205A" which indicates the signature date of the agreement 
-(20050205) and the type (A). A multilateral treaty that is not an agreement will have this qID format: "19920817E2_20070817". This represents the signature date of the amendment (19920817), the type (E), the number of amendment (2) and the linkage number (20070817A) which is the qID of the "mother" treaty. 
+(20050205) and the type (A). A multilateral treaty that is not an agreement will have this qID format: "19920817E2_20070817". This represents the signature date of the amendment (20070817), the type (E), the number of amendment (2) and the linkage number (19920817A) which is the qID of the "mother" treaty. 
 
 **Type** | **Pasting** | **Pasting**
 --- | --- |--- 
 Known treaties | 	UNCLOS19821210 | abbreviation, uID
-Amendment of known treaties | 19900316E_MARPOL19731102| uID,type(number), abbreviation, uID
+Amendment of known treaties | 19900316E2_MARPOL19731102| uID,type(number), abbreviation, uID
 
 Famous multilateral treaties have a simplified qID with an known abbreviation. For example, the United Nations Convention On The Law Of
 The Sea will have the following qID: "UNCLOC19821210" which is the known abbreviation (UNCLOS) and the signature date (19821210). The 
-protocols or amendments of the known treaties will have this qID format: "19890317E2_MARPOL19731102". It indicates the known abbreviation (MARPOL), the signature date of this specific amendment (19890317), the type of treaty (E), its number (2) and the signature date of the "mother" treaty (19731102).
+protocols or amendments of the known treaties will have this qID format: "19890317E2_MARPOL19731102". It indicates the signature date of this specific amendment (19900316), the type of treaty (E), its number (2) and the abbreviation and signature date of the "mother" treaty (MARPOL19731102).
 
 ## How `code_agreements()` work
 
@@ -259,7 +259,7 @@ Each treaty contains a unique number in their qID which refer to the signature d
 format. 
 
 ```{r dates, eval=FALSE}
-qData::code_dates(agreements$dates)
+qData::code_dates(agreements$titles, agreements$dates)
 ```
 
 ### Type
