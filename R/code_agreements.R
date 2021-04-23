@@ -44,10 +44,7 @@ code_agreements <- function(title, date, dataset = NULL) {
   abbrev <- code_known_agreements(qID)
   
   #step five: give the observation a unique ID by dates
-  uID <- code_dates(date)
-  A <- stringr::str_extract_all(qID, "^[:alpha:]")
-  B <- stringr::str_extract_all(qID, "[:alpha:]$")
-  uID <- stringr::str_replace_all(uID, "\\:[:digit:]{8}$", paste0(A,B))
+  uID <- code_dates(title, date)
   
   # step six: detect treaties from the same 'family'
   line <- code_linkage(qID, date)
@@ -198,14 +195,23 @@ code_type <- function(x) {
 #' IEADB$uID <- code_dates(IEADB$dates)
 #' }
 #' @export
-code_dates <- function(x) {
+code_dates <- function(title, date) {
 
-  uID <- stringr::str_remove_all(x, "-")
+  uID <- stringr::str_remove_all(date, "-")
   # For treaties without signature date
   uID[is.na(uID)] <- paste0("9999", sample(1000:9999, sum(is.na(uID)), replace = TRUE))
-  # When the date is a range, the uID is taking only the first value of the dates range (temporary solution)
   
-  # uID <- stringr::str_remove_all(uID, "\\:[:digit:]{8}$")
+  # When the date is a range, the uID is taking only the first value of the dates range (temporary solution)
+  A <- stringr::str_extract_all(title, "^[:alpha:]")
+  A <- stringr::str_to_upper(A)
+  B <- stringr::str_sub(title, start = 19, end = 19)
+  B <- ifelse(stringr::str_detect(B, "\\s"), "L", B)
+  B <- stringr::str_to_upper(B)
+  C <- stringr::str_extract_all(title, "[:alpha:]$")
+  C <- ifelse(!stringr::str_detect(C, "^[:alpha:]$"), "O", C)
+  C <- stringr::str_to_upper(C)
+  uID <- stringr::str_replace_all(uID, "[:digit:]{4}\\:[:digit:]{8}$", paste0(A,B,C,"01"))
+  
   uID
 
 }
