@@ -4,7 +4,7 @@
 \alias{code_dates}
 \title{Cretes Unique ID numbers from dates}
 \usage{
-code_dates(x)
+code_dates(title, date)
 }
 \arguments{
 \item{x}{A date variable}
@@ -18,6 +18,6 @@ we condense their signature date to produce this number.
 }
 \examples{
 \dontrun{
-IEADB$uID <- code_dates(IEADB$dates)
+IEADB$uID <- code_dates(IEADB$Title, IEADB$dates)
 }
 }

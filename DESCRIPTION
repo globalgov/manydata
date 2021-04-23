@@ -63,7 +63,9 @@ Suggests:
     knitr,
     bibtex,
     rorcid,
-    WVPlots
+    WVPlots,
+    translateR,
+    cld2
 Remotes: globalgov/qStates
 Encoding: UTF-8
 LazyData: true
