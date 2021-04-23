@@ -33,7 +33,9 @@ standardise_titles <- standardize_titles <- function(s, strict = FALSE) {
   out <- cbind(out, lang)
   # Translating only the titles not in English
   for (k in 1:nrow(out)){
-    if(out$.[k] == "en") {
+    if(is.na(out$.[k])) {
+      out$out[k] == out$out[k]
+    } else if(out$.[k] == "en") {
       out$out[k] == out$out[k]
     } else {
       out$out[k] <- translateR::translate(content.vec = out$out[k], google.api.key = "AIzaSyAaUBk7shVjjsqKH9yN7um7ybGzaLWuCjw", source.lang = out$.[k], target.lang = "en")
