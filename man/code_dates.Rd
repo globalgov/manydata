@@ -2,7 +2,7 @@
 % Please edit documentation in R/code_agreements.R
 \name{code_dates}
 \alias{code_dates}
-\title{Cretes Unique ID numbers from dates}
+\title{Creates Unique ID numbers from dates}
 \usage{
 code_dates(title, date)
 }

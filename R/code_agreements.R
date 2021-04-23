@@ -256,7 +256,6 @@ code_known_agreements <- function(x){
   abbrev
 }
 
-
 #' Code Known Agreement Signature Date
 #' 
 #' Identify known agreements and assign the signature date
