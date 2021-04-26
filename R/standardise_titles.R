@@ -1,14 +1,14 @@
-#' Capitalises all words
+#' Standardise titles
 #'
-#' Capitalises all words in a string to enable comparison
+#' Standardises words in a string to enable comparison
 #' @param s A string
 #' @param strict By default FALSE
-#' @param api_key If provided, standardise titles will translate and return agreement titles 
-#' in english using google translator.  
+#' @param api_key If google API key is provided, the function will translate and
+#' return strings in english using google translator.  
 #' @details The function capitalises all words in the strings passed to it,
-#' as well as trimming all white space from the starts and ends of the strings.
-#' If an API key is provided as an argument, the function detects title language in other 
-#' languages than English and translates them.
+#' as well as trimming all white space from the start, middle and end of the strings.
+#' If an API key is provided as an argument, the function detects strings in other languages
+#' and translates them to English.
 #' @return A capitalised, trimmed string
 #' @import textclean
 #' @import english
@@ -44,7 +44,7 @@ standardise_titles <- standardize_titles <- function(s, strict = FALSE, api_key 
     } else if(out$.[k] == "en") {
       out$out[k] == out$out[k]
     } else {
-      out$out[k] <- translateR::translate(content.vec = out$out[k], google.api.key = "KEY", source.lang = out$.[k], target.lang = "en")
+      out$out[k] <- suppressWarnings(translateR::translate(content.vec = out$out[k], google.api.key = api_key, source.lang = out$.[k], target.lang = "en"))
     }
   }
   out <- out$out
