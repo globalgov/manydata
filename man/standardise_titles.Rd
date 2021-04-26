@@ -4,12 +4,15 @@
 \alias{standardise_titles}
 \title{Capitalises all words}
 \usage{
-standardise_titles(s, strict = FALSE)
+standardise_titles(s, strict = FALSE, api_key = NULL)
 }
 \arguments{
 \item{s}{A string}
 
 \item{strict}{By default FALSE}
+
+\item{api_key}{If provided, standardise titles will translate and return agreement titles
+in english using google translator.}
 }
 \value{
 A capitalised, trimmed string
@@ -20,6 +23,8 @@ Capitalises all words in a string to enable comparison
 \details{
 The function capitalises all words in the strings passed to it,
 as well as trimming all white space from the starts and ends of the strings.
+If an API key is provided as an argument, the function detects title language in other
+languages than English and translates them.
 }
 \examples{
 \dontrun{
