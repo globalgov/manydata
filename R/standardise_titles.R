@@ -4,7 +4,7 @@
 #' @param s A string
 #' @param strict By default FALSE
 #' @param api_key If google API key is provided, the function will translate and
-#' return strings in english using google translator.  
+#' return strings in english using google translator.
 #' @details The function capitalises all words in the strings passed to it,
 #' as well as trimming all white space from the start, middle and end of the strings.
 #' If an API key is provided as an argument, the function detects strings in other languages
@@ -32,8 +32,8 @@ standardise_titles <- standardize_titles <- function(s, strict = FALSE, api_key 
   if(!is.null(api_key)) {
     qData::depends("cld2", "translateR")
     # For titles in other languages than english, we need to dectct language first
-    lang <- out %>% 
-    sapply(., purrr::map_chr, cld2::detect_language) %>% 
+    lang <- out %>%
+    sapply(., purrr::map_chr, cld2::detect_language) %>%
     data.frame(check.names = FALSE)
     out <- cbind(out, lang)
     # Translates only the titles not in English
