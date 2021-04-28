@@ -4,10 +4,12 @@
 \alias{code_dates}
 \title{Creates Unique ID numbers from dates}
 \usage{
-code_dates(title, date)
+code_dates(x, date)
 }
 \arguments{
-\item{x}{A date variable}
+\item{x}{A title variable}
+
+\item{date}{A date variable}
 }
 \value{
 A character vector with condensed dates

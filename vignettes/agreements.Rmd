@@ -54,7 +54,7 @@ we construct a sample of treaty titles from three different datasets in the `qEn
 Let's take only titles of treaties established in a particular decade, the 1980s, 
 so that we can increase the probability of matches. 
 
-```{r data, echo = FALSE, warning=FALSE, message=FALSE}
+```{r data, warning=FALSE, message=FALSE}
 library(qData)
 samples <- lapply(qEnviron::agreements, function(x) x[x$Beg > "1980-01-01" & x$Beg < "1990-01-01", ])
 titles <- unlist(purrr::map(samples, "Title"))
@@ -77,14 +77,12 @@ duplicates to correctly identify all duplicates in the sample, we get a perfect 
 The rates of true positives and false positives are represented the receiver operating characteristics (ROC) graph below. The area under the curve (AUC score), in dark gray, in the graph is maximized (equals 1). 
 
 ```{r hand coded data, warning=FALSE, message=FALSE}
-library(qData)
 library(readr)
+library(WVPlots)
 hand_coded_sample <- read_delim("hand-coded-sample.csv", ";", escape_double = FALSE, trim_ws = TRUE)
 hand_coded_sample <- dplyr::select(hand_coded_sample, "duplicate", "Linkage")
 agreements <- cbind(agreements, hand_coded_sample) %>%
-  dplyr::mutate(dates = standardise_dates(dates))
-agreements
-library(WVPlots)
+  dplyr::mutate(dates = qData::standardise_dates(dates))
 WVPlots::ROCPlot(agreements, "duplicate", "duplicate", 1, title = "Duplicates Match")
 # WVPlots::PRPlot(agreements, "duplicate", "duplicate", 1, title = "Duplicates Match")
 # Precision recall (PR) plots are also available for comparing solutions.
@@ -102,7 +100,6 @@ That is, the graph illustrates that we find zero false positives as well as zero
 
 ```{r unique, warning=FALSE, message=FALSE}
 agreements$unique <- 0
-library(WVPlots)
 WVPlots::ROCPlot(agreements, "unique", "duplicate", 1, title = "Unique")
 # WVPlots::PRPlot(agreements, "unique", "duplicate", 1, title = "Unique")
 ```
@@ -114,7 +111,6 @@ The random scores improve margianlly the AUC scores by matching some true positi
 
 ```{r random, warning=FALSE, message=FALSE}
 agreements$random <- runif(200)
-library(WVPlots)
 WVPlots::ROCPlot(agreements, "random", "duplicate", 1, title = "Random")
 # WVPlots::PRPlot(agreements, "random", "duplicate", 1, title = "Random")
 # PR results also illustrate well how Unique duplicate matches work.
@@ -204,10 +200,6 @@ WVPlots::ROCPlotList(frame = agreements, xvar_names = c("strict", "fuzzy", "idin
 ```
 
 ## How to read a qID
-
-```{r}
-head(agreements$qID, 10)
-```
 
 A qID is a meaningful shorthand ID created from a combination of elements extracted from the agreement title and date. The qID allows users to identify 
 bilateral treaties, date, type and linkage. 
