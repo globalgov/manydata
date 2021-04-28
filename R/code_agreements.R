@@ -57,13 +57,8 @@ code_agreements <- function(title, date, dataset = NULL) {
                 (ifelse((!is.na(abbrev) & (type != "A")), paste0(uID, type, "_", abbrev),
                         (ifelse((is.na(parties) & (type == "A")), paste0(uID, type),
                                 (ifelse((is.na(parties) & (type != "A")), paste0(uID, type,"_", line),
-                                        (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(uID, "_", parties),
-                                                (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{2}-[:alpha:]{3}$"))), paste0(uID, "_", parties),
-                                                        (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{2}$"))), paste0(uID, "_", parties),
-                                                                (ifelse((!is.na(parties) & (type == "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(uID, type),
-                                                                        (ifelse((!is.na(parties) & (type == "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{2}$"))), paste0(uID, type),
-                                                                                (ifelse((!is.na(parties) & (type == "A") & (!stringr::str_detect(parties, "^[:alpha:]{2}-[:alpha:]{3}$"))), paste0(uID, type),
-                                                                                        (ifelse((!is.na(parties) & (type != "A")), paste0(uID, type, "_", line), NA))))))))))))))))))))) 
+                                        (ifelse((!is.na(parties) & (type == "A")), paste0(uID, "_", parties),
+                                                (ifelse((!is.na(parties) & (type != "A")), paste0(uID, type, "_", line), NA)))))))))))
   
   # When line is left empty, the last "_" of the qID should be deleted
   out <- stringr::str_remove_all(out, "_$")
@@ -110,6 +105,10 @@ code_parties <- function(x) {
   # unions <- stringr::str_replace_na(unions, "O")
   parties <- ifelse(!is.na(unions), paste0(unions, "-", parties), parties)
   parties[!grepl("-", parties)] <- NA
+  
+  parties <- ifelse(stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"), parties,
+                    ifelse(stringr::str_detect(parties, "^[:alpha:]{2}-[:alpha:]{3}$"), parties,
+                           ifelse(stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{2}$"), parties, NA)))
   parties
 }
 
