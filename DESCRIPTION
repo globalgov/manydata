@@ -68,7 +68,9 @@ Suggests:
     cld2, 
     qEnviron,
     stringdist
-Remotes: globalgov/qStates
+Remotes: 
+    globalgov/qStates,
+    globalgov/qEnviron
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

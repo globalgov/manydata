@@ -20,6 +20,7 @@ and the linkage to other agreements in the dataset.
 }
 \examples{
 \dontrun{
-IEADB$qID <- code_agreements(IEADB$Title, IEADB$Signature)
+IEADB <- code_agreements(IEADB$Title, IEADB$Signature, IEADB)
+qID <- code_agreements(IEADB$Title, IEADB$Signature)
 }
 }
