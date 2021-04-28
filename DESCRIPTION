@@ -44,15 +44,16 @@ Imports:
     usethis,
     whisker,
     fs,
-    anytime,
     jsonlite,
     remotes,
     httr,
     qStates,
-    ggplot2
+    ggplot2,
+    stringi
 Suggests:
     librarian,
     testthat,
+    anytime,
     mice,
     xfun,
     withr,

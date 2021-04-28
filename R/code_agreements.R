@@ -64,7 +64,6 @@ code_agreements <- function(title, date, dataset = NULL) {
   out <- stringr::str_replace_all(out, "NA_", NA_character_)
   
   cat(sum(is.na(out)), "entries were not matched at all.\n")
-  # cat(sum(stringr::str_detect(out, "^[0-9]")), " entries were only coded by date.\n")
   cat("There were", sum(duplicated(out, incomparables = NA)), "duplicated IDs.\n")
   
   qID <- out
@@ -78,8 +77,6 @@ code_agreements <- function(title, date, dataset = NULL) {
   }else {
     qID
   }
-  
-
 }
 
 #' Code Agreement Parties
@@ -132,18 +129,18 @@ code_type <- function(x) {
     # E stands for amendment
     grepl("amend|modify|extend|proces-verbal", x, ignore.case = T) ~ "E",
     # P stands for protocols
-    grepl("protocol|additional|subsidiary|supplementary|complÃ©mentaire|
+    grepl("protocol|additional|subsidiary|supplementary|complementaire|
           complementar|complementario|annex |annexes ", x, ignore.case = T) ~ "P",
     # Added annex in this category
     # A stands for agreements
     grepl("agreement|arrangement|accord|acuerdo|bilateral co|technical co|treat|trait|tratado|convention|convencion|
           convenio|constitution|charte|instrument|statute|estatuto|provisional understanding|
-          provisions relating|übereinkunft", x, ignore.case = T) ~ "A",
+          provisions relating|ubereinkunft", x, ignore.case = T) ~ "A",
     grepl("Act|Declaration|Covenant|Scheme|Government Of|Law", x, ignore.case = T) ~ "A",
     # X stands for exchanges of notes
     grepl("Exchange|Letters|Notas", x, ignore.case = T) ~ "X",
     # Y stands for memorandum of understanding
-    grepl("Memorandum|MemorÃ¡ndum|Principles of Conduct|Code of Conduct", x, ignore.case = T) ~ "Y",
+    grepl("Memorandum|memorando|Principles of Conduct|Code of Conduct", x, ignore.case = T) ~ "Y",
     # W stands for resolutions
     grepl("Agreed Measures|Agreed Record|Consensus|Conclusions|Decision|Directive|Regulation|
           Reglamento|Resolution|Rules|Recommendation", x, ignore.case = T) ~ "W",
@@ -370,13 +367,13 @@ code_linkage <- function(x, date) {
   }
   , sep = "", collapse = " ")
   out <- sapply(strsplit(as.character(x), split = " "), cap, USE.NAMES = !is.null(names(x)))
-  out <- trimws(out)
   # Step one: remove known words and articles
+  stringi::stri_trans_general(out, id = "Latin-ASCII")
   out <- gsub("\\<amendment\\>|\\<amendments\\>|\\<amend\\>|\\<amending\\>|\\<modifying\\>|\\<modify\\>|\\<extension\\>|\\<extend\\>|\\<extending\\>|\\<verbal\\>|\\<protocol\\>|
               \\<additional\\>|\\<subsidiary\\>|\\<supplementary\\>|\\<complementary\\>|\\<complementario\\>|\\<agreement\\>|\\<agreements\\>|\\<arrangement\\>|\\<arrangements\\>|
               \\<accord\\>|\\<acuerdo\\>|\\<bilateral\\>|\\<technical\\>|\\<treaty\\>|\\<trait\\>|\\<tratado\\>|\\<convention\\>|\\<convencion\\>|\\<convenio\\>|\\<constitution\\>|
-              \\<charte\\>|\\<instrument\\>|\\<statute\\>|\\<estatuto\\>|\\<provisional\\>|\\<understanding\\>|\\<provisions\\>|\\<relating\\>|\\<übereinkunft\\>|\\<Act\\>|\\<Acts\\>|
-              \\<Declaration\\>|\\<Covenant\\>|\\<Scheme\\>|\\<Government Of |Law\\>|\\<Exchange\\>|\\<Letters\\>|\\<Letter\\>|\\<Notas\\>|\\<Notes\\>|\\<Memorandum\\>|\\<MemorÃ¡ndum\\>|
+              \\<charte\\>|\\<instrument\\>|\\<statute\\>|\\<estatuto\\>|\\<provisional\\>|\\<understanding\\>|\\<provisions\\>|\\<relating\\>|\\<ubereinkunft\\>|\\<Act\\>|\\<Acts\\>|
+              \\<Declaration\\>|\\<Covenant\\>|\\<Scheme\\>|\\<Government Of |Law\\>|\\<Exchange\\>|\\<Letters\\>|\\<Letter\\>|\\<Notas\\>|\\<Notes\\>|\\<Memorandum\\>|\\<memorando\\>|
               \\<Principles of Conduct\\>|\\<Code of Conduct\\>|\\<Agreed Measures\\>|\\<Agreed Record\\>|\\<Consensus\\>|\\<Conclusions\\>|\\<Conclusion\\>|\\<Decision\\>|
               \\<Directive\\>|\\<Regulation\\>|\\<Reglamento\\>|\\<Resolution\\>|\\<Resolutions\\>|\\<Rule\\>|\\<Rules\\>|\\<Recommendation\\>|\\<Minute\\>|\\<Adjustment\\>|
               \\<First|Session Of\\>|\\<First Meeting Of\\>|\\<Commission\\>|\\<Committee\\>|\\<Center\\>|\\<Meeting\\>|\\<Meetings\\>|\\<Statement\\>|\\<Communiq\\>|\\<Comminiq\\>|
