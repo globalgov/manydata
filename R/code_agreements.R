@@ -57,12 +57,13 @@ code_agreements <- function(title, date, dataset = NULL) {
                 (ifelse((!is.na(abbrev) & (type != "A")), paste0(uID, type, "_", abbrev),
                         (ifelse((is.na(parties) & (type == "A")), paste0(uID, type),
                                 (ifelse((is.na(parties) & (type != "A")), paste0(uID, type,"_", line),
-                                        (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(uID, type, "_", parties),
-                                                (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{2}-[:alpha:]{3}$"))), paste0(uID, type, "_", parties),
-                                                        (ifelse((!is.na(parties) & (type == "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(uID, type),
-                                                                (ifelse((!is.na(parties) & (type != "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(uID, type, "_", line,"_", parties),
-                                                                        (ifelse((!is.na(parties) & (type != "A") & (stringr::str_detect(parties, "^[:alpha:]{2}-[:alpha:]{3}$"))), paste0(uID, type, "_", line, "_", parties),
-                                                                                (ifelse((!is.na(parties) & (type != "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(uID, type, "_", line), NA)))))))))))))))))))
+                                        (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(uID, "_", parties),
+                                                (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{2}-[:alpha:]{3}$"))), paste0(uID, "_", parties),
+                                                        (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{2}$"))), paste0(uID, "_", parties),
+                                                                (ifelse((!is.na(parties) & (type == "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(uID, type),
+                                                                        (ifelse((!is.na(parties) & (type == "A") & (!stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{2}$"))), paste0(uID, type),
+                                                                                (ifelse((!is.na(parties) & (type == "A") & (!stringr::str_detect(parties, "^[:alpha:]{2}-[:alpha:]{3}$"))), paste0(uID, type),
+                                                                                        (ifelse((!is.na(parties) & (type != "A")), paste0(uID, type, "_", line), NA))))))))))))))))))))) 
   
   # When line is left empty, the last "_" of the qID should be deleted
   out <- stringr::str_remove_all(out, "_$")
@@ -357,9 +358,12 @@ code_areas <- function(x){
 #' @export
 code_linkage <- function(x, date) {
   
-  s <- x
+  s <-  purrr::map(x, as.character)
   
+  # Step one: find type, parties and known agreements 
   type <- code_type(s)
+  abbrev <- code_known_agreements(s)
+  parties <- code_parties(s)
   
   cap <- function(x) paste(toupper(substring(x, 1, 1)), {
     x <- substring(x, 2)
@@ -386,6 +390,7 @@ code_linkage <- function(x, date) {
   out <- gsub(" A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T | U | V | W | X | Y | Z", "", out, ignore.case = FALSE)
   out <- gsub("\\<and\\>|\\<the\\>|\\<of\\>|\\<for\\>|\\<to\\>|\\<in\\>|\\<a\\>|\\<an\\>|\\<on\\>|\\<the\\>|\\<as\\>", "", out, ignore.case = TRUE)
   out <- trimws(out)
+  
   out <- stringr::str_squish(out)
   out <- textclean::add_comma_space(out)
   out <- textclean::mgsub(out,
@@ -408,11 +413,16 @@ code_linkage <- function(x, date) {
   
   # Step two: find duplicates
   dup <- duplicated(out)
-  id <- date
-  id <- stringr::str_remove_all(id, "-")
+  dates <- stringr::str_remove_all(date, "-")
   # When date is a range, remove the last date (temporary solution to deal with date range)
-  id <- stringr::str_remove_all(id, "\\:[:digit:]{8}$")
-  id <- paste0(id, type)
+  dates <- stringr::str_remove_all(dates, "\\:[:digit:]{8}$")
+  
+  id <- ifelse((!is.na(abbrev)), paste0(abbrev),
+            (ifelse((is.na(parties)), paste0(dates, type),
+                    (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(dates, "_", parties),
+                            (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{2}-[:alpha:]{3}$"))), paste0(dates, "_", parties),
+                                   (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{2}$"))), paste0(dates, "_", parties),
+                                          (ifelse((!is.na(parties) & (type != "A")), paste0(dates, type), NA)))))))))))
   out <- cbind(out, dup, id)
   
   # Step three: make sure duplicates have the same ID number
@@ -429,7 +439,7 @@ code_linkage <- function(x, date) {
   
   line <- out$line
   
-  line <- stringr::str_remove_all(line, "^1$")
+  line <- stringr::str_replace_all(line, "^1$", NA_character_)
   
   line
   
