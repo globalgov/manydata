@@ -10,7 +10,7 @@ code_type(x)
 \item{x}{A character vector of treaty title}
 }
 \value{
-A character vector of the type of treaty
+A character vector of the treaty type
 }
 \description{
 Identify the type of international agreement.

@@ -13,7 +13,7 @@ code_areas(x)
 A character vector of the treaty area
 }
 \description{
-Identify the areas the treaty title refers to.
+Identify a region or area the treaty title refers to.
 }
 \examples{
 \dontrun{
