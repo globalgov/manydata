@@ -58,7 +58,7 @@ code_agreements <- function(title, date, dataset = NULL) {
                         (ifelse((is.na(parties) & (type == "A")), paste0(uID, type),
                                 (ifelse((is.na(parties) & (type != "A")), paste0(uID, type,"_", line),
                                         (ifelse((!is.na(parties) & (type == "A")), paste0(uID, "_", parties),
-                                                (ifelse((!is.na(parties) & (type != "A")), paste0(uID, type, "_", line, "_", parties), NA)))))))))))
+                                                (ifelse((!is.na(parties) & (type != "A")), paste0(uID, type, "_", line), NA)))))))))))
   
   # When line is left empty, the last "_" of the qID should be deleted
   out <- stringr::str_remove_all(out, "_$")
