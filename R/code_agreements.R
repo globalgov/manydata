@@ -422,11 +422,10 @@ code_linkage <- function(x, date) {
   dates <- stringr::str_remove_all(dates, "\\:[:digit:]{8}$")
   
   id <- ifelse((!is.na(abbrev)), paste0(abbrev),
-            (ifelse((is.na(parties)), paste0(dates, type),
-                    (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"))), paste0(dates, "_", parties),
-                            (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{2}-[:alpha:]{3}$"))), paste0(dates, "_", parties),
-                                   (ifelse((!is.na(parties) & (type == "A") & (stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{2}$"))), paste0(dates, "_", parties),
-                                          (ifelse((!is.na(parties) & (type != "A")), paste0(dates, type), NA)))))))))))
+                (ifelse((is.na(parties)), paste0(dates, type),
+                        (ifelse((!is.na(parties) & (type == "A")), paste0(dates, "_", parties),
+                                (ifelse((!is.na(parties) & (type != "A")), paste0(dates, type), NA)))))))
+
   out <- cbind(out, dup, id)
   
   # Step four: make sure duplicates have the same ID number
