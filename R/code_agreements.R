@@ -207,10 +207,10 @@ code_dates <- function(title, date) {
   A <- stringr::str_extract_all(title, "^[:alpha:]")
   A <- stringr::str_to_upper(A)
   B <- stringr::str_sub(title, start = 19, end = 19)
-  B <- ifelse(stringr::str_detect(B, "\\s"), "L", B)
+  B <- suppressWarnings(ifelse(stringr::str_detect(B, "\\s"), "L", B))
   B <- stringr::str_to_upper(B)
   C <- stringr::str_extract_all(title, "[:alpha:]$")
-  C <- ifelse(!stringr::str_detect(C, "^[:alpha:]$"), "O", C)
+  C <- suppressWarnings(ifelse(!stringr::str_detect(C, "^[:alpha:]$"), "O", C))
   C <- stringr::str_to_upper(C)
   uID <- stringr::str_replace_all(uID, "[:digit:]{4}\\:[:digit:]{8}$", paste0(A,B,C,"01"))
   
