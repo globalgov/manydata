@@ -189,7 +189,8 @@ code_type <- function(x) {
 #'
 #' Agreements should have a unique identification number that is meaningful,
 #' we condense their signature date to produce this number.
-#' @param x A date variable
+#' @param x A title variable
+#' @param date A date variable
 #' @return A character vector with condensed dates
 #' @importFrom stringr str_remove_all
 #' @examples
@@ -197,19 +198,19 @@ code_type <- function(x) {
 #' IEADB$uID <- code_dates(IEADB$Title, IEADB$dates)
 #' }
 #' @export
-code_dates <- function(title, date) {
+code_dates <- function(x, date) {
 
   uID <- stringr::str_remove_all(date, "-")
   # For treaties without signature date
   uID[is.na(uID)] <- paste0("9999", sample(1000:9999, sum(is.na(uID)), replace = TRUE))
   
   # When the date is a range, the uID is taking only the first value of the dates range (temporary solution)
-  A <- stringr::str_extract_all(title, "^[:alpha:]")
+  A <- stringr::str_extract_all(x, "^[:alpha:]")
   A <- stringr::str_to_upper(A)
-  B <- stringr::str_sub(title, start = 19, end = 19)
+  B <- stringr::str_sub(x, start = 19, end = 19)
   B <- suppressWarnings(ifelse(stringr::str_detect(B, "\\s"), "L", B))
   B <- stringr::str_to_upper(B)
-  C <- stringr::str_extract_all(title, "[:alpha:]$")
+  C <- stringr::str_extract_all(x, "[:alpha:]$")
   C <- suppressWarnings(ifelse(!stringr::str_detect(C, "^[:alpha:]$"), "O", C))
   C <- stringr::str_to_upper(C)
   uID <- stringr::str_replace_all(uID, "[:digit:]{4}\\:[:digit:]{8}$", paste0(A,B,C,"01"))
@@ -427,6 +428,9 @@ code_linkage <- function(x, date) {
                                 (ifelse((!is.na(parties) & (type != "A")), paste0(dates, type), NA)))))))
 
   out <- cbind(out, dup, id)
+  
+  # Initialize variables to suppress CMD notes
+  ref <- NULL
   
   # Step four: make sure duplicates have the same ID number
   out <- out %>% 
