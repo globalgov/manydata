@@ -1,6 +1,6 @@
 Package: qData
 Title: An R Portal for Ensembled Global Governance Data
-Version: 0.3.5
+Version: 0.4.0
 Date: 2021-02-22
 Authors@R:
     c(person(given = "James",

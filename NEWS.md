@@ -1,3 +1,23 @@
+# qData 0.4.0
+
+# Package
+
+* Added agreements vignette for working with `code_agreements()`
+
+# Correction
+
+* Closed #155 by updating `standardise_titles()` to translate strings to English when API key is provided as an argument
+
+# Connection
+
+* Closed #137 by making `data_contrast()` and `data_source()` return exportable objects
+* Added `code_agreements()` function
+  * Closed #130 by setting up new `code_agreements()` that extracts meaningful information from agreements titles and dates
+  * Added `code_parties()`, `code_type()`, `code_dates()`, `code_known_agreements()` and `code_linkage()` helper functions
+  * Closed #148 by making `code_agreemnts()` more accurate, consistent and parsimoneus.
+  * Fixed #154 by allowing `code_agreements()` to take date ranges
+  * Added tests for `code_agreements()`
+
 # qData 0.3.5
 
 # Connect
