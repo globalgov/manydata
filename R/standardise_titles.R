@@ -13,8 +13,6 @@
 #' @import textclean
 #' @import english
 #' @import stringr
-#' @import translateR
-#' @import cld2
 #' @importFrom utils as.roman
 #' @importFrom dplyr if_else
 #' @examples
