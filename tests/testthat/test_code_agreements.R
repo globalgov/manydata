@@ -16,7 +16,7 @@ test_that("Code_agreements helper functions work properly", {
   expect_equal(code_type(data$title), c("A", "P", "A", "A", "P", "A", "E1"))
   expect_equal(code_dates(data$title, data$date), c("19800508", "19901231", "19810130", "19710202", "19821203", "19761203", "19830429"))
   expect_equal(code_known_agreements(data$title), c(NA, NA, NA, "RAMSA19710202", "RAMSA19710202", NA, NA))
-  expect_equal(code_linkage(data$title, data$date), c("19800508_CPV-PRT", "19800508_CPV-PRT", "", "19710202A", "19710202A", "RAMSA119761203", "RAMSA119761203"))
+  expect_equal(code_linkage(data$title, data$date), c("19800508_CPV-PRT", "19800508_CPV-PRT", NA, "RAMSA19710202", "RAMSA19710202", "19761203A", "19761203A"))
 })
     
 # Add one test for dataset that have range as dates
