@@ -31,6 +31,10 @@ standardise_titles <- standardize_titles <- function(s, strict = FALSE, api_key 
   out <- sapply(strsplit(s, split = " "), cap, USE.NAMES = !is.null(names(s)))
   if(!is.null(api_key)) {
     qData::depends("cld2", "translateR")
+    
+    # Initialize variables to suppress CMD notes
+    . <- NULL
+    
     # For titles in other languages than english, we need to dectct language first
     lang <- out %>% 
     sapply(., purrr::map_chr, cld2::detect_language) %>% 
