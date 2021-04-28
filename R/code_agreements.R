@@ -1,7 +1,7 @@
 #' Code agreements title
 #' 
 #' Creates an ID column that contains information on the
-#' parties to an agreement, the type of agreement, the date 
+#' parties to an agreement, the type of agreement, the date
 #' and the linkage to other agreements in the dataset. 
 #' @param title title column variable
 #' @param date date column variable
@@ -25,25 +25,23 @@ code_agreements <- function(title, date, dataset = NULL) {
   
   # Step one: create a new qID column
   qID <- purrr::map(title, as.character)
-  # Eventually this will connect to a centralized GitHub repo or SQL file for 
-  # smarter, interactive and more consistent coding of agreement titles. 
+  # Eventually this will connect to a centralized GitHub repo or SQL file for
+  # smarter, interactive and more consistent coding of agreement titles.
   
   # Step two: code parties if present
   parties <- code_parties(qID)
   
   # Step three: code agreement topic and area
-  # Categories and key words still need some adjustements
+  # Categories and key words still need some adjustments
   # This does not appear on qID but information is extracted for
   # future usage.
   topic <- code_topic(qID)
   area <- code_areas(qID)
   
-  # Step four: code agreement type 
+  # Step four: code agreement type
   # For known agreements abbreviations are also assigned
   type <- code_type(qID)
   abbrev <- code_known_agreements(qID)
-  # abbrev <- sapply(strsplit(abbrev_s, "\\s"), `[`, 1)
-  # abbrev_dates <- sapply(strsplit(abbrev_s, "\\s"), `[`, 2)
   
   #step five: give the observation a unique ID by dates
   uID <- code_dates(title, date)
@@ -63,7 +61,7 @@ code_agreements <- function(title, date, dataset = NULL) {
   # When line is left empty, the last "_" of the qID should be deleted
   out <- stringr::str_remove_all(out, "_$")
   out <- stringr::str_replace_all(out, "NA_", NA_character_)
-
+  
   cat(sum(is.na(out)), "entries were not matched at all.\n")
   # cat(sum(stringr::str_detect(out, "^[0-9]")), " entries were only coded by date.\n")
   cat("There were", sum(duplicated(out, incomparables = NA)), "duplicated IDs.\n")
@@ -77,7 +75,7 @@ code_agreements <- function(title, date, dataset = NULL) {
     cbind(dataset, qID)
   }
   
-  qID 
+  qID
 
 }
 
@@ -116,7 +114,7 @@ code_parties <- function(x) {
 #'
 #' Identify the type of international agreement.
 #' @param x A character vector of treaty title
-#' @return A character vector of the type of treaty
+#' @return A character vector of the treaty type
 #' @importFrom dplyr case_when
 #' @examples
 #' \dontrun{
@@ -216,23 +214,23 @@ code_dates <- function(x, date) {
   uID <- stringr::str_replace_all(uID, "[:digit:]{4}\\:[:digit:]{8}$", paste0(A,B,C,"01"))
   
   uID
-
+  
 }
 
 #' Known agreements abbreviation
 #' 
 #' Some agreements have known abbreviations that facilitate their identification.
 #' @param x A character vector of treaty title
-#' @return A character vector with abbreviation of known treaties
+#' @return A character vector of abbreviation of known treaties
 #' @importFrom dplyr case_when
 #' @examples
 #' \dontrun{
-#' IEADB$abrevv <- code_known_agreements(IEADB$titles)
+#' IEADB$abbrev <- code_known_agreements(IEADB$titles)
 #' }
 #' @export
 code_known_agreements <- function(x){
   
-  # Assign the specific abbreviation to the "known" treaties 
+  # Assign the specific abbreviation to the "known" treaties
   abbrev <- case_when(
     grepl("United Nations Convention On The Law Of The Sea", x, ignore.case = T) ~ "UNCLOS19821210",
     grepl("Convention On Biological Diversity", x, ignore.case = T) ~ "CBD19920605",
@@ -288,7 +286,7 @@ code_topic <- function(x) {
     grepl("noise", x, ignore.case = T) ~ "NOI",
     grepl("disease|diseases", x, ignore.case = T) ~ "DIS",
     grepl("resource|resources|timber|antartic|fur|Ivory|Horn", x, ignore.case = T) ~ "RES",
-  ) 
+  )
   
   # If not topic is found, category will be "OTH"
   topic <- stringr::str_replace_na(topic, "OTH")
@@ -297,8 +295,8 @@ code_topic <- function(x) {
 }
 
 #' Code the Treaty Areas
-#' 
-#' Identify the areas the treaty title refers to.
+#'
+#' Identify a region or area the treaty title refers to.
 #' @param x A character vector of treaty title
 #' @return A character vector of the treaty area
 #' @importFrom stringr str_replace_na
@@ -331,18 +329,12 @@ code_areas <- function(x){
     grepl("South Pacific|Southern Pacific", x, ignore.case = T) ~ "OSP_",
   )
   
-  # areas <- ifelse(stringr::str_detect(x, "Central America|Caribbean"), "CAM_",
-  #                 ifelse(stringr::str_detect(x, "Northwest Atlantic|Northeast Atlantic|North Atlantic"), "ONA_",
-  #                        ifelse(stringr::str_detect(x, "Southeast Atlantic|South East Atlantic|South Atlantic|African Atlantic"), "OSA_",
-  #                               ifelse(stringr::str_detect(x, "Atlantic"), "OA_",NA))))
-  #
-  
   areas <- stringr::str_replace_na(areas, "")
   areas
 }
 
 #' Code Agreement Lineage
-#' 
+#'
 #' Identify the linkage between amendments and protocols to a main agreement.
 #' @param x A character vector of treaty title
 #' @param date A date variable
@@ -351,7 +343,7 @@ code_areas <- function(x){
 #' @import stringr
 #' @import dplyr
 #' @return A character vector of the agreements that are connected to one another
-#' @details The funtion identifies duplicates via excluding a few 'predictable' words
+#' @details The function identifies duplicates via excluding a few 'predictable' words
 #' from strings, this maintains core words that are then used to identify and link duplicates.
 #' This is a choice that considers errors should lie on the side of false
 #' negatives rather than false positives.
@@ -364,12 +356,12 @@ code_linkage <- function(x, date) {
   
   s <-  purrr::map(x, as.character)
   
-  # Step one: find type, parties and known agreements 
+  # Step one: find type, parties and known agreements
   type <- code_type(s)
   abbrev <- code_known_agreements(s)
   parties <- code_parties(s)
   
-  # Step two: standardise text and remove 'predicatable words' in agreements
+  # Step two: standardise text and remove 'predictable words' in agreements
   cap <- function(x) paste(toupper(substring(x, 1, 1)), {
     x <- substring(x, 2)
   }
@@ -426,21 +418,21 @@ code_linkage <- function(x, date) {
                 (ifelse((is.na(parties)), paste0(dates, type),
                         (ifelse((!is.na(parties) & (type == "A")), paste0(dates, "_", parties),
                                 (ifelse((!is.na(parties) & (type != "A")), paste0(dates, type), NA)))))))
-
+  
   out <- cbind(out, dup, id)
   
   # Initialize variables to suppress CMD notes
   ref <- NULL
   
   # Step four: make sure duplicates have the same ID number
-  out <- out %>% 
-    group_by_at(vars(out)) %>% 
+  out <- out %>%
+    group_by_at(vars(out)) %>%
     mutate(
       dup = row_number() > 1,
       ref = ifelse(dup, paste0(first(id)), as.character(id)))
   
   out <- out %>% group_by(ref) %>% mutate(n = n()) %>% mutate(line = case_when(
-    n != 1 ~ paste(ref), 
+    n != 1 ~ paste(ref),
     n == 1 ~ "1"
   ))
   
@@ -450,4 +442,4 @@ code_linkage <- function(x, date) {
   
   line
   
-}  
+}
