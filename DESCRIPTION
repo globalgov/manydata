@@ -24,8 +24,8 @@ Description: This is the core package for the qData ecosystem.
     It includes functions to help researchers work with and contribute to 
     event datasets on global governance.
 License: CC BY 4.0
-URL: https://github.com/globalgov/qDatr
-BugReports: https://github.com/globalgov/qDatr/issues
+URL: https://github.com/globalgov/qData
+BugReports: https://github.com/globalgov/qData/issues
 Depends:
     R (>= 2.10),
     tibble
@@ -62,7 +62,10 @@ Suggests:
     readxl,
     knitr,
     bibtex,
-    rorcid
+    rorcid,
+    WVPlots,
+    translateR,
+    cld2
 Remotes: globalgov/qStates
 Encoding: UTF-8
 LazyData: true

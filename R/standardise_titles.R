@@ -1,10 +1,14 @@
-#' Capitalises all words
+#' Standardise titles
 #'
-#' Capitalises all words in a string to enable comparison
+#' Standardises words in a string to enable comparison
 #' @param s A string
 #' @param strict By default FALSE
+#' @param api_key If google API key is provided, the function will translate and
+#' return strings in english using google translator.  
 #' @details The function capitalises all words in the strings passed to it,
-#' as well as trimming all white space from the starts and ends of the strings.
+#' as well as trimming all white space from the start, middle and end of the strings.
+#' If an API key is provided as an argument, the function detects strings in other languages
+#' and translates them to English.
 #' @return A capitalised, trimmed string
 #' @import textclean
 #' @import english
@@ -17,13 +21,33 @@
 #' e==c("A Treaty Concerning Things")
 #' }
 #' @export
-standardise_titles <- standardize_titles <- function(s, strict = FALSE) {
+standardise_titles <- standardize_titles <- function(s, strict = FALSE, api_key = NULL) {
+
   cap<- function(s) paste(toupper(substring(s, 1, 1)), {
     s <- substring(s, 2)
     if (strict) tolower(s) else s
-    }
-    , sep = "", collapse = " ")
+  }
+  , sep = "", collapse = " ")
   out <- sapply(strsplit(s, split = " "), cap, USE.NAMES = !is.null(names(s)))
+  if(!is.null(api_key)) {
+    qData::depends("cld2", "translateR")
+    # For titles in other languages than english, we need to dectct language first
+    lang <- out %>% 
+    sapply(., purrr::map_chr, cld2::detect_language) %>% 
+    data.frame(check.names = FALSE)
+    out <- cbind(out, lang)
+    # Translates only the titles not in English
+    for (k in 1:nrow(out)){
+    if(is.na(out$.[k])) {
+      out$out[k] == out$out[k]
+    } else if(out$.[k] == "en") {
+      out$out[k] == out$out[k]
+    } else {
+      out$out[k] <- suppressWarnings(translateR::translate(content.vec = out$out[k], google.api.key = api_key, source.lang = out$.[k], target.lang = "en"))
+    }
+  }
+  out <- out$out
+  }
   out[out == "NANA"] <- NA
   out <- trimws(out)
   out <- gsub("\\.(?=\\.*$)", "", out, perl = TRUE)

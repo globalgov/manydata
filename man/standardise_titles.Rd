@@ -2,24 +2,29 @@
 % Please edit documentation in R/standardise_titles.R
 \name{standardise_titles}
 \alias{standardise_titles}
-\title{Capitalises all words}
+\title{Standardise titles}
 \usage{
-standardise_titles(s, strict = FALSE)
+standardise_titles(s, strict = FALSE, api_key = NULL)
 }
 \arguments{
 \item{s}{A string}
 
 \item{strict}{By default FALSE}
+
+\item{api_key}{If google API key is provided, the function will translate and
+return strings in english using google translator.}
 }
 \value{
 A capitalised, trimmed string
 }
 \description{
-Capitalises all words in a string to enable comparison
+Standardises words in a string to enable comparison
 }
 \details{
 The function capitalises all words in the strings passed to it,
-as well as trimming all white space from the starts and ends of the strings.
+as well as trimming all white space from the start, middle and end of the strings.
+If an API key is provided as an argument, the function detects strings in other languages
+and translates them to English.
 }
 \examples{
 \dontrun{
