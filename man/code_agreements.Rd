@@ -15,8 +15,8 @@ code_agreements(title, date, dataset = NULL)
 }
 \description{
 Creates an ID column that contains information on the
-parties, the type of agreement, the date and the relations to other
-agreements in the dataset.
+parties to an agreement, the type of agreement, the date
+and the linkage to other agreements in the dataset.
 }
 \examples{
 \dontrun{

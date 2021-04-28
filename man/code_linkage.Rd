@@ -11,8 +11,17 @@ code_linkage(x, date)
 
 \item{date}{A date variable}
 }
+\value{
+A character vector of the agreements that are connected to one another
+}
 \description{
 Identify the linkage between amendments and protocols to a main agreement.
+}
+\details{
+The funtion identifies duplicates via excluding a few 'predictable' words
+from strings, this maintains core words that are then used to identify and link duplicates.
+This is a choice that considers errors should lie on the side of false
+negatives rather than false positives.
 }
 \examples{
 \dontrun{

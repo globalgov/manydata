@@ -1,8 +1,8 @@
 #' Code agreements title
 #' 
 #' Creates an ID column that contains information on the
-#' parties, the type of agreement, the date and the relations to other
-#' agreements in the dataset. 
+#' parties to an agreement, the type of agreement, the date 
+#' and the linkage to other agreements in the dataset. 
 #' @param title title column variable
 #' @param date date column variable
 #' @param dataset name of the dataset, optional
@@ -257,7 +257,6 @@ code_known_agreements <- function(x){
   abbrev
 }
 
-
 #' Code Agreement Topic
 #'
 #' Identify the main environmental issue the treaty is tackling.
@@ -351,6 +350,11 @@ code_areas <- function(x){
 #' @import english
 #' @import stringr
 #' @import dplyr
+#' @return A character vector of the agreements that are connected to one another
+#' @details The funtion identifies duplicates via excluding a few 'predictable' words
+#' from strings, this maintains core words that are then used to identify and link duplicates.
+#' This is a choice that considers errors should lie on the side of false
+#' negatives rather than false positives.
 #' @examples
 #' \dontrun{
 #' IEADB$line <- code_linkage(IEADB$Title)
@@ -365,6 +369,7 @@ code_linkage <- function(x, date) {
   abbrev <- code_known_agreements(s)
   parties <- code_parties(s)
   
+  # Step two: standardise text and remove 'predicatable words' in agreements
   cap <- function(x) paste(toupper(substring(x, 1, 1)), {
     x <- substring(x, 2)
   }
@@ -411,7 +416,7 @@ code_linkage <- function(x, date) {
   
   out <- as.data.frame(out)
   
-  # Step two: find duplicates
+  # Step three: find duplicates
   dup <- duplicated(out)
   dates <- stringr::str_remove_all(date, "-")
   # When date is a range, remove the last date (temporary solution to deal with date range)
@@ -425,7 +430,7 @@ code_linkage <- function(x, date) {
                                           (ifelse((!is.na(parties) & (type != "A")), paste0(dates, type), NA)))))))))))
   out <- cbind(out, dup, id)
   
-  # Step three: make sure duplicates have the same ID number
+  # Step four: make sure duplicates have the same ID number
   out <- out %>% 
     group_by_at(vars(out)) %>% 
     mutate(
