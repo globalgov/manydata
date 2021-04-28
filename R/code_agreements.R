@@ -11,7 +11,8 @@
 #' @importFrom stringr str_detect
 #' @examples
 #' \dontrun{
-#' IEADB$qID <- code_agreements(IEADB$Title, IEADB$Signature)
+#' IEADB <- code_agreements(IEADB$Title, IEADB$Signature, IEADB)
+#' qID <- code_agreements(IEADB$Title, IEADB$Signature)
 #' }
 #' @export
 code_agreements <- function(title, date, dataset = NULL) {
@@ -71,11 +72,13 @@ code_agreements <- function(title, date, dataset = NULL) {
   usethis::ui_done("Please run `vignette('agreements')` for more information.")
   
   # Step eight: add new qID column to data if dataset argument is provided
-  if(is.null(dataset) == FALSE) {
-    cbind(dataset, qID)
+  if(!is.null(dataset)) {
+    dataset <- dataset %>%
+      dplyr::mutate(qID = qID)
+  }else {
+    qID
   }
   
-  qID
 
 }
 
