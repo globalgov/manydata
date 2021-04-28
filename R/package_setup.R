@@ -1,15 +1,17 @@
 #' Create a new package in the qData ecosystem
 #'
 #' Creates a new package in, and consistent with, the qData ecosystem
-#' @param packageName A string giving the desired name of the package,
+#' @param package A string giving the desired name of the package,
 #' must start with "q"
-#' @param ORCID A vector of strings of all the ORCID numbers of the authors.
-#' Needs `{rorcid}` package to be installed. Takes precedence over manual
-#' entries if specified.
-#' @param AuthorName A vector giving the package
-#' author(s)' name(s)
-#' @param AuthorSurname A vector giving the package
-#' author(s)' surname(s)
+#' @param orcid A vector of strings of all the ORCID numbers of the authors.
+#' Needs `{rorcid}` package to be installed. 
+#' Takes precedence over manual entries if specified.
+#' @param name A list of vectors giving the package
+#' author(s)' name(s). Authors(s)last name(s) and first 
+#' name(s) are separated by a comma.
+#' @param role A list of vectors of the roles the package authors have
+#' in the project. 
+#' If there are no roles declared, roles are set contributor.
 #' @param update A logical indicating whether existing files should be
 #' overwritten, by default TRUE.
 #' @param path A string, if missing default is path to the working directory
@@ -17,280 +19,180 @@
 #' folder structures required for a qData-consistent data package.
 #' @return A new package structure
 #' @import usethis
-#' @importFrom stringr str_replace_all
-#' @importFrom stringr str_split
+#' @importFrom stringr str_replace_all str_split
 #' @examples
 #' \dontrun{
-#' setup_package("qStates", AuthorName = c("James", "Henrique"), 
-#' AuthorSurname = c("Hollway", "Sposito"))
-#' }
-#' \dontrun{
+#' setup_package("qStates", name = "Hollway, James"))
 #' setup_package("qStates", 
-#' ORCID = c("0000-0002-8361-9647", "0000-0003-3420-6085"))
+#'                orcid = c("0000-0002-8361-9647"))
 #' }
 #' @export
-setup_package <- function(packageName = NULL,
-                          AuthorName = NULL,
-                          AuthorSurname = NULL,
-                          ORCID = NULL,
+setup_package <- function(package = NULL,
+                          name = NULL,
+                          role = NULL,
+                          orcid = NULL,
                           update = TRUE,
                           path = getwd()) {
   
   # Checks to see whether inputs are correct
   # usethis:::check_path_is_directory(fs::path_dir(path))
-  name <- fs::path_file(fs::path_abs(path))
+  pname <- fs::path_file(fs::path_abs(path))
   # usethis:::check_not_nested(fs::path_dir(path), name)
   # usethis:::create_directory(path)
   
+  # Initialize variables to suppress an annoying note when running 
+  # devtools_check
+  given <- NULL
+  family <- NULL
+  comment <- NULL
+  
   # Step zero: get details from existing files, if present
-  if (is.null(packageName)){
+  if (is.null(package)){
     if (file.exists(paste0(path, "/DESCRIPTION"))){
-      packageName <- read.dcf(paste0(path, "/DESCRIPTION"))[[1]]
+      package <- read.dcf(paste0(path, "/DESCRIPTION"))[[1]]
       usethis::ui_done("Obtained package name from existing DESCRIPTION file.")
-      if (!startsWith(packageName, "q")) stop("Package name must start with a 'q'")
+      if (!startsWith(package, "q")) stop("Package name must start with a 'q'")
     } else {
       stop("Please declare a package name")
     }
   }
   
-  ifelse (!startsWith(packageName, "q"), stop("Package name must start with a 'q'"), packageName())
+  ifelse (!startsWith(package, "q"), stop("Package name must start with a 'q'"), package)
   
-  if (is.null(AuthorName) || is.null(AuthorSurname)){
+  if (is.null(name)){
     if (file.exists(paste0(path, "/DESCRIPTION"))){
-      packageAuthor <- read.dcf(paste0(path, "/DESCRIPTION"))[[4]]
-      packageAuthor <- stringr::str_replace_all(packageAuthor, "\",\nfamily = \"", " ")
-      packageAuthor <- stringr::str_replace_all(packageAuthor, "c\\(", "")
-      packageAuthor <- stringr::str_replace_all(packageAuthor, "person\\(given = \"", "")
-      packageAuthor <- stringr::str_replace_all(packageAuthor, "\\n", "")
-      packageAuthor <- stringr::str_replace_all(packageAuthor, "\".*", "")
-      given1 <- stringr::str_split(packageAuthor, " ")[[1]][[1]]
-      family1 <- stringr::str_split(packageAuthor, " ")[[1]][[2]]
-      comment1 <- NULL
+      author <- read.dcf(paste0(path, "/DESCRIPTION"))[[4]]
+      author <- stringr::str_replace_all(author, "\",\nfamily = \"", " ")
+      author <- stringr::str_replace_all(author, "c\\(", "")
+      author <- stringr::str_replace_all(author, "person\\(given = \"", "")
+      author <- stringr::str_replace_all(author, "\\n", "")
+      author <- stringr::str_replace_all(author, "\".*", "")
+      given <- stringr::str_split(author, " ")[[1]][[1]]
+      family <- stringr::str_split(author, " ")[[1]][[2]]
+      comment <- NULL
       usethis::ui_done("Obtained lead author name from existing DESCRIPTION file.")
     } else {
-      stop("Please declare at least one author")
+      stop("Please declare one author")
     }
   }
+  # Small check to see if roles are defined. If there are
+  # no roles declared it sets all roles, but first author declared, 
+  # to contributor.
+  
+  rolefirst <- 'c("aut", "cre", "ctb")'
+  
   # Step 0.1 See if there are any ORCID numbers
-  if(!is.null(ORCID)){
+  if(!is.null(orcid)){
     # Check if rorcid package is installed.
     if("rorcid" %in% rownames(utils::installed.packages()) == FALSE){
-      stop("Please install the rorcid package before proceeding.")
+      depends("rorcid")
     }
-    if(length(ORCID)>5){
-      stop("Please specify a maximum of 5 authors. Add the rest by using our
+    if(length(orcid)>2){
+      stop("Please specify one author. Add the rest by using our
             add_author() function.")
     }
     # Authenticate the user, might be useful to add a stop here.
     rorcid::orcid_auth()
-    # ORCID <- c("0000-0001-5943-9059", "0000-0003-3420-6085")
-    # ORCID <- "0000-0001-5943-9059"
+    # orcid <- c("0000-0001-5943-9059", "0000-0003-3420-6085")
+    # orcid <- "0000-0001-5943-9059"
     # Get the data from the ORCID API
-    personal <- rorcid::orcid_person(ORCID)
-    employments <- rorcid::orcid_employments(ORCID)
-    # Initializing vectors
-    givenv <- c()
-    familyv <- c()
-    emailv <- c()
-    commentv <- c()
+    personal <- rorcid::orcid_person(orcid)
+    employments <- rorcid::orcid_employments(orcid)
+    
     # Disentangle the data and get get them into vectors
-    for (i in c(1:length(ORCID))) {
-      givenv <- append(givenv, as.character(personal[[i]][["name"]]
-                                         [["given-names"]][["value"]]))
-      familyv <- append(familyv, as.character(personal[[i]][["name"]]
-                                 [["family-name"]][["value"]]))
-      commentv <- append(commentv, ORCID[i]) 
-      assign(paste0("given", i), givenv[[i]])
-      assign(paste0("family", i), familyv[[i]])
-      assign(paste0("comment", i), commentv[[i]])
-    }
+    given <- as.character(personal[[orcid]][["name"]]
+                          [["given-names"]][["value"]])
+    family <- as.character(personal[[orcid]][["name"]]
+                           [["family-name"]][["value"]])
+    comment <- as.character(orcid)
     # Use correct template
-    if(length(ORCID) == 1){
-      qtemplate("qPackage-DESC1.dcf",
+    if(length(orcid) == 1 & is.null(role)) {
+      qtemplate("qPackage-DESC.dcf",
                 "DESCRIPTION",
-                data = list(package = packageName,
-                            given1 = given1,
-                            family1 = family1,
-                            comment1 = comment1),
+                data = list(package = package,
+                            given = given,
+                            family = family,
+                            comment = comment,
+                            role = rolefirst),
                 path = path)
-    }
-    if(length(ORCID) == 2){
-      qtemplate("qPackage-DESC2.dcf",
+    } else if(length(orcid) == 1 & !is.null(role)) {
+      qtemplate("qPackage-DESC.dcf",
                 "DESCRIPTION",
-                data = list(package = packageName,
-                            given1 = given1,
-                            family1 = family1,
-                            comment1 = comment1,
-                            given2 = given2,
-                            family2 = family2,
-                            comment2 = comment2),
-                path = path)
-    }
-    if(length(ORCID) == 3){
-      qtemplate("qPackage-DESC3.dcf",
-                "DESCRIPTION",
-                data = list(package = packageName,
-                            given1 = given1,
-                            family1 = family1,
-                            comment1 = comment1,
-                            given2 = given2,
-                            family2 = family2,
-                            comment2 = comment2,
-                            given3 = given3,
-                            family3 = family3,
-                            comment3 = comment3),
-                path = path)
-    }
-    if(length(ORCID) == 4){
-      qtemplate("qPackage-DESC4.dcf",
-                "DESCRIPTION",
-                data = list(package = packageName,
-                            given1 = given1,
-                            family1 = family1,
-                            comment1 = comment1,
-                            given2 = given2,
-                            family2 = family2,
-                            comment2 = comment2,
-                            given3 = given3,
-                            family3 = family3,
-                            comment3 = comment3,
-                            given4 = given4,
-                            family4 = family4,
-                            comment4 = comment4),
-                path = path)
-    }
-    if(length(ORCID) == 5){
-      qtemplate("qPackage-DESC5.dcf",
-                "DESCRIPTION",
-                data = list(package = packageName,
-                            given1 = given1,
-                            family1 = family1,
-                            comment1 = comment1,
-                            given2 = given2,
-                            family2 = family2,
-                            comment2 = comment2,
-                            given3 = given3,
-                            family3 = family3,
-                            comment3 = comment3,
-                            given4 = given4,
-                            family4 = family4,
-                            comment4 = comment4,
-                            given5 = given5,
-                            family5 = family5,
-                            comment5 = comment5),
-                path = path)
-    }
-  } else {
-    # Step one: ensure/create package/project structure
-    # Add DESCRIPTION
-    # Test that lengths are equal for name and surname vector
-    if(length(AuthorSurname) != length(AuthorSurname)){
-      stop("The number of author names you entered does not match the number of surnames")
-    }
-    if(length(AuthorName)>5){
-      stop("Please specify a maximum of 5 authors. Add the rest by using our add_author() function.")
-    }
-    if(length(AuthorName) == 1){
-      qtemplate("qPackage-DESC1.dcf",
-                "DESCRIPTION",
-                data = list(package = packageName,
-                            given1 = AuthorName,
-                            family1 = AuthorSurname),
-                path = path)
-    }
-    if(length(AuthorName) == 2){
-      qtemplate("qPackage-DESC2.dcf",
-                "DESCRIPTION",
-                data = list(package = packageName,
-                            given1 = AuthorName[[1]],
-                            family1 = AuthorSurname[[1]],
-                            given2 = AuthorName[[2]],
-                            family2 = AuthorSurname[[2]]),
-                path = path)
-    }
-    if(length(AuthorName) == 3){
-      qtemplate("qPackage-DESC3.dcf",
-                "DESCRIPTION",
-                data = list(package = packageName,
-                            given1 = AuthorName[[1]],
-                            family1 = AuthorSurname[[1]],
-                            given2 = AuthorName[[2]],
-                            family2 = AuthorSurname[[2]],
-                            given3 = AuthorName[[3]],
-                            family3 = AuthorSurname[[3]]),
-                path = path)
-    }
-    if(length(AuthorName) == 4){
-      qtemplate("qPackage-DESC4.dcf",
-                "DESCRIPTION",
-                data = list(package = packageName,
-                            given1 = AuthorName[[1]],
-                            family1 = AuthorSurname[[1]],
-                            given2 = AuthorName[[2]],
-                            family2 = AuthorSurname[[2]],
-                            given3 = AuthorName[[3]],
-                            family3 = AuthorSurname[[3]],
-                            given4 = AuthorName[[4]],
-                            family4 = AuthorSurname[[4]]),
-                path = path)
-    }
-    if(length(AuthorName) == 5){
-      qtemplate("qPackage-DESC5.dcf",
-                "DESCRIPTION",
-                data = list(package = packageName,
-                            given1 = AuthorName[[1]],
-                            family1 = AuthorSurname[[1]],
-                            given2 = AuthorName[[2]],
-                            family2 = AuthorSurname[[2]],
-                            given3 = AuthorName[[3]],
-                            family3 = AuthorSurname[[3]],
-                            given4 = AuthorName[[4]],
-                            family4 = AuthorSurname[[4]],
-                            given5 = AuthorName[[5]],
-                            family5 = AuthorSurname[[5]]),
+                data = list(package = package,
+                            given = given,
+                            family = family,
+                            comment = comment,
+                            role = role),
                 path = path)
     }
   }
-  
-  # Little helper combining author name and surname to form a packageAuthor 
-  # variable for the rest of the functions.
-  if(!is.null(ORCID)){
-    authors <- as.vector(mapply(stringr::str_c, givenv, familyv, sep = " "))
-    packageAuthor <- paste0(authors, collapse = ", ")
-  } else {
-    authors <- as.vector(mapply(stringr::str_c, AuthorName, AuthorSurname, sep = " "))
-    packageAuthor <- paste0(authors, collapse = ", ")
+    
+  if(!is.null(name)) {
+    
+    # Treat author names
+    fullname <- stringr::str_split(name, ",")
+    given <- stringr::str_trim(paste0(fullname[[1]][2]))
+    family <- paste0(fullname[[1]][1])
+
+    if(length(fullname)>2){
+      stop("Please specify author. Add the rest by using our add_author() function.")
+    }
+    
+    if(length(fullname) == 1 & is.null(role)) {
+      qtemplate("qPackage-DESC.dcf",
+                "DESCRIPTION",
+                data = list(package = package,
+                            given = given,
+                            family = family,
+                            role = rolefirst),
+                path = path)
+    } else if(length(fullname) == 1 & !is.null(role)) {
+      qtemplate("qPackage-DESC.dcf",
+                "DESCRIPTION",
+                data = list(package = package,
+                            given = given,
+                            family = family,
+                            role = role),
+                path = path)
+    }
   }
-  
   
   usethis::ui_done("Added DESCRIPTION file. Modify if necessary.")
   usethis::ui_done("Check out our new_author function if you need to add
                    authors down the line")
+  
+  authors <- as.vector(mapply(stringr::str_c, given, family, sep = " "))
+  author <- paste0(authors, collapse = ", ")
+
   # Add R folder
   create_directory(paste0(path, "/R"))
   usethis::ui_done("Created R/ folder. Here is where any scripts go.")
+  
   # Add NAMESPACE
   usethis::use_namespace()
   usethis::ui_done("Created NAMESPACE file. Don't modify it.")
+  
   # Add LICENSE
   qtemplate("LICENSE.md",
             ignore = TRUE,
             path = path,
             open = FALSE)
   usethis::ui_done("Added CC BY 4.0 license.")
+  
   # Add NEWS
   if (!file.exists(paste0(path, "/NEWS.md"))){
-    qtemplate("qPackage-NEWS.md",
+     qtemplate("qPackage-NEWS.md",
               "NEWS.md",
-              data = list(package = packageName),
+              data = list(package = package),
               path = path)
     usethis::ui_done("Added starter NEWS file. Update for every release.")
   }
+  
   # Add README
   qtemplate("qPackage-README.Rmd",
             "README.Rmd",
-            data = list(package = packageName,
-                        author = packageAuthor),
+            data = list(package = package,
+                        author = author),
             path = path)
   usethis::ui_done("Added standard README.")
   # TODO: Add badges to qPackage README
@@ -303,45 +205,50 @@ setup_package <- function(packageName = NULL,
   usethis::ui_done("Created .github folder.")
   qtemplate("qPackage-COC.md",
             fs::path(".github", "CODE_OF_CONDUCT", ext = "md"),
-            data = list(package = packageName,
-                        author = packageAuthor),
+            data = list(package = package,
+                        author = author),
             path = path,
             open = FALSE)
   usethis::ui_done("Created CODE_OF_CONDUCT file. Modify if necessary.")
+  
   qtemplate("qPackage-CONTRIB.md",
             fs::path(".github", "CONTRIBUTING.md"),
-            data = list(package = packageName,
-                        author = packageAuthor),
+            data = list(package = package,
+                        author = author),
             path = path,
             open = FALSE)
   usethis::ui_done("Created CONTRIBUTING file. Modify if necessary.")
+  
   qtemplate("qPackage-PR.md",
             fs::path(".github", "pull_request_template.md"),
-            data = list(package = packageName,
-                        author = packageAuthor),
+            data = list(package = package,
+                        author = author),
             path = path,
             open = FALSE)
   usethis::ui_done("Created PR template. Modify if necessary.")
   
   create_directory(paste0(path, "/.github/ISSUE_TEMPLATE"))
   usethis::ui_done("Created ISSUE_TEMPLATE folder.")
+  
   qtemplate("qPackage-Bugs.md",
             fs::path(".github", "ISSUE_TEMPLATE", "bug_report.md"),
-            data = list(package = packageName,
-                        author = packageAuthor),
+            data = list(package = package,
+                        author = author),
             path = path,
             open = FALSE)
   usethis::ui_done("Created bug report issue template. Modify if necessary.")
+  
   qtemplate("qPackage-Features.md",
             fs::path(".github", "ISSUE_TEMPLATE", "feature_request.md"),
-            data = list(package = packageName,
-                        author = packageAuthor),
+            data = list(package = package,
+                        author = author),
             path = path,
             open = FALSE)
   usethis::ui_done("Created feature request issue template. Modify if necessary.")
   
   create_directory(paste0(path, "/.github/workflows"))
   usethis::ui_done("Created workflows folder.")
+  
   if(interactive()) {
     file.copy(fs::path_package(package = "qData", "templates", "qPackage-Check.yml"),
               fs::path(".github", "workflows", "prchecks.yml"))
@@ -355,13 +262,103 @@ setup_package <- function(packageName = NULL,
   }
   
   usethis::ui_todo("Remember to set up your project together with Github for visibility etc.")
-  #usethis::ui_todo("{ui_code('use_pkgdown()')}")
+
+}
+
+#' Helper function for adding an author to the current package
+#' 
+#' Helper function for adding an author to the description file of the current
+#' package.
+#' @param orcid Character string of the author's ORCID number. If this is null,
+#' then the function switches to manual entry.
+#' @param  name A vector giving the package
+#' author(s)' name(s). Authors(s)last name(s) and first 
+#' name(s) are separated by a comma.
+#' @param role Character vector of role(s) the author has in the project. 
+#' Contributor by default. For example "c(aut, cre, ctb)".
+#' @param email Character string of the author's email
+#' @param affiliation Character vector of the author's miscellaneous information 
+#' such as his/her institution. 
+#' @return Adds a new author to the description file of the package
+#' @details This function adds an author to the description file of the current
+#' package. This can be done in two ways. First you can specify the ORCID number
+#' of the author you want to add. This will leverage the excellent `rorcid` 
+#' package and scrape the information from the ORCID API and fill out the 
+#' description file automatically. Second, you can specify the arguments 
+#' manually if the author does not have an ORCID number. Finally, note that by
+#' default the role of the new author is set to contributor.
+#' @examples
+#' \dontrun{
+#' add_author(orcid = "0000-0002-8361-9647", role = list(c("aut", "cre", "ctb"))
+#' add_author(name = "Smith, John",
+#' comment = "University of Somewhere")
+#' }
+#' @export
+add_author <- function(orcid = NULL,
+                       name = NULL,
+                       role = NULL,
+                       email = NULL,
+                       affiliation = NULL){
   
-  # Step five: checks package (?)
-  # usethis::use_spell_check()
-  # usethis::use_tibble()
   
-  # Step 6: create GitHub repository (?)
-  # usethis::use_git() # The usethis::use_github() may also be an interesting option to explore here.
-  # usethis::proj_activate()
+  # Check for correct input
+  if (is.null(orcid) & is.null(name)) stop("Either a correct ORCID number or name in the format 'Surname, Given Names' must be provided.")
+  
+  # Initialize variables to suppress an annoying note when running 
+  # devtools_check
+  comment <- NULL
+  
+  # Use ORCID data if available
+  if(!is.null(orcid)){
+    if(!stringr::str_detect(orcid, "^[0-9]")){
+      name <- orcid # in case user accidentally puts name in first argument
+    } else {
+      # Check whether rorcid is installed, if not install it
+      if(!"rorcid" %in% rownames(utils::installed.packages())){
+        depends("rorcid")
+      }
+      #Step 1: Authenticate with ORCID
+      rorcid::orcid_auth()
+      #Step 2: Extract the information from ORCID API (lists)
+      author <- rorcid::orcid_person(orcid)
+      employment <- rorcid::orcid_employments(orcid)
+      if(is.null(affiliation)){
+        affiliation <- c(as.character(employment[[orcid]]
+                                      [["affiliation-group"]][["summaries"]]
+                                      [[1]][["employment-summary.organization.name"]]))
+      }
+      given <- as.character(author[[orcid]][["name"]]
+                            [["given-names"]][["value"]])
+      family <- as.character(author[[orcid]][["name"]]
+                             [["family-name"]][["value"]])
+      if(is.null(email) & length(author[[orcid]][["emails"]][["email"]]) != 0){
+        email <- as.character(author[[orcid]][["emails"]][["email"]][[1]])
+      }
+    }
+  }
+  
+  if (!is.null(name)) {
+    name <- stringr::str_split(name, ", ")
+    family <- name[[1]][1]
+    given <- name[[1]][2]
+  }
+  
+  # Unless otherwise provided, new authors added are listed as 'contributors'
+  if(is.null(role)) role <- "ctb"
+  
+  if(!is.null(email) && !grepl("@", email, fixed = TRUE)){
+    stop("Please specify a correct email adress.")
+  }
+  
+  if(!"desc" %in% rownames(utils::installed.packages())){
+    depends("desc")
+  }
+  
+  # Write the new author to the description
+  # TODO: check whether author already exists and update details instead
+  desc::desc_add_author(given = given,
+                        family = family,
+                        role = role,
+                        email = email,
+                        comment = c(affiliation = affiliation, ORCID = orcid))
 }

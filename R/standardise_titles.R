@@ -13,8 +13,8 @@
 #' @import textclean
 #' @import english
 #' @import stringr
+#' @import dplyr
 #' @importFrom utils as.roman
-#' @importFrom dplyr if_else
 #' @examples
 #' \dontrun{
 #' e <- standardise_titles("A treaty concerning things")
@@ -22,6 +22,7 @@
 #' }
 #' @export
 standardise_titles <- standardize_titles <- function(s, strict = FALSE, api_key = NULL) {
+
   cap<- function(s) paste(toupper(substring(s, 1, 1)), {
     s <- substring(s, 2)
     if (strict) tolower(s) else s

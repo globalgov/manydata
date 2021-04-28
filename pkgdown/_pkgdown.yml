@@ -39,6 +39,7 @@ reference:
     desc: "These functions are to assist data providers with disseminating data on particular parts of global governance:"
     contents:
       - setup_package
+      - add_author
       - import_data
       - export_data
       - starts_with("standardise")
@@ -50,5 +51,5 @@ reference:
       - get_packages
       - plot_releases
       - depends
-      - report_data
+      - starts_with("data_")
       - retain

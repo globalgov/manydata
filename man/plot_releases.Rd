@@ -25,5 +25,7 @@ with historical milestones and milestone statuses gathered from a
 specified GitHub repository.
 }
 \examples{
+\dontrun{
 plot_releases("globalgov/qData")
+}
 }

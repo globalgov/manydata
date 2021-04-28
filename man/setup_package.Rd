@@ -5,27 +5,29 @@
 \title{Create a new package in the qData ecosystem}
 \usage{
 setup_package(
-  packageName = NULL,
-  AuthorName = NULL,
-  AuthorSurname = NULL,
-  ORCID = NULL,
+  package = NULL,
+  name = NULL,
+  role = NULL,
+  orcid = NULL,
   update = TRUE,
   path = getwd()
 )
 }
 \arguments{
-\item{packageName}{A string giving the desired name of the package,
+\item{package}{A string giving the desired name of the package,
 must start with "q"}
 
-\item{AuthorName}{A vector giving the package
-author(s)' name(s)}
+\item{name}{A list of vectors giving the package
+author(s)' name(s). Authors(s)last name(s) and first
+name(s) are separated by a comma.}
 
-\item{AuthorSurname}{A vector giving the package
-author(s)' surname(s)}
+\item{role}{A list of vectors of the roles the package authors have
+in the project.
+If there are no roles declared, roles are set contributor.}
 
-\item{ORCID}{A vector of strings of all the ORCID numbers of the authors.
-Needs \code{{rorcid}} package to be installed. Takes precedence over manual
-entries if specified.}
+\item{orcid}{A vector of strings of all the ORCID numbers of the authors.
+Needs \code{{rorcid}} package to be installed.
+Takes precedence over manual entries if specified.}
 
 \item{update}{A logical indicating whether existing files should be
 overwritten, by default TRUE.}
@@ -44,11 +46,8 @@ folder structures required for a qData-consistent data package.
 }
 \examples{
 \dontrun{
-setup_package("qStates", AuthorName = c("James", "Henrique"), 
-AuthorSurname = c("Hollway", "Sposito"))
-}
-\dontrun{
+setup_package("qStates", name = "Hollway, James"))
 setup_package("qStates", 
-ORCID = c("0000-0002-8361-9647", "0000-0003-3420-6085"))
+               orcid = c("0000-0002-8361-9647"))
 }
 }
