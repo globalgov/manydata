@@ -6,8 +6,9 @@
 #' @param api_key If google API key is provided, the function will translate and
 #' return strings in english using google translator.
 #' @details The function capitalises all words in the strings passed to it,
-#' as well as trimming all white space from the start, middle and end of the strings.
-#' If an API key is provided as an argument, the function detects strings in other languages
+#' as well as trimming all white space from the start, middle and end
+#' of the strings.If an API key is provided as an argument,
+#' the function detects strings in other languages
 #' and translates them to English.
 #' @return A capitalised, trimmed string
 #' @import textclean
@@ -32,20 +33,20 @@ standardise_titles <- standardize_titles <- function(s, strict = FALSE, api_key 
   out <- sapply(strsplit(s, split = " "), cap, USE.NAMES = !is.null(names(s)))
   if(!is.null(api_key)) {
     qData::depends("cld2", "translateR")
-    
+
     # Initialize variables to suppress CMD notes
     . <- NULL
-    
+
     # For titles in other languages than english, we need to dectct language first
     lang <- out %>%
     sapply(., purrr::map_chr, cld2::detect_language) %>%
     data.frame(check.names = FALSE)
     out <- cbind(out, lang)
     # Translates only the titles not in English
-    for (k in 1:nrow(out)){
-    if(is.na(out$.[k])) {
+    for (k in c(1:length(out))) {
+    if (is.na(out$.[k])) {
       out$out[k] == out$out[k]
-    } else if(out$.[k] == "en") {
+    } else if (out$.[k] == "en") {
       out$out[k] == out$out[k]
     } else {
       out$out[k] <- suppressWarnings(translateR::translate(content.vec = out$out[k], google.api.key = api_key, source.lang = out$.[k], target.lang = "en"))
@@ -93,13 +94,13 @@ standardise_titles <- standardize_titles <- function(s, strict = FALSE, api_key 
 #' myData <- repaint(myData, id="StatID", var=c("Area","Region")
 #' }
 #' @export
-repaint <- function(df, id, var){
-  for(co in var){
-    for(ea in unique(df[,id])){
-      if(any(!is.na(df[df[, id]==ea, co])) &
-         any(is.na(df[df[, id]==ea, co]))){
-        df[df[,id]==ea &
-             is.na(df[,co]), co] <- df[df[,id]==ea &
+repaint <- function(df, id, var) {
+  for(co in var) {
+    for(ea in unique(df[,id])) {
+      if (any(!is.na(df[df[, id] == ea, co])) &
+         any(is.na(df[df[, id] == ea, co]))){
+        df[df[,id] == ea &
+             is.na(df[,co]), co] <- df[df[,id] == ea &
                                          !is.na(df[,co]), co][1]
       }
     }

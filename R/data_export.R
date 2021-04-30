@@ -20,36 +20,39 @@
 #' @importFrom usethis ui_done
 #' @examples
 #' \dontrun{
-#' export_data(COW, database = "states", 
+#' export_data(COW, database = "states",
 #' URL = "https://correlatesofwar.org/data-sets/state-system-membership")
 #' }
 #' @export
 export_data <- function(..., database, URL) {
-  
+
   #Check if URL is present and is of the character form.
-  if(missing(URL)){
+  if (missing(URL)) {
     stop("Please use the URL argument to provide a direct webURL to the source of your dataset.")
   }
-  if(!is.character(URL)){
+  if (!is.character(URL)) {
     stop("Please provide a valid URL argument.")
   }
   dataset_name <- deparse(substitute(...))
   dataset <- get(dataset_name)
-  
-  # Step one: coerce dataset into correct format if not already and creates data folder
-  # if(!"Beg" %in% colnames(dataset)) stop("Please ensure there is at least one date column named 'Beg' for beginning")
-  # if(!"ID" %in% colnames(dataset)) stop("Please ensure there is at least one identification column named 'ID'")
+
+  # Step one: coerce dataset into correct format if not
+  # already and creates data folder
+  # if(!"Beg" %in% colnames(dataset))
+  # stop("Please ensure there is at least one date column named 'Beg' for beginning")
+  # if(!"ID" %in% colnames(dataset))
+  # stop("Please ensure there is at least one identification column named 'ID'")
   # dataset <- as_tibble(dataset) %>% dplyr::arrange(.data$Beg, .data$ID)
   # dataset
   usethis::use_directory("data", ignore = FALSE)
-  
+
   # Step two: join dataset to any related datasets in a database
-  if(file.exists(paste0("data/", database, ".rda"))){
+  if (file.exists(paste0("data/", database, ".rda"))) {
     usethis::ui_info("Found an existing {usethis::ui_value(database)} database. Imported it ready to update.")
     env <- new.env()
     load(paste0("data/", database, ".rda"), envir = env)
     dataset_exists <- exists(dataset_name, envir = env)
-    if(dataset_exists){
+    if (dataset_exists) {
       usethis::ui_info("Found an existing {usethis::ui_value(dataset_name)} dataset. This will be overwritten.")
     } else {
       usethis::ui_info("The {usethis::ui_value(dataset_name)} dataset does not yet exist in {usethis::ui_value(database)}. It will be added.")
@@ -62,7 +65,7 @@ export_data <- function(..., database, URL) {
     save(list = database, envir = env,
          file = fs::path("data", database, ext = "rda"),
          compress = "bzip2")
-    if(dataset_exists){
+    if (dataset_exists) {
       usethis::ui_info("Saved a new version of the {usethis::ui_value(database)} database with an updated version of the {usethis::ui_value(dataset_name)} dataset.")
     } else {
       usethis::ui_info("Saved a new version of the {usethis::ui_value(database)} database that includes the {usethis::ui_value(dataset_name)} dataset.")
@@ -78,7 +81,7 @@ export_data <- function(..., database, URL) {
          compress = "bzip2")
     usethis::ui_done("Saved a {usethis::ui_value(database)} database that includes the {usethis::ui_value(deparse(substitute(...)))} dataset.")
   }
-  
+
   # Step three: create and open a documentation script
   # Create a more succinct database documentation.
   # Get the database object.
@@ -91,8 +94,11 @@ export_data <- function(..., database, URL) {
   dsnvar <- lapply(db, ncol)
   dsvar <- lapply(db, colnames)
   dsvarstr <- lapply(lapply(db, colnames), str_c, collapse=", ")
-  describe <- paste0("#'\\describe{\n", paste0("#' \\item{",dsnames,": }", "{A dataset with ",dsobs," observations and the following ",dsnvar," variables: ", dsvarstr,".}\n", collapse = ""), "#' }")
-  sourceelem <- paste0("#' @source \\url{", URL,"}", collapse = "")
+  describe <- paste0("#'\\describe{\n",
+                     paste0("#' \\item{", dsnames,": }",
+                            "{A dataset with ", dsobs," observations and the following ",
+                            dsnvar," variables: ", dsvarstr, ".}\n", collapse = ""), "#' }")
+  sourceelem <- paste0("#' @source \\url{", URL, "}", collapse = "")
   #Output
   qtemplate("qDataDBDoc.R",
             save_as = fs::path("R", paste0("qData-", database, ".R")),
@@ -106,21 +112,23 @@ export_data <- function(..., database, URL) {
             open = TRUE,
             ignore = FALSE,
             path = getwd())
-  
+
   # Step four: create the right kind of test script for the type of object it is
   # TODO: decide on what kinds of objects can be contained in qData packages
   # (actors, agreements, relations, etc)
-  if(database == "states") {
+  if (database == "states") {
     qtemplate("test_states.R",
-              save_as = fs::path("tests", "testthat", paste0("test_", dataset_name, ".R")),
+              save_as = fs::path("tests", "testthat",
+                                 paste0("test_", dataset_name, ".R")),
               data = list(dat = dataset_name,
                           dab = database),
               open = FALSE,
               ignore = FALSE,
               path = getwd())
-  } else if(database == "agreements") {
+  } else if (database == "agreements") {
     qtemplate("test_agreements.R",
-              save_as = fs::path("tests", "testthat", paste0("test_", dataset_name, ".R")),
+              save_as = fs::path("tests", "testthat",
+                                 paste0("test_", dataset_name, ".R")),
               data = list(dat = dataset_name,
                           dab = database),
               open = FALSE,
@@ -128,7 +136,8 @@ export_data <- function(..., database, URL) {
               path = getwd())
   } else {
     qtemplate("test_general.R",
-              save_as = fs::path("tests", "testthat", paste0("test_", dataset_name, ".R")),
+              save_as = fs::path("tests", "testthat",
+                                 paste0("test_", dataset_name, ".R")),
               data = list(dat = dataset_name,
                           dab = database),
               open = FALSE,

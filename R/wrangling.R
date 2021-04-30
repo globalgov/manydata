@@ -15,23 +15,22 @@
 #' transmutate( mtcars, X = ifelse( vs, drat, wt ), Y = mpg*cyl )
 #' }
 #' @export
-transmutate <- function( .data, ... ){
-  
+transmutate <- function(.data, ...) {
+
   # Helper functions
-  # require(tidyverse)
-  getAST <- function( ee ) { as.list(ee) %>% purrr::map_if(is.call, getAST) }
-  getSyms <- function( ee ) { getAST(ee) %>% unlist %>% purrr::map_chr(deparse) }
-  
+  getAST <- function(ee) { as.list(ee) %>% purrr::map_if(is.call, getAST) }
+  getSyms <- function(ee) { getAST(ee) %>% unlist %>% purrr::map_chr(deparse) }
+
   ## Capture the provided expressions and retrieve their symbols
-  vSyms <- rlang::enquos(...) %>% purrr::map( ~getSyms(rlang::get_expr(.x)) )
-  
+  vSyms <- rlang::enquos(...) %>% purrr::map(~getSyms(rlang::get_expr(.x)))
+
   ## Identify symbols that are in common with the provided dataset
   ## These columns are to be removed
-  vToRemove <- intersect( colnames(.data), unlist(vSyms) )
-  
+  vToRemove <- intersect(colnames(.data), unlist(vSyms))
+
   ## Pass on the expressions to mutate to do the work
   ## Remove the identified columns from the result
-  dplyr::mutate( .data, ... ) %>% dplyr::select( -dplyr::one_of(vToRemove) )
+  dplyr::mutate(.data, ...) %>% dplyr::select(-dplyr::one_of(vToRemove))
 }
 
 #' Pastes unique string vectors
@@ -48,9 +47,9 @@ transmutate <- function( .data, ... ){
 #' transmutate(data, single = reunite(fir, sec))
 #' }
 #' @export
-reunite <- function(..., sep = "_"){
+reunite <- function(..., sep = "_") {
   out <- cbind(...)
-  out[out[,1]==out[,2], 2] <- NA
+  out[out[, 1] == out[,2], 2] <- NA
   out <- na_if(
     gsub(paste0("NA", sep), "",
          gsub(paste0(sep, "NA"), "",
@@ -62,7 +61,8 @@ reunite <- function(..., sep = "_"){
 #'
 #' @param data First variable to be used, required.
 #' @param tomove Variable(s) to be moved
-#' @param where String that dictates position in relation to reference variable. Can be one of: "last", "first", "before", or "after".
+#' @param where String that dictates position in relation to reference variable.
+#' Can be one of: "last", "first", "before", or "after".
 #' @param ref Optional string identifying reference variable
 #' @details Moves variables (columns) of a data frame to positions
 #' relative to other variables in the data frame.
@@ -70,7 +70,8 @@ reunite <- function(..., sep = "_"){
 #' @examples
 #' \dontrun{
 #' gneva.treat <- rearrange(gneva.treat, "L", "after", "X")
-#' gneva.treat <- rearrange(gneva.treat, c("Cites","Amends","Supersedes"), "before", "Amended.by")
+#' gneva.treat <- rearrange(gneva.treat,
+#'                          c("Cites","Amends","Supersedes"), "before", "Amended.by")
 #' }
 #' @export
 rearrange <- function(data, tomove, where = "last", ref = NULL) {
@@ -95,8 +96,8 @@ rearrange <- function(data, tomove, where = "last", ref = NULL) {
 #' recollect(data1$One)
 #' }
 #' @export
-recollect <- function(x, collapse = "_"){
-  na_if(paste(unique(na.omit(x)), collapse = collapse),"")
+recollect <- function(x, collapse = "_") {
+  na_if(paste(unique(na.omit(x)), collapse = collapse), "")
 }
 
 #' Interleaving two vectors by position
@@ -114,17 +115,17 @@ recollect <- function(x, collapse = "_"){
 #' }
 #' @export
 interleave <- function(vect, pos, elems = NA) {
-  
+
   l <- length(vect)
   j <- 0
-  for (i in 1:length(pos)){
+  for (i in 1:length(pos)) {
     if (pos[i] == 1)
-      vect <- c(elems[j+1], vect)
-    else if (pos[i] == length(vect)+1)
-      vect <- c(vect, elems[j+1])
+      vect <- c(elems[j + 1], vect)
+    else if (pos[i] == length(vect) + 1)
+      vect <- c(vect, elems[j + 1])
     else
-      vect <- c(vect[1:(pos[i]-1)], elems[j+1], vect[(pos[i]):length(vect)])
-    j <- j+1
+      vect <- c(vect[1:(pos[i] - 1)], elems[j + 1], vect[(pos[i]):length(vect)])
+    j <- j + 1
   }
   return(vect)
 }
@@ -143,6 +144,6 @@ interleave <- function(vect, pos, elems = NA) {
 #' summarise(mtcars, consolidate(.))
 #' }
 #' @export
-consolidate <- function(x){
+consolidate <- function(x) {
   x[which(!is.na(x))[1]]
 }

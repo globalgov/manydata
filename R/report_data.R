@@ -5,10 +5,10 @@
 #' aspects of a q Packages, databases and datasets.
 #' @param pkg character string of the qPackage to report data on. Required
 #' input.
-#' @param database vector of character strings of the qPackage to report data a 
-#' specific database in a qPackage. If NULL, report_data returns a summary 
+#' @param database vector of character strings of the qPackage to report data a
+#' specific database in a qPackage. If NULL, report_data returns a summary
 #' of all databases in the qPackage. NULL by default.
-#' @param dataset character string of the qPackage to report data on a specific 
+#' @param dataset character string of the qPackage to report data on a specific
 #' dataset in a specific database of a qPackage. If NULL and database is
 #' specified, returns database level metadata. NULL by default.
 NULL
@@ -20,14 +20,13 @@ NULL
 #' @examples
 #' data_source(pkg = "qStates", database = "states", dataset = "COW")
 #' @export
-data_source <- function(pkg, database = NULL, dataset = NULL){
+data_source <- function(pkg, database = NULL, dataset = NULL) {
   pkg_path <- find.package(pkg)
   data_path <- file.path(pkg_path, "data")
   #selcts all dbs
   pkg_dbs <- unname(unlist(readRDS(file.path(data_path, "Rdata.rds"))))
-  if(!is.null(database)){
-    if(is.null(dataset)){
-      #data_source("pkg", "database")
+  if (!is.null(database)) {
+    if (is.null(dataset)) {
       tmp_env <- new.env()
       lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
       dbs <-  mget(ls(tmp_env), tmp_env)
@@ -51,7 +50,6 @@ data_source <- function(pkg, database = NULL, dataset = NULL){
       names(outlist) <- names(dbs)
       invisible(outlist)
     } else {
-      #data_source("pkg", "database", "dataset")
       tmp_env <- new.env()
       lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
       db <- get(database, envir = tmp_env)
@@ -68,11 +66,9 @@ data_source <- function(pkg, database = NULL, dataset = NULL){
       tabl2
     }
   } else {
-    #data_source("pkg")
     tmp_env <- new.env()
     lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
     dbs <-  mget(ls(tmp_env), tmp_env)
-    #Initialize the list
     outlist <- list()
     for (i in c(1:length(dbs))) {
       assign(paste0("tabl", i), rbind(purrr::map(dbs[[i]], function(x) 
@@ -108,21 +104,19 @@ data_source <- function(pkg, database = NULL, dataset = NULL){
 #' data_contrast(pkg = "qStates", database = "states", dataset = "COW")
 #' @return A dataframe with the data report
 #' @export
-data_contrast <- function(pkg, database = NULL, dataset = NULL){
+data_contrast <- function(pkg, database = NULL, dataset = NULL) {
   pkg_path <- find.package(pkg)
   data_path <- file.path(pkg_path, "data")
-  #selcts all dbs
   pkg_dbs <- unname(unlist(readRDS(file.path(data_path, "Rdata.rds"))))
-  if(!is.null(database)){
-    if(is.null(dataset)){
-      #contrast_data("pkg", "database")
+  if (!is.null(database)) {
+    if (is.null(dataset)) {
       tmp_env <- new.env()
       lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
       dbs <-  mget(ls(tmp_env), tmp_env)
       dbs <- dbs[database]
       outlist <- list()
       for (i in c(1:length(dbs))) {
-        assign(paste0("tabl", i), 
+        assign(paste0("tabl", i),
                rbind(purrr::map(dbs[[i]], function(x) length(unique(x$ID))),
                      purrr::map(dbs[[i]], function(x)
                        paste0(
@@ -133,11 +127,11 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL){
                      purrr::map(dbs[[i]], function(x)
                        as.character(as.Date(ifelse(!all(is.na(x$Beg)), 
                                                    min(x$Beg, na.rm=T), NA),
-                                                   origin='1970-01-01'))),
-                     purrr::map(dbs[[i]], function(x) 
+                                                   origin = "1970-01-01"))),
+                     purrr::map(dbs[[i]], function(x)
                        as.character(as.Date(ifelse(!all(is.na(x$End)),
-                                                   max(x$End, na.rm=T), NA),
-                                            origin='1970-01-01'))),
+                                                   max(x$End, na.rm = TRUE), NA),
+                                            origin = "1970-01-01"))),
                      purrr::map(dbs[[i]], function(x)
                        attr(x, which = "source_URL"))))
         assign(paste0("tabl", i), t(get(paste0("tabl", i))))
@@ -146,18 +140,17 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL){
                            "Columns", "Beg", "End", "URL")
         assign(paste0("tabl", i), tmp)
         #Print things
-        print(paste0(stringr::str_to_title(database[i]), 
+        print(paste0(stringr::str_to_title(database[i]),
                      " database", sep = ""))
         print(get(paste0("tabl", i)))
         # Append objects to outlist
         outlist[i] <- list(get(paste0("tabl", i)))
       }
-      #Name elements in list
+      # Name elements in list
       names(outlist) <- database
-      #Quiet return
+      # Quiet return
       invisible(outlist)
     } else {
-      #data_contrast("pkg", "database", "dataset")
       tmp_env <- new.env()
       lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
       db <- get(database, envir = tmp_env)
@@ -170,12 +163,12 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL){
                          NVar = ncol(ds),
                          MinDate = as.character(as.Date(
                            ifelse(!all(is.na(ds$Beg)), 
-                                  min(ds$Beg, na.rm=T), NA), 
-                           origin = '1970-01-01')),
+                                  min(ds$Beg, na.rm = TRUE), NA), 
+                           origin = "1970-01-01")),
                          MaxDate = as.character(as.Date(
                            ifelse(!all(is.na(ds$End)), 
-                                  max(ds$End, na.rm=T), NA),
-                           origin = '1970-01-01')),
+                                  max(ds$End, na.rm = TRUE), NA),
+                           origin = "1970-01-01")),
                          URL = attr(ds, which = "source_URL"))
       tabl2 <- as.data.frame(t(tabl))
       colnames(tabl2) <- dataset
@@ -185,7 +178,6 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL){
       tabl2
     }
   } else {
-    #data_contrast("pkg")
     tmp_env <- new.env()
     lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
     dbs <-  mget(ls(tmp_env), tmp_env)
@@ -199,12 +191,12 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL){
                    purrr::map(dbs[[i]], function(x) ncol(x)),
                    purrr::map(dbs[[i]], function(x)
                      as.character(as.Date(ifelse(!all(is.na(x$Beg)),
-                                                 min(x$Beg, na.rm=T), NA),
-                                          origin='1970-01-01'))),
+                                                 min(x$Beg, na.rm = TRUE), NA),
+                                          origin = "1970-01-01"))),
                    purrr::map(dbs[[i]], function(x)
                      as.character(as.Date(ifelse(!all(is.na(x$End)),
-                                                 max(x$End, na.rm=T), NA),
-                                          origin='1970-01-01'))),
+                                                 max(x$End, na.rm = TRUE), NA),
+                                          origin = "1970-01-01"))),
                    purrr::map(dbs[[i]], function(x)
                      attr(x, which = "source_URL"))))
       assign(paste0("tabl", i), t(get(paste0("tabl", i))))
@@ -225,15 +217,15 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL){
   }
  }
 
-#'  This third function will display information about the process that the data 
+#'  This third function will display information about the process that the data
 #' # went through to be refined and included in our qPackage.
-#' 
+#'
 #' #' Reports on qPackage data
-#' #' 
+#' #'
 #' #' Allows users to see the changes to the original coding that was performed
 #' #' by the preparation script.
 #' #' @return A dataframe with the data report
-#' @examples
+#' #' @examples
 #' #' data_evolution(pkg = "qStates", database = "states", dataset = "COW")
 #' #' @export
 #' data_evolution <- function(pkg, database, dataset){
@@ -241,5 +233,5 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL){
 #'   data_path <- file.path(pkg_path, "data")
 #'   #selcts all dbs
 #'   pkg_dbs <- unname(unlist(readRDS(file.path(data_path, "Rdata.rds"))))
-#'   
+#'
 #' }

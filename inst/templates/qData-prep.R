@@ -20,7 +20,7 @@ library(qData)
 # Please see the vignettes or website for more details.
 
 # Stage three: Connecting data
-# Next run the following line to make {{{dataset}}} available 
+# Next run the following line to make {{{dataset}}} available
 # within the qPackage.
 export_data({{{dataset}}}, database = "{{{database}}}")
 # This function also does two additional things.

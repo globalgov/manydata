@@ -11,7 +11,8 @@ rearrange(data, tomove, where = "last", ref = NULL)
 
 \item{tomove}{Variable(s) to be moved}
 
-\item{where}{String that dictates position in relation to reference variable. Can be one of: "last", "first", "before", or "after".}
+\item{where}{String that dictates position in relation to reference variable.
+Can be one of: "last", "first", "before", or "after".}
 
 \item{ref}{Optional string identifying reference variable}
 }
@@ -28,6 +29,7 @@ relative to other variables in the data frame.
 \examples{
 \dontrun{
 gneva.treat <- rearrange(gneva.treat, "L", "after", "X")
-gneva.treat <- rearrange(gneva.treat, c("Cites","Amends","Supersedes"), "before", "Amended.by")
+gneva.treat <- rearrange(gneva.treat,
+                         c("Cites","Amends","Supersedes"), "before", "Amended.by")
 }
 }

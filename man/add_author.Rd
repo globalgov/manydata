@@ -13,7 +13,8 @@ add_author(
 )
 }
 \arguments{
-\item{orcid}{Character string of the author's ORCID number. If this is null,
+\item{orcid}{Character string of the author's ORCID number.
+If this is null,
 then the function switches to manual entry.}
 
 \item{name}{A vector giving the package
@@ -25,24 +26,27 @@ Contributor by default. For example "c(aut, cre, ctb)".}
 
 \item{email}{Character string of the author's email}
 
-\item{affiliation}{Character vector of the author's miscellaneous information
-such as his/her institution.}
+\item{affiliation}{Character vector of the author's
+miscellaneous information such as his/her institution.}
 }
 \value{
 Adds a new author to the description file of the package
 }
 \description{
-Helper function for adding an author to the description file of the current
-package.
+Helper function for adding an author to the description file of
+the current package.
 }
 \details{
-This function adds an author to the description file of the current
-package. This can be done in two ways. First you can specify the ORCID number
-of the author you want to add. This will leverage the excellent \code{rorcid}
-package and scrape the information from the ORCID API and fill out the
-description file automatically. Second, you can specify the arguments
-manually if the author does not have an ORCID number. Finally, note that by
-default the role of the new author is set to contributor.
+This function adds an author to the description file of
+the current package. This can be done in two ways.
+First you can specify the ORCID number
+of the author you want to add. This will leverage the
+excellent \code{rorcid} package and scrape the information
+from the ORCID API and fill out the description file automatically.
+Second, you can specify the arguments
+manually if the author does not have an ORCID number.
+Finally, note that by default the role of the new author
+is set to contributor.
 }
 \examples{
 \dontrun{
