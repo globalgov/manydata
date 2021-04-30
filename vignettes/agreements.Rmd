@@ -74,7 +74,7 @@ agreements <- head(agreements, 200)
 
 The sample has been hand coded so that the exact number of agreements that are duplicates or linked to one another is known. If we use the hand coded 
 duplicates to correctly identify all duplicates in the sample, we get a perfect match! That is, we identify all true positives and no false positives.
-The rates of true positives and false positives are represented the receiver operating characteristics (ROC) graph below. The area under the curve (AUC score), in dark gray, in the graph is maximized (equals 1). 
+The rates of true positives and false positives are represented the receiver operating characteristics (ROC) graph below. The area under the curve (AUC score), in dark grey, in the graph is maximized (equals 1). 
 
 ```{r hand coded data, warning=FALSE, message=FALSE}
 library(readr)
@@ -105,7 +105,7 @@ WVPlots::ROCPlot(agreements, "unique", "duplicate", 1, title = "Unique")
 
 ### Random
 
-If we randomly create a variable with 200 values and use it to find duplicates, the AUC scores margianlly. The ROC plaot illustrates how some true positives as well as a few false positives are matched.
+If we randomly create a variable with 200 values and use it to find duplicates, the AUC scores marginally. The ROC plot illustrates how some true positives as well as a few false positives are matched.
 
 ```{r random, warning=FALSE, message=FALSE}
 agreements$random <- runif(200)
@@ -150,7 +150,7 @@ WVPlots::ROCPlot(agreements, "fuzzy", "duplicate", 1, title = "Fuzzy")
 There are some important advantages here, as the ROC plot illustrates by the increased amount of duplicates found. However:
 
 1. is computationally expensive/takes a long time
-2. errors on the side of false positives depending on max distance specification
+2. errors on the side of false positives depending on the distance specification
 
 ### Identifying information extraction
 
