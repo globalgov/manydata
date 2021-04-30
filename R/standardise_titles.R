@@ -25,13 +25,13 @@
 #' @export
 standardise_titles <- standardize_titles <- function(s, strict = FALSE, api_key = NULL) {
 
-  cap<- function(s) paste(toupper(substring(s, 1, 1)), {
+  cap <- function(s) paste(toupper(substring(s, 1, 1)), {
     s <- substring(s, 2)
     if (strict) tolower(s) else s
   }
   , sep = "", collapse = " ")
   out <- sapply(strsplit(s, split = " "), cap, USE.NAMES = !is.null(names(s)))
-  if(!is.null(api_key)) {
+  if (!is.null(api_key)) {
     qData::depends("cld2", "translateR")
 
     # Initialize variables to suppress CMD notes
@@ -43,13 +43,16 @@ standardise_titles <- standardize_titles <- function(s, strict = FALSE, api_key 
     data.frame(check.names = FALSE)
     out <- cbind(out, lang)
     # Translates only the titles not in English
-    for (k in c(1:length(out))) {
+    for (k in 1:nrow(out)) {
     if (is.na(out$.[k])) {
       out$out[k] == out$out[k]
     } else if (out$.[k] == "en") {
       out$out[k] == out$out[k]
     } else {
-      out$out[k] <- suppressWarnings(translateR::translate(content.vec = out$out[k], google.api.key = api_key, source.lang = out$.[k], target.lang = "en"))
+      out$out[k] <- suppressWarnings(translateR::translate(content.vec = out$out[k],
+                                                           google.api.key = api_key,
+                                                           source.lang = out$.[k],
+                                                           target.lang = "en"))
     }
   }
   out <- out$out
@@ -95,13 +98,13 @@ standardise_titles <- standardize_titles <- function(s, strict = FALSE, api_key 
 #' }
 #' @export
 repaint <- function(df, id, var) {
-  for(co in var) {
-    for(ea in unique(df[,id])) {
+  for (co in var) {
+    for (ea in unique(df[, id])) {
       if (any(!is.na(df[df[, id] == ea, co])) &
-         any(is.na(df[df[, id] == ea, co]))){
+         any(is.na(df[df[, id] == ea, co]))) {
         df[df[,id] == ea &
-             is.na(df[,co]), co] <- df[df[,id] == ea &
-                                         !is.na(df[,co]), co][1]
+             is.na(df[, co]), co] <- df[df[, id] == ea &
+                                         !is.na(df[, co]), co][1]
       }
     }
   }

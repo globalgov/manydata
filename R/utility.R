@@ -90,7 +90,7 @@ depends <- function(packages) {
            } else {
              library(x, character.only = TRUE)
            }
-         }) 
+         })
 }
 
 #' Helper function for keeping  objects from the global environment
@@ -144,7 +144,7 @@ retain <- function(keep = NULL, envir = .GlobalEnv, keep_functions = TRUE,
     }
 
     ## Check if the keep is a character vector
-    if ((!inherits(keep, "character")) | typeof(keep) != "character" ) {
+    if ((!inherits(keep, "character")) | typeof(keep) != "character") {
       stop("The value of `keep` parameter should be a chacter vector with length 1 or more.")
     }
 
@@ -184,7 +184,7 @@ retain <- function(keep = NULL, envir = .GlobalEnv, keep_functions = TRUE,
       } else {
         regex <- FALSE
       }
-      
+
       # if user manually force the code not to concider regulat expression
     } else {
       regex <- FALSE
@@ -269,7 +269,7 @@ retain <- function(keep = NULL, envir = .GlobalEnv, keep_functions = TRUE,
     if (length(removables)) {
       # get to total sum of the variables that are going to be removed in bytes
       total_size <- sum(vapply(removables,
-                               function(x){
+                               function(x) {
                                  utils::object.size(get(x, envir = as.environment(envir)))
                                }, numeric(1)))
 

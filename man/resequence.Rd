@@ -24,6 +24,6 @@ Resorting and filtering dates
 \dontrun{
 data <- data.frame(Sign = c("2000-01-01", "2001-01-01", "2001-01-01_2000-01-01", "2000-01-01", NA),
                    Force = c("2001-01-01", "2000-01-01", "2001-01-01", NA, "2001-01-01"))
-resequence(data, c("Sign","Force"))
+resequence(data, c("Sign", "Force"))
 }
 }

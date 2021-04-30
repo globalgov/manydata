@@ -33,7 +33,7 @@ data_source <- function(pkg, database = NULL, dataset = NULL) {
       dbs <- dbs[database]
       outlist <- list()
       for (i in c(1:length(dbs))) {
-        assign(paste0("tabl", i), rbind(purrr::map(dbs[[i]], function(x) 
+        assign(paste0("tabl", i), rbind(purrr::map(dbs[[i]], function(x)
           paste0(utils::capture.output(
             print(attr(x, which = "source_bib"))), sep = "", collapse = "")))
           )
@@ -60,7 +60,7 @@ data_source <- function(pkg, database = NULL, dataset = NULL) {
       tabl2 <- tabl %>%
         t()
       colnames(tabl2) <- dataset
-      print(paste0("Reference for the ", dataset, 
+      print(paste0("Reference for the ", dataset,
                    " dataset in the ", stringr::str_to_title(database),
                    " database", sep = ""))
       tabl2
@@ -71,7 +71,7 @@ data_source <- function(pkg, database = NULL, dataset = NULL) {
     dbs <-  mget(ls(tmp_env), tmp_env)
     outlist <- list()
     for (i in c(1:length(dbs))) {
-      assign(paste0("tabl", i), rbind(purrr::map(dbs[[i]], function(x) 
+      assign(paste0("tabl", i), rbind(purrr::map(dbs[[i]], function(x)
         paste0(utils::capture.output(
           print(attr(x, which = "source_bib"))), sep = "", collapse = ""
           ))))
@@ -120,13 +120,13 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
                rbind(purrr::map(dbs[[i]], function(x) length(unique(x$ID))),
                      purrr::map(dbs[[i]], function(x)
                        paste0(
-                         round(sum(is.na(x))/prod(dim(x)), digits = 2), " %")
+                         round(sum(is.na(x)) / prod(dim(x)), digits = 2), " %")
                        ),
                      purrr::map(dbs[[i]], function(x) nrow(x)),
                      purrr::map(dbs[[i]], function(x) ncol(x)),
                      purrr::map(dbs[[i]], function(x)
-                       as.character(as.Date(ifelse(!all(is.na(x$Beg)), 
-                                                   min(x$Beg, na.rm=T), NA),
+                       as.character(as.Date(ifelse(!all(is.na(x$Beg)),
+                                                   min(x$Beg, na.rm = TRUE), NA),
                                                    origin = "1970-01-01"))),
                      purrr::map(dbs[[i]], function(x)
                        as.character(as.Date(ifelse(!all(is.na(x$End)),
@@ -157,16 +157,16 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
       ds <- db[[dataset]]
       tabl <- data.frame(UniqueID = length(unique(ds$ID)),
                          Missing_Data = paste0(
-                           round(sum(is.na(ds))/prod(dim(ds)), 
+                           round(sum(is.na(ds)) / prod(dim(ds)),
                                  digits = 2), " %"),
                          NObs = nrow(ds),
                          NVar = ncol(ds),
                          MinDate = as.character(as.Date(
-                           ifelse(!all(is.na(ds$Beg)), 
-                                  min(ds$Beg, na.rm = TRUE), NA), 
+                           ifelse(!all(is.na(ds$Beg)),
+                                  min(ds$Beg, na.rm = TRUE), NA),
                            origin = "1970-01-01")),
                          MaxDate = as.character(as.Date(
-                           ifelse(!all(is.na(ds$End)), 
+                           ifelse(!all(is.na(ds$End)),
                                   max(ds$End, na.rm = TRUE), NA),
                            origin = "1970-01-01")),
                          URL = attr(ds, which = "source_URL"))
@@ -186,7 +186,7 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
       assign(paste0("tabl", i),
              rbind(purrr::map(dbs[[i]], function(x) length(unique(x$ID))),
                    purrr::map(dbs, function(x)
-                     paste0(sum(is.na(x))/prod(dim(x)), " %")),
+                     paste0(sum(is.na(x)) / prod(dim(x)), " %")),
                    purrr::map(dbs[[i]], function(x) nrow(x)),
                    purrr::map(dbs[[i]], function(x) ncol(x)),
                    purrr::map(dbs[[i]], function(x)
@@ -228,7 +228,7 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
 #' #' @examples
 #' #' data_evolution(pkg = "qStates", database = "states", dataset = "COW")
 #' #' @export
-#' data_evolution <- function(pkg, database, dataset){
+#' data_evolution <- function(pkg, database, dataset) {
 #'   pkg_path <- find.package(pkg)
 #'   data_path <- file.path(pkg_path, "data")
 #'   #selcts all dbs

@@ -12,7 +12,7 @@
 #' create_test_package <- function(qTest = fs::file_temp(pattern = "testpkg"),
 #'                                 env = parent.frame(),
 #'                                 rstudio = FALSE) {
-#' 
+#'
 #'  if (fs::dir_exists(qTest)) {
 #'    usethis::ui_stop("Target {usethis::ui_code('dir')} {usethis::ui_path(dir)} already exists.")
 #'  }

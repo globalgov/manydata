@@ -49,7 +49,7 @@ transmutate <- function(.data, ...) {
 #' @export
 reunite <- function(..., sep = "_") {
   out <- cbind(...)
-  out[out[, 1] == out[,2], 2] <- NA
+  out[out[, 1] == out[, 2], 2] <- NA
   out <- na_if(
     gsub(paste0("NA", sep), "",
          gsub(paste0(sep, "NA"), "",
@@ -71,7 +71,8 @@ reunite <- function(..., sep = "_") {
 #' \dontrun{
 #' gneva.treat <- rearrange(gneva.treat, "L", "after", "X")
 #' gneva.treat <- rearrange(gneva.treat,
-#'                          c("Cites","Amends","Supersedes"), "before", "Amended.by")
+#'                          c("Cites","Amends","Supersedes"),
+#'                          "before", "Amended.by")
 #' }
 #' @export
 rearrange <- function(data, tomove, where = "last", ref = NULL) {

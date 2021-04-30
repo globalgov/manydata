@@ -70,7 +70,7 @@ code_agreements <- function(title, date, dataset = NULL) {
   qID <- out
 
   usethis::ui_done("Please run `vignette('agreements')` for more information.")
-  
+
   # Step eight: add new qID column to data if dataset argument is provided
   if (!is.null(dataset)) {
     dataset <- dataset %>%
@@ -215,7 +215,8 @@ code_dates <- function(x, date) {
 
   uID <- stringr::str_remove_all(date, "-")
   # For treaties without signature date
-  uID[is.na(uID)] <- paste0("9999", sample(1000:9999, sum(is.na(uID)), replace = TRUE))
+  uID[is.na(uID)] <- paste0("9999",
+                            sample(1000:9999, sum(is.na(uID)), replace = TRUE))
 
   # When the date is a range, the uID is taking only
   # the first value of the dates range (temporary solution)
@@ -227,14 +228,15 @@ code_dates <- function(x, date) {
   C <- stringr::str_extract_all(x, "[:alpha:]$")
   C <- suppressWarnings(ifelse(!stringr::str_detect(C, "^[:alpha:]$"), "O", C))
   C <- stringr::str_to_upper(C)
-  uID <- stringr::str_replace_all(uID, "[:digit:]{4}\\:[:digit:]{8}$", paste0(A, B, C, "01"))
+  uID <- stringr::str_replace_all(uID, "[:digit:]{4}\\:[:digit:]{8}$",
+                                  paste0(A, B, C, "01"))
 
   uID
 
 }
 
 #' Known agreements abbreviation
-#' 
+#'
 #' Some agreements have known abbreviations that facilitate their identification.
 #' @param x A character vector of treaty title
 #' @return A character vector of abbreviation of known treaties
@@ -287,7 +289,7 @@ code_known_agreements <- function(x) {
     grepl("Convention For The Protection Of The Ozone Layer",
           x, ignore.case = T) ~ "VIENNA19850322",
     )
-  
+
   abbrev
 
 }
@@ -318,10 +320,10 @@ code_topic <- function(x) {
           x, ignore.case = F) ~ "SOI",
     grepl("nature|environment|biodiversity|flora|plant|fruit|vegetable|seed|
           forest|tree|conservation|preservation", x, ignore.case = T) ~ "BIO",
-    grepl("fish|salmon|herring|tuna|aquaculture|mariculture|molluscs|whaling",
-          x, ignore.case = T) ~ "FIS",
-    grepl("agricultur|food|livestock|crop|irrigation|cattle|meat|farm|cultivate",
-          x, ignore.case = T) ~ "AGR",
+    grepl("fish|salmon|herring|tuna|aquaculture|mariculture|
+          molluscs|whaling", x, ignore.case = T) ~ "FIS",
+    grepl("agricultur|food|livestock|crop|irrigation|cattle|
+          meat|farm|cultivate", x, ignore.case = T) ~ "AGR",
     grepl("culture|scien|techno|trade|research|exploration|navigation|data|
           information", x, ignore.case = T) ~ "BOT",
     grepl("energy|nuclear|oil|mining|gas|hydro|power",
@@ -376,8 +378,10 @@ code_areas <- function(x) {
     grepl("Antarctic", x, ignore.case = T) ~ "ANT_",
     grepl("Arctic", x, ignore.case = T) ~ "ARC_",
     # Coding for ocean abbreviations
-    grepl("Southeast Atlantic|South East Atlantic|South Atlantic|African Atlantic", x, ignore.case = T) ~ "OSA_",
-    grepl("Eastern Pacific|Northeast Pacific|Western Central Pacific", x, ignore.case = T) ~ "OPAC_",
+    grepl("Southeast Atlantic|South East Atlantic|South Atlantic|African Atlantic",
+          x, ignore.case = T) ~ "OSA_",
+    grepl("Eastern Pacific|Northeast Pacific|Western Central Pacific",
+          x, ignore.case = T) ~ "OPAC_",
     grepl("South Pacific|Southern Pacific", x, ignore.case = T) ~ "OSP_",
   )
 
@@ -396,9 +400,9 @@ code_areas <- function(x) {
 #' @import english
 #' @import stringr
 #' @import dplyr
-#' @return A character vector of the agreements that are connected to one another
-#' @details The function identifies duplicates via excluding a few 
-#' 'predictable' words from strings, this maintains core words that are 
+#' @return A character vector of the agreements that are linked
+#' @details The function identifies duplicates via excluding a few
+#' 'predictable' words from strings, this maintains core words that are
 #' then used to identify and link duplicates.
 #' This is a choice that considers errors should lie on the side of false
 #' negatives rather than false positives.
@@ -421,7 +425,8 @@ code_linkage <- function(x, date) {
     x <- substring(x, 2)
   }
   , sep = "", collapse = " ")
-  out <- sapply(strsplit(as.character(x), split = " "), cap, USE.NAMES = !is.null(names(x)))
+  out <- sapply(strsplit(as.character(x), split = " "),
+                cap, USE.NAMES = !is.null(names(x)))
   # Step one: remove known words and articles
   stringi::stri_trans_general(out, id = "Latin-ASCII")
   out <- gsub("\\<amendment\\>|\\<amendments\\>|\\<amend\\>|\\<amending\\>|\\<modifying\\>|
@@ -469,7 +474,7 @@ code_linkage <- function(x, date) {
                           as.numeric(1:100),
                           safe = TRUE, perl = TRUE,
                           ignore.case = TRUE, fixed = FALSE)
-  
+
   out <- as.data.frame(out)
 
   # Step three: find duplicates
@@ -496,10 +501,10 @@ code_linkage <- function(x, date) {
       dup = row_number() > 1,
       ref = ifelse(dup, paste0(first(id)), as.character(id)))
 
-  out <- out %>% group_by(ref) %>% mutate(n = n()) %>% mutate(line = case_when(
-    n != 1 ~ paste(ref),
-    n == 1 ~ "1"
-  ))
+  out <- out %>%
+    group_by(ref) %>%
+    mutate(n = n()) %>%
+    mutate(line = case_when(n != 1 ~ paste(ref), n == 1 ~ "1"))
 
   line <- out$line
 

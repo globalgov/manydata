@@ -40,7 +40,7 @@ setup_package <- function(package = NULL,
   # usethis:::check_not_nested(fs::path_dir(path), name)
   # usethis:::create_directory(path)
 
-  # Initialize variables to suppress an annoying note when running 
+  # Initialize variables to suppress an annoying note when running
   # devtools_check
   given <- NULL
   family <- NULL
@@ -57,10 +57,10 @@ setup_package <- function(package = NULL,
     }
   }
 
-  ifelse (!startsWith(package, "q"),
+  ifelse(!startsWith(package, "q"),
           stop("Package name must start with a 'q'"), package)
 
-  if (is.null(name)){
+  if (is.null(name)) {
     if (file.exists(paste0(path, "/DESCRIPTION"))) {
       author <- read.dcf(paste0(path, "/DESCRIPTION"))[[4]]
       author <- stringr::str_replace_all(author, "\",\nfamily = \"", " ")
@@ -77,7 +77,7 @@ setup_package <- function(package = NULL,
     }
   }
   # Small check to see if roles are defined. If there are
-  # no roles declared it sets all roles, but first author declared, 
+  # no roles declared it sets all roles, but first author declared,
   # to contributor.
 
   rolefirst <- 'c("aut", "cre", "ctb")'
@@ -88,7 +88,7 @@ setup_package <- function(package = NULL,
     if ("rorcid" %in% rownames(utils::installed.packages()) == FALSE) {
       depends("rorcid")
     }
-    if (length(orcid)>2) {
+    if (length(orcid) > 2) {
       stop("Please specify one author. Add the rest by using our
             add_author() function.")
     }
@@ -128,13 +128,13 @@ setup_package <- function(package = NULL,
   }
 
   if (!is.null(name)) {
-    
+
     # Treat author names
     fullname <- stringr::str_split(name, ",")
     given <- stringr::str_trim(paste0(fullname[[1]][2]))
     family <- paste0(fullname[[1]][1])
 
-    if (length(fullname)>2) {
+    if (length(fullname) > 2) {
       stop("Please specify author. Add the rest by using our add_author() function.")
     }
 
@@ -244,18 +244,21 @@ setup_package <- function(package = NULL,
             path = path,
             open = FALSE)
   usethis::ui_done("Created feature request issue template. Modify if necessary.")
- 
+
   create_directory(paste0(path, "/.github/workflows"))
   usethis::ui_done("Created workflows folder.")
 
   if (interactive()) {
-    file.copy(fs::path_package(package = "qData", "templates", "qPackage-Check.yml"),
+    file.copy(fs::path_package(package = "qData",
+                               "templates", "qPackage-Check.yml"),
               fs::path(".github", "workflows", "prchecks.yml"))
     usethis::ui_done("Added checks workflow upon opening a push release.")
-    file.copy(fs::path_package(package = "qData", "templates", "qPackage-Commands.yml"),
+    file.copy(fs::path_package(package = "qData",
+                               "templates", "qPackage-Commands.yml"),
               fs::path(".github", "workflows", "prcommands.yml"))
     usethis::ui_done("Added commands workflow upon labelling a push release.")
-    file.copy(fs::path_package(package = "qData", "templates", "qPackage-Release.yml"),
+    file.copy(fs::path_package(package = "qData",
+                               "templates", "qPackage-Release.yml"),
               fs::path(".github", "workflows", "pushrelease.yml"))
     usethis::ui_done("Added release workflow upon merging a push release.")
   }
@@ -265,7 +268,7 @@ setup_package <- function(package = NULL,
 }
 
 #' Helper function for adding an author to the current package
-#' 
+#'
 #' Helper function for adding an author to the description file of
 #' the current package.
 #' @param orcid Character string of the author's ORCID number.
@@ -301,13 +304,12 @@ add_author <- function(orcid = NULL,
                        name = NULL,
                        role = NULL,
                        email = NULL,
-                       affiliation = NULL){
-  
+                       affiliation = NULL) {
 
   # Check for correct input
   if (is.null(orcid) & is.null(name)) stop("Either a correct ORCID number or name in the format 'Surname, Given Names' must be provided.")
 
-  # Initialize variables to suppress an annoying note when running 
+  # Initialize variables to suppress an annoying note when running
   # devtools_check
   comment <- NULL
 
@@ -345,15 +347,15 @@ add_author <- function(orcid = NULL,
     family <- name[[1]][1]
     given <- name[[1]][2]
   }
-  
+
   # Unless otherwise provided, new authors added are listed as 'contributors'
   if (is.null(role)) role <- "ctb"
 
-  if (!is.null(email) && !grepl("@", email, fixed = TRUE)){
+  if (!is.null(email) && !grepl("@", email, fixed = TRUE)) {
     stop("Please specify a correct email adress.")
   }
 
-  if(!"desc" %in% rownames(utils::installed.packages())){
+  if (!"desc" %in% rownames(utils::installed.packages())) {
     depends("desc")
   }
 

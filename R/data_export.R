@@ -58,10 +58,13 @@ export_data <- function(..., database, URL) {
       usethis::ui_info("The {usethis::ui_value(dataset_name)} dataset does not yet exist in {usethis::ui_value(database)}. It will be added.")
     }
     env[[database]][[dataset_name]] <- get(dataset_name)
-    
+
     #Adding static source attributes to each dataset
     attr(env[[database]][[dataset_name]], "source_URL") <- URL
-    attr(env[[database]][[dataset_name]], "source_bib") <- bibtex::read.bib(file = paste0("data-raw/", database, "/", dataset_name,"/",dataset_name,".bib"))
+    attr(env[[database]][[dataset_name]], "source_bib") <- bibtex::read.bib(file = paste0("data-raw/",
+                                                                                          database, "/",
+                                                                                          dataset_name, "/",
+                                                                                          dataset_name, ".bib"))
     save(list = database, envir = env,
          file = fs::path("data", database, ext = "rda"),
          compress = "bzip2")
@@ -75,7 +78,10 @@ export_data <- function(..., database, URL) {
     env <- new.env()
     env[[database]] <- tibble::lst(...)
     attr(env[[database]][[dataset_name]], "source_URL") <- URL
-    attr(env[[database]][[dataset_name]], "source_bib") <- bibtex::read.bib(file = paste0("data-raw/", database, "/", dataset_name,"/",dataset_name,".bib"))
+    attr(env[[database]][[dataset_name]], "source_bib") <- bibtex::read.bib(file = paste0("data-raw/",
+                                                                                          database, "/",
+                                                                                          dataset_name, "/",
+                                                                                          dataset_name, ".bib"))
     save(list = database, envir = env,
          file = fs::path("data", database, ext = "rda"),
          compress = "bzip2")
@@ -93,11 +99,11 @@ export_data <- function(..., database, URL) {
   dsobs <- lapply(db, nrow)
   dsnvar <- lapply(db, ncol)
   dsvar <- lapply(db, colnames)
-  dsvarstr <- lapply(lapply(db, colnames), str_c, collapse=", ")
+  dsvarstr <- lapply(lapply(db, colnames), str_c, collapse = ", ")
   describe <- paste0("#'\\describe{\n",
-                     paste0("#' \\item{", dsnames,": }",
-                            "{A dataset with ", dsobs," observations and the following ",
-                            dsnvar," variables: ", dsvarstr, ".}\n", collapse = ""), "#' }")
+                     paste0("#' \\item{", dsnames, ": }",
+                            "{A dataset with ", dsobs, " observations and the following ",
+                            dsnvar, " variables: ", dsvarstr, ".}\n", collapse = ""), "#' }")
   sourceelem <- paste0("#' @source \\url{", URL, "}", collapse = "")
   #Output
   qtemplate("qDataDBDoc.R",
