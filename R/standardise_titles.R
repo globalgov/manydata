@@ -30,7 +30,7 @@ standardise_titles <- standardize_titles <- function(s, strict = FALSE, api_key 
     if (strict) tolower(s) else s
   }
   , sep = "", collapse = " ")
-  out <- sapply(strsplit(s, split = " "), cap, USE.NAMES = !is.null(names(s)))
+  out <- vapply(strsplit(s, split = " "), cap, "", USE.NAMES = !is.null(names(s)))
   if (!is.null(api_key)) {
     qData::depends("cld2", "translateR")
 
@@ -39,9 +39,10 @@ standardise_titles <- standardize_titles <- function(s, strict = FALSE, api_key 
 
     # For titles in other languages than english, we need to dectct language first
     lang <- out %>%
-    sapply(., purrr::map_chr, cld2::detect_language) %>%
-    data.frame(check.names = FALSE)
+      vapply(., purrr::map_chr, "", cld2::detect_language) %>%
+      data.frame(check.names = FALSE)
     out <- cbind(out, lang)
+    
     # Translates only the titles not in English
     for (k in 1:nrow(out)) {
     if (is.na(out$.[k])) {

@@ -425,9 +425,10 @@ code_linkage <- function(x, date) {
     x <- substring(x, 2)
   }
   , sep = "", collapse = " ")
-  out <- sapply(strsplit(as.character(x), split = " "),
-                cap, USE.NAMES = !is.null(names(x)))
-  # Step one: remove known words and articles
+  out <- vapply(strsplit(as.character(x), split = " "),
+                cap, "", USE.NAMES = !is.null(names(x)))
+  
+  # Step three: remove known words and articles
   stringi::stri_trans_general(out, id = "Latin-ASCII")
   out <- gsub("\\<amendment\\>|\\<amendments\\>|\\<amend\\>|\\<amending\\>|\\<modifying\\>|
               \\<modify\\>|\\<extension\\>|\\<extend\\>|\\<extending\\>|\\<verbal\\>|\\<protocol\\>|
