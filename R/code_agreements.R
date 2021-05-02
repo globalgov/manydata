@@ -478,7 +478,7 @@ code_linkage <- function(x, date) {
 
   out <- as.data.frame(out)
 
-  # Step three: find duplicates
+  # Step four: find duplicates
   dup <- duplicated(out)
   dates <- stringr::str_remove_all(date, "-")
   # When date is a range, remove the last
@@ -495,7 +495,7 @@ code_linkage <- function(x, date) {
   # Initialize variables to suppress CMD notes
   ref <- NULL
 
-  # Step four: make sure duplicates have the same ID number
+  # Step five: make sure duplicates have the same ID number
   out <- out %>%
     group_by_at(vars(out)) %>%
     mutate(

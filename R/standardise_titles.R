@@ -37,14 +37,14 @@ standardise_titles <- standardize_titles <- function(s, strict = FALSE, api_key 
     # Initialize variables to suppress CMD notes
     . <- NULL
 
-    # For titles in other languages than english, we need to dectct language first
+    # For titles in other languages than English, we need to detect language first
     lang <- out %>%
       vapply(., purrr::map_chr, "", cld2::detect_language) %>%
       data.frame(check.names = FALSE)
     out <- cbind(out, lang)
     
     # Translates only the titles not in English
-    for (k in 1:nrow(out)) {
+    for (k in seq_len(nrow(out))) {
     if (is.na(out$.[k])) {
       out$out[k] == out$out[k]
     } else if (out$.[k] == "en") {
