@@ -16,7 +16,7 @@
 #' @importFrom stringr str_replace_all str_detect
 #' @examples
 #' IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
-#' code_agreements(IEADB$Title, IEADB$Signature, IEADB)
+#' code_agreements(IEADB$Title, IEADB$Signature)
 #' @export
 code_agreements <- function(title, date, dataset = NULL) {
 
@@ -336,10 +336,10 @@ code_linkage <- function(title, date) {
   # date (temporary solution to deal with date range)
   dates <- stringr::str_remove_all(dates, "\\:[:digit:]{8}$")
 
-  id <- ifelse((!is.na(abbrev)), paste0(abbrev),
-                (ifelse((is.na(parties)), paste0(dates, type),
-                        (ifelse((!is.na(parties) & (type == "A")), paste0(dates, "_", parties),
-                                (ifelse((!is.na(parties) & (type != "A")), paste0(dates, type), NA)))))))
+  id <- ifelse((is.na(parties)), paste0(dates, type),
+               (ifelse((!is.na(parties) & (type == "A")), paste0(dates, "_", parties),
+                       (ifelse((!is.na(parties) & (type != "A")), paste0(dates, type),
+                               (ifelse(!is.na(abbrev), paste0(dates, type), NA)))))))
 
   out <- cbind(out, dup, id)
 
