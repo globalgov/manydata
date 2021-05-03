@@ -13,7 +13,9 @@ code_type(title)
 A character vector of the treaty type
 }
 \description{
-Identify the type of international agreement.
+Identify the type of international agreement from titles.
+Agreements can be, for example, multilateral treaties or coventions (A),
+protocols (P) or amendments (E), if they contain words in title.
 }
 \examples{
 IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)

@@ -34,18 +34,23 @@ code_agreements <- function(title, date, dataset = NULL) {
 
   # Step two: code parties if present
   parties <- code_parties(qID)
+  usethis::ui_done("Coded agreement parties")
 
   # Step three: code agreement type
   type <- code_type(qID)
-  
+  usethis::ui_done("Coded agreement type")
+
   # Step four: code known agreements
   abbrev <- code_known_agreements(qID)
+  usethis::ui_done("Coded known agreements")
 
   #step five: give the observation a unique ID by dates
   uID <- code_dates(title, date)
+  usethis::ui_done("Coded agreement dates")
 
   # step six: detect treaties from the same 'family'
   line <- code_linkage(qID, date)
+  usethis::ui_done("Coded agreement linkages")
 
   # Step seven: add items together correctly
   # The following coding assumes that any other
@@ -85,7 +90,7 @@ code_agreements <- function(title, date, dataset = NULL) {
 
 #' Code Agreement Parties
 #'
-#' Identify the countries that are part of the agreement.
+#' Identify the countries that are part of an agreement.
 #' @param title A character vector of treaty titles
 #' @importFrom qStates code_states
 #' @importFrom stringr str_replace_all
@@ -111,7 +116,9 @@ code_parties <- function(title) {
 
 #' Code Agreement Type
 #'
-#' Identify the type of international agreement.
+#' Identify the type of international agreement from titles.
+#' Agreements can be, for example, multilateral treaties or coventions (A),
+#' protocols (P) or amendments (E), if they contain words in title.
 #' @param title A character vector of treaty title
 #' @return A character vector of the treaty type
 #' @importFrom dplyr case_when
@@ -162,28 +169,7 @@ code_type <- function(title) {
   )
 
   # Extracts meaningful ordering numbers for protocols and amendments
-
-  number <- title
-  number <- gsub("\\<one\\>|\\<first\\>", "1", number)
-  number <- gsub("\\<two\\>|\\<second\\>", "2", number)
-  number <- gsub("\\<three\\>|\\<third\\>", "3", number)
-  number <- gsub("\\<four\\>|\\<fourth\\>", "4", number)
-  number <- gsub("\\<five\\>|\\<fifth\\>", "5", number)
-  number <- gsub("\\<six\\>|\\<sixth\\>", "6", number)
-  number <- gsub("\\<seven\\>|\\<seventh\\>", "7", number)
-  number <- gsub("\\<eight\\>|\\<eighth\\>", "8", number)
-  number <- gsub("\\<nine\\>|\\<ninth\\>", "9", number)
-  number <- stringr::str_remove(number, "[:digit:]{2}\\s[:alpha:]{3}\\s[:digit:]{4}|[:digit:]{2}\\s[:alpha:]{4}\\s[:digit:]{4}")
-  number <- stringr::str_remove(number, "[:digit:]{2}\\s[:alpha:]{5}\\s[:digit:]{4}|[:digit:]{2}\\s[:alpha:]{6}\\s[:digit:]{4}")
-  number <- stringr::str_remove(number,  "[:digit:]{2}\\s[:alpha:]{7}\\s[:digit:]{4}|[:digit:]{2}\\s[:alpha:]{8}\\s[:digit:]{4}")
-  number <- stringr::str_remove(number, "[:digit:]{2}\\s[:alpha:]{9}\\s[:digit:]{4}| [:digit:]{1}\\s[:alpha:]{3}\\s[:digit:]{4}")
-  number <- stringr::str_remove(number, "[:digit:]{1}\\s[:alpha:]{4}\\s[:digit:]{4}| [:digit:]{1}\\s[:alpha:]{5}\\s[:digit:]{4}")
-  number <- stringr::str_remove(number, "[:digit:]{1}\\s[:alpha:]{6}\\s[:digit:]{4}| [:digit:]{1}\\s[:alpha:]{7}\\s[:digit:]{4}")
-  number <- stringr::str_remove(number, "[:digit:]{1}\\s[:alpha:]{8}\\s[:digit:]{4}| [:digit:]{1}\\s[:alpha:]{9}\\s[:digit:]{4}")
-  number <- stringr::str_remove(number, "[:digit:]{4}")
-
-  number <- ifelse(stringr::str_detect(number, "[:digit:]{1}|[:digit:]{2}"),
-                   stringr::str_extract(number, "[:digit:]{1}|[:digit:]{2}"), "")
+  number <- order_agreements(title)
 
   # When no type is found
   type <- stringr::str_replace_na(type, "O")
@@ -400,7 +386,7 @@ code_linkage <- function(title, date) {
 
   out <- out %>%
     dplyr::group_by(ref) %>%
-    dplyr::mutate(n = n()) %>%
+    dplyr::mutate(n = dplyr::n()) %>%
     dplyr::mutate(line = dplyr::case_when(n != 1 ~ paste(ref), n == 1 ~ "1"))
 
   line <- out$line
@@ -408,5 +394,68 @@ code_linkage <- function(title, date) {
   line <- stringr::str_replace_all(line, "^1$", NA_character_)
 
   line
+
+}
+
+#' Remove dates from agreement titles
+#'
+#' Dates can cause an issue when trying to extract meaningful
+#' numbers from titles for ordering purposes, this function removes dates.
+#' @param title A character vector of treaty title
+#' @importFrom stringr str_remove
+#' @return A character vector without dates
+remove_dates <- function(title) {
+
+  rd <- title
+  rd <- stringr::str_remove(rd, "[:digit:]{2}\\s[:alpha:]{3}\\s[:digit:]{4}|[:digit:]{2}\\s[:alpha:]{4}\\s[:digit:]{4}")
+  rd <- stringr::str_remove(rd, "[:digit:]{2}\\s[:alpha:]{5}\\s[:digit:]{4}|[:digit:]{2}\\s[:alpha:]{6}\\s[:digit:]{4}")
+  rd <- stringr::str_remove(rd,  "[:digit:]{2}\\s[:alpha:]{7}\\s[:digit:]{4}|[:digit:]{2}\\s[:alpha:]{8}\\s[:digit:]{4}")
+  rd <- stringr::str_remove(rd, "[:digit:]{2}\\s[:alpha:]{9}\\s[:digit:]{4}| [:digit:]{1}\\s[:alpha:]{3}\\s[:digit:]{4}")
+  rd <- stringr::str_remove(rd, "[:digit:]{1}\\s[:alpha:]{4}\\s[:digit:]{4}| [:digit:]{1}\\s[:alpha:]{5}\\s[:digit:]{4}")
+  rd <- stringr::str_remove(rd, "[:digit:]{1}\\s[:alpha:]{6}\\s[:digit:]{4}| [:digit:]{1}\\s[:alpha:]{7}\\s[:digit:]{4}")
+  rd <- stringr::str_remove(rd, "[:digit:]{1}\\s[:alpha:]{8}\\s[:digit:]{4}| [:digit:]{1}\\s[:alpha:]{9}\\s[:digit:]{4}")
+  rd <- stringr::str_remove(rd, "[:digit:]{4}")
+
+  rd
+
+}
+
+#' Extracts Orders from Agreements 
+#'
+#' Identifies and extracts meaningful numbers from agreements titles that
+#' are important information about the order of the agreement.
+#' @param title A character vector of treaty title
+#' @import stringr
+#' @return A character vector with meangniful numbers from titles
+order_agreements <- function(title) {
+
+  rd <- remove_dates(title)
+
+  oa <- gsub("\\<one\\>|\\<first\\>", "1", rd)
+  oa <- gsub("\\<two\\>|\\<second\\>", "2", oa)
+  oa <- gsub("\\<three\\>|\\<third\\>", "3", oa)
+  oa <- gsub("\\<four\\>|\\<fourth\\>", "4", oa)
+  oa <- gsub("\\<five\\>|\\<fifth\\>", "5", oa)
+  oa <- gsub("\\<six\\>|\\<sixth\\>", "6", oa)
+  oa <- gsub("\\<seven\\>|\\<seventh\\>", "7", oa)
+  oa <- gsub("\\<eight\\>|\\<eighth\\>", "8", oa)
+  oa <- gsub("\\<nine\\>|\\<ninth\\>", "9", oa)
+  oa <- gsub("\\<ten\\>|\\<tenth\\>", "10", oa)
+  oa <- gsub("\\<eleven\\>|\\<eleventh\\>", "11", oa)
+  oa <- gsub("\\<twelve\\>|\\<twelfth\\>", "12", oa)
+  oa <- gsub("\\<thirteen\\>|\\<thirteenth\\>", "13", oa)
+  oa <- gsub("\\<fourteen\\>|\\<fourteenth\\>", "14", oa)
+  oa <- gsub("\\<fifteen\\>|\\<fifteenth\\>", "15", oa)
+  oa <- gsub("\\<sixteen\\>|\\<sixteenth\\>", "16", oa)
+  oa <- gsub("\\<seventeen\\>|\\<seventeenth\\>", "17", oa)
+  oa <- gsub("\\<eighteen\\>|\\<eighteenth\\>", "18", oa)
+  oa <- gsub("\\<nineteen\\>|\\<nineteenth\\>", "19", oa)
+  oa <- gsub("\\<twenty\\>|\\<twentieth\\>", "20", oa)
+
+  oa <- stringr::str_extract(oa, "[:digit:]{1}|[:digit:]{2}")
+  oa <- stringr::str_replace_na(oa)
+  oa <- stringr::str_remove_all(oa, "NA")
+
+  oa
 
 }

@@ -13,7 +13,7 @@ code_parties(title)
 A character vector of parties that are mentioned in the treaty title
 }
 \description{
-Identify the countries that are part of the agreement.
+Identify the countries that are part of an agreement.
 }
 \examples{
 IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
