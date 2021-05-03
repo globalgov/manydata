@@ -24,7 +24,7 @@ that is picking the first non-missing observation,
 but on observations rather than variables.
 }
 \examples{
-\donttest{
+\dontrun{
 summarise(mtcars, consolidate(.))
 }
 }

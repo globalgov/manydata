@@ -11,8 +11,8 @@
 #' the function detects strings in other languages
 #' and translates them to English.
 #' @return A capitalised, trimmed string
-#' @import textclean
-#' @import english
+#' @importFrom textclean add_comma_space mgsub
+#' @importFrom english ordinal
 #' @import stringr
 #' @import dplyr
 #' @importFrom utils as.roman

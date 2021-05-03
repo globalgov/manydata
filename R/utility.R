@@ -13,7 +13,7 @@
 #' @return A rendered template, saved into the correct folder
 #' @importFrom whisker whisker.render
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' qtemplate("test_states.R",
 #' save_as = fs::path("tests", "testthat", paste0("test_", dataset_name, ".R")),
 #' open = FALSE,
@@ -75,7 +75,6 @@ qtemplate <- function(template,
 #' for GitHub username/repo are required as argument.
 #' @examples
 #' depends("qData")
-#' depends("globalgov/qStates")
 #' @export
 depends <- function(packages) {
   lapply(packages,

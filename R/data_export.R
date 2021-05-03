@@ -19,7 +19,7 @@
 #' @importFrom usethis ui_info
 #' @importFrom usethis ui_done
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' export_data(COW, database = "states",
 #' URL = "https://correlatesofwar.org/data-sets/state-system-membership")
 #' }

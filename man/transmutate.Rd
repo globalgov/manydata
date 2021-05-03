@@ -24,6 +24,6 @@ A function between dplyr's transmute and mutate
 }
 \examples{
 \donttest{
-transmutate( mtcars, X = ifelse( vs, drat, wt ), Y = mpg*cyl )
+transmutate(mtcars, X = ifelse( vs, drat, wt ), Y = mpg*cyl )
 }
 }

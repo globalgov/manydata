@@ -12,7 +12,7 @@
 #' @source https://stackoverflow.com/questions/51428156/dplyr-mutate-transmute-drop-only-the-columns-used-in-the-formula
 #' @examples
 #' \donttest{
-#' transmutate( mtcars, X = ifelse( vs, drat, wt ), Y = mpg*cyl )
+#' transmutate(mtcars, X = ifelse( vs, drat, wt ), Y = mpg*cyl )
 #' }
 #' @export
 transmutate <- function(.data, ...) {
@@ -90,10 +90,9 @@ rearrange <- function(data, tomove, where = "last", ref = NULL) {
 #' it pastes together unique rows/observations.
 #' @importFrom stats na.omit
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' data1 <- data.frame(ID = c(1,2,3,3,2,1),
-#'data1 <- data.frame(ID = c(1,2,3,3,2,1),
-#'                    One = c(1,NA,3,NA,2,NA))
+#' data1 <- data.frame(ID = c(1,2,3,3,2,1), One = c(1,NA,3,NA,2,NA))
 #' recollect(data1$One)
 #' }
 #' @export
@@ -141,7 +140,7 @@ interleave <- function(vect, pos, elems = NA) {
 #' but on observations rather than variables.
 #' @source https://stackoverflow.com/questions/40515180/dplyr-how-to-find-the-first-non-missing-string-by-groups
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' summarise(mtcars, consolidate(.))
 #' }
 #' @export

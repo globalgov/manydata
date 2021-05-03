@@ -23,5 +23,4 @@ for GitHub username/repo are required as argument.
 }
 \examples{
 depends("qData")
-depends("globalgov/qStates")
 }
