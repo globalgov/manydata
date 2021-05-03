@@ -11,7 +11,7 @@
 #' @import dplyr
 #' @source https://stackoverflow.com/questions/51428156/dplyr-mutate-transmute-drop-only-the-columns-used-in-the-formula
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' transmutate( mtcars, X = ifelse( vs, drat, wt ), Y = mpg*cyl )
 #' }
 #' @export
@@ -41,7 +41,7 @@ transmutate <- function(.data, ...) {
 #' @param sep Separator when vectors reunited, by default "_"
 #' @return A single vector with unique non-missing information
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data <- data.frame(fir=c(NA, "two", "three", NA),
 #'   sec=c("one", NA, "three", NA), stringsAsFactors = F)
 #' transmutate(data, single = reunite(fir, sec))
@@ -68,7 +68,7 @@ reunite <- function(..., sep = "_") {
 #' relative to other variables in the data frame.
 #' @return The data frame given by 'data' with the variables repositioned
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' gneva.treat <- rearrange(gneva.treat, "L", "after", "X")
 #' gneva.treat <- rearrange(gneva.treat,
 #'                          c("Cites","Amends","Supersedes"),
@@ -90,7 +90,7 @@ rearrange <- function(data, tomove, where = "last", ref = NULL) {
 #' it pastes together unique rows/observations.
 #' @importFrom stats na.omit
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data1 <- data.frame(ID = c(1,2,3,3,2,1),
 #'data1 <- data.frame(ID = c(1,2,3,3,2,1),
 #'                    One = c(1,NA,3,NA,2,NA))
@@ -111,7 +111,7 @@ recollect <- function(x, collapse = "_") {
 #' @return A vector the length of the sum of \code{vect}
 #' and \code{pos}.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' interleave(1:5, c(2,4))
 #' }
 #' @export
@@ -141,7 +141,7 @@ interleave <- function(vect, pos, elems = NA) {
 #' but on observations rather than variables.
 #' @source https://stackoverflow.com/questions/40515180/dplyr-how-to-find-the-first-non-missing-string-by-groups
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' summarise(mtcars, consolidate(.))
 #' }
 #' @export

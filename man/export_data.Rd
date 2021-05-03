@@ -32,7 +32,7 @@ As well, it creates a documentation script to help documenting data
 sources and describing variables.
 }
 \examples{
-\dontrun{
+\donttest{
 export_data(COW, database = "states",
 URL = "https://correlatesofwar.org/data-sets/state-system-membership")
 }

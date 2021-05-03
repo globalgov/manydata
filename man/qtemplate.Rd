@@ -40,7 +40,7 @@ This function is an adaptation of the usethis variant
 for use in the qData ecosystem.
 }
 \examples{
-\dontrun{
+\donttest{
 qtemplate("test_states.R",
 save_as = fs::path("tests", "testthat", paste0("test_", dataset_name, ".R")),
 open = FALSE,

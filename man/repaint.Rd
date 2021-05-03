@@ -21,7 +21,7 @@ a dataframe
 Fills missing data where known by other observations with the same id/index
 }
 \examples{
-\dontrun{
+\donttest{
 myData <- repaint(myData, id="StatID", var=c("Area","Region")
 }
 }

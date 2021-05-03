@@ -187,7 +187,7 @@ code_type <- function(title) {
 #' @param title A title variable
 #' @param date A date variable
 #' @return A character vector with condensed dates
-#' @importFrom stringr str_remove_all
+#' @import stringr
 #' @examples
 #' IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
 #' IEADB$uID <- code_dates(IEADB$Title, IEADB$Signature)
@@ -249,13 +249,13 @@ code_known_agreements <- function(title) {
 #' Identify the linkage between amendments and protocols to a main agreement.
 #' @param title A character vector of treaty title
 #' @param date A date variable
-#' @import textclean
-#' @import english
-#' @import stringr
+#' @importFrom textclean add_comma_space mgsub
+#' @importFrom english ordinal
+#' @importFrom stringr str_replace_all str_squish str_remove_all
 #' @import dplyr
 #' @return A character vector of the agreements that are linked
 #' @details The function identifies duplicates via excluding a few
-#' 'predictable' words from strings, this maintains core words that are
+#' 'predictable' words from strings, this maintains key words that are
 #' then used to identify and link duplicates.
 #' This is a choice that considers errors should lie on the side of false
 #' negatives rather than false positives.
@@ -281,7 +281,6 @@ code_linkage <- function(title, date) {
                 cap, "", USE.NAMES = !is.null(names(title)))
   
   # Step three: remove known words and articles
-  stringi::stri_trans_general(out, id = "Latin-ASCII")
   out <- gsub("\\<amendment\\>|\\<amendments\\>|\\<amend\\>|\\<amending\\>|\\<modifying\\>|
               \\<modify\\>|\\<extension\\>|\\<extend\\>|\\<extending\\>|\\<verbal\\>|\\<protocol\\>|
               \\<additional\\>|\\<subsidiary\\>|\\<supplementary\\>|\\<complementary\\>|

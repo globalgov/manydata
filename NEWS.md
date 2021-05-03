@@ -20,7 +20,7 @@
   * Added `code_linkage()` to identify the links between amendments and protocols to a main agreement
   * Closed #148 by making `code_agreemnts()` more accurate, consistent and parsimonious
   * Fixed #154 by allowing `code_agreements()` to take date ranges
-  * Added tests for `code_agreements()` 
+  * Added tests for `code_agreements()`
 
 # qData 0.3.5
 

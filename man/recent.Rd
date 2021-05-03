@@ -32,7 +32,7 @@ may confuse the algorithm.
 In other words, this function is built for internally consistent codes.
 }
 \examples{
-\dontrun{
+\donttest{
 recent(head(tfd_agree$Sign))
 }
 }

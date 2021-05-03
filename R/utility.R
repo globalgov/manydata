@@ -13,7 +13,7 @@
 #' @return A rendered template, saved into the correct folder
 #' @importFrom whisker whisker.render
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' qtemplate("test_states.R",
 #' save_as = fs::path("tests", "testthat", paste0("test_", dataset_name, ".R")),
 #' open = FALSE,

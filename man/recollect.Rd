@@ -23,7 +23,7 @@ but instead of operating on columns/observations,
 it pastes together unique rows/observations.
 }
 \examples{
-\dontrun{
+\donttest{
 data1 <- data.frame(ID = c(1,2,3,3,2,1),
 data1 <- data.frame(ID = c(1,2,3,3,2,1),
                    One = c(1,NA,3,NA,2,NA))

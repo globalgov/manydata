@@ -21,7 +21,7 @@
 #' @import usethis
 #' @importFrom stringr str_replace_all str_split
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' setup_package("qStates", name = "Hollway, James"))
 #' setup_package("qStates",
 #'                orcid = c("0000-0002-8361-9647"))

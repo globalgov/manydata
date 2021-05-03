@@ -20,7 +20,8 @@ Abbreviations make good dataset names, such as "COW" or "DESTA".}
 
 \item{database}{Intended name of the database or datacube.
 That is, the name of the population or phenomenon to which the dataset
-relates. For consistency reasons, this should be a unique name
+relates.
+For consistency reasons, this should be a unique name
 in small letters. Concepts make good database names,
 such as "states" or "colonial_relations".}
 
