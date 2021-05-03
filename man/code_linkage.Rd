@@ -4,10 +4,10 @@
 \alias{code_linkage}
 \title{Code Agreement Linkages}
 \usage{
-code_linkage(x, date)
+code_linkage(title, date)
 }
 \arguments{
-\item{x}{A character vector of treaty title}
+\item{title}{A character vector of treaty title}
 
 \item{date}{A date variable}
 }

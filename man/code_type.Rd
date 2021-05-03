@@ -4,10 +4,10 @@
 \alias{code_type}
 \title{Code Agreement Type}
 \usage{
-code_type(x)
+code_type(title)
 }
 \arguments{
-\item{x}{A character vector of treaty title}
+\item{title}{A character vector of treaty title}
 }
 \value{
 A character vector of the treaty type

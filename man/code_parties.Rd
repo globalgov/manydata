@@ -4,10 +4,10 @@
 \alias{code_parties}
 \title{Code Agreement Parties}
 \usage{
-code_parties(x)
+code_parties(title)
 }
 \arguments{
-\item{x}{A character vector of treaty titles}
+\item{title}{A character vector of treaty titles}
 }
 \value{
 A character vector of parties that are mentioned in the treaty title

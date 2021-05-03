@@ -3,12 +3,17 @@
 #' Creates an ID column that contains information on the
 #' parties to an agreement, the type of agreement, the date
 #' and the linkage to other agreements in the dataset.
-#' @param title title column variable
+#' @param title title column variable.
+#' Ideally, title variable should come from a qPackage database/dataset
+#' for which strings were standardised with `standardise_titles()`
 #' @param date date column variable
-#' @param dataset name of the dataset, optional
+#' Ideally, date variable should come from a qPackage database/dataset
+#' for which dates were standardised with `standardise_dates()`
+#' @param dataset name of the dataset, optional. When provided with
+#' dataset argument, the function will return qID as a column in the dataset.
+#' If not provided, the function will return a character vector with qIDs.
 #' @importFrom usethis ui_done
-#' @importFrom stringr str_replace_all
-#' @importFrom stringr str_detect
+#' @importFrom stringr str_replace_all str_detect
 #' @examples
 #' IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
 #' IEADB <- code_agreements(IEADB$Title, IEADB$Signature, IEADB)
@@ -81,7 +86,7 @@ code_agreements <- function(title, date, dataset = NULL) {
 #' Code Agreement Parties
 #'
 #' Identify the countries that are part of the agreement.
-#' @param x A character vector of treaty titles
+#' @param title A character vector of treaty titles
 #' @importFrom qStates code_states
 #' @importFrom stringr str_replace_all
 #' @return A character vector of parties that are mentioned in the treaty title
@@ -89,9 +94,9 @@ code_agreements <- function(title, date, dataset = NULL) {
 #' IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
 #' IEADB$parties <- code_parties(IEADB$Title)
 #' @export
-code_parties <- function(x) {
+code_parties <- function(title) {
   
-  parties <- qStates::code_states(x)
+  parties <- qStates::code_states(title)
   parties <- stringr::str_replace_all(parties, "_", "-")
   parties[!grepl("-", parties)] <- NA
 
@@ -107,58 +112,58 @@ code_parties <- function(x) {
 #' Code Agreement Type
 #'
 #' Identify the type of international agreement.
-#' @param x A character vector of treaty title
+#' @param title A character vector of treaty title
 #' @return A character vector of the treaty type
 #' @importFrom dplyr case_when
 #' @examples
 #' IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
 #' IEADB$type <- code_type(IEADB$Title)
 #' @export
-code_type <- function(x) {
+code_type <- function(title) {
 
   type <- dplyr::case_when(
     # When the title contains "Protocol amending..."
-    grepl("^Protocol", x, ignore.case = T) ~ "P",
+    grepl("^Protocol", title, ignore.case = T) ~ "P",
     # E stands for amendment
-    grepl("amend|modify|extend|proces-verbal", x, ignore.case = T) ~ "E",
+    grepl("amend|modify|extend|proces-verbal", title, ignore.case = T) ~ "E",
     # P stands for protocols
     grepl("protocol|additional|subsidiary|supplementary|
           complementaire|
           complementar|complementario|annex |annexes ",
-          x, ignore.case = T) ~ "P",
+          title, ignore.case = T) ~ "P",
     # Added annex in this category
     # A stands for agreements
     grepl("agreement|arrangement|accord|acuerdo|bilateral co|
           technical co|treat|trait|tratado|convention|convencion|
           convenio|constitution|charte|instrument|statute|estatuto|
           provisional understanding|provisions relating|ubereinkunft",
-          x, ignore.case = T) ~ "A",
+          title, ignore.case = T) ~ "A",
     grepl("Act|Declaration|Covenant|Scheme|Government Of|Law",
-          x, ignore.case = T) ~ "A",
-    # X stands for exchanges of notes
-    grepl("Exchange|Letters|Notas", x, ignore.case = T) ~ "X",
+          title, ignore.case = T) ~ "A",
+    # title stands for excahnges of notes
+    grepl("Exchange|Letters|Notas", title, ignore.case = T) ~ "X",
     # Y stands for memorandum of understanding
     grepl("Memorandum|memorando|Principles of Conduct|Code of Conduct",
-          x, ignore.case = T) ~ "Y",
+          title, ignore.case = T) ~ "Y",
     # W stands for resolutions
     grepl("Agreed Measures|Agreed Record|Consensus|Conclusions|
           Decision|Directive|Regulation|
           Reglamento|Resolution|Rules|Recommendation",
-          x, ignore.case = T) ~ "W",
+          title, ignore.case = T) ~ "W",
     # Q stands for minutes
     grepl("Minute|Adjustment|First Session Of|First Meeting Of|Commission|
-          Committee|Center", x, ignore.case = T) ~ "Q",
+          Committee|Center", title, ignore.case = T) ~ "Q",
     # V stands for declarations
     grepl("Statement|Communiq|Comminiq|Joint Declaration|Proclamation|
-          Administrative Order", x, ignore.case = T) ~ "V",
+          Administrative Order", title, ignore.case = T) ~ "V",
     # S stands for strategies
     grepl("Strategy|Plan|Program|Improvement|Project|Study|Working Party|
-          Working Group", x, ignore.case = T) ~ "S",
+          Working Group", title, ignore.case = T) ~ "S",
   )
 
   # Extracts meaningful ordering numbers for protocols and amendments
 
-  number <- x
+  number <- title
   number <- gsub("\\<one\\>|\\<first\\>", "1", number)
   number <- gsub("\\<two\\>|\\<second\\>", "2", number)
   number <- gsub("\\<three\\>|\\<third\\>", "3", number)
@@ -193,7 +198,7 @@ code_type <- function(x) {
 #'
 #' Agreements should have a unique identification number that is meaningful,
 #' we condense their signature date to produce this number.
-#' @param x A title variable
+#' @param title A title variable
 #' @param date A date variable
 #' @return A character vector with condensed dates
 #' @importFrom stringr str_remove_all
@@ -201,7 +206,7 @@ code_type <- function(x) {
 #' IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
 #' IEADB$uID <- code_dates(IEADB$Title, IEADB$Signature)
 #' @export
-code_dates <- function(x, date) {
+code_dates <- function(title, date) {
 
   uID <- stringr::str_remove_all(date, "-")
   # For treaties without signature date
@@ -210,12 +215,12 @@ code_dates <- function(x, date) {
 
   # When the date is a range, the uID is taking only
   # the first value of the dates range (temporary solution)
-  A <- stringr::str_extract_all(x, "^[:alpha:]")
+  A <- stringr::str_extract_all(title, "^[:alpha:]")
   A <- stringr::str_to_upper(A)
-  B <- stringr::str_sub(x, start = 19, end = 19)
+  B <- stringr::str_sub(title, start = 19, end = 19)
   B <- suppressWarnings(ifelse(stringr::str_detect(B, "\\s"), "L", B))
   B <- stringr::str_to_upper(B)
-  C <- stringr::str_extract_all(x, "[:alpha:]$")
+  C <- stringr::str_extract_all(title, "[:alpha:]$")
   C <- suppressWarnings(ifelse(!stringr::str_detect(C, "^[:alpha:]$"), "O", C))
   C <- stringr::str_to_upper(C)
   uID <- stringr::str_replace_all(uID, "[:digit:]{4}\\:[:digit:]{8}$",
@@ -228,55 +233,55 @@ code_dates <- function(x, date) {
 #' Known agreements abbreviation
 #'
 #' Some agreements have known abbreviations that facilitate their identification.
-#' @param x A character vector of treaty title
+#' @param title A character vector of treaty title
 #' @return A character vector of abbreviation of known treaties
 #' @importFrom dplyr case_when
 #' @examples
 #' IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
 #' IEADB$abbrev <- code_known_agreements(IEADB$Title)
 #' @export
-code_known_agreements <- function(x) {
+code_known_agreements <- function(title) {
 
   # Assign the specific abbreviation to the "known" treaties
   abbrev <- dplyr::case_when(
     grepl("United Nations Convention On The Law Of The Sea",
-          x, ignore.case = T) ~ "UNCLOS19821210",
-    grepl("Convention On Biological Diversity", x,
+          title, ignore.case = T) ~ "UNCLOS19821210",
+    grepl("Convention On Biological Diversity", title,
           ignore.case = T) ~ "CBD19920605",
     grepl("Convention On The Conservation Of Antarctic Marine Living Resources",
-          x, ignore.case = T) ~ "CCAMLR19800520",
+          title, ignore.case = T) ~ "CCAMLR19800520",
     grepl("Convention On International Trade In Endangered Species Of Wild Fauna And Flora",
-          x, ignore.case = T) ~ "CITES19730303",
+          title, ignore.case = T) ~ "CITES19730303",
     grepl("International Convention On Civil Liability For Oil Pollution Damage",
-          x, ignore.case = T) ~ "CLC19691129",
+          title, ignore.case = T) ~ "CLC19691129",
     grepl("Antarctic Mineral Resources Convention",
-          x, ignore.case = T) ~ "CRAMRA19880602",
+          title, ignore.case = T) ~ "CRAMRA19880602",
     grepl("Convention On The Protection And Use Of Transboundary Watercourses And International Lakes",
-          x, ignore.case = T) ~ "CECE19920317",
+          title, ignore.case = T) ~ "CECE19920317",
     grepl("Convention On Long-Range Transboundary Air Pollution",
-          x, ignore.case = T) ~ "LRTAP19791113",
+          title, ignore.case = T) ~ "LRTAP19791113",
     grepl("International Convention For The Prevention Of Pollution From Ships",
-          x, ignore.case = T) ~ "MARPOL19731102",
+          title, ignore.case = T) ~ "MARPOL19731102",
     grepl("North American Agreement On Environmental Cooperation",
-          x, ignore.case = T) ~ "NAAEC19930914",
+          title, ignore.case = T) ~ "NAAEC19930914",
     grepl("Constitutional Agreement Of The Latin American Organization For Fisheries Development",
-          x, ignore.case = T) ~ "OLDEPESCA19821029",
+          title, ignore.case = T) ~ "OLDEPESCA19821029",
     grepl("International Convention On Oil Pollution Preparedness, Response And Cooperation",
-          x, ignore.case = T) ~ "OPRC19901130",
+          title, ignore.case = T) ~ "OPRC19901130",
     grepl("Convention For The Protection Of The Marine Environment Of The North East Atlantic",
-          x, ignore.case = T) ~ "OSPAR19920922",
+          title, ignore.case = T) ~ "OSPAR19920922",
     grepl("Paris Agreement Under The United Nations Framework Convention On Climate Change",
-          x, ignore.case = T) ~ "PARIS20151212",
+          title, ignore.case = T) ~ "PARIS20151212",
     grepl("Convention On The Prior Informed Consent Procedure For Certain Hazardous Chemicals And Pesticides In International Trade",
-          x, ignore.case = T) ~ "PIC19980910",
+          title, ignore.case = T) ~ "PIC19980910",
     grepl("Convention On Wetlands Of International Importance Especially As Waterfowl Habitat",
-          x, ignore.case = T) ~ "RAMSA19710202",
+          title, ignore.case = T) ~ "RAMSA19710202",
     grepl("Convention To Combat Desertification In Those Countries Experiencing Serious Drought And/Or Desertification, Particularly In Africa",
-          x, ignore.case = T) ~ "UNCCD19940617",
+          title, ignore.case = T) ~ "UNCCD19940617",
     grepl("United Nations Framework Convention On Climate Change",
-          x, ignore.case = T) ~ "UNFCCC19920509",
+          title, ignore.case = T) ~ "UNFCCC19920509",
     grepl("Convention For The Protection Of The Ozone Layer",
-          x, ignore.case = T) ~ "VIENNA19850322",
+          title, ignore.case = T) ~ "VIENNA19850322",
     )
 
   abbrev
@@ -286,7 +291,7 @@ code_known_agreements <- function(x) {
 #' Code Agreement Linkages
 #'
 #' Identify the linkage between amendments and protocols to a main agreement.
-#' @param x A character vector of treaty title
+#' @param title A character vector of treaty title
 #' @param date A date variable
 #' @import textclean
 #' @import english
@@ -302,9 +307,9 @@ code_known_agreements <- function(x) {
 #' IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
 #' IEADB$line <- code_linkage(IEADB$Title, IEADB$Signature)
 #' @export
-code_linkage <- function(x, date) {
+code_linkage <- function(title, date) {
 
-  s <-  purrr::map(x, as.character)
+  s <-  purrr::map(title, as.character)
 
   # Step one: find type, parties and known agreements
   type <- code_type(s)
@@ -312,12 +317,12 @@ code_linkage <- function(x, date) {
   parties <- code_parties(s)
 
   # Step two: standardise text and remove 'predictable words' in agreements
-  cap <- function(x) paste(toupper(substring(x, 1, 1)), {
-    x <- substring(x, 2)
+  cap <- function(title) paste(toupper(substring(title, 1, 1)), {
+    title <- substring(title, 2)
   }
   , sep = "", collapse = " ")
-  out <- vapply(strsplit(as.character(x), split = " "),
-                cap, "", USE.NAMES = !is.null(names(x)))
+  out <- vapply(strsplit(as.character(title), split = " "),
+                cap, "", USE.NAMES = !is.null(names(title)))
   
   # Step three: remove known words and articles
   stringi::stri_trans_general(out, id = "Latin-ASCII")

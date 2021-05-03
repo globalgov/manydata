@@ -7,11 +7,17 @@
 code_agreements(title, date, dataset = NULL)
 }
 \arguments{
-\item{title}{title column variable}
+\item{title}{title column variable.
+Ideally, title variable should come from a qPackage database/dataset
+for which strings were standardised with \code{standardise_titles()}}
 
-\item{date}{date column variable}
+\item{date}{date column variable
+Ideally, date variable should come from a qPackage database/dataset
+for which dates were standardised with \code{standardise_dates()}}
 
-\item{dataset}{name of the dataset, optional}
+\item{dataset}{name of the dataset, optional. When provided with
+dataset argument, the function will return qID as a column in the dataset.
+If not provided, the function will return a character vector with qIDs.}
 }
 \description{
 Creates an ID column that contains information on the

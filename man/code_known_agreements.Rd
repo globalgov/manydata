@@ -4,10 +4,10 @@
 \alias{code_known_agreements}
 \title{Known agreements abbreviation}
 \usage{
-code_known_agreements(x)
+code_known_agreements(title)
 }
 \arguments{
-\item{x}{A character vector of treaty title}
+\item{title}{A character vector of treaty title}
 }
 \value{
 A character vector of abbreviation of known treaties
