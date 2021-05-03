@@ -13,10 +13,14 @@
 * Closed #137 by making `data_contrast()` and `data_source()` return exportable objects
 * Added `code_agreements()` function
   * Closed #130 by setting up new `code_agreements()` that extracts meaningful information from agreements titles and dates
-  * Added `code_parties()`, `code_type()`, `code_dates()`, `code_known_agreements()` and `code_linkage()` helper functions
-  * Closed #148 by making `code_agreemnts()` more accurate, consistent and parsimoneus.
+  * Added `code_parties()` to extract parties from agreement titles
+  * Added `code_type()` to identify agreement types
+  * Added `code_dates()` to assign a numerical ID based on the signature date
+  * Added `code_known_agreements()` to facilitate identification of agreements with known abbreviations
+  * Added `code_linkage()` to identify the links between amendments and protocols to a main agreement
+  * Closed #148 by making `code_agreemnts()` more accurate, consistent and parsimonious
   * Fixed #154 by allowing `code_agreements()` to take date ranges
-  * Added tests for `code_agreements()`
+  * Added tests for `code_agreements()` 
 
 # qData 0.3.5
 
