@@ -19,7 +19,6 @@ Agreements should have a unique identification number that is meaningful,
 we condense their signature date to produce this number.
 }
 \examples{
-\dontrun{
-IEADB$uID <- code_dates(IEADB$Title, IEADB$dates)
-}
+IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
+IEADB$uID <- code_dates(IEADB$Title, IEADB$Signature)
 }

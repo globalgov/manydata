@@ -2,7 +2,7 @@
 % Please edit documentation in R/code_agreements.R
 \name{code_agreements}
 \alias{code_agreements}
-\title{Code agreements title}
+\title{Code Agreement Titles}
 \usage{
 code_agreements(title, date, dataset = NULL)
 }
@@ -19,8 +19,6 @@ parties to an agreement, the type of agreement, the date
 and the linkage to other agreements in the dataset.
 }
 \examples{
-\dontrun{
+IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
 IEADB <- code_agreements(IEADB$Title, IEADB$Signature, IEADB)
-qID <- code_agreements(IEADB$Title, IEADB$Signature)
-}
 }

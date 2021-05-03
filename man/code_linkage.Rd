@@ -2,7 +2,7 @@
 % Please edit documentation in R/code_agreements.R
 \name{code_linkage}
 \alias{code_linkage}
-\title{Code Agreement Lineage}
+\title{Code Agreement Linkages}
 \usage{
 code_linkage(x, date)
 }
@@ -25,7 +25,6 @@ This is a choice that considers errors should lie on the side of false
 negatives rather than false positives.
 }
 \examples{
-\dontrun{
-IEADB$line <- code_linkage(IEADB$Title)
-}
+IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
+IEADB$line <- code_linkage(IEADB$Title, IEADB$Signature)
 }

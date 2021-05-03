@@ -16,7 +16,6 @@ A character vector of the treaty type
 Identify the type of international agreement.
 }
 \examples{
-\dontrun{
+IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
 IEADB$type <- code_type(IEADB$Title)
-}
 }

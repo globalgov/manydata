@@ -16,7 +16,6 @@ A character vector of abbreviation of known treaties
 Some agreements have known abbreviations that facilitate their identification.
 }
 \examples{
-\dontrun{
-IEADB$abbrev <- code_known_agreements(IEADB$titles)
-}
+IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
+IEADB$abbrev <- code_known_agreements(IEADB$Titles)
 }

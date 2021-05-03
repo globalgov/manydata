@@ -1,4 +1,4 @@
-#' Code agreements title
+#' Code Agreement Titles
 #'
 #' Creates an ID column that contains information on the
 #' parties to an agreement, the type of agreement, the date
@@ -10,10 +10,8 @@
 #' @importFrom stringr str_replace_all
 #' @importFrom stringr str_detect
 #' @examples
-#' \dontrun{
+#' IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
 #' IEADB <- code_agreements(IEADB$Title, IEADB$Signature, IEADB)
-#' qID <- code_agreements(IEADB$Title, IEADB$Signature)
-#' }
 #' @export
 code_agreements <- function(title, date, dataset = NULL) {
 
@@ -32,16 +30,10 @@ code_agreements <- function(title, date, dataset = NULL) {
   # Step two: code parties if present
   parties <- code_parties(qID)
 
-  # Step three: code agreement topic and area
-  # Categories and key words still need some adjustments
-  # This does not appear on qID but information is extracted for
-  # future usage.
-  # topic <- code_topic(qID)
-  # area <- code_areas(qID)
-
-  # Step four: code agreement type
-  # For known agreements abbreviations are also assigned
+  # Step three: code agreement type
   type <- code_type(qID)
+  
+  # Step four: code known agreements
   abbrev <- code_known_agreements(qID)
 
   #step five: give the observation a unique ID by dates
@@ -88,9 +80,8 @@ code_agreements <- function(title, date, dataset = NULL) {
 #' @importFrom stringr str_replace_all
 #' @return A character vector of parties that are mentioned in the treaty title
 #' @examples
-#' \dontrun{
+#' IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
 #' IEADB$parties <- code_parties(IEADB$Title)
-#' }
 #' @export
 code_parties <- function(x) {
   parties <- qStates::code_states(x)
@@ -98,7 +89,7 @@ code_parties <- function(x) {
   # Some agreements are made between unions of countries and others,
   # but are still considered bilateral. In these cases, abbreviations
   # will have 2 letters instead of 3.
-  unions <- case_when(grepl("European Community", x, ignore.case = T) ~ "EC",
+  unions <- dplyr::case_when(grepl("European Community", x, ignore.case = T) ~ "EC",
                      grepl("European Union", x, ignore.case = T) ~ "EU",
                      grepl("African Union", x, ignore.case = T) ~ "AU")
   parties <- ifelse(!is.na(unions), paste0(unions, "-", parties), parties)
@@ -119,13 +110,12 @@ code_parties <- function(x) {
 #' @return A character vector of the treaty type
 #' @importFrom dplyr case_when
 #' @examples
-#' \dontrun{
+#' IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
 #' IEADB$type <- code_type(IEADB$Title)
-#' }
 #' @export
 code_type <- function(x) {
 
-  type <- case_when(
+  type <- dplyr::case_when(
     # When the title contains "Protocol amending..."
     grepl("^Protocol", x, ignore.case = T) ~ "P",
     # E stands for amendment
@@ -207,9 +197,8 @@ code_type <- function(x) {
 #' @return A character vector with condensed dates
 #' @importFrom stringr str_remove_all
 #' @examples
-#' \dontrun{
-#' IEADB$uID <- code_dates(IEADB$Title, IEADB$dates)
-#' }
+#' IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
+#' IEADB$uID <- code_dates(IEADB$Title, IEADB$Signature)
 #' @export
 code_dates <- function(x, date) {
 
@@ -242,14 +231,13 @@ code_dates <- function(x, date) {
 #' @return A character vector of abbreviation of known treaties
 #' @importFrom dplyr case_when
 #' @examples
-#' \dontrun{
-#' IEADB$abbrev <- code_known_agreements(IEADB$titles)
-#' }
+#' IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
+#' IEADB$abbrev <- code_known_agreements(IEADB$Titles)
 #' @export
 code_known_agreements <- function(x) {
 
   # Assign the specific abbreviation to the "known" treaties
-  abbrev <- case_when(
+  abbrev <- dplyr::case_when(
     grepl("United Nations Convention On The Law Of The Sea",
           x, ignore.case = T) ~ "UNCLOS19821210",
     grepl("Convention On Biological Diversity", x,
@@ -294,104 +282,7 @@ code_known_agreements <- function(x) {
 
 }
 
-#' Code Agreement Topic
-#'
-#' Identify the main environmental issue the treaty is tackling.
-#' @param x A character vector of treaty title
-#' @return A character vector of the treaty topic abbreviation.
-#' @importFrom stringr str_replace_na
-#' @importFrom dplyr case_when
-#' @examples
-#' \dontrun{
-#' IEADB$topic <- code_topic(IEADB$Title)
-#' }
-#' @export
-code_topic <- function(x) {
-
-  topic <- case_when(
-    grepl("Waste|disposal|pollut|toxic|hazard", x, ignore.case = T) ~ "WAS",
-    grepl("species|habitat|ecosystems|biological diversity|genetic resources|
-          biosphere|birds|locusts", x, ignore.case = T) ~ "SPE",
-    grepl("air|atmos|climate|outer space|ozone|emissions",
-          x, ignore.case = T) ~ "AIR",
-    grepl("water|freshwater|river|rhine|hydro|basin|drought|
-          ocean|shelf|Atlantic|Lake", x, ignore.case = T) ~ "WAT",
-    grepl("Soil|Wetland|Desert|Erosion|Land|Archipelago",
-          x, ignore.case = F) ~ "SOI",
-    grepl("nature|environment|biodiversity|flora|plant|fruit|vegetable|seed|
-          forest|tree|conservation|preservation", x, ignore.case = T) ~ "BIO",
-    grepl("fish|salmon|herring|tuna|aquaculture|mariculture|
-          molluscs|whaling", x, ignore.case = T) ~ "FIS",
-    grepl("agricultur|food|livestock|crop|irrigation|cattle|
-          meat|farm|cultivate", x, ignore.case = T) ~ "AGR",
-    grepl("culture|scien|techno|trade|research|exploration|navigation|data|
-          information", x, ignore.case = T) ~ "BOT",
-    grepl("energy|nuclear|oil|mining|gas|hydro|power",
-          x, ignore.case = T) ~ "NUC",
-    grepl("accidents", x, ignore.case = T) ~ "ACC",
-    grepl("chemicals, pesticides|toxin|Lead", x, ignore.case = T) ~ "CHE",
-    grepl("climate", x, ignore.case = T) ~ "CLC",
-    grepl("noise", x, ignore.case = T) ~ "NOI",
-    grepl("disease|diseases", x, ignore.case = T) ~ "DIS",
-    grepl("resource|resources|timber|antartic|fur|Ivory|Horn",
-          x, ignore.case = T) ~ "RES",
-  )
-
-  # If not topic is found, category will be "OTH"
-  topic <- stringr::str_replace_na(topic, "OTH")
-
-  topic
-
-}
-
-#' Code the Treaty Areas
-#'
-#' Identify a region or area the treaty title refers to.
-#' @param x A character vector of treaty title
-#' @return A character vector of the treaty area
-#' @importFrom stringr str_replace_na
-#' @examples
-#' \dontrun{
-#' IEADB$area <- Code_areas(IEADB$Title)
-#' }
-#' @export
-code_areas <- function(x) {
-
-  areas <- case_when(
-    # Coding for region abbreviations
-    grepl("Central America|Caribbean", x, ignore.case = T) ~ "CAM_",
-    grepl("Latin America| South America", x, ignore.case = T) ~ "LA_",
-    # grepl("North America", x, ignore.case = F) ~ "NA_",
-    grepl("Near East|Middle East| Middle East and North Africa",
-          x, ignore.case = T) ~ "MEA_",
-    grepl("Oceania", x, ignore.case = T) ~ "OCE_",
-    grepl("Eastern and Central Europe|European|Western Europe",
-          x, ignore.case = T) ~ "WEU_",
-    grepl("East Africa|Eastern Africa|Sub-Saharan Africa|Central Africa|
-          Southern Africa", x, ignore.case = T) ~ "SSA_",
-    grepl("Southern Hemisphere|South Hemisphere",
-          x, ignore.case = T) ~ "SH_",
-    grepl("Southeastern Asia|South Asia", x, ignore.case = T) ~ "SEA_",
-    grepl("Central Asia", x, ignore.case = T) ~ "CAS_",
-    grepl("asia pacific|asian pacific", x, ignore.case = T) ~ "AP_",
-    grepl("Pacific Island", x, ignore.case = T) ~ "PI_",
-    grepl("Antarctic", x, ignore.case = T) ~ "ANT_",
-    grepl("Arctic", x, ignore.case = T) ~ "ARC_",
-    # Coding for ocean abbreviations
-    grepl("Southeast Atlantic|South East Atlantic|South Atlantic|African Atlantic",
-          x, ignore.case = T) ~ "OSA_",
-    grepl("Eastern Pacific|Northeast Pacific|Western Central Pacific",
-          x, ignore.case = T) ~ "OPAC_",
-    grepl("South Pacific|Southern Pacific", x, ignore.case = T) ~ "OSP_",
-  )
-
-  areas <- stringr::str_replace_na(areas, "")
-
-  areas
-
-}
-
-#' Code Agreement Lineage
+#' Code Agreement Linkages
 #'
 #' Identify the linkage between amendments and protocols to a main agreement.
 #' @param x A character vector of treaty title
@@ -407,9 +298,8 @@ code_areas <- function(x) {
 #' This is a choice that considers errors should lie on the side of false
 #' negatives rather than false positives.
 #' @examples
-#' \dontrun{
-#' IEADB$line <- code_linkage(IEADB$Title)
-#' }
+#' IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
+#' IEADB$line <- code_linkage(IEADB$Title, IEADB$Signature)
 #' @export
 code_linkage <- function(x, date) {
 
@@ -497,15 +387,15 @@ code_linkage <- function(x, date) {
 
   # Step five: make sure duplicates have the same ID number
   out <- out %>%
-    group_by_at(vars(out)) %>%
-    mutate(
-      dup = row_number() > 1,
-      ref = ifelse(dup, paste0(first(id)), as.character(id)))
+    dplyr::group_by_at(dplyr::vars(out)) %>%
+    dplyr::mutate(
+      dup = dplyr::row_number() > 1,
+      ref = ifelse(dup, paste0(dplyr::first(id)), as.character(id)))
 
   out <- out %>%
-    group_by(ref) %>%
-    mutate(n = n()) %>%
-    mutate(line = case_when(n != 1 ~ paste(ref), n == 1 ~ "1"))
+    dplyr::group_by(ref) %>%
+    dplyr::mutate(n = n()) %>%
+    dplyr::mutate(line = dplyr::case_when(n != 1 ~ paste(ref), n == 1 ~ "1"))
 
   line <- out$line
 

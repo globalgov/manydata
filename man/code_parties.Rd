@@ -16,7 +16,6 @@ A character vector of parties that are mentioned in the treaty title
 Identify the countries that are part of the agreement.
 }
 \examples{
-\dontrun{
+IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
 IEADB$parties <- code_parties(IEADB$Title)
-}
 }
