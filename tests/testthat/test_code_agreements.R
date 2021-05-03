@@ -45,3 +45,4 @@ test_that("code_dates() helper function treats date range correctly", {
                                                       "1971CAT01", "1982PTT01", 
                                                       "1976CPS01", "1983ALS01"))
 })
+

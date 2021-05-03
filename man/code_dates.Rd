@@ -2,7 +2,7 @@
 % Please edit documentation in R/code_agreements.R
 \name{code_dates}
 \alias{code_dates}
-\title{Creates Unique ID numbers from dates}
+\title{Creates Numerical IDs from Signature Dates}
 \usage{
 code_dates(title, date)
 }
@@ -16,7 +16,7 @@ A character vector with condensed dates
 }
 \description{
 Agreements should have a unique identification number that is meaningful,
-we condense their signature date to produce this number.
+we condense their signature dates to produce this number.
 }
 \examples{
 IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)

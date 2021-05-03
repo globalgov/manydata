@@ -180,10 +180,10 @@ code_type <- function(title) {
 
 }
 
-#' Creates Unique ID numbers from dates
+#' Creates Numerical IDs from Signature Dates
 #'
 #' Agreements should have a unique identification number that is meaningful,
-#' we condense their signature date to produce this number.
+#' we condense their signature dates to produce this number.
 #' @param title A title variable
 #' @param date A date variable
 #' @return A character vector with condensed dates
@@ -228,49 +228,19 @@ code_dates <- function(title, date) {
 #' @export
 code_known_agreements <- function(title) {
 
-  # Assign the specific abbreviation to the "known" treaties
-  abbrev <- dplyr::case_when(
-    grepl("United Nations Convention On The Law Of The Sea",
-          title, ignore.case = T) ~ "UNCLOS19821210",
-    grepl("Convention On Biological Diversity", title,
-          ignore.case = T) ~ "CBD19920605",
-    grepl("Convention On The Conservation Of Antarctic Marine Living Resources",
-          title, ignore.case = T) ~ "CCAMLR19800520",
-    grepl("Convention On International Trade In Endangered Species Of Wild Fauna And Flora",
-          title, ignore.case = T) ~ "CITES19730303",
-    grepl("International Convention On Civil Liability For Oil Pollution Damage",
-          title, ignore.case = T) ~ "CLC19691129",
-    grepl("Antarctic Mineral Resources Convention",
-          title, ignore.case = T) ~ "CRAMRA19880602",
-    grepl("Convention On The Protection And Use Of Transboundary Watercourses And International Lakes",
-          title, ignore.case = T) ~ "CECE19920317",
-    grepl("Convention On Long-Range Transboundary Air Pollution",
-          title, ignore.case = T) ~ "LRTAP19791113",
-    grepl("International Convention For The Prevention Of Pollution From Ships",
-          title, ignore.case = T) ~ "MARPOL19731102",
-    grepl("North American Agreement On Environmental Cooperation",
-          title, ignore.case = T) ~ "NAAEC19930914",
-    grepl("Constitutional Agreement Of The Latin American Organization For Fisheries Development",
-          title, ignore.case = T) ~ "OLDEPESCA19821029",
-    grepl("International Convention On Oil Pollution Preparedness, Response And Cooperation",
-          title, ignore.case = T) ~ "OPRC19901130",
-    grepl("Convention For The Protection Of The Marine Environment Of The North East Atlantic",
-          title, ignore.case = T) ~ "OSPAR19920922",
-    grepl("Paris Agreement Under The United Nations Framework Convention On Climate Change",
-          title, ignore.case = T) ~ "PARIS20151212",
-    grepl("Convention On The Prior Informed Consent Procedure For Certain Hazardous Chemicals And Pesticides In International Trade",
-          title, ignore.case = T) ~ "PIC19980910",
-    grepl("Convention On Wetlands Of International Importance Especially As Waterfowl Habitat",
-          title, ignore.case = T) ~ "RAMSA19710202",
-    grepl("Convention To Combat Desertification In Those Countries Experiencing Serious Drought And/Or Desertification, Particularly In Africa",
-          title, ignore.case = T) ~ "UNCCD19940617",
-    grepl("United Nations Framework Convention On Climate Change",
-          title, ignore.case = T) ~ "UNFCCC19920509",
-    grepl("Convention For The Protection Of The Ozone Layer",
-          title, ignore.case = T) ~ "VIENNA19850322",
-    )
+  abbreviations <- purrr::map(abbreviations, as.character)
 
-  abbrev
+  # Assign the specific abbreviation to the "known" treaties
+  ab <- sapply(abbreviations$title, function(x) grepl(x, title, ignore.case = T, perl = T)*1)
+  colnames(ab) <- paste0(abbreviations$abbreviation, as.character(stringr::str_remove_all(abbreviations$signature, "-")))
+  rownames(ab) <- title
+  out <- apply(ab, 1, function(x) paste(names(x[x==1])))
+  out[out=="character(0)"] <- NA_character_
+  out <- unname(out)
+
+  out <- as.character(unlist(out))
+
+  out
 
 }
 
