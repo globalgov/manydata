@@ -46,11 +46,17 @@ code_agreements <- function(title, date, dataset = NULL) {
   # The following coding assumes that any other
   # types than A (= Agreement) are linked to another treaty.
   out <- ifelse((!is.na(abbrev) & (type == "A")), paste0(abbrev),
-                (ifelse((!is.na(abbrev) & (type != "A")), paste0(uID, type, "_", abbrev),
+                # if abrreviation is known and type is agreement
+                (ifelse((!is.na(abbrev) & (type != "A")), paste0(uID, type, "_", line),
+                        # if abrreviation is known and type is not agreement
                         (ifelse((is.na(parties) & (type == "A")), paste0(uID, type),
+                                # if parties were not identified and type is agreement
                                 (ifelse((is.na(parties) & (type != "A")), paste0(uID, type, "_", line),
+                                        # if parties were not identified and type is not agreement
                                         (ifelse((!is.na(parties) & (type == "A")), paste0(uID, "_", parties),
+                                                # if parties were identified and type is agreement
                                                 (ifelse((!is.na(parties) & (type != "A")), paste0(uID, type, "_", line), NA)))))))))))
+                                                        # if parties were identified and type is not agreement
 
   # When line is left empty, the last "_" of the qID should be deleted
   out <- stringr::str_remove_all(out, "_$")
@@ -84,17 +90,12 @@ code_agreements <- function(title, date, dataset = NULL) {
 #' IEADB$parties <- code_parties(IEADB$Title)
 #' @export
 code_parties <- function(x) {
+  
   parties <- qStates::code_states(x)
   parties <- stringr::str_replace_all(parties, "_", "-")
-  # Some agreements are made between unions of countries and others,
-  # but are still considered bilateral. In these cases, abbreviations
-  # will have 2 letters instead of 3.
-  unions <- dplyr::case_when(grepl("European Community", x, ignore.case = T) ~ "EC",
-                     grepl("European Union", x, ignore.case = T) ~ "EU",
-                     grepl("African Union", x, ignore.case = T) ~ "AU")
-  parties <- ifelse(!is.na(unions), paste0(unions, "-", parties), parties)
   parties[!grepl("-", parties)] <- NA
 
+  # Only considers bilateral agreements where two parties have been identified
   parties <- ifelse(stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{3}$"), parties,
                     ifelse(stringr::str_detect(parties, "^[:alpha:]{2}-[:alpha:]{3}$"), parties,
                            ifelse(stringr::str_detect(parties, "^[:alpha:]{3}-[:alpha:]{2}$"), parties, NA)))
@@ -232,7 +233,7 @@ code_dates <- function(x, date) {
 #' @importFrom dplyr case_when
 #' @examples
 #' IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
-#' IEADB$abbrev <- code_known_agreements(IEADB$Titles)
+#' IEADB$abbrev <- code_known_agreements(IEADB$Title)
 #' @export
 code_known_agreements <- function(x) {
 
