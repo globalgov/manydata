@@ -17,5 +17,5 @@ Some agreements have known abbreviations that facilitate their identification.
 }
 \examples{
 IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
-IEADB$abbrev <- code_known_agreements(IEADB$Title)
+code_known_agreements(IEADB$Title)
 }

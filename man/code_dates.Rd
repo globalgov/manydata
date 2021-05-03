@@ -20,5 +20,5 @@ we condense their signature dates to produce this number.
 }
 \examples{
 IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
-IEADB$uID <- code_dates(IEADB$Title, IEADB$Signature)
+code_dates(IEADB$Title, IEADB$Signature)
 }

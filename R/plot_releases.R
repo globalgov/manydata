@@ -16,7 +16,7 @@
 #' @source https://benalexkeen.com/creating-a-timeline-graphic-using-r-and-ggplot2/
 #' @return A ggplot graph object
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' plot_releases("globalgov/qData")
 #' }
 #' @export

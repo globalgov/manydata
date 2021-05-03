@@ -45,7 +45,7 @@ The function establishes many of the required files and
 folder structures required for a qData-consistent data package.
 }
 \examples{
-\donttest{
+\dontrun{
 setup_package("qStates", name = "Hollway, James"))
 setup_package("qStates",
                orcid = c("0000-0002-8361-9647"))

@@ -11,7 +11,7 @@
 #' @import dplyr
 #' @source https://stackoverflow.com/questions/51428156/dplyr-mutate-transmute-drop-only-the-columns-used-in-the-formula
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' transmutate(mtcars, X = ifelse( vs, drat, wt ), Y = mpg*cyl )
 #' }
 #' @export
@@ -41,7 +41,7 @@ transmutate <- function(.data, ...) {
 #' @param sep Separator when vectors reunited, by default "_"
 #' @return A single vector with unique non-missing information
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' data <- data.frame(fir=c(NA, "two", "three", NA),
 #'   sec=c("one", NA, "three", NA), stringsAsFactors = F)
 #' transmutate(data, single = reunite(fir, sec))
@@ -68,7 +68,7 @@ reunite <- function(..., sep = "_") {
 #' relative to other variables in the data frame.
 #' @return The data frame given by 'data' with the variables repositioned
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' gneva.treat <- rearrange(gneva.treat, "L", "after", "X")
 #' gneva.treat <- rearrange(gneva.treat,
 #'                          c("Cites","Amends","Supersedes"),
@@ -110,7 +110,7 @@ recollect <- function(x, collapse = "_") {
 #' @return A vector the length of the sum of \code{vect}
 #' and \code{pos}.
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' interleave(1:5, c(2,4))
 #' }
 #' @export

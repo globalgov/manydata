@@ -25,7 +25,7 @@ with historical milestones and milestone statuses gathered from a
 specified GitHub repository.
 }
 \examples{
-\donttest{
+\dontrun{
 plot_releases("globalgov/qData")
 }
 }

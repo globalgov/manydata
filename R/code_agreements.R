@@ -16,7 +16,7 @@
 #' @importFrom stringr str_replace_all str_detect
 #' @examples
 #' IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
-#' IEADB <- code_agreements(IEADB$Title, IEADB$Signature, IEADB)
+#' code_agreements(IEADB$Title, IEADB$Signature, IEADB)
 #' @export
 code_agreements <- function(title, date, dataset = NULL) {
 
@@ -97,7 +97,7 @@ code_agreements <- function(title, date, dataset = NULL) {
 #' @return A character vector of parties that are mentioned in the treaty title
 #' @examples
 #' IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
-#' IEADB$parties <- code_parties(IEADB$Title)
+#' code_parties(IEADB$Title)
 #' @export
 code_parties <- function(title) {
   
@@ -124,7 +124,7 @@ code_parties <- function(title) {
 #' @importFrom dplyr case_when
 #' @examples
 #' IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
-#' IEADB$type <- code_type(IEADB$Title)
+#' code_type(IEADB$Title)
 #' @export
 code_type <- function(title) {
 
@@ -190,7 +190,7 @@ code_type <- function(title) {
 #' @import stringr
 #' @examples
 #' IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
-#' IEADB$uID <- code_dates(IEADB$Title, IEADB$Signature)
+#' code_dates(IEADB$Title, IEADB$Signature)
 #' @export
 code_dates <- function(title, date) {
 
@@ -224,7 +224,7 @@ code_dates <- function(title, date) {
 #' @importFrom dplyr case_when
 #' @examples
 #' IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
-#' IEADB$abbrev <- code_known_agreements(IEADB$Title)
+#' code_known_agreements(IEADB$Title)
 #' @export
 code_known_agreements <- function(title) {
 
@@ -261,7 +261,7 @@ code_known_agreements <- function(title) {
 #' negatives rather than false positives.
 #' @examples
 #' IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
-#' IEADB$line <- code_linkage(IEADB$Title, IEADB$Signature)
+#' code_linkage(IEADB$Title, IEADB$Signature)
 #' @export
 code_linkage <- function(title, date) {
 

@@ -17,5 +17,5 @@ Identify the countries that are part of an agreement.
 }
 \examples{
 IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
-IEADB$parties <- code_parties(IEADB$Title)
+code_parties(IEADB$Title)
 }

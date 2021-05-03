@@ -349,7 +349,7 @@ treat_range_dates <- function(dates) {
 #' may confuse the algorithm.
 #' In other words, this function is built for internally consistent codes.
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' recent(head(tfd_agree$Sign))
 #' }
 #' @export
@@ -368,7 +368,7 @@ recent <- function(dates, sep = NULL) {
 #' @import lubridate
 #' @importFrom stats na.omit
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' data <- data.frame(Sign = c("2000-01-01", "2001-01-01", "2001-01-01_2000-01-01", "2000-01-01", NA),
 #'                    Force = c("2001-01-01", "2000-01-01", "2001-01-01", NA, "2001-01-01"))
 #' resequence(data, c("Sign", "Force"))

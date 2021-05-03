@@ -26,5 +26,5 @@ negatives rather than false positives.
 }
 \examples{
 IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
-IEADB$line <- code_linkage(IEADB$Title, IEADB$Signature)
+code_linkage(IEADB$Title, IEADB$Signature)
 }

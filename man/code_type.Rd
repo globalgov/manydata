@@ -19,5 +19,5 @@ protocols (P) or amendments (E), if they contain words in title.
 }
 \examples{
 IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
-IEADB$type <- code_type(IEADB$Title)
+code_type(IEADB$Title)
 }

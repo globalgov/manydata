@@ -18,7 +18,7 @@
 #' @importFrom utils as.roman
 #' @importFrom stringi stri_trans_general
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' e <- standardise_titles("A treaty concerning things")
 #' e==c("A Treaty Concerning Things")
 #' }
@@ -94,7 +94,7 @@ standardise_titles <- standardize_titles <- function(s, strict = FALSE, api_key 
 #' to be filled
 #' @return a dataframe
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' myData <- repaint(myData, id="StatID", var=c("Area","Region")
 #' }
 #' @export
