@@ -26,9 +26,3 @@ Moving variables relative to others
 Moves variables (columns) of a data frame to positions
 relative to other variables in the data frame.
 }
-\examples{
-gneva.treat <- rearrange(gneva.treat, "L", "after", "X")
-gneva.treat <- rearrange(gneva.treat,
-                         c("Cites","Amends","Supersedes"),
-                         "before", "Amended.by")
-}

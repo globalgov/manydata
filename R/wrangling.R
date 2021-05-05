@@ -63,11 +63,6 @@ reunite <- function(..., sep = "_") {
 #' @details Moves variables (columns) of a data frame to positions
 #' relative to other variables in the data frame.
 #' @return The data frame given by 'data' with the variables repositioned
-#' @examples
-#' gneva.treat <- rearrange(gneva.treat, "L", "after", "X")
-#' gneva.treat <- rearrange(gneva.treat,
-#'                          c("Cites","Amends","Supersedes"),
-#'                          "before", "Amended.by")
 #' @export
 rearrange <- function(data, tomove, where = "last", ref = NULL) {
   .Deprecated("dplyr::relocate")
