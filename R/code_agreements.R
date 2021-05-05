@@ -16,7 +16,7 @@
 #' @importFrom stringr str_replace_all str_detect
 #' @examples
 #' IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
-#' code_agreements(IEADB$Title, IEADB$Signature, dataset = IEADB)
+#' IEADB <- code_agreements(IEADB$Title, IEADB$Signature, dataset = IEADB)
 #' @export
 code_agreements <- function(title, date, dataset = NULL) {
 
@@ -80,15 +80,12 @@ code_agreements <- function(title, date, dataset = NULL) {
   usethis::ui_done("Please run `vignette('agreements')` for more information.")
 
   # Step eight: add new qID column to data if dataset argument is provided
-  if (!is.null(dataset)) {
+  if(!is.null(dataset)) {
     dataset <- dataset %>%
       dplyr::mutate(qID = qID)
-  } else {
+  }else {
     qID
   }
-
-  qID
-
 }
 
 #' Code Agreement Parties
@@ -246,7 +243,7 @@ code_known_agreements <- function(title) {
   out <- unname(out)
   out <- as.character(out)
 
-  # If output is a list with no values, returns an empty list of the same lenght as title variable
+  # If output is a list with no values, returns an empty list of the same length as title variable
   lt <- as.numeric(length(title))
   ifelse(length(out) == 0, out <- rep(NA_character_, lt), out)
 
