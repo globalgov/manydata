@@ -125,18 +125,21 @@ Below we show how one might compare the data in `states` in these ways.
 
 ### Differences in documentation
 
-We can bring up the database level documentation using the following command: `?states`.
-This documentation informs the user on the various datasets that are present in the database as well
-as the most important metadata of the various datasets. 
+We can bring up the database level documentation using the following command:
+`?states`.
+This documentation informs the user on the various datasets that are present in
+the database as well as the most important metadata of the various datasets. 
 If we want a more detailed summary of the various levels of data 
-and sources we can run `data_source()` and `data_contrast()` functions as outlined below.
+and sources we can run `data_source()` and `data_contrast()` functions as
+outlined below.
 
 ### Using `data_source()` and `data_contrast()`
 
-The `data_source()` function displays bibliographic references for the datasets in a qPackage or within a database.
+The `data_source()` function displays bibliographic references for the datasets
+in a qPackage or within a database.
 
 ```{r}
-data_source(pkg = "qStates", database = NULL, dataset = NULL)
+data_source(pkg = "qStates", database = NULL, dataset = NULL, quiet = FALSE)
 ```
 
 The `data_contrast()` function returns a data frame with the key metadata 
@@ -151,14 +154,16 @@ This metadata includes the following elements:
 * Source URL
 
 ```{r}
-data_contrast(pkg = "qStates", database = NULL, dataset = NULL)
+data_contrast(pkg = "qStates", database = NULL, dataset = NULL, quiet = FALSE)
 ```
 
-If we were specifically interested in the `COW` dataset of the `states` database,
-we would specify the output by setting the database and the dataset arguments to the corresponding value. 
+If we were specifically interested in the `COW` dataset of the `states`
+database, we would specify the output by setting the database and the dataset
+arguments to the corresponding value. 
 
 ```{r}
-data_contrast(pkg = "qStates", database = "states", dataset = "COW")
+data_contrast(pkg = "qStates", database = "states",
+              dataset = "COW", quiet = FALSE)
 ```
 
 ## Modelling data
