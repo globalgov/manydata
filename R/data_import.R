@@ -20,10 +20,8 @@
 #' moved (TRUE) or copied (FALSE). By default FALSE.
 #' @param open Whether the resulting preparation script will be opened.
 #' By default TRUE.
-#' @importFrom fs path
-#' @importFrom fs path_file
-#' @importFrom usethis use_directory
-#' @importFrom usethis ui_done
+#' @importFrom fs path path_file
+#' @importFrom usethis use_directory ui_done
 #' @importFrom rlang is_string
 #' @details The function assists with importing existing raw data
 #' into a qPackage. The function does two main things.

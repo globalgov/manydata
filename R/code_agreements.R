@@ -16,7 +16,7 @@
 #' @importFrom stringr str_replace_all str_detect
 #' @examples
 #' IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
-#' code_agreements(IEADB$Title, IEADB$Signature)
+#' code_agreements(IEADB$Title, IEADB$Signature, dataset = IEADB)
 #' @export
 code_agreements <- function(title, date, dataset = NULL) {
 
@@ -229,7 +229,6 @@ code_dates <- function(title, date) {
 code_known_agreements <- function(title) {
 
   abbreviations <- purrr::map(abbreviations, as.character)
-
   # Assign the specific abbreviation to the "known" treaties
   ab <- sapply(abbreviations$title, function(x) grepl(x, title, ignore.case = T, perl = T)*1)
   colnames(ab) <- paste0(abbreviations$abbreviation, as.character(stringr::str_remove_all(abbreviations$signature, "-")))
@@ -237,8 +236,11 @@ code_known_agreements <- function(title) {
   out <- apply(ab, 1, function(x) paste(names(x[x==1])))
   out[out=="character(0)"] <- NA_character_
   out <- unname(out)
+  out <- unlist(out)
 
-  out <- as.character(unlist(out))
+  # If output is a list with no values, returns an empty list of the same lenght as title variable
+  lt <- as.numeric(length(title))
+  ifelse(length(out) == 0, out <- rep(NA_character_, lt), out)
 
   out
 
@@ -272,37 +274,15 @@ code_linkage <- function(title, date) {
   abbrev <- code_known_agreements(s)
   parties <- code_parties(s)
 
-  # Step two: standardise text and remove 'predictable words' in agreements
-  cap <- function(title) paste(toupper(substring(title, 1, 1)), {
-    title <- substring(title, 2)
-  }
-  , sep = "", collapse = " ")
-  out <- vapply(strsplit(as.character(title), split = " "),
-                cap, "", USE.NAMES = !is.null(names(title)))
+  # Step two: standardise text
+  standardise_titles(title)
   
-  # Step three: remove known words and articles
-  out <- gsub("\\<amendment\\>|\\<amendments\\>|\\<amend\\>|\\<amending\\>|\\<modifying\\>|
-              \\<modify\\>|\\<extension\\>|\\<extend\\>|\\<extending\\>|\\<verbal\\>|\\<protocol\\>|
-              \\<additional\\>|\\<subsidiary\\>|\\<supplementary\\>|\\<complementary\\>|
-              \\<complementario\\>|\\<agreement\\>|\\<agreements\\>|\\<arrangement\\>|
-              \\<arrangements\\>|\\<accord\\>|\\<acuerdo\\>|\\<bilateral\\>|\\<technical\\>|
-              \\<treaty\\>|\\<trait\\>|\\<tratado\\>|\\<convention\\>|\\<convencion\\>|
-              \\<convenio\\>|\\<constitution\\>|\\<charte\\>|\\<instrument\\>|\\<statute\\>|
-              \\<estatuto\\>|\\<provisional\\>|\\<understanding\\>|\\<provisions\\>|\\<relating\\>|
-              \\<ubereinkunft\\>|\\<Act\\>|\\<Acts\\>|\\<Declaration\\>|\\<Covenant\\>|\\<Scheme\\>|
-              \\<Government Of |Law\\>|\\<Exchange\\>|\\<Letters\\>|\\<Letter\\>|\\<Notas\\>|
-              \\<Notes\\>|\\<Memorandum\\>|\\<memorando\\>|\\<Principles of Conduct\\>|
-              \\<Code of Conduct\\>|\\<Agreed Measures\\>|\\<Agreed Record\\>|\\<Consensus\\>|
-              \\<Conclusions\\>|\\<Conclusion\\>|\\<Decision\\>|\\<Directive\\>|\\<Regulation\\>|
-              \\<Reglamento\\>|\\<Resolution\\>|\\<Resolutions\\>|\\<Rule\\>|\\<Rules\\>|
-              \\<Recommendation\\>|\\<Minute\\>|\\<Adjustment\\>|\\<First|Session Of\\>|
-              \\<First Meeting Of\\>|\\<Commission\\>|\\<Committee\\>|\\<Center\\>|\\<Meeting\\>|
-              \\<Meetings\\>|\\<Statement\\>|\\<Communiq\\>|\\<Comminiq\\>|
-              \\<Joint Declaration\\>|\\<Proclamation\\>|\\<Administrative Order\\>|\\<Strategy\\>|
-              \\<Plan\\>|\\<Program\\>|\\<Improvement\\>|\\<Project\\>|\\<Study\\>|\\<Article\\>|
-              \\<Articles\\>|\\<Working Party\\>|\\<Working Group\\>|\\<Supplementary\\>|
-              \\<supplementing\\>|\\<Annex\\>|\\<Annexes\\>|\\<extended\\>|\\<Constitutional\\>|
-              \\<Constituent\\>", "", out, ignore.case = TRUE)
+  # documents1 = paste(c(documents))
+  # documents = stringr::str_replace_all(documents, stopwords_regex, '')
+  
+  # Step three: and remove 'predictable words' in agreements
+  predictable_words <- paste(c(predictable_words$predictable_words))
+  out <- gsub(predictable_words, "", out, ignore.case = TRUE)
   out <- gsub("\\s*\\([^\\)]+\\)", "", out, ignore.case = FALSE)
   out <- gsub("-", "", out, ignore.case = FALSE)
   out <- stringr::str_replace_all(out, ",|-", "")
@@ -312,21 +292,6 @@ code_linkage <- function(title, date) {
   out <- trimws(out)
   out <- stringr::str_squish(out)
   out <- textclean::add_comma_space(out)
-  out <- textclean::mgsub(out,
-                          paste0("(?<!\\w)", as.roman(1:100), "(?!\\w)"),
-                          as.numeric(1:100),
-                          safe = TRUE, perl = TRUE)
-  ords <- english::ordinal(1:100)
-  ords <- paste0(ords,
-                 dplyr::if_else(stringr::str_count(ords, "\\S+") == 2,
-                                paste0("|", gsub(" ", "-", as.character(ords))),
-                                ""))
-  out <- textclean::mgsub(out,
-                          paste0("(?<!\\w)", ords, "(?!\\w)"),
-                          as.numeric(1:100),
-                          safe = TRUE, perl = TRUE,
-                          ignore.case = TRUE, fixed = FALSE)
-
   out <- as.data.frame(out)
 
   # Step four: find duplicates
@@ -336,10 +301,10 @@ code_linkage <- function(title, date) {
   # date (temporary solution to deal with date range)
   dates <- stringr::str_remove_all(dates, "\\:[:digit:]{8}$")
 
-  id <- ifelse((is.na(parties)), paste0(dates, type),
-               (ifelse((!is.na(parties) & (type == "A")), paste0(dates, "_", parties),
-                       (ifelse((!is.na(parties) & (type != "A")), paste0(dates, type),
-                               (ifelse(!is.na(abbrev), paste0(dates, type), NA)))))))
+  id <- ifelse((!is.na(abbrev)), paste0(abbrev),
+               (ifelse((is.na(parties)), paste0(dates, type),
+                       (ifelse((!is.na(parties) & (type == "A")), paste0(dates, "_", parties),
+                               (ifelse((!is.na(parties) & (type != "A")), paste0(dates, type), NA)))))))
 
   out <- cbind(out, dup, id)
 
@@ -360,7 +325,7 @@ code_linkage <- function(title, date) {
 
   line <- out$line
 
-  line <- stringr::str_replace_all(line, "^1$", NA_character_)
+  line <- stringr::str_replace_all(line, "^1$", "")
 
   line
 

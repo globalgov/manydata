@@ -28,8 +28,6 @@ the function detects strings in other languages
 and translates them to English.
 }
 \examples{
-\dontrun{
 e <- standardise_titles("A treaty concerning things")
 e==c("A Treaty Concerning Things")
-}
 }

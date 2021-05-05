@@ -78,7 +78,7 @@ That is, we identify all true positives and no false positives.
 The rates of true positives and false positives are represented the receiver operating characteristics (ROC) graph below. 
 The area under the curve (AUC score), in dark grey, in the graph is maximized (equals 1). 
 
-```{r hand coded data, warning=FALSE, message=FALSE}
+```{r hand-code, warning=FALSE, message=FALSE}
 library(readr)
 library(WVPlots)
 hand_coded_sample <- read_delim("hand-coded-sample.csv", ";", escape_double = FALSE, trim_ws = TRUE)
@@ -196,7 +196,7 @@ WVPlots::ROCPlot(agreements, "qsim", "duplicate", 1, title = "ID Sim")
 
 We can compare the specificity versus sensitivity for each of the possible solutions discussed above in the same ROC plot. 
 
-```{r comparison}, warning=FALSE, message=FALSE}
+```{r comparison, warning=FALSE, message=FALSE}
 WVPlots::ROCPlotList(frame = agreements, xvar_names = c("strict", "fuzzy", "idinfo", "qsim"), 
                      truthVar = "duplicate", truthTarget = TRUE, title = "Comparing the different solutions")
 ```
@@ -287,7 +287,7 @@ Are these a famous agreements for which abbreviations are known?
 Some treaties already have known abbreviation. 
 The qID of these treaties contain their abbreviation and signature date.
 
-```{r known agreements, eval=FALSE}
+```{r known, eval=FALSE}
 qData::code_known_agreements(agreements$titles)
 ```
 

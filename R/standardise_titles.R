@@ -18,10 +18,8 @@
 #' @importFrom utils as.roman
 #' @importFrom stringi stri_trans_general
 #' @examples
-#' \dontrun{
 #' e <- standardise_titles("A treaty concerning things")
 #' e==c("A Treaty Concerning Things")
-#' }
 #' @export
 standardise_titles <- standardize_titles <- function(s, strict = FALSE, api_key = NULL) {
 

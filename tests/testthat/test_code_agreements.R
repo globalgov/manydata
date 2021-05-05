@@ -9,7 +9,7 @@ data <- data.frame(title = c("Agreement Between Cape Verde And Portugal On Fishe
 
 test_that("Code_agreements() properly returns qIDs", {
   expect_equal(code_agreements(data$title, data$date), c("19800508_CPV-PRT", "19901231P_19800508_CPV-PRT",
-                                                         "19810130A",   "RAMSA19710202",
+                                                         "19810130A",  "RAMSA19710202",
                                                          "19821203P_RAMSA19710202",
                                                          "19761203A", "19830429E1_19761203A"))
 })
@@ -24,7 +24,7 @@ test_that("Code_agreements helper functions work properly", {
   expect_equal(code_known_agreements(data$title), c(NA, NA, NA, "RAMSA19710202",
                                                     "RAMSA19710202", NA, NA))
   expect_equal(code_linkage(data$title, data$date), c("19800508_CPV-PRT",
-                                                      "19800508_CPV-PRT", NA,
+                                                      "19800508_CPV-PRT", "",
                                                       "RAMSA19710202",
                                                       "RAMSA19710202",
                                                       "19761203A", "19761203A"))
