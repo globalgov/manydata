@@ -18,7 +18,9 @@ return strings in english using google translator.}
 A capitalised, trimmed string
 }
 \description{
-Standardises words in a string to enable comparison
+Standardises words in a title variable to improve readability,
+facilitate string matching and enable more accurate comparisons
+for character variables in different datatsets.
 }
 \details{
 The function capitalises all words in the strings passed to it,

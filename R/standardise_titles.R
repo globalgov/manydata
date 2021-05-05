@@ -1,6 +1,8 @@
 #' Standardise titles
 #'
-#' Standardises words in a string to enable comparison
+#' Standardises words in a title variable to improve readability,
+#' facilitate string matching and enable more accurate comparisons
+#' for character variables in different datatsets.
 #' @param s A string
 #' @param strict By default FALSE
 #' @param api_key If google API key is provided, the function will translate and
@@ -56,7 +58,7 @@ standardise_titles <- standardize_titles <- function(s, strict = FALSE, api_key 
   }
   out <- out$out
   }
-  suppressWarnings(stringi::stri_trans_general(out, id = "Latin-ASCII"))
+  out <- suppressWarnings(stringi::stri_trans_general(out, id = "Latin-ASCII"))
   out[out == "NANA"] <- NA
   out <- trimws(out)
   out <- gsub("\\.(?=\\.*$)", "", out, perl = TRUE)

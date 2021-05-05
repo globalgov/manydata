@@ -16,7 +16,7 @@
 #' @importFrom stringr str_replace_all str_detect
 #' @examples
 #' IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
-#' IEADB <- code_agreements(IEADB$Title, IEADB$Signature, dataset = IEADB)
+#' code_agreements(IEADB$Title, IEADB$Signature, dataset = IEADB)
 #' @export
 code_agreements <- function(title, date, dataset = NULL) {
 
@@ -80,12 +80,14 @@ code_agreements <- function(title, date, dataset = NULL) {
   usethis::ui_done("Please run `vignette('agreements')` for more information.")
 
   # Step eight: add new qID column to data if dataset argument is provided
-  if(!is.null(dataset)) {
-    dataset <- dataset %>%
-      dplyr::mutate(qID = qID)
-  }else {
+  if (!is.null(dataset)) {
+    cbind(dataset, qID)
+  } else {
     qID
   }
+
+  qID
+
 }
 
 #' Code Agreement Parties
@@ -129,16 +131,14 @@ code_parties <- function(title) {
 code_type <- function(title) {
 
   type <- dplyr::case_when(
-    # When the title contains "Protocol amending..."
-    grepl("^Protocol", title, ignore.case = T) ~ "P",
-    # E stands for amendment
-    grepl("amend|modify|extend|proces-verbal", title, ignore.case = T) ~ "E",
     # P stands for protocols
+    grepl("^Protocol", title, ignore.case = T) ~ "P",
     grepl("protocol|additional|subsidiary|supplementary|
           complementaire|
           complementar|complementario|annex |annexes ",
           title, ignore.case = T) ~ "P",
-    # Added annex in this category
+    # E stands for amendment
+    grepl("amend|modify|extend|proces-verbal", title, ignore.case = T) ~ "E",
     # A stands for agreements
     grepl("agreement|arrangement|accord|acuerdo|bilateral co|
           technical co|treat|trait|tratado|convention|convencion|
@@ -147,7 +147,6 @@ code_type <- function(title) {
           title, ignore.case = T) ~ "A",
     grepl("Act|Declaration|Covenant|Scheme|Government Of|Law",
           title, ignore.case = T) ~ "A",
-    # title stands for excahnges of notes
     grepl("Exchange|Letters|Notas", title, ignore.case = T) ~ "X",
     # Y stands for memorandum of understanding
     grepl("Memorandum|memorando|Principles of Conduct|Code of Conduct",
@@ -203,8 +202,8 @@ code_dates <- function(title, date) {
 
   # When the date is a range, the uID takes only
   # the first value of the dates range.
-  A <- stringr::str_extract_all(title, "^[:alpha:]")
-  A <- stringr::str_to_upper(A)
+  A <- suppressWarnings(stringr::str_extract_all(title, "^[:alpha:]"))
+  A <- suppressWarnings(stringr::str_to_upper(A))
   B <- stringr::str_sub(title, start = 19, end = 19)
   B <- suppressWarnings(ifelse(stringr::str_detect(B, "\\s"), "L", B))
   B <- stringr::str_to_upper(B)
