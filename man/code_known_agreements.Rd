@@ -15,6 +15,11 @@ A character vector of abbreviation of known treaties
 \description{
 Some agreements have known abbreviations that facilitate their identification.
 }
+\details{
+The function identifies agreements that match
+the list of known agreements with their titles, abbreviations
+and signature dates and substitutes the known titles for abbreviations.
+}
 \examples{
 IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
 code_known_agreements(IEADB$Title)

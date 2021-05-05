@@ -198,12 +198,14 @@ code_type <- function(title) {
 code_dates <- function(title, date) {
 
   uID <- stringr::str_remove_all(date, "-")
-  # For treaties without signature date
+  # For treaties without signature date, 9999 is assigned as a year and along
+  # 4 ramdom to facilitate identification of missing dates without
+  # making observations duplicates.
   uID[is.na(uID)] <- paste0("9999",
                             sample(1000:9999, sum(is.na(uID)), replace = TRUE))
 
-  # When the date is a range, the uID is taking only
-  # the first value of the dates range (temporary solution)
+  # When the date is a range, the uID takes only
+  # the first value of the dates range.
   A <- stringr::str_extract_all(title, "^[:alpha:]")
   A <- stringr::str_to_upper(A)
   B <- stringr::str_sub(title, start = 19, end = 19)
@@ -225,6 +227,9 @@ code_dates <- function(title, date) {
 #' @param title A character vector of treaty title
 #' @return A character vector of abbreviation of known treaties
 #' @importFrom dplyr case_when
+#' @details The function identifies agreements that match
+#' the list of known agreements with their titles, abbreviations
+#' and signature dates and substitutes the known titles for abbreviations.
 #' @examples
 #' IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
 #' code_known_agreements(IEADB$Title)
@@ -259,9 +264,9 @@ code_known_agreements <- function(title) {
 #' @importFrom stringr str_replace_all str_squish str_remove_all
 #' @import dplyr
 #' @return A character vector of the agreements that are linked
-#' @details The function identifies duplicates via excluding a few
-#' 'predictable' words from strings, this maintains key words that are
-#' then used to identify and link duplicates.
+#' @details The function identifies duplicates by excluding
+#' "predictable" words from strings, this maintains key words then used
+#' to identify and link duplicates.
 #' This is a choice that considers errors should lie on the side of false
 #' negatives rather than false positives.
 #' @examples

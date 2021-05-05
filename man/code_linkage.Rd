@@ -18,9 +18,9 @@ A character vector of the agreements that are linked
 Identify the linkage between amendments and protocols to a main agreement.
 }
 \details{
-The function identifies duplicates via excluding a few
-'predictable' words from strings, this maintains key words that are
-then used to identify and link duplicates.
+The function identifies duplicates by excluding
+"predictable" words from strings, this maintains key words then used
+to identify and link duplicates.
 This is a choice that considers errors should lie on the side of false
 negatives rather than false positives.
 }
