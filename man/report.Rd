@@ -6,9 +6,9 @@
 \alias{data_contrast}
 \title{Set of data structure exploration functions for users}
 \usage{
-data_source(pkg, database = NULL, dataset = NULL)
+data_source(pkg, database = NULL, dataset = NULL, quiet = FALSE)
 
-data_contrast(pkg, database = NULL, dataset = NULL)
+data_contrast(pkg, database = NULL, dataset = NULL, quiet = FALSE)
 }
 \arguments{
 \item{pkg}{character string of the qPackage to report data on. Required
@@ -21,6 +21,9 @@ of all databases in the qPackage. NULL by default.}
 \item{dataset}{character string of the qPackage to report data on a specific
 dataset in a specific database of a qPackage. If NULL and database is
 specified, returns database level metadata. NULL by default.}
+
+\item{quiet}{print or don't print the information to the console. FALSE by
+default.}
 }
 \value{
 A dataframe with the data sources
