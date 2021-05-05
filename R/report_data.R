@@ -11,6 +11,8 @@
 #' @param dataset character string of the qPackage to report data on a specific
 #' dataset in a specific database of a qPackage. If NULL and database is
 #' specified, returns database level metadata. NULL by default.
+#' @param quiet print or don't print the information to the console. FALSE by
+#' default.
 NULL
 
 #' @name report
@@ -20,12 +22,13 @@ NULL
 #' @examples
 #' data_source(pkg = "qStates", database = "states", dataset = "COW")
 #' @export
-data_source <- function(pkg, database = NULL, dataset = NULL) {
+data_source <- function(pkg, database = NULL, dataset = NULL, quiet = FALSE) {
   pkg_path <- find.package(pkg)
   data_path <- file.path(pkg_path, "data")
   #selcts all dbs
   pkg_dbs <- unname(unlist(readRDS(file.path(data_path, "Rdata.rds"))))
   if (!is.null(database)) {
+    # Database specified, dataset unspecified
     if (is.null(dataset)) {
       tmp_env <- new.env()
       lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
@@ -41,15 +44,19 @@ data_source <- function(pkg, database = NULL, dataset = NULL) {
         tmp <- get(paste0("tabl", i))
         colnames(tmp) <- "Reference"
         assign(paste0("tabl", i), tmp)
-        print(paste0("References for the ", stringr::str_to_title(database),
+        # Console print
+        if (quiet == FALSE){
+          print(paste0("References for the ", stringr::str_to_title(database),
                      " database", sep = ""))
-        print(get(paste0("tabl", i)))
+          print(get(paste0("tabl", i)))
+        }
         #List output
         outlist[i] <- list(get(paste0("tabl", i)))
       }
       names(outlist) <- names(dbs)
       invisible(outlist)
     } else {
+      # Database and dataset specified
       tmp_env <- new.env()
       lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
       db <- get(database, envir = tmp_env)
@@ -60,9 +67,12 @@ data_source <- function(pkg, database = NULL, dataset = NULL) {
       tabl2 <- tabl %>%
         t()
       colnames(tabl2) <- dataset
-      print(paste0("Reference for the ", dataset,
+      # Console print
+      if (quiet == FALSE){
+        print(paste0("Reference for the ", dataset,
                    " dataset in the ", stringr::str_to_title(database),
                    " database", sep = ""))
+      }
       tabl2
     }
   } else {
@@ -82,13 +92,17 @@ data_source <- function(pkg, database = NULL, dataset = NULL) {
       #Clear attr from object for a prettier print to console
       attr(tmp, "names") <- NULL
       assign(paste0("tabl", i), tmp)
+      # Console print
+      if (quiet == FALSE){
       print(paste0("References for the ",
                    stringr::str_to_title(ls(tmp_env)[i]),
                    " database", sep = ""))
       print(get(paste0("tabl", i)))
+      }
       #Append to list output
       outlist[i] <- list(get(paste0("tabl", i)))
     }
+    # Return list
     names(outlist) <- names(dbs)
     invisible(outlist)
   }
@@ -104,12 +118,13 @@ data_source <- function(pkg, database = NULL, dataset = NULL) {
 #' data_contrast(pkg = "qStates", database = "states", dataset = "COW")
 #' @return A dataframe with the data report
 #' @export
-data_contrast <- function(pkg, database = NULL, dataset = NULL) {
+data_contrast <- function(pkg, database = NULL, dataset = NULL, quiet = FALSE) {
   pkg_path <- find.package(pkg)
   data_path <- file.path(pkg_path, "data")
   pkg_dbs <- unname(unlist(readRDS(file.path(data_path, "Rdata.rds"))))
   if (!is.null(database)) {
     if (is.null(dataset)) {
+      # Database specified but not dataset
       tmp_env <- new.env()
       lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
       dbs <-  mget(ls(tmp_env), tmp_env)
@@ -139,10 +154,12 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
         colnames(tmp) <- c("Unique ID", "Missing Data", "Rows",
                            "Columns", "Beg", "End", "URL")
         assign(paste0("tabl", i), tmp)
-        #Print things
-        print(paste0(stringr::str_to_title(database[i]),
-                     " database", sep = ""))
-        print(get(paste0("tabl", i)))
+        #Print things to console if quiet == FALSE
+        if (quiet == FALSE){
+          print(paste0(stringr::str_to_title(database[i]),
+                       " database", sep = ""))
+          print(get(paste0("tabl", i))) 
+        }
         # Append objects to outlist
         outlist[i] <- list(get(paste0("tabl", i)))
       }
@@ -151,6 +168,7 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
       # Quiet return
       invisible(outlist)
     } else {
+      # Both dataset and database specified
       tmp_env <- new.env()
       lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
       db <- get(database, envir = tmp_env)
@@ -172,12 +190,16 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
                          URL = attr(ds, which = "source_URL"))
       tabl2 <- as.data.frame(t(tabl))
       colnames(tabl2) <- dataset
-      print(paste0(dataset, " dataset from the ",
-                   stringr::str_to_title(database), " database", sep = ""))
-      print(tabl2)
+      # Print things to console if quiet == FALSE
+      if (quiet == FALSE){
+        print(paste0(dataset, " dataset from the ",
+                     stringr::str_to_title(database), " database", sep = ""))
+        print(tabl2)
+      }
       tabl2
     }
   } else {
+    # Only package specified, returns package level info
     tmp_env <- new.env()
     lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
     dbs <-  mget(ls(tmp_env), tmp_env)
@@ -204,9 +226,12 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
       colnames(tmp) <- c("Unique ID", "Missing Data", "Rows",
                          "Columns", "Beg", "End", "URL")
       assign(paste0("tabl", i), tmp)
-      print(paste0(stringr::str_to_title(ls(tmp_env)[i]),
-                   " database", sep = ""))
-      print(get(paste0("tabl", i)))
+      # Print things to console if quiet == FALSE
+      if (quiet == FALSE){
+        print(paste0(stringr::str_to_title(ls(tmp_env)[i]),
+                     " database", sep = ""))
+        print(get(paste0("tabl", i))) 
+      }
       #Append to outlist
       outlist[i] <- list(get(paste0("tabl", i)))
     }
