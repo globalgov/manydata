@@ -20,6 +20,6 @@ A vectorised function for use with dplyr's mutate, etc
 }
 \examples{
 data <- data.frame(fir=c(NA, "two", "three", NA),
-  sec=c("one", NA, "three", NA), stringsAsFactors = F)
+                   sec=c("one", NA, "three", NA), stringsAsFactors = FALSE)
 transmutate(data, single = reunite(fir, sec))
 }

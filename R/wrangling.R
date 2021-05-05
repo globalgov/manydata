@@ -40,7 +40,7 @@ transmutate <- function(.data, ...) {
 #' @return A single vector with unique non-missing information
 #' @examples
 #' data <- data.frame(fir=c(NA, "two", "three", NA),
-#'   sec=c("one", NA, "three", NA), stringsAsFactors = F)
+#'                    sec=c("one", NA, "three", NA), stringsAsFactors = FALSE)
 #' transmutate(data, single = reunite(fir, sec))
 #' @export
 reunite <- function(..., sep = "_") {
