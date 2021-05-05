@@ -23,7 +23,5 @@ but, unlike \code{dplyr::transmute()}, all other unnamed variables.
 A function between dplyr's transmute and mutate
 }
 \examples{
-\dontrun{
-transmutate(mtcars, X = ifelse( vs, drat, wt ), Y = mpg*cyl )
-}
+transmutate(mtcars, X = ifelse( vs, drat, wt ), Y = mpg*cyl)
 }

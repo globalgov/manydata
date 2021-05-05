@@ -24,7 +24,6 @@ that is picking the first non-missing observation,
 but on observations rather than variables.
 }
 \examples{
-\dontrun{
-summarise(mtcars, consolidate(.))
-}
+dplyr::summarise(mtcars, consolidate(mtcars))
+consolidate(mtcars$wt)
 }

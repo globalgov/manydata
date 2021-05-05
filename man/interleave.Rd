@@ -22,7 +22,5 @@ and \code{pos}.
 Resets the century of (unlikely) future events
 }
 \examples{
-\dontrun{
 interleave(1:5, c(2,4))
-}
 }

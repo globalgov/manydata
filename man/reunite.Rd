@@ -19,9 +19,7 @@ A single vector with unique non-missing information
 A vectorised function for use with dplyr's mutate, etc
 }
 \examples{
-\dontrun{
 data <- data.frame(fir=c(NA, "two", "three", NA),
   sec=c("one", NA, "three", NA), stringsAsFactors = F)
 transmutate(data, single = reunite(fir, sec))
-}
 }
