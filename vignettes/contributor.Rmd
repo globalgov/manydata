@@ -23,7 +23,7 @@ packages by helping with the set-up of packages consistent with `{qData}`.
 The function `setup_package()`, for example, establishes many of the required files and folder 
 structures for a `{qData}`-consistent data package. 
 It requires that the package name starts with a the letter "q" as well as that 
-the name of one author is declared. 
+the name of one author is declared.
 For author's name, please declare surname(s) first and then given name(s) separated by commas.
 The function accepts ORCID numbers instead of author names as well. 
 
