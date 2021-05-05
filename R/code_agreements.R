@@ -274,61 +274,22 @@ code_linkage <- function(title, date) {
   abbrev <- code_known_agreements(s)
   parties <- code_parties(s)
 
-  # Step two: standardise text and remove 'predictable words' in agreements
-  cap <- function(title) paste(toupper(substring(title, 1, 1)), {
-    title <- substring(title, 2)
-  }
-  , sep = "", collapse = " ")
-  out <- vapply(strsplit(as.character(title), split = " "),
-                cap, "", USE.NAMES = !is.null(names(title)))
-  
-  # Step three: remove known words and articles
-  out <- gsub("\\<amendment\\>|\\<amendments\\>|\\<amend\\>|\\<amending\\>|\\<modifying\\>|
-              \\<modify\\>|\\<extension\\>|\\<extend\\>|\\<extending\\>|\\<verbal\\>|\\<protocol\\>|
-              \\<additional\\>|\\<subsidiary\\>|\\<supplementary\\>|\\<complementary\\>|
-              \\<complementario\\>|\\<agreement\\>|\\<agreements\\>|\\<arrangement\\>|
-              \\<arrangements\\>|\\<accord\\>|\\<acuerdo\\>|\\<bilateral\\>|\\<technical\\>|
-              \\<treaty\\>|\\<trait\\>|\\<tratado\\>|\\<convention\\>|\\<convencion\\>|
-              \\<convenio\\>|\\<constitution\\>|\\<charte\\>|\\<instrument\\>|\\<statute\\>|
-              \\<estatuto\\>|\\<provisional\\>|\\<understanding\\>|\\<provisions\\>|\\<relating\\>|
-              \\<ubereinkunft\\>|\\<Act\\>|\\<Acts\\>|\\<Declaration\\>|\\<Covenant\\>|\\<Scheme\\>|
-              \\<Government Of |Law\\>|\\<Exchange\\>|\\<Letters\\>|\\<Letter\\>|\\<Notas\\>|
-              \\<Notes\\>|\\<Memorandum\\>|\\<memorando\\>|\\<Principles of Conduct\\>|
-              \\<Code of Conduct\\>|\\<Agreed Measures\\>|\\<Agreed Record\\>|\\<Consensus\\>|
-              \\<Conclusions\\>|\\<Conclusion\\>|\\<Decision\\>|\\<Directive\\>|\\<Regulation\\>|
-              \\<Reglamento\\>|\\<Resolution\\>|\\<Resolutions\\>|\\<Rule\\>|\\<Rules\\>|
-              \\<Recommendation\\>|\\<Minute\\>|\\<Adjustment\\>|\\<First|Session Of\\>|
-              \\<First Meeting Of\\>|\\<Commission\\>|\\<Committee\\>|\\<Center\\>|\\<Meeting\\>|
-              \\<Meetings\\>|\\<Statement\\>|\\<Communiq\\>|\\<Comminiq\\>|
-              \\<Joint Declaration\\>|\\<Proclamation\\>|\\<Administrative Order\\>|\\<Strategy\\>|
-              \\<Plan\\>|\\<Program\\>|\\<Improvement\\>|\\<Project\\>|\\<Study\\>|\\<Article\\>|
-              \\<Articles\\>|\\<Working Party\\>|\\<Working Group\\>|\\<Supplementary\\>|
-              \\<supplementing\\>|\\<Annex\\>|\\<Annexes\\>|\\<extended\\>|\\<Constitutional\\>|
-              \\<Constituent\\>", "", out, ignore.case = TRUE)
+  # Step two: standardise words in title
+  out <- standardise_titles(as.character(title))
+
+  # Step three: and remove 'predictable words' in agreements
+  predictable_words <- predictable_words$predictable_words
+  predictable_words <- paste(predictable_words, collapse = '\\>|\\<')
+  predictable_words <- paste0("\\<", predictable_words, "\\>")
+  out <- gsub(predictable_words, "", out, ignore.case = TRUE)
+  out <- stringr::str_replace_all(out, predictable_words, "")
   out <- gsub("\\s*\\([^\\)]+\\)", "", out, ignore.case = FALSE)
   out <- gsub("-", "", out, ignore.case = FALSE)
   out <- stringr::str_replace_all(out, ",|-", "")
   out <- stringr::str_replace_all(out, " [:digit:]{1} | [:digit:]{2} ", "")
-  out <- gsub(" A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T | U | V | W | X | Y | Z", "", out, ignore.case = FALSE)
-  out <- gsub("\\<and\\>|\\<the\\>|\\<of\\>|\\<for\\>|\\<to\\>|\\<in\\>|\\<a\\>|\\<an\\>|\\<on\\>|\\<the\\>|\\<as\\>", "", out, ignore.case = TRUE)
   out <- trimws(out)
   out <- stringr::str_squish(out)
   out <- textclean::add_comma_space(out)
-  out <- textclean::mgsub(out,
-                          paste0("(?<!\\w)", as.roman(1:100), "(?!\\w)"),
-                          as.numeric(1:100),
-                          safe = TRUE, perl = TRUE)
-  ords <- english::ordinal(1:100)
-  ords <- paste0(ords,
-                 dplyr::if_else(stringr::str_count(ords, "\\S+") == 2,
-                                paste0("|", gsub(" ", "-", as.character(ords))),
-                                ""))
-  out <- textclean::mgsub(out,
-                          paste0("(?<!\\w)", ords, "(?!\\w)"),
-                          as.numeric(1:100),
-                          safe = TRUE, perl = TRUE,
-                          ignore.case = TRUE, fixed = FALSE)
-
   out <- as.data.frame(out)
 
   # Step four: find duplicates
