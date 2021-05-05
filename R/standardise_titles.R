@@ -56,7 +56,7 @@ standardise_titles <- standardize_titles <- function(s, strict = FALSE, api_key 
   }
   out <- out$out
   }
-  stringi::stri_trans_general(out, id = "Latin-ASCII")
+  suppressWarnings(stringi::stri_trans_general(out, id = "Latin-ASCII"))
   out[out == "NANA"] <- NA
   out <- trimws(out)
   out <- gsub("\\.(?=\\.*$)", "", out, perl = TRUE)

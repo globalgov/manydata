@@ -86,6 +86,9 @@ code_agreements <- function(title, date, dataset = NULL) {
   } else {
     qID
   }
+
+  qID
+
 }
 
 #' Code Agreement Parties
@@ -236,7 +239,7 @@ code_known_agreements <- function(title) {
   out <- apply(ab, 1, function(x) paste(names(x[x==1])))
   out[out=="character(0)"] <- NA_character_
   out <- unname(out)
-  out <- unlist(out)
+  out <- as.character(out)
 
   # If output is a list with no values, returns an empty list of the same lenght as title variable
   lt <- as.numeric(length(title))
