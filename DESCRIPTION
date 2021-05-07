@@ -61,6 +61,7 @@ Suggests:
     readxl,
     readr,
     knitr,
+    rmarkdown,
     bibtex,
     desc,
     rorcid,
