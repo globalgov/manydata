@@ -16,7 +16,7 @@
 #' @importFrom stringr str_replace_all str_detect
 #' @examples
 #' IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
-#' code_agreements(IEADB$Title, IEADB$Signature, dataset = IEADB)
+#' code_agreements(IEADB$Title, IEADB$Signature)
 #' @export
 code_agreements <- function(title, date, dataset = NULL) {
 
@@ -81,7 +81,8 @@ code_agreements <- function(title, date, dataset = NULL) {
 
   # Step eight: add new qID column to data if dataset argument is provided
   if (!is.null(dataset)) {
-    cbind(dataset, qID)
+    dataset_name <- deparse(substitute(dataset))
+    dataset_name <- cbind(get(dataset_name), qID)
   } else {
     qID
   }
