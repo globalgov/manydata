@@ -18,7 +18,7 @@
   * Added `code_dates()` to assign a numerical ID based on the signature date
   * Added `code_known_agreements()` to facilitate identification of agreements with known abbreviations
   * Added `code_linkage()` to identify the links between amendments and protocols to a main agreement
-  * Closed #148 by making `code_agreemnts()` more accurate, consistent and parsimonious
+  * Closed #148 by making `code_agreements()` more accurate, consistent and parsimonious
   * Fixed #154 by allowing `code_agreements()` to take date ranges
   * Added tests for `code_agreements()`
 
