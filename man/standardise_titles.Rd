@@ -11,23 +11,25 @@ standardise_titles(s, strict = FALSE, api_key = NULL)
 
 \item{strict}{By default FALSE}
 
-\item{api_key}{If google API key is provided, the function will translate and
-return strings in english using google translator.}
+\item{api_key}{If google API key is provided, the function will
+translate and return strings in english using google translator.}
 }
 \value{
-A capitalised, trimmed string
+A capitalised, trimmed and standardised string
 }
 \description{
-Standardises words in a title variable to improve readability,
+Standardises words in a character title variable to improve readability,
 facilitate string matching and enable more accurate comparisons
-for character variables in different datatsets.
+for variables in different datatsets.
 }
 \details{
-The function capitalises all words in the strings passed to it,
-as well as trimming all white space from the start, middle and end
-of the strings.If an API key is provided as an argument,
-the function detects strings in other languages
-and translates them to English.
+The function capitalises words in the strings passed to it.
+It trims white spaces from the start, middle and end of the strings.
+Removes ambiguous punctions and symbols from strings.
+All the strings are transformed into to ASCII character encoding.
+Written numbers in ordinal form are transformed into numerical form.
+If a google API key is provided as an argument, the function detects
+strings in other languages and translates them to English.
 }
 \examples{
 e <- standardise_titles("A treaty concerning things")

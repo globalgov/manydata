@@ -20,6 +20,8 @@ NULL
 #' @name report
 #' @details `data_source()` displays names of the database/datasets and
 #' source material of qPackage data.
+#' @importFrom purrr map
+#' @importFrom stringr str_to_title
 #' @return A dataframe with the data sources
 #' @examples
 #' data_source(pkg = "qStates", database = "states", dataset = "COW")
@@ -117,6 +119,8 @@ data_source <- function(pkg, database = NULL, dataset = NULL, print = TRUE) {
 #' missing data, the number of observations, the number of variables,
 #' the minimum beginning date and the maximum ending date as well as
 #' the most direct URL to the original dataset.
+#' @importFrom purrr map
+#' @importFrom stringr str_to_title
 #' @return A dataframe with the data report
 #' @examples
 #' data_contrast(pkg = "qStates", database = "states", dataset = "COW")
