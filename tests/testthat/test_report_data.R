@@ -1,13 +1,13 @@
 test_that("data_source() returns the correct output format at the package
           level", {
-    expect_type(data_source(pkg = "qStates", quiet = TRUE), "list")
+    expect_type(data_source(pkg = "qStates", print = FALSE), "list")
           })
 
 test_that("data_source() returns the correct output format at the database
           level", {
   expect_type(data_source(pkg = "qStates",
                           database = "states",
-                          quiet = TRUE), "list")
+                          print = FALSE), "list")
           })
 
 test_that("data_source() returns the correct output format at the dataset
@@ -15,19 +15,19 @@ test_that("data_source() returns the correct output format at the dataset
   expect_type(data_source(pkg = "qStates",
                           database = "states",
                           dataset = "GW",
-                          quiet = TRUE), "character")
+                          print = FALSE), "character")
           })
 
 test_that("data_contrast() returns the correct output format at the package
           level", {
-  expect_type(data_contrast(pkg = "qStates", quiet = TRUE), "list")
+  expect_type(data_contrast(pkg = "qStates", print = FALSE), "list")
 })
 
 test_that("data_contrast() returns the correct output format at the database
           level", {
   expect_type(data_contrast(pkg = "qStates",
                             database = "states",
-                            quiet = TRUE), "list")
+                            print = FALSE), "list")
 })
 
 test_that("data_contrast() returns the correct output format at the dataset
@@ -35,5 +35,5 @@ test_that("data_contrast() returns the correct output format at the dataset
   expect_type(data_contrast(pkg = "qStates",
                             database = "states",
                             dataset = "GW",
-                            quiet = TRUE), "list")
+                            print = FALSE), "list")
 })

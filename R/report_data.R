@@ -3,16 +3,18 @@
 #' @description The report family of functions allows users
 #' to quickly get information about and compare several
 #' aspects of a q Packages, databases and datasets.
-#' @param pkg character string of the qPackage to report data on. Required
-#' input.
-#' @param database vector of character strings of the qPackage to report data a
-#' specific database in a qPackage. If NULL, report_data returns a summary
-#' of all databases in the qPackage. NULL by default.
+#' @param pkg character string of the qPackage to report data on.
+#' Required input.
+#' @param database vector of character strings of the qPackage to
+#' report data a specific database in a qPackage.
+#' If NULL, report_data returns a summary of all databases in the qPackage.
+#' NULL by default.
 #' @param dataset character string of the qPackage to report data on a specific
-#' dataset in a specific database of a qPackage. If NULL and database is
-#' specified, returns database level metadata. NULL by default.
-#' @param quiet print or don't print the information to the console. FALSE by
-#' default.
+#' dataset in a specific database of a qPackage.
+#' If NULL and database is specified, returns database level metadata.
+#' NULL by default.
+#' @param print should dataframe returned be printed to console?
+#' TRUE by default.
 NULL
 
 #' @name report
@@ -22,7 +24,7 @@ NULL
 #' @examples
 #' data_source(pkg = "qStates", database = "states", dataset = "COW")
 #' @export
-data_source <- function(pkg, database = NULL, dataset = NULL, quiet = FALSE) {
+data_source <- function(pkg, database = NULL, dataset = NULL, print = TRUE) {
   pkg_path <- find.package(pkg)
   data_path <- file.path(pkg_path, "data")
   #selcts all dbs
@@ -45,7 +47,7 @@ data_source <- function(pkg, database = NULL, dataset = NULL, quiet = FALSE) {
         colnames(tmp) <- "Reference"
         assign(paste0("tabl", i), tmp)
         # Console print
-        if (quiet == FALSE){
+        if (print == TRUE){
           print(paste0("References for the ", stringr::str_to_title(database),
                      " database", sep = ""))
           print(get(paste0("tabl", i)))
@@ -68,7 +70,7 @@ data_source <- function(pkg, database = NULL, dataset = NULL, quiet = FALSE) {
         t()
       colnames(tabl2) <- dataset
       # Console print
-      if (quiet == FALSE){
+      if (print == TRUE){
         print(paste0("Reference for the ", dataset,
                    " dataset in the ", stringr::str_to_title(database),
                    " database", sep = ""))
@@ -93,7 +95,7 @@ data_source <- function(pkg, database = NULL, dataset = NULL, quiet = FALSE) {
       attr(tmp, "names") <- NULL
       assign(paste0("tabl", i), tmp)
       # Console print
-      if (quiet == FALSE){
+      if (print == TRUE){
       print(paste0("References for the ",
                    stringr::str_to_title(ls(tmp_env)[i]),
                    " database", sep = ""))
@@ -109,16 +111,17 @@ data_source <- function(pkg, database = NULL, dataset = NULL, quiet = FALSE) {
 }
 
 #' @name report
-#' @details `data_contrast()` displays information about databases and datasets
-#' contained in them. Namely the number of unique ID's, the percentage of
-#' missing data, the number of observations, the number of variables, the
-#' minimum beginning date and the maximum ending date as well as the most direct
-#' URL to the original dataset.
+#' @details `data_contrast()` displays information about databases
+#' and datasets contained in them.
+#' Namely the number of unique ID's, the percentage of
+#' missing data, the number of observations, the number of variables,
+#' the minimum beginning date and the maximum ending date as well as
+#' the most direct URL to the original dataset.
+#' @return A dataframe with the data report
 #' @examples
 #' data_contrast(pkg = "qStates", database = "states", dataset = "COW")
-#' @return A dataframe with the data report
 #' @export
-data_contrast <- function(pkg, database = NULL, dataset = NULL, quiet = FALSE) {
+data_contrast <- function(pkg, database = NULL, dataset = NULL, print = TRUE) {
   pkg_path <- find.package(pkg)
   data_path <- file.path(pkg_path, "data")
   pkg_dbs <- unname(unlist(readRDS(file.path(data_path, "Rdata.rds"))))
@@ -154,8 +157,8 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL, quiet = FALSE) {
         colnames(tmp) <- c("Unique ID", "Missing Data", "Rows",
                            "Columns", "Beg", "End", "URL")
         assign(paste0("tabl", i), tmp)
-        #Print things to console if quiet == FALSE
-        if (quiet == FALSE){
+        #Print to console
+        if (print == TRUE){
           print(paste0(stringr::str_to_title(database[i]),
                        " database", sep = ""))
           print(get(paste0("tabl", i))) 
@@ -190,8 +193,8 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL, quiet = FALSE) {
                          URL = attr(ds, which = "source_URL"))
       tabl2 <- as.data.frame(t(tabl))
       colnames(tabl2) <- dataset
-      # Print things to console if quiet == FALSE
-      if (quiet == FALSE){
+      # Print to console
+      if (print == TRUE){
         print(paste0(dataset, " dataset from the ",
                      stringr::str_to_title(database), " database", sep = ""))
         print(tabl2)
@@ -226,8 +229,8 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL, quiet = FALSE) {
       colnames(tmp) <- c("Unique ID", "Missing Data", "Rows",
                          "Columns", "Beg", "End", "URL")
       assign(paste0("tabl", i), tmp)
-      # Print things to console if quiet == FALSE
-      if (quiet == FALSE){
+      # Print to console
+      if (print == TRUE){
         print(paste0(stringr::str_to_title(ls(tmp_env)[i]),
                      " database", sep = ""))
         print(get(paste0("tabl", i))) 

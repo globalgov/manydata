@@ -139,7 +139,7 @@ The `data_source()` function displays bibliographic references for the datasets
 in a qPackage or within a database.
 
 ```{r}
-data_source(pkg = "qStates", database = NULL, dataset = NULL, quiet = FALSE)
+data_source(pkg = "qStates", database = NULL, dataset = NULL)
 ```
 
 The `data_contrast()` function returns a data frame with the key metadata 
@@ -154,7 +154,7 @@ This metadata includes the following elements:
 * Source URL
 
 ```{r}
-data_contrast(pkg = "qStates", database = NULL, dataset = NULL, quiet = FALSE)
+data_contrast(pkg = "qStates", database = NULL, dataset = NULL)
 ```
 
 If we were specifically interested in the `COW` dataset of the `states`
@@ -163,7 +163,7 @@ arguments to the corresponding value.
 
 ```{r}
 data_contrast(pkg = "qStates", database = "states",
-              dataset = "COW", quiet = FALSE)
+              dataset = "COW")
 ```
 
 ## Modelling data
