@@ -48,8 +48,7 @@ Imports:
     remotes,
     httr,
     qStates,
-    stringi,
-    bibtex
+    stringi
 Suggests:
     librarian,
     testthat,
@@ -63,6 +62,7 @@ Suggests:
     knitr,
     rmarkdown,
     desc,
+    bibtex,
     rorcid,
     WVPlots,
     translateR,
