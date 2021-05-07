@@ -18,6 +18,7 @@
 #' @importFrom fs path
 #' @importFrom usethis ui_info
 #' @importFrom usethis ui_done
+#' @importFrom bibtex read.bib
 #' @examples
 #' \dontrun{
 #' export_data(COW, database = "states",
