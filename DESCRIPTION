@@ -48,8 +48,8 @@ Imports:
     remotes,
     httr,
     qStates,
-    ggplot2,
-    stringi
+    stringi,
+    bibtex
 Suggests:
     librarian,
     testthat,
@@ -62,7 +62,6 @@ Suggests:
     readr,
     knitr,
     rmarkdown,
-    bibtex,
     desc,
     rorcid,
     WVPlots,
