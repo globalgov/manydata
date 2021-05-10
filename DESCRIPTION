@@ -42,34 +42,29 @@ Imports:
     stringr,
     textclean,
     usethis,
-    whisker,
-    fs,
     jsonlite,
     remotes,
     httr,
     qStates,
-    stringi
+    stringi,
+    bibtex
 Suggests:
     librarian,
     testthat,
     anytime,
     mice,
-    xfun,
     withr,
     haven,
     readxl,
     readr,
-    bibtex,
     knitr,
     rmarkdown,
-    desc,
-    rorcid,
     WVPlots,
     translateR,
     cld2, 
     qEnviron,
     stringdist
-Remotes: 
+Remotes:
     globalgov/qStates,
     globalgov/qEnviron
 Encoding: UTF-8

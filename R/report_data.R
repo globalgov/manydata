@@ -22,6 +22,7 @@ NULL
 #' source material of qPackage data.
 #' @importFrom purrr map
 #' @importFrom stringr str_to_title
+#' @import bibtex
 #' @return A dataframe with the data sources
 #' @examples
 #' data_source(pkg = "qStates", database = "states", dataset = "COW")

@@ -14,6 +14,7 @@
 #' If not provided, the function will return a character vector with qIDs.
 #' @importFrom usethis ui_done
 #' @importFrom stringr str_replace_all str_detect
+#' @importFrom purrr map
 #' @examples
 #' IEADB <- dplyr::slice_sample(qEnviron::agreements$IEADB, n = 10)
 #' code_agreements(IEADB$Title, IEADB$Signature)
@@ -224,6 +225,7 @@ code_dates <- function(title, date) {
 #' @param title A character vector of treaty title
 #' @return A character vector of abbreviation of known treaties
 #' @importFrom dplyr case_when
+#' @importFrom purrr map
 #' @details The function identifies agreements that match
 #' the list of known agreements with their titles, abbreviations
 #' and signature dates and substitutes the known titles for abbreviations.
@@ -256,9 +258,9 @@ code_known_agreements <- function(title) {
 #' Identify the linkage between amendments and protocols to a main agreement.
 #' @param title A character vector of treaty title
 #' @param date A date variable
-#' @importFrom textclean add_comma_space mgsub
-#' @importFrom english ordinal
+#' @importFrom textclean add_comma_space
 #' @importFrom stringr str_replace_all str_squish str_remove_all
+#' @importFrom purrr map
 #' @import dplyr
 #' @return A character vector of the agreements that are linked
 #' @details The function identifies duplicates by excluding
