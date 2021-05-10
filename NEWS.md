@@ -3,6 +3,11 @@
 # Package
 
 * Added agreements vignette for working with `code_agreements()`
+* Separated `{qData}` into two packages, `{qData}` for users and `{qCreate}` for developers
+  * Moved the `setup_package()` function to `{qCreate}`
+  * Moved the `import_data()` function to `{qCreate}`
+  * Moved the `export_data()` function to `{qCreate}`
+* Moved the `plot_releases()` function to `{migraph}`
 
 # Correction
 
@@ -20,7 +25,8 @@
   * Added `code_linkage()` to identify the links between amendments and protocols to a main agreement
   * Closed #148 by making `code_agreements()` more accurate, consistent and parsimonious
   * Fixed #154 by allowing `code_agreements()` to take date ranges
-  * Added tests for `code_agreements()`
+  * Added tests for `code_agreements()` 
+
 
 # qData 0.3.5
 
