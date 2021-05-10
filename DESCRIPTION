@@ -46,8 +46,7 @@ Imports:
     remotes,
     httr,
     qStates,
-    stringi,
-    bibtex
+    stringi
 Suggests:
     librarian,
     testthat,
@@ -63,7 +62,8 @@ Suggests:
     translateR,
     cld2, 
     qEnviron,
-    stringdist
+    stringdist,
+    bibtex
 Remotes:
     globalgov/qStates,
     globalgov/qEnviron
