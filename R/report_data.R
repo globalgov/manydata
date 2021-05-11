@@ -142,7 +142,7 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL, print = TRUE) {
                rbind(purrr::map(dbs[[i]], function(x) length(unique(x$ID))),
                      purrr::map(dbs[[i]], function(x)
                        paste0(
-                         round(sum(is.na(x)) / prod(dim(x)), digits = 2), " %")
+                         round(sum(is.na(x)) * 100 / prod(dim(x)), digits = 2), " %")
                        ),
                      purrr::map(dbs[[i]], function(x) nrow(x)),
                      purrr::map(dbs[[i]], function(x) ncol(x)),
@@ -182,7 +182,7 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL, print = TRUE) {
       ds <- db[[dataset]]
       tabl <- data.frame(UniqueID = length(unique(ds$ID)),
                          Missing_Data = paste0(
-                           round(sum(is.na(ds)) / prod(dim(ds)),
+                           round(sum(is.na(ds)) * 100 / prod(dim(ds)),
                                  digits = 2), " %"),
                          NObs = nrow(ds),
                          NVar = ncol(ds),
@@ -215,7 +215,7 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL, print = TRUE) {
       assign(paste0("tabl", i),
              rbind(purrr::map(dbs[[i]], function(x) length(unique(x$ID))),
                    purrr::map(dbs, function(x)
-                     paste0(sum(is.na(x)) / prod(dim(x)), " %")),
+                     paste0(sum(is.na(x)) * 100 / prod(dim(x)), " %")),
                    purrr::map(dbs[[i]], function(x) nrow(x)),
                    purrr::map(dbs[[i]], function(x) ncol(x)),
                    purrr::map(dbs[[i]], function(x)
