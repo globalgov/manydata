@@ -214,8 +214,8 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL, print = TRUE) {
     for (i in c(1:length(dbs))) {
       assign(paste0("tabl", i),
              rbind(purrr::map(dbs[[i]], function(x) length(unique(x$ID))),
-                   purrr::map(dbs, function(x)
-                     paste0(sum(is.na(x)) * 100 / prod(dim(x)), " %")),
+                   purrr::map(dbs[[i]], function(x)
+                     paste0(round(sum(is.na(x)) * 100 / prod(dim(x)), digits = 2), " %")),
                    purrr::map(dbs[[i]], function(x) nrow(x)),
                    purrr::map(dbs[[i]], function(x) ncol(x)),
                    purrr::map(dbs[[i]], function(x)
