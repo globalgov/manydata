@@ -32,7 +32,6 @@ Depends:
 Imports:
     covr,
     dplyr,
-    english,
     lubridate,
     pkgdown,
     pointblank,
@@ -40,13 +39,11 @@ Imports:
     rlang,
     roxygen2,
     stringr,
-    textclean,
     usethis,
     jsonlite,
     remotes,
     httr,
-    qStates,
-    stringi
+    qStates
 Suggests:
     librarian,
     testthat,
@@ -58,11 +55,7 @@ Suggests:
     readr,
     knitr,
     rmarkdown,
-    WVPlots,
-    translateR,
-    cld2, 
     qEnviron,
-    stringdist,
     bibtex
 Remotes:
     globalgov/qStates,
