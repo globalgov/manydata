@@ -51,4 +51,6 @@ get_packages()
 
 Please see [the website](https://globalgov.github.io/qData/) for more information about how to use `{qData}`.
 
+## Contributing to the qVerse
+
 For more information for developers and data contributors to qPackages, please see `{qCreate}` [the website](https://globalgov.github.io/qCreate/).
