@@ -2,31 +2,15 @@
 
 # Package
 
-* Added agreements vignette for working with `code_agreements()`
 * Separated `{qData}` into two packages, `{qData}` for users and `{qCreate}` for developers
-  * Moved the `setup_package()` function to `{qCreate}`
-  * Moved the `import_data()` function to `{qCreate}`
-  * Moved the `export_data()` function to `{qCreate}`
-* Moved the `plot_releases()` function to `{migraph}`
-
-# Correction
-
-* Closed #155 by updating `standardise_titles()` to translate strings to English when API key is provided as an argument
+  * Moved `setup_package()` and related functions to `{qCreate}`
+  * Moved `import_data()` and related functions to `{qCreate}`
+  * Moved `export_data()` and related functions to `{qCreate}`
+* Moved `plot_releases()` to `{migraph}`
 
 # Connection
 
 * Closed #137 by making `data_contrast()` and `data_source()` return exportable objects
-* Added `code_agreements()` function
-  * Closed #130 by setting up new `code_agreements()` that extracts meaningful information from agreements titles and dates
-  * Added `code_parties()` to extract parties from agreement titles
-  * Added `code_type()` to identify agreement types
-  * Added `code_dates()` to assign a numerical ID based on the signature date
-  * Added `code_known_agreements()` to facilitate identification of agreements with known abbreviations
-  * Added `code_linkage()` to identify the links between amendments and protocols to a main agreement
-  * Closed #148 by making `code_agreements()` more accurate, consistent and parsimonious
-  * Fixed #154 by allowing `code_agreements()` to take date ranges
-  * Added tests for `code_agreements()` 
-
 
 # qData 0.3.5
 
@@ -35,7 +19,7 @@
 * Updated `get_packages()` function
   * Fixed bug with dates in `get_packages()` by changing dependencies to `{lubridate}`
   * Updated formatting of the returned tibble to display more clearly the information on qPackages
-  * Fixed #144 by substituting NA where a listed qPackage is not installed locally
+  * Fixed #144 by substituting `NA` where a listed qPackage is not installed locally
 
 # qData 0.3.4
 
