@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">qData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -69,7 +69,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/globalgov/qDatr/">
+  <a href="https://github.com/globalgov/qData/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -92,17 +92,17 @@
 </h1></div>
 <!-- badges: start -->
 
-<p><a href="https://github.com/globalgov/qDatr">qData</a> is the central package in an ecosystem of packages aimed at collecting, connecting and correcting network data across issue-domains of global governance. It is a package both for users of this data as well as for data owners and contributors.</p>
+<p><a href="https://github.com/globalgov/qData">qData</a> is the central package in an ecosystem of packages aimed at collecting, connecting and correcting network data across issue-domains of global governance. It is a package both for users of this data as well as for data owners and contributors.</p>
 <div id="why-qdata" class="section level2">
 <h2 class="hasAnchor">
 <a href="#why-qdata" class="anchor"></a>Why qData?</h2>
-<p>For users, <a href="https://github.com/globalgov/qDatr">qData</a> offers a way to access all of the tested data in the ecosystem in so-called ‘qPackages’, and use this data in their analyses of global governance. A special advantage of such qdata is that it is not ‘opinionated’, in the sense of offering a single, supposedly authoritative version of global governance events, but instead holds many well-regarded datasets together in three-dimensional ‘datacubes’. The chief advantage of this for global governance researchers is that it enables a quick and easy way to check the robustness of their results to different formulations of the study population or concept specification. The ‘datacube’ structure is requiring specific coding system for the variables across the datasets. For more details on that, please see the <a href="https://globalgov.github.io/qData/articles/user.html">vignette</a>.</p>
-<p>For contributors, <a href="https://github.com/globalgov/qDatr">qData</a> provides the necessary tools to put their data in the hands of users. The package includes many functions to make this easier. It includes functions to help set up a qPackage, import their existing data, and export them in structures consistent with the rest of the data ecosystem. This facilitates the interoperability, contrast, and comparison of data. Specific coding system should be followed by the contributors. For more details on that, please see the <a href="https://globalgov.github.io/qData/articles/developer.html">vignette</a>.</p>
+<p>For users, <a href="https://github.com/globalgov/qData">qData</a> offers a way to access all of the tested data in the ecosystem in so-called ‘qPackages’, and use this data in their analyses of global governance. A special advantage of such qdata is that it is not ‘opinionated’, in the sense of offering a single, supposedly authoritative version of global governance events, but instead holds many well-regarded datasets together in three-dimensional ‘datacubes’. The chief advantage of this for global governance researchers is that it enables a quick and easy way to check the robustness of their results to different formulations of the study population or concept specification. The ‘datacube’ structure is requiring specific coding system for the variables across the datasets. For more details on that, please see the <a href="https://globalgov.github.io/qData/articles/user.html">vignette</a>.</p>
+<p>For contributors, <a href="https://github.com/globalgov/qData">qData</a> provides the necessary tools to put their data in the hands of users. The package includes many functions to make this easier. It includes functions to help set up a qPackage, import their existing data, and export them in structures consistent with the rest of the data ecosystem. This facilitates the interoperability, contrast, and comparison of data. Specific coding system should be followed by the contributors. For more details on that, please see the <a href="https://globalgov.github.io/qData/articles/developer.html">vignette</a>.</p>
 </div>
 <div id="downloading-and-installing-qdata" class="section level2">
 <h2 class="hasAnchor">
 <a href="#downloading-and-installing-qdata" class="anchor"></a>Downloading and installing qData</h2>
-<p>The development version of the package <a href="https://github.com/globalgov/qDatr">qData</a> can be downloaded from GitHub.</p>
+<p>The development version of the package <a href="https://github.com/globalgov/qData">qData</a> can be downloaded from GitHub.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
 <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"globalgov/qData"</span><span class="op">)</span></code></pre></div>
@@ -110,9 +110,9 @@
 <div id="available-qpackages" class="section level2">
 <h2 class="hasAnchor">
 <a href="#available-qpackages" class="anchor"></a>Available qPackages</h2>
-<p><a href="https://github.com/globalgov/qDatr">qData</a> connects users to other packages that help fill global governance researchers’ data needs. The <code><a href="reference/get_packages.html">get_packages()</a></code> function can be used to discover which packages are currently available.</p>
+<p><a href="https://github.com/globalgov/qData">qData</a> connects users to other packages that help fill global governance researchers’ data needs. The <code><a href="reference/get_packages.html">get_packages()</a></code> function can be used to discover which packages are currently available.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/globalgov/qDatr">qData</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/globalgov/qData">qData</a></span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">## Warning: package 'tibble' was built under R version 4.0.4</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/get_packages.html">get_packages</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
@@ -132,7 +132,7 @@
 <span id="cb5-14"><a href="#cb5-14"></a><span class="co">## 1 2021-03-24</span></span>
 <span id="cb5-15"><a href="#cb5-15"></a><span class="co">## 2 2021-02-22</span></span>
 <span id="cb5-16"><a href="#cb5-16"></a><span class="co">## 3 2021-02-22</span></span></code></pre></div>
-<p>Please see <a href="https://globalgov.github.io/qData/">the website</a> for more information about how to use <a href="https://github.com/globalgov/qDatr">qData</a> as either a user or as a data contributor.</p>
+<p>Please see <a href="https://globalgov.github.io/qData/">the website</a> for more information about how to use <a href="https://github.com/globalgov/qData">qData</a> as either a user or as a data contributor.</p>
 </div>
 </div>
   </div>
@@ -141,9 +141,9 @@
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/globalgov/qDatr/">https://​github.com/​globalgov/​qDatr/​</a>
+<li>Browse source code at <br><a href="https://github.com/globalgov/qData/">https://​github.com/​globalgov/​qData/​</a>
 </li>
-<li>Report a bug at <br><a href="https://github.com/globalgov/qDatr/issues">https://​github.com/​globalgov/​qDatr/​issues</a>
+<li>Report a bug at <br><a href="https://github.com/globalgov/qData/issues">https://​github.com/​globalgov/​qData/​issues</a>
 </li>
 </ul>
 </div>

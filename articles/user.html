@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">qData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -67,7 +67,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/globalgov/qDatr/">
+  <a href="https://github.com/globalgov/qData/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -88,9 +88,9 @@
       <h1 data-toc-skip>Working with qData</h1>
                         <h4 class="author">James Hollway</h4>
             
-            <h4 class="date">2021-03-24</h4>
+            <h4 class="date">2021-05-14</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/globalgov/qDatr/blob/master/vignettes/user.Rmd"><code>vignettes/user.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/globalgov/qData/blob/master/vignettes/user.Rmd"><code>vignettes/user.Rmd</code></a></small>
       <div class="hidden name"><code>user.Rmd</code></div>
 
     </div>
@@ -102,32 +102,36 @@
 <a href="#discovering-data" class="anchor"></a>Discovering data</h2>
 <p>The first thing users of the package will want to do is to identify datasets that might contribute to their research goals. Since some of these data packages are too big for CRAN (the main though not only R package repository), we expect that their developers will instead choose to make their packages available on Github. Github is huge though, either way it can be difficult to identify salient data. We have tried to make this easy by allowing the reporting of all datasets in the ecosystem that we know of that currently pass our tests.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/globalgov/qDatr">qData</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/globalgov/qData">qData</a></span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt; Loading required package: tibble</code></pre>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/get_packages.html">get_packages</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>#&gt; # A tibble: 3 x 6
+<pre><code>#&gt; Warning: 1 failed to parse.</code></pre>
+<pre><code>#&gt; # A tibble: 4 x 6
 #&gt;   name     full_name         
 #&gt;   &lt;chr&gt;    &lt;chr&gt;             
-#&gt; 1 qData    globalgov/qData   
-#&gt; 2 qEnviron globalgov/qEnviron
-#&gt; 3 qStates  globalgov/qStates 
-#&gt;   description                                             installed latest
-#&gt;   &lt;chr&gt;                                                   &lt;chr&gt;     &lt;chr&gt; 
-#&gt; 1 An R portal for ensembled global governance data        0.3.5     0.3.5 
-#&gt; 2 qPackage for ensembled data on environmental agreements &lt;NA&gt;      0.0.2 
-#&gt; 3 qPackage for ensembled data on sovereign states         0.0.3     0.0.3 
+#&gt; 1 qCreate  globalgov/qCreate 
+#&gt; 2 qData    globalgov/qData   
+#&gt; 3 qEnviron globalgov/qEnviron
+#&gt; 4 qStates  globalgov/qStates 
+#&gt;   description                                             installed latest    
+#&gt;   &lt;chr&gt;                                                   &lt;chr&gt;     &lt;chr&gt;     
+#&gt; 1 Support for creating new qPackages                      &lt;NA&gt;      Unreleased
+#&gt; 2 An R portal for ensembled global governance data        0.4.0     0.3.6     
+#&gt; 3 qPackage for ensembled data on environmental agreements 0.0.2     0.0.2     
+#&gt; 4 qPackage for ensembled data on sovereign states         0.0.3     0.0.3     
 #&gt;   updated   
 #&gt;   &lt;date&gt;    
-#&gt; 1 2021-03-24
-#&gt; 2 2021-02-22
-#&gt; 3 2021-02-22</code></pre>
+#&gt; 1 NA        
+#&gt; 2 2021-05-14
+#&gt; 3 2021-02-22
+#&gt; 4 2021-02-22</code></pre>
 <p>In the future, this function will report more details about the datasets included in each package and their provenance.</p>
 </div>
 <div id="understanding-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#understanding-data" class="anchor"></a>Understanding data</h2>
-<p>Packages in the <a href="https://github.com/globalgov/qDatr">qData</a> ecosystem have the advantage to facilitate comparison and analysis of multiple datasets in a specific domain of global governance. This is possible with a particular coding system which follows the same principles across the different packages.</p>
+<p>Packages in the <a href="https://github.com/globalgov/qData">qData</a> ecosystem have the advantage to facilitate comparison and analysis of multiple datasets in a specific domain of global governance. This is possible with a particular coding system which follows the same principles across the different packages.</p>
 <p>In <a href="https://github.com/globalgov/qStates">qStates</a> for example, all datasets from the states database contain variables named <code>Beg</code>and <code>End</code> which represent the beginning and ending date of an episode of state sovereignty.</p>
 <p>In <code>{qEnviron}</code>, the agreements database also have the <code>Beg</code> and <code>End</code> variables but those are attributed to treaties (signature and term dates). For the memberships database, <code>Beg</code> and <code>End</code> represent when a relationship between states and an agreement starts (either signature, ratification or entry into force) and ends (either withdrawal or term).</p>
 <p>This specific variable name allows the comparison across the datasets which have different sources but same informations. It enables to point out the recurrence, difference or absence of observations between the datasets and extract more robust data when researching on a particular governance domain.</p>
@@ -136,13 +140,13 @@
 <h2 class="hasAnchor">
 <a href="#loading-data" class="anchor"></a>Loading data</h2>
 <p>For now, let us say that we wish to download the <a href="https://github.com/globalgov/qStates">qStates</a> package, which offers a set of datasets related to state actors in global governance. We can download and install the latest release version of the <a href="https://github.com/globalgov/qStates">qStates</a> package using the same function as before, only specifying which package we want to ‘get’:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/get_packages.html">get_packages</a></span><span class="op">(</span><span class="st">"globalgov/qStates"</span><span class="op">)</span></code></pre></div>
 <p>Once the qpackage has been downloaded and installed, we are free to work with the data it contains. This <a href="https://github.com/globalgov/qStates">qStates</a> package includes several datasets. We can get a quick summary of the datasets included in this package with the following command:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"qStates"</span><span class="op">)</span></code></pre></div>
 <p>Let’s take a quick look at the main <code>states</code> data in this package.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">states</span>, package <span class="op">=</span> <span class="st">"qStates"</span><span class="op">)</span>
 <span class="va">states</span></code></pre></div>
 <pre><code>#&gt; $GW
@@ -194,7 +198,7 @@
 #&gt; # … with 233 more rows</code></pre>
 <p>We can see that there are three named datasets relating to states here: <code>COW</code> (Correlates of War), <code>GW</code> (Gleditsch and Ward), and <code>ISD</code> (International Systems Dataset). Each of these datasets has their advantages and so we may wish to understand their differences, summarise variables across them, and perhaps also rerun models across them.</p>
 <p>To retrieve an individual dataset from this database, we can use the <code>pluck()</code> function from the <a href="http://purrr.tidyverse.org">purrr</a> package.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">COW</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html">pluck</a></span><span class="op">(</span><span class="va">states</span>, <span class="st">"COW"</span><span class="op">)</span></code></pre></div>
 <p>However, the real value of qData packages is that multiple datasets relating to the same phenomenon are presented together. This facilitates comparison, the subject of the next section.</p>
 </div>
@@ -212,7 +216,7 @@
 <a href="#using-data_source-and-data_contrast" class="anchor"></a>Using <code>data_source()</code> and <code>data_contrast()</code>
 </h3>
 <p>The <code><a href="../reference/report.html">data_source()</a></code> function displays bibliographic references for the datasets in a qPackage or within a database.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/report.html">data_source</a></span><span class="op">(</span>pkg <span class="op">=</span> <span class="st">"qStates"</span>, database <span class="op">=</span> <span class="cn">NULL</span>, dataset <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt; [1] "References for the States database"
 #&gt;     Reference                                                                                                        
@@ -228,29 +232,38 @@
 <li>Latest end date</li>
 <li>Source URL</li>
 </ul>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/report.html">data_contrast</a></span><span class="op">(</span>pkg <span class="op">=</span> <span class="st">"qStates"</span>, database <span class="op">=</span> <span class="cn">NULL</span>, dataset <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt; [1] "States database"
-#&gt;     Unique ID Missing Data Rows Columns Beg          End         
-#&gt; GW  202       "0 %"        216  5       "1816-01-01" "2017-12-31"
-#&gt; ISD 310       "0 %"        362  7       "1816-01-01" "2011-12-31"
-#&gt; COW 217       "0 %"        243  5       "1816-01-01" "2016-12-31"
-#&gt;     URL                                                            
-#&gt; GW  "http://ksgleditsch.com/data-4.html"                           
-#&gt; ISD "http://www.ryan-griffiths.com/data"                           
-#&gt; COW "https://correlatesofwar.org/data-sets/state-system-membership"</code></pre>
+#&gt;     Unique ID Missing Data Rows Columns        Beg        End
+#&gt; GW        202          0 %  216       5 1816-01-01 2017-12-31
+#&gt; ISD       310          0 %  362       7 1816-01-01 2011-12-31
+#&gt; COW       217          0 %  243       5 1816-01-01 2016-12-31
+#&gt;                                                               URL
+#&gt; GW                             http://ksgleditsch.com/data-4.html
+#&gt; ISD                            http://www.ryan-griffiths.com/data
+#&gt; COW https://correlatesofwar.org/data-sets/state-system-membership</code></pre>
 <p>If we were specifically interested in the <code>COW</code> dataset of the <code>states</code> database, we would specify the output by setting the database and the dataset arguments to the corresponding value.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/report.html">data_contrast</a></span><span class="op">(</span>pkg <span class="op">=</span> <span class="st">"qStates"</span>, database <span class="op">=</span> <span class="st">"states"</span>, dataset <span class="op">=</span> <span class="st">"COW"</span><span class="op">)</span></code></pre></div>
-<pre><code>#&gt; [1] "COW dataset from the States database"</code></pre>
-<pre><code>#&gt;              COW                                                            
-#&gt; UniqueID     "217"                                                          
-#&gt; Missing_Data "0 %"                                                          
-#&gt; NObs         "243"                                                          
-#&gt; NVar         "5"                                                            
-#&gt; MinDate      "1816-01-01"                                                   
-#&gt; MaxDate      "2016-12-31"                                                   
-#&gt; URL          "https://correlatesofwar.org/data-sets/state-system-membership"</code></pre>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/report.html">data_contrast</a></span><span class="op">(</span>pkg <span class="op">=</span> <span class="st">"qStates"</span>, database <span class="op">=</span> <span class="st">"states"</span>,
+              dataset <span class="op">=</span> <span class="st">"COW"</span><span class="op">)</span></code></pre></div>
+<pre><code>#&gt; [1] "COW dataset from the States database"
+#&gt;                                                                        COW
+#&gt; UniqueID                                                               217
+#&gt; Missing_Data                                                           0 %
+#&gt; NObs                                                                   243
+#&gt; NVar                                                                     5
+#&gt; MinDate                                                         1816-01-01
+#&gt; MaxDate                                                         2016-12-31
+#&gt; URL          https://correlatesofwar.org/data-sets/state-system-membership</code></pre>
+<pre><code>#&gt;                                                                        COW
+#&gt; UniqueID                                                               217
+#&gt; Missing_Data                                                           0 %
+#&gt; NObs                                                                   243
+#&gt; NVar                                                                     5
+#&gt; MinDate                                                         1816-01-01
+#&gt; MaxDate                                                         2016-12-31
+#&gt; URL          https://correlatesofwar.org/data-sets/state-system-membership</code></pre>
 </div>
 </div>
 <div id="modelling-data" class="section level2">
@@ -258,7 +271,7 @@
 <a href="#modelling-data" class="anchor"></a>Modelling data</h2>
 <p>Next we may be interested in whether any relationships we are interested in or inferences we want to draw are sensitive to which data we use. That is, we are interested in the robustness of any results to different data specifications. None of the <code>states</code> datasets are particularly wide, but let us try and examine the “Beg” variable to start with.</p>
 <p>We can start by exploring whether our conclusion about when states first gained sovereignty would differ depending on which dataset we use. We can use the <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code> function used above, but this time pass it the <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code> function and tell it to operate on just the “Beg” variable (removing any NAs). Since qData datasets are always ordered by “Beg” (and then “ID”), we can remove any subsequent (duplicated) entries by ID to concentrate on first appearances.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">states</span> <span class="op">%&gt;%</span> 
   <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span>
     <span class="va">x</span> <span class="op">%&gt;%</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span><span class="op">(</span><span class="va">ID</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>

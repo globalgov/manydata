@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">qData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -108,7 +108,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/globalgov/qDatr/">
+  <a href="https://github.com/globalgov/qData/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -127,7 +127,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get first non-missing</h1>
-    <small class="dont-index">Source: <a href='https://github.com/globalgov/qDatr/blob/master/R/wrangling.R'><code>R/wrangling.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/globalgov/qData/blob/master/R/wrangling_data.R'><code>R/wrangling_data.R</code></a></small>
     <div class="hidden name"><code>consolidate.Rd</code></div>
     </div>
 
@@ -159,10 +159,41 @@ that is picking the first non-missing observation,
 but on observations rather than variables.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>summarise</span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fu'>consolidate</span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fu'>consolidate</span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;     mpg
+#&gt; 1  21.0
+#&gt; 2  21.0
+#&gt; 3  22.8
+#&gt; 4  21.4
+#&gt; 5  18.7
+#&gt; 6  18.1
+#&gt; 7  14.3
+#&gt; 8  24.4
+#&gt; 9  22.8
+#&gt; 10 19.2
+#&gt; 11 17.8
+#&gt; 12 16.4
+#&gt; 13 17.3
+#&gt; 14 15.2
+#&gt; 15 10.4
+#&gt; 16 10.4
+#&gt; 17 14.7
+#&gt; 18 32.4
+#&gt; 19 30.4
+#&gt; 20 33.9
+#&gt; 21 21.5
+#&gt; 22 15.5
+#&gt; 23 15.2
+#&gt; 24 13.3
+#&gt; 25 19.2
+#&gt; 26 27.3
+#&gt; 27 26.0
+#&gt; 28 30.4
+#&gt; 29 15.8
+#&gt; 30 19.7
+#&gt; 31 15.0
+#&gt; 32 21.4</div><div class='input'><span class='fu'>consolidate</span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>$</span><span class='va'>wt</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 2.62</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

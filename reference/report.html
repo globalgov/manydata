@@ -74,7 +74,7 @@ aspects of a q Packages, databases and datasets." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">qData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -110,7 +110,7 @@ aspects of a q Packages, databases and datasets." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/globalgov/qDatr/">
+  <a href="https://github.com/globalgov/qData/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -129,7 +129,7 @@ aspects of a q Packages, databases and datasets." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Set of data structure exploration functions for users</h1>
-    <small class="dont-index">Source: <a href='https://github.com/globalgov/qDatr/blob/master/R/report_data.R'><code>R/report_data.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/globalgov/qData/blob/master/R/report_data.R'><code>R/report_data.R</code></a></small>
     <div class="hidden name"><code>report.Rd</code></div>
     </div>
 
@@ -139,29 +139,36 @@ to quickly get information about and compare several
 aspects of a q Packages, databases and datasets.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>data_source</span><span class='op'>(</span><span class='va'>pkg</span>, database <span class='op'>=</span> <span class='cn'>NULL</span>, dataset <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>data_source</span><span class='op'>(</span><span class='va'>pkg</span>, database <span class='op'>=</span> <span class='cn'>NULL</span>, dataset <span class='op'>=</span> <span class='cn'>NULL</span>, print <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='fu'>data_contrast</span><span class='op'>(</span><span class='va'>pkg</span>, database <span class='op'>=</span> <span class='cn'>NULL</span>, dataset <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+<span class='fu'>data_contrast</span><span class='op'>(</span><span class='va'>pkg</span>, database <span class='op'>=</span> <span class='cn'>NULL</span>, dataset <span class='op'>=</span> <span class='cn'>NULL</span>, print <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>pkg</th>
-      <td><p>character string of the qPackage to report data on. Required
-input.</p></td>
+      <td><p>character string of the qPackage to report data on.
+Required input.</p></td>
     </tr>
     <tr>
       <th>database</th>
-      <td><p>vector of character strings of the qPackage to report data a
-specific database in a qPackage. If NULL, report_data returns a summary
-of all databases in the qPackage. NULL by default.</p></td>
+      <td><p>vector of character strings of the qPackage to
+report data a specific database in a qPackage.
+If NULL, report_data returns a summary of all databases in the qPackage.
+NULL by default.</p></td>
     </tr>
     <tr>
       <th>dataset</th>
       <td><p>character string of the qPackage to report data on a specific
-dataset in a specific database of a qPackage. If NULL and database is
-specified, returns database level metadata. NULL by default.</p></td>
+dataset in a specific database of a qPackage.
+If NULL and database is specified, returns database level metadata.
+NULL by default.</p></td>
+    </tr>
+    <tr>
+      <th>print</th>
+      <td><p>should dataframe returned be printed to console?
+TRUE by default.</p></td>
     </tr>
     </table>
 
@@ -173,24 +180,33 @@ specified, returns database level metadata. NULL by default.</p></td>
 
     <p><code>data_source()</code> displays names of the database/datasets and
 source material of qPackage data.</p>
-<p><code>data_contrast()</code> displays information about databases and datasets
-contained in them. Namely the number of unique ID's, the percentage of
-missing data, the number of observations, the number of variables, the
-minimum beginning date and the maximum ending date as well as the most direct
-URL to the original dataset.</p>
+<p><code>data_contrast()</code> displays information about databases
+and datasets contained in them.
+Namely the number of unique ID's, the percentage of
+missing data, the number of observations, the number of variables,
+the minimum beginning date and the maximum ending date as well as
+the most direct URL to the original dataset.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>data_source</span><span class='op'>(</span>pkg <span class='op'>=</span> <span class='st'>"qStates"</span>, database <span class='op'>=</span> <span class='st'>"states"</span>, dataset <span class='op'>=</span> <span class='st'>"COW"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] "Reference for the COW dataset in the States database"</div><div class='output co'>#&gt;           COW                                                                                                                               
 #&gt; Reference "Correlates of War Project (2017). “State System Membership List,v2016.” &lt;URL: http://correlatesofwar.org&gt;. Accessed: 2021-01-25."</div><div class='input'><span class='fu'>data_contrast</span><span class='op'>(</span>pkg <span class='op'>=</span> <span class='st'>"qStates"</span>, database <span class='op'>=</span> <span class='st'>"states"</span>, dataset <span class='op'>=</span> <span class='st'>"COW"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "COW dataset from the States database"</div><div class='output co'>#&gt;              COW                                                            
-#&gt; UniqueID     "217"                                                          
-#&gt; Missing_Data "0 %"                                                          
-#&gt; NObs         "243"                                                          
-#&gt; NVar         "5"                                                            
-#&gt; MinDate      "1816-01-01"                                                   
-#&gt; MaxDate      "2016-12-31"                                                   
-#&gt; URL          "https://correlatesofwar.org/data-sets/state-system-membership"</div></pre>
+</div><div class='output co'>#&gt; [1] "COW dataset from the States database"
+#&gt;                                                                        COW
+#&gt; UniqueID                                                               217
+#&gt; Missing_Data                                                           0 %
+#&gt; NObs                                                                   243
+#&gt; NVar                                                                     5
+#&gt; MinDate                                                         1816-01-01
+#&gt; MaxDate                                                         2016-12-31
+#&gt; URL          https://correlatesofwar.org/data-sets/state-system-membership</div><div class='output co'>#&gt;                                                                        COW
+#&gt; UniqueID                                                               217
+#&gt; Missing_Data                                                           0 %
+#&gt; NObs                                                                   243
+#&gt; NVar                                                                     5
+#&gt; MinDate                                                         1816-01-01
+#&gt; MaxDate                                                         2016-12-31
+#&gt; URL          https://correlatesofwar.org/data-sets/state-system-membership</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
