@@ -1,3 +1,17 @@
+# qData 0.4.0
+
+# Package
+
+* Separated `{qData}` into two packages, `{qData}` for users and `{qCreate}` for developers
+  * Moved `setup_package()` and related functions to `{qCreate}`
+  * Moved `import_data()` and related functions to `{qCreate}`
+  * Moved `export_data()` and related functions to `{qCreate}`
+* Moved `plot_releases()` to `{migraph}`
+
+# Connection
+
+* Closed #137 by making `data_contrast()` and `data_source()` return exportable objects
+
 # qData 0.3.5
 
 # Connect
@@ -5,7 +19,7 @@
 * Updated `get_packages()` function
   * Fixed bug with dates in `get_packages()` by changing dependencies to `{lubridate}`
   * Updated formatting of the returned tibble to display more clearly the information on qPackages
-  * Fixed #144 by substituting NA where a listed qPackage is not installed locally
+  * Fixed #144 by substituting `NA` where a listed qPackage is not installed locally
 
 # qData 0.3.4
 

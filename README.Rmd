@@ -16,11 +16,10 @@ output: github_document
 <!-- badges: end -->
 
 `{qData}` is the central package in an ecosystem of packages aimed at collecting, connecting and correcting network data across issue-domains of global governance.
-It is a package both for users of this data as well as for data owners and contributors.
 
 ## Why qData?
 
-For users, `{qData}` offers a way to access all of the tested data in the ecosystem in so-called 'qPackages',
+`{qData}` offers a way to access all of the tested data in the ecosystem in so-called 'qPackages',
 and use this data in their analyses of global governance.
 A special advantage of such qdata is that it is not 'opinionated',
 in the sense of offering a single, supposedly authoritative version of global governance events,
@@ -30,14 +29,6 @@ a quick and easy way to check the robustness of their results to different formu
 the study population or concept specification. The 'datacube' structure is requiring specific 
 coding system for the variables across the datasets. 
 For more details on that, please see the [vignette](https://globalgov.github.io/qData/articles/user.html).
-
-For contributors, `{qData}` provides the necessary tools to put their data in the hands of users.
-The package includes many functions to make this easier.
-It includes functions to help set up a qPackage, import their existing data, 
-and export them in structures consistent with the rest of the data ecosystem.
-This facilitates the interoperability, contrast, and comparison of data. Specific coding system should be 
-followed by the contributors.
-For more details on that, please see the [vignette](https://globalgov.github.io/qData/articles/developer.html).
 
 ## Downloading and installing qData
 
@@ -58,4 +49,8 @@ library(qData)
 get_packages()
 ```
 
-Please see [the website](https://globalgov.github.io/qData/) for more information about how to use `{qData}` as either a user or as a data contributor.
+Please see [the website](https://globalgov.github.io/qData/) for more information about how to use `{qData}`.
+
+## Contributing to the qVerse
+
+For more information for developers and data contributors to qPackages, please see `{qCreate}` [the website](https://globalgov.github.io/qCreate/).

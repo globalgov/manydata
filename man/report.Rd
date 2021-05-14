@@ -6,21 +6,26 @@
 \alias{data_contrast}
 \title{Set of data structure exploration functions for users}
 \usage{
-data_source(pkg, database = NULL, dataset = NULL)
+data_source(pkg, database = NULL, dataset = NULL, print = TRUE)
 
-data_contrast(pkg, database = NULL, dataset = NULL)
+data_contrast(pkg, database = NULL, dataset = NULL, print = TRUE)
 }
 \arguments{
-\item{pkg}{character string of the qPackage to report data on. Required
-input.}
+\item{pkg}{character string of the qPackage to report data on.
+Required input.}
 
-\item{database}{vector of character strings of the qPackage to report data a
-specific database in a qPackage. If NULL, report_data returns a summary
-of all databases in the qPackage. NULL by default.}
+\item{database}{vector of character strings of the qPackage to
+report data a specific database in a qPackage.
+If NULL, report_data returns a summary of all databases in the qPackage.
+NULL by default.}
 
 \item{dataset}{character string of the qPackage to report data on a specific
-dataset in a specific database of a qPackage. If NULL and database is
-specified, returns database level metadata. NULL by default.}
+dataset in a specific database of a qPackage.
+If NULL and database is specified, returns database level metadata.
+NULL by default.}
+
+\item{print}{should dataframe returned be printed to console?
+TRUE by default.}
 }
 \value{
 A dataframe with the data sources
@@ -36,11 +41,12 @@ aspects of a q Packages, databases and datasets.
 \code{data_source()} displays names of the database/datasets and
 source material of qPackage data.
 
-\code{data_contrast()} displays information about databases and datasets
-contained in them. Namely the number of unique ID's, the percentage of
-missing data, the number of observations, the number of variables, the
-minimum beginning date and the maximum ending date as well as the most direct
-URL to the original dataset.
+\code{data_contrast()} displays information about databases
+and datasets contained in them.
+Namely the number of unique ID's, the percentage of
+missing data, the number of observations, the number of variables,
+the minimum beginning date and the maximum ending date as well as
+the most direct URL to the original dataset.
 }
 \examples{
 data_source(pkg = "qStates", database = "states", dataset = "COW")

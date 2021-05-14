@@ -1,7 +1,7 @@
 Package: qData
 Title: An R Portal for Ensembled Global Governance Data
-Version: 0.3.5
-Date: 2021-02-22
+Version: 0.4.0
+Date: 2021-05-14
 Authors@R:
     c(person(given = "James",
              family = "Hollway",
@@ -24,16 +24,14 @@ Description: This is the core package for the qData ecosystem.
     It includes functions to help researchers work with and contribute to 
     event datasets on global governance.
 License: CC BY 4.0
-URL: https://github.com/globalgov/qDatr
-BugReports: https://github.com/globalgov/qDatr/issues
+URL: https://github.com/globalgov/qData
+BugReports: https://github.com/globalgov/qData/issues
 Depends:
     R (>= 2.10),
     tibble
 Imports:
     covr,
-    desc,
     dplyr,
-    english,
     lubridate,
     pkgdown,
     pointblank,
@@ -41,29 +39,27 @@ Imports:
     rlang,
     roxygen2,
     stringr,
-    textclean,
     usethis,
-    whisker,
-    fs,
-    anytime,
     jsonlite,
     remotes,
     httr,
-    qStates,
-    ggplot2
+    qStates
 Suggests:
     librarian,
     testthat,
+    anytime,
     mice,
-    xfun,
     withr,
     haven,
-    readr,
     readxl,
+    readr,
     knitr,
-    bibtex,
-    rorcid
-Remotes: globalgov/qStates
+    rmarkdown,
+    qEnviron,
+    bibtex
+Remotes:
+    globalgov/qStates,
+    globalgov/qEnviron
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
