@@ -19,7 +19,7 @@ A vector the length of the sum of \code{vect}
 and \code{pos}.
 }
 \description{
-Resets the century of (unlikely) future events
+Insert elements in different positions for vectors
 }
 \examples{
 interleave(1:5, c(2,4))

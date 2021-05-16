@@ -90,7 +90,7 @@ recollect <- function(x, collapse = "_") {
 
 #' Interleaving two vectors by position
 #'
-#' Resets the century of (unlikely) future events
+#' Insert elements in different positions for vectors  
 #' @param vect Main vector
 #' @param pos Positions to be inserted
 #' @param elems Elements to be inserted at those positions.
