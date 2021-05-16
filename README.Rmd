@@ -19,7 +19,7 @@ output: github_document
 
 ## Why qData?
 
-`{qData}` offers a way to access all of the tested data in the ecosystem in so-called 'qPackages',
+`{qData}` offers users a way to access all of the tested data in the ecosystem in so-called 'qPackages',
 and use this data in their analyses of global governance.
 A special advantage of such qdata is that it is not 'opinionated',
 in the sense of offering a single, supposedly authoritative version of global governance events,
