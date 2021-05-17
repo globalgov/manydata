@@ -92,12 +92,11 @@
 </h1></div>
 <!-- badges: start -->
 
-<p><a href="https://github.com/globalgov/qData">qData</a> is the central package in an ecosystem of packages aimed at collecting, connecting and correcting network data across issue-domains of global governance. It is a package both for users of this data as well as for data owners and contributors.</p>
+<p><a href="https://github.com/globalgov/qData">qData</a> is the central package in an ecosystem of packages aimed at collecting, connecting and correcting network data across issue-domains of global governance.</p>
 <div id="why-qdata" class="section level2">
 <h2 class="hasAnchor">
 <a href="#why-qdata" class="anchor"></a>Why qData?</h2>
-<p>For users, <a href="https://github.com/globalgov/qData">qData</a> offers a way to access all of the tested data in the ecosystem in so-called ‘qPackages’, and use this data in their analyses of global governance. A special advantage of such qdata is that it is not ‘opinionated’, in the sense of offering a single, supposedly authoritative version of global governance events, but instead holds many well-regarded datasets together in three-dimensional ‘datacubes’. The chief advantage of this for global governance researchers is that it enables a quick and easy way to check the robustness of their results to different formulations of the study population or concept specification. The ‘datacube’ structure is requiring specific coding system for the variables across the datasets. For more details on that, please see the <a href="https://globalgov.github.io/qData/articles/user.html">vignette</a>.</p>
-<p>For contributors, <a href="https://github.com/globalgov/qData">qData</a> provides the necessary tools to put their data in the hands of users. The package includes many functions to make this easier. It includes functions to help set up a qPackage, import their existing data, and export them in structures consistent with the rest of the data ecosystem. This facilitates the interoperability, contrast, and comparison of data. Specific coding system should be followed by the contributors. For more details on that, please see the <a href="https://globalgov.github.io/qData/articles/developer.html">vignette</a>.</p>
+<p><a href="https://github.com/globalgov/qData">qData</a> offers users a way to access all of the tested data in the ecosystem in so-called ‘qPackages’, and use this data in their analyses of global governance. A special advantage of such qdata is that it is not ‘opinionated’, in the sense of offering a single, supposedly authoritative version of global governance events, but instead holds many well-regarded datasets together in three-dimensional ‘datacubes’. The chief advantage of this for global governance researchers is that it enables a quick and easy way to check the robustness of their results to different formulations of the study population or concept specification. The ‘datacube’ structure is requiring specific coding system for the variables across the datasets. For more details on that, please see the <a href="https://globalgov.github.io/qData/articles/user.html">vignette</a>.</p>
 </div>
 <div id="downloading-and-installing-qdata" class="section level2">
 <h2 class="hasAnchor">
@@ -113,26 +112,36 @@
 <p><a href="https://github.com/globalgov/qData">qData</a> connects users to other packages that help fill global governance researchers’ data needs. The <code><a href="reference/get_packages.html">get_packages()</a></code> function can be used to discover which packages are currently available.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/globalgov/qData">qData</a></span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">## Warning: package 'tibble' was built under R version 4.0.4</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">## Warning: package 'tibble' was built under R version 4.0.5</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/get_packages.html">get_packages</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">## # A tibble: 3 x 6</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="co">##   name     full_name         </span></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="co">##   &lt;chr&gt;    &lt;chr&gt;             </span></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="co">## 1 qData    globalgov/qData   </span></span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="co">## 2 qEnviron globalgov/qEnviron</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="co">## 3 qStates  globalgov/qStates </span></span>
-<span id="cb5-7"><a href="#cb5-7"></a><span class="co">##   description                                             installed latest</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a><span class="co">##   &lt;chr&gt;                                                   &lt;chr&gt;     &lt;chr&gt; </span></span>
-<span id="cb5-9"><a href="#cb5-9"></a><span class="co">## 1 An R portal for ensembled global governance data        0.3.5     0.3.5 </span></span>
-<span id="cb5-10"><a href="#cb5-10"></a><span class="co">## 2 qPackage for ensembled data on environmental agreements 0.0.2     0.0.2 </span></span>
-<span id="cb5-11"><a href="#cb5-11"></a><span class="co">## 3 qPackage for ensembled data on sovereign states         0.0.3     0.0.3 </span></span>
-<span id="cb5-12"><a href="#cb5-12"></a><span class="co">##   updated   </span></span>
-<span id="cb5-13"><a href="#cb5-13"></a><span class="co">##   &lt;date&gt;    </span></span>
-<span id="cb5-14"><a href="#cb5-14"></a><span class="co">## 1 2021-03-24</span></span>
-<span id="cb5-15"><a href="#cb5-15"></a><span class="co">## 2 2021-02-22</span></span>
-<span id="cb5-16"><a href="#cb5-16"></a><span class="co">## 3 2021-02-22</span></span></code></pre></div>
-<p>Please see <a href="https://globalgov.github.io/qData/">the website</a> for more information about how to use <a href="https://github.com/globalgov/qData">qData</a> as either a user or as a data contributor.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">## Warning: All formats failed to parse. No formats found.</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="co">## # A tibble: 4 x 6</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="co">##   name     full_name         </span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="co">##   &lt;chr&gt;    &lt;chr&gt;             </span></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="co">## 1 qCreate  globalgov/qCreate </span></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="co">## 2 qData    globalgov/qData   </span></span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="co">## 3 qEnviron globalgov/qEnviron</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="co">## 4 qStates  globalgov/qStates </span></span>
+<span id="cb5-10"><a href="#cb5-10"></a><span class="co">##   description                                             installed latest    </span></span>
+<span id="cb5-11"><a href="#cb5-11"></a><span class="co">##   &lt;chr&gt;                                                   &lt;chr&gt;     &lt;chr&gt;     </span></span>
+<span id="cb5-12"><a href="#cb5-12"></a><span class="co">## 1 Support for creating new qPackages                      0.0.1     Unreleased</span></span>
+<span id="cb5-13"><a href="#cb5-13"></a><span class="co">## 2 An R portal for ensembled global governance data        0.4.0     0.3.5     </span></span>
+<span id="cb5-14"><a href="#cb5-14"></a><span class="co">## 3 qPackage for ensembled data on environmental agreements 0.0.2     0.0.2     </span></span>
+<span id="cb5-15"><a href="#cb5-15"></a><span class="co">## 4 qPackage for ensembled data on sovereign states         0.0.3     0.0.3     </span></span>
+<span id="cb5-16"><a href="#cb5-16"></a><span class="co">##   updated   </span></span>
+<span id="cb5-17"><a href="#cb5-17"></a><span class="co">##   &lt;date&gt;    </span></span>
+<span id="cb5-18"><a href="#cb5-18"></a><span class="co">## 1 NA        </span></span>
+<span id="cb5-19"><a href="#cb5-19"></a><span class="co">## 2 NA        </span></span>
+<span id="cb5-20"><a href="#cb5-20"></a><span class="co">## 3 NA        </span></span>
+<span id="cb5-21"><a href="#cb5-21"></a><span class="co">## 4 NA</span></span></code></pre></div>
+<p>Please see <a href="https://globalgov.github.io/qData/">the website</a> for more information about how to use <a href="https://github.com/globalgov/qData">qData</a>.</p>
+</div>
+<div id="contributing-to-the-qverse" class="section level2">
+<h2 class="hasAnchor">
+<a href="#contributing-to-the-qverse" class="anchor"></a>Contributing to the qVerse</h2>
+<p>For more information for developers and data contributors to qPackages, please see <code>{qCreate}</code> <a href="https://globalgov.github.io/qCreate/">the website</a>.</p>
 </div>
 </div>
   </div>
