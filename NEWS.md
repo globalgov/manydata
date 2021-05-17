@@ -1,6 +1,6 @@
 # qData 0.4.0
 
-# Package
+## Package
 
 * Separated `{qData}` into two packages, `{qData}` for users and `{qCreate}` for developers
   * Moved `setup_package()` and related functions to `{qCreate}`
@@ -8,13 +8,13 @@
   * Moved `export_data()` and related functions to `{qCreate}`
 * Moved `plot_releases()` to `{migraph}`
 
-# Connection
+## Connection
 
 * Closed #137 by making `data_contrast()` and `data_source()` return exportable objects
 
 # qData 0.3.5
 
-# Connect
+## Connect
 
 * Updated `get_packages()` function
   * Fixed bug with dates in `get_packages()` by changing dependencies to `{lubridate}`
@@ -23,12 +23,12 @@
 
 # qData 0.3.4
 
-# Package
+## Package
 
 * Fixed #128 by suppressing issues with warnings on pkgdown website
 * Updated contributor and user vignettes for new package changes
 
-# Collect
+## Collect
 
 * Updated `setup_package()` to make it more intuitive and precise for users
   * Closed #127 by updating the form in which author arguments are taken in `setup_package()`
@@ -40,13 +40,13 @@
   * Fixed #121 by allowing `add_author()` to treat multiple comments
 * Updated documentation for `setup_package()` and `add_author()`
 
-# Correct
+## Correct
 
 * Updated `standardise_dates()` to simplify function and testing
   * Closed #110 by simplifying helper functions and removing redundancy in `standardise_dates()`
   * Closed #108 by simplifying tests and removing redundancy for `standardise_dates()` 
 
-# Connect
+## Connect
 
 * Divided, updated and renamed `report_data()`  
   * Closed #131 by dividing `report_data()` into `data_source()` and `data_contrast()` functions
