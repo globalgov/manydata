@@ -1,0 +1,12 @@
+citHeader("To cite qData in publications use:")
+
+citEntry(
+  entry    = "Manual",
+  title    = "qData: An R Portal for Ensembled Global Governance Data",
+  author   = "James Hollway",
+  year     = "2021",
+  version  = "0.4.0",
+  url      = "https://github.com/globalgov/qData",
+  textVersion = paste("J. Hollway. qData: An R Portal for Ensembled Global Governance Data. 2021."
+  )
+)
