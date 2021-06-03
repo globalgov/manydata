@@ -41,10 +41,19 @@ concentrate <- function(.data,
   
   # Step 1: Join datasets by ID
   rows <- match.arg(rows)
+  if(rows == "any"){
     out <- purrr::reduce(.data, dplyr::full_join, by = key)
+  } else if(rows == "every"){
+    out <- purrr::reduce(.data, dplyr::inner_join, by = key)
+  } 
+  
   # Step 2: Drop any unwanted variables
   cols <- match.arg(cols)
   all_variables <- unlist(purrr::map(.data, names))
+  if(cols == "every"){
+    all_variables <- names(table(all_variables)[table(all_variables) == length(.data)])
+    out <- out %>% dplyr::select(all_of(key), starts_with(all_variables))
+  }
   
   # Step 3: Resolve conflicts
   resolve <- match.arg(resolve)

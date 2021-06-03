@@ -10,6 +10,11 @@ data3 <- dplyr::tibble(qID = c("NZL", "BRA", "CHF", "OTH"),
 test <- tibble::lst(a = data1, b = data2, c = data3)
 
 # expected output data
+data.con.con <- dplyr::tibble(qID = c("NZL", "BRA"), 
+                                date = c("1990-01-01","1990-01-02"))
+data.con.any <- dplyr::tibble(qID = c("NZL","BRA"), 
+                              date = c("1990-01-01","1990-01-02"),
+                              number = c(100,1000))
 data.13.any <- dplyr::tibble(qID = c("NZL","BRA","CHF","OTH"), 
                                 date = c("1990-01-01", "1990-01-02","1990-01-01:1990-01-31",NA),
                                 number = c(100,1000,10000,21))
@@ -21,6 +26,8 @@ test_that("pluck works", {
 })
 
 test_that("concentrate works", {
+  expect_equal(concentrate(test, "every", "every"), data.con.con)
+  expect_equal(concentrate(test, "every", "any"), data.con.any)
   expect_equal(concentrate(test[c(1,3)], "any", "any"), data.13.any)
   expect_equal(concentrate(test, "any"), data.13.any)
 })
