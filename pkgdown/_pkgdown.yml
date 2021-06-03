@@ -38,6 +38,8 @@ reference:
     contents:
       - get_packages
       - starts_with("data_")
+      - pluck
+      - concentrate
       - transmutate
       - consolidate
       - interleave
