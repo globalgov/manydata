@@ -1,4 +1,4 @@
-#' Concentrate database into a single dataset
+#' Consolidate database into a single dataset
 #' 
 #' This function collapses a set or database of (q)datasets
 #' into a single dataset with some combination of the
@@ -30,10 +30,10 @@
 #' @return A single tibble/data frame.
 #' @examples
 #' pluck(qStates::states, "COW")
-#' concentrate(qEnviron::agreements, "any", "any", "coalesce")
-#' concentrate(qEnviron::agreements, "every", "every", "coalesce")
+#' consolidate(qEnviron::agreements, "any", "any", "coalesce")
+#' consolidate(qEnviron::agreements, "every", "every", "coalesce")
 #' @export
-concentrate <- function(.data, 
+consolidate <- function(.data, 
                         rows = c("any","every"), 
                         cols = c("any","every"), 
                         resolve = "coalesce",

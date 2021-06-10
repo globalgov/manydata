@@ -25,9 +25,9 @@ test_that("pluck works", {
   expect_equal(pluck(test, "c"), data3)
 })
 
-test_that("concentrate works", {
-  expect_equal(concentrate(test, "every", "every"), data.con.con)
-  expect_equal(concentrate(test, "every", "any"), data.con.any)
-  expect_equal(concentrate(test[c(1,3)], "any", "any"), data.13.any)
-  expect_equal(concentrate(test, "any"), data.13.any)
+test_that("consolidate works", {
+  expect_equal(consolidate(test, "every", "every"), data.con.con)
+  expect_equal(consolidate(test, "every", "any"), data.con.any)
+  expect_equal(consolidate(test[c(1,3)], "any", "any"), data.13.any)
+  expect_equal(consolidate(test, "any"), data.13.any)
 })
