@@ -126,9 +126,9 @@ interleave <- function(vect, pos, elems = NA) {
 #' but on observations rather than variables.
 #' @source https://stackoverflow.com/questions/40515180/dplyr-how-to-find-the-first-non-missing-string-by-groups
 #' @examples
-#' dplyr::summarise(mtcars, consolidate(mtcars))
-#' consolidate(mtcars$wt)
+#' dplyr::summarise(mtcars, coalesce_rows(mtcars))
+#' coalesce_rows(mtcars$wt)
 #' @export
-consolidate <- function(x) {
+coalesce_rows <- function(x) {
   x[which(!is.na(x))[1]]
 }
