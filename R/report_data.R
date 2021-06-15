@@ -13,8 +13,6 @@
 #' dataset in a specific database of a qPackage.
 #' If NULL and database is specified, returns database level metadata.
 #' NULL by default.
-#' @param print should dataframe returned be printed to console?
-#' TRUE by default.
 NULL
 
 #' @name report
@@ -26,7 +24,7 @@ NULL
 #' @examples
 #' data_source(pkg = "qStates", database = "states", dataset = "COW")
 #' @export
-data_source <- function(pkg, database = NULL, dataset = NULL, print = TRUE) {
+data_source <- function(pkg, database = NULL, dataset = NULL) {
   pkg_path <- find.package(pkg)
   data_path <- file.path(pkg_path, "data")
   #selcts all dbs
@@ -48,17 +46,13 @@ data_source <- function(pkg, database = NULL, dataset = NULL, print = TRUE) {
         tmp <- get(paste0("tabl", i))
         colnames(tmp) <- "Reference"
         assign(paste0("tabl", i), tmp)
-        # Console print
-        if (print == TRUE){
-          print(paste0("References for the ", stringr::str_to_title(database),
-                     " database", sep = ""))
-          print(get(paste0("tabl", i)))
-        }
         #List output
         outlist[i] <- list(get(paste0("tabl", i)))
       }
       names(outlist) <- names(dbs)
-      invisible(outlist)
+      # Redefine outlist class to qReport
+      class(outlist) <- 'qReport'
+      return(outlist)
     } else {
       # Database and dataset specified
       tmp_env <- new.env()
@@ -68,16 +62,13 @@ data_source <- function(pkg, database = NULL, dataset = NULL, print = TRUE) {
       tabl <- data.frame(Reference = paste0(utils::capture.output(
         print(attr(ds, which = "source_bib"))), sep = "", collapse = "")
       )
-      tabl2 <- tabl %>%
-        t()
-      colnames(tabl2) <- dataset
-      # Console print
-      if (print == TRUE){
-        print(paste0("Reference for the ", dataset,
-                   " dataset in the ", stringr::str_to_title(database),
-                   " database", sep = ""))
-      }
-      tabl2
+      tmp <- as.data.frame(tabl)
+      colnames(tmp) <- c("Reference")
+      outlist <- list(tmp)
+      names(outlist) <- dataset
+      # Redefine tabl2 class to qReport
+      class(outlist) <- 'qReport'
+      return(outlist)
     }
   } else {
     tmp_env <- new.env()
@@ -96,19 +87,12 @@ data_source <- function(pkg, database = NULL, dataset = NULL, print = TRUE) {
       #Clear attr from object for a prettier print to console
       attr(tmp, "names") <- NULL
       assign(paste0("tabl", i), tmp)
-      # Console print
-      if (print == TRUE){
-      print(paste0("References for the ",
-                   stringr::str_to_title(ls(tmp_env)[i]),
-                   " database", sep = ""))
-      print(get(paste0("tabl", i)))
-      }
       #Append to list output
       outlist[i] <- list(get(paste0("tabl", i)))
     }
-    # Return list
-    names(outlist) <- names(dbs)
-    invisible(outlist)
+    # Redefine outlist class to qReport
+    class(outlist) <- 'qReport'
+    return(outlist)
   }
 }
 
@@ -126,7 +110,7 @@ data_source <- function(pkg, database = NULL, dataset = NULL, print = TRUE) {
 #' @examples
 #' data_contrast(pkg = "qStates", database = "states", dataset = "COW")
 #' @export
-data_contrast <- function(pkg, database = NULL, dataset = NULL, print = TRUE) {
+data_contrast <- function(pkg, database = NULL, dataset = NULL) {
   # Helper function that defines a new qReport class to print when not assigned
   # only.
   print.qReport<- function(qReport) {

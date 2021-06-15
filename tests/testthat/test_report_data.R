@@ -1,39 +1,35 @@
 test_that("data_source() returns the correct output format at the package
           level", {
-    expect_type(data_source(pkg = "qStates", print = FALSE), "list")
+    expect_type(data_source(pkg = "qStates"), "list")
           })
 
 test_that("data_source() returns the correct output format at the database
           level", {
   expect_type(data_source(pkg = "qStates",
-                          database = "states",
-                          print = FALSE), "list")
+                          database = "states"), "list")
           })
 
 test_that("data_source() returns the correct output format at the dataset
           level", {
   expect_type(data_source(pkg = "qStates",
                           database = "states",
-                          dataset = "GW",
-                          print = FALSE), "character")
+                          dataset = "GW"), "list")
           })
 
 test_that("data_contrast() returns the correct output format at the package
           level", {
-  expect_type(data_contrast(pkg = "qStates", print = FALSE), "list")
+  expect_type(data_contrast(pkg = "qStates"), "list")
 })
 
 test_that("data_contrast() returns the correct output format at the database
           level", {
   expect_type(data_contrast(pkg = "qStates",
-                            database = "states",
-                            print = FALSE), "list")
+                            database = "states"), "list")
 })
 
 test_that("data_contrast() returns the correct output format at the dataset
           level", {
   expect_type(data_contrast(pkg = "qStates",
                             database = "states",
-                            dataset = "GW",
-                            print = FALSE), "list")
+                            dataset = "GW"), "list")
 })

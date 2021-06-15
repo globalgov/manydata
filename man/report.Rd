@@ -6,9 +6,9 @@
 \alias{data_contrast}
 \title{Set of data structure exploration functions for users}
 \usage{
-data_source(pkg, database = NULL, dataset = NULL, print = TRUE)
+data_source(pkg, database = NULL, dataset = NULL)
 
-data_contrast(pkg, database = NULL, dataset = NULL, print = TRUE)
+data_contrast(pkg, database = NULL, dataset = NULL)
 }
 \arguments{
 \item{pkg}{character string of the qPackage to report data on.
@@ -23,14 +23,12 @@ NULL by default.}
 dataset in a specific database of a qPackage.
 If NULL and database is specified, returns database level metadata.
 NULL by default.}
-
-\item{print}{should dataframe returned be printed to console?
-TRUE by default.}
 }
 \value{
 A dataframe with the data sources
 
-A dataframe with the data report
+A list with the desired metadata to compare various datasets in the
+qVerse.
 }
 \description{
 The report family of functions allows users
