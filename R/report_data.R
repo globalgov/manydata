@@ -121,11 +121,18 @@ data_source <- function(pkg, database = NULL, dataset = NULL, print = TRUE) {
 #' the most direct URL to the original dataset.
 #' @importFrom purrr map
 #' @importFrom stringr str_to_title
-#' @return A dataframe with the data report
+#' @return A list with the desired metadata to compare various datasets in the
+#' qVerse.
 #' @examples
 #' data_contrast(pkg = "qStates", database = "states", dataset = "COW")
 #' @export
 data_contrast <- function(pkg, database = NULL, dataset = NULL, print = TRUE) {
+  # Helper function that defines a new qReport class to print when not assigned
+  # only.
+  print.qReport<- function(qReport) {
+    print(qReport[1:length(qReport)])
+  }
+  
   pkg_path <- find.package(pkg)
   data_path <- file.path(pkg_path, "data")
   pkg_dbs <- unname(unlist(readRDS(file.path(data_path, "Rdata.rds"))))
@@ -161,19 +168,14 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL, print = TRUE) {
         colnames(tmp) <- c("Unique ID", "Missing Data", "Rows",
                            "Columns", "Beg", "End", "URL")
         assign(paste0("tabl", i), tmp)
-        #Print to console
-        if (print == TRUE){
-          print(paste0(stringr::str_to_title(database[i]),
-                       " database", sep = ""))
-          print(get(paste0("tabl", i))) 
-        }
         # Append objects to outlist
         outlist[i] <- list(get(paste0("tabl", i)))
       }
       # Name elements in list
       names(outlist) <- database
-      # Quiet return
-      invisible(outlist)
+      # Redefine outlist class to qReport
+      class(outlist) <- 'qReport'
+      return(outlist)
     } else {
       # Both dataset and database specified
       tmp_env <- new.env()
@@ -195,15 +197,14 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL, print = TRUE) {
                                   max(ds$End, na.rm = TRUE), NA),
                            origin = "1970-01-01")),
                          URL = attr(ds, which = "source_URL"))
-      tabl2 <- as.data.frame(t(tabl))
-      colnames(tabl2) <- dataset
-      # Print to console
-      if (print == TRUE){
-        print(paste0(dataset, " dataset from the ",
-                     stringr::str_to_title(database), " database", sep = ""))
-        print(tabl2)
-      }
-      tabl2
+      tmp <- as.data.frame(tabl)
+      colnames(tmp) <- c("Unique ID", "Missing Data", "Rows",
+                         "Columns", "Beg", "End", "URL")
+      outlist <- list(tmp)
+      names(outlist) <- dataset
+      # Redefine tabl2 class to qReport
+      class(outlist) <- 'qReport'
+      return(outlist)
     }
   } else {
     # Only package specified, returns package level info
@@ -233,19 +234,14 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL, print = TRUE) {
       colnames(tmp) <- c("Unique ID", "Missing Data", "Rows",
                          "Columns", "Beg", "End", "URL")
       assign(paste0("tabl", i), tmp)
-      # Print to console
-      if (print == TRUE){
-        print(paste0(stringr::str_to_title(ls(tmp_env)[i]),
-                     " database", sep = ""))
-        print(get(paste0("tabl", i))) 
-      }
       #Append to outlist
       outlist[i] <- list(get(paste0("tabl", i)))
     }
     # Name elements in list
     names(outlist) <- pkg_dbs
-    #Quiet return
-    invisible(outlist)
+    # Redefine outlist class to qReport
+    class(outlist) <- 'qReport'
+    return(outlist)
   }
  }
 
@@ -265,5 +261,4 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL, print = TRUE) {
 #'   data_path <- file.path(pkg_path, "data")
 #'   #selcts all dbs
 #'   pkg_dbs <- unname(unlist(readRDS(file.path(data_path, "Rdata.rds"))))
-#'
 #' }
