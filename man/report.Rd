@@ -17,12 +17,14 @@ Required input.}
 \item{database}{vector of character strings of the qPackage to
 report data a specific database in a qPackage.
 If NULL, report_data returns a summary of all databases in the qPackage.
-NULL by default.}
+NULL by default for \code{data_source()} and \code{data_contrast()}. To be specified
+for \code{data_evolution()}.}
 
 \item{dataset}{character string of the qPackage to report data on a specific
 dataset in a specific database of a qPackage.
 If NULL and database is specified, returns database level metadata.
-NULL by default.}
+NULL by default for \code{data_source()} and \code{data_contrast()}. To be specified
+for \code{data_evolution()}.}
 }
 \value{
 A dataframe with the data sources
@@ -33,7 +35,7 @@ qVerse.
 \description{
 The report family of functions allows users
 to quickly get information about and compare several
-aspects of a q Packages, databases and datasets.
+aspects of a qPackage's databases and datasets.
 }
 \details{
 \code{data_source()} displays names of the database/datasets and
