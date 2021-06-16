@@ -192,14 +192,14 @@ The `resolve()` family of functions contains the following functions.
 Let us now consider the following example:
 
 ```{r}
-data <- dplyr::tibble(ID = c("CHE", "FRA", "GER"),
-                      Name = c("Switzerland", "France", "Germany"),
-                      Date = c("1291-08-01", "1815-01-01:1815-12-31", NA))
-data
-# We now apply resolve_mean to the date vector to make an informed choice about
-# the uncertainty in the original dataset.
-data$Date <- resolve_mean(data$Date)
-data
+# data <- dplyr::tibble(ID = c("CHE", "FRA", "GER"),
+#                       Name = c("Switzerland", "France", "Germany"),
+#                       Date = c("1291-08-01", "1815-01-01:1815-12-31", NA))
+# data
+# # We now apply resolve_mean to the date vector to make an informed choice about
+# # the uncertainty in the original dataset.
+# data$Date <- resolve_mean(data$Date)
+# data
 ```
 
 ### Collapse data
@@ -225,18 +225,18 @@ quick visual refresher on these methods read
 following examples to illustrate the functions.
 
 ```{r}
-# Select a dataset in a database
-selected <- collapse_select(states, "COW")
-selected
-# Full join an entire database
-COWISDfull <- collapse_full(list(states$COW, states$ISD), "ID")
-COWISDfull
-# Inner join an entire database
-COWISDinner <- collapse_inner(list(states$COW, states$ISD), "ID")
-COWISDinner
-# Left join an entire database
-COWISDleft <- collapse_left(list(states$COW, states$ISD), "ID")
-COWISDleft
+# # Select a dataset in a database
+# selected <- collapse_select(states, "COW")
+# selected
+# # Full join an entire database
+# COWISDfull <- collapse_full(list(states$COW, states$ISD), "ID")
+# COWISDfull
+# # Inner join an entire database
+# COWISDinner <- collapse_inner(list(states$COW, states$ISD), "ID")
+# COWISDinner
+# # Left join an entire database
+# COWISDleft <- collapse_left(list(states$COW, states$ISD), "ID")
+# COWISDleft
 ```
 
 ### A practical example of inference sensitivity to data sources:
