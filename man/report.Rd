@@ -48,5 +48,5 @@ the most direct URL to the original dataset.
 }
 \examples{
 data_source(pkg = "qStates", database = "states", dataset = "COW")
-data_contrast(pkg = "qStates", database = "states", dataset = "COW")
+data_contrast(pkg = "qStates", database = "states")
 }

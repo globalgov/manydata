@@ -50,8 +50,8 @@ data_source <- function(pkg, database = NULL, dataset = NULL) {
         outlist[i] <- list(get(paste0("tabl", i)))
       }
       names(outlist) <- names(dbs)
-      # Redefine outlist class to qReport
-      class(outlist) <- 'qReport'
+      # Redefine outlist class to list
+      class(outlist) <- "listof"
       return(outlist)
     } else {
       # Database and dataset specified
@@ -66,8 +66,8 @@ data_source <- function(pkg, database = NULL, dataset = NULL) {
       colnames(tmp) <- c("Reference")
       outlist <- list(tmp)
       names(outlist) <- dataset
-      # Redefine tabl2 class to qReport
-      class(outlist) <- 'qReport'
+      # Redefine tabl2 class to list
+      class(outlist) <- "listof"
       return(outlist)
     }
   } else {
@@ -90,8 +90,8 @@ data_source <- function(pkg, database = NULL, dataset = NULL) {
       #Append to list output
       outlist[i] <- list(get(paste0("tabl", i)))
     }
-    # Redefine outlist class to qReport
-    class(outlist) <- 'qReport'
+    # Redefine outlist class to list
+    class(outlist) <- "listof"
     return(outlist)
   }
 }
@@ -108,14 +108,9 @@ data_source <- function(pkg, database = NULL, dataset = NULL) {
 #' @return A list with the desired metadata to compare various datasets in the
 #' qVerse.
 #' @examples
-#' data_contrast(pkg = "qStates", database = "states", dataset = "COW")
+#' data_contrast(pkg = "qStates", database = "states")
 #' @export
 data_contrast <- function(pkg, database = NULL, dataset = NULL) {
-  # Helper function that defines a new qReport class to print when not assigned
-  # only.
-  print.qReport<- function(qReport) {
-    print(qReport[1:length(qReport)])
-  }
   
   pkg_path <- find.package(pkg)
   data_path <- file.path(pkg_path, "data")
@@ -157,8 +152,8 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
       }
       # Name elements in list
       names(outlist) <- database
-      # Redefine outlist class to qReport
-      class(outlist) <- 'qReport'
+      # Redefine outlist class to list
+      class(outlist) <- "listof"
       return(outlist)
     } else {
       # Both dataset and database specified
@@ -186,8 +181,8 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
                          "Columns", "Beg", "End", "URL")
       outlist <- list(tmp)
       names(outlist) <- dataset
-      # Redefine tabl2 class to qReport
-      class(outlist) <- 'qReport'
+      # Redefine tabl2 class to list
+      class (outlist) <- "listof"
       return(outlist)
     }
   } else {
@@ -223,8 +218,8 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
     }
     # Name elements in list
     names(outlist) <- pkg_dbs
-    # Redefine outlist class to qReport
-    class(outlist) <- 'qReport'
+    # Redefine outlist class to list
+    class(outlist) <- "listof"
     return(outlist)
   }
  }
