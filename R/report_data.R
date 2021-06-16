@@ -66,7 +66,7 @@ data_source <- function(pkg, database = NULL, dataset = NULL) {
       colnames(tmp) <- c("Reference")
       outlist <- list(tmp)
       names(outlist) <- dataset
-      # Redefine tabl2 class to list
+      # Redefine outlist class to list
       class(outlist) <- "listof"
       return(outlist)
     }
@@ -181,7 +181,7 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
                          "Columns", "Beg", "End", "URL")
       outlist <- list(tmp)
       names(outlist) <- dataset
-      # Redefine tabl2 class to list
+      # Redefine outlist class to list
       class (outlist) <- "listof"
       return(outlist)
     }
