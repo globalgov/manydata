@@ -7,12 +7,14 @@
 #' Required input.
 #' @param database vector of character strings of the qPackage to
 #' report data a specific database in a qPackage.
-#' If NULL, report_data returns a summary of all databases in the qPackage.
-#' NULL by default.
+#' If NULL, the function returns a summary of all databases in the qPackage.
+#' NULL by default for `data_source()` and `data_contrast()`. Required for
+#' `data_evolution()`.
 #' @param dataset character string of the qPackage to report data on a specific
 #' dataset in a specific database of a qPackage.
 #' If NULL and database is specified, returns database level metadata.
-#' NULL by default.
+#' NULL by default for `data_source()` and `data_contrast()`. Required for
+#' `data_evolution()`.
 NULL
 
 #' @name report
@@ -222,22 +224,45 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
     class(outlist) <- "listof"
     return(outlist)
   }
- }
+}
 
-#'  This third function will display information about the process that the data
-#' # went through to be refined and included in our qPackage.
-#'
-#' #' Reports on qPackage data
-#' #'
-#' #' Allows users to see the changes to the original coding that was performed
-#' #' by the preparation script.
-#' #' @return A dataframe with the data report
-#' #' @examples
-#' #' data_evolution(pkg = "qStates", database = "states", dataset = "COW")
-#' #' @export
-#' data_evolution <- function(pkg, database, dataset) {
-#'   pkg_path <- find.package(pkg)
-#'   data_path <- file.path(pkg_path, "data")
-#'   #selcts all dbs
-#'   pkg_dbs <- unname(unlist(readRDS(file.path(data_path, "Rdata.rds"))))
-#' }
+pkg <- "qStates"
+database <- "states"
+dataset <- "COW"
+
+#' @name report
+#' @details `data_evolution()` Allows users to see the changes to the original
+#' coding that was performed by the preparation script. Requires an individual
+#' dataset to be specified.
+#' @return A list of elements highlighting metrics tracking the changes between
+#' the original object and the processed object.
+#' @examples
+#' data_evolution(pkg = "qStates", database = "states", dataset = "COW")
+#' @export
+data_evolution <- function(pkg, database, dataset) {
+  # Loading things in
+  pkg_path <- find.package(pkg)
+  data_path <- file.path(pkg_path, "data")
+  pkg_dbs <- unname(unlist(readRDS(file.path(data_path, "Rdata.rds"))))
+  tmp_env <- new.env()
+  lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
+  db <- get(database, envir = tmp_env)
+  ds <- db[[dataset]]
+  procnames <- colnames(ds)
+  # Getting the original metadata
+  orig <- attr(ds, which = "metadata_orig" , exact = TRUE)
+  names(orig) <- c("ColNames", "Rows", "Columns", "Missing Data")
+  # Getting the processed metadata
+  proc <- as.list(qData::data_contrast(pkg = pkg,
+                               database = database,
+                               dataset = dataset)[[1]])
+  proc[["ColNames"]] <- procnames
+  proc <- list(proc[["ColNames"]], proc[["Rows"]],
+               proc[["Columns"]], proc[["Missing Data"]])
+  names(proc) <- c("ColNames", "Rows", "Columns", "Missing Data")
+  # Building the output
+  outlist <- list("Original" = orig, "Processed" = proc)
+  class(outlist) <- "listof"
+  outlist
+  #ToDo: Pretty print method.
+}

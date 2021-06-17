@@ -3,6 +3,7 @@
 export(coalesce_rows)
 export(consolidate)
 export(data_contrast)
+export(data_evolution)
 export(data_source)
 export(get_packages)
 export(interleave)

@@ -4,11 +4,14 @@
 \alias{report}
 \alias{data_source}
 \alias{data_contrast}
+\alias{data_evolution}
 \title{Set of data structure exploration functions for users}
 \usage{
 data_source(pkg, database = NULL, dataset = NULL)
 
 data_contrast(pkg, database = NULL, dataset = NULL)
+
+data_evolution(pkg, database, dataset)
 }
 \arguments{
 \item{pkg}{character string of the qPackage to report data on.
@@ -16,26 +19,29 @@ Required input.}
 
 \item{database}{vector of character strings of the qPackage to
 report data a specific database in a qPackage.
-If NULL, report_data returns a summary of all databases in the qPackage.
-NULL by default for \code{data_source()} and \code{data_contrast()}. To be specified
-for \code{data_evolution()}.}
+If NULL, the function returns a summary of all databases in the qPackage.
+NULL by default for \code{data_source()} and \code{data_contrast()}. Required for
+\code{data_evolution()}.}
 
 \item{dataset}{character string of the qPackage to report data on a specific
 dataset in a specific database of a qPackage.
 If NULL and database is specified, returns database level metadata.
-NULL by default for \code{data_source()} and \code{data_contrast()}. To be specified
-for \code{data_evolution()}.}
+NULL by default for \code{data_source()} and \code{data_contrast()}. Required for
+\code{data_evolution()}.}
 }
 \value{
 A dataframe with the data sources
 
 A list with the desired metadata to compare various datasets in the
 qVerse.
+
+A list of elements highlighting metrics tracking the changes between
+the original object and the processed object.
 }
 \description{
 The report family of functions allows users
 to quickly get information about and compare several
-aspects of a qPackage's databases and datasets.
+aspects of a q Packages, databases and datasets.
 }
 \details{
 \code{data_source()} displays names of the database/datasets and
@@ -47,8 +53,13 @@ Namely the number of unique ID's, the percentage of
 missing data, the number of observations, the number of variables,
 the minimum beginning date and the maximum ending date as well as
 the most direct URL to the original dataset.
+
+\code{data_evolution()} Allows users to see the changes to the original
+coding that was performed by the preparation script. Requires an individual
+dataset to be specified.
 }
 \examples{
 data_source(pkg = "qStates", database = "states", dataset = "COW")
 data_contrast(pkg = "qStates", database = "states")
+data_evolution(pkg = "qStates", database = "states", dataset = "COW")
 }
