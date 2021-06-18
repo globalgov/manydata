@@ -55,8 +55,8 @@ the minimum beginning date and the maximum ending date as well as
 the most direct URL to the original dataset.
 
 \code{data_evolution()} Allows users to see the changes to the original
-coding that was performed by the preparation script. Requires an individual
-dataset to be specified.
+coding that was performed by the preparation script.
+Requires an individual dataset to be specified.
 }
 \examples{
 data_source(pkg = "qStates", database = "states", dataset = "COW")

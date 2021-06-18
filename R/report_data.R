@@ -232,8 +232,8 @@ dataset <- "COW"
 
 #' @name report
 #' @details `data_evolution()` Allows users to see the changes to the original
-#' coding that was performed by the preparation script. Requires an individual
-#' dataset to be specified.
+#' coding that was performed by the preparation script.
+#' Requires an individual dataset to be specified.
 #' @return A list of elements highlighting metrics tracking the changes between
 #' the original object and the processed object.
 #' @examples
@@ -263,6 +263,15 @@ data_evolution <- function(pkg, database, dataset) {
   # Building the output
   outlist <- list("Original" = orig, "Processed" = proc)
   class(outlist) <- "listof"
+  # ToDo: Pretty print method.
+  # Not a great solution, but works and does not print if assigned.
+  # Some adjustments might be warranted.
+  outlist <- purrr::map(outlist, as.character)
+  outlist <- as.data.frame(outlist)
+  colnames(outlist) <- c(paste("Original", dataset), paste("Corrected", dataset))
+  row.names(outlist) <- c("ColNames", "Rows", "Columns", "Missing Data")
+  outlist <- t(outlist)
+  outlist <- data.frame(outlist)
+  outlist$ColNames <- paste0(outlist$ColNames)
   outlist
-  #ToDo: Pretty print method.
 }
