@@ -42,8 +42,7 @@ Imports:
     usethis,
     jsonlite,
     remotes,
-    httr,
-    qCreate
+    httr
 Suggests:
     librarian,
     testthat,
@@ -58,7 +57,6 @@ Suggests:
     qStates,
     bibtex
 Remotes:
-    globalgov/qCreate
     globalgov/qStates
 Encoding: UTF-8
 LazyData: true
