@@ -43,7 +43,6 @@ Imports:
     jsonlite,
     remotes,
     httr,
-    qStates,
     qCreate
 Suggests:
     librarian,
@@ -56,12 +55,11 @@ Suggests:
     readr,
     knitr,
     rmarkdown,
-    qEnviron,
+    qStates,
     bibtex
 Remotes:
-    globalgov/qStates,
-    globalgov/qEnviron,
     globalgov/qCreate
+    globalgov/qStates
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
