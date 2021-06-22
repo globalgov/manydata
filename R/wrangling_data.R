@@ -88,34 +88,6 @@ recollect <- function(x, collapse = "_") {
   na_if(paste(unique(na.omit(x)), collapse = collapse), "")
 }
 
-#' Interleaving two vectors by position
-#'
-#' Insert elements in different positions for vectors  
-#' @param vect Main vector
-#' @param pos Positions to be inserted
-#' @param elems Elements to be inserted at those positions.
-#' By default, these are NAs (missing values).
-#' @return A vector the length of the sum of \code{vect}
-#' and \code{pos}.
-#' @examples
-#' interleave(1:5, c(2,4))
-#' @export
-interleave <- function(vect, pos, elems = NA) {
-
-  l <- length(vect)
-  j <- 0
-  for (i in 1:length(pos)) {
-    if (pos[i] == 1)
-      vect <- c(elems[j + 1], vect)
-    else if (pos[i] == length(vect) + 1)
-      vect <- c(vect, elems[j + 1])
-    else
-      vect <- c(vect[1:(pos[i] - 1)], elems[j + 1], vect[(pos[i]):length(vect)])
-    j <- j + 1
-  }
-  return(vect)
-}
-
 #' Get first non-missing
 #'
 #' For use with dplyr::summarise, for example
