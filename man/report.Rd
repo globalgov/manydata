@@ -59,7 +59,16 @@ coding that was performed by the preparation script.
 Requires an individual dataset to be specified.
 }
 \examples{
+\dontrun{
+get_packages("qStates")
 data_source(pkg = "qStates", database = "states", dataset = "COW")
+}
+\dontrun{
+get_packages("qStates")
 data_contrast(pkg = "qStates", database = "states")
+}
+\dontrun{
+get_packages("qStates")
 data_evolution(pkg = "qStates", database = "states", dataset = "COW")
+}
 }
