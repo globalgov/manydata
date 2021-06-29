@@ -24,7 +24,10 @@ NULL
 #' @importFrom stringr str_to_title
 #' @return A dataframe with the data sources
 #' @examples
+#' \dontrun{
+#' get_packages("qStates")
 #' data_source(pkg = "qStates", database = "states", dataset = "COW")
+#' }
 #' @export
 data_source <- function(pkg, database = NULL, dataset = NULL) {
   pkg_path <- find.package(pkg)
@@ -110,7 +113,10 @@ data_source <- function(pkg, database = NULL, dataset = NULL) {
 #' @return A list with the desired metadata to compare various datasets in the
 #' qVerse.
 #' @examples
+#' \dontrun{
+#' get_packages("qStates")
 #' data_contrast(pkg = "qStates", database = "states")
+#' }
 #' @export
 data_contrast <- function(pkg, database = NULL, dataset = NULL) {
   
@@ -237,7 +243,10 @@ dataset <- "COW"
 #' @return A list of elements highlighting metrics tracking the changes between
 #' the original object and the processed object.
 #' @examples
+#' \dontrun{
+#' get_packages("qStates")
 #' data_evolution(pkg = "qStates", database = "states", dataset = "COW")
+#' }
 #' @export
 data_evolution <- function(pkg, database, dataset) {
   # Loading things in
