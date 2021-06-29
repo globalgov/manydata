@@ -29,9 +29,13 @@
 #' @param key An ID column to collapse by. By default "qID".
 #' @return A single tibble/data frame.
 #' @examples
+#' \dontrun{
+#' get_packages("qStates")
 #' pluck(qStates::states, "COW")
+#' get_packages("qEnviron")
 #' consolidate(qEnviron::agreements, "any", "any", "coalesce")
 #' consolidate(qEnviron::agreements, "every", "every", "coalesce")
+#' }
 #' @export
 consolidate <- function(.data, 
                         rows = c("any","every"), 
