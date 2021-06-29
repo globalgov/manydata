@@ -137,19 +137,26 @@ get_packages <- function(pkg) {
   if (!missing(pkg)) {
     if (stringr::str_detect(pkg, "/")) {
       remotes::install_github(pkg)
+      pkg <- strsplit(pkg, "/")[[1]][2]
     } else if (stringr::str_detect(pkg, "^[:digit:]{1}$")) {
-      if (pkg == 2) {
-      remotes::install_github("globalgov/qEnviron")
+      if (pkg == 1) {
+        pkg <- "qCreate"
+        remotes::install_github(pkg)
       }
       if (pkg == 3) {
+        pkg <- "qEnviron"
+        remotes::install_github(pkg)
+      }
+      if (pkg == 4) {
+        pkg <- "qStates"
         remotes::install_github("globalgov/qStates")
-      } else if (!pkg == 2 & 3) {
+      } else if (pkg > 4) {
         stop("Package number not found, please type package name")
       }
     } else {
-      pkg <- paste0("globalgov/", pkg)
-      remotes::install_github(pkg)
+      remotes::install_github(paste0("globalgov/", pkg))
     }
+    library(pkg, character.only = TRUE)
   }
 
 }
