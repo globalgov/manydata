@@ -173,8 +173,17 @@ expand <- function(x) UseMethod("expand")
 #' @export
 expand.messydt <- function(x){
   
+  x <- remove_qualifiers(x)
+  
   
   x
+}
+
+remove_qualifiers <- function(dates){
+  dates <- stringr::str_replace_all(dates, "\\?", "")
+  dates <- stringr::str_replace_all(dates, "\\~", "")
+  dates <- stringr::str_replace_all(dates, "\\%", "")
+  dates
 }
 
 
