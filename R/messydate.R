@@ -48,3 +48,8 @@ as_messydate.POSIXlt <- function(x){
   new_messydate(x)
 }
 
+
+#' @export
+print.messydt <- function(x){
+  str(x)
+}
