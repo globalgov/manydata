@@ -212,6 +212,49 @@ expand_ranges <- function(dates){
   dates
 }
 
+#' @export
+min.messydt <- function(..., na.rm = TRUE){
+  x <- list(...)
+  y <- expand(x[[1]])
+  y <- sapply(y, function(x) as.character(min(x, na.rm = na.rm)))
+  y
+}
+
+#' @export
+max.messydt <- function(..., na.rm = TRUE){
+  x <- list(...)
+  y <- expand(x[[1]])
+  y <- sapply(y, function(x) as.character(max(x, na.rm = na.rm)))
+  y
+}
+
+#' @export
+max.messydt <- function(..., na.rm = TRUE){
+  x <- list(...)
+  y <- expand(x[[1]])
+  y <- sapply(y, function(x) as.character(max(x, na.rm = na.rm)))
+  y
+}
+
+#' @export
+median.messydt <- function(..., na.rm = TRUE){
+  x <- list(...)
+  y <- expand(x[[1]])
+  y <- sapply(y, function(x) as.character(median(x, na.rm = na.rm)))
+  y
+}
+
+#' @export
+mean.messydt <- function(..., na.rm = TRUE){
+  x <- list(...)
+  y <- expand(x[[1]])
+  y <- sapply(y, function(x){
+    if(length(x)>1) x <- as.character(mean(x, na.rm = na.rm))
+    x
+  }) 
+  y
+}
+
 
 #' @export
 print.messydt <- function(x){
