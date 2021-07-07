@@ -176,6 +176,8 @@ expand.messydt <- function(x){
   x <- remove_qualifiers(x)
   
   x <- expand_unspecified(x)
+  # x <- expand_sets(x)
+  x <- expand_ranges(x)
   
   x
 }
@@ -197,6 +199,16 @@ expand_unspecified <- function(dates){
   dates <- stringr::str_replace_all(dates, "^([:digit:]{4})-06$", "\\1-06-01..\\1-06-30")
   dates <- stringr::str_replace_all(dates, "^([:digit:]{4})-11$", "\\1-11-01..\\1-11-30")
   dates <- stringr::str_replace_all(dates, "^([:digit:]{4})-([:digit:]{2})$", "\\1-\\2-01..\\1-\\2-31")
+  dates
+}
+
+expand_ranges <- function(dates){
+  # dates <- stringr::str_replace_all(dates, "\\.\\.", ":")
+  dates <- stringr::str_split(dates, "\\.\\.")
+  dates <- lapply(dates, function(x){
+    if(length(x)==2) x <- seq(as.Date(x[1]), as.Date(x[2]), by = 'days')
+    x
+  })
   dates
 }
 
