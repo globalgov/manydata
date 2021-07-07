@@ -138,11 +138,33 @@ standardise_unspecifieds <- function(dates){
   dates
 }
 
+standardise_ranges <- function(dates){
+  dates <- stringr::str_replace_all(dates, "_", "..")
+  dates <- stringr::str_replace_all(dates, ":", "..")
+  dates
+}
 
 remove_imprecision <- function(dates){
   dates <- stringr::str_replace_all(dates, "-XX$", "")
   dates <- stringr::str_replace_all(dates, "-XX$", "")
   dates
+}
+
+standardise_date_input <- function(dates) {
+  
+  as_bc_dates <- function(dates) {
+    dates <- stringr::str_remove_all(dates, "(bc|BC|Bc|bC)")
+    # remove before christ letters
+    dates <- paste0("-", dates) # adds a negative sign to date
+    dates
+  }
+  dates <- stringr::str_remove_all(dates, "(ad|AD|Ad|aD)")
+  # remove after christ
+  dates <- ifelse(stringr::str_detect(dates, "(bc|BC|Bc|bC)"),
+                  as_bc_dates(dates), dates)
+  # replacing BC for corresponding negative dates
+  dates <- stringr::str_trim(dates, side = "both")
+  # removes trailing white spaces
 }
 
 
