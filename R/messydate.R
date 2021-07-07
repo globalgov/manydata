@@ -94,6 +94,14 @@ as_messydate.POSIXlt <- function(x){
   new_messydate(x)
 }
 
+#' @export
+as_messydate.character <- function(x){
+  
+  d <- x
+  
+  new_messydate(d)
+}
+
 
 #' @export
 print.messydt <- function(x){
