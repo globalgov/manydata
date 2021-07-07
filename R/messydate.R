@@ -167,6 +167,16 @@ standardise_date_input <- function(dates) {
   # removes trailing white spaces
 }
 
+#' @export
+expand <- function(x) UseMethod("expand")
+
+#' @export
+expand.messydt <- function(x){
+  
+  
+  x
+}
+
 
 #' @export
 print.messydt <- function(x){
