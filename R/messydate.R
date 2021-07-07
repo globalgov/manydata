@@ -27,3 +27,24 @@ validate_messydate <- function(x){
   x
 }
 
+#' @export
+as_messydate <- function(x) UseMethod("as_messydate")
+
+#' @export
+as_messydate.Date <- function(x){
+  x <- as.character(x)
+  new_messydate(x)
+}
+
+#' @export
+as_messydate.POSIXct <- function(x){
+  x <- as.character(x)
+  new_messydate(x)
+}
+
+#' @export
+as_messydate.POSIXlt <- function(x){
+  x <- as.character(x)
+  new_messydate(x)
+}
+
