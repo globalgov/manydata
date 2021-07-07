@@ -99,6 +99,7 @@ as_messydate.character <- function(x){
   
   d <- x
   d <- standardise_date_separators(d)
+  d <- standardise_date_order(d)
   
   new_messydate(d)
 }
@@ -108,6 +109,11 @@ standardise_date_separators <- function(dates){
   dates <- stringr::str_replace_all(dates, "(?<=[:digit:])\\.(?=[:digit:])", "-")
   dates <- stringr::str_replace_all(dates, "\\/", "-")
   dates <- stringr::str_trim(dates, side = "both")
+  dates
+}
+
+standardise_date_order <- function(dates){
+  dates <- stringr::str_replace_all(dates, "([:digit:]{2})-([:digit:]{2})-([:digit:]{4})", "\\3-\\2-\\1")
   dates
 }
 
