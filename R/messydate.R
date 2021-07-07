@@ -103,6 +103,7 @@ as_messydate.character <- function(x){
   d <- standardise_unspecifieds(d)
   d <- standardise_widths(d)
 
+  d <- remove_imprecision(d)
   
   new_messydate(d)
 }
@@ -134,6 +135,13 @@ standardise_unspecifieds <- function(dates){
   dates <- stringr::str_replace_all(dates, "-00", "-XX")
   dates <- stringr::str_replace_all(dates, "\\?\\?\\?\\?", "XXXX")
   dates <- stringr::str_replace_all(dates, "-\\?\\?", "-XX")
+  dates
+}
+
+
+remove_imprecision <- function(dates){
+  dates <- stringr::str_replace_all(dates, "-XX$", "")
+  dates <- stringr::str_replace_all(dates, "-XX$", "")
   dates
 }
 
