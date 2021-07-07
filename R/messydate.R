@@ -100,6 +100,7 @@ as_messydate.character <- function(x){
   d <- x
   d <- standardise_date_separators(d)
   d <- standardise_date_order(d)
+  d <- standardise_unspecifieds(d)
   
   new_messydate(d)
 }
@@ -114,6 +115,16 @@ standardise_date_separators <- function(dates){
 
 standardise_date_order <- function(dates){
   dates <- stringr::str_replace_all(dates, "([:digit:]{2})-([:digit:]{2})-([:digit:]{4})", "\\3-\\2-\\1")
+  dates
+}
+
+standardise_unspecifieds <- function(dates){
+  dates <- stringr::str_replace_all(dates, "^NA", "XXXX")
+  dates <- stringr::str_replace_all(dates, "-NA", "-XX")
+  dates <- stringr::str_replace_all(dates, "0000", "XXXX")
+  dates <- stringr::str_replace_all(dates, "-00", "-XX")
+  dates <- stringr::str_replace_all(dates, "\\?\\?\\?\\?", "XXXX")
+  dates <- stringr::str_replace_all(dates, "-\\?\\?", "-XX")
   dates
 }
 
