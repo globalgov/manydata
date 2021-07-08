@@ -40,3 +40,22 @@ mean.messydt <- function(..., na.rm = TRUE){
   }) 
   y
 }
+
+#' @export
+modal <- function(..., na.rm = FALSE) UseMethod("modal")
+
+#' @export
+modal.messydt <- function(..., na.rm = TRUE){
+  x <- list(...)
+  y <- expand(x[[1]])
+  getmode <- function(v) {
+    uniqv <- unique(v)
+    uniqv[which.max(tabulate(match(v, uniqv)))]
+  }
+  y <- sapply(y, function(x){
+    if(length(x)>1) x <- as.character(getmode(x))
+    x
+  }) 
+  y
+}
+
