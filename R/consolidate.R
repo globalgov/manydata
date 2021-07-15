@@ -72,7 +72,7 @@ consolidate <- function(.data,
     }
   }
   
-  out
+  dplyr::distinct(out)
 }
 
 #' @importFrom purrr pluck
