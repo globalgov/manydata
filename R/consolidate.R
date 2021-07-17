@@ -79,4 +79,38 @@ consolidate <- function(.data,
 #' @export
 purrr::pluck
 
+#' @examples 
+#' eg1 <- tribble(
+#' ~x, ~y, ~z,
+#' "a", "b", NA,
+#' "a", "b", "c",
+#' "j", "k", NA,
+#' NA, "k", "l")
+#' coalesce_compatible(eg1)
+#' @export
+compatible_rows <- function(x){
+  
+  pairs <- t(combn(nrow(x),2))
+  
+  compatico <- apply(pairs, 1, function(y){
+    o <- x[y[1],]==x[y[2],]
+    o[is.na(o)] <- TRUE
+    o
+  })
+  pairs[apply(t(compatico), 1, function(x) all(x)),]
+}
 
+#' @export
+coalesce_compatible <- function(.data){
+  
+  pairs <- compatible_rows(.data)
+  
+  merged <- apply(pairs, 1, function(x){
+    coalesce(.data[x[1],], .data[x[2],])
+  })
+  merged <- bind_rows(merged)
+
+  bind_rows(slice(.data, -unique(c(pairs))),
+            merged)
+
+}
