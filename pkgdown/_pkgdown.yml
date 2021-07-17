@@ -33,16 +33,21 @@ navbar:
       text: News
       href: news/index.html
 reference:
-  - title: "Functions for data consumers"
+  - title: "Obtaining and inspecting data in qPackages"
     desc: "These functions are to assist data analysts with identifying, downloading, and analysing data on particular parts of global governance:"
     contents:
       - get_packages
       - starts_with("data_")
+  - title: "Working with qDatabases"
+    desc: "These functions are to assist data analysts with identifying, downloading, and analysing data on particular parts of global governance:"
+    contents:
       - pluck
-      - concentrate
-      - transmutate
       - consolidate
-      - interleave
+      - coalesce_rows
+  - title: "Working with qData"
+    desc: "These functions are to assist data analysts with identifying, downloading, and analysing data on particular parts of global governance:"
+    contents:
+      - transmutate
       - rearrange
       - recollect
       - reunite
