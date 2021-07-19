@@ -3,19 +3,18 @@
 ## Package
 
 * Updated `get_packages()` to load downloaded packages
-* Updated report family of functions to print objects only if object is not assigned
+* Closed #160 by updating how report family of functions to print objects only if not assigned
 * Updated user vignette for working with `consolidate()`
-* Moved `interleave()` to qCreate
-* Added citation file
+* Fixed #165 by moving `interleave()` to qCreate
+* Closed #149 by adding a citation file
 
 ## Connection
 
-* Added `consolidate()` for collapsing a set or database of (q)dataset into a single dataset
-  * Added `coalesce_compact()` to coalesce all compatible rows of a data frame
+* Closed #28 by adding `consolidate()` for collapsing a set or database of (q)dataset into a single one
+  * Closed #177 by adding `coalesce_compact()` to coalesce all compatible rows of a data frame
   * Added tests for `consolidate()`
 * Renamed function for getting first non-missing value `coalesce_rows()`
   * Added tests for `coalesce_rows()`
-
 # qData 0.4.0
 
 ## Package
