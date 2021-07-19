@@ -29,13 +29,11 @@
 #' @param key An ID column to collapse by. By default "qID".
 #' @return A single tibble/data frame.
 #' @examples
-#' \dontrun{
 #' get_packages("qStates")
 #' pluck(qStates::states, "COW")
 #' get_packages("qEnviron")
 #' consolidate(qEnviron::agreements, "any", "any", "coalesce")
 #' consolidate(qEnviron::agreements, "every", "every", "coalesce")
-#' }
 #' @export
 consolidate <- function(.data, 
                         rows = c("any","every"), 
@@ -73,7 +71,8 @@ consolidate <- function(.data,
   }
   
   out <- dplyr::distinct(out)
-  coalesce_compatible(out)
+  if(any(duplicated(out[,1]))) out <- coalesce_compatible(out)
+  out
 }
 
 #' @importFrom purrr pluck
@@ -103,13 +102,15 @@ coalesce_compatible <- function(.data){
   
   pairs <- compatible_rows(.data)
   
-  merged <- apply(pairs, 1, function(x){
-    dplyr::coalesce(.data[x[1],], .data[x[2],])
-  })
-  merged <- dplyr::bind_rows(merged)
-
-  dplyr::bind_rows(dplyr::slice(.data, -unique(c(pairs))),
-            merged)
+  if(length(pairs)>0){
+    merged <- apply(pairs, 1, function(x){
+      dplyr::coalesce(.data[x[1],], .data[x[2],])
+    })
+    merged <- dplyr::bind_rows(merged)
+    
+    dplyr::bind_rows(dplyr::slice(.data, -unique(c(pairs))),
+                     merged)
+  } else .data
 
 }
 

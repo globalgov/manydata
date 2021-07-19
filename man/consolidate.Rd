@@ -51,11 +51,9 @@ Here we (will) offer a number of resolve methods that enable users to choose
 how conflicts between observations are resolved.
 }
 \examples{
-\dontrun{
 get_packages("qStates")
 pluck(qStates::states, "COW")
 get_packages("qEnviron")
 consolidate(qEnviron::agreements, "any", "any", "coalesce")
 consolidate(qEnviron::agreements, "every", "every", "coalesce")
-}
 }

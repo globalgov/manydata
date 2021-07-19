@@ -44,6 +44,7 @@ reference:
       - pluck
       - consolidate
       - coalesce_rows
+      - coalesce_compatible
   - title: "Working with qData"
     desc: "These functions are to assist data analysts with identifying, downloading, and analysing data on particular parts of global governance:"
     contents:
