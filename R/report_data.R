@@ -236,50 +236,50 @@ pkg <- "qStates"
 database <- "states"
 dataset <- "COW"
 
-#' @name report
-#' @details `data_evolution()` Allows users to see the changes to the original
-#' coding that was performed by the preparation script.
-#' Requires an individual dataset to be specified.
-#' @return A list of elements highlighting metrics tracking the changes between
-#' the original object and the processed object.
-#' @examples
-#' \dontrun{
-#' get_packages("qStates")
-#' data_evolution(pkg = "qStates", database = "states", dataset = "COW")
+#' #' @name report
+#' #' @details `data_evolution()` Allows users to see the changes to the original
+#' #' coding that was performed by the preparation script.
+#' #' Requires an individual dataset to be specified.
+#' #' @return A list of elements highlighting metrics tracking the changes between
+#' #' the original object and the processed object.
+#' #' @examples
+#' #' \dontrun{
+#' #' get_packages("qStates")
+#' #' data_evolution(pkg = "qStates", database = "states", dataset = "COW")
+#' #' }
+#' #' @export
+#' data_evolution <- function(pkg, database, dataset) {
+#'   # Loading things in
+#'   pkg_path <- find.package(pkg)
+#'   data_path <- file.path(pkg_path, "data")
+#'   pkg_dbs <- unname(unlist(readRDS(file.path(data_path, "Rdata.rds"))))
+#'   tmp_env <- new.env()
+#'   lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
+#'   db <- get(database, envir = tmp_env)
+#'   ds <- db[[dataset]]
+#'   procnames <- colnames(ds)
+#'   # Getting the original metadata
+#'   orig <- attr(ds, which = "metadata_orig" , exact = TRUE)
+#'   names(orig) <- c("ColNames", "Rows", "Columns", "Missing Data")
+#'   # Getting the processed metadata
+#'   proc <- as.list(qData::data_contrast(pkg = pkg,
+#'                                database = database,
+#'                                dataset = dataset)[[1]])
+#'   proc[["ColNames"]] <- procnames
+#'   proc <- list(proc[["ColNames"]], proc[["Rows"]],
+#'                proc[["Columns"]], proc[["Missing Data"]])
+#'   names(proc) <- c("ColNames", "Rows", "Columns", "Missing Data")
+#'   # Building the output
+#'   outlist <- list("Original" = orig, "Processed" = proc)
+#'   class(outlist) <- "listof"
+#'   # Not a great solution, but works and does not print if assigned.
+#'   # Some adjustments might be warranted.
+#'   outlist <- purrr::map(outlist, as.character)
+#'   outlist <- as.data.frame(outlist)
+#'   colnames(outlist) <- c(paste("Original", dataset), paste("Corrected", dataset))
+#'   row.names(outlist) <- c("ColNames", "Rows", "Columns", "Missing Data")
+#'   outlist <- t(outlist)
+#'   outlist <- data.frame(outlist)
+#'   outlist$ColNames <- paste0(outlist$ColNames)
+#'   outlist
 #' }
-#' @export
-data_evolution <- function(pkg, database, dataset) {
-  # Loading things in
-  pkg_path <- find.package(pkg)
-  data_path <- file.path(pkg_path, "data")
-  pkg_dbs <- unname(unlist(readRDS(file.path(data_path, "Rdata.rds"))))
-  tmp_env <- new.env()
-  lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
-  db <- get(database, envir = tmp_env)
-  ds <- db[[dataset]]
-  procnames <- colnames(ds)
-  # Getting the original metadata
-  orig <- attr(ds, which = "metadata_orig" , exact = TRUE)
-  names(orig) <- c("ColNames", "Rows", "Columns", "Missing Data")
-  # Getting the processed metadata
-  proc <- as.list(qData::data_contrast(pkg = pkg,
-                               database = database,
-                               dataset = dataset)[[1]])
-  proc[["ColNames"]] <- procnames
-  proc <- list(proc[["ColNames"]], proc[["Rows"]],
-               proc[["Columns"]], proc[["Missing Data"]])
-  names(proc) <- c("ColNames", "Rows", "Columns", "Missing Data")
-  # Building the output
-  outlist <- list("Original" = orig, "Processed" = proc)
-  class(outlist) <- "listof"
-  # Not a great solution, but works and does not print if assigned.
-  # Some adjustments might be warranted.
-  outlist <- purrr::map(outlist, as.character)
-  outlist <- as.data.frame(outlist)
-  colnames(outlist) <- c(paste("Original", dataset), paste("Corrected", dataset))
-  row.names(outlist) <- c("ColNames", "Rows", "Columns", "Missing Data")
-  outlist <- t(outlist)
-  outlist <- data.frame(outlist)
-  outlist$ColNames <- paste0(outlist$ColNames)
-  outlist
-}
