@@ -4,14 +4,11 @@
 \alias{report}
 \alias{data_source}
 \alias{data_contrast}
-\alias{data_evolution}
 \title{Set of data structure exploration functions for users}
 \usage{
 data_source(pkg, database = NULL, dataset = NULL)
 
 data_contrast(pkg, database = NULL, dataset = NULL)
-
-data_evolution(pkg, database, dataset)
 }
 \arguments{
 \item{pkg}{character string of the qPackage to report data on.
@@ -34,9 +31,6 @@ A dataframe with the data sources
 
 A list with the desired metadata to compare various datasets in the
 qVerse.
-
-A list of elements highlighting metrics tracking the changes between
-the original object and the processed object.
 }
 \description{
 The report family of functions allows users
@@ -53,10 +47,6 @@ Namely the number of unique ID's, the percentage of
 missing data, the number of observations, the number of variables,
 the minimum beginning date and the maximum ending date as well as
 the most direct URL to the original dataset.
-
-\code{data_evolution()} Allows users to see the changes to the original
-coding that was performed by the preparation script.
-Requires an individual dataset to be specified.
 }
 \examples{
 \dontrun{
@@ -66,9 +56,5 @@ data_source(pkg = "qStates", database = "states", dataset = "COW")
 \dontrun{
 get_packages("qStates")
 data_contrast(pkg = "qStates", database = "states")
-}
-\dontrun{
-get_packages("qStates")
-data_evolution(pkg = "qStates", database = "states", dataset = "COW")
 }
 }
