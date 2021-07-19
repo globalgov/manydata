@@ -72,13 +72,24 @@ consolidate <- function(.data,
     }
   }
   
-  dplyr::distinct(out)
+  out <- dplyr::distinct(out)
+  coalesce_compatible(out)
 }
 
 #' @importFrom purrr pluck
 #' @export
 purrr::pluck
 
+#' Coalesce all compatible rows of a data frame
+#' 
+#' This function identifies and coalesces 
+#' all compatible rows in a data frame.
+#' Compatible rows are defined as those rows where all present elements are equal,
+#' allowing for equality where one row has an element present
+#' and the other is missing the observation.
+#' @param .data data frame to consolidate
+#' @importFrom utils combn
+#' @importFrom dplyr coalesce bind_rows slice
 #' @examples 
 #' eg1 <- tribble(
 #' ~x, ~y, ~z,
@@ -88,9 +99,23 @@ purrr::pluck
 #' NA, "k", "l")
 #' coalesce_compatible(eg1)
 #' @export
+coalesce_compatible <- function(.data){
+  
+  pairs <- compatible_rows(.data)
+  
+  merged <- apply(pairs, 1, function(x){
+    dplyr::coalesce(.data[x[1],], .data[x[2],])
+  })
+  merged <- dplyr::bind_rows(merged)
+
+  dplyr::bind_rows(dplyr::slice(.data, -unique(c(pairs))),
+            merged)
+
+}
+
 compatible_rows <- function(x){
   
-  pairs <- t(combn(nrow(x),2))
+  pairs <- t(utils::combn(nrow(x),2))
   
   compatico <- apply(pairs, 1, function(y){
     o <- x[y[1],]==x[y[2],]
@@ -98,19 +123,4 @@ compatible_rows <- function(x){
     o
   })
   pairs[apply(t(compatico), 1, function(x) all(x)),]
-}
-
-#' @export
-coalesce_compatible <- function(.data){
-  
-  pairs <- compatible_rows(.data)
-  
-  merged <- apply(pairs, 1, function(x){
-    coalesce(.data[x[1],], .data[x[2],])
-  })
-  merged <- bind_rows(merged)
-
-  bind_rows(slice(.data, -unique(c(pairs))),
-            merged)
-
 }
