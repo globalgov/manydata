@@ -166,80 +166,7 @@ data_contrast(pkg = "qStates", database = "states",
               dataset = "COW")
 ```
 
-## Preparing data
-
-Now that we have visualized the data that rests in the `states` database, let us
-examine how to select and collapse it. To that end, we will consider two 
-essential tools of the `{qData}` package that will facilitate data manipulation
-prior to your analysis.
-
-### Resolve data
-
-First up is the `resolve()` family of functions. This family of functions will
-help you resolve uncertainties in your data objects. For example, the main
-use-case in qStates will be uncertainties in dates when the original dataset 
-contains a beginning date range instead of an exact beginning date which will
-often happen when considering historical states.
-
-The `resolve()` family of functions contains the following functions.
-
-- `resolve_min()`: returns the minimum of the range
-- `resolve_max()`: returns the maximum of the range
-- `resolve_mean()`: returns the mean of the range
-- `resolve_mode()`: returns the mode of the range
-- `resolve_median()`: returns the median of the range
-
-Let us now consider the following example:
-
-```{r}
-# data <- dplyr::tibble(ID = c("CHE", "FRA", "GER"),
-#                       Name = c("Switzerland", "France", "Germany"),
-#                       Date = c("1291-08-01", "1815-01-01:1815-12-31", NA))
-# data
-# # We now apply resolve_mean to the date vector to make an informed choice about
-# # the uncertainty in the original dataset.
-# data$Date <- resolve_mean(data$Date)
-# data
-```
-
-### Collapse data
-
-After having used the `resolve()` family of functions to resolve uncertainties
-in the data, we will take a look at the possibilities to join the different
-dataframes into one for further analysis. `{qData}` provides the ideal
-solution for this task in the form of the `collapse()` family of functions.
-
-The `collapse()` family of functions contains the following functions.
-
-- `collapse_select()` returns the specified column
-- `collapse_full()` returns the entire set of observations
-- `collapse_inner()` returns the overlapping set of observations
-- `collapse_left()` returns the set of overlapping observations plus all
-observations in the left dataset
-- `collapse_right()` returns the set of overlapping observations plus all
-observations in the right dataset
-
-These functions follow the same syntax as standard SQL join commands. To get a
-quick visual refresher on these methods read
-[this article](https://rpubs.com/jcross/joins). Let us now consider the
-following examples to illustrate the functions.
-
-```{r}
-# # Select a dataset in a database
-# selected <- collapse_select(states, "COW")
-# selected
-# # Full join an entire database
-# COWISDfull <- collapse_full(list(states$COW, states$ISD), "ID")
-# COWISDfull
-# # Inner join an entire database
-# COWISDinner <- collapse_inner(list(states$COW, states$ISD), "ID")
-# COWISDinner
-# # Left join an entire database
-# COWISDleft <- collapse_left(list(states$COW, states$ISD), "ID")
-# COWISDleft
-```
-
-### A practical example of inference sensitivity to data sources:
+### An example of inference sensitivity to data sources:
 
 Next we may be interested in whether any relationships we are interested in or inferences we want to draw
 are sensitive to which data we use.
@@ -264,3 +191,24 @@ states %>%
 It seems that there is some variation there.
 Of course, these averages are biased in the sense that these datasets are left-censored.
 Any state gaining sovereignty prior to 1816 is simply assigned as "1816-01-01".
+
+## Consolidate data
+
+Now that we have visualized the data and looked at some of the different inferences drawn 
+using different datasets `{qStates}`, let us examine how to select and collapse it. 
+`{qData}` contains the `consolidate()` which facilitates collapsing 
+multiple datsets in a dataframe into one for analysis.
+
+`consolidate()` collapses a set or database of (q)datasets into a single dataset 
+with some combination of the rows, columns, and observations of the parent datasets.
+The function includes separate arguments for the rows and columns, as well as 
+for how to resolve conflicts in observations across datasets.
+This provides users with considerable flexibility in how they combine qData.
+For example, users may wish to stick to units that appear in every dataset
+but include variables coded in any dataset, or units that appear in any dataset
+but only those variables that appear in every dataset.
+
+```{r}
+consolidate(qStates::states, rows = "any", cols = "any", resolve = "coalesce", key = "ID")
+consolidate(qStates::states, rows = "every", cols = "every", resolve = "coalesce", key = "ID")
+```
