@@ -68,7 +68,7 @@ data_source <- function(pkg, database = NULL, dataset = NULL) {
         print(attr(ds, which = "source_bib"))), sep = "", collapse = "")
       )
       tmp <- as.data.frame(tabl)
-      colnames(tmp) <- c("Reference")
+      colnames(tmp) <- "Reference"
       outlist <- list(tmp)
       names(outlist) <- dataset
       # Redefine outlist class to list
@@ -272,7 +272,6 @@ data_evolution <- function(pkg, database, dataset) {
   # Building the output
   outlist <- list("Original" = orig, "Processed" = proc)
   class(outlist) <- "listof"
-  # ToDo: Pretty print method.
   # Not a great solution, but works and does not print if assigned.
   # Some adjustments might be warranted.
   outlist <- purrr::map(outlist, as.character)
