@@ -232,10 +232,6 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
   }
 }
 
-pkg <- "qStates"
-database <- "states"
-dataset <- "COW"
-
 #' #' @name report
 #' #' @details `data_evolution()` Allows users to see the changes to the original
 #' #' coding that was performed by the preparation script.
