@@ -114,10 +114,10 @@ coalesce_rows <- function(x) {
 #' to be filled
 #' @return a dataframe
 #' @examples
-#' data <- data.frame(fir=c("one", "two", "three", "four"),
-#'                    sec=c("one", NA, "three", ""),
-#'                    thi = c(1, 2, NA, 4), stringsAsFactors = FALSE)
-#' repaint(data, id = "fir", var = c("sec", "thi"))
+#' data <- data.frame(ID = c(1,2,3,3,2,1),
+#'                     One = c(1,NA,3,NA,2,NA),
+#'                     Two = c(NA,"B",NA,"C",NA,"A"))
+#' repaint(data, "ID", c("One","Two"))
 #' @export
 repaint <- function(df, id, var) {
   for (co in var) {
