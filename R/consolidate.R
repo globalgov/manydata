@@ -116,12 +116,15 @@ coalesce_compatible <- function(.data){
 
 compatible_rows <- function(x){
   
-  pairs <- t(utils::combn(nrow(x),2))
+  complete_vars <- x[,apply(x, 2, function(y) !any(is.na(y)))]
+  compat_candidates <- which(duplicated(complete_vars) | duplicated(complete_vars, fromLast = TRUE))
+  
+  pairs <- t(utils::combn(compat_candidates,2))
   
   compatico <- apply(pairs, 1, function(y){
     o <- x[y[1],]==x[y[2],]
     o[is.na(o)] <- TRUE
     o
   })
-  pairs[apply(t(compatico), 1, function(x) all(x)),]
+  pairs[apply(t(compatico), 1, function(y) all(y)),]
 }
