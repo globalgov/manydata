@@ -13,7 +13,7 @@
 #' may differ from dataset to dataset.
 #' Here we (will) offer a number of resolve methods that enable users to choose
 #' how conflicts between observations are resolved.
-#' @param .data A qPackage database object
+#' @param dataframe A qPackage database object
 #' @param rows Which rows or units to retain.
 #' By default "any" (or all) units are retained,
 #' but another option is "every",
@@ -29,13 +29,18 @@
 #' @param key An ID column to collapse by. By default "qID".
 #' @return A single tibble/data frame.
 #' @examples
-#' get_packages("qStates")
-#' pluck(qStates::states, "COW")
-#' get_packages("qEnviron")
-#' consolidate(qEnviron::agreements, "any", "any", "coalesce")
-#' consolidate(qEnviron::agreements, "every", "every", "coalesce")
+#' \donttest{
+#' data1 <- dplyr::tibble(qID = c("NZL", "BRA", "CHF"),
+#'                        date = c("1990-01-01","1990-01-02","1990-01-01:1990-01-31"),
+#'                        number = c(100, 1000, 10000))
+#' data2 <- dplyr::tibble(qID = c("NZL", "BRA"),
+#'                        date = c("1990-01-01","1990-01-03"))
+#' test <- tibble::lst(a = data1, b = data2)
+#' consolidate(test, "every", "every")
+#' consolidate(test, "any", "any")
+#' }
 #' @export
-consolidate <- function(.data, 
+consolidate <- function(dataframe, 
                         rows = c("any","every"), 
                         cols = c("any","every"), 
                         resolve = "coalesce",
@@ -44,16 +49,16 @@ consolidate <- function(.data,
   # Step 1: Join datasets by ID
   rows <- match.arg(rows)
   if(rows == "any"){
-    out <- purrr::reduce(.data, dplyr::full_join, by = key)
+    out <- purrr::reduce(dataframe, dplyr::full_join, by = key)
   } else if(rows == "every"){
-    out <- purrr::reduce(.data, dplyr::inner_join, by = key)
+    out <- purrr::reduce(dataframe, dplyr::inner_join, by = key)
   } 
   
   # Step 2: Drop any unwanted variables
   cols <- match.arg(cols)
-  all_variables <- unlist(purrr::map(.data, names))
+  all_variables <- unlist(purrr::map(dataframe, names))
   if(cols == "every"){
-    all_variables <- names(table(all_variables)[table(all_variables) == length(.data)])
+    all_variables <- names(table(all_variables)[table(all_variables) == length(dataframe)])
     out <- out %>% dplyr::select(all_of(key), starts_with(all_variables))
   }
   
@@ -86,7 +91,7 @@ purrr::pluck
 #' Compatible rows are defined as those rows where all present elements are equal,
 #' allowing for equality where one row has an element present
 #' and the other is missing the observation.
-#' @param .data data frame to consolidate
+#' @param dataframe data frame to consolidate
 #' @importFrom utils combn
 #' @importFrom dplyr coalesce bind_rows slice
 #' @examples 
@@ -98,19 +103,19 @@ purrr::pluck
 #' NA, "k", "l")
 #' coalesce_compatible(eg1)
 #' @export
-coalesce_compatible <- function(.data){
+coalesce_compatible <- function(dataframe){
   
-  pairs <- compatible_rows(.data)
+  pairs <- compatible_rows(dataframe)
   
   if(length(pairs)>0){
     merged <- apply(pairs, 1, function(x){
-      dplyr::coalesce(.data[x[1],], .data[x[2],])
+      dplyr::coalesce(dataframe[x[1],], dataframe[x[2],])
     })
     merged <- dplyr::bind_rows(merged)
     
-    dplyr::bind_rows(dplyr::slice(.data, -unique(c(pairs))),
+    dplyr::bind_rows(dplyr::slice(dataframe, -unique(c(pairs))),
                      merged)
-  } else .data
+  } else dataframe
 
 }
 

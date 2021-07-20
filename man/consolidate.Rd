@@ -5,7 +5,7 @@
 \title{Consolidate database into a single dataset}
 \usage{
 consolidate(
-  .data,
+  dataframe,
   rows = c("any", "every"),
   cols = c("any", "every"),
   resolve = "coalesce",
@@ -13,7 +13,7 @@ consolidate(
 )
 }
 \arguments{
-\item{.data}{A qPackage database object}
+\item{dataframe}{A qPackage database object}
 
 \item{rows}{Which rows or units to retain.
 By default "any" (or all) units are retained,
@@ -51,9 +51,14 @@ Here we (will) offer a number of resolve methods that enable users to choose
 how conflicts between observations are resolved.
 }
 \examples{
-get_packages("qStates")
-pluck(qStates::states, "COW")
-get_packages("qEnviron")
-consolidate(qEnviron::agreements, "any", "any", "coalesce")
-consolidate(qEnviron::agreements, "every", "every", "coalesce")
+\donttest{
+data1 <- dplyr::tibble(qID = c("NZL", "BRA", "CHF"),
+                       date = c("1990-01-01","1990-01-02","1990-01-01:1990-01-31"),
+                       number = c(100, 1000, 10000))
+data2 <- dplyr::tibble(qID = c("NZL", "BRA"),
+                       date = c("1990-01-01","1990-01-03"))
+test <- tibble::lst(a = data1, b = data2)
+consolidate(test, "every", "every")
+consolidate(test, "any", "any")
+}
 }

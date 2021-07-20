@@ -4,10 +4,10 @@
 \alias{coalesce_compatible}
 \title{Coalesce all compatible rows of a data frame}
 \usage{
-coalesce_compatible(.data)
+coalesce_compatible(dataframe)
 }
 \arguments{
-\item{.data}{data frame to consolidate}
+\item{dataframe}{data frame to consolidate}
 }
 \description{
 This function identifies and coalesces
