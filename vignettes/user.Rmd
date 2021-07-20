@@ -210,6 +210,6 @@ but include variables coded in any dataset, or units that appear in any dataset
 but only those variables that appear in every dataset.
 
 ```{r}
-consolidate(qStates::states, rows = "any", cols = "any", resolve = "coalesce", key = "ID")
-consolidate(qStates::states, rows = "every", cols = "every", resolve = "coalesce", key = "ID")
+consolidate(states, rows = "any", cols = "any", resolve = "coalesce", key = "ID")
+consolidate(states, rows = "every", cols = "every", resolve = "coalesce", key = "ID")
 ```
