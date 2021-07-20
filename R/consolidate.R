@@ -120,8 +120,11 @@ compatible_rows <- function(x){
   compat_candidates <- which(duplicated(complete_vars) | duplicated(complete_vars, fromLast = TRUE))
   
   pairs <- t(utils::combn(compat_candidates,2))
+  pb <- progress::progress_bar$new(format = "identifying compatible pairs [:bar] :percent eta: :eta",
+                                   total = nrow(pairs))
   
   compatico <- apply(pairs, 1, function(y){
+    pb$tick()
     o <- x[y[1],]==x[y[2],]
     o[is.na(o)] <- TRUE
     o
