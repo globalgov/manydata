@@ -53,8 +53,7 @@ Suggests:
     readxl,
     readr,
     knitr,
-    rmarkdown,
-    bibtex
+    rmarkdown
 Remotes:
     globalgov/qStates
 Encoding: UTF-8
