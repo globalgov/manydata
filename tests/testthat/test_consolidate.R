@@ -18,11 +18,19 @@ data.con.any <- dplyr::tibble(qID = c("NZL","BRA"),
 data.13.any <- dplyr::tibble(qID = c("NZL","BRA","CHF","OTH"),
                                 date = c("1990-01-01", "1990-01-02","1990-01-01:1990-01-31",NA),
                                 number = c(100,1000,10000,21))
+data.dup <- dplyr::tibble(qID = c("NZL","BRA","CHF","OTH", "NZL","BRA","CHF","OTH"),
+                          date = c("1990-01-01", "1990-01-02","1990-01-01:1990-01-31",NA, "1990-01-01", "1990-01-02","1990-01-01:1990-01-31",NA),
+                          number = c(100,1000,10000,21, 100,1000,10000,21))
 
 test_that("pluck works", {
   expect_equal(pluck(test, "a"), data1)
   expect_equal(pluck(test, "b"), data2)
   expect_equal(pluck(test, "c"), data3)
+})
+
+test_that("coalesce_compatible works", {
+  expect_equal(coalesce_compatible(data.13.any), data.13.any)
+  expect_equal(coalesce_compatible(data.dup), data.13.any)
 })
 
 test_that("consolidate works", {
