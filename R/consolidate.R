@@ -94,6 +94,7 @@ purrr::pluck
 #' @param .data data frame to consolidate
 #' @importFrom utils combn
 #' @importFrom dplyr coalesce bind_rows slice
+#' @importFrom progress progress_bar
 #' @examples
 #' eg1 <- tribble(
 #' ~x, ~y, ~z,

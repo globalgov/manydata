@@ -42,7 +42,8 @@ Imports:
     usethis,
     jsonlite,
     remotes,
-    httr
+    httr,
+    progress
 Suggests:
     librarian,
     testthat,
