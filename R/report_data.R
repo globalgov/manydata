@@ -42,7 +42,7 @@ data_source <- function(pkg, database = NULL, dataset = NULL) {
       dbs <-  mget(ls(tmp_env), tmp_env)
       dbs <- dbs[database]
       outlist <- list()
-      for (i in c(1:length(dbs))) {
+      for (i in c(seq_len(length(dbs)))) {
         assign(paste0("tabl", i), rbind(purrr::map(dbs[[i]], function(x)
           paste0(utils::capture.output(
             print(attr(x, which = "source_bib"))), sep = "", collapse = "")))
@@ -80,7 +80,7 @@ data_source <- function(pkg, database = NULL, dataset = NULL) {
     lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
     dbs <-  mget(ls(tmp_env), tmp_env)
     outlist <- list()
-    for (i in c(1:length(dbs))) {
+    for (i in c(seq_len(length(dbs)))) {
       assign(paste0("tabl", i), rbind(purrr::map(dbs[[i]], function(x)
         paste0(utils::capture.output(
           print(attr(x, which = "source_bib"))), sep = "", collapse = ""
@@ -119,7 +119,7 @@ data_source <- function(pkg, database = NULL, dataset = NULL) {
 #' }
 #' @export
 data_contrast <- function(pkg, database = NULL, dataset = NULL) {
-  
+
   pkg_path <- find.package(pkg)
   data_path <- file.path(pkg_path, "data")
   pkg_dbs <- unname(unlist(readRDS(file.path(data_path, "Rdata.rds"))))
@@ -131,22 +131,27 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
       dbs <-  mget(ls(tmp_env), tmp_env)
       dbs <- dbs[database]
       outlist <- list()
-      for (i in c(1:length(dbs))) {
+      for (i in c(seq_len(length(dbs)))) {
         assign(paste0("tabl", i),
                rbind(purrr::map(dbs[[i]], function(x) length(unique(x$ID))),
                      purrr::map(dbs[[i]], function(x)
                        paste0(
-                         round(sum(is.na(x)) * 100 / prod(dim(x)), digits = 2), " %")
+                         round(sum(is.na(x)) * 100 / prod(dim(x)),
+                               digits = 2), " %")
                        ),
                      purrr::map(dbs[[i]], function(x) nrow(x)),
                      purrr::map(dbs[[i]], function(x) ncol(x)),
                      purrr::map(dbs[[i]], function(x)
                        as.character(as.Date(ifelse(!all(is.na(x$Beg)),
-                                                   min(x$Beg, na.rm = TRUE), NA),
+                                                   min(x$Beg,
+                                                       na.rm = TRUE),
+                                                   NA),
                                                    origin = "1970-01-01"))),
                      purrr::map(dbs[[i]], function(x)
                        as.character(as.Date(ifelse(!all(is.na(x$End)),
-                                                   max(x$End, na.rm = TRUE), NA),
+                                                   max(x$End,
+                                                       na.rm = TRUE),
+                                                   NA),
                                             origin = "1970-01-01"))),
                      purrr::map(dbs[[i]], function(x)
                        attr(x, which = "source_URL"))))
@@ -190,7 +195,7 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
       outlist <- list(tmp)
       names(outlist) <- dataset
       # Redefine outlist class to list
-      class (outlist) <- "listof"
+      class(outlist) <- "listof"
       return(outlist)
     }
   } else {
@@ -199,20 +204,25 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
     lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
     dbs <-  mget(ls(tmp_env), tmp_env)
     outlist <- list()
-    for (i in c(1:length(dbs))) {
+    for (i in c(seq_len(length(dbs)))) {
       assign(paste0("tabl", i),
              rbind(purrr::map(dbs[[i]], function(x) length(unique(x$ID))),
                    purrr::map(dbs[[i]], function(x)
-                     paste0(round(sum(is.na(x)) * 100 / prod(dim(x)), digits = 2), " %")),
+                     paste0(round(sum(is.na(x)) * 100 / prod(dim(x)),
+                                  digits = 2), " %")),
                    purrr::map(dbs[[i]], function(x) nrow(x)),
                    purrr::map(dbs[[i]], function(x) ncol(x)),
                    purrr::map(dbs[[i]], function(x)
                      as.character(as.Date(ifelse(!all(is.na(x$Beg)),
-                                                 min(x$Beg, na.rm = TRUE), NA),
+                                                 min(x$Beg,
+                                                     na.rm = TRUE),
+                                                 NA),
                                           origin = "1970-01-01"))),
                    purrr::map(dbs[[i]], function(x)
                      as.character(as.Date(ifelse(!all(is.na(x$End)),
-                                                 max(x$End, na.rm = TRUE), NA),
+                                                 max(x$End,
+                                                     na.rm = TRUE),
+                                                 NA),
                                           origin = "1970-01-01"))),
                    purrr::map(dbs[[i]], function(x)
                      attr(x, which = "source_URL"))))
@@ -233,15 +243,18 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
 }
 
 #' #' @name report
-#' #' @details `data_evolution()` Allows users to see the changes to the original
+#' #' @details `data_evolution()` Allows users to see the
+#' #' changes to the original
 #' #' coding that was performed by the preparation script.
 #' #' Requires an individual dataset to be specified.
-#' #' @return A list of elements highlighting metrics tracking the changes between
+#' #' @return A list of elements highlighting metrics
+#' #' tracking the changes between
 #' #' the original object and the processed object.
 #' #' @examples
 #' #' \dontrun{
 #' #' get_packages("qStates")
-#' #' data_evolution(pkg = "qStates", database = "states", dataset = "COW")
+#' #' data_evolution(pkg = "qStates", database = "states",
+#' #' dataset = "COW")
 #' #' }
 #' #' @export
 #' data_evolution <- function(pkg, database, dataset) {
@@ -272,7 +285,8 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
 #'   # Some adjustments might be warranted.
 #'   outlist <- purrr::map(outlist, as.character)
 #'   outlist <- as.data.frame(outlist)
-#'   colnames(outlist) <- c(paste("Original", dataset), paste("Corrected", dataset))
+#'   colnames(outlist) <- c(paste("Original", dataset),
+#'                          paste("Corrected", dataset))
 #'   row.names(outlist) <- c("ColNames", "Rows", "Columns", "Missing Data")
 #'   outlist <- t(outlist)
 #'   outlist <- data.frame(outlist)

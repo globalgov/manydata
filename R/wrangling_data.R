@@ -124,7 +124,7 @@ repaint <- function(df, id, var) {
     for (ea in unique(df[, id])) {
       if (any(!is.na(df[df[, id] == ea, co])) &
           any(is.na(df[df[, id] == ea, co]))) {
-        df[df[,id] == ea &
+        df[df[, id] == ea &
              is.na(df[, co]), co] <- df[df[, id] == ea &
                                           !is.na(df[, co]), co][1]
       }

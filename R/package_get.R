@@ -99,7 +99,7 @@ get_packages <- function(pkg) {
     # get_contributors <- function(full_name) {
     #   contribs <- paste0("https://api.github.com/repos/",
     #                      full_name, "/contributors")
-    #   if(length(contribs)==1){
+    #   if(length(contribs)==1) {
     #     contribs <- httr::GET(contribs)
     #     contribs <- suppressMessages(httr::content(contribs, type = "text"))
     #     contribs <- jsonlite::fromJSON(contribs, flatten = TRUE)$login

@@ -43,7 +43,8 @@ The function includes separate arguments for the rows and columns,
 as well as for how to resolve conflicts in observations across datasets.
 This provides users with considerable flexibility in how they combine qData.
 For example, users may wish to stick to units that appear in every dataset
-but include variables coded in any dataset, or units that appear in any dataset
+but include variables coded in any dataset,
+or units that appear in any dataset
 but only those variables that appear in every dataset.
 Even then there may be conflicts, as the actual unit-variable observations
 may differ from dataset to dataset.
@@ -53,7 +54,7 @@ how conflicts between observations are resolved.
 \examples{
 \donttest{
 data1 <- dplyr::tibble(qID = c("NZL", "BRA", "CHF"),
-                       date = c("1990-01-01","1990-01-02","1990-01-01:1990-01-31"),
+                       date = c("1990-01-01", "1990-01-02", "1990-01-01:1990-01-31"),
                        number = c(100, 1000, 10000))
 data2 <- dplyr::tibble(qID = c("NZL", "BRA"),
                        date = c("1990-01-01","1990-01-03"))

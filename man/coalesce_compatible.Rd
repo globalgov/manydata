@@ -12,7 +12,8 @@ coalesce_compatible(.data)
 \description{
 This function identifies and coalesces
 all compatible rows in a data frame.
-Compatible rows are defined as those rows where all present elements are equal,
+Compatible rows are defined as those rows where
+all present elements are equal,
 allowing for equality where one row has an element present
 and the other is missing the observation.
 }
