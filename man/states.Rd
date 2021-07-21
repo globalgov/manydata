@@ -3,7 +3,7 @@
 \docType{data}
 \name{states}
 \alias{states}
-\title{states Database Documentation}
+\title{States Database Documentation}
 \format{
 The states database is a list that contains a shorter
 version of the following 3 datasets: GW, ISD, COW.
@@ -12,7 +12,7 @@ version of the following 3 datasets: GW, ISD, COW.
 states
 }
 \description{
-states Database Documentation
+States Database Documentation
 }
 \details{
 These datasets are to be used for testing and
