@@ -139,11 +139,11 @@ get_packages <- function(pkg) {
     } else if (stringr::str_detect(pkg, "^[:digit:]{1}$")) {
       if (pkg == 1) {
         pkg <- "qCreate"
-        remotes::install_github(pkg)
+        remotes::install_github("globalgov/qCreate")
       }
       if (pkg == 3) {
         pkg <- "qEnviron"
-        remotes::install_github(pkg)
+        remotes::install_github("globalgov/qEnviron")
       }
       if (pkg == 4) {
         pkg <- "qStates"
