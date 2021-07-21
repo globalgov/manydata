@@ -140,15 +140,13 @@ get_packages <- function(pkg) {
       if (pkg == 1) {
         pkg <- "qCreate"
         remotes::install_github("globalgov/qCreate")
-      }
-      if (pkg == 3) {
+      } else if (pkg == 3) {
         pkg <- "qEnviron"
         remotes::install_github("globalgov/qEnviron")
-      }
-      if (pkg == 4) {
+      } else if (pkg == 4) {
         pkg <- "qStates"
         remotes::install_github("globalgov/qStates")
-      } else if (pkg > 4) {
+      } else {
         stop("Package number not found, please type package name")
       }
     } else {
