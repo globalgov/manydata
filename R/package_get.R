@@ -26,11 +26,9 @@
 #' @importFrom utils packageVersion
 #' @importFrom lubridate as_date
 #' @examples
-#' \dontrun{
-#' get_packages() # This prints a table (tibble)
-#' # to the console with details on currently available qPackages
-#' get_packages("qStates") # This downloads and installs from Github
-#' # the latest version of one or more qPackages
+#' \donttest{
+#' get_packages()
+#' get_packages("qStates")
 #' }
 #' @export
 get_packages <- function(pkg) {
