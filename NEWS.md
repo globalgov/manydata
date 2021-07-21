@@ -7,14 +7,17 @@
 * Updated user vignette for working with `consolidate()`
 * Fixed #165 by moving `interleave()` to qCreate
 * Closed #149 by adding a citation file
+* Closed #181 by adding data for running examples and tests
 
 ## Connection
 
-* Closed #28 by adding `consolidate()` for collapsing a set or database of (q)dataset into a single one
+* Closed #28 by adding `consolidate()` for collapsing a set or database of (q)dataset into a single dataset
   * Closed #177 by adding `coalesce_compact()` to coalesce all compatible rows of a data frame
-  * Added tests for `consolidate()`
+  * Closed #180 by adding progress bar for `coalesce_compact()`
+  * Added tests for `consolidate()` and `coalesce_compact()`
 * Renamed function for getting first non-missing value `coalesce_rows()`
   * Added tests for `coalesce_rows()`
+
 # qData 0.4.0
 
 ## Package
