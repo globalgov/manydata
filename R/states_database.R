@@ -1,4 +1,4 @@
-#' states Database Documentation
+#' States Database Documentation
 #'
 #' @format The states database is a list that contains a shorter
 #' version of the following 3 datasets: GW, ISD, COW.
