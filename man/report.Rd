@@ -49,12 +49,6 @@ the minimum beginning date and the maximum ending date as well as
 the most direct URL to the original dataset.
 }
 \examples{
-\dontrun{
-get_packages("qStates")
-data_source(pkg = "qStates", database = "states", dataset = "COW")
-}
-\dontrun{
-get_packages("qStates")
-data_contrast(pkg = "qStates", database = "states")
-}
+data_source(pkg = "qData", database = "states", dataset = "COW")
+data_contrast(pkg = "qData", database = "states")
 }

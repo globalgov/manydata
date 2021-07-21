@@ -52,14 +52,6 @@ Here we (will) offer a number of resolve methods that enable users to choose
 how conflicts between observations are resolved.
 }
 \examples{
-\donttest{
-data1 <- dplyr::tibble(qID = c("NZL", "BRA", "CHF"),
-                       date = c("1990-01-01", "1990-01-02", "1990-01-01:1990-01-31"),
-                       number = c(100, 1000, 10000))
-data2 <- dplyr::tibble(qID = c("NZL", "BRA"),
-                       date = c("1990-01-01","1990-01-03"))
-test <- tibble::lst(a = data1, b = data2)
-consolidate(test, "every", "every")
-consolidate(test, "any", "any")
-}
+consolidate(agreements, "any", "any")
+consolidate(states, "every", "every", key = "ID")
 }
