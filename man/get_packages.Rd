@@ -31,8 +31,6 @@ calling the function. If users intend to download a package from the
 ecosystem, they can to type the package name within the function.
 }
 \examples{
-\donttest{
 get_packages()
 get_packages("qStates")
-}
 }

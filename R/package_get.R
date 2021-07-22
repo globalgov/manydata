@@ -26,10 +26,8 @@
 #' @importFrom utils packageVersion
 #' @importFrom lubridate as_date
 #' @examples
-#' \donttest{
 #' get_packages()
 #' get_packages("qStates")
-#' }
 #' @export
 get_packages <- function(pkg) {
 
