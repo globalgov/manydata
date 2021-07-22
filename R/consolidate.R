@@ -14,7 +14,7 @@
 #' may differ from dataset to dataset.
 #' Here we (will) offer a number of resolve methods that enable users to choose
 #' how conflicts between observations are resolved.
-#' @param .data A qPackage database object
+#' @param database A qPackage database object
 #' @param rows Which rows or units to retain.
 #' By default "any" (or all) units are retained,
 #' but another option is "every",
@@ -33,7 +33,7 @@
 #' consolidate(agreements, "any", "any")
 #' consolidate(states, "every", "every", key = "ID")
 #' @export
-consolidate <- function(.data,
+consolidate <- function(database,
                         rows = c("any", "every"),
                         cols = c("any", "every"),
                         resolve = "coalesce",
@@ -42,16 +42,16 @@ consolidate <- function(.data,
   # Step 1: Join datasets by ID
   rows <- match.arg(rows)
   if (rows == "any") {
-    out <- purrr::reduce(.data, dplyr::full_join, by = key)
+    out <- purrr::reduce(database, dplyr::full_join, by = key)
   } else if (rows == "every") {
-    out <- purrr::reduce(.data, dplyr::inner_join, by = key)
+    out <- purrr::reduce(database, dplyr::inner_join, by = key)
   }
 
   # Step 2: Drop any unwanted variables
   cols <- match.arg(cols)
-  all_variables <- unlist(purrr::map(.data, names))
+  all_variables <- unlist(purrr::map(database, names))
   if (cols == "every") {
-    all_variables <- names(table(all_variables)[table(all_variables) == length(.data)])
+    all_variables <- names(table(all_variables)[table(all_variables) == length(database)])
     out <- out %>% dplyr::select(all_of(key), starts_with(all_variables))
   }
 

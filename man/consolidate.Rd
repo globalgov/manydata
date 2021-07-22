@@ -5,7 +5,7 @@
 \title{Consolidate database into a single dataset}
 \usage{
 consolidate(
-  .data,
+  database,
   rows = c("any", "every"),
   cols = c("any", "every"),
   resolve = "coalesce",
@@ -13,7 +13,7 @@ consolidate(
 )
 }
 \arguments{
-\item{.data}{A qPackage database object}
+\item{database}{A qPackage database object}
 
 \item{rows}{Which rows or units to retain.
 By default "any" (or all) units are retained,
