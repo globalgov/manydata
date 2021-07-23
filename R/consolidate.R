@@ -29,6 +29,10 @@
 #' "max", "min", "mean", "mode" and "median", as well as "append".
 #' @param key An ID column to collapse by. By default "qID".
 #' @return A single tibble/data frame.
+#' @name consolidate
+NULL
+
+#' @rdname consolidate
 #' @examples
 #' # consolidate(emperors, "any", "any", key = "ID")
 #' consolidate(emperors, "every", "every", key = "ID")
@@ -49,7 +53,7 @@ consolidate <- function(database,
 
   # Step 2: Drop any unwanted variables
   cols <- match.arg(cols)
-  all_variables <- unlist(purrr::map(database, names))
+  all_variables <- unname(unlist(purrr::map(database, names)))
   if (cols == "every") {
     all_variables <- names(table(all_variables)[table(all_variables) == length(database)])
     out <- out %>% dplyr::select(all_of(key), starts_with(all_variables))
@@ -57,7 +61,7 @@ consolidate <- function(database,
 
   # Step 3: Resolve conflicts
   resolve <- match.arg(resolve)
-  other_variables <- all_variables[!key == all_variables]
+  other_variables <- unname(all_variables[!key == all_variables])
   if (resolve == "coalesce") {
     for (var in other_variables) {
       vars_to_combine <- startsWith(names(out), var)
@@ -73,7 +77,10 @@ consolidate <- function(database,
   out
 }
 
+#' @rdname consolidate
 #' @importFrom purrr pluck
+#' @examples 
+#' pluck(emperors, "UNRV")
 #' @export
 purrr::pluck
 
