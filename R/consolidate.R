@@ -79,7 +79,7 @@ consolidate <- function(database,
 
 #' @rdname consolidate
 #' @importFrom purrr pluck
-#' @examples 
+#' @examples
 #' pluck(emperors, "UNRV")
 #' @export
 purrr::pluck

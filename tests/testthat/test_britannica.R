@@ -30,6 +30,7 @@ test_that("Columns with dates are standardized", {
 
 test_that("dataset is arranged by date variable", {
   if (!is.null(emperors[["britannica"]]$Beg)) {
-    expect_true(emperors[["britannica"]]$Beg[10] < emperors[["britannica"]]$Beg[20])
+    expect_true(emperors[["britannica"]]$Beg[10] <
+                  emperors[["britannica"]]$Beg[20])
   }
 })
