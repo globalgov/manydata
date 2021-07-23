@@ -30,8 +30,8 @@
 #' @param key An ID column to collapse by. By default "qID".
 #' @return A single tibble/data frame.
 #' @examples
-#' consolidate(agreements, "any", "any")
-#' consolidate(states, "every", "every", key = "ID")
+#' # consolidate(emperors, "any", "any", key = "ID")
+#' consolidate(emperors, "every", "every", key = "ID")
 #' @export
 consolidate <- function(database,
                         rows = c("any", "every"),
