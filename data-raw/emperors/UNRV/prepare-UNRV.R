@@ -15,9 +15,51 @@ UNRV <- readxl::read_excel("data-raw/emperors/UNRV/UNRV.xlsx")
 # In this stage you will want to correct the variable names and
 # formats of the 'UNRV' object until the object created
 # below (in stage three) passes all the tests.
+
+# Add the 00 to have a date format compatible with other datasets in emperors database
+for(i in c(1:13)) {
+  UNRV$Beg[i] <- paste0("00", UNRV$Beg[i])
+}
+
+for(i in c(14:99)) {
+  UNRV$Beg[i] <- paste0("0", UNRV$Beg[i])
+}
+
+for(i in c(1:12)) {
+  UNRV$End[i] <- paste0("00", UNRV$End[i])
+}
+
+for(i in c(13:99)) {
+  UNRV$End[i] <- paste0("0", UNRV$End[i])
+}
+
+for(i in c(1:5, 7,8,10:15)) {
+  UNRV$Birth[i] <- paste0("00", UNRV$Birth[i])
+}
+
+for(i in c(6,9)) {
+  UNRV$Birth[i] <- paste0("000", UNRV$Birth[i])
+}
+
+for(i in c(16:40, 46,48,51,52, 55, 59, 60, 62:75, 77, 79, 80, 81, 83,84, 89, 91:96, 99)) {
+  UNRV$Birth[i] <- paste0("0", UNRV$Birth[i])
+}
+
+for(i in c(1:12)) {
+  UNRV$Death[i] <- paste0("00", UNRV$Death[i])
+}
+
+for(i in c(13:87, 89:99)) {
+  UNRV$Death[i] <- paste0("0", UNRV$Death[i])
+}
+
+
 UNRV <- as_tibble(UNRV) %>%
-  transmutate(ID = {id_variable_name_here},
-              Beg = standardise_dates({date_variable_name_here})) %>%
+  dplyr::mutate(Beg = as_messydate(Beg)) %>% 
+  dplyr::mutate(End = as_messydate(End)) %>% 
+  dplyr::mutate(Birth = as_messydate(Birth)) %>% 
+  dplyr::mutate(Death = as_messydate(Death)) %>% 
+  transmutate(ID = `Common Name`) %>%
   dplyr::arrange(Beg)
 # qData includes several functions that should help cleaning
 # and standardising your data.
@@ -26,7 +68,7 @@ UNRV <- as_tibble(UNRV) %>%
 # Stage three: Connecting data
 # Next run the following line to make UNRV available
 # within the qPackage.
-export_data(UNRV, database = "emperors")
+export_data(UNRV, database = "emperors", URL = "https://www.unrv.com/government/emperor.php")
 # This function also does two additional things.
 # First, it creates a set of tests for this object to ensure adherence
 # to certain standards.You can hit Cmd-Shift-T (Mac) or Ctrl-Shift-T (Windows)
