@@ -16,10 +16,56 @@ britannica <- readxl::read_excel("data-raw/emperors/britannica/britannica.xlsx")
 # In this stage you will want to correct the variable names and
 # formats of the 'britannica' object until the object created
 # below (in stage three) passes all the tests.
+britannica <- britannica %>% 
+  dplyr::rename(Beg = Birth,
+                End = Death)
+
+for(i in c(1:6, 9:13)) {
+  britannica$Beg[i] <- paste0("00", britannica$Beg[i])
+}
+
+for(i in c(14:18, 21:27,32:43, 45:75, 77:80, 82:87)) {
+  britannica$Beg[i] <- paste0("0", britannica$Beg[i])
+}
+
+for(i in c(1:6, 9:12)) {
+  britannica$End[i] <- paste0("00", britannica$End[i])
+}
+
+for(i in c(13:18, 21:27, 32:43, 45:75, 77:80, 82:87)) {
+  britannica$End[i] <- paste0("0", britannica$End[i])
+}
+
+# Correct dates format 
+britannica$Beg[7] <- "0069-01"
+britannica$Beg[8] <- "0069-07"
+britannica$Beg[19] <- "0193-01"
+britannica$Beg[20] <- "0193-03"
+britannica$Beg[28] <- "0238-03"
+britannica$Beg[29] <- "0238-03"
+britannica$Beg[30] <- "0238-04-22"
+britannica$Beg[31] <- "0238-04-22"
+britannica$Beg[44] <- "0276-06"
+britannica$Beg[76] <- "0455-03-17"
+britannica$Beg[81] <- "0472-04"
+
+
+britannica$End[7] <- "0069-04"
+britannica$End[8] <- "0069-12"
+britannica$End[19] <- "0193-03"
+britannica$End[20] <- "0193-06"
+britannica$End[28] <- "0238-04"
+britannica$End[29] <- "0238-04"
+britannica$End[30] <- "0238-07-29"
+britannica$End[31] <- "0238-07-29"
+britannica$End[44] <- "0276-09"
+britannica$End[76] <- "0455-05-32"
+britannica$End[81] <- "0472-11"
+
 britannica <- as_tibble(britannica) %>%
-  transmutate(ID = {id_variable_name_here},
-              Beg = standardise_dates({date_variable_name_here})) %>%
-  dplyr::arrange(Beg)
+  dplyr::mutate(Beg = as_messydate(Beg)) %>% 
+  dplyr::mutate(End = as_messydate(End)) %>% 
+  transmutate(ID = Name)
 # qData includes several functions that should help cleaning
 # and standardising your data.
 # Please see the vignettes or website for more details.
@@ -27,7 +73,7 @@ britannica <- as_tibble(britannica) %>%
 # Stage three: Connecting data
 # Next run the following line to make britannica available
 # within the qPackage.
-export_data(britannica, database = "emperors")
+export_data(britannica, database = "emperors", URL = "https://www.britannica.com/topic/list-of-Roman-emperors-2043294")
 # This function also does two additional things.
 # First, it creates a set of tests for this object to ensure adherence
 # to certain standards.You can hit Cmd-Shift-T (Mac) or Ctrl-Shift-T (Windows)
