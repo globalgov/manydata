@@ -49,6 +49,6 @@ the minimum beginning date and the maximum ending date as well as
 the most direct URL to the original dataset.
 }
 \examples{
-data_source(pkg = "qData", database = "states", dataset = "COW")
-data_contrast(pkg = "qData", database = "states")
+data_source(pkg = "qData")
+data_contrast(pkg = "qData")
 }

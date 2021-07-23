@@ -24,7 +24,7 @@ NULL
 #' @importFrom stringr str_to_title
 #' @return A dataframe with the data sources
 #' @examples
-#' data_source(pkg = "qData", database = "states", dataset = "COW")
+#' data_source(pkg = "qData")
 #' @export
 data_source <- function(pkg, database = NULL, dataset = NULL) {
   pkg_path <- find.package(pkg)
@@ -110,7 +110,7 @@ data_source <- function(pkg, database = NULL, dataset = NULL) {
 #' @return A list with the desired metadata to compare various datasets in the
 #' qVerse.
 #' @examples
-#' data_contrast(pkg = "qData", database = "states")
+#' data_contrast(pkg = "qData")
 #' @export
 data_contrast <- function(pkg, database = NULL, dataset = NULL) {
 
@@ -136,17 +136,15 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
                      purrr::map(dbs[[i]], function(x) nrow(x)),
                      purrr::map(dbs[[i]], function(x) ncol(x)),
                      purrr::map(dbs[[i]], function(x)
-                       as.character(as.Date(ifelse(!all(is.na(x$Beg)),
+                       as.character(ifelse(!all(is.na(x$Beg)),
                                                    min(x$Beg,
                                                        na.rm = TRUE),
-                                                   NA),
-                                                   origin = "1970-01-01"))),
+                                                   NA))),
                      purrr::map(dbs[[i]], function(x)
-                       as.character(as.Date(ifelse(!all(is.na(x$End)),
+                       as.character(ifelse(!all(is.na(x$End)),
                                                    max(x$End,
                                                        na.rm = TRUE),
-                                                   NA),
-                                            origin = "1970-01-01"))),
+                                                   NA))),
                      purrr::map(dbs[[i]], function(x)
                        attr(x, which = "source_URL"))))
         assign(paste0("tabl", i), t(get(paste0("tabl", i))))
@@ -174,14 +172,12 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
                                  digits = 2), " %"),
                          NObs = nrow(ds),
                          NVar = ncol(ds),
-                         MinDate = as.character(as.Date(
+                         MinDate = as.character(
                            ifelse(!all(is.na(ds$Beg)),
-                                  min(ds$Beg, na.rm = TRUE), NA),
-                           origin = "1970-01-01")),
-                         MaxDate = as.character(as.Date(
+                                  min(ds$Beg, na.rm = TRUE), NA)),
+                         MaxDate = as.character(
                            ifelse(!all(is.na(ds$End)),
-                                  max(ds$End, na.rm = TRUE), NA),
-                           origin = "1970-01-01")),
+                                  max(ds$End, na.rm = TRUE), NA)),
                          URL = attr(ds, which = "source_URL"))
       tmp <- as.data.frame(tabl)
       colnames(tmp) <- c("Unique ID", "Missing Data", "Rows",
@@ -207,17 +203,15 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
                    purrr::map(dbs[[i]], function(x) nrow(x)),
                    purrr::map(dbs[[i]], function(x) ncol(x)),
                    purrr::map(dbs[[i]], function(x)
-                     as.character(as.Date(ifelse(!all(is.na(x$Beg)),
+                     as.character(ifelse(!all(is.na(x$Beg)),
                                                  min(x$Beg,
                                                      na.rm = TRUE),
-                                                 NA),
-                                          origin = "1970-01-01"))),
+                                                 NA))),
                    purrr::map(dbs[[i]], function(x)
-                     as.character(as.Date(ifelse(!all(is.na(x$End)),
+                     as.character(ifelse(!all(is.na(x$End)),
                                                  max(x$End,
                                                      na.rm = TRUE),
-                                                 NA),
-                                          origin = "1970-01-01"))),
+                                                 NA))),
                    purrr::map(dbs[[i]], function(x)
                      attr(x, which = "source_URL"))))
       assign(paste0("tabl", i), t(get(paste0("tabl", i))))
