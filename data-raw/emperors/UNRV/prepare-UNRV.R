@@ -35,7 +35,9 @@ for(i in c(13:99)) {
 UNRV <- as_tibble(UNRV) %>%
   dplyr::mutate(Beg = qCreate::standardise_dates(Beg),
                 End = qCreate::standardise_dates(End)) %>% 
-  rename(ID = "Common Name")
+  dplyr::rename(ID = "Common Name",
+         FullName = "Full Name/Imperial Name",
+         Dynasty = "Dynasty/Class/Notes")
 # qData includes several functions that should help cleaning
 # and standardising your data.
 # Please see the vignettes or website for more details.

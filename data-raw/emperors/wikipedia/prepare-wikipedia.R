@@ -6,7 +6,7 @@
 # https://github.com/zonination/emperors
 # It was assembled from the following wikipedia page:
 # https://en.wikipedia.org/wiki/List_of_Roman_emperors
-# The dataset was impoted to the package with the following line:
+# The dataset was imported to the package with the following line:
 # qCreate::import_data(dataset = "wikipedia", database = "emperors")
 # This also created and opened this preparation script.
 library(qCreate)
@@ -105,8 +105,9 @@ wikipedia$birth[66] <-  paste0(wikipedia$birth[66], "..", "0359-05-23")
 wikipedia <- as_tibble(wikipedia) %>%
   qData::transmutate(ID = name,
                      Beg = qCreate::standardise_dates(reign.start),
-                     End = qCreate::standardise_dates(reign.end),
+                     End = qCreate::standardise_dates(reign.end)
   ) %>%
+  dplyr::rename()
   dplyr::arrange(Beg)
 
 # qData includes several functions that should help cleaning
