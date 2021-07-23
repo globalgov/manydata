@@ -108,11 +108,11 @@ wikipedia <- as_tibble(wikipedia) %>%
                      End = qCreate::standardise_dates(reign.end)
   ) %>%
   dplyr::rename(Index = index,
-                `Full Name` = name.full,
+                `FullName` = name.full,
                 Birth = birth,
                 Death = death,
-                `City Birth` = birth.cty,
-                `Province Birth` = birth.prv,
+                `CityBirth` = birth.cty,
+                `ProvinceBirth` = birth.prv,
                 Rise = rise,
                 Cause = cause,
                 Killer = killer, 
