@@ -12,10 +12,10 @@ please use the \code{data_source()}, \code{data_contrast()}, and \code{data_evol
 functions.
 \describe{
 \item{wikipedia: }{A dataset with 68 observations and the following 16 variables:
-index, name.full, birth, death, birth.cty, birth.prv, rise, cause,
-killer, dynasty, era, notes, verif.who, ID, Beg, End.}
+Index, FullName, Birth, Death, CityBirth, ProvinceBirth, Rise, Cause, Killer,
+Dynasty, Era, Notes, Verif, ID, Beg, End
 \item{UNRV: }{A dataset with 99 observations and the following 7 variables:
-Beg, End, ID, Birth, Death, Full Name/Imperial Name, Dynasty/Class/Notes.}
+Beg, End, ID, Birth, Death, FullName, Dynastydevt.}
 \item{britannica: }{A dataset with 87 observations and the following 3 variables:
 ID, Beg, End.}
 }
@@ -26,8 +26,8 @@ For more information and references to each of the datasets used,
 please use the \code{data_source()}, \code{data_contrast()}, and \code{data_evolution()}
 functions.
 \describe{
-\item{wikipedia: }{A dataset with 68 observations and the following 16 variables: index, name.full, birth, death, birth.cty, birth.prv, rise, cause, killer, dynasty, era, notes, verif.who, ID, Beg, End.}
-\item{UNRV: }{A dataset with 99 observations and the following 7 variables: Beg, End, Common Name, Birth, Death, Full Name/Imperial Name, Dynasty/Class/Notes.}
+\item{wikipedia: }{A dataset with 68 observations and the following 16 variables: Index, FullName, Birth, Death, CityBirth, ProvinceBirth, Rise, Cause, Killer, Dynasty, Era, Notes, Verif, ID, Beg, End.}
+\item{UNRV: }{A dataset with 99 observations and the following 7 variables: Beg, End, ID, Birth, Death, FullName, Dynasty.}
 \item{britannica: }{A dataset with 87 observations and the following 3 variables: ID, Beg, End.}
 }
 }
