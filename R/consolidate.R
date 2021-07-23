@@ -34,7 +34,7 @@ NULL
 
 #' @rdname consolidate
 #' @examples
-#' # consolidate(emperors, "any", "any", key = "ID")
+#' consolidate(emperors, "any", "any", key = "ID")
 #' consolidate(emperors, "every", "every", key = "ID")
 #' @export
 consolidate <- function(database,

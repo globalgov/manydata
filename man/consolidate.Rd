@@ -55,7 +55,7 @@ Here we (will) offer a number of resolve methods that enable users to choose
 how conflicts between observations are resolved.
 }
 \examples{
-# consolidate(emperors, "any", "any", key = "ID")
+consolidate(emperors, "any", "any", key = "ID")
 consolidate(emperors, "every", "every", key = "ID")
 pluck(emperors, "UNRV")
 }
