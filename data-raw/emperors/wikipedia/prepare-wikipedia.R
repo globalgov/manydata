@@ -107,7 +107,19 @@ wikipedia <- as_tibble(wikipedia) %>%
                      Beg = qCreate::standardise_dates(reign.start),
                      End = qCreate::standardise_dates(reign.end)
   ) %>%
-  dplyr::rename()
+  dplyr::rename(Index = index,
+                `Full Name` = name.full,
+                Birth = birth,
+                Death = death,
+                `City Birth` = birth.cty,
+                `Province Birth` = birth.prv,
+                Rise = rise,
+                Cause = cause,
+                Killer = killer, 
+                Dynasty = dynasty,
+                Era = era,
+                Notes = notes,
+                Verif = verif.who) %>% 
   dplyr::arrange(Beg)
 
 # qData includes several functions that should help cleaning
