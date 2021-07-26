@@ -34,10 +34,11 @@ for(i in c(13:99)) {
 # Let's standardise dates and variable names
 UNRV <- as_tibble(UNRV) %>%
   dplyr::mutate(Beg = qCreate::standardise_dates(Beg),
-                End = qCreate::standardise_dates(End)) %>% 
+                End = qCreate::standardise_dates(End)) %>%
   dplyr::rename(ID = "Common Name",
          FullName = "Full Name/Imperial Name",
-         Dynasty = "Dynasty/Class/Notes")
+         Dynasty = "Dynasty/Class/Notes") %>%
+  dplyr::relocate(ID, Beg, End)
 # qData includes several functions that should help cleaning
 # and standardising your data.
 # Please see the vignettes or website for more details.

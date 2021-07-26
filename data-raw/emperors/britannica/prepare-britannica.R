@@ -67,8 +67,8 @@ britannica$reign_end <- gsub("CE", "", britannica$reign_end)
 britannica <- as_tibble(britannica) %>%
   qData::transmutate(ID = Name,
                      Beg = qCreate::standardise_dates(reign_start),
-                     End = qCreate::standardise_dates(reign_end),
-  )
+                     End = qCreate::standardise_dates(reign_end)) %>%
+  dplyr::relocate(ID, Beg, End)
 # qData includes several functions that should help cleaning
 # and standardising your data.
 # Please see the vignettes or website for more details.

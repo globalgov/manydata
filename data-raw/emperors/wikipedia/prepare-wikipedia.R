@@ -107,8 +107,7 @@ wikipedia <- as_tibble(wikipedia) %>%
                      Beg = qCreate::standardise_dates(reign.start),
                      End = qCreate::standardise_dates(reign.end)
   ) %>%
-  dplyr::rename(Index = index,
-                FullName = name.full,
+  dplyr::rename(FullName = name.full,
                 Birth = birth,
                 Death = death,
                 CityBirth = birth.cty,
@@ -119,8 +118,9 @@ wikipedia <- as_tibble(wikipedia) %>%
                 Dynasty = dynasty,
                 Era = era,
                 Notes = notes,
-                Verif = verif.who)
-
+                Verif = verif.who) %>%
+  dplyr::select(-index) %>%
+  dplyr::relocate(ID, Beg, End)
 # qData includes several functions that should help cleaning
 # and standardising your data.
 # Please see the vignettes or website for more details.
