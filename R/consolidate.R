@@ -28,12 +28,18 @@
 #' but options should soon include
 #' "max", "min", "mean", "mode" and "median", as well as "append".
 #' @param key An ID column to collapse by. By default "qID".
+#' @seealso [pluck()] for selecting a single dataset from a database
 #' @return A single tibble/data frame.
 #' @name consolidate
 NULL
 
+#' @importFrom purrr pluck
+#' @export
+purrr::pluck
+
 #' @rdname consolidate
 #' @examples
+#' pluck(emperors, "UNRV")
 #' consolidate(emperors, "any", "any", key = "ID")
 #' consolidate(emperors, "every", "every", key = "ID")
 #' @export
@@ -76,13 +82,6 @@ consolidate <- function(database,
   if (any(duplicated(out[, 1]))) out <- coalesce_compatible(out)
   out
 }
-
-#' @rdname consolidate
-#' @importFrom purrr pluck
-#' @examples
-#' pluck(emperors, "UNRV")
-#' @export
-purrr::pluck
 
 #' Coalesce all compatible rows of a data frame
 #'
