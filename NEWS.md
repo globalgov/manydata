@@ -1,6 +1,26 @@
+# qData 0.5.0
+
+## Package
+
+* Updated `get_packages()` to load downloaded packages
+* Closed #160 by updating how report family of functions to print objects only if not assigned
+* Updated user vignette for working with `consolidate()`
+* Fixed #165 by moving `interleave()` to qCreate
+* Closed #149 by adding a citation file
+* Closed #181 by adding data for running examples and tests
+
+## Connection
+
+* Closed #28 by adding `consolidate()` for collapsing a set or database of (q)dataset into a single dataset
+  * Closed #177 by adding `coalesce_compact()` to coalesce all compatible rows of a data frame
+  * Closed #180 by adding progress bar for `coalesce_compact()`
+  * Added tests for `consolidate()` and `coalesce_compact()`
+* Renamed function for getting first non-missing value `coalesce_rows()`
+  * Added tests for `coalesce_rows()`
+
 # qData 0.4.0
 
-# Package
+## Package
 
 * Separated `{qData}` into two packages, `{qData}` for users and `{qCreate}` for developers
   * Moved `setup_package()` and related functions to `{qCreate}`
@@ -8,13 +28,13 @@
   * Moved `export_data()` and related functions to `{qCreate}`
 * Moved `plot_releases()` to `{migraph}`
 
-# Connection
+## Connection
 
 * Closed #137 by making `data_contrast()` and `data_source()` return exportable objects
 
 # qData 0.3.5
 
-# Connect
+## Connection
 
 * Updated `get_packages()` function
   * Fixed bug with dates in `get_packages()` by changing dependencies to `{lubridate}`
@@ -23,12 +43,12 @@
 
 # qData 0.3.4
 
-# Package
+## Package
 
 * Fixed #128 by suppressing issues with warnings on pkgdown website
 * Updated contributor and user vignettes for new package changes
 
-# Collect
+## Collection
 
 * Updated `setup_package()` to make it more intuitive and precise for users
   * Closed #127 by updating the form in which author arguments are taken in `setup_package()`
@@ -40,13 +60,13 @@
   * Fixed #121 by allowing `add_author()` to treat multiple comments
 * Updated documentation for `setup_package()` and `add_author()`
 
-# Correct
+## Correction
 
 * Updated `standardise_dates()` to simplify function and testing
   * Closed #110 by simplifying helper functions and removing redundancy in `standardise_dates()`
   * Closed #108 by simplifying tests and removing redundancy for `standardise_dates()` 
 
-# Connect
+## Connection
 
 * Divided, updated and renamed `report_data()`  
   * Closed #131 by dividing `report_data()` into `data_source()` and `data_contrast()` functions
@@ -60,7 +80,7 @@
 
 * Closed #122 by setting package logo to the correct aspect ratio
 
-## Collect
+## Collection
 
 * Updated `setup_package()` to make it easier to set up collaborative qPackages
   * Closed #106 by making `setup_package()` accept more than two authors as arguments
@@ -68,11 +88,11 @@
   * Closed #90 by adding a `new_author()` function that adds new package contributors to description file
 * Closed #115 by updating README templates for new qPackages to include more sections
 
-## Correct
+## Correction
 
 * Closed #116 by adding more tests for new qPackage templates for standardizing NA formats
 
-## Connect
+## Connection
 
 * Updated `get_packages()` to make it easier to install globalgov qPackages
   * Fixed #117 by making the `get_packages()` work with package name only for qPackages part of the globalgov organization

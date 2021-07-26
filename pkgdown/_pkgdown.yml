@@ -29,27 +29,25 @@ navbar:
       menu:
       - text: Use
         href: articles/user.html
-      - text: Develop
-        href: articles/developer.html
     news:
       text: News
       href: news/index.html
 reference:
-  - title: "Functions for data providers"
-    desc: "These functions are to assist data providers with disseminating data on particular parts of global governance:"
-    contents:
-      - setup_package
-      - add_author
-      - import_data
-      - export_data
-      - starts_with("standardise")
-      - transmutate
-      - consolidate
-  - title: "Functions for data consumers"
+  - title: "Obtaining and inspecting data in qPackages"
     desc: "These functions are to assist data analysts with identifying, downloading, and analysing data on particular parts of global governance:"
     contents:
       - get_packages
-      - plot_releases
-      - depends
       - starts_with("data_")
-      - retain
+  - title: "Working with qDatabases"
+    desc: "These functions are to assist data analysts with identifying, downloading, and analysing data on particular parts of global governance:"
+    contents:
+      - consolidate
+      - coalesce_rows
+      - coalesce_compatible
+  - title: "Working with qData"
+    desc: "These functions are to assist data analysts with identifying, downloading, and analysing data on particular parts of global governance:"
+    contents:
+      - transmutate
+      - rearrange
+      - recollect
+      - reunite

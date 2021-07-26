@@ -31,10 +31,6 @@ calling the function. If users intend to download a package from the
 ecosystem, they can to type the package name within the function.
 }
 \examples{
-\dontrun{
-get_packages() # This prints a table (tibble)
-# to the console with details on currently available qPackages
-get_packages("qStates") # This downloads and installs from Github
-# the latest version of one or more qPackages
-}
+get_packages()
+get_packages("qStates")
 }

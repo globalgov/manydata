@@ -26,12 +26,8 @@
 #' @importFrom utils packageVersion
 #' @importFrom lubridate as_date
 #' @examples
-#' \dontrun{
-#' get_packages() # This prints a table (tibble)
-#' # to the console with details on currently available qPackages
-#' get_packages("qStates") # This downloads and installs from Github
-#' # the latest version of one or more qPackages
-#' }
+#' get_packages()
+#' get_packages("qStates")
 #' @export
 get_packages <- function(pkg) {
 
@@ -99,7 +95,7 @@ get_packages <- function(pkg) {
     # get_contributors <- function(full_name) {
     #   contribs <- paste0("https://api.github.com/repos/",
     #                      full_name, "/contributors")
-    #   if(length(contribs)==1){
+    #   if(length(contribs)==1) {
     #     contribs <- httr::GET(contribs)
     #     contribs <- suppressMessages(httr::content(contribs, type = "text"))
     #     contribs <- jsonlite::fromJSON(contribs, flatten = TRUE)$login
@@ -137,19 +133,24 @@ get_packages <- function(pkg) {
   if (!missing(pkg)) {
     if (stringr::str_detect(pkg, "/")) {
       remotes::install_github(pkg)
+      pkg <- strsplit(pkg, "/")[[1]][2]
     } else if (stringr::str_detect(pkg, "^[:digit:]{1}$")) {
-      if (pkg == 2) {
-      remotes::install_github("globalgov/qEnviron")
-      }
-      if (pkg == 3) {
+      if (pkg == 1) {
+        pkg <- "qCreate"
+        remotes::install_github("globalgov/qCreate")
+      } else if (pkg == 3) {
+        pkg <- "qEnviron"
+        remotes::install_github("globalgov/qEnviron")
+      } else if (pkg == 4) {
+        pkg <- "qStates"
         remotes::install_github("globalgov/qStates")
-      } else if (!pkg == 2 & 3) {
+      } else {
         stop("Package number not found, please type package name")
       }
     } else {
-      pkg <- paste0("globalgov/", pkg)
-      remotes::install_github(pkg)
+      remotes::install_github(paste0("globalgov/", pkg))
     }
+    library(pkg, character.only = TRUE)
   }
 
 }

@@ -64,44 +64,34 @@ more robust data when researching on a particular governance domain.
 
 ## Loading data
 
-For now, let us say that we wish to download the `{qStates}` package,
+Let us say that we wish to download the `{qStates}` package,
 which offers a set of datasets related to state actors in global governance. 
 We can download and install the latest release version of
 the `{qStates}` package using the same function as before, only
-specifying which package we want to 'get':
+specifying which package we want to 'get', 'get_packages("globalgov/qStates")'.
 
-```{r, eval=FALSE}
-get_packages("globalgov/qStates")
-```
-
-Once the qpackage has been downloaded and installed, we are free to work
-with the data it contains. 
-This `{qStates}` package includes several datasets.
+For now, let's work with the Roman Emperors database included in qData. 
 We can get a quick summary of the datasets included in this
 package with the following command:
 
 ```{r}
-data(package = "qStates")
+data(package = "qData")
+data(emperors, package = "qData")
+emperors
 ```
 
-Let's take a quick look at the main `states` data in this package.
-
-```{r}
-data(states, package = "qStates")
-states
-```
-
-We can see that there are three named datasets relating to states here:
-`COW` (Correlates of War), `GW` (Gleditsch and Ward), and `ISD`
-(International Systems Dataset). Each of these datasets has their
-advantages and so we may wish to understand their differences, summarise
+We can see that there are three named datasets relating to emperors here:
+`wikipedia` (dataset assembled from Wikipedia pages), `UNVR` (United Nations of Roman Vitrix),
+and `britannica` (Britannica Encyclopedia List of Roman Emperors).
+Each of these datasets has their advantages and so we may wish
+to understand their differences, summarise
 variables across them, and perhaps also rerun models across them.
 
 To retrieve an individual dataset from this database,
 we can use the `pluck()` function from the `{purrr}` package.
 
 ```{r}
-COW <- purrr::pluck(states, "COW")
+wikipedia <- purrr::pluck(emperors, "wikipedia")
 ```
 
 However, the real value of qData packages is that multiple datasets
@@ -116,22 +106,20 @@ to understand what their relative advantages and disadvantages are.
 For example, one dataset may be long (has many observations) 
 while another is shorter but wider (has more variables).
 One might include details further back in history while the other is more recent,
-but include more missing data or less precise data (i.e. coded at a less granular level)
-than another with a more restrictive 
-Or one might appear complete yet offer less information on where the original data points
-were sourced or how certain variables were coded,
-while another provides an extensive and transparent codebook that facilitates replication.
-Below we show how one might compare the data in `states` in these ways.
+but include more missing data or less precise data
+(i.e. coded at a less granular level) than another with a more restrictive. 
+Or one might appear complete yet offer less information on where the original
+data points were sourced or how certain variables were coded,
+while another provides an extensive and transparent codebook
+that facilitates replication.
 
 ### Differences in documentation
 
-We can bring up the database level documentation using the following command:
-`?states`.
-This documentation informs the user on the various datasets that are present in
-the database as well as the most important metadata of the various datasets. 
-If we want a more detailed summary of the various levels of data 
-and sources we can run `data_source()` and `data_contrast()` functions as
-outlined below.
+We can bring up the database level documentation using: `?emperors`.
+This informs users on the datasets present in the database
+as well as the variables in the various datasets. 
+However, if we want a more detailed summary of the various levels of data 
+and sources, we can use `data_source()` and `data_contrast()`.
 
 ### Using `data_source()` and `data_contrast()`
 
@@ -139,7 +127,7 @@ The `data_source()` function displays bibliographic references for the datasets
 in a qPackage or within a database.
 
 ```{r}
-data_source(pkg = "qStates", database = NULL, dataset = NULL)
+data_source(pkg = "qData", database = NULL, dataset = NULL)
 ```
 
 The `data_contrast()` function returns a data frame with the key metadata 
@@ -154,34 +142,32 @@ This metadata includes the following elements:
 * Source URL
 
 ```{r}
-data_contrast(pkg = "qStates", database = NULL, dataset = NULL)
+data_contrast(pkg = "qData", database = NULL, dataset = NULL)
 ```
 
-If we were specifically interested in the `COW` dataset of the `states`
-database, we would specify the output by setting the database and the dataset
-arguments to the corresponding value. 
+If we were specifically interested in the one dataset of the
+database, we can further specify the arguments. 
 
 ```{r}
-data_contrast(pkg = "qStates", database = "states",
-              dataset = "COW")
+data_contrast(pkg = "qData", database = "emperors", dataset = "wikipedia")
 ```
 
-## Modelling data
+### An example of inference sensitivity to data sources:
 
-Next we may be interested in whether any relationships we are interested in or inferences we want to draw
-are sensitive to which data we use.
+Next we may be interested in whether any relationships we are interested in
+or inferences we want to draw are sensitive to which data we use.
 That is, we are interested in the robustness of any results to different data specifications.
-None of the `states` datasets are particularly wide, but let us try and examine the "Beg" variable to start with.
 
-We can start by exploring whether our conclusion about when states first gained sovereignty
+We can start by exploring whether our conclusion about when emperors began their reign
 would differ depending on which dataset we use.
 We can use the `purrr::map()` function used above, but this time pass it the `mean()` function
-and tell it to operate on just the "Beg" variable (removing any NAs).
+and tell it to operate on just the "Beg" variable, wich represents 
+when emperors began their reign (removing any NAs).
 Since qData datasets are always ordered by "Beg" (and then "ID"),
 we can remove any subsequent (duplicated) entries by ID to concentrate on first appearances.
 
 ```{r}
-states %>% 
+emperors %>% 
   purrr::map(function(x){
     x %>% dplyr::filter(!duplicated(ID)) %>%
       dplyr::summarise(mean(Beg, na.rm = TRUE))
@@ -189,5 +175,25 @@ states %>%
 ```
 
 It seems that there is some variation there.
-Of course, these averages are biased in the sense that these datasets are left-censored.
-Any state gaining sovereignty prior to 1816 is simply assigned as "1816-01-01".
+
+## Consolidate data
+
+Now that we have visualized the data and looked at some of the different inferences
+drawn using different datasets, let us examine how to select and collapse databases.
+`{qData}` contains the `consolidate()` which facilitates collapsing multiple
+datasets into a dataframe for analysis.
+
+`consolidate()` collapses a set of (q)datasets, or a database,
+into a single dataset with some combination of the rows and columns.
+The function includes separate arguments for the rows and columns,
+as well as for how to resolve conflicts in observations across datasets.
+The key argument indicates the column to collapse datasets by.
+This provides users with considerable flexibility in how they combine qData.
+For example, users may wish to stick to units that appear in every dataset
+but include variables coded in any dataset or units that appear in any dataset,
+but only those variables that appear in every dataset.
+
+```{r}
+consolidate(emperors, rows = "any", cols = "any", resolve = "coalesce", key = "ID")
+consolidate(emperors, rows = "every", cols = "every", resolve = "coalesce", key = "ID")
+```

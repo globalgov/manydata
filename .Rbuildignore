@@ -8,3 +8,8 @@
 ^pkgdown$
 ^httr-oauth
 ^\.httr-oauth$
+^data-raw$
+^data-raw/emperors$
+^data-raw/emperors/wikipedia$
+^data-raw/emperors/UNRV$
+^data-raw/emperors/britannica$
