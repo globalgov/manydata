@@ -53,21 +53,6 @@ reunite <- function(..., sep = "_") {
   out
 }
 
-#' Moving variables relative to others
-#'
-#' @param data First variable to be used, required.
-#' @param tomove Variable(s) to be moved
-#' @param where String that dictates position in relation to reference variable.
-#' Can be one of: "last", "first", "before", or "after".
-#' @param ref Optional string identifying reference variable
-#' @details Moves variables (columns) of a data frame to positions
-#' relative to other variables in the data frame.
-#' @return The data frame given by 'data' with the variables repositioned
-#' @export
-rearrange <- function(data, tomove, where = "last", ref = NULL) {
-  .Deprecated("dplyr::relocate")
-}
-
 #' Pastes unique string vectors
 #'
 #' For use with dplyr::summarise, for example
