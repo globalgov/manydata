@@ -27,7 +27,7 @@ License: CC BY 4.0
 URL: https://github.com/globalgov/qData
 BugReports: https://github.com/globalgov/qData/issues
 Depends:
-    R (>= 2.10),
+    R (>= 3.5.0),
     tibble
 Imports:
     covr,
@@ -45,7 +45,6 @@ Imports:
     httr,
     progress
 Suggests:
-    librarian,
     testthat,
     anytime,
     mice,
@@ -55,8 +54,6 @@ Suggests:
     readr,
     knitr,
     rmarkdown
-Remotes:
-    globalgov/qStates
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
