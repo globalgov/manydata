@@ -32,5 +32,5 @@ test_that("dataset is arranged by date variable", {
   if (!is.null(emperors[["wikipedia"]]$Beg)) {
     expect_true(emperors[["wikipedia"]]$Beg[10] <
                   emperors[["wikipedia"]]$Beg[20])
-    }
+  }
 })
