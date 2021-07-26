@@ -17,14 +17,12 @@ Required input.}
 \item{database}{vector of character strings of the qPackage to
 report data a specific database in a qPackage.
 If NULL, the function returns a summary of all databases in the qPackage.
-NULL by default for \code{data_source()} and \code{data_contrast()}. Required for
-\code{data_evolution()}.}
+NULL by default for \code{data_source()} and \code{data_contrast()}.}
 
 \item{dataset}{character string of the qPackage to report data on a specific
 dataset in a specific database of a qPackage.
 If NULL and database is specified, returns database level metadata.
-NULL by default for \code{data_source()} and \code{data_contrast()}. Required for
-\code{data_evolution()}.}
+NULL by default for \code{data_source()} and \code{data_contrast()}.}
 }
 \value{
 A dataframe with the data sources
