@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get first non-missing — consolidate • qData</title>
+<title>Consolidate database into a single dataset — consolidate • qData</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,21 @@
 
 
 
-<meta property="og:title" content="Get first non-missing — consolidate" />
-<meta property="og:description" content="For use with dplyr::summarise, for example" />
+<meta property="og:title" content="Consolidate database into a single dataset — consolidate" />
+<meta property="og:description" content="This function collapses a set or database of (q)datasets
+into a single dataset with some combination of the
+rows, columns, and observations of the parent datasets.
+The function includes separate arguments for the rows and columns,
+as well as for how to resolve conflicts in observations across datasets.
+This provides users with considerable flexibility in how they combine qData.
+For example, users may wish to stick to units that appear in every dataset
+but include variables coded in any dataset,
+or units that appear in any dataset
+but only those variables that appear in every dataset.
+Even then there may be conflicts, as the actual unit-variable observations
+may differ from dataset to dataset.
+Here we (will) offer a number of resolve methods that enable users to choose
+how conflicts between observations are resolved." />
 
 
 
@@ -72,7 +85,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">qData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -80,7 +93,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -96,9 +109,6 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/user.html">Use</a>
-    </li>
-    <li>
-      <a href="../articles/developer.html">Develop</a>
     </li>
   </ul>
 </li>
@@ -126,74 +136,122 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get first non-missing</h1>
-    <small class="dont-index">Source: <a href='https://github.com/globalgov/qData/blob/master/R/wrangling_data.R'><code>R/wrangling_data.R</code></a></small>
+    <h1>Consolidate database into a single dataset</h1>
+    <small class="dont-index">Source: <a href='https://github.com/globalgov/qData/blob/master/R/consolidate.R'><code>R/consolidate.R</code></a></small>
     <div class="hidden name"><code>consolidate.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>For use with dplyr::summarise, for example</p>
+    <p>This function collapses a set or database of (q)datasets
+into a single dataset with some combination of the
+rows, columns, and observations of the parent datasets.
+The function includes separate arguments for the rows and columns,
+as well as for how to resolve conflicts in observations across datasets.
+This provides users with considerable flexibility in how they combine qData.
+For example, users may wish to stick to units that appear in every dataset
+but include variables coded in any dataset,
+or units that appear in any dataset
+but only those variables that appear in every dataset.
+Even then there may be conflicts, as the actual unit-variable observations
+may differ from dataset to dataset.
+Here we (will) offer a number of resolve methods that enable users to choose
+how conflicts between observations are resolved.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>consolidate</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>consolidate</span><span class='op'>(</span>
+  <span class='va'>database</span>,
+  rows <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"any"</span>, <span class='st'>"every"</span><span class='op'>)</span>,
+  cols <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"any"</span>, <span class='st'>"every"</span><span class='op'>)</span>,
+  resolve <span class='op'>=</span> <span class='st'>"coalesce"</span>,
+  key <span class='op'>=</span> <span class='st'>"qID"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>A vector</p></td>
+      <th>database</th>
+      <td><p>A qPackage database object</p></td>
+    </tr>
+    <tr>
+      <th>rows</th>
+      <td><p>Which rows or units to retain.
+By default "any" (or all) units are retained,
+but another option is "every",
+which retains only those units that appear in all parent datasets.</p></td>
+    </tr>
+    <tr>
+      <th>cols</th>
+      <td><p>Which columns or variables to retain.
+By default "any" (or all) variables are retained,
+but another option is "every",
+which retains only those variables that appear in all parent datasets.</p></td>
+    </tr>
+    <tr>
+      <th>resolve</th>
+      <td><p>How conflicts between observations should be resolved.
+Currently only "coalesce" is offered, which takes the first non-NA value,
+but options should soon include
+"max", "min", "mean", "mode" and "median", as well as "append".</p></td>
+    </tr>
+    <tr>
+      <th>key</th>
+      <td><p>An ID column to collapse by. By default "qID".</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
-
-    <p>https://stackoverflow.com/questions/40515180/dplyr-how-to-find-the-first-non-missing-string-by-groups</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A single value</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <p>A single tibble/data frame.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>This function operates similarly to coalesce for columns,
-that is picking the first non-missing observation,
-but on observations rather than variables.</p>
+    <div class='dont-index'><p><code><a href='https://purrr.tidyverse.org/reference/pluck.html'>pluck()</a></code> for selecting a single dataset from a database</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fu'>consolidate</span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;     mpg
-#&gt; 1  21.0
-#&gt; 2  21.0
-#&gt; 3  22.8
-#&gt; 4  21.4
-#&gt; 5  18.7
-#&gt; 6  18.1
-#&gt; 7  14.3
-#&gt; 8  24.4
-#&gt; 9  22.8
-#&gt; 10 19.2
-#&gt; 11 17.8
-#&gt; 12 16.4
-#&gt; 13 17.3
-#&gt; 14 15.2
-#&gt; 15 10.4
-#&gt; 16 10.4
-#&gt; 17 14.7
-#&gt; 18 32.4
-#&gt; 19 30.4
-#&gt; 20 33.9
-#&gt; 21 21.5
-#&gt; 22 15.5
-#&gt; 23 15.2
-#&gt; 24 13.3
-#&gt; 25 19.2
-#&gt; 26 27.3
-#&gt; 27 26.0
-#&gt; 28 30.4
-#&gt; 29 15.8
-#&gt; 30 19.7
-#&gt; 31 15.0
-#&gt; 32 21.4</div><div class='input'><span class='fu'>consolidate</span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>$</span><span class='va'>wt</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 2.62</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://purrr.tidyverse.org/reference/pluck.html'>pluck</a></span><span class='op'>(</span><span class='va'>emperors</span>, <span class='st'>"UNRV"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 99 × 7</span>
+#&gt;    ID        Beg     End    Birth Death FullName                   Dynasty      
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;messy&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;mess&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>        
+#&gt; <span style='color: #BCBCBC;'> 1</span> Augustus  0027 BC 0014 … 63 BC 14    Gaius Julius Caesar Octav… Julio-Claudi…
+#&gt; <span style='color: #BCBCBC;'> 2</span> Tiberius  0014 BC 0037 … 42 BC 37    Tiberius Claudius Nero Ca… Julio-Claudi…
+#&gt; <span style='color: #BCBCBC;'> 3</span> Gaius (C… 0037    0041 … 12    14    Gaius Caesar Germanicus /… Julio-Claudi…
+#&gt; <span style='color: #BCBCBC;'> 4</span> Claudius  0041    0054 … 10 BC 41    Tiberius Claudius Nero Ge… Julio-Claudi…
+#&gt; <span style='color: #BCBCBC;'> 5</span> Nero      0054    0068 … 37    68    Claudius Nero Caesar (bor… Julio-Claudi…
+#&gt; <span style='color: #BCBCBC;'> 6</span> Galba     0068    0069 … 3 BC  69    Servius Sulpicius Galba /… Year of the …
+#&gt; <span style='color: #BCBCBC;'> 7</span> Otho      0069    0069 … 32    69    Marcus Salvius Otho / Imp… Year of the …
+#&gt; <span style='color: #BCBCBC;'> 8</span> Vitellius 0069    0069 … 15    69    Aulus Vitellius / Aulus V… Year of the …
+#&gt; <span style='color: #BCBCBC;'> 9</span> Vespasian 0069    0079 … 9     79    Titus Flavius Vespasianus… Year of the …
+#&gt; <span style='color: #BCBCBC;'>10</span> Titus     0079    0081 … 39    79    Titus Flavius Vespasianus… Flavian      
+#&gt; <span style='color: #949494;'># … with 89 more rows</span></div><div class='input'><span class='fu'>consolidate</span><span class='op'>(</span><span class='va'>emperors</span>, <span class='st'>"any"</span>, <span class='st'>"any"</span>, key <span class='op'>=</span> <span class='st'>"ID"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 137 × 15</span>
+#&gt;    ID     CityBirth  ProvinceBirth  Rise  Cause Killer Era   Notes   Verif Birth
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> Augus… Rome       Italia         Birt… Assa… Wife   Prin… birth,… Redd… 0062…
+#&gt; <span style='color: #BCBCBC;'> 2</span> Tiber… Rome       Italia         Birt… Assa… Other… Prin… birth … Redd… 0041…
+#&gt; <span style='color: #BCBCBC;'> 3</span> Calig… Antitum    Italia         Birt… Assa… Senate Prin… assass… Redd… 0012…
+#&gt; <span style='color: #BCBCBC;'> 4</span> Claud… Lugdunum   Gallia Lugdun… Birt… Assa… Wife   Prin… birth … Redd… 0009…
+#&gt; <span style='color: #BCBCBC;'> 5</span> Nero   Antitum    Italia         Birt… Suic… Senate Prin… <span style='color: #BB0000;'>NA</span>      Redd… 0037…
+#&gt; <span style='color: #BCBCBC;'> 6</span> Galba  Terracina  Italia         Seiz… Assa… Other… Prin… birth … Redd… 0002…
+#&gt; <span style='color: #BCBCBC;'> 7</span> Otho   Terentinum Italia         Appo… Suic… Other… Prin… <span style='color: #BB0000;'>NA</span>      <span style='color: #BB0000;'>NA</span>    0032…
+#&gt; <span style='color: #BCBCBC;'> 8</span> Vitel… Rome       Italia         Seiz… Assa… Other… Prin… <span style='color: #BB0000;'>NA</span>      <span style='color: #BB0000;'>NA</span>    0015…
+#&gt; <span style='color: #BCBCBC;'> 9</span> Vespa… Falacrine  Italia         Seiz… Natu… Disea… Prin… <span style='color: #BB0000;'>NA</span>      <span style='color: #BB0000;'>NA</span>    0009…
+#&gt; <span style='color: #BCBCBC;'>10</span> Titus  Rome       Italia         Birt… Natu… Disea… Prin… <span style='color: #BB0000;'>NA</span>      <span style='color: #BB0000;'>NA</span>    0039…
+#&gt; <span style='color: #949494;'># … with 127 more rows, and 5 more variables: Death &lt;chr&gt;, FullName &lt;chr&gt;,</span>
+#&gt; <span style='color: #949494;'>#   Dynasty &lt;chr&gt;, Beg &lt;messydt&gt;, End &lt;messydt&gt;</span></div><div class='input'><span class='fu'>consolidate</span><span class='op'>(</span><span class='va'>emperors</span>, <span class='st'>"every"</span>, <span class='st'>"every"</span>, key <span class='op'>=</span> <span class='st'>"ID"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 41 × 3</span>
+#&gt;    ID        Beg           End       
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;messydt&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;messydt&gt;</span> 
+#&gt; <span style='color: #BCBCBC;'> 1</span> Augustus  0026-01-16 BC 0014-08-19
+#&gt; <span style='color: #BCBCBC;'> 2</span> Tiberius  0014-09-18    0037-03-16
+#&gt; <span style='color: #BCBCBC;'> 3</span> Claudius  0041-01-25    0054-10-13
+#&gt; <span style='color: #BCBCBC;'> 4</span> Nero      0054-10-13    0068-06-09
+#&gt; <span style='color: #BCBCBC;'> 5</span> Galba     0068-06-08    0069-01-15
+#&gt; <span style='color: #BCBCBC;'> 6</span> Otho      0069-01-15    0069-04-16
+#&gt; <span style='color: #BCBCBC;'> 7</span> Vespasian 0069-12-21    0079-06-24
+#&gt; <span style='color: #BCBCBC;'> 8</span> Titus     0079-06-24    0081-09-13
+#&gt; <span style='color: #BCBCBC;'> 9</span> Domitian  0081-09-14    0096-09-18
+#&gt; <span style='color: #BCBCBC;'>10</span> Nerva     0096-09-18    0098-01-27
+#&gt; <span style='color: #949494;'># … with 31 more rows</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

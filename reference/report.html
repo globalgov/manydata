@@ -74,7 +74,7 @@ aspects of a q Packages, databases and datasets." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">qData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -82,7 +82,7 @@ aspects of a q Packages, databases and datasets." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -98,9 +98,6 @@ aspects of a q Packages, databases and datasets." />
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/user.html">Use</a>
-    </li>
-    <li>
-      <a href="../articles/developer.html">Develop</a>
     </li>
   </ul>
 </li>
@@ -139,9 +136,9 @@ to quickly get information about and compare several
 aspects of a q Packages, databases and datasets.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>data_source</span><span class='op'>(</span><span class='va'>pkg</span>, database <span class='op'>=</span> <span class='cn'>NULL</span>, dataset <span class='op'>=</span> <span class='cn'>NULL</span>, print <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>data_source</span><span class='op'>(</span><span class='va'>pkg</span>, database <span class='op'>=</span> <span class='cn'>NULL</span>, dataset <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='fu'>data_contrast</span><span class='op'>(</span><span class='va'>pkg</span>, database <span class='op'>=</span> <span class='cn'>NULL</span>, dataset <span class='op'>=</span> <span class='cn'>NULL</span>, print <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+<span class='fu'>data_contrast</span><span class='op'>(</span><span class='va'>pkg</span>, database <span class='op'>=</span> <span class='cn'>NULL</span>, dataset <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,27 +152,23 @@ Required input.</p></td>
       <th>database</th>
       <td><p>vector of character strings of the qPackage to
 report data a specific database in a qPackage.
-If NULL, report_data returns a summary of all databases in the qPackage.
-NULL by default.</p></td>
+If NULL, the function returns a summary of all databases in the qPackage.
+NULL by default for <code>data_source()</code> and <code>data_contrast()</code>.</p></td>
     </tr>
     <tr>
       <th>dataset</th>
       <td><p>character string of the qPackage to report data on a specific
 dataset in a specific database of a qPackage.
 If NULL and database is specified, returns database level metadata.
-NULL by default.</p></td>
-    </tr>
-    <tr>
-      <th>print</th>
-      <td><p>should dataframe returned be printed to console?
-TRUE by default.</p></td>
+NULL by default for <code>data_source()</code> and <code>data_contrast()</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A dataframe with the data sources</p>
-<p>A dataframe with the data report</p>
+<p>A list with the desired metadata to compare various datasets in the
+qVerse.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><code>data_source()</code> displays names of the database/datasets and
@@ -188,25 +181,23 @@ the minimum beginning date and the maximum ending date as well as
 the most direct URL to the original dataset.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>data_source</span><span class='op'>(</span>pkg <span class='op'>=</span> <span class='st'>"qStates"</span>, database <span class='op'>=</span> <span class='st'>"states"</span>, dataset <span class='op'>=</span> <span class='st'>"COW"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "Reference for the COW dataset in the States database"</div><div class='output co'>#&gt;           COW                                                                                                                               
-#&gt; Reference "Correlates of War Project (2017). “State System Membership List,v2016.” &lt;URL: http://correlatesofwar.org&gt;. Accessed: 2021-01-25."</div><div class='input'><span class='fu'>data_contrast</span><span class='op'>(</span>pkg <span class='op'>=</span> <span class='st'>"qStates"</span>, database <span class='op'>=</span> <span class='st'>"states"</span>, dataset <span class='op'>=</span> <span class='st'>"COW"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "COW dataset from the States database"
-#&gt;                                                                        COW
-#&gt; UniqueID                                                               217
-#&gt; Missing_Data                                                           0 %
-#&gt; NObs                                                                   243
-#&gt; NVar                                                                     5
-#&gt; MinDate                                                         1816-01-01
-#&gt; MaxDate                                                         2016-12-31
-#&gt; URL          https://correlatesofwar.org/data-sets/state-system-membership</div><div class='output co'>#&gt;                                                                        COW
-#&gt; UniqueID                                                               217
-#&gt; Missing_Data                                                           0 %
-#&gt; NObs                                                                   243
-#&gt; NVar                                                                     5
-#&gt; MinDate                                                         1816-01-01
-#&gt; MaxDate                                                         2016-12-31
-#&gt; URL          https://correlatesofwar.org/data-sets/state-system-membership</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>data_source</span><span class='op'>(</span>pkg <span class='op'>=</span> <span class='st'>"qData"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Component 1 :
+#&gt;            Reference                                                                                                    
+#&gt; wikipedia  "(????). “List_of_Roman_emperors.” &lt;URL:tps://en.wikipedia.org/wiki/List_of_Roman_emperors&gt;. Acc" [truncated]
+#&gt; UNRV       "(????). “Roman Emperor list.” &lt;URL:https://www.unrv.com/government/emperor.php&gt;. Accessed: 2021" [truncated]
+#&gt; britannica "(????). “List of Roman emperors.” &lt;URL:https://www.britannica.com/topic/list-of-Roman-emperors-" [truncated]
+#&gt; </div><div class='input'><span class='fu'>data_contrast</span><span class='op'>(</span>pkg <span class='op'>=</span> <span class='st'>"qData"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; emperors :
+#&gt;            Unique ID Missing Data Rows Columns        Beg        End
+#&gt; wikipedia         68        9.9 %   68      15 0014-09-18 0395-01-17
+#&gt; UNRV              98       6.06 %   99       7    0014 BC       0518
+#&gt; britannica        87          0 %   87       3       0014       0491
+#&gt;                                                                        URL
+#&gt; wikipedia                           https://github.com/zonination/emperors
+#&gt; UNRV                           https://www.unrv.com/government/emperor.php
+#&gt; britannica https://www.britannica.com/topic/list-of-Roman-emperors-2043294
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

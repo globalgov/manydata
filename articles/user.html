@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">qData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -55,9 +55,6 @@
   <ul class="dropdown-menu" role="menu">
 <li>
       <a href="../articles/user.html">Use</a>
-    </li>
-    <li>
-      <a href="../articles/developer.html">Develop</a>
     </li>
   </ul>
 </li>
@@ -88,7 +85,7 @@
       <h1 data-toc-skip>Working with qData</h1>
                         <h4 class="author">James Hollway</h4>
             
-            <h4 class="date">2021-05-17</h4>
+            <h4 class="date">2021-07-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/globalgov/qData/blob/master/vignettes/user.Rmd"><code>vignettes/user.Rmd</code></a></small>
       <div class="hidden name"><code>user.Rmd</code></div>
@@ -106,26 +103,8 @@
 <pre><code>#&gt; Loading required package: tibble</code></pre>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/get_packages.html">get_packages</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>#&gt; Warning: 1 failed to parse.</code></pre>
-<pre><code>#&gt; # A tibble: 4 x 6
-#&gt;   name     full_name         
-#&gt;   &lt;chr&gt;    &lt;chr&gt;             
-#&gt; 1 qCreate  globalgov/qCreate 
-#&gt; 2 qData    globalgov/qData   
-#&gt; 3 qEnviron globalgov/qEnviron
-#&gt; 4 qStates  globalgov/qStates 
-#&gt;   description                                             installed latest    
-#&gt;   &lt;chr&gt;                                                   &lt;chr&gt;     &lt;chr&gt;     
-#&gt; 1 Support for creating new qPackages                      &lt;NA&gt;      Unreleased
-#&gt; 2 An R portal for ensembled global governance data        0.4.0     0.4.0     
-#&gt; 3 qPackage for ensembled data on environmental agreements 0.0.2     0.0.2     
-#&gt; 4 qPackage for ensembled data on sovereign states         0.0.3     0.0.3     
-#&gt;   updated   
-#&gt;   &lt;date&gt;    
-#&gt; 1 NA        
-#&gt; 2 2021-05-17
-#&gt; 3 2021-02-22
-#&gt; 4 2021-02-22</code></pre>
+<pre><code>#&gt; # A tibble: 0 × 1
+#&gt; # … with 1 variable: updated &lt;date&gt;</code></pre>
 <p>In the future, this function will report more details about the datasets included in each package and their provenance.</p>
 </div>
 <div id="understanding-data" class="section level2">
@@ -139,90 +118,87 @@
 <div id="loading-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#loading-data" class="anchor"></a>Loading data</h2>
-<p>For now, let us say that we wish to download the <a href="https://github.com/globalgov/qStates">qStates</a> package, which offers a set of datasets related to state actors in global governance. We can download and install the latest release version of the <a href="https://github.com/globalgov/qStates">qStates</a> package using the same function as before, only specifying which package we want to ‘get’:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/get_packages.html">get_packages</a></span><span class="op">(</span><span class="st">"globalgov/qStates"</span><span class="op">)</span></code></pre></div>
-<p>Once the qpackage has been downloaded and installed, we are free to work with the data it contains. This <a href="https://github.com/globalgov/qStates">qStates</a> package includes several datasets. We can get a quick summary of the datasets included in this package with the following command:</p>
+<p>Let us say that we wish to download the <a href="https://github.com/globalgov/qStates">qStates</a> package, which offers a set of datasets related to state actors in global governance. We can download and install the latest release version of the <a href="https://github.com/globalgov/qStates">qStates</a> package using the same function as before, only specifying which package we want to ‘get’, ‘get_packages(“globalgov/qStates”)’.</p>
+<p>For now, let’s work with the Roman Emperors database included in qData. We can get a quick summary of the datasets included in this package with the following command:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"qData"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">emperors</span>, package <span class="op">=</span> <span class="st">"qData"</span><span class="op">)</span>
+<span class="va">emperors</span></code></pre></div>
+<pre><code>#&gt; $wikipedia
+#&gt; # A tibble: 68 × 15
+#&gt;    ID     Beg    End   FullName  Birth Death CityBirth ProvinceBirth Rise  Cause
+#&gt;    &lt;chr&gt;  &lt;mess&gt; &lt;mes&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt;
+#&gt;  1 Augus… 0026-… 0014… IMPERATO… 0062… 0014… Rome      Italia        Birt… Assa…
+#&gt;  2 Tiber… 0014-… 0037… TIBERIVS… 0041… 0037… Rome      Italia        Birt… Assa…
+#&gt;  3 Calig… 0037-… 0041… GAIVS IV… 0012… 0041… Antitum   Italia        Birt… Assa…
+#&gt;  4 Claud… 0041-… 0054… TIBERIVS… 0009… 0054… Lugdunum  Gallia Lugdu… Birt… Assa…
+#&gt;  5 Nero   0054-… 0068… NERO CLA… 0037… 0068… Antitum   Italia        Birt… Suic…
+#&gt;  6 Galba  0068-… 0069… SERVIVS … 0002… 0069… Terracina Italia        Seiz… Assa…
+#&gt;  7 Otho   0069-… 0069… MARCVS S… 0032… 0069… Terentin… Italia        Appo… Suic…
+#&gt;  8 Vitel… 0069-… 0069… AVLVS VI… 0015… 0069… Rome      Italia        Seiz… Assa…
+#&gt;  9 Vespa… 0069-… 0079… TITVS FL… 0009… 0079… Falacrine Italia        Seiz… Natu…
+#&gt; 10 Titus  0079-… 0081… TITVS FL… 0039… 0081… Rome      Italia        Birt… Natu…
+#&gt; # … with 58 more rows, and 5 more variables: Killer &lt;chr&gt;, Dynasty &lt;chr&gt;,
+#&gt; #   Era &lt;chr&gt;, Notes &lt;chr&gt;, Verif &lt;chr&gt;
+#&gt; 
+#&gt; $UNRV
+#&gt; # A tibble: 99 × 7
+#&gt;    ID        Beg     End    Birth Death FullName                   Dynasty      
+#&gt;    &lt;chr&gt;     &lt;messy&gt; &lt;mess&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;                      &lt;chr&gt;        
+#&gt;  1 Augustus  0027 BC 0014 … 63 BC 14    Gaius Julius Caesar Octav… Julio-Claudi…
+#&gt;  2 Tiberius  0014 BC 0037 … 42 BC 37    Tiberius Claudius Nero Ca… Julio-Claudi…
+#&gt;  3 Gaius (C… 0037    0041 … 12    14    Gaius Caesar Germanicus /… Julio-Claudi…
+#&gt;  4 Claudius  0041    0054 … 10 BC 41    Tiberius Claudius Nero Ge… Julio-Claudi…
+#&gt;  5 Nero      0054    0068 … 37    68    Claudius Nero Caesar (bor… Julio-Claudi…
+#&gt;  6 Galba     0068    0069 … 3 BC  69    Servius Sulpicius Galba /… Year of the …
+#&gt;  7 Otho      0069    0069 … 32    69    Marcus Salvius Otho / Imp… Year of the …
+#&gt;  8 Vitellius 0069    0069 … 15    69    Aulus Vitellius / Aulus V… Year of the …
+#&gt;  9 Vespasian 0069    0079 … 9     79    Titus Flavius Vespasianus… Year of the …
+#&gt; 10 Titus     0079    0081 … 39    79    Titus Flavius Vespasianus… Flavian      
+#&gt; # … with 89 more rows
+#&gt; 
+#&gt; $britannica
+#&gt; # A tibble: 87 × 3
+#&gt;    ID              Beg       End      
+#&gt;    &lt;chr&gt;           &lt;messydt&gt; &lt;messydt&gt;
+#&gt;  1 Augustus        0031 BC   0014     
+#&gt;  2 Tiberius        0014      0037     
+#&gt;  3 Caligula        0037      0041     
+#&gt;  4 Claudius        0041      0054     
+#&gt;  5 Nero            0054      0068     
+#&gt;  6 Galba           0068      0069     
+#&gt;  7 Otho            0069-01   0069-04  
+#&gt;  8 Aulus Vitellius 0069-07   0069-12  
+#&gt;  9 Vespasian       0069      0079     
+#&gt; 10 Titus           0079      0081     
+#&gt; # … with 77 more rows</code></pre>
+<p>We can see that there are three named datasets relating to emperors here: <code>wikipedia</code> (dataset assembled from Wikipedia pages), <code>UNVR</code> (United Nations of Roman Vitrix), and <code>britannica</code> (Britannica Encyclopedia List of Roman Emperors). Each of these datasets has their advantages and so we may wish to understand their differences, summarise variables across them, and perhaps also rerun models across them.</p>
+<p>To retrieve an individual dataset from this database, we can use the <code><a href="https://purrr.tidyverse.org/reference/pluck.html">pluck()</a></code> function from the <a href="http://purrr.tidyverse.org">purrr</a> package.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"qStates"</span><span class="op">)</span></code></pre></div>
-<p>Let’s take a quick look at the main <code>states</code> data in this package.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">states</span>, package <span class="op">=</span> <span class="st">"qStates"</span><span class="op">)</span>
-<span class="va">states</span></code></pre></div>
-<pre><code>#&gt; $GW
-#&gt; # A tibble: 216 x 5
-#&gt;    COW_Nr ID    Beg        End        Label            
-#&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;            
-#&gt;  1 700    AFG   1816-01-01 1888-12-30 Afghanistan      
-#&gt;  2 615    ALG   1816-01-01 1830-07-05 Algeria          
-#&gt;  3 300    AUH   1816-01-01 1918-11-13 Austria-Hungary  
-#&gt;  4 267    BAD   1816-01-01 1871-01-17 Baden            
-#&gt;  5 245    BAV   1816-01-01 1871-01-17 Bavaria          
-#&gt;  6 710    CHN   1816-01-01 2017-12-31 China            
-#&gt;  7 390    DEN   1816-01-01 2017-12-31 Denmark          
-#&gt;  8 220    FRN   1816-01-01 2017-12-31 France           
-#&gt;  9 255    GMY   1816-01-01 1945-05-07 Germany (Prussia)
-#&gt; 10 41     HAI   1816-01-01 1915-07-04 Haiti            
-#&gt; # … with 206 more rows
-#&gt; 
-#&gt; $ISD
-#&gt; # A tibble: 362 x 7
-#&gt;    COW_Nr ID    Beg        End        Label           Micro New.State
-#&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt;    
-#&gt;  1 8531   ACH   1816-01-01 1874-01-30 Aceh            TRUE  FALSE    
-#&gt;  2 700    AFG   1816-01-01 1879-12-31 Afghanistan     FALSE FALSE    
-#&gt;  3 615    ALG   1816-01-01 1830-12-31 Algeria         FALSE FALSE    
-#&gt;  4 7572   ASA   1816-01-01 1817-04-30 Assam           FALSE FALSE    
-#&gt;  5 4521   AST   1816-01-01 1896-02-01 Ashanti         FALSE FALSE    
-#&gt;  6 300    AUH   1816-01-01 1918-11-12 Austria-Hungary FALSE FALSE    
-#&gt;  7 4908   AZA   1816-01-01 1895-12-31 Azande          FALSE FALSE    
-#&gt;  8 267    BAD   1816-01-01 1871-01-18 Baden           FALSE FALSE    
-#&gt;  9 245    BAV   1816-01-01 1871-01-18 Bavaria         FALSE FALSE    
-#&gt; 10 7533   BHP   1816-01-01 1817-12-01 Bhopal          FALSE FALSE    
-#&gt; # … with 352 more rows
-#&gt; 
-#&gt; $COW
-#&gt; # A tibble: 243 x 5
-#&gt;    COW_Nr ID    Beg        End        Label            
-#&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;            
-#&gt;  1 300    AUH   1816-01-01 1918-11-12 Austria-Hungary  
-#&gt;  2 267    BAD   1816-01-01 1871-01-18 Baden            
-#&gt;  3 245    BAV   1816-01-01 1871-01-18 Bavaria          
-#&gt;  4 390    DEN   1816-01-01 1940-04-09 Denmark          
-#&gt;  5 220    FRN   1816-01-01 1942-11-11 France           
-#&gt;  6 255    GMY   1816-01-01 1945-05-08 Germany          
-#&gt;  7 273    HSE   1816-01-01 1866-07-26 Hesse Electoral  
-#&gt;  8 275    HSG   1816-01-01 1867-04-17 Hesse Grand Ducal
-#&gt;  9 325    ITA   1816-01-01 2016-12-31 Italy            
-#&gt; 10 210    NTH   1816-01-01 1940-07-14 Netherlands      
-#&gt; # … with 233 more rows</code></pre>
-<p>We can see that there are three named datasets relating to states here: <code>COW</code> (Correlates of War), <code>GW</code> (Gleditsch and Ward), and <code>ISD</code> (International Systems Dataset). Each of these datasets has their advantages and so we may wish to understand their differences, summarise variables across them, and perhaps also rerun models across them.</p>
-<p>To retrieve an individual dataset from this database, we can use the <code>pluck()</code> function from the <a href="http://purrr.tidyverse.org">purrr</a> package.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">COW</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html">pluck</a></span><span class="op">(</span><span class="va">states</span>, <span class="st">"COW"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">wikipedia</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html">pluck</a></span><span class="op">(</span><span class="va">emperors</span>, <span class="st">"wikipedia"</span><span class="op">)</span></code></pre></div>
 <p>However, the real value of qData packages is that multiple datasets relating to the same phenomenon are presented together. This facilitates comparison, the subject of the next section.</p>
 </div>
 <div id="comparing-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#comparing-data" class="anchor"></a>Comparing data</h2>
-<p>First of all, we want to understand what the differences are between these datasets. One important way to understand the relationship between these datasets is to understand what their relative advantages and disadvantages are. For example, one dataset may be long (has many observations) while another is shorter but wider (has more variables). One might include details further back in history while the other is more recent, but include more missing data or less precise data (i.e. coded at a less granular level) than another with a more restrictive Or one might appear complete yet offer less information on where the original data points were sourced or how certain variables were coded, while another provides an extensive and transparent codebook that facilitates replication. Below we show how one might compare the data in <code>states</code> in these ways.</p>
+<p>First of all, we want to understand what the differences are between these datasets. One important way to understand the relationship between these datasets is to understand what their relative advantages and disadvantages are. For example, one dataset may be long (has many observations) while another is shorter but wider (has more variables). One might include details further back in history while the other is more recent, but include more missing data or less precise data (i.e. coded at a less granular level) than another with a more restrictive. Or one might appear complete yet offer less information on where the original data points were sourced or how certain variables were coded, while another provides an extensive and transparent codebook that facilitates replication.</p>
 <div id="differences-in-documentation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#differences-in-documentation" class="anchor"></a>Differences in documentation</h3>
-<p>We can bring up the database level documentation using the following command: <code>?states</code>. This documentation informs the user on the various datasets that are present in the database as well as the most important metadata of the various datasets. If we want a more detailed summary of the various levels of data and sources we can run <code><a href="../reference/report.html">data_source()</a></code> and <code><a href="../reference/report.html">data_contrast()</a></code> functions as outlined below.</p>
+<p>We can bring up the database level documentation using: <code><a href="../reference/emperors.html">?emperors</a></code>. This informs users on the datasets present in the database as well as the variables in the various datasets. However, if we want a more detailed summary of the various levels of data and sources, we can use <code><a href="../reference/report.html">data_source()</a></code> and <code><a href="../reference/report.html">data_contrast()</a></code>.</p>
 </div>
 <div id="using-data_source-and-data_contrast" class="section level3">
 <h3 class="hasAnchor">
 <a href="#using-data_source-and-data_contrast" class="anchor"></a>Using <code>data_source()</code> and <code>data_contrast()</code>
 </h3>
 <p>The <code><a href="../reference/report.html">data_source()</a></code> function displays bibliographic references for the datasets in a qPackage or within a database.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/report.html">data_source</a></span><span class="op">(</span>pkg <span class="op">=</span> <span class="st">"qStates"</span>, database <span class="op">=</span> <span class="cn">NULL</span>, dataset <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
-<pre><code>#&gt; [1] "References for the States database"
-#&gt;     Reference                                                                                                        
-#&gt; GW  "Gleditsch KS, Ward MD (1999). "Interstate system membership: A revisedlist of the independent state" [truncated]
-#&gt; ISD "Griffiths RD, Butcher CR (2013). "Introducing the international system(s) dataset (ISD), 1816-2011." [truncated]
-#&gt; COW "Correlates of War Project (2017). "State System Membership List,v2016." &lt;URL: http://correlatesofwa" [truncated]</code></pre>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/report.html">data_source</a></span><span class="op">(</span>pkg <span class="op">=</span> <span class="st">"qData"</span>, database <span class="op">=</span> <span class="cn">NULL</span>, dataset <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+<pre><code>#&gt; Component 1 :
+#&gt;            Reference                                                                                                        
+#&gt; wikipedia  "(????). "List_of_Roman_emperors." &lt;URL:tps://en.wikipedia.org/wiki/List_of_Roman_emperors&gt;. Accesse" [truncated]
+#&gt; UNRV       "(????). "Roman Emperor list." &lt;URL:https://www.unrv.com/government/emperor.php&gt;. Accessed: 2021-07-" [truncated]
+#&gt; britannica "(????). "List of Roman emperors." &lt;URL:https://www.britannica.com/topic/list-of-Roman-emperors-2043" [truncated]</code></pre>
 <p>The <code><a href="../reference/report.html">data_contrast()</a></code> function returns a data frame with the key metadata of each level of data objects (qPackage, database, and dataset). This metadata includes the following elements:</p>
 <ul>
 <li>Number of unique observations</li>
@@ -232,69 +208,103 @@
 <li>Latest end date</li>
 <li>Source URL</li>
 </ul>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/report.html">data_contrast</a></span><span class="op">(</span>pkg <span class="op">=</span> <span class="st">"qStates"</span>, database <span class="op">=</span> <span class="cn">NULL</span>, dataset <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
-<pre><code>#&gt; [1] "States database"
-#&gt;     Unique ID Missing Data Rows Columns        Beg        End
-#&gt; GW        202          0 %  216       5 1816-01-01 2017-12-31
-#&gt; ISD       310          0 %  362       7 1816-01-01 2011-12-31
-#&gt; COW       217          0 %  243       5 1816-01-01 2016-12-31
-#&gt;                                                               URL
-#&gt; GW                             http://ksgleditsch.com/data-4.html
-#&gt; ISD                            http://www.ryan-griffiths.com/data
-#&gt; COW https://correlatesofwar.org/data-sets/state-system-membership</code></pre>
-<p>If we were specifically interested in the <code>COW</code> dataset of the <code>states</code> database, we would specify the output by setting the database and the dataset arguments to the corresponding value.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/report.html">data_contrast</a></span><span class="op">(</span>pkg <span class="op">=</span> <span class="st">"qStates"</span>, database <span class="op">=</span> <span class="st">"states"</span>,
-              dataset <span class="op">=</span> <span class="st">"COW"</span><span class="op">)</span></code></pre></div>
-<pre><code>#&gt; [1] "COW dataset from the States database"
-#&gt;                                                                        COW
-#&gt; UniqueID                                                               217
-#&gt; Missing_Data                                                           0 %
-#&gt; NObs                                                                   243
-#&gt; NVar                                                                     5
-#&gt; MinDate                                                         1816-01-01
-#&gt; MaxDate                                                         2016-12-31
-#&gt; URL          https://correlatesofwar.org/data-sets/state-system-membership</code></pre>
-<pre><code>#&gt;                                                                        COW
-#&gt; UniqueID                                                               217
-#&gt; Missing_Data                                                           0 %
-#&gt; NObs                                                                   243
-#&gt; NVar                                                                     5
-#&gt; MinDate                                                         1816-01-01
-#&gt; MaxDate                                                         2016-12-31
-#&gt; URL          https://correlatesofwar.org/data-sets/state-system-membership</code></pre>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/report.html">data_contrast</a></span><span class="op">(</span>pkg <span class="op">=</span> <span class="st">"qData"</span>, database <span class="op">=</span> <span class="cn">NULL</span>, dataset <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+<pre><code>#&gt; emperors :
+#&gt;            Unique ID Missing Data Rows Columns        Beg        End
+#&gt; wikipedia         68        9.9 %   68      15 0014-09-18 0395-01-17
+#&gt; UNRV              98       6.06 %   99       7    0014 BC       0518
+#&gt; britannica        87          0 %   87       3       0014       0491
+#&gt;                                                                        URL
+#&gt; wikipedia                           https://github.com/zonination/emperors
+#&gt; UNRV                           https://www.unrv.com/government/emperor.php
+#&gt; britannica https://www.britannica.com/topic/list-of-Roman-emperors-2043294</code></pre>
+<p>If we were specifically interested in the one dataset of the database, we can further specify the arguments.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/report.html">data_contrast</a></span><span class="op">(</span>pkg <span class="op">=</span> <span class="st">"qData"</span>, database <span class="op">=</span> <span class="st">"emperors"</span>, dataset <span class="op">=</span> <span class="st">"wikipedia"</span><span class="op">)</span></code></pre></div>
+<pre><code>#&gt; wikipedia :
+#&gt;   Unique ID Missing Data Rows Columns        Beg        End
+#&gt; 1        68        9.9 %   68      15 0014-09-18 0395-01-17
+#&gt;                                      URL
+#&gt; 1 https://github.com/zonination/emperors</code></pre>
 </div>
-</div>
-<div id="modelling-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#modelling-data" class="anchor"></a>Modelling data</h2>
-<p>Next we may be interested in whether any relationships we are interested in or inferences we want to draw are sensitive to which data we use. That is, we are interested in the robustness of any results to different data specifications. None of the <code>states</code> datasets are particularly wide, but let us try and examine the “Beg” variable to start with.</p>
-<p>We can start by exploring whether our conclusion about when states first gained sovereignty would differ depending on which dataset we use. We can use the <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code> function used above, but this time pass it the <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code> function and tell it to operate on just the “Beg” variable (removing any NAs). Since qData datasets are always ordered by “Beg” (and then “ID”), we can remove any subsequent (duplicated) entries by ID to concentrate on first appearances.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">states</span> <span class="op">%&gt;%</span> 
+<div id="an-example-of-inference-sensitivity-to-data-sources" class="section level3">
+<h3 class="hasAnchor">
+<a href="#an-example-of-inference-sensitivity-to-data-sources" class="anchor"></a>An example of inference sensitivity to data sources:</h3>
+<p>Next we may be interested in whether any relationships we are interested in or inferences we want to draw are sensitive to which data we use. That is, we are interested in the robustness of any results to different data specifications.</p>
+<p>We can start by exploring whether our conclusion about when emperors began their reign would differ depending on which dataset we use. We can use the <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code> function used above, but this time pass it the <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code> function and tell it to operate on just the “Beg” variable, wich represents when emperors began their reign (removing any NAs). Since qData datasets are always ordered by “Beg” (and then “ID”), we can remove any subsequent (duplicated) entries by ID to concentrate on first appearances.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">emperors</span> <span class="op">%&gt;%</span> 
   <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span>
     <span class="va">x</span> <span class="op">%&gt;%</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span><span class="op">(</span><span class="va">ID</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
       <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Beg</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
   <span class="op">}</span><span class="op">)</span></code></pre></div>
-<pre><code>#&gt; $GW
-#&gt; # A tibble: 1 x 1
+<pre><code>#&gt; Warning in mean.default(Beg, na.rm = TRUE): argument is not numeric or logical:
+#&gt; returning NA
+
+#&gt; Warning in mean.default(Beg, na.rm = TRUE): argument is not numeric or logical:
+#&gt; returning NA
+
+#&gt; Warning in mean.default(Beg, na.rm = TRUE): argument is not numeric or logical:
+#&gt; returning NA</code></pre>
+<pre><code>#&gt; $wikipedia
+#&gt; # A tibble: 1 × 1
 #&gt;   `mean(Beg, na.rm = TRUE)`
-#&gt;   &lt;date&gt;                   
-#&gt; 1 1910-02-05               
+#&gt;                       &lt;dbl&gt;
+#&gt; 1                        NA
 #&gt; 
-#&gt; $ISD
-#&gt; # A tibble: 1 x 1
+#&gt; $UNRV
+#&gt; # A tibble: 1 × 1
 #&gt;   `mean(Beg, na.rm = TRUE)`
-#&gt;   &lt;date&gt;                   
-#&gt; 1 1885-05-25               
+#&gt;                       &lt;dbl&gt;
+#&gt; 1                        NA
 #&gt; 
-#&gt; $COW
-#&gt; # A tibble: 1 x 1
+#&gt; $britannica
+#&gt; # A tibble: 1 × 1
 #&gt;   `mean(Beg, na.rm = TRUE)`
-#&gt;   &lt;date&gt;                   
-#&gt; 1 1930-10-14</code></pre>
-<p>It seems that there is some variation there. Of course, these averages are biased in the sense that these datasets are left-censored. Any state gaining sovereignty prior to 1816 is simply assigned as “1816-01-01”.</p>
+#&gt;                       &lt;dbl&gt;
+#&gt; 1                        NA</code></pre>
+<p>It seems that there is some variation there.</p>
+</div>
+</div>
+<div id="consolidate-data" class="section level2">
+<h2 class="hasAnchor">
+<a href="#consolidate-data" class="anchor"></a>Consolidate data</h2>
+<p>Now that we have visualized the data and looked at some of the different inferences drawn using different datasets, let us examine how to select and collapse databases. <a href="https://github.com/globalgov/qData">qData</a> contains the <code><a href="../reference/consolidate.html">consolidate()</a></code> which facilitates collapsing multiple datasets into a dataframe for analysis.</p>
+<p><code><a href="../reference/consolidate.html">consolidate()</a></code> collapses a set of (q)datasets, or a database, into a single dataset with some combination of the rows and columns. The function includes separate arguments for the rows and columns, as well as for how to resolve conflicts in observations across datasets. The key argument indicates the column to collapse datasets by. This provides users with considerable flexibility in how they combine qData. For example, users may wish to stick to units that appear in every dataset but include variables coded in any dataset or units that appear in any dataset, but only those variables that appear in every dataset.</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span><span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"any"</span>, cols <span class="op">=</span> <span class="st">"any"</span>, resolve <span class="op">=</span> <span class="st">"coalesce"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 137 × 15
+#&gt;    ID     CityBirth  ProvinceBirth  Rise  Cause Killer Era   Notes   Verif Birth
+#&gt;    &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;
+#&gt;  1 Augus… Rome       Italia         Birt… Assa… Wife   Prin… birth,… Redd… 0062…
+#&gt;  2 Tiber… Rome       Italia         Birt… Assa… Other… Prin… birth … Redd… 0041…
+#&gt;  3 Calig… Antitum    Italia         Birt… Assa… Senate Prin… assass… Redd… 0012…
+#&gt;  4 Claud… Lugdunum   Gallia Lugdun… Birt… Assa… Wife   Prin… birth … Redd… 0009…
+#&gt;  5 Nero   Antitum    Italia         Birt… Suic… Senate Prin… &lt;NA&gt;    Redd… 0037…
+#&gt;  6 Galba  Terracina  Italia         Seiz… Assa… Other… Prin… birth … Redd… 0002…
+#&gt;  7 Otho   Terentinum Italia         Appo… Suic… Other… Prin… &lt;NA&gt;    &lt;NA&gt;  0032…
+#&gt;  8 Vitel… Rome       Italia         Seiz… Assa… Other… Prin… &lt;NA&gt;    &lt;NA&gt;  0015…
+#&gt;  9 Vespa… Falacrine  Italia         Seiz… Natu… Disea… Prin… &lt;NA&gt;    &lt;NA&gt;  0009…
+#&gt; 10 Titus  Rome       Italia         Birt… Natu… Disea… Prin… &lt;NA&gt;    &lt;NA&gt;  0039…
+#&gt; # … with 127 more rows, and 5 more variables: Death &lt;chr&gt;, FullName &lt;chr&gt;,
+#&gt; #   Dynasty &lt;chr&gt;, Beg &lt;messydt&gt;, End &lt;messydt&gt;</code></pre>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span><span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"every"</span>, cols <span class="op">=</span> <span class="st">"every"</span>, resolve <span class="op">=</span> <span class="st">"coalesce"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 41 × 3
+#&gt;    ID        Beg           End       
+#&gt;    &lt;chr&gt;     &lt;messydt&gt;     &lt;messydt&gt; 
+#&gt;  1 Augustus  0026-01-16 BC 0014-08-19
+#&gt;  2 Tiberius  0014-09-18    0037-03-16
+#&gt;  3 Claudius  0041-01-25    0054-10-13
+#&gt;  4 Nero      0054-10-13    0068-06-09
+#&gt;  5 Galba     0068-06-08    0069-01-15
+#&gt;  6 Otho      0069-01-15    0069-04-16
+#&gt;  7 Vespasian 0069-12-21    0079-06-24
+#&gt;  8 Titus     0079-06-24    0081-09-13
+#&gt;  9 Domitian  0081-09-14    0096-09-18
+#&gt; 10 Nerva     0096-09-18    0098-01-27
+#&gt; # … with 31 more rows</code></pre>
 </div>
   </div>
 

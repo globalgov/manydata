@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">qData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -79,7 +79,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -95,9 +95,6 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/user.html">Use</a>
-    </li>
-    <li>
-      <a href="../articles/developer.html">Develop</a>
     </li>
   </ul>
 </li>
@@ -139,68 +136,7 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-functions-for-data-providers" class="hasAnchor"><a href="#section-functions-for-data-providers" class="anchor"></a>Functions for data providers</h2>
-          <p class="section-desc"><p>These functions are to assist data providers with disseminating data on particular parts of global governance:</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="consolidate.html">consolidate()</a></code> </p>
-        </td>
-        <td><p>Get first non-missing</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_packages.html">get_packages()</a></code> </p>
-        </td>
-        <td><p>Find and download packages in the qData ecosystem</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="interleave.html">interleave()</a></code> </p>
-        </td>
-        <td><p>Interleaving two vectors by position</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="rearrange.html">rearrange()</a></code> </p>
-        </td>
-        <td><p>Moving variables relative to others</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="recollect.html">recollect()</a></code> </p>
-        </td>
-        <td><p>Pastes unique string vectors</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="report.html">data_source()</a></code> <code><a href="report.html">data_contrast()</a></code> </p>
-        </td>
-        <td><p>Set of data structure exploration functions for users</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="reunite.html">reunite()</a></code> </p>
-        </td>
-        <td><p>Pastes unique string vectors</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="transmutate.html">transmutate()</a></code> </p>
-        </td>
-        <td><p>Drop only columns used in formula</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-functions-for-data-consumers" class="hasAnchor"><a href="#section-functions-for-data-consumers" class="anchor"></a>Functions for data consumers</h2>
+          <h2 id="section-obtaining-and-inspecting-data-in-qpackages" class="hasAnchor"><a href="#section-obtaining-and-inspecting-data-in-qpackages" class="anchor"></a>Obtaining and inspecting data in qPackages</h2>
           <p class="section-desc"><p>These functions are to assist data analysts with identifying, downloading, and analysing data on particular parts of global governance:</p></p>
         </th>
       </tr>
@@ -221,6 +157,68 @@
           <p><code><a href="report.html">data_source()</a></code> <code><a href="report.html">data_contrast()</a></code> </p>
         </td>
         <td><p>Set of data structure exploration functions for users</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-working-with-qdatabases" class="hasAnchor"><a href="#section-working-with-qdatabases" class="anchor"></a>Working with qDatabases</h2>
+          <p class="section-desc"><p>These functions are to assist data analysts with identifying, downloading, and analysing data on particular parts of global governance:</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="consolidate.html">consolidate()</a></code> </p>
+        </td>
+        <td><p>Consolidate database into a single dataset</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="coalesce_rows.html">coalesce_rows()</a></code> </p>
+        </td>
+        <td><p>Get first non-missing</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="coalesce_compatible.html">coalesce_compatible()</a></code> </p>
+        </td>
+        <td><p>Coalesce all compatible rows of a data frame</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-working-with-qdata" class="hasAnchor"><a href="#section-working-with-qdata" class="anchor"></a>Working with qData</h2>
+          <p class="section-desc"><p>These functions are to assist data analysts with identifying, downloading, and analysing data on particular parts of global governance:</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="transmutate.html">transmutate()</a></code> </p>
+        </td>
+        <td><p>Drop only columns used in formula</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="recollect.html">recollect()</a></code> </p>
+        </td>
+        <td><p>Pastes unique string vectors</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="reunite.html">reunite()</a></code> </p>
+        </td>
+        <td><p>Pastes unique string vectors</p></td>
       </tr>
     </tbody>
     </table>

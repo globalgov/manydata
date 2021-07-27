@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">qData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -79,7 +79,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -95,9 +95,6 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/user.html">Use</a>
-    </li>
-    <li>
-      <a href="../articles/developer.html">Develop</a>
     </li>
   </ul>
 </li>
@@ -129,31 +126,171 @@
       <small>Source: <a href='https://github.com/globalgov/qData/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="qdata-050" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.0">
+<a href="#qdata-050" class="anchor"></a>qData 0.5.0</h1>
+<div id="package" class="section level2">
+<h2 class="hasAnchor">
+<a href="#package" class="anchor"></a>Package</h2>
+<ul>
+<li>Updated <code><a href="../reference/get_packages.html">get_packages()</a></code> to load downloaded packages</li>
+<li>Closed <a href='https://github.com/globalgov/qData/issues/160'>#160</a> by updating how report family of functions to print objects only if not assigned</li>
+<li>Updated user vignette for working with <code><a href="../reference/consolidate.html">consolidate()</a></code>
+</li>
+<li>Fixed <a href='https://github.com/globalgov/qData/issues/165'>#165</a> by moving <code>interleave()</code> to qCreate</li>
+<li>Closed <a href='https://github.com/globalgov/qData/issues/149'>#149</a> by adding a citation file</li>
+<li>Closed <a href='https://github.com/globalgov/qData/issues/181'>#181</a> by adding data for running examples and tests</li>
+</ul>
+</div>
+<div id="connection" class="section level2">
+<h2 class="hasAnchor">
+<a href="#connection" class="anchor"></a>Connection</h2>
+<ul>
+<li>Closed <a href='https://github.com/globalgov/qData/issues/28'>#28</a> by adding <code><a href="../reference/consolidate.html">consolidate()</a></code> for collapsing a set or database of (q)dataset into a single dataset
+<ul>
+<li>Closed <a href='https://github.com/globalgov/qData/issues/177'>#177</a> by adding <code>coalesce_compact()</code> to coalesce all compatible rows of a data frame</li>
+<li>Closed <a href='https://github.com/globalgov/qData/issues/180'>#180</a> by adding progress bar for <code>coalesce_compact()</code>
+</li>
+<li>Added tests for <code><a href="../reference/consolidate.html">consolidate()</a></code> and <code>coalesce_compact()</code>
+</li>
+</ul>
+</li>
+<li>Renamed function for getting first non-missing value <code><a href="../reference/coalesce_rows.html">coalesce_rows()</a></code>
+<ul>
+<li>Added tests for <code><a href="../reference/coalesce_rows.html">coalesce_rows()</a></code>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
     <div id="qdata-040" class="section level1">
 <h1 class="page-header" data-toc-text="0.4.0">
 <a href="#qdata-040" class="anchor"></a>qData 0.4.0</h1>
+<div id="package-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#package-1" class="anchor"></a>Package</h2>
+<ul>
+<li>Separated <a href="https://github.com/globalgov/qData">qData</a> into two packages, <a href="https://github.com/globalgov/qData">qData</a> for users and <code>{qCreate}</code> for developers
+<ul>
+<li>Moved <code>setup_package()</code> and related functions to <code>{qCreate}</code>
+</li>
+<li>Moved <code>import_data()</code> and related functions to <code>{qCreate}</code>
+</li>
+<li>Moved <code>export_data()</code> and related functions to <code>{qCreate}</code>
+</li>
+</ul>
+</li>
+<li>Moved <code>plot_releases()</code> to <code>{migraph}</code>
+</li>
+</ul>
+</div>
+<div id="connection-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#connection-1" class="anchor"></a>Connection</h2>
+<ul>
+<li>Closed <a href='https://github.com/globalgov/qData/issues/137'>#137</a> by making <code><a href="../reference/report.html">data_contrast()</a></code> and <code><a href="../reference/report.html">data_source()</a></code> return exportable objects</li>
+</ul>
+</div>
 </div>
     <div id="qdata-035" class="section level1">
 <h1 class="page-header" data-toc-text="0.3.5">
 <a href="#qdata-035" class="anchor"></a>qData 0.3.5</h1>
+<div id="connection-2" class="section level2">
+<h2 class="hasAnchor">
+<a href="#connection-2" class="anchor"></a>Connection</h2>
+<ul>
+<li>Updated <code><a href="../reference/get_packages.html">get_packages()</a></code> function
+<ul>
+<li>Fixed bug with dates in <code><a href="../reference/get_packages.html">get_packages()</a></code> by changing dependencies to <a href="https://lubridate.tidyverse.org">lubridate</a>
+</li>
+<li>Updated formatting of the returned tibble to display more clearly the information on qPackages</li>
+<li>Fixed <a href='https://github.com/globalgov/qData/issues/144'>#144</a> by substituting <code>NA</code> where a listed qPackage is not installed locally</li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
     <div id="qdata-034" class="section level1">
 <h1 class="page-header" data-toc-text="0.3.4">
 <a href="#qdata-034" class="anchor"></a>qData 0.3.4</h1>
-</div>
-    <div id="qdata-033" class="section level1">
-<h1 class="page-header" data-toc-text="0.3.3">
-<a href="#qdata-033" class="anchor"></a>qData 0.3.3</h1>
 <div id="package-2" class="section level2">
 <h2 class="hasAnchor">
 <a href="#package-2" class="anchor"></a>Package</h2>
 <ul>
+<li>Fixed <a href='https://github.com/globalgov/qData/issues/128'>#128</a> by suppressing issues with warnings on pkgdown website</li>
+<li>Updated contributor and user vignettes for new package changes</li>
+</ul>
+</div>
+<div id="collection" class="section level2">
+<h2 class="hasAnchor">
+<a href="#collection" class="anchor"></a>Collection</h2>
+<ul>
+<li>Updated <code>setup_package()</code> to make it more intuitive and precise for users
+<ul>
+<li>Closed <a href='https://github.com/globalgov/qData/issues/127'>#127</a> by updating the form in which author arguments are taken in <code>setup_package()</code>
+</li>
+<li>Added role argument to <code>setup_package()</code> to make more precise</li>
+<li>Closed <a href='https://github.com/globalgov/qData/issues/139'>#139</a> by reducing file overhead generated by <code>setup_package()</code>
+</li>
+<li>Simplified <code>setup_package()</code> to be less verbose</li>
+</ul>
+</li>
+<li>Renamed <code>new_author()</code> function to <code>add_author()</code> for naming consistency
+<ul>
+<li>Closed <a href='https://github.com/globalgov/qData/issues/140'>#140</a> by fixing bug with <code>add_author()</code>
+</li>
+<li>Fixed <a href='https://github.com/globalgov/qData/issues/121'>#121</a> by allowing <code>add_author()</code> to treat multiple comments</li>
+</ul>
+</li>
+<li>Updated documentation for <code>setup_package()</code> and <code>add_author()</code>
+</li>
+</ul>
+</div>
+<div id="correction" class="section level2">
+<h2 class="hasAnchor">
+<a href="#correction" class="anchor"></a>Correction</h2>
+<ul>
+<li>Updated <code>standardise_dates()</code> to simplify function and testing
+<ul>
+<li>Closed <a href='https://github.com/globalgov/qData/issues/110'>#110</a> by simplifying helper functions and removing redundancy in <code>standardise_dates()</code>
+</li>
+<li>Closed <a href='https://github.com/globalgov/qData/issues/108'>#108</a> by simplifying tests and removing redundancy for <code>standardise_dates()</code>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="connection-3" class="section level2">
+<h2 class="hasAnchor">
+<a href="#connection-3" class="anchor"></a>Connection</h2>
+<ul>
+<li>Divided, updated and renamed <code>report_data()</code>
+<ul>
+<li>Closed <a href='https://github.com/globalgov/qData/issues/131'>#131</a> by dividing <code>report_data()</code> into <code><a href="../reference/report.html">data_source()</a></code> and <code><a href="../reference/report.html">data_contrast()</a></code> functions</li>
+<li>Closed <a href='https://github.com/globalgov/qData/issues/104'>#104</a> by allowing users to select multiple datasets with <code><a href="../reference/report.html">data_contrast()</a></code>
+</li>
+<li>Closed <a href='https://github.com/globalgov/qData/issues/105'>#105</a> by allowing for multiple databases to display in a package with <code><a href="../reference/report.html">data_contrast()</a></code>
+</li>
+<li>Fixed <a href='https://github.com/globalgov/qData/issues/111'>#111</a> by removing tests for outdated <code>report_data()</code> function</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+    <div id="qdata-033" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.3">
+<a href="#qdata-033" class="anchor"></a>qData 0.3.3</h1>
+<div id="package-3" class="section level2">
+<h2 class="hasAnchor">
+<a href="#package-3" class="anchor"></a>Package</h2>
+<ul>
 <li>Closed <a href='https://github.com/globalgov/qData/issues/122'>#122</a> by setting package logo to the correct aspect ratio</li>
 </ul>
 </div>
-<div id="collect-1" class="section level2">
+<div id="collection-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#collect-1" class="anchor"></a>Collect</h2>
+<a href="#collection-1" class="anchor"></a>Collection</h2>
 <ul>
 <li>Updated <code>setup_package()</code> to make it easier to set up collaborative qPackages
 <ul>
@@ -165,16 +302,16 @@
 <li>Closed <a href='https://github.com/globalgov/qData/issues/115'>#115</a> by updating README templates for new qPackages to include more sections</li>
 </ul>
 </div>
-<div id="correct-1" class="section level2">
+<div id="correction-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#correct-1" class="anchor"></a>Correct</h2>
+<a href="#correction-1" class="anchor"></a>Correction</h2>
 <ul>
 <li>Closed <a href='https://github.com/globalgov/qData/issues/116'>#116</a> by adding more tests for new qPackage templates for standardizing NA formats</li>
 </ul>
 </div>
-<div id="connect-2" class="section level2">
+<div id="connection-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#connect-2" class="anchor"></a>Connect</h2>
+<a href="#connection-4" class="anchor"></a>Connection</h2>
 <ul>
 <li>Updated <code><a href="../reference/get_packages.html">get_packages()</a></code> to make it easier to install globalgov qPackages
 <ul>
@@ -190,9 +327,9 @@
     <div id="qdata-032" class="section level1">
 <h1 class="page-header" data-toc-text="0.3.2">
 <a href="#qdata-032" class="anchor"></a>qData 0.3.2</h1>
-<div id="package-3" class="section level2">
+<div id="package-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#package-3" class="anchor"></a>Package</h2>
+<a href="#package-4" class="anchor"></a>Package</h2>
 <ul>
 <li>Replaced logo with new ‘black box’ hex
 <ul>
@@ -211,16 +348,16 @@
 </li>
 </ul>
 </div>
-<div id="collection" class="section level2">
+<div id="collection-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#collection" class="anchor"></a>Collection</h2>
+<a href="#collection-2" class="anchor"></a>Collection</h2>
 <ul>
 <li>Updated <code>import_data()</code> to accept .RData files</li>
 </ul>
 </div>
-<div id="correction" class="section level2">
+<div id="correction-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#correction" class="anchor"></a>Correction</h2>
+<a href="#correction-2" class="anchor"></a>Correction</h2>
 <ul>
 <li>Updated and fixed bugs with <code>standardise_dates()</code> function and tests
 <ul>
@@ -243,9 +380,9 @@
 <li>Added <code>retain()</code> to retain chosen objects in the environment, removing all other variables</li>
 </ul>
 </div>
-<div id="connection-1" class="section level2">
+<div id="connection-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#connection-1" class="anchor"></a>Connection</h2>
+<a href="#connection-5" class="anchor"></a>Connection</h2>
 <ul>
 <li>Closed <a href='https://github.com/globalgov/qData/issues/78'>#78</a> by creating <code>report_data()</code> function that displays information on the data within a qPackage</li>
 </ul>
@@ -254,9 +391,9 @@
     <div id="qdata-031" class="section level1">
 <h1 class="page-header" data-toc-text="0.3.1">
 <a href="#qdata-031" class="anchor"></a>qData 0.3.1</h1>
-<div id="package-4" class="section level2">
+<div id="package-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#package-4" class="anchor"></a>Package</h2>
+<a href="#package-5" class="anchor"></a>Package</h2>
 <ul>
 <li>Closed <a href='https://github.com/globalgov/qData/issues/81'>#81</a> by changing description of the <em>Connecting data</em> section to include <code>export_data()</code> specificities</li>
 <li>Closed <a href='https://github.com/globalgov/qData/issues/85'>#85</a> by deleting the argument in the function <code>use_ccby_license(name = packageAuthor)</code> in the description of the <code>setup_package()</code> function</li>
@@ -269,9 +406,9 @@
     <div id="qdata-030" class="section level1">
 <h1 class="page-header" data-toc-text="0.3.0">
 <a href="#qdata-030" class="anchor"></a>qData 0.3.0</h1>
-<div id="package-5" class="section level2">
+<div id="package-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#package-5" class="anchor"></a>Package</h2>
+<a href="#package-6" class="anchor"></a>Package</h2>
 <ul>
 <li>Changed package name from qDatr to qData</li>
 <li>Created a hex logo for qData</li>
@@ -286,9 +423,9 @@
 <li>Added pkgdown workflow for updating the website upon release</li>
 </ul>
 </div>
-<div id="collection-1" class="section level2">
+<div id="collection-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#collection-1" class="anchor"></a>Collection</h2>
+<a href="#collection-3" class="anchor"></a>Collection</h2>
 <ul>
 <li>Updated <code>import_data()</code> by suggesting upper case letters for dataset names and lower case letters for database names
 <ul>
@@ -297,9 +434,9 @@
 </li>
 </ul>
 </div>
-<div id="correction-1" class="section level2">
+<div id="correction-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#correction-1" class="anchor"></a>Correction</h2>
+<a href="#correction-3" class="anchor"></a>Correction</h2>
 <ul>
 <li>Closed <a href='https://github.com/globalgov/qData/issues/70'>#70</a> by updating <code>stadardise_dates()</code> so that extreme future dates are standardised
 <ul>
@@ -313,9 +450,9 @@
 <li>Updates exported test templates for data to test for datasets within databases</li>
 </ul>
 </div>
-<div id="connection-2" class="section level2">
+<div id="connection-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#connection-2" class="anchor"></a>Connection</h2>
+<a href="#connection-6" class="anchor"></a>Connection</h2>
 <ul>
 <li>Updates <code><a href="../reference/get_packages.html">get_packages()</a></code> function to:
 <ul>
@@ -329,9 +466,9 @@
     <div id="qdatr-021" class="section level1">
 <h1 class="page-header" data-toc-text="0.2.1">
 <a href="#qdatr-021" class="anchor"></a>qDatr 0.2.1</h1>
-<div id="package-6" class="section level2">
+<div id="package-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#package-6" class="anchor"></a>Package</h2>
+<a href="#package-7" class="anchor"></a>Package</h2>
 <ul>
 <li>Fixed <a href='https://github.com/globalgov/qData/issues/61'>#61</a> by adding tests for <code>setup_package()</code> and <code>import_data()</code>
 </li>
@@ -339,13 +476,13 @@
 </li>
 </ul>
 </div>
-<div id="correction-2" class="section level2">
+<div id="correction-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#correction-2" class="anchor"></a>Correction</h2>
+<a href="#correction-4" class="anchor"></a>Correction</h2>
 <ul>
 <li>Closed <a href='https://github.com/globalgov/qData/issues/62'>#62</a> by creating a function which vectorises dates and cleans and standardizes diverse date formats, <code>standardise_dates()</code>
 </li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/55'>#55</a> by deprecating <code><a href="../reference/rearrange.html">rearrange()</a></code> function in favour of <code><a href="https://dplyr.tidyverse.org/reference/relocate.html">dplyr::relocate()</a></code>
+<li>Closed <a href='https://github.com/globalgov/qData/issues/55'>#55</a> by deprecating <code>rearrange()</code> function in favour of <code><a href="https://dplyr.tidyverse.org/reference/relocate.html">dplyr::relocate()</a></code>
 </li>
 <li>Closed <a href='https://github.com/globalgov/qData/issues/65'>#65</a> by correcting issues with the path call in <code>export_data()</code> function
 <ul>
@@ -354,9 +491,9 @@
 </li>
 </ul>
 </div>
-<div id="connection-3" class="section level2">
+<div id="connection-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#connection-3" class="anchor"></a>Connection</h2>
+<a href="#connection-7" class="anchor"></a>Connection</h2>
 <ul>
 <li>Closed <a href='https://github.com/globalgov/qData/issues/64'>#64</a> by creating the <code><a href="../reference/get_packages.html">get_packages()</a></code> function which displays other packages, and some information about these packages, in the qData ecosystem. The function serves as a wrapper for downloading qPackages from GitHub.</li>
 </ul>
@@ -365,17 +502,17 @@
     <div id="qdatr-020" class="section level1">
 <h1 class="page-header" data-toc-text="0.2.0">
 <a href="#qdatr-020" class="anchor"></a>qDatr 0.2.0</h1>
-<div id="package-7" class="section level2">
+<div id="package-8" class="section level2">
 <h2 class="hasAnchor">
-<a href="#package-7" class="anchor"></a>Package</h2>
+<a href="#package-8" class="anchor"></a>Package</h2>
 <ul>
 <li>Updated pushrelease.yml to upload all assets individually to release</li>
 <li>((Tests for following functions on hold…))</li>
 </ul>
 </div>
-<div id="collection-2" class="section level2">
+<div id="collection-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#collection-2" class="anchor"></a>Collection</h2>
+<a href="#collection-4" class="anchor"></a>Collection</h2>
 <ul>
 <li>Renamed <code>create_qPackage()</code> to <code>setup_package()</code>
 <ul>
@@ -394,9 +531,9 @@
 </li>
 </ul>
 </div>
-<div id="connection-4" class="section level2">
+<div id="connection-8" class="section level2">
 <h2 class="hasAnchor">
-<a href="#connection-4" class="anchor"></a>Connection</h2>
+<a href="#connection-8" class="anchor"></a>Connection</h2>
 <ul>
 <li>Renamed <code>use_qData()</code> to <code>export_data()</code>
 <ul>
@@ -413,17 +550,17 @@
     <div id="qdatr-010" class="section level1">
 <h1 class="page-header" data-toc-text="0.1.0">
 <a href="#qdatr-010" class="anchor"></a>qDatr 0.1.0</h1>
-<div id="package-8" class="section level2">
+<div id="package-9" class="section level2">
 <h2 class="hasAnchor">
-<a href="#package-8" class="anchor"></a>Package</h2>
+<a href="#package-9" class="anchor"></a>Package</h2>
 <ul>
 <li>Updated CONTRIBUTING</li>
 <li>Added README.Rmd render to pushrelease workflow</li>
 </ul>
 </div>
-<div id="collection-3" class="section level2">
+<div id="collection-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#collection-3" class="anchor"></a>Collection</h2>
+<a href="#collection-5" class="anchor"></a>Collection</h2>
 <ul>
 <li>Closed <a href='https://github.com/globalgov/qData/issues/47'>#47</a> by adding <code>qtemplate()</code> function for finding and rendering templates</li>
 <li>Closed <a href='https://github.com/globalgov/qData/issues/44'>#44</a> by adding <code>create_qPackage()</code> that establishes a <a href="https://github.com/globalgov/qData">qData</a> consistent package framework
@@ -444,17 +581,17 @@
 </li>
 </ul>
 </div>
-<div id="correction-3" class="section level2">
+<div id="correction-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#correction-3" class="anchor"></a>Correction</h2>
+<a href="#correction-5" class="anchor"></a>Correction</h2>
 <ul>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/24'>#24</a> by adding <code>repaint()</code> for filling in missing data by lookup</li>
+<li>Closed <a href='https://github.com/globalgov/qData/issues/24'>#24</a> by adding <code><a href="../reference/repaint.html">repaint()</a></code> for filling in missing data by lookup</li>
 <li>Added <code>recent()</code> for sensible centuries for dates</li>
 </ul>
 </div>
-<div id="connection-5" class="section level2">
+<div id="connection-9" class="section level2">
 <h2 class="hasAnchor">
-<a href="#connection-5" class="anchor"></a>Connection</h2>
+<a href="#connection-9" class="anchor"></a>Connection</h2>
 <ul>
 <li>Closed <a href='https://github.com/globalgov/qData/issues/45'>#45</a> by adding <code>use_qData()</code> for setting up tests, documentation, and lazy-loading of cleaned data
 <ul>
@@ -468,20 +605,20 @@
     <div id="qdatr-004" class="section level1">
 <h1 class="page-header" data-toc-text="0.0.4">
 <a href="#qdatr-004" class="anchor"></a>qDatr 0.0.4</h1>
-<div id="collection-4" class="section level2">
+<div id="collection-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#collection-4" class="anchor"></a>Collection</h2>
+<a href="#collection-6" class="anchor"></a>Collection</h2>
 <ul>
 <li>Closed <a href='https://github.com/globalgov/qData/issues/25'>#25</a> by adding <code>create_qpackage()</code>
 </li>
 <li>Fixed ‘pushrelease.yml’ postfix bug</li>
 </ul>
 </div>
-<div id="correction-4" class="section level2">
+<div id="correction-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#correction-4" class="anchor"></a>Correction</h2>
+<a href="#correction-6" class="anchor"></a>Correction</h2>
 <ul>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/26'>#26</a> by adding <code><a href="../reference/interleave.html">interleave()</a></code>
+<li>Closed <a href='https://github.com/globalgov/qData/issues/26'>#26</a> by adding <code>interleave()</code>
 </li>
 <li>Closed <a href='https://github.com/globalgov/qData/issues/23'>#23</a> by adding <code>resequence()</code>
 </li>
@@ -493,18 +630,18 @@
     <div id="qdatr-003" class="section level1">
 <h1 class="page-header" data-toc-text="0.0.3">
 <a href="#qdatr-003" class="anchor"></a>qDatr 0.0.3</h1>
-<div id="package-9" class="section level2">
+<div id="package-10" class="section level2">
 <h2 class="hasAnchor">
-<a href="#package-9" class="anchor"></a>Package</h2>
+<a href="#package-10" class="anchor"></a>Package</h2>
 <ul>
 <li>Closed <a href='https://github.com/globalgov/qData/issues/18'>#18</a> by setting up <code>{lintr}</code>, <code>{goodpractice}</code>, and <code>{spelling}</code> in prchecks.yml</li>
 </ul>
 </div>
-<div id="correction-5" class="section level2">
+<div id="correction-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#correction-5" class="anchor"></a>Correction</h2>
+<a href="#correction-7" class="anchor"></a>Correction</h2>
 <ul>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/29'>#29</a> by adding <code><a href="../reference/rearrange.html">rearrange()</a></code>
+<li>Closed <a href='https://github.com/globalgov/qData/issues/29'>#29</a> by adding <code>rearrange()</code>
 </li>
 <li>Closed <a href='https://github.com/globalgov/qData/issues/31'>#31</a> by adding <code><a href="../reference/reunite.html">reunite()</a></code>
 </li>
@@ -514,16 +651,16 @@
     <div id="qdatr-002" class="section level1">
 <h1 class="page-header" data-toc-text="0.0.2">
 <a href="#qdatr-002" class="anchor"></a>qDatr 0.0.2</h1>
-<div id="package-10" class="section level2">
+<div id="package-11" class="section level2">
 <h2 class="hasAnchor">
-<a href="#package-10" class="anchor"></a>Package</h2>
+<a href="#package-11" class="anchor"></a>Package</h2>
 <ul>
 <li>Added a <code>NEWS.md</code> file to track changes to the package.</li>
 </ul>
 </div>
-<div id="correction-6" class="section level2">
+<div id="correction-8" class="section level2">
 <h2 class="hasAnchor">
-<a href="#correction-6" class="anchor"></a>Correction</h2>
+<a href="#correction-8" class="anchor"></a>Correction</h2>
 <ul>
 <li>Added <code><a href="../reference/transmutate.html">transmutate()</a></code> for merging variables</li>
 </ul>
@@ -532,16 +669,16 @@
     <div id="qdatr-001" class="section level1">
 <h1 class="page-header" data-toc-text="0.0.1">
 <a href="#qdatr-001" class="anchor"></a>qDatr 0.0.1</h1>
-<div id="package-11" class="section level2">
+<div id="package-12" class="section level2">
 <h2 class="hasAnchor">
-<a href="#package-11" class="anchor"></a>Package</h2>
+<a href="#package-12" class="anchor"></a>Package</h2>
 <ul>
 <li>Package set-up</li>
 </ul>
 </div>
-<div id="correction-7" class="section level2">
+<div id="correction-9" class="section level2">
 <h2 class="hasAnchor">
-<a href="#correction-7" class="anchor"></a>Correction</h2>
+<a href="#correction-9" class="anchor"></a>Correction</h2>
 <ul>
 <li>Added <code>entitle()</code> for standardising treaty titles, etc.</li>
 </ul>

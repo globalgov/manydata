@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">qData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -97,9 +97,6 @@
     <li>
       <a href="../articles/user.html">Use</a>
     </li>
-    <li>
-      <a href="../articles/developer.html">Develop</a>
-    </li>
   </ul>
 </li>
 <li>
@@ -108,7 +105,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/globalgov/qDatr/">
+  <a href="https://github.com/globalgov/qData/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -127,7 +124,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Fills missing data by lookup</h1>
-    <small class="dont-index">Source: <a href='https://github.com/globalgov/qDatr/blob/master/R/standardise_titles.R'><code>R/standardise_titles.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/globalgov/qData/blob/master/R/wrangling_data.R'><code>R/wrangling_data.R</code></a></small>
     <div class="hidden name"><code>repaint.Rd</code></div>
     </div>
 
@@ -160,7 +157,17 @@ to be filled</p></td>
     <p>a dataframe</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"></pre>
+    <pre class="examples"><div class='input'><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>ID <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>2</span>,<span class='fl'>1</span><span class='op'>)</span>,
+                    One <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='cn'>NA</span>,<span class='fl'>3</span>,<span class='cn'>NA</span>,<span class='fl'>2</span>,<span class='cn'>NA</span><span class='op'>)</span>,
+                    Two <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>,<span class='st'>"B"</span>,<span class='cn'>NA</span>,<span class='st'>"C"</span>,<span class='cn'>NA</span>,<span class='st'>"A"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>repaint</span><span class='op'>(</span><span class='va'>data</span>, <span class='st'>"ID"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"One"</span>,<span class='st'>"Two"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   ID One Two
+#&gt; 1  1   1   A
+#&gt; 2  2   2   B
+#&gt; 3  3   3   C
+#&gt; 4  3   3   C
+#&gt; 5  2   2   B
+#&gt; 6  1   1   A</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Citation and Authors • qData</title>
+<title>Get first non-missing — coalesce_rows • qData</title>
 
 
 <!-- jquery -->
@@ -18,8 +18,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
-<link rel="stylesheet" href="bootstrap-toc.css">
-<script src="bootstrap-toc.js"></script>
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
@@ -33,13 +33,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script>
 
 
 
 
-<meta property="og:title" content="Citation and Authors" />
+<meta property="og:title" content="Get first non-missing — coalesce_rows" />
+<meta property="og:description" content="For use with dplyr::summarise, for example" />
 
 
 
@@ -58,7 +59,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-citation-authors">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -70,7 +71,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">qData</a>
+        <a class="navbar-link" href="../index.html">qData</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
@@ -78,13 +79,13 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -94,12 +95,12 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="articles/user.html">Use</a>
+      <a href="../articles/user.html">Use</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="news/index.html">News</a>
+  <a href="../news/index.html">News</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -120,48 +121,83 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Citation</h1>
-      <small class="dont-index">Source: <a href='https://github.com/globalgov/qData/blob/master/inst/CITATION'><code>inst/CITATION</code></a></small>
+    <h1>Get first non-missing</h1>
+    <small class="dont-index">Source: <a href='https://github.com/globalgov/qData/blob/master/R/wrangling_data.R'><code>R/wrangling_data.R</code></a></small>
+    <div class="hidden name"><code>coalesce_rows.Rd</code></div>
     </div>
 
-    <p>J. Hollway. qData: An R Portal for Ensembled Global Governance Data. 2021.</p>
-    <pre>@Manual{,
-  title = {qData: An R Portal for Ensembled Global Governance Data},
-  author = {James Hollway},
-  year = {2021},
-  version = {0.5.0},
-  url = {https://github.com/globalgov/qData},
-}</pre>
-
-    <div class="page-header">
-      <h1>Authors</h1>
+    <div class="ref-description">
+    <p>For use with dplyr::summarise, for example</p>
     </div>
 
-    <ul class="list-unstyled">
-      <li>
-        <p><strong><a href='https://jameshollway.com'>James Hollway</a></strong>. Maintainer, author, contributor. <a href='https://orcid.org/0000-0002-8361-9647' target='orcid.widget' aria-label='ORCID'><span class='fab fa-orcid orcid' aria-hidden='true'></span></a>
-        <br /><small>IHEID</small></p>
-      </li>
-      <li>
-        <p><strong>Henrique Sposito</strong>. Contributor. <a href='https://orcid.org/0000-0003-3420-6085' target='orcid.widget' aria-label='ORCID'><span class='fab fa-orcid orcid' aria-hidden='true'></span></a>
-        <br /><small>IHEID</small></p>
-      </li>
-      <li>
-        <p><strong>Bernhard Bieri</strong>. Contributor. <a href='https://orcid.org/0000-0001-5943-9059' target='orcid.widget' aria-label='ORCID'><span class='fab fa-orcid orcid' aria-hidden='true'></span></a>
-        <br /><small>IHEID</small></p>
-      </li>
-      <li>
-        <p><strong>Esther Peev</strong>. Contributor. <a href='https://orcid.org/0000-0002-9678-2777' target='orcid.widget' aria-label='ORCID'><span class='fab fa-orcid orcid' aria-hidden='true'></span></a>
-        <br /><small>IHEID</small></p>
-      </li>
-    </ul>
+    <pre class="usage"><span class='fu'>coalesce_rows</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>A vector</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p>https://stackoverflow.com/questions/40515180/dplyr-how-to-find-the-first-non-missing-string-by-groups</p>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A single value</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function operates similarly to coalesce for columns,
+that is picking the first non-missing observation,
+but on observations rather than variables.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fu'>coalesce_rows</span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;     mpg
+#&gt; 1  21.0
+#&gt; 2  21.0
+#&gt; 3  22.8
+#&gt; 4  21.4
+#&gt; 5  18.7
+#&gt; 6  18.1
+#&gt; 7  14.3
+#&gt; 8  24.4
+#&gt; 9  22.8
+#&gt; 10 19.2
+#&gt; 11 17.8
+#&gt; 12 16.4
+#&gt; 13 17.3
+#&gt; 14 15.2
+#&gt; 15 10.4
+#&gt; 16 10.4
+#&gt; 17 14.7
+#&gt; 18 32.4
+#&gt; 19 30.4
+#&gt; 20 33.9
+#&gt; 21 21.5
+#&gt; 22 15.5
+#&gt; 23 15.2
+#&gt; 24 13.3
+#&gt; 25 19.2
+#&gt; 26 27.3
+#&gt; 27 26.0
+#&gt; 28 30.4
+#&gt; 29 15.8
+#&gt; 30 19.7
+#&gt; 31 15.0
+#&gt; 32 21.4</div><div class='input'><span class='fu'>coalesce_rows</span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>$</span><span class='va'>wt</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 2.62</div></pre>
   </div>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
+  </div>
 </div>
-
 
 
       <footer>

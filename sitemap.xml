@@ -4,19 +4,28 @@
     <loc>https://globalgov.github.io/qData//index.html</loc>
   </url>
   <url>
+    <loc>https://globalgov.github.io/qData//reference/coalesce_compatible.html</loc>
+  </url>
+  <url>
+    <loc>https://globalgov.github.io/qData//reference/coalesce_rows.html</loc>
+  </url>
+  <url>
     <loc>https://globalgov.github.io/qData//reference/consolidate.html</loc>
+  </url>
+  <url>
+    <loc>https://globalgov.github.io/qData//reference/emperors.html</loc>
   </url>
   <url>
     <loc>https://globalgov.github.io/qData//reference/get_packages.html</loc>
   </url>
   <url>
-    <loc>https://globalgov.github.io/qData//reference/interleave.html</loc>
-  </url>
-  <url>
-    <loc>https://globalgov.github.io/qData//reference/rearrange.html</loc>
-  </url>
-  <url>
     <loc>https://globalgov.github.io/qData//reference/recollect.html</loc>
+  </url>
+  <url>
+    <loc>https://globalgov.github.io/qData//reference/reexports.html</loc>
+  </url>
+  <url>
+    <loc>https://globalgov.github.io/qData//reference/repaint.html</loc>
   </url>
   <url>
     <loc>https://globalgov.github.io/qData//reference/report.html</loc>
