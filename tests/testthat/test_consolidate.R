@@ -31,6 +31,14 @@ data.dup <- dplyr::tibble(qID = c("NZL", "BRA", "CHF", "OTH",
                                    "1990-01-01:1990-01-31", NA),
                           number = c(100, 1000, 10000, 21,
                                      100, 1000, 10000, 21))
+data.con.min <- dplyr::tibble(qID = c("NZL", "BRA"),
+                              date = c("1990-01-01",
+                                       "1990-01-02"),
+                              number = as.character(c(100, 1000)))
+data.con.max <- dplyr::tibble(qID = c("NZL", "BRA"),
+                              date = c("1990-01-01",
+                                       "1990-01-03"),
+                              number = as.character(c(100, 1200)))
 
 test_that("pluck works", {
   expect_equal(pluck(test, "a"), data1)
@@ -44,8 +52,10 @@ test_that("coalesce_compatible works", {
 })
 
 test_that("consolidate works", {
-  expect_equal(consolidate(test, "every", "every"), data.con.con)
-  expect_equal(consolidate(test, "every", "any"), data.con.any)
-  expect_equal(consolidate(test[c(1, 3)], "any", "any"), data.13.any)
-  expect_equal(consolidate(test, "any"), data.13.any)
+  expect_equal(consolidate(test, "every", "every", resolve = "coalesce"), data.con.con)
+  expect_equal(consolidate(test, "every", "any", resolve = "coalesce"), data.con.any)
+  expect_equal(consolidate(test[c(1, 3)], "any", "any", resolve = "coalesce"), data.13.any)
+  expect_equal(consolidate(test, "any", resolve = "coalesce"), data.13.any)
+  expect_equal(consolidate(test, "every", "any", resolve = "min"), data.con.min)
+  expect_equal(consolidate(test, "every", "any", resolve = "max"), data.con.max)
 })
