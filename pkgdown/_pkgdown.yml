@@ -3,10 +3,12 @@ development:
     mode: auto
 template:
   params:
-    bootswatch: flatly
+    bootswatch: paper
 authors:
   James Hollway:
     href: https://jameshollway.com
+  Bernhard Bieri:
+    href: https://bernhardbieri.ch
 navbar:
   structure:
     left:
