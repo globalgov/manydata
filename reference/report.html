@@ -12,7 +12,7 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/paper/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
@@ -38,6 +38,8 @@
 
 
 
+  <link href="../extra.css" rel="stylesheet">
+  
 
 <meta property="og:title" content="Set of data structure exploration functions for users — report" />
 <meta property="og:description" content="The report family of functions allows users
@@ -183,16 +185,16 @@ the most direct URL to the original dataset.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>data_source</span><span class='op'>(</span>pkg <span class='op'>=</span> <span class='st'>"qData"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Component 1 :
-#&gt;            Reference                                                                                                    
-#&gt; wikipedia  "(????). “List_of_Roman_emperors.” &lt;URL:tps://en.wikipedia.org/wiki/List_of_Roman_emperors&gt;. Acc" [truncated]
-#&gt; UNRV       "(????). “Roman Emperor list.” &lt;URL:https://www.unrv.com/government/emperor.php&gt;. Accessed: 2021" [truncated]
-#&gt; britannica "(????). “List of Roman emperors.” &lt;URL:https://www.britannica.com/topic/list-of-Roman-emperors-" [truncated]
+#&gt;            Reference                                                                                                        
+#&gt; wikipedia  "(????). "List_of_Roman_emperors." &lt;URL:tps://en.wikipedia.org/wiki/List_of_Roman_emperors&gt;. Accesse" [truncated]
+#&gt; UNRV       "(????). "Roman Emperor list." &lt;URL:https://www.unrv.com/government/emperor.php&gt;. Accessed: 2021-07-" [truncated]
+#&gt; britannica "(????). "List of Roman emperors." &lt;URL:https://www.britannica.com/topic/list-of-Roman-emperors-2043" [truncated]
 #&gt; </div><div class='input'><span class='fu'>data_contrast</span><span class='op'>(</span>pkg <span class='op'>=</span> <span class='st'>"qData"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; emperors :
-#&gt;            Unique ID Missing Data Rows Columns        Beg        End
-#&gt; wikipedia         68        9.9 %   68      15 0014-09-18 0395-01-17
-#&gt; UNRV              98       6.06 %   99       7    0014 BC       0518
-#&gt; britannica        87          0 %   87       3       0014       0491
+#&gt;            Unique ID Missing Data Rows Columns          Beg        End
+#&gt; wikipedia         68        9.9 %   68      15 0026-01-16BC 0014-08-19
+#&gt; UNRV              98       6.06 %   99       7       0027BC     0014BC
+#&gt; britannica        87          0 %   87       3       0031BC 0014-12-31
 #&gt;                                                                        URL
 #&gt; wikipedia                           https://github.com/zonination/emperors
 #&gt; UNRV                           https://www.unrv.com/government/emperor.php

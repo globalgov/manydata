@@ -12,7 +12,7 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/paper/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
@@ -38,6 +38,8 @@
 
 
 
+  <link href="../extra.css" rel="stylesheet">
+  
 
 <meta property="og:title" content="Coalesce all compatible rows of a data frame — coalesce_compatible" />
 <meta property="og:description" content="This function identifies and coalesces
@@ -162,7 +164,7 @@ and the other is missing the observation.</p>
 <span class='st'>"j"</span>, <span class='st'>"k"</span>, <span class='cn'>NA</span>,
 <span class='cn'>NA</span>, <span class='st'>"k"</span>, <span class='st'>"l"</span><span class='op'>)</span>
 <span class='fu'>coalesce_compatible</span><span class='op'>(</span><span class='va'>eg1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 × 3</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 3</span>
 #&gt;   x     y     z    
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>1</span> a     b     c    

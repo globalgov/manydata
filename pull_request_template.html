@@ -12,7 +12,7 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/paper/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
@@ -38,6 +38,8 @@
 
 
 
+  <link href="extra.css" rel="stylesheet">
+  
 
 <meta property="og:title" content="Description" />
 
@@ -132,10 +134,10 @@
 <div id="checklist" class="section level1">
 <h1 class="hasAnchor">
 <a href="#checklist" class="anchor"></a>Checklist:</h1>
-<ul>
+<ul class="task-list">
 <li>
 <input type="checkbox" disabled>
-PR form<ul>
+PR form<ul class="task-list">
 <li>
 <input type="checkbox" disabled>
 I have given this pull request an informative title</li>
@@ -152,7 +154,7 @@ Package builds on my OS without issues</li>
 </li>
 <li>
 <input type="checkbox" disabled>
-PR checks all pass for latest commit<ul>
+PR checks all pass for latest commit<ul class="task-list">
 <li>
 <input type="checkbox" disabled>
 Package builds on Mac</li>
@@ -172,7 +174,7 @@ CodeFactor check: Package improves or maintains good style</li>
 </li>
 <li>
 <input type="checkbox" disabled>
-Documentation<ul>
+Documentation<ul class="task-list">
 <li>
 <input type="checkbox" disabled>
 Any new or modified functions or data have roxygen style documentation in their .R scripts</li>

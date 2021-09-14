@@ -12,7 +12,7 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/paper/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
@@ -38,6 +38,8 @@
 
 
 
+  <link href="extra.css" rel="stylesheet">
+  
 
 <meta property="og:title" content="Contributing" />
 
@@ -147,7 +149,7 @@
 <p>It can help to use packages such as <code>lintr</code> and <code>goodpractice</code> to ensure these are followed. These packages are incorporated into the checks made when a pull request is made. The <code>styler</code> package fixes in a non-invasive way the code to adhere to the tidyverse formatting rules, and it also provides an RStudio Addins to help with this task. To run the <code>lintr</code> and <code>goodpractice</code> checks or use <code>styler</code> in a file run:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># basic lintr checking</span>
-<span class="fu">lintr</span><span class="fu">::</span><span class="fu">lint_package</span><span class="op">(</span>path <span class="op">=</span> <span class="st">"qData/"</span><span class="op">)</span>
+<span class="fu">lintr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lintr/man/lint_package.html">lint_package</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"qData/"</span><span class="op">)</span>
 
 <span class="co"># goodpractices checks. Exclude length 80</span>
 <span class="fu">goodpractice</span><span class="fu">::</span><span class="fu">gp</span><span class="op">(</span>path <span class="op">=</span> <span class="st">"qData/"</span>,
@@ -159,7 +161,7 @@
 <div id="pull-request-process" class="section level2">
 <h2 class="hasAnchor">
 <a href="#pull-request-process" class="anchor"></a>Pull request process</h2>
-<p>The title of your PR should briefly describe the change. Please include a summary of the changes and which issues are fixed and the relevant motivation and context. List any dependencies that are required for this change, indicating whether this is a major (breaking), minor, or patch change. The body of your PR should contain <code>Fixes #issue-number</code>. A checklist is provided to check off the cases as the different elements listed have been completed to make sure all the steps have been respected. Make sure the package passes R CMD check by running <code>devtools::check()</code> before commiting changes to a pull request.</p>
+<p>The title of your PR should briefly describe the change. Please include a summary of the changes and which issues are fixed and the relevant motivation and context. List any dependencies that are required for this change, indicating whether this is a major (breaking), minor, or patch change. The body of your PR should contain <code>Fixes #issue-number</code>. A checklist is provided to check off the cases as the different elements listed have been completed to make sure all the steps have been respected. Make sure the package passes R CMD check by running <code><a href="https://devtools.r-lib.org//reference/check.html">devtools::check()</a></code> before commiting changes to a pull request.</p>
 <p>If you want to make a bigger change, it’s a good idea to first file an issue and make sure someone from the team agrees that it’s needed before openning a pull request. If you’ve found a bug, please file an issue that illustrates the bug with a minimal <a href="https://www.tidyverse.org/help/#reprex">reprex</a>.</p>
 <p>Please follow the qData pull request guideline (<a href="https://github.com/globalgov/qData/blob/main/.github/pull_request_template.md" class="uri">https://github.com/globalgov/qData/blob/main/.github/pull_request_template.md</a>)</p>
 <div id="branches" class="section level3">

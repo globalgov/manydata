@@ -12,7 +12,7 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/paper/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
@@ -38,6 +38,8 @@
 
 
 
+  <link href="../extra.css" rel="stylesheet">
+  
 
 <meta property="og:title" content="Consolidate database into a single dataset — consolidate" />
 <meta property="og:description" content="This function collapses a set or database of (q)datasets
@@ -209,36 +211,36 @@ but options should soon include
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://purrr.tidyverse.org/reference/pluck.html'>pluck</a></span><span class='op'>(</span><span class='va'>emperors</span>, <span class='st'>"UNRV"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 99 × 7</span>
-#&gt;    ID        Beg     End    Birth Death FullName                   Dynasty      
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;messy&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;mess&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>        
-#&gt; <span style='color: #BCBCBC;'> 1</span> Augustus  0027 BC 0014 … 63 BC 14    Gaius Julius Caesar Octav… Julio-Claudi…
-#&gt; <span style='color: #BCBCBC;'> 2</span> Tiberius  0014 BC 0037 … 42 BC 37    Tiberius Claudius Nero Ca… Julio-Claudi…
-#&gt; <span style='color: #BCBCBC;'> 3</span> Gaius (C… 0037    0041 … 12    14    Gaius Caesar Germanicus /… Julio-Claudi…
-#&gt; <span style='color: #BCBCBC;'> 4</span> Claudius  0041    0054 … 10 BC 41    Tiberius Claudius Nero Ge… Julio-Claudi…
-#&gt; <span style='color: #BCBCBC;'> 5</span> Nero      0054    0068 … 37    68    Claudius Nero Caesar (bor… Julio-Claudi…
-#&gt; <span style='color: #BCBCBC;'> 6</span> Galba     0068    0069 … 3 BC  69    Servius Sulpicius Galba /… Year of the …
-#&gt; <span style='color: #BCBCBC;'> 7</span> Otho      0069    0069 … 32    69    Marcus Salvius Otho / Imp… Year of the …
-#&gt; <span style='color: #BCBCBC;'> 8</span> Vitellius 0069    0069 … 15    69    Aulus Vitellius / Aulus V… Year of the …
-#&gt; <span style='color: #BCBCBC;'> 9</span> Vespasian 0069    0079 … 9     79    Titus Flavius Vespasianus… Year of the …
-#&gt; <span style='color: #BCBCBC;'>10</span> Titus     0079    0081 … 39    79    Titus Flavius Vespasianus… Flavian      
-#&gt; <span style='color: #949494;'># … with 89 more rows</span></div><div class='input'><span class='fu'>consolidate</span><span class='op'>(</span><span class='va'>emperors</span>, <span class='st'>"any"</span>, <span class='st'>"any"</span>, key <span class='op'>=</span> <span class='st'>"ID"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 137 × 15</span>
-#&gt;    ID     CityBirth  ProvinceBirth  Rise  Cause Killer Era   Notes   Verif Birth
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span> Augus… Rome       Italia         Birt… Assa… Wife   Prin… birth,… Redd… 0062…
-#&gt; <span style='color: #BCBCBC;'> 2</span> Tiber… Rome       Italia         Birt… Assa… Other… Prin… birth … Redd… 0041…
-#&gt; <span style='color: #BCBCBC;'> 3</span> Calig… Antitum    Italia         Birt… Assa… Senate Prin… assass… Redd… 0012…
-#&gt; <span style='color: #BCBCBC;'> 4</span> Claud… Lugdunum   Gallia Lugdun… Birt… Assa… Wife   Prin… birth … Redd… 0009…
-#&gt; <span style='color: #BCBCBC;'> 5</span> Nero   Antitum    Italia         Birt… Suic… Senate Prin… <span style='color: #BB0000;'>NA</span>      Redd… 0037…
-#&gt; <span style='color: #BCBCBC;'> 6</span> Galba  Terracina  Italia         Seiz… Assa… Other… Prin… birth … Redd… 0002…
-#&gt; <span style='color: #BCBCBC;'> 7</span> Otho   Terentinum Italia         Appo… Suic… Other… Prin… <span style='color: #BB0000;'>NA</span>      <span style='color: #BB0000;'>NA</span>    0032…
-#&gt; <span style='color: #BCBCBC;'> 8</span> Vitel… Rome       Italia         Seiz… Assa… Other… Prin… <span style='color: #BB0000;'>NA</span>      <span style='color: #BB0000;'>NA</span>    0015…
-#&gt; <span style='color: #BCBCBC;'> 9</span> Vespa… Falacrine  Italia         Seiz… Natu… Disea… Prin… <span style='color: #BB0000;'>NA</span>      <span style='color: #BB0000;'>NA</span>    0009…
-#&gt; <span style='color: #BCBCBC;'>10</span> Titus  Rome       Italia         Birt… Natu… Disea… Prin… <span style='color: #BB0000;'>NA</span>      <span style='color: #BB0000;'>NA</span>    0039…
-#&gt; <span style='color: #949494;'># … with 127 more rows, and 5 more variables: Death &lt;chr&gt;, FullName &lt;chr&gt;,</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 99 x 7</span>
+#&gt;    ID               Beg       End       Birth Death FullName          Dynasty   
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;messydt&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;messydt&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>             <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     
+#&gt; <span style='color: #BCBCBC;'> 1</span> Augustus         0027 BC   0014 BC   63 BC 14    Gaius Julius Cae~ Julio-Cla~
+#&gt; <span style='color: #BCBCBC;'> 2</span> Tiberius         0014 BC   0037      42 BC 37    Tiberius Claudiu~ Julio-Cla~
+#&gt; <span style='color: #BCBCBC;'> 3</span> Gaius (Caligula) 0037      0041      12    14    Gaius Caesar Ger~ Julio-Cla~
+#&gt; <span style='color: #BCBCBC;'> 4</span> Claudius         0041      0054      10 BC 41    Tiberius Claudiu~ Julio-Cla~
+#&gt; <span style='color: #BCBCBC;'> 5</span> Nero             0054      0068      37    68    Claudius Nero Ca~ Julio-Cla~
+#&gt; <span style='color: #BCBCBC;'> 6</span> Galba            0068      0069      3 BC  69    Servius Sulpiciu~ Year of t~
+#&gt; <span style='color: #BCBCBC;'> 7</span> Otho             0069      0069      32    69    Marcus Salvius O~ Year of t~
+#&gt; <span style='color: #BCBCBC;'> 8</span> Vitellius        0069      0069      15    69    Aulus Vitellius ~ Year of t~
+#&gt; <span style='color: #BCBCBC;'> 9</span> Vespasian        0069      0079      9     79    Titus Flavius Ve~ Year of t~
+#&gt; <span style='color: #BCBCBC;'>10</span> Titus            0079      0081      39    79    Titus Flavius Ve~ Flavian   
+#&gt; <span style='color: #949494;'># ... with 89 more rows</span></div><div class='input'><span class='fu'>consolidate</span><span class='op'>(</span><span class='va'>emperors</span>, <span class='st'>"any"</span>, <span class='st'>"any"</span>, key <span class='op'>=</span> <span class='st'>"ID"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 137 x 15</span>
+#&gt;    ID        CityBirth  ProvinceBirth Rise  Cause Killer Era   Notes Verif Birth
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> Augustus  Rome       Italia        Birt~ Assa~ Wife   Prin~ birt~ Redd~ 0062~
+#&gt; <span style='color: #BCBCBC;'> 2</span> Tiberius  Rome       Italia        Birt~ Assa~ Other~ Prin~ birt~ Redd~ 0041~
+#&gt; <span style='color: #BCBCBC;'> 3</span> Caligula  Antitum    Italia        Birt~ Assa~ Senate Prin~ assa~ Redd~ 0012~
+#&gt; <span style='color: #BCBCBC;'> 4</span> Claudius  Lugdunum   Gallia Lugdu~ Birt~ Assa~ Wife   Prin~ birt~ Redd~ 0009~
+#&gt; <span style='color: #BCBCBC;'> 5</span> Nero      Antitum    Italia        Birt~ Suic~ Senate Prin~ <span style='color: #BB0000;'>NA</span>    Redd~ 0037~
+#&gt; <span style='color: #BCBCBC;'> 6</span> Galba     Terracina  Italia        Seiz~ Assa~ Other~ Prin~ birt~ Redd~ 0002~
+#&gt; <span style='color: #BCBCBC;'> 7</span> Otho      Terentinum Italia        Appo~ Suic~ Other~ Prin~ <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>    0032~
+#&gt; <span style='color: #BCBCBC;'> 8</span> Vitellius Rome       Italia        Seiz~ Assa~ Other~ Prin~ <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>    0015~
+#&gt; <span style='color: #BCBCBC;'> 9</span> Vespasian Falacrine  Italia        Seiz~ Natu~ Disea~ Prin~ <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>    0009~
+#&gt; <span style='color: #BCBCBC;'>10</span> Titus     Rome       Italia        Birt~ Natu~ Disea~ Prin~ <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>    0039~
+#&gt; <span style='color: #949494;'># ... with 127 more rows, and 5 more variables: Death &lt;chr&gt;, FullName &lt;chr&gt;,</span>
 #&gt; <span style='color: #949494;'>#   Dynasty &lt;chr&gt;, Beg &lt;messydt&gt;, End &lt;messydt&gt;</span></div><div class='input'><span class='fu'>consolidate</span><span class='op'>(</span><span class='va'>emperors</span>, <span class='st'>"every"</span>, <span class='st'>"every"</span>, key <span class='op'>=</span> <span class='st'>"ID"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 41 × 3</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 41 x 3</span>
 #&gt;    ID        Beg           End       
 #&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;messydt&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;messydt&gt;</span> 
 #&gt; <span style='color: #BCBCBC;'> 1</span> Augustus  0026-01-16 BC 0014-08-19
@@ -251,7 +253,7 @@ but options should soon include
 #&gt; <span style='color: #BCBCBC;'> 8</span> Titus     0079-06-24    0081-09-13
 #&gt; <span style='color: #BCBCBC;'> 9</span> Domitian  0081-09-14    0096-09-18
 #&gt; <span style='color: #BCBCBC;'>10</span> Nerva     0096-09-18    0098-01-27
-#&gt; <span style='color: #949494;'># … with 31 more rows</span></div></pre>
+#&gt; <span style='color: #949494;'># ... with 31 more rows</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
