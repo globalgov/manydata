@@ -23,10 +23,13 @@
 #' By default "any" (or all) variables are retained,
 #' but another option is "every",
 #' which retains only those variables that appear in all parent datasets.
-#' @param resolve How conflicts between observations should be resolved.
-#' Currently only "coalesce" is offered, which takes the first non-NA value,
-#' but options should soon include
-#' "max", "min", "mean", "mode" and "median", as well as "append".
+#' @param resolve How conflicts between observations should be resolved?
+#' Currently "coalesce", "min" and "max" are offered.
+#' "coalesce" takes the first non-NA value.
+#' "max" takes the largest value,
+#' while "min" takes the smallest value.
+#' Other options should soon include
+#' "mean", "mode" and "median", as well as "append".
 #' @param key An ID column to collapse by. By default "qID".
 #' @seealso [pluck()] for selecting a single dataset from a database
 #' @return A single tibble/data frame.
@@ -40,13 +43,15 @@ purrr::pluck
 #' @rdname consolidate
 #' @examples
 #' pluck(emperors, "UNRV")
-#' consolidate(emperors, "any", "any", key = "ID")
-#' consolidate(emperors, "every", "every", key = "ID")
+#' consolidate(emperors, "any", "any", resolve = "coalesce", key = "ID")
+#' consolidate(emperors, "every", "every", resolve = "coalesce", key = "ID")
+#' consolidate(emperors, "every", "every", resolve = "min", key = "ID")
+#' consolidate(emperors, "every", "every", resolve = "max", key = "ID")
 #' @export
 consolidate <- function(database,
                         rows = c("any", "every"),
                         cols = c("any", "every"),
-                        resolve = "coalesce",
+                        resolve = c("coalesce", "min", "max"),
                         key = "qID") {
 
   # Step 1: Join datasets by ID
@@ -77,7 +82,34 @@ consolidate <- function(database,
       out
     }
   }
-
+  if (resolve == "min") {
+    for (var in other_variables) {
+      vars_to_combine <- startsWith(names(out), var)
+      new_var <- out[vars_to_combine]
+      # class <- unlist(lapply(new_var,class))
+      # if (class == "messydt") {
+      #   new_var <- apply(new_var, 2, function(x) as.Date(x, min))
+      # }
+      new_var <- apply(new_var, 1, function(x) as.character(min(x, na.rm = TRUE)))
+      out <- out %>% dplyr::select(-dplyr::starts_with(var))
+      out[, var] <- new_var
+      out
+    }
+  }
+  if (resolve == "max") {
+    for (var in other_variables) {
+      vars_to_combine <- startsWith(names(out), var)
+      new_var <- out[vars_to_combine]
+      # class <- unlist(lapply(new_var,class))
+      # if (class == "messydt") {
+      #   new_var <- apply(new_var, 2, function(x) as.Date(x, max))
+      # }
+      new_var <- apply(new_var, 1, function(x) as.character(max(x, na.rm = TRUE)))
+      out <- out %>% dplyr::select(-dplyr::starts_with(var))
+      out[, var] <- new_var
+      out
+    }
+  }
   out <- dplyr::distinct(out)
   if (any(duplicated(out[, 1]))) out <- coalesce_compatible(out)
   out

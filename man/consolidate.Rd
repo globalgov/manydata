@@ -8,7 +8,7 @@ consolidate(
   database,
   rows = c("any", "every"),
   cols = c("any", "every"),
-  resolve = "coalesce",
+  resolve = c("coalesce", "min", "max"),
   key = "qID"
 )
 }
@@ -25,10 +25,13 @@ By default "any" (or all) variables are retained,
 but another option is "every",
 which retains only those variables that appear in all parent datasets.}
 
-\item{resolve}{How conflicts between observations should be resolved.
-Currently only "coalesce" is offered, which takes the first non-NA value,
-but options should soon include
-"max", "min", "mean", "mode" and "median", as well as "append".}
+\item{resolve}{How conflicts between observations should be resolved?
+Currently "coalesce", "min" and "max" are offered.
+"coalesce" takes the first non-NA value.
+"max" takes the largest value,
+while "min" takes the smallest value.
+Other options should soon include
+"mean", "mode" and "median", as well as "append".}
 
 \item{key}{An ID column to collapse by. By default "qID".}
 }
@@ -53,8 +56,10 @@ how conflicts between observations are resolved.
 }
 \examples{
 pluck(emperors, "UNRV")
-consolidate(emperors, "any", "any", key = "ID")
-consolidate(emperors, "every", "every", key = "ID")
+consolidate(emperors, "any", "any", resolve = "coalesce", key = "ID")
+consolidate(emperors, "every", "every", resolve = "coalesce", key = "ID")
+consolidate(emperors, "every", "every", resolve = "min", key = "ID")
+consolidate(emperors, "every", "every", resolve = "max", key = "ID")
 }
 \seealso{
 \code{\link[=pluck]{pluck()}} for selecting a single dataset from a database
