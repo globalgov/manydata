@@ -45,8 +45,8 @@ purrr::pluck
 #' pluck(emperors, "UNRV")
 #' consolidate(emperors, "any", "any", resolve = "coalesce", key = "ID")
 #' consolidate(emperors, "every", "every", resolve = "coalesce", key = "ID")
-#' consolidate(emperors, "every", "every", resolve = "min", key = "ID")
-#' consolidate(emperors, "every", "every", resolve = "max", key = "ID")
+#' consolidate(emperors, "any", "every", resolve = "min", key = "ID")
+#' consolidate(emperors, "any", "every", resolve = "max", key = "ID")
 #' @export
 consolidate <- function(database,
                         rows = c("any", "every"),

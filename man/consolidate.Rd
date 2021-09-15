@@ -58,8 +58,8 @@ how conflicts between observations are resolved.
 pluck(emperors, "UNRV")
 consolidate(emperors, "any", "any", resolve = "coalesce", key = "ID")
 consolidate(emperors, "every", "every", resolve = "coalesce", key = "ID")
-consolidate(emperors, "every", "every", resolve = "min", key = "ID")
-consolidate(emperors, "every", "every", resolve = "max", key = "ID")
+consolidate(emperors, "any", "every", resolve = "min", key = "ID")
+consolidate(emperors, "any", "every", resolve = "max", key = "ID")
 }
 \seealso{
 \code{\link[=pluck]{pluck()}} for selecting a single dataset from a database
