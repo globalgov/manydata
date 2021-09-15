@@ -47,11 +47,12 @@ purrr::pluck
 #' consolidate(emperors, "every", "every", resolve = "coalesce", key = "ID")
 #' consolidate(emperors, "any", "every", resolve = "min", key = "ID")
 #' consolidate(emperors, "any", "every", resolve = "max", key = "ID")
+#' consolidate(emperors, "any", "every", resolve = "median", key = "ID")
 #' @export
 consolidate <- function(database,
                         rows = c("any", "every"),
                         cols = c("any", "every"),
-                        resolve = c("coalesce", "min", "max"),
+                        resolve = c("coalesce", "min", "max", "median"),
                         key = "qID") {
 
   # Step 1: Join datasets by ID
@@ -112,6 +113,40 @@ consolidate <- function(database,
       out
     }
   }
+  if (resolve == "median") {
+    for (var in other_variables) {
+      vars_to_combine <- startsWith(names(out), var)
+      new_var <- out[vars_to_combine]
+      cl <- lapply(new_var, class)
+      if (cl[[1]] == "messydt") {
+        new_var <- apply(new_var, 1, function(x) as.character(stats::median(x, na.rm = TRUE)))
+      } else {
+        new_var <- apply(new_var, 1, function(x) stats::median(x, na.rm = TRUE))
+      }
+      out <- out %>% dplyr::select(-dplyr::starts_with(var))
+      out[, var] <- new_var
+      out
+    }
+  }
+  # if (resolve == "mean") {
+  #   for (var in other_variables) {
+  #     vars_to_combine <- startsWith(names(out), var)
+  #     new_var <- out[vars_to_combine]
+  #     cl <- lapply(new_var, class)
+  #     if (cl[[1]] == "messydt") {
+  #       new_var <- sapply(new_var, function(x) {
+  #         if (length(x) > 1) x <- as.character(mean(as.Date(x),
+  #                                                   trim = 0, na.rm = TRUE))
+  #         x
+  #       })
+  #     } else {
+  #       new_var <- apply(new_var, 1, function(x) mean(x, trim = 0, na.rm = TRUE))
+  #     }
+  #     out <- out %>% dplyr::select(-dplyr::starts_with(var))
+  #     out[, var] <- new_var
+  #     out
+  #   }
+  # }
   out <- dplyr::distinct(out)
   if (any(duplicated(out[, 1]))) out <- coalesce_compatible(out)
   out

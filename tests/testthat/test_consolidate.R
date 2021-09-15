@@ -35,6 +35,10 @@ data.con.max <- dplyr::tibble(qID = c("NZL", "BRA"),
                               date = c("1990-01-01",
                                        "1990-01-03"),
                               number = c(100, 1200))
+data.con.median <- dplyr::tibble(qID = c("NZL", "BRA"),
+                              date = c("1990-01-01",
+                                       "1990-01-02"),
+                              number = c(100, 1100))
 
 test_that("pluck works", {
   expect_equal(pluck(test, "a"), data1)
@@ -54,4 +58,5 @@ test_that("consolidate works", {
   expect_equal(consolidate(test, "any", resolve = "coalesce"), data.13.any)
   expect_equal(consolidate(test, "every", "any", resolve = "min"), data.con.any)
   expect_equal(consolidate(test, "every", "any", resolve = "max"), data.con.max)
+  expect_equal(consolidate(test, "every", "any", resolve = "median"), data.con.median)
 })

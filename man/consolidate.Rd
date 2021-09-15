@@ -8,7 +8,7 @@ consolidate(
   database,
   rows = c("any", "every"),
   cols = c("any", "every"),
-  resolve = c("coalesce", "min", "max"),
+  resolve = c("coalesce", "min", "max", "median"),
   key = "qID"
 )
 }
@@ -60,6 +60,7 @@ consolidate(emperors, "any", "any", resolve = "coalesce", key = "ID")
 consolidate(emperors, "every", "every", resolve = "coalesce", key = "ID")
 consolidate(emperors, "any", "every", resolve = "min", key = "ID")
 consolidate(emperors, "any", "every", resolve = "max", key = "ID")
+consolidate(emperors, "any", "every", resolve = "median", key = "ID")
 }
 \seealso{
 \code{\link[=pluck]{pluck()}} for selecting a single dataset from a database
