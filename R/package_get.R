@@ -27,7 +27,6 @@
 #' @importFrom lubridate as_date
 #' @examples
 #' get_packages()
-#' get_packages("qStates")
 #' @export
 get_packages <- function(pkg) {
 

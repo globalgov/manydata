@@ -32,5 +32,4 @@ ecosystem, they can to type the package name within the function.
 }
 \examples{
 get_packages()
-get_packages("qStates")
 }

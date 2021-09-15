@@ -86,11 +86,12 @@ consolidate <- function(database,
     for (var in other_variables) {
       vars_to_combine <- startsWith(names(out), var)
       new_var <- out[vars_to_combine]
-      # class <- unlist(lapply(new_var,class))
-      # if (class == "messydt") {
-      #   new_var <- apply(new_var, 2, function(x) as.Date(x, min))
-      # }
-      new_var <- apply(new_var, 1, function(x) as.character(min(x, na.rm = TRUE)))
+      cl <- lapply(new_var, class)
+      if (cl[[1]] == "messydt") {
+        new_var <- apply(new_var, 1, function(x) as.character(min(x, na.rm = TRUE)))
+      } else {
+        new_var <- apply(new_var, 1, function(x) min(x, na.rm = TRUE))
+      }
       out <- out %>% dplyr::select(-dplyr::starts_with(var))
       out[, var] <- new_var
       out
@@ -100,11 +101,12 @@ consolidate <- function(database,
     for (var in other_variables) {
       vars_to_combine <- startsWith(names(out), var)
       new_var <- out[vars_to_combine]
-      # class <- unlist(lapply(new_var,class))
-      # if (class == "messydt") {
-      #   new_var <- apply(new_var, 2, function(x) as.Date(x, max))
-      # }
-      new_var <- apply(new_var, 1, function(x) as.character(max(x, na.rm = TRUE)))
+      cl <- lapply(new_var, class)
+      if (cl[[1]] == "messydt") {
+        new_var <- apply(new_var, 1, function(x) as.character(max(x, na.rm = TRUE)))
+      } else {
+        new_var <- apply(new_var, 1, function(x) max(x, na.rm = TRUE))
+      }
       out <- out %>% dplyr::select(-dplyr::starts_with(var))
       out[, var] <- new_var
       out
