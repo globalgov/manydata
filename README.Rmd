@@ -15,20 +15,20 @@ output: github_document
 <!-- ![GitHub All Releases](https://img.shields.io/github/downloads/jhollway/roctopus/total) -->
 <!-- badges: end -->
 
-`{qData}` is the central package in an ecosystem of packages aimed at collecting, connecting and correcting network data across issue-domains of global governance.
+`{qData}` is the central package in the `{qData}` ecosystem of qPackages aimed at collecting, connecting and correcting network data across issue-domains of global governance. To assist users in doing so, `{qData}` also contains functions that enable users to clean and manipulate data easily.
 
 ## Why qData?
 
-`{qData}` offers users a way to access all of the tested data in the ecosystem in so-called 'qPackages',
-and use this data in their analyses of global governance.
-A special advantage of such qdata is that it is not 'opinionated',
-in the sense of offering a single, supposedly authoritative version of global governance events,
-but instead holds many well-regarded datasets together in three-dimensional 'datacubes'.
+`{qData}` offers users access to all of the tested data in the various 'qPackages' available in the ecosystem,
+for use in analyses of global governance and beyond.
+A special feature of the `{qData}` ecosystem is that it is not 'opinionated' - instead of
+offering a single, supposedly authoritative version of global governance events,
+the 'qPackages' gather well-regarded datasets in each issue-domain into three-dimensional 'datacubes'.
 The chief advantage of this for global governance researchers is that it enables
-a quick and easy way to check the robustness of their results to different formulations of
-the study population or concept specification. The 'datacube' structure is requiring specific 
-coding system for the variables across the datasets. 
-For more details on that, please see the [vignette](https://globalgov.github.io/qData/articles/user.html).
+a quick and easy way to check the robustness of their results using different formulations of
+the study population or concept specification.
+The 'datacube' structure has a specific coding system for the variables across the datasets. 
+For more details, please see the [vignette](https://globalgov.github.io/qData/articles/user.html).
 
 ## Downloading and installing qData
 
@@ -42,7 +42,7 @@ remotes::install_github("globalgov/qData")
 ## Available qPackages
 
 `{qData}` connects users to other packages that help fill global governance researchers' data needs.
-The `get_packages()` function can be used to discover which packages are currently available.
+The `get_packages()` function can be used to discover the qPackages currently available.
 
 ```{r, message=FALSE}
 library(qData)
