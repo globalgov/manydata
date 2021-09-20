@@ -119,8 +119,29 @@ how conflicts between observations are resolved." />
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/globalgov/qData/">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Other packages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://globalgov.github.io/qCreate/">qCreate</a>
+    </li>
+    <li>
+      <a href="https://globalgov.github.io/qStates/">qStates</a>
+    </li>
+    <li>
+      <a href="https://globalgov.github.io/qEnviron/">qEnviron</a>
+    </li>
+    <li>
+      <a href="https://globalgov.github.io/qTrade/">qTrade</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://github.com/globalgov/qStates">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -164,7 +185,7 @@ how conflicts between observations are resolved.</p>
   <span class='va'>database</span>,
   rows <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"any"</span>, <span class='st'>"every"</span><span class='op'>)</span>,
   cols <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"any"</span>, <span class='st'>"every"</span><span class='op'>)</span>,
-  resolve <span class='op'>=</span> <span class='st'>"coalesce"</span>,
+  resolve <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"coalesce"</span>, <span class='st'>"min"</span>, <span class='st'>"max"</span>, <span class='st'>"median"</span><span class='op'>)</span>,
   key <span class='op'>=</span> <span class='st'>"qID"</span>
 <span class='op'>)</span></pre>
 
@@ -191,10 +212,13 @@ which retains only those variables that appear in all parent datasets.</p></td>
     </tr>
     <tr>
       <th>resolve</th>
-      <td><p>How conflicts between observations should be resolved.
-Currently only "coalesce" is offered, which takes the first non-NA value,
-but options should soon include
-"max", "min", "mean", "mode" and "median", as well as "append".</p></td>
+      <td><p>How conflicts between observations should be resolved?
+Currently "coalesce", "min" and "max" are offered.
+"coalesce" takes the first non-NA value.
+"max" takes the largest value,
+while "min" takes the smallest value.
+Other options should soon include
+"mean", "mode" and "median", as well as "append".</p></td>
     </tr>
     <tr>
       <th>key</th>
@@ -224,7 +248,7 @@ but options should soon include
 #&gt; <span style='color: #BCBCBC;'> 8</span> Vitellius        0069      0069      15    69    Aulus Vitellius ~ Year of t~
 #&gt; <span style='color: #BCBCBC;'> 9</span> Vespasian        0069      0079      9     79    Titus Flavius Ve~ Year of t~
 #&gt; <span style='color: #BCBCBC;'>10</span> Titus            0079      0081      39    79    Titus Flavius Ve~ Flavian   
-#&gt; <span style='color: #949494;'># ... with 89 more rows</span></div><div class='input'><span class='fu'>consolidate</span><span class='op'>(</span><span class='va'>emperors</span>, <span class='st'>"any"</span>, <span class='st'>"any"</span>, key <span class='op'>=</span> <span class='st'>"ID"</span><span class='op'>)</span>
+#&gt; <span style='color: #949494;'># ... with 89 more rows</span></div><div class='input'><span class='fu'>consolidate</span><span class='op'>(</span><span class='va'>emperors</span>, <span class='st'>"any"</span>, <span class='st'>"any"</span>, resolve <span class='op'>=</span> <span class='st'>"coalesce"</span>, key <span class='op'>=</span> <span class='st'>"ID"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 137 x 15</span>
 #&gt;    ID        CityBirth  ProvinceBirth Rise  Cause Killer Era   Notes Verif Birth
 #&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>
@@ -239,7 +263,7 @@ but options should soon include
 #&gt; <span style='color: #BCBCBC;'> 9</span> Vespasian Falacrine  Italia        Seiz~ Natu~ Disea~ Prin~ <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>    0009~
 #&gt; <span style='color: #BCBCBC;'>10</span> Titus     Rome       Italia        Birt~ Natu~ Disea~ Prin~ <span style='color: #BB0000;'>NA</span>    <span style='color: #BB0000;'>NA</span>    0039~
 #&gt; <span style='color: #949494;'># ... with 127 more rows, and 5 more variables: Death &lt;chr&gt;, FullName &lt;chr&gt;,</span>
-#&gt; <span style='color: #949494;'>#   Dynasty &lt;chr&gt;, Beg &lt;messydt&gt;, End &lt;messydt&gt;</span></div><div class='input'><span class='fu'>consolidate</span><span class='op'>(</span><span class='va'>emperors</span>, <span class='st'>"every"</span>, <span class='st'>"every"</span>, key <span class='op'>=</span> <span class='st'>"ID"</span><span class='op'>)</span>
+#&gt; <span style='color: #949494;'>#   Dynasty &lt;chr&gt;, Beg &lt;messydt&gt;, End &lt;messydt&gt;</span></div><div class='input'><span class='fu'>consolidate</span><span class='op'>(</span><span class='va'>emperors</span>, <span class='st'>"every"</span>, <span class='st'>"every"</span>, resolve <span class='op'>=</span> <span class='st'>"coalesce"</span>, key <span class='op'>=</span> <span class='st'>"ID"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 41 x 3</span>
 #&gt;    ID        Beg           End       
 #&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;messydt&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;messydt&gt;</span> 
@@ -253,7 +277,10 @@ but options should soon include
 #&gt; <span style='color: #BCBCBC;'> 8</span> Titus     0079-06-24    0081-09-13
 #&gt; <span style='color: #BCBCBC;'> 9</span> Domitian  0081-09-14    0096-09-18
 #&gt; <span style='color: #BCBCBC;'>10</span> Nerva     0096-09-18    0098-01-27
-#&gt; <span style='color: #949494;'># ... with 31 more rows</span></div></pre>
+#&gt; <span style='color: #949494;'># ... with 31 more rows</span></div><div class='input'><span class='fu'>consolidate</span><span class='op'>(</span><span class='va'>emperors</span>, <span class='st'>"any"</span>, <span class='st'>"every"</span>, resolve <span class='op'>=</span> <span class='st'>"min"</span>, key <span class='op'>=</span> <span class='st'>"ID"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in match.arg(resolve): 'arg' should be one of "coalesce"</span></div><div class='input'><span class='fu'>consolidate</span><span class='op'>(</span><span class='va'>emperors</span>, <span class='st'>"any"</span>, <span class='st'>"every"</span>, resolve <span class='op'>=</span> <span class='st'>"max"</span>, key <span class='op'>=</span> <span class='st'>"ID"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in match.arg(resolve): 'arg' should be one of "coalesce"</span></div><div class='input'><span class='fu'>consolidate</span><span class='op'>(</span><span class='va'>emperors</span>, <span class='st'>"any"</span>, <span class='st'>"every"</span>, resolve <span class='op'>=</span> <span class='st'>"median"</span>, key <span class='op'>=</span> <span class='st'>"ID"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in match.arg(resolve): 'arg' should be one of "coalesce"</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
