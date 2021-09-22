@@ -18,7 +18,9 @@ navbar:
     - articles
     - tutorials
     - news
-    right: github
+    right:
+    - packages
+    - github
   components:
     home:
       icon: fa-home fa-lg
@@ -34,6 +36,20 @@ navbar:
     news:
       text: News
       href: news/index.html
+    github:
+      icon: "fab fa-github fa-lg"
+      href: https://github.com/globalgov/qStates
+    packages:
+      text: Other packages
+      menu:
+        - text: qCreate
+          href: https://globalgov.github.io/qCreate/
+        - text: qStates
+          href: https://globalgov.github.io/qStates/
+        - text: qEnviron
+          href: https://globalgov.github.io/qEnviron/
+        - text: qTrade
+          href: https://globalgov.github.io/qTrade/
 reference:
   - title: "Obtaining and inspecting data in qPackages"
     desc: "These functions are to assist data analysts with identifying, downloading, and analysing data on particular parts of global governance:"
