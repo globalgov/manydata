@@ -111,7 +111,6 @@ data_source <- function(pkg, database = NULL, dataset = NULL) {
 #' data_contrast(pkg = "qData")
 #' @export
 data_contrast <- function(pkg, database = NULL, dataset = NULL) {
-
   pkg_path <- find.package(pkg)
   data_path <- file.path(pkg_path, "data")
   pkg_dbs <- unname(unlist(readRDS(file.path(data_path, "Rdata.rds"))))
@@ -192,7 +191,7 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
     lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
     dbs <-  mget(ls(tmp_env), tmp_env)
     outlist <- list()
-    for (i in c(seq_len(length(dbs)))) {
+    for (i in 1:length(dbs)) {
       assign(paste0("tabl", i),
              rbind(purrr::map(dbs[[i]], function(x) length(unique(x$ID))),
                    purrr::map(dbs[[i]], function(x)
