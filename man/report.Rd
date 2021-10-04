@@ -4,11 +4,14 @@
 \alias{report}
 \alias{data_source}
 \alias{data_contrast}
+\alias{open_codebook}
 \title{Set of data structure exploration functions for users}
 \usage{
 data_source(pkg, database = NULL, dataset = NULL)
 
 data_contrast(pkg, database = NULL, dataset = NULL)
+
+open_codebook(pkg, database, dataset)
 }
 \arguments{
 \item{pkg}{character string of the qPackage to report data on.
@@ -29,6 +32,9 @@ A dataframe with the data sources
 
 A list with the desired metadata to compare various datasets in the
 qVerse.
+
+Opens a pdf version of the original codebook of the specified
+dataset, if available.
 }
 \description{
 The report family of functions allows users
@@ -45,8 +51,16 @@ Namely the number of unique ID's, the percentage of
 missing data, the number of observations, the number of variables,
 the minimum beginning date and the maximum ending date as well as
 the most direct URL to the original dataset.
+
+\code{open_codebook()} opens the original codebook of the specified
+dataset to allow users to look up the original coding rules. Note that there
+is no original codebook for the genevar database and that a codebook might
+not exist for certain datasets. In the latter case, please refer to the
+source URL provided with each dataset by running \code{qData::data_contrast()} as
+further information on coding rules is often available online.
 }
 \examples{
 data_source(pkg = "qData")
 data_contrast(pkg = "qData")
+open_codebook(pkg = "qStates", database = "states", dataset = "COW")
 }
