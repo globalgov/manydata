@@ -126,9 +126,15 @@ get_packages <- function(pkg) {
     })
 
     repos <- tibble::as_tibble(dplyr::bind_rows(repos))
+    if(length(repos) < 2) {
+      stop("The download limit from GitHub has been reached.
+       Please download our packages using 'remotes::github(globalgov/qPackage_name)'")
+    } else {
     print(repos, width = Inf, pillar.min_chars = Inf)
+    }
   }
-
+  
+  tryCatch({
   if (!missing(pkg)) {
     if (stringr::str_detect(pkg, "/")) {
       remotes::install_github(pkg)
@@ -143,15 +149,21 @@ get_packages <- function(pkg) {
       } else if (pkg == 4) {
         pkg <- "qStates"
         remotes::install_github("globalgov/qStates")
+      } else if (pkg == 5) {
+        pkg <- "qTrade"
+        remotes::install_github("globalgov/qTrade")
       } else {
-        stop("Package number not found, please type package name")
+        stop("Package number not found, please type qPackage name")
       }
     } else {
       remotes::install_github(paste0("globalgov/", pkg))
     }
     library(pkg, character.only = TRUE)
   }
-
+  }, error = function(e) {
+  stop("The download limit from GitHub has been reached.
+       Please download our packages using 'remotes::github(globalgov/qPackage_name)'")
+  })
 }
 
 # Helper function from usethis:::create_directory()
