@@ -128,7 +128,8 @@ get_packages <- function(pkg) {
     repos <- tibble::as_tibble(dplyr::bind_rows(repos))
     if(length(repos) < 2) {
       stop("The download limit from GitHub has been reached.
-       Please download our packages using 'remotes::github(globalgov/qPackage_name)'")
+      To see all the packages in the ecosystem, please go to the following link:
+           https://github.com/globalgov")
     } else {
     print(repos, width = Inf, pillar.min_chars = Inf)
     }
@@ -161,8 +162,9 @@ get_packages <- function(pkg) {
     library(pkg, character.only = TRUE)
   }
   }, error = function(e) {
-  stop("The download limit from GitHub has been reached.
-       Please download our packages using 'remotes::github(globalgov/qPackage_name)'")
+  stop(paste0("The download limit from GitHub has been reached.
+       Please download our packages using:
+              remotes::github(globalgov/", pkg, ")"))
   })
 }
 
