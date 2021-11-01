@@ -48,6 +48,7 @@ purrr::pluck
 #' consolidate(emperors, "any", "every", resolve = "min", key = "ID")
 #' consolidate(emperors, "any", "every", resolve = "max", key = "ID")
 #' consolidate(emperors, "any", "every", resolve = "median", key = "ID")
+#' consolidate(emperors, "every", "every", resolve = c(Beg = "min", End = "max"), key = "ID")
 #' @export
 consolidate <- function(database,
                         rows = c("any", "every"),
@@ -72,81 +73,58 @@ consolidate <- function(database,
   }
 
   # Step 3: Resolve conflicts
+  if (length(resolve) < 2) {
   resolve <- match.arg(resolve)
   other_variables <- unname(all_variables[!key == all_variables])
   if (resolve == "coalesce") {
-    for (var in other_variables) {
-      vars_to_combine <- startsWith(names(out), var)
-      new_var <- dplyr::coalesce(!!!out[vars_to_combine])
-      out <- out %>% dplyr::select(-dplyr::starts_with(var))
-      out[, var] <- new_var
-      out
-    }
+    out <- r_coalesce(other_variables, out, key)
   }
   if (resolve == "min") {
-    for (var in other_variables) {
-      vars_to_combine <- startsWith(names(out), var)
-      new_var <- out[vars_to_combine]
-      cl <- lapply(new_var, class)
-      if (cl[[1]] == "messydt") {
-        new_var <- apply(new_var, 1, function(x) as.character(min(x, na.rm = TRUE)))
-      } else {
-        new_var <- apply(new_var, 1, function(x) min(x, na.rm = TRUE))
-      }
-      out <- out %>% dplyr::select(-dplyr::starts_with(var))
-      out[, var] <- new_var
-      out
-    }
+    out <- r_min(other_variables, out, key)
   }
   if (resolve == "max") {
-    for (var in other_variables) {
-      vars_to_combine <- startsWith(names(out), var)
-      new_var <- out[vars_to_combine]
-      cl <- lapply(new_var, class)
-      if (cl[[1]] == "messydt") {
-        new_var <- apply(new_var, 1, function(x) as.character(max(x, na.rm = TRUE)))
-      } else {
-        new_var <- apply(new_var, 1, function(x) max(x, na.rm = TRUE))
-      }
-      out <- out %>% dplyr::select(-dplyr::starts_with(var))
-      out[, var] <- new_var
-      out
-    }
+    out <- r_max(other_variables, out, key)
   }
   if (resolve == "median") {
-    for (var in other_variables) {
-      vars_to_combine <- startsWith(names(out), var)
-      new_var <- out[vars_to_combine]
-      cl <- lapply(new_var, class)
-      if (cl[[1]] == "messydt") {
-        new_var <- apply(new_var, 1, function(x) as.character(stats::median(x, na.rm = TRUE)))
-      } else {
-        new_var <- apply(new_var, 1, function(x) stats::median(x, na.rm = TRUE))
-      }
-      out <- out %>% dplyr::select(-dplyr::starts_with(var))
-      out[, var] <- new_var
-      out
-    }
+    out <- r_median(other_variables, out, key)
   }
   # if (resolve == "mean") {
-  #   for (var in other_variables) {
-  #     vars_to_combine <- startsWith(names(out), var)
-  #     new_var <- out[vars_to_combine]
-  #     cl <- lapply(new_var, class)
-  #     if (cl[[1]] == "messydt") {
-  #       new_var <- sapply(new_var, function(x) {
-  #         if (length(x) > 1) x <- as.character(mean(as.Date(x),
-  #                                                   trim = 0, na.rm = TRUE))
-  #         x
-  #       })
-  #     } else {
-  #       new_var <- apply(new_var, 1, function(x) mean(x, trim = 0, na.rm = TRUE))
-  #     }
-  #     out <- out %>% dplyr::select(-dplyr::starts_with(var))
-  #     out[, var] <- new_var
-  #     out
-  #   }
+  # out <- r_mean(other_variables, out, key)
   # }
+  } else {
+    resolve <- data.frame(var = names(resolve), resolve = resolve)
+    for (k in seq_len(nrow(resolve))) {
+      if (resolve$resolve[k] == "coalesce") {
+        rc <- r_coalesce(resolve$var[k], out, key)
+      }
+      if (resolve$resolve[k] == "min") {
+        rmin <- r_min(resolve$var[k], out, key)
+      }
+      if (resolve$resolve[k] == "max") {
+        rmax <- r_max(resolve$var[k], out, key)
+      }
+      if (resolve$resolve[k] == "median") {
+        rmd <- r_median(resolve$var[k], out, key)
+      }
+      # if (resolve$resolve[k] == "mean") {
+      #   rm <- r_mean(resolve$var[k])
+      # }
+    }
+    if (exists("rc")) {
+      out <- rc
+    } else {
+      out <- dplyr::select(out, key)
+    }
+    if (exists("rmin")) {
+      out <- dplyr::full_join(out, rmin, by = key)
+    }
+    if (exists("rmax")) {
+      out <- dplyr::full_join(out, rmax, by = key)
+    }
+    if (exists("rmd")) {
+      out <- dplyr::full_join(out, rmd, by = key)
+    }
+  }
   out <- dplyr::distinct(out)
   if (any(duplicated(out[, 1]))) out <- coalesce_compatible(out)
   out
@@ -207,4 +185,144 @@ compatible_rows <- function(x) {
     })
     pairs[apply(t(compatico), 1, function(y) all(y)), ]
   }
+}
+
+#' Resolve Coalesce
+#'
+#' Helper function for resolving a database into a dataframe with coalesce.
+#' "coalesce" takes the first non-NA value
+#' @param other_variables A list of variables to be resolved
+#' @param out A dataframe
+#' @param key The ID column to collapse by. By default "qID"
+#' @return The resolved dataframed or variable
+r_coalesce <- function(other_variables, out, key) {
+  for (var in other_variables) {
+    vars_to_combine <- startsWith(names(out), var)
+    new_var <- dplyr::coalesce(!!!out[vars_to_combine])
+    out <- out %>% dplyr::select(-dplyr::starts_with(var))
+    out[, var] <- new_var
+  }
+  if (length(other_variables) == 1) {
+    out <- dplyr::select(out, key, other_variables)
+  }
+  out
+}
+
+#' Resolve Minimum
+#'
+#' Helper function for resolving a database into a dataframe with coalesce.
+#' "Minimum" takes the smallest non-NA value
+#' @param other_variables A list of variables to be resolved
+#' @param out A dataframe
+#' @param key The ID column to collapse by. By default "qID"
+#' @return The resolved dataframed or variable
+r_min <- function(other_variables, out, key) {
+  for (var in other_variables) {
+    vars_to_combine <- startsWith(names(out), var)
+    new_var <- out[vars_to_combine]
+    cl <- lapply(new_var, class)
+    if (cl[[1]] == "messydt") {
+      new_var <- apply(new_var, 1, function(x) as.character(min(x, na.rm = TRUE)))
+    } else {
+      new_var <- apply(new_var, 1, function(x) min(x, na.rm = TRUE))
+    }
+    out <- out %>% dplyr::select(-dplyr::starts_with(var))
+    out[, var] <- new_var
+  }
+  if (length(other_variables) == 1) {
+    out <- dplyr::select(out, key, other_variables)
+  }
+  out
+}
+
+#' Resolve Maximum
+#'
+#' Helper function for resolving a database into a dataframe with coalesce.
+#' "maximum" takes the maximum non-NA value
+#' @param other_variables A list of variables to be resolved
+#' @param out A dataframe
+#' @param key The ID column to collapse by. By default "qID"
+#' @return The resolved dataframed or variable
+r_max <- function(other_variables, out, key) {
+  for (var in other_variables) {
+    vars_to_combine <- startsWith(names(out), var)
+    new_var <- out[vars_to_combine]
+    cl <- lapply(new_var, class)
+    if (cl[[1]] == "messydt") {
+      new_var <- apply(new_var, 1, function(x) as.character(max(x, na.rm = TRUE)))
+    } else {
+      new_var <- apply(new_var, 1, function(x) max(x, na.rm = TRUE))
+    }
+    out <- out %>% dplyr::select(-dplyr::starts_with(var))
+    out[, var] <- new_var
+  }
+  if (length(other_variables) == 1) {
+    out <- dplyr::select(out, key, other_variables)
+  }
+  out
+}
+
+#' Resolve Median
+#'
+#' Helper function for resolving a database into a dataframe with coalesce.
+#' "Median" takes the median value
+#' @param other_variables A list of variables to be resolved
+#' @param out A dataframe
+#' @param key The ID column to collapse by. By default "qID"
+#' @return The resolved dataframed or variable
+r_median <- function(other_variables, out, key) {
+  for (var in other_variables) {
+    vars_to_combine <- startsWith(names(out), var)
+    new_var <- out[vars_to_combine]
+    cl <- lapply(new_var, class)
+    if (cl[[1]] == "messydt") {
+      new_var <- suppressWarnings(apply(new_var, 1,
+                                        function(x) as.character(stats::median(x, na.rm = TRUE))))
+    } else {
+      new_var <- suppressWarnings(apply(new_var, 1, function(x) stats::median(x, na.rm = TRUE)))
+    }
+    # Sub NAs for first non NA value
+    a <- dplyr::coalesce(!!!out[vars_to_combine])
+    new_var <- ifelse(is.na(new_var), a, new_var)
+    out <- out %>% dplyr::select(-dplyr::starts_with(var))
+    out[, var] <- new_var
+  }
+  if (length(other_variables) == 1) {
+    out <- dplyr::select(out, key, other_variables)
+  }
+  out
+}
+
+#' Resolve Mean
+#'
+#' Helper function for resolving a database into a dataframe with coalesce.
+#' "mean" takes the average value
+#' @param other_variables A list of variables to be resolved
+#' @param out A dataframe
+#' @param key The ID column to collapse by. By default "qID"
+#' @return The resolved dataframed or variable
+r_mean <- function(other_variables, out, key) {
+  for (var in other_variables) {
+    vars_to_combine <- startsWith(names(out), var)
+    new_var <- out[vars_to_combine]
+    cl <- lapply(new_var, class)
+    if (cl[[1]] == "messydt") {
+      new_var <- sapply(new_var, function(x) {
+        if (length(x) > 1) x <- as.character(mean(as.Date(x),
+                                                  trim = 0, na.rm = TRUE))
+        x
+      })
+    } else {
+      new_var <- apply(new_var, 1, function(x) mean(x, trim = 0, na.rm = TRUE))
+    }
+    # Sub NAs for first non NA value
+    a <- dplyr::coalesce(!!!out[vars_to_combine])
+    new_var <- ifelse(is.na(new_var), a, new_var)
+    out <- out %>% dplyr::select(-dplyr::starts_with(var))
+    out[, var] <- new_var
+  }
+  if (length(other_variables) == 1) {
+    out <- dplyr::select(out, key, other_variables)
+  }
+  out
 }
