@@ -153,8 +153,6 @@ get_packages <- function(pkg) {
       } else if (pkg == 5) {
         pkg <- "qTrade"
         remotes::install_github("globalgov/qTrade")
-      } else {
-        stop("Package number not found, please type qPackage name")
       }
     } else {
       remotes::install_github(paste0("globalgov/", pkg))
