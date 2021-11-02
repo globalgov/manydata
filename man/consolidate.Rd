@@ -31,7 +31,12 @@ Currently "coalesce", "min" and "max" are offered.
 "max" takes the largest value,
 while "min" takes the smallest value.
 Other options should soon include
-"mean", "mode" and "median", as well as "append".}
+"mean", "mode" and "median", as well as "append".
+For different variables to be resolved differently,
+you can specify the variables' names alongside
+how each is to be resolved in a list
+(e.g. resolve = c(var1 = "min", var2 = "max", var3 = "coalesce")).
+In this case, only the variables named will be resolved and returned.}
 
 \item{key}{An ID column to collapse by. By default "qID".}
 }

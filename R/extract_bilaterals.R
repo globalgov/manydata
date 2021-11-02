@@ -1,9 +1,11 @@
 #' Extracting adjacency edgelist from bilaterals in a mixed edgelist
 #' @name extraction
 #' @examples 
+#' \dontrun{
 #' membs <- qEnviron::memberships$IEADB_MEM
 #' extract_bilaterals(membs)
 #' extract_multilaterals(membs)
+#' }
 #' @export
 extract_bilaterals <- function(membs){
   bilats <- subset(membs, grepl("[A-Z]{3}-", qID_ref)) %>% 

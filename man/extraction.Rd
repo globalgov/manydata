@@ -14,7 +14,9 @@ extract_multilaterals(membs)
 Extracting adjacency edgelist from bilaterals in a mixed edgelist
 }
 \examples{
+\dontrun{
 membs <- qEnviron::memberships$IEADB_MEM
 extract_bilaterals(membs)
 extract_multilaterals(membs)
+}
 }
