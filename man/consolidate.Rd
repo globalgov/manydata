@@ -8,7 +8,7 @@ consolidate(
   database,
   rows = c("any", "every"),
   cols = c("any", "every"),
-  resolve = c("coalesce", "min", "max", "median"),
+  resolve = c("coalesce", "min", "max", "median", "mean", "random"),
   key = "qID"
 )
 }
@@ -26,16 +26,17 @@ but another option is "every",
 which retains only those variables that appear in all parent datasets.}
 
 \item{resolve}{How conflicts between observations should be resolved?
-Currently "coalesce", "min" and "max" are offered.
+Currently "coalesce", "min", "max", "mean", "median",
+and "random" are offered.
 "coalesce" takes the first non-NA value.
 "max" takes the largest value,
 while "min" takes the smallest value.
-Other options should soon include
-"mean", "mode" and "median", as well as "append".
+"mean" takes the average value.
+"median" takes the meadian value.
+"random" takes a random value.
 For different variables to be resolved differently,
 you can specify the variables' names alongside
-how each is to be resolved in a list
-(e.g. resolve = c(var1 = "min", var2 = "max", var3 = "coalesce")).
+how each is to be resolved in a list.
 In this case, only the variables named will be resolved and returned.}
 
 \item{key}{An ID column to collapse by. By default "qID".}
@@ -62,10 +63,11 @@ how conflicts between observations are resolved.
 \examples{
 pluck(emperors, "UNRV")
 consolidate(emperors, "any", "any", resolve = "coalesce", key = "ID")
-consolidate(emperors, "every", "every", resolve = "coalesce", key = "ID")
-consolidate(emperors, "any", "every", resolve = "min", key = "ID")
+consolidate(emperors, "every", "every", resolve = "min", key = "ID")
 consolidate(emperors, "any", "every", resolve = "max", key = "ID")
-consolidate(emperors, "any", "every", resolve = "median", key = "ID")
+consolidate(emperors, "every", "every", resolve = "median", key = "ID")
+consolidate(emperors, "every", "every", resolve = "mean", key = "ID")
+consolidate(emperors, "every", "every", resolve = "random", key = "ID")
 consolidate(emperors, "every", "every", resolve = c(Beg = "min", End = "max"), key = "ID")
 }
 \seealso{

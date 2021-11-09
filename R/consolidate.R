@@ -24,16 +24,17 @@
 #' but another option is "every",
 #' which retains only those variables that appear in all parent datasets.
 #' @param resolve How conflicts between observations should be resolved?
-#' Currently "coalesce", "min" and "max" are offered.
+#' Currently "coalesce", "min", "max", "mean", "median",
+#' and "random" are offered.
 #' "coalesce" takes the first non-NA value.
 #' "max" takes the largest value,
 #' while "min" takes the smallest value.
-#' Other options should soon include
-#' "mean", "mode" and "median", as well as "append".
+#' "mean" takes the average value.
+#' "median" takes the meadian value.
+#' "random" takes a random value.
 #' For different variables to be resolved differently,
 #' you can specify the variables' names alongside
-#' how each is to be resolved in a list
-#' (e.g. resolve = c(var1 = "min", var2 = "max", var3 = "coalesce")).
+#' how each is to be resolved in a list.
 #' In this case, only the variables named will be resolved and returned.
 #' @param key An ID column to collapse by. By default "qID".
 #' @seealso [pluck()] for selecting a single dataset from a database
@@ -49,16 +50,17 @@ purrr::pluck
 #' @examples
 #' pluck(emperors, "UNRV")
 #' consolidate(emperors, "any", "any", resolve = "coalesce", key = "ID")
-#' consolidate(emperors, "every", "every", resolve = "coalesce", key = "ID")
-#' consolidate(emperors, "any", "every", resolve = "min", key = "ID")
+#' consolidate(emperors, "every", "every", resolve = "min", key = "ID")
 #' consolidate(emperors, "any", "every", resolve = "max", key = "ID")
-#' consolidate(emperors, "any", "every", resolve = "median", key = "ID")
+#' consolidate(emperors, "every", "every", resolve = "median", key = "ID")
+#' consolidate(emperors, "every", "every", resolve = "mean", key = "ID")
+#' consolidate(emperors, "every", "every", resolve = "random", key = "ID")
 #' consolidate(emperors, "every", "every", resolve = c(Beg = "min", End = "max"), key = "ID")
 #' @export
 consolidate <- function(database,
                         rows = c("any", "every"),
                         cols = c("any", "every"),
-                        resolve = c("coalesce", "min", "max", "median"),
+                        resolve = c("coalesce", "min", "max", "median", "mean", "random"),
                         key = "qID") {
 
   # Step 1: Join datasets by ID
@@ -93,9 +95,12 @@ consolidate <- function(database,
   if (resolve == "median") {
     out <- r_median(other_variables, out, key)
   }
-  # if (resolve == "mean") {
-  # out <- r_mean(other_variables, out, key)
-  # }
+  if (resolve == "mean") {
+  out <- r_mean(other_variables, out, key)
+  }
+  if (resolve == "random") {
+    out <- r_random(other_variables, out, key)
+  }
   } else {
     resolve <- data.frame(var = names(resolve), resolve = resolve)
     for (k in seq_len(nrow(resolve))) {
@@ -111,9 +116,12 @@ consolidate <- function(database,
       if (resolve$resolve[k] == "median") {
         rmd <- r_median(resolve$var[k], out, key)
       }
-      # if (resolve$resolve[k] == "mean") {
-      #   rm <- r_mean(resolve$var[k])
-      # }
+      if (resolve$resolve[k] == "mean") {
+        rme <- r_mean(resolve$var[k])
+      }
+      if (resolve$resolve[k] == "random") {
+        rra <- r_random(resolve$var[k])
+      }
     }
     if (exists("rc")) {
       out <- rc
@@ -128,6 +136,12 @@ consolidate <- function(database,
     }
     if (exists("rmd")) {
       out <- dplyr::full_join(out, rmd, by = key)
+    }
+    if (exists("rme")) {
+      out <- dplyr::full_join(out, rme, by = key)
+    }
+    if (exists("rra")) {
+      out <- dplyr::full_join(out, rra, by = key)
     }
   }
   out <- dplyr::distinct(out)
@@ -227,10 +241,12 @@ r_min <- function(other_variables, out, key) {
     new_var <- out[vars_to_combine]
     cl <- lapply(new_var, class)
     if (cl[[1]] == "messydt") {
-      new_var <- apply(new_var, 1, function(x) as.character(min(x, na.rm = TRUE)))
-    } else {
-      new_var <- apply(new_var, 1, function(x) min(x, na.rm = TRUE))
+      new_var <- data.frame(purrr::map(new_var, as.character))
+      for (k in names(new_var)) {
+        new_var[, k] <- messydates:::min.messydt(messydates::as_messydate(new_var[, k]))
+      }
     }
+    new_var <- apply(new_var, 1, function(x) as.character(min(x, na.rm = TRUE)))
     out <- out %>% dplyr::select(-dplyr::starts_with(var))
     out[, var] <- new_var
   }
@@ -254,10 +270,12 @@ r_max <- function(other_variables, out, key) {
     new_var <- out[vars_to_combine]
     cl <- lapply(new_var, class)
     if (cl[[1]] == "messydt") {
-      new_var <- apply(new_var, 1, function(x) as.character(max(x, na.rm = TRUE)))
-    } else {
-      new_var <- apply(new_var, 1, function(x) max(x, na.rm = TRUE))
+      new_var <- data.frame(purrr::map(new_var, as.character))
+      for (k in names(new_var)) {
+        new_var[, k] <- messydates:::max.messydt(messydates::as_messydate(new_var[, k]))
+      }
     }
+    new_var <- apply(new_var, 1, function(x) as.character(max(x, na.rm = TRUE)))
     out <- out %>% dplyr::select(-dplyr::starts_with(var))
     out[, var] <- new_var
   }
@@ -281,11 +299,13 @@ r_median <- function(other_variables, out, key) {
     new_var <- out[vars_to_combine]
     cl <- lapply(new_var, class)
     if (cl[[1]] == "messydt") {
-      new_var <- suppressWarnings(apply(new_var, 1,
-                                        function(x) as.character(stats::median(x, na.rm = TRUE))))
-    } else {
-      new_var <- suppressWarnings(apply(new_var, 1, function(x) stats::median(x, na.rm = TRUE)))
+      new_var <- data.frame(purrr::map(new_var, as.character))
+      for (k in names(new_var)) {
+        new_var[, k] <- messydates:::median.messydt(messydates::as_messydate(new_var[, k]))
+      }
     }
+    new_var <- suppressWarnings(apply(new_var, 1, function(x)
+      as.character(stats::median(x, na.rm = TRUE))))
     # Sub NAs for first non NA value
     a <- dplyr::coalesce(!!!out[vars_to_combine])
     new_var <- ifelse(is.na(new_var), a, new_var)
@@ -312,17 +332,45 @@ r_mean <- function(other_variables, out, key) {
     new_var <- out[vars_to_combine]
     cl <- lapply(new_var, class)
     if (cl[[1]] == "messydt") {
-      new_var <- sapply(new_var, function(x) {
-        if (length(x) > 1) x <- as.character(mean(as.Date(x),
-                                                  trim = 0, na.rm = TRUE))
-        x
-      })
-    } else {
-      new_var <- apply(new_var, 1, function(x) mean(x, trim = 0, na.rm = TRUE))
+      new_var <- data.frame(purrr::map(new_var, as.character))
+      for (k in names(new_var)) {
+        new_var[, k] <- messydates:::mean.messydt(messydates::as_messydate(new_var[, k]))
+      }
     }
+    new_var <- apply(new_var, 1, function(x)
+      as.character(mean(x, trim = 0, na.rm = TRUE)))
     # Sub NAs for first non NA value
     a <- dplyr::coalesce(!!!out[vars_to_combine])
     new_var <- ifelse(is.na(new_var), a, new_var)
+    out <- out %>% dplyr::select(-dplyr::starts_with(var))
+    out[, var] <- new_var
+  }
+  if (length(other_variables) == 1) {
+    out <- dplyr::select(out, key, other_variables)
+  }
+  out
+}
+
+#' Resolve Random
+#'
+#' Helper function for resolving a database into a dataframe with coalesce.
+#' "random" takes a random value from sample
+#' @param other_variables A list of variables to be resolved
+#' @param out A dataframe
+#' @param key The ID column to collapse by. By default "qID"
+#' @return The resolved dataframed or variable
+r_random <- function(other_variables, out, key) {
+  for (var in other_variables) {
+    vars_to_combine <- startsWith(names(out), var)
+    new_var <- out[vars_to_combine]
+    cl <- lapply(new_var, class)
+    if (cl[[1]] == "messydt") {
+      new_var <- data.frame(purrr::map(new_var, as.character))
+      for (k in names(new_var)) {
+        new_var[, k] <- messydates:::random.messydt(messydates::as_messydate(new_var[, k]))
+      }
+    }
+    new_var <- apply(new_var, 1, function(x) as.character(sample(x, size = 1)))
     out <- out %>% dplyr::select(-dplyr::starts_with(var))
     out[, var] <- new_var
   }
