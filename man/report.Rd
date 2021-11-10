@@ -62,5 +62,7 @@ further information on coding rules is often available online.
 \examples{
 data_source(pkg = "qData")
 data_contrast(pkg = "qData")
+\dontrun{
 open_codebook(pkg = "qStates", database = "states", dataset = "COW")
+}
 }

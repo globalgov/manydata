@@ -237,9 +237,10 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
 #' @return Opens a pdf version of the original codebook of the specified
 #' dataset, if available.
 #' @examples
+#' \dontrun{
 #' open_codebook(pkg = "qStates", database = "states", dataset = "COW")
+#' }
 #' @export
-
 open_codebook <- function(pkg, database, dataset) {
   # Check if input is null
   if (is.null(pkg) | is.null(database) | is.null(dataset)) {
