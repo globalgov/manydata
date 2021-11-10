@@ -52,7 +52,7 @@ purrr::pluck
 #' consolidate(emperors, "any", "any", resolve = "coalesce", key = "ID")
 #' consolidate(emperors, "every", "every", resolve = "min", key = "ID")
 #' consolidate(emperors, "any", "every", resolve = "max", key = "ID")
-#' consolidate(emperors, "every", "every", resolve = "median", key = "ID")
+#' consolidate(emperors, "every", "any", resolve = "median", key = "ID")
 #' consolidate(emperors, "every", "every", resolve = "mean", key = "ID")
 #' consolidate(emperors, "every", "every", resolve = "random", key = "ID")
 #' consolidate(emperors, "every", "every", resolve = c(Beg = "min", End = "max"), key = "ID")
@@ -229,7 +229,7 @@ r_coalesce <- function(other_variables, out, key) {
 
 #' Resolve Minimum
 #'
-#' Helper function for resolving a database into a dataframe with coalesce.
+#' Helper function for resolving a database into a dataframe.
 #' "Minimum" takes the smallest non-NA value
 #' @param other_variables A list of variables to be resolved
 #' @param out A dataframe
@@ -243,10 +243,14 @@ r_min <- function(other_variables, out, key) {
     if (cl[[1]] == "messydt") {
       new_var <- data.frame(purrr::map(new_var, as.character))
       for (k in names(new_var)) {
-        new_var[, k] <- messydates:::min.messydt(messydates::as_messydate(new_var[, k]))
+        new_var[, k] <- suppressWarnings(messydates:::min.messydt(messydates::as_messydate(new_var[, k])))
       }
     }
-    new_var <- apply(new_var, 1, function(x) as.character(min(x, na.rm = TRUE)))
+    new_var <- suppressWarnings(apply(new_var, 1, function(x)
+      as.character(min(x, na.rm = TRUE))))
+    # Sub NAs for first non NA value
+    a <- dplyr::coalesce(!!!out[vars_to_combine])
+    new_var <- ifelse(is.na(new_var), a, new_var)
     out <- out %>% dplyr::select(-dplyr::starts_with(var))
     out[, var] <- new_var
   }
@@ -258,7 +262,7 @@ r_min <- function(other_variables, out, key) {
 
 #' Resolve Maximum
 #'
-#' Helper function for resolving a database into a dataframe with coalesce.
+#' Helper function for resolving a database into a dataframe.
 #' "maximum" takes the maximum non-NA value
 #' @param other_variables A list of variables to be resolved
 #' @param out A dataframe
@@ -272,10 +276,14 @@ r_max <- function(other_variables, out, key) {
     if (cl[[1]] == "messydt") {
       new_var <- data.frame(purrr::map(new_var, as.character))
       for (k in names(new_var)) {
-        new_var[, k] <- messydates:::max.messydt(messydates::as_messydate(new_var[, k]))
+        new_var[, k] <- suppressWarnings(messydates:::max.messydt(messydates::as_messydate(new_var[, k])))
       }
     }
-    new_var <- apply(new_var, 1, function(x) as.character(max(x, na.rm = TRUE)))
+    new_var <- suppressWarnings(apply(new_var, 1, function(x)
+      as.character(max(x, na.rm = TRUE))))
+    # Sub NAs for first non NA value
+    a <- dplyr::coalesce(!!!out[vars_to_combine])
+    new_var <- ifelse(is.na(new_var), a, new_var)
     out <- out %>% dplyr::select(-dplyr::starts_with(var))
     out[, var] <- new_var
   }
@@ -287,8 +295,8 @@ r_max <- function(other_variables, out, key) {
 
 #' Resolve Median
 #'
-#' Helper function for resolving a database into a dataframe with coalesce.
-#' "Median" takes the median value
+#' Helper function for resolving a database into a dataframe.
+#' "Median" takes the median non NA value
 #' @param other_variables A list of variables to be resolved
 #' @param out A dataframe
 #' @param key The ID column to collapse by. By default "qID"
@@ -301,7 +309,7 @@ r_median <- function(other_variables, out, key) {
     if (cl[[1]] == "messydt") {
       new_var <- data.frame(purrr::map(new_var, as.character))
       for (k in names(new_var)) {
-        new_var[, k] <- messydates:::median.messydt(messydates::as_messydate(new_var[, k]))
+        new_var[, k] <- suppressWarnings(messydates:::median.messydt(messydates::as_messydate(new_var[, k])))
       }
     }
     new_var <- suppressWarnings(apply(new_var, 1, function(x)
@@ -320,8 +328,8 @@ r_median <- function(other_variables, out, key) {
 
 #' Resolve Mean
 #'
-#' Helper function for resolving a database into a dataframe with coalesce.
-#' "mean" takes the average value
+#' Helper function for resolving a database into a dataframe.
+#' "mean" takes the average non NA value
 #' @param other_variables A list of variables to be resolved
 #' @param out A dataframe
 #' @param key The ID column to collapse by. By default "qID"
@@ -334,11 +342,11 @@ r_mean <- function(other_variables, out, key) {
     if (cl[[1]] == "messydt") {
       new_var <- data.frame(purrr::map(new_var, as.character))
       for (k in names(new_var)) {
-        new_var[, k] <- messydates:::mean.messydt(messydates::as_messydate(new_var[, k]))
+        new_var[, k] <- suppressWarnings(messydates:::mean.messydt(messydates::as_messydate(new_var[, k])))
       }
     }
-    new_var <- apply(new_var, 1, function(x)
-      as.character(mean(x, trim = 0, na.rm = TRUE)))
+    new_var <- suppressWarnings(apply(new_var, 1, function(x)
+      as.character(mean(x, trim = 0, na.rm = TRUE))))
     # Sub NAs for first non NA value
     a <- dplyr::coalesce(!!!out[vars_to_combine])
     new_var <- ifelse(is.na(new_var), a, new_var)
@@ -353,8 +361,8 @@ r_mean <- function(other_variables, out, key) {
 
 #' Resolve Random
 #'
-#' Helper function for resolving a database into a dataframe with coalesce.
-#' "random" takes a random value from sample
+#' Helper function for resolving a database into a dataframe.
+#' "random" takes a random non NA value from sample
 #' @param other_variables A list of variables to be resolved
 #' @param out A dataframe
 #' @param key The ID column to collapse by. By default "qID"
@@ -367,10 +375,14 @@ r_random <- function(other_variables, out, key) {
     if (cl[[1]] == "messydt") {
       new_var <- data.frame(purrr::map(new_var, as.character))
       for (k in names(new_var)) {
-        new_var[, k] <- messydates:::random.messydt(messydates::as_messydate(new_var[, k]))
+        new_var[, k] <- suppressWarnings(messydates:::random.messydt(messydates::as_messydate(new_var[, k])))
       }
     }
-    new_var <- apply(new_var, 1, function(x) as.character(sample(x, size = 1)))
+    new_var <- suppressWarnings(apply(new_var, 1, function(x)
+      as.character(sample(x, size = 1))))
+    # Sub NAs for first non NA value
+    a <- dplyr::coalesce(!!!out[vars_to_combine])
+    new_var <- ifelse(is.na(new_var), a, new_var)
     out <- out %>% dplyr::select(-dplyr::starts_with(var))
     out[, var] <- new_var
   }

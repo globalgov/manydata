@@ -17,6 +17,6 @@ r_random(other_variables, out, key)
 The resolved dataframed or variable
 }
 \description{
-Helper function for resolving a database into a dataframe with coalesce.
-"random" takes a random value from sample
+Helper function for resolving a database into a dataframe.
+"random" takes a random non NA value from sample
 }

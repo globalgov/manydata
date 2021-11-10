@@ -17,6 +17,6 @@ r_min(other_variables, out, key)
 The resolved dataframed or variable
 }
 \description{
-Helper function for resolving a database into a dataframe with coalesce.
+Helper function for resolving a database into a dataframe.
 "Minimum" takes the smallest non-NA value
 }

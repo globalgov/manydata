@@ -17,6 +17,6 @@ r_mean(other_variables, out, key)
 The resolved dataframed or variable
 }
 \description{
-Helper function for resolving a database into a dataframe with coalesce.
-"mean" takes the average value
+Helper function for resolving a database into a dataframe.
+"mean" takes the average non NA value
 }

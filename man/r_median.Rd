@@ -17,6 +17,6 @@ r_median(other_variables, out, key)
 The resolved dataframed or variable
 }
 \description{
-Helper function for resolving a database into a dataframe with coalesce.
-"Median" takes the median value
+Helper function for resolving a database into a dataframe.
+"Median" takes the median non NA value
 }
