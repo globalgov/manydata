@@ -1,18 +1,18 @@
-#' Find and download packages in the qData ecosystem
+#' Find and download packages in the many universe
 #'
-#' Find and download packages in the qData ecosystem
+#' Find and download packages in the many universe
 #' @param pkg A character vector of package names or number of a package
 #' @details The function finds and download other packages that belong to
-#' the qData ecosystem of data packages. It allows for users to rapidly access
+#' the many universe of data packages. It allows for users to rapidly access
 #' the names and other descriptive information of these packages by simply
 #' calling the function. If users intend to download a package from the
-#' ecosystem, they can to type the package name within the function.
+#' universe, they can to type the package name within the function.
 #' @return If no package name is provided, this function prints a table (tibble)
 #' to the console with details on packages that are currently available within
-#' the qData ecosystem.
+#' the many universe.
 #' This includes the name and description of the package,
-#' the latest installed and release version number, and the latest release date,
-#' and a string of contributors. It also include a list of numbers which orders
+#' the latest installed and release version number, and the latest release date.
+#' It also include a list of numbers which orders
 #' the package and can be used to load the respective package instead of
 #' the name. If one or more package names are provided,
 #' these will be installed from Github.
@@ -26,7 +26,9 @@
 #' @importFrom utils packageVersion
 #' @importFrom lubridate as_date
 #' @examples
+#' \donttest{
 #' get_packages()
+#' }
 #' @export
 get_packages <- function(pkg) {
 
@@ -128,7 +130,7 @@ get_packages <- function(pkg) {
     repos <- tibble::as_tibble(dplyr::bind_rows(repos))
     if(length(repos) < 2) {
       stop("The download limit from GitHub has been reached.
-      To see all the packages in the ecosystem, please go to the following link:
+      To see all the packages in the many universe, please go to the following link:
            https://github.com/globalgov")
     } else {
     print(repos, width = Inf, pillar.min_chars = Inf)
@@ -143,10 +145,10 @@ get_packages <- function(pkg) {
     } else if (stringr::str_detect(pkg, "^[:digit:]{1}$")) {
       if (pkg == 1) {
         pkg <- "qCreate"
-        remotes::install_github("globalgov/qCreate")
+        remotes::install_github("globalgov/manypkgs")
       } else if (pkg == 3) {
         pkg <- "qEnviron"
-        remotes::install_github("globalgov/qEnviron")
+        remotes::install_github("globalgov/manyenviron")
       } else if (pkg == 4) {
         pkg <- "qStates"
         remotes::install_github("globalgov/qStates")
@@ -161,7 +163,7 @@ get_packages <- function(pkg) {
   }
   }, error = function(e) {
   stop(paste0("The download limit from GitHub has been reached.
-       Please download our packages using:
+       Please download our other packages using:
               remotes::github(globalgov/", pkg, ")"))
   })
 }

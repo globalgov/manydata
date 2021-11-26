@@ -14,24 +14,23 @@ data_contrast(pkg, database = NULL, dataset = NULL)
 open_codebook(pkg, database, dataset)
 }
 \arguments{
-\item{pkg}{character string of the qPackage to report data on.
+\item{pkg}{character string of the many package to report data on.
 Required input.}
 
-\item{database}{vector of character strings of the qPackage to
-report data a specific database in a qPackage.
-If NULL, the function returns a summary of all databases in the qPackage.
+\item{database}{vector of character strings of the many package to
+report data a specific database in a many package
+If NULL, the function returns a summary of all databases in the many package
 NULL by default for \code{data_source()} and \code{data_contrast()}.}
 
-\item{dataset}{character string of the qPackage to report data on a specific
-dataset in a specific database of a qPackage.
+\item{dataset}{character string of the many package to report data on a specific
+dataset in a specific database of a many package
 If NULL and database is specified, returns database level metadata.
 NULL by default for \code{data_source()} and \code{data_contrast()}.}
 }
 \value{
 A dataframe with the data sources
 
-A list with the desired metadata to compare various datasets in the
-qVerse.
+A list with the desired metadata to compare various datasets in a many package.
 
 Opens a pdf version of the original codebook of the specified
 dataset, if available.
@@ -39,11 +38,12 @@ dataset, if available.
 \description{
 The report family of functions allows users
 to quickly get information about and compare several
-aspects of a q Packages, databases and datasets.
+aspects of  a package in the many packages universe,
+and its' databases and datasets.
 }
 \details{
 \code{data_source()} displays names of the database/datasets and
-source material of qPackage data.
+source material of data in a many package.
 
 \code{data_contrast()} displays information about databases
 and datasets contained in them.
@@ -53,15 +53,16 @@ the minimum beginning date and the maximum ending date as well as
 the most direct URL to the original dataset.
 
 \code{open_codebook()} opens the original codebook of the specified
-dataset to allow users to look up the original coding rules. Note that there
-is no original codebook for the genevar database and that a codebook might
-not exist for certain datasets. In the latter case, please refer to the
-source URL provided with each dataset by running \code{qData::data_contrast()} as
-further information on coding rules is often available online.
+dataset to allow users to look up the original coding rules.
+Note that there is no original codebook for the genevar database
+and that a codebook might not exist for certain datasets.
+In the latter case, please refer to the
+source URL provided with each dataset by running \code{manydata::data_contrast()}
+as further information on coding rules available online.
 }
 \examples{
-data_source(pkg = "qData")
-data_contrast(pkg = "qData")
+data_source(pkg = "manydata")
+data_contrast(pkg = "manydata")
 \dontrun{
 open_codebook(pkg = "qStates", database = "states", dataset = "COW")
 }

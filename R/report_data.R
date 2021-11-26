@@ -2,27 +2,28 @@
 #' @title Set of data structure exploration functions for users
 #' @description The report family of functions allows users
 #' to quickly get information about and compare several
-#' aspects of a q Packages, databases and datasets.
-#' @param pkg character string of the qPackage to report data on.
+#' aspects of  a package in the many packages universe,
+#' and its' databases and datasets.
+#' @param pkg character string of the many package to report data on.
 #' Required input.
-#' @param database vector of character strings of the qPackage to
-#' report data a specific database in a qPackage.
-#' If NULL, the function returns a summary of all databases in the qPackage.
+#' @param database vector of character strings of the many package to
+#' report data a specific database in a many package
+#' If NULL, the function returns a summary of all databases in the many package
 #' NULL by default for `data_source()` and `data_contrast()`.
-#' @param dataset character string of the qPackage to report data on a specific
-#' dataset in a specific database of a qPackage.
+#' @param dataset character string of the many package to report data on a specific
+#' dataset in a specific database of a many package
 #' If NULL and database is specified, returns database level metadata.
 #' NULL by default for `data_source()` and `data_contrast()`.
 NULL
 
 #' @name report
 #' @details `data_source()` displays names of the database/datasets and
-#' source material of qPackage data.
+#' source material of data in a many package.
 #' @importFrom purrr map
 #' @importFrom stringr str_to_title
 #' @return A dataframe with the data sources
 #' @examples
-#' data_source(pkg = "qData")
+#' data_source(pkg = "manydata")
 #' @export
 data_source <- function(pkg, database = NULL, dataset = NULL) {
   pkg_path <- find.package(pkg)
@@ -105,10 +106,9 @@ data_source <- function(pkg, database = NULL, dataset = NULL) {
 #' the most direct URL to the original dataset.
 #' @importFrom purrr map
 #' @importFrom stringr str_to_title
-#' @return A list with the desired metadata to compare various datasets in the
-#' qVerse.
+#' @return A list with the desired metadata to compare various datasets in a many package.
 #' @examples
-#' data_contrast(pkg = "qData")
+#' data_contrast(pkg = "manydata")
 #' @export
 data_contrast <- function(pkg, database = NULL, dataset = NULL) {
   pkg_path <- find.package(pkg)
@@ -229,11 +229,12 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
 
 #' @name report
 #' @details `open_codebook()` opens the original codebook of the specified
-#' dataset to allow users to look up the original coding rules. Note that there
-#' is no original codebook for the genevar database and that a codebook might
-#' not exist for certain datasets. In the latter case, please refer to the
-#' source URL provided with each dataset by running `qData::data_contrast()` as
-#' further information on coding rules is often available online.
+#' dataset to allow users to look up the original coding rules.
+#' Note that there is no original codebook for the genevar database
+#' and that a codebook might not exist for certain datasets.
+#' In the latter case, please refer to the
+#' source URL provided with each dataset by running `manydata::data_contrast()`
+#' as further information on coding rules available online.
 #' @return Opens a pdf version of the original codebook of the specified
 #' dataset, if available.
 #' @examples
