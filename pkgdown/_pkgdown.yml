@@ -1,4 +1,4 @@
-url: https://globalgov.github.io/qData/
+url: https://globalgov.github.io/manydata/
 development:
     mode: auto
 template:
@@ -42,12 +42,12 @@ navbar:
     packages:
       text: Other packages
       menu:
-        - text: qCreate
-          href: https://globalgov.github.io/qCreate/
+        - text: manypkgs
+          href: https://globalgov.github.io/manypkgs/
         - text: qStates
           href: https://globalgov.github.io/qStates/
-        - text: qEnviron
-          href: https://globalgov.github.io/qEnviron/
+        - text: manyenviron
+          href: https://globalgov.github.io/manyenviron/
         - text: qTrade
           href: https://globalgov.github.io/qTrade/
 reference:
@@ -56,13 +56,13 @@ reference:
     contents:
       - get_packages
       - starts_with("data_")
-  - title: "Working with qDatabases"
+  - title: "Working with many databases"
     desc: "These functions are to assist data analysts with identifying, downloading, and analysing data on particular parts of global governance:"
     contents:
       - consolidate
       - coalesce_rows
       - coalesce_compatible
-  - title: "Working with qData"
+  - title: "Working with manydata"
     desc: "These functions are to assist data analysts with identifying, downloading, and analysing data on particular parts of global governance:"
     contents:
       - transmutate

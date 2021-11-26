@@ -1,12 +1,12 @@
-citHeader("To cite qData in publications use:")
+citHeader("To cite manydata in publications use:")
 
 citEntry(
   entry    = "Manual",
-  title    = "qData: An R Portal for Ensembled Global Governance Data",
+  title    = "manydata: An R Portal for Ensembled Global Governance Data",
   author   = "James Hollway",
   year     = "2021",
   version  = "0.5.0",
-  url      = "https://github.com/globalgov/qData",
-  textVersion = paste("J. Hollway. qData: An R Portal for Ensembled Global Governance Data. 2021."
+  url      = "https://github.com/globalgov/manydata",
+  textVersion = paste("J. Hollway. manydata: An R Portal for Ensembled Global Governance Data. 2021."
   )
 )
