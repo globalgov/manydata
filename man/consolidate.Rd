@@ -13,7 +13,7 @@ consolidate(
 )
 }
 \arguments{
-\item{database}{A qPackage database object}
+\item{database}{A database object from one of the many packages}
 
 \item{rows}{Which rows or units to retain.
 By default "any" (or all) units are retained,
@@ -45,12 +45,12 @@ In this case, only the variables named will be resolved and returned.}
 A single tibble/data frame.
 }
 \description{
-This function collapses a set or database of (q)datasets
+This function collapses a set or database of many datasets
 into a single dataset with some combination of the
 rows, columns, and observations of the parent datasets.
 The function includes separate arguments for the rows and columns,
 as well as for how to resolve conflicts in observations across datasets.
-This provides users with considerable flexibility in how they combine qData.
+This provides users with considerable flexibility in how they combine manydata.
 For example, users may wish to stick to units that appear in every dataset
 but include variables coded in any dataset,
 or units that appear in any dataset
@@ -61,6 +61,7 @@ Here we (will) offer a number of resolve methods that enable users to choose
 how conflicts between observations are resolved.
 }
 \examples{
+\donttest{
 pluck(emperors, "UNRV")
 consolidate(emperors, "any", "any", resolve = "coalesce", key = "ID")
 consolidate(emperors, "every", "every", resolve = "min", key = "ID")
@@ -69,6 +70,7 @@ consolidate(emperors, "every", "any", resolve = "median", key = "ID")
 consolidate(emperors, "every", "every", resolve = "mean", key = "ID")
 consolidate(emperors, "every", "every", resolve = "random", key = "ID")
 consolidate(emperors, "every", "every", resolve = c(Beg = "min", End = "max"), key = "ID")
+}
 }
 \seealso{
 \code{\link[=pluck]{pluck()}} for selecting a single dataset from a database

@@ -1,11 +1,11 @@
 #' Consolidate database into a single dataset
 #'
-#' This function collapses a set or database of (q)datasets
+#' This function collapses a set or database of many datasets
 #' into a single dataset with some combination of the
 #' rows, columns, and observations of the parent datasets.
 #' The function includes separate arguments for the rows and columns,
 #' as well as for how to resolve conflicts in observations across datasets.
-#' This provides users with considerable flexibility in how they combine qData.
+#' This provides users with considerable flexibility in how they combine manydata.
 #' For example, users may wish to stick to units that appear in every dataset
 #' but include variables coded in any dataset,
 #' or units that appear in any dataset
@@ -14,7 +14,7 @@
 #' may differ from dataset to dataset.
 #' Here we (will) offer a number of resolve methods that enable users to choose
 #' how conflicts between observations are resolved.
-#' @param database A qPackage database object
+#' @param database A database object from one of the many packages
 #' @param rows Which rows or units to retain.
 #' By default "any" (or all) units are retained,
 #' but another option is "every",
@@ -48,6 +48,7 @@ purrr::pluck
 
 #' @rdname consolidate
 #' @examples
+#' \donttest{
 #' pluck(emperors, "UNRV")
 #' consolidate(emperors, "any", "any", resolve = "coalesce", key = "ID")
 #' consolidate(emperors, "every", "every", resolve = "min", key = "ID")
@@ -56,6 +57,7 @@ purrr::pluck
 #' consolidate(emperors, "every", "every", resolve = "mean", key = "ID")
 #' consolidate(emperors, "every", "every", resolve = "random", key = "ID")
 #' consolidate(emperors, "every", "every", resolve = c(Beg = "min", End = "max"), key = "ID")
+#' }
 #' @export
 consolidate <- function(database,
                         rows = c("any", "every"),
