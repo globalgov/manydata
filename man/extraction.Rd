@@ -4,19 +4,42 @@
 \alias{extraction}
 \alias{extract_bilaterals}
 \alias{extract_multilaterals}
-\title{Extracting adjacency edgelist from bilaterals in a mixed edgelist}
+\title{Extracting adjacency edgelist for international agreements}
 \usage{
 extract_bilaterals(membs)
 
 extract_multilaterals(membs)
 }
+\arguments{
+\item{membs}{A memberships dataset from one of the many packages}
+}
+\value{
+An edgelist for bilaterals agreements
+
+An edgelist for multilateral agreements
+}
 \description{
-Extracting adjacency edgelist from bilaterals in a mixed edgelist
+The set of functions help
+extracting adjacency edgelist for bilaterals agreements in a mixed edgelist,
+and extracting adjacency edgelist for multilateral agreements
+in a mixed edgelist.
+These membership edgelist can be found in memebership databases across
+the many package universe.
+}
+\details{
+The function helps extracting adjacency edgelist
+for bilaterals agreements in a mixed edgelist.
+
+The function helps extracting adjacency edgelist
+for multilateral agreements in a mixed edgelist.
 }
 \examples{
 \dontrun{
-membs <- qEnviron::memberships$IEADB_MEM
+membs <- manyenviron::memberships$IEADB_MEM
 extract_bilaterals(membs)
+}
+\dontrun{
+membs <- manyenviron::memberships$IEADB_MEM
 extract_multilaterals(membs)
 }
 }
