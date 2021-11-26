@@ -1,61 +1,64 @@
 
-# qData <img src="man/figures/qdata_hexlogo.png" align="right" width="220"/>
+# manydata <img src="man/figures/manydataLogo.png" align="right" width="220"/>
 
 <!-- badges: start -->
 
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 ![GitHub release (latest by
-date)](https://img.shields.io/github/v/release/globalgov/qData) ![GitHub
-Release
-Date](https://img.shields.io/github/release-date/globalgov/qData)
+date)](https://img.shields.io/github/v/release/globalgov/manydata)
+![GitHub Release
+Date](https://img.shields.io/github/release-date/globalgov/manydata)
 ![GitHub
-issues](https://img.shields.io/github/issues-raw/globalgov/qData)
-<!-- [![HitCount](http://hits.dwyl.com/globalgov/qData.svg)](http://hits.dwyl.com/globalgov/qData) -->
+issues](https://img.shields.io/github/issues-raw/globalgov/manydata)
+<!-- [![HitCount](http://hits.dwyl.com/globalgov/manydata.svg)](http://hits.dwyl.com/globalgov/manydata) -->
 [![Codecov test
-coverage](https://codecov.io/gh/globalgov/qData/branch/main/graph/badge.svg)](https://codecov.io/gh/globalgov/qData?branch=main)
-[![CodeFactor](https://www.codefactor.io/repository/github/globalgov/qdata/badge)](https://www.codefactor.io/repository/github/globalgov/qdata)
+coverage](https://codecov.io/gh/globalgov/manydata/branch/main/graph/badge.svg)](https://codecov.io/gh/globalgov/manydata?branch=main)
+[![CodeFactor](https://www.codefactor.io/repository/github/globalgov/manydata/badge)](https://www.codefactor.io/repository/github/globalgov/manydata)
 [![CII Best
 Practices](https://bestpractices.coreinfrastructure.org/projects/4562/badge)](https://bestpractices.coreinfrastructure.org/projects/4562)
 <!-- ![GitHub All Releases](https://img.shields.io/github/downloads/jhollway/roctopus/total) -->
 <!-- badges: end -->
 
-`{qData}` is the central package in an ecosystem of packages aimed at
-collecting, connecting and correcting network data across issue-domains
-of global governance.
+`{manydata}` is the central package in the many universe of qPackages
+aimed at collecting, connecting and correcting network data across
+issue-domains of global governance. To assist users in doing so,
+`{manydata}` also contains functions that enable users to clean and
+manipulate data easily.
 
-## Why qData?
+## Why manydata?
 
-`{qData}` offers users a way to access all of the tested data in the
-ecosystem in so-called ‘qPackages’, and use this data in their analyses
-of global governance. A special advantage of such qdata is that it is
-not ‘opinionated’, in the sense of offering a single, supposedly
-authoritative version of global governance events, but instead holds
-many well-regarded datasets together in three-dimensional ‘datacubes’.
-The chief advantage of this for global governance researchers is that it
-enables a quick and easy way to check the robustness of their results to
-different formulations of the study population or concept specification.
-The ‘datacube’ structure is requiring specific coding system for the
-variables across the datasets. For more details on that, please see the
-[vignette](https://globalgov.github.io/qData/articles/user.html).
+`{manydata}` offers users access to all of the tested data in the
+various many packages available in the universe, for use in analyses of
+global governance and beyond. A special feature of the many universe of
+packages is that it is not ‘opinionated’ - instead of offering a single,
+supposedly authoritative version of global governance events, the
+packages in the many universe gather well-regarded datasets in each
+issue-domain into three-dimensional ‘datacubes’. The chief advantage of
+this for global governance researchers is that it enables a quick and
+easy way to check the robustness of their results using different
+formulations of the study population or concept specification. The
+‘datacube’ structure has a specific coding system for the variables
+across the datasets. For more details, please see the
+[vignette](https://globalgov.github.io/manydata/articles/user.html).
 
-## Downloading and installing qData
+## Downloading and installing manydata
 
-The development version of the package `{qData}` can be downloaded from
-GitHub.
+The development version of the package `{manydata}` can be downloaded
+from GitHub.
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("globalgov/qData")
+remotes::install_github("globalgov/manydata")
 ```
 
 ## Available qPackages
 
-`{qData}` connects users to other packages that help fill global
+`{manydata}` connects users to other packages that help fill global
 governance researchers’ data needs. The `get_packages()` function can be
-used to discover which packages are currently available.
+used to discover the many packages currently available.
 
 ``` r
-library(qData)
+library(manydata)
 ```
 
     ## Warning: package 'tibble' was built under R version 4.0.5
@@ -64,33 +67,23 @@ library(qData)
 get_packages()
 ```
 
-    ## Warning: All formats failed to parse. No formats found.
+    ## # A tibble: 3 x 6
+    ##   name    full_name         description                                     
+    ##   <chr>   <chr>             <chr>                                           
+    ## 1 qData   globalgov/qData   An R portal for ensembled global governance data
+    ## 2 qStates globalgov/qStates qPackage for ensembled data on sovereign states 
+    ## 3 qTrade  globalgov/qTrade  qPackage for ensembled data on trade agreements 
+    ##   installed latest updated   
+    ##   <chr>     <chr>  <date>    
+    ## 1 0.5.0     0.5.0  2021-07-26
+    ## 2 0.0.5     0.0.5  2021-10-11
+    ## 3 0.0.1     0.0.1  2021-10-08
 
-    ## # A tibble: 4 x 6
-    ##   name     full_name         
-    ##   <chr>    <chr>             
-    ## 1 qCreate  globalgov/qCreate 
-    ## 2 qData    globalgov/qData   
-    ## 3 qEnviron globalgov/qEnviron
-    ## 4 qStates  globalgov/qStates 
-    ##   description                                             installed latest    
-    ##   <chr>                                                   <chr>     <chr>     
-    ## 1 Support for creating new qPackages                      0.0.1     Unreleased
-    ## 2 An R portal for ensembled global governance data        0.4.0     0.3.5     
-    ## 3 qPackage for ensembled data on environmental agreements 0.0.2     0.0.2     
-    ## 4 qPackage for ensembled data on sovereign states         0.0.3     0.0.3     
-    ##   updated   
-    ##   <date>    
-    ## 1 NA        
-    ## 2 NA        
-    ## 3 NA        
-    ## 4 NA
+Please see [the website](https://globalgov.github.io/manydata/) for more
+information about how to use `{manydata}`.
 
-Please see [the website](https://globalgov.github.io/qData/) for more
-information about how to use `{qData}`.
-
-## Contributing to the qVerse
+## Contributing to the many universe
 
 For more information for developers and data contributors to qPackages,
-please see `{qCreate}` [the
-website](https://globalgov.github.io/qCreate/).
+please see `{manypkgs}` [the
+website](https://globalgov.github.io/manypkgs/).
