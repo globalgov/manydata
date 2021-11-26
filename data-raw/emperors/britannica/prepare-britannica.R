@@ -5,8 +5,8 @@
 # The dataset was improted from:
 # https://www.britannica.com/topic/list-of-Roman-emperors-2043294
 # The dataset was impoted to the package with the following line:
-# qCreate::import_data("britannica", "emperors")
-library(qCreate)
+# manypkgs::import_data("britannica", "emperors")
+library(manypkgs)
 # Stage one: Collecting data
 britannica <- readxl::read_excel("data-raw/emperors/britannica/britannica.xlsx")
 
@@ -65,11 +65,11 @@ britannica$reign_end <- gsub("CE", "", britannica$reign_end)
 # messydates::as_messydates() and messydates::make_messydates(). 
 # Let's standardise dates and variable names
 britannica <- as_tibble(britannica) %>%
-  qData::transmutate(ID = Name,
-                     Beg = qCreate::standardise_dates(reign_start),
-                     End = qCreate::standardise_dates(reign_end)) %>%
+  manydata::transmutate(ID = Name,
+                     Beg = manypkgs::standardise_dates(reign_start),
+                     End = manypkgs::standardise_dates(reign_end)) %>%
   dplyr::relocate(ID, Beg, End)
-# qData includes several functions that should help cleaning
+# manydata includes several functions that should help cleaning
 # and standardising your data.
 # Please see the vignettes or website for more details.
 

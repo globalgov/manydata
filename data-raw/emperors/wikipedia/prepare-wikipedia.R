@@ -7,9 +7,9 @@
 # It was assembled from the following wikipedia page:
 # https://en.wikipedia.org/wiki/List_of_Roman_emperors
 # The dataset was imported to the package with the following line:
-# qCreate::import_data(dataset = "wikipedia", database = "emperors")
+# manypkgs::import_data(dataset = "wikipedia", database = "emperors")
 # This also created and opened this preparation script.
-library(qCreate)
+library(manypkgs)
 
 # Stage one: Collecting data
 wikipedia <- readr::read_csv("data-raw/emperors/wikipedia/emperors.csv")
@@ -103,9 +103,9 @@ wikipedia$birth[66] <-  paste0(wikipedia$birth[66], "..", "0359-05-23")
 # messydates::as_messydates() and messydates::make_messydates(). 
 # Let's standardise dates and variable names
 wikipedia <- as_tibble(wikipedia) %>%
-  qData::transmutate(ID = name,
-                     Beg = qCreate::standardise_dates(reign.start),
-                     End = qCreate::standardise_dates(reign.end)
+  manydata::transmutate(ID = name,
+                     Beg = manypkgs::standardise_dates(reign.start),
+                     End = manypkgs::standardise_dates(reign.end)
   ) %>%
   dplyr::rename(FullName = name.full,
                 Birth = birth,
@@ -121,14 +121,14 @@ wikipedia <- as_tibble(wikipedia) %>%
                 Verif = verif.who) %>%
   dplyr::select(-index) %>%
   dplyr::relocate(ID, Beg, End)
-# qData includes several functions that should help cleaning
+# manydata includes several functions that should help cleaning
 # and standardising your data.
 # Please see the vignettes or website for more details.
 
 # Stage three: Connecting data
 # Next run the following line to make Wikipedia available
 # within the qPackage.
-qCreate::export_data(wikipedia,  database = "emperors", URL = "https://github.com/zonination/emperors")
+manypkgs::export_data(wikipedia,  database = "emperors", URL = "https://github.com/zonination/emperors")
 # This function also does two additional things.
 # First, it creates a set of tests for this object to ensure adherence
 # to certain standards.You can hit Cmd-Shift-T (Mac) or Ctrl-Shift-T (Windows)

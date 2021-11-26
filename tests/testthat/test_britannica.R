@@ -1,4 +1,4 @@
-# Test if  meets the q ecosystem requirements
+# Test if  meets the many universe requirements
 
 test_that("missing observations are reported correctly", {
   expect_false(any(grepl("^n/a$", emperors[["britannica"]])))
