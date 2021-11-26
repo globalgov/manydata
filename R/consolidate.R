@@ -36,7 +36,7 @@
 #' you can specify the variables' names alongside
 #' how each is to be resolved in a list.
 #' In this case, only the variables named will be resolved and returned.
-#' @param key An ID column to collapse by. By default "qID".
+#' @param key An ID column to collapse by. By default "qID_ref".
 #' @seealso [pluck()] for selecting a single dataset from a database
 #' @return A single tibble/data frame.
 #' @name consolidate
@@ -63,7 +63,7 @@ consolidate <- function(database,
                         rows = c("any", "every"),
                         cols = c("any", "every"),
                         resolve = c("coalesce", "min", "max", "median", "mean", "random"),
-                        key = "qID") {
+                        key = "qID_ref") {
 
   # Step 1: Join datasets by ID
   rows <- match.arg(rows)

@@ -9,7 +9,7 @@ consolidate(
   rows = c("any", "every"),
   cols = c("any", "every"),
   resolve = c("coalesce", "min", "max", "median", "mean", "random"),
-  key = "qID"
+  key = "qID_ref"
 )
 }
 \arguments{
@@ -39,7 +39,7 @@ you can specify the variables' names alongside
 how each is to be resolved in a list.
 In this case, only the variables named will be resolved and returned.}
 
-\item{key}{An ID column to collapse by. By default "qID".}
+\item{key}{An ID column to collapse by. By default "qID_ref".}
 }
 \value{
 A single tibble/data frame.
