@@ -1,12 +1,12 @@
 # Contributing
 
-Contributions to `qData`, whether in the form of issue identification, bug fixes, new code or documentation are encouraged and welcome, both from research assistants and (early) users of the package:
+Contributions to `manydata`, whether in the form of issue identification, bug fixes, new code or documentation are encouraged and welcome, both from research assistants and (early) users of the package:
 
 * [Submit an issue](#issues)
 * [Fix a bug or implement new features](#adding-new-code)
 * [Document existing code](#documentation)
 
-This outlines how to propose a change to a package from the Global Governance Observatory's ecosystem. Please note that the `qData` project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
+This outlines how to propose a change to a package from the Global Governance Observatory's ecosystem. Please note that the `manydata` project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
 By contributing to this project, you agree to abide by its terms.
 
 ## Issues
@@ -28,10 +28,10 @@ To run the `lintr` and `goodpractice` checks or use `styler` in a file run:
 
 ```r
 # basic lintr checking
-lintr::lint_package(path = "qData/")
+lintr::lint_package(path = "manydata/")
 
 # goodpractices checks. Exclude length 80
-goodpractice::gp(path = "qData/",
+goodpractice::gp(path = "manydata/",
    checks = all_checks()[-c(8)])
 
 # styler fix some of the styling issues
@@ -48,7 +48,7 @@ Make sure the package passes R CMD check by running `devtools::check()` before c
 
 If you want to make a bigger change, it's a good idea to first file an issue and make sure someone from the team agrees that it’s needed before openning a pull request. If you’ve found a bug, please file an issue that illustrates the bug with a minimal [reprex](https://www.tidyverse.org/help/#reprex).
 
-Please follow the qData pull request guideline (https://github.com/globalgov/qData/blob/main/.github/pull_request_template.md)  
+Please follow the manydata pull request guideline (https://github.com/globalgov/manydata/blob/main/.github/pull_request_template.md)  
 
 ### Branches
 We use two **main branches** in this project:
@@ -138,7 +138,7 @@ Please make sure of:
 
 ### Testing 
 We use the [testthat](https://testthat.r-lib.org/) package to write unit tests.
-By convention, tests are located in [testthat/tests/](qData/tests/testthat).
+By convention, tests are located in [testthat/tests/](manydata/tests/testthat).
 
 You should verify that all tests pass before issuing a commit to existing code.
 To run all tests for the latest version manually:
@@ -153,7 +153,7 @@ We follow several conventions for writing tests:
 
 - A unit test file should test one or more aspects of a single function. This makes it easier to identify the source of bugs, and prevents lower-level tests from failing when higher-level functions change.
 
-- The [naming convention](https://www.tidyverse.org/articles/2019/04/testthat-2-1-0/) for test files is: ``test-FILENAME_IN_R_DIRECTORY-FUNCTION_NAME.R``, i.e. test files are named after the file containing the original function in the [R](qData/R) directory, pre-fixed with "test", and optionally post-fixed with the name of the function that is being tested.
+- The [naming convention](https://www.tidyverse.org/articles/2019/04/testthat-2-1-0/) for test files is: ``test-FILENAME_IN_R_DIRECTORY-FUNCTION_NAME.R``, i.e. test files are named after the file containing the original function in the [R](manydata/R) directory, pre-fixed with "test", and optionally post-fixed with the name of the function that is being tested.
 
 - If a test requires auxiliary functions from the package, e.g. to initialize a network with sample data, these belong in a helper file. There should be only one helper file for each `R` file, named ``helper-FILENAME_IN_R_DIRECTORY-FUNCTION_NAME.R``. Re-using existing test data is preferable to creating new data for every test.
 
