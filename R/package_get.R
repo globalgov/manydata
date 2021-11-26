@@ -151,10 +151,10 @@ get_packages <- function(pkg) {
         remotes::install_github("globalgov/manyenviron")
       } else if (pkg == 4) {
         pkg <- "qStates"
-        remotes::install_github("globalgov/qStates")
+        remotes::install_github("globalgov/manystates")
       } else if (pkg == 5) {
         pkg <- "qTrade"
-        remotes::install_github("globalgov/qTrade")
+        remotes::install_github("globalgov/manytrade")
       }
     } else {
       remotes::install_github(paste0("globalgov/", pkg))

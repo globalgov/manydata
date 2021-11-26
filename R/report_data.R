@@ -239,7 +239,7 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
 #' dataset, if available.
 #' @examples
 #' \dontrun{
-#' open_codebook(pkg = "qStates", database = "states", dataset = "COW")
+#' open_codebook(pkg = "manystates", database = "states", dataset = "COW")
 #' }
 #' @export
 open_codebook <- function(pkg, database, dataset) {
