@@ -191,7 +191,7 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
     lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
     dbs <-  mget(ls(tmp_env), tmp_env)
     outlist <- list()
-    for (i in 1:length(dbs)) {
+    for (i in c(seq_len(length(dbs)))) {
       assign(paste0("tabl", i),
              rbind(purrr::map(dbs[[i]], function(x) length(unique(x$ID))),
                    purrr::map(dbs[[i]], function(x)
