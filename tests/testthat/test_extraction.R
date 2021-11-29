@@ -15,4 +15,5 @@ bilats <- data.frame(CountryID1 = "RUS",
 
 test_that("extraction function works", {
   expect_equal(extract_bilaterals(membs), bilats)
+  expect_length(extract_multilaterals(membs), 5)
 })

@@ -44,6 +44,11 @@ data.con.median <- dplyr::tibble(qID_ref = c("NZL", "BRA"),
                                        "1990-01-02"),
                               number = c("100", "1100"))
 
+data.multi <- dplyr::tibble(qID_ref = c("NZL", "BRA", "CHF", "OTH"),
+                            date = c("1990-01-01", "1990-01-02",
+                                     "1990-01-01:1990-01-31", NA),
+                            number = c("100", "1200", "12222", "21"))
+
 test_that("pluck works", {
   expect_equal(pluck(test, "a"), data1)
   expect_equal(pluck(test, "b"), data2)
@@ -64,4 +69,5 @@ test_that("consolidate methods", {
   expect_equal(consolidate(test, "every", "any", resolve = "max"), data.con.max)
   expect_equal(consolidate(test, "every", "any", resolve = "median"), data.con.median)
   expect_equal(consolidate(test, "every", "any", resolve = "mean"), data.con.median)
+  expect_equal(consolidate(test, "any", "any", resolve = c(date = "min", number = "max" )), data.multi)
 })
