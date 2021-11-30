@@ -9,7 +9,6 @@
 # The dataset was imported to the package with the following line:
 # manypkgs::import_data(dataset = "wikipedia", database = "emperors")
 # This also created and opened this preparation script.
-library(manypkgs)
 
 # Stage one: Collecting data
 wikipedia <- readr::read_csv("data-raw/emperors/wikipedia/emperors.csv")
@@ -42,7 +41,6 @@ wikipedia$reign.start[1] <- paste0(wikipedia$reign.start[1], " BC")
 # according to the notes.
 # How could we be more specific about that?
 # Let's look into how `{messydates}` indicates uncertainty
-library(messydates)
 ?messydates::class
 # We should assign a "~" to dates which are estimates.
 for(i in c(25, 28, 29, 30, 31, 51, 55, 63, 65, 67)) {

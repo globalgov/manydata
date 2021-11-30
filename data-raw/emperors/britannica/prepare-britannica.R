@@ -6,7 +6,6 @@
 # https://www.britannica.com/topic/list-of-Roman-emperors-2043294
 # The dataset was impoted to the package with the following line:
 # manypkgs::import_data("britannica", "emperors")
-library(manypkgs)
 # Stage one: Collecting data
 britannica <- readxl::read_excel("data-raw/emperors/britannica/britannica.xlsx")
 
@@ -76,8 +75,8 @@ britannica <- as_tibble(britannica) %>%
 # Stage three: Connecting data
 # Next run the following line to make britannica available
 # within the qPackage.
-export_data(britannica, database = "emperors",
-            URL = "https://www.britannica.com/topic/list-of-Roman-emperors-2043294")
+manypkgs::export_data(britannica, database = "emperors",
+                      URL = "https://www.britannica.com/topic/list-of-Roman-emperors-2043294")
 # This function also does two additional things.
 # First, it creates a set of tests for this object to ensure adherence
 # to certain standards.You can hit Cmd-Shift-T (Mac) or Ctrl-Shift-T (Windows)

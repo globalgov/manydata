@@ -6,7 +6,6 @@
 # https://www.unrv.com/government/emperor.php
 # The dataset was impoted to the package with the following line:
 # manypkgs::import_data("UNRV", "emperors")
-library(manypkgs)
 
 # Stage one: Collecting data
 UNRV <- readxl::read_excel("data-raw/emperors/UNRV/UNRV.xlsx")
@@ -46,7 +45,7 @@ UNRV <- as_tibble(UNRV) %>%
 # Stage three: Connecting data
 # Next run the following line to make UNRV available
 # within the qPackage.
-export_data(UNRV, database = "emperors", URL = "https://www.unrv.com/government/emperor.php")
+manypkgs::export_data(UNRV, database = "emperors", URL = "https://www.unrv.com/government/emperor.php")
 # This function also does two additional things.
 # First, it creates a set of tests for this object to ensure adherence
 # to certain standards.You can hit Cmd-Shift-T (Mac) or Ctrl-Shift-T (Windows)
