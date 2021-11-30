@@ -224,9 +224,6 @@ a:hover, a:focus {
 .panel-info > .panel-heading {
   background-color: #6906FF;
   border-color: #ab74fc;
-}
-
-.panel-info > .panel-heading{
   font-weight: bold;
   font-size: 150%;
   text-align: center;
@@ -257,16 +254,13 @@ a:hover, a:focus {
 .panel-danger{
   background-color: #e84f3f;
   color: white;
+  min-height: 50px!important;
 }
 
 .panel-danger > .panel-body{
   color: white;
   font-size: 18px;
   text-align:center;
-}
-
-.panel-danger {
-  min-height: 50px!important;
 }
 
 .centerize{
