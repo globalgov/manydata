@@ -59,11 +59,6 @@ used to discover the many packages currently available.
 
 ``` r
 library(manydata)
-```
-
-    ## Warning: package 'tibble' was built under R version 4.0.5
-
-``` r
 get_packages()
 ```
 
@@ -87,3 +82,7 @@ information about how to use `{manydata}`.
 For more information for developers and data contributors to qPackages,
 please see `{manypkgs}` [the
 website](https://globalgov.github.io/manypkgs/).
+
+## Cheat Sheet
+
+<a href="https://github.com/globalgov/manydata/blob/main/man/figures/cheatsheet.pdf"><img src="https://raw.githubusercontent.com/globalgov/manydata/main/man/figures/cheatsheet.png" width="525" height="378"/></a>
