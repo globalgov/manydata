@@ -36,7 +36,7 @@
 #' you can specify the variables' names alongside
 #' how each is to be resolved in a list.
 #' In this case, only the variables named will be resolved and returned.
-#' @param key An ID column to collapse by. By default "many_ID".
+#' @param key An ID column to collapse by. By default "qID_ref".
 #' @seealso [pluck()] for selecting a single dataset from a database
 #' @return A single tibble/data frame.
 #' @name consolidate
@@ -63,7 +63,7 @@ consolidate <- function(database,
                         rows = c("any", "every"),
                         cols = c("any", "every"),
                         resolve = c("coalesce", "min", "max", "median", "mean", "random"),
-                        key = "many_ID") {
+                        key = "qID_ref") {
 
   # Step 1: Join datasets by ID
   rows <- match.arg(rows)
@@ -214,7 +214,7 @@ compatible_rows <- function(x) {
 #' "coalesce" takes the first non-NA value
 #' @param other_variables A list of variables to be resolved
 #' @param out A dataframe
-#' @param key The ID column to collapse by. By default "treaty_ID"
+#' @param key The ID column to collapse by. By default "qID"
 #' @return The resolved dataframed or variable
 r_coalesce <- function(other_variables, out, key) {
   for (var in other_variables) {
@@ -235,7 +235,7 @@ r_coalesce <- function(other_variables, out, key) {
 #' "Minimum" takes the smallest non-NA value
 #' @param other_variables A list of variables to be resolved
 #' @param out A dataframe
-#' @param key The ID column to collapse by. By default "treaty_ID"
+#' @param key The ID column to collapse by. By default "qID"
 #' @return The resolved dataframed or variable
 r_min <- function(other_variables, out, key) {
   for (var in other_variables) {
@@ -268,7 +268,7 @@ r_min <- function(other_variables, out, key) {
 #' "maximum" takes the maximum non-NA value
 #' @param other_variables A list of variables to be resolved
 #' @param out A dataframe
-#' @param key The ID column to collapse by. By default "treaty_ID"
+#' @param key The ID column to collapse by. By default "qID"
 #' @return The resolved dataframed or variable
 r_max <- function(other_variables, out, key) {
   for (var in other_variables) {
@@ -301,7 +301,7 @@ r_max <- function(other_variables, out, key) {
 #' "Median" takes the median non NA value
 #' @param other_variables A list of variables to be resolved
 #' @param out A dataframe
-#' @param key The ID column to collapse by. By default "treaty_ID"
+#' @param key The ID column to collapse by. By default "qID"
 #' @return The resolved dataframed or variable
 r_median <- function(other_variables, out, key) {
   for (var in other_variables) {
@@ -334,7 +334,7 @@ r_median <- function(other_variables, out, key) {
 #' "mean" takes the average non NA value
 #' @param other_variables A list of variables to be resolved
 #' @param out A dataframe
-#' @param key The ID column to collapse by. By default "treaty_ID"
+#' @param key The ID column to collapse by. By default "qID"
 #' @return The resolved dataframed or variable
 r_mean <- function(other_variables, out, key) {
   for (var in other_variables) {
@@ -367,7 +367,7 @@ r_mean <- function(other_variables, out, key) {
 #' "random" takes a random non NA value from sample
 #' @param other_variables A list of variables to be resolved
 #' @param out A dataframe
-#' @param key The ID column to collapse by. By default "treaty_ID"
+#' @param key The ID column to collapse by. By default "qID"
 #' @return The resolved dataframed or variable
 r_random <- function(other_variables, out, key) {
   for (var in other_variables) {
