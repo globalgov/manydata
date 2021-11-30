@@ -11,7 +11,7 @@ r_max(other_variables, out, key)
 
 \item{out}{A dataframe}
 
-\item{key}{The ID column to collapse by. By default "qID"}
+\item{key}{The ID column to collapse by. By default "treaty_ID"}
 }
 \value{
 The resolved dataframed or variable
