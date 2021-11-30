@@ -26,7 +26,7 @@
 #' @importFrom utils packageVersion
 #' @importFrom lubridate as_date
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' get_packages()
 #' }
 #' @export

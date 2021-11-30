@@ -31,7 +31,7 @@ calling the function. If users intend to download a package from the
 universe, they can to type the package name within the function.
 }
 \examples{
-\donttest{
+\dontrun{
 get_packages()
 }
 }
