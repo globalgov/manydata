@@ -118,11 +118,11 @@ get_packages <- function(pkg) {
                                            per_page = 100, page = 1))
       repo <- suppressMessages(httr::content(repo, type = "text"))
       repo <- jsonlite::fromJSON(repo, flatten = TRUE)
-      repo <- subset(repo, grep("Unreleased", repo$latest, invert = TRUE))
       repo <- repo[c("name", "full_name", "description")]
       repo$installed <- get_installed_release(repo$name)
       repo$latest <- get_latest_release(repo$full_name)
       repo$updated <- lubridate::as_date(get_latest_date(repo$full_name))
+      repo <- subset(repo, !grepl("Unreleased", repo$latest))
       # repo$contributors <- get_contributors(repo$full_name)
       repo <- as.data.frame(repo)
     })

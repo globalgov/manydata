@@ -38,7 +38,7 @@ navbar:
       href: news/index.html
     github:
       icon: "fab fa-github fa-lg"
-      href: https://github.com/globalgov/qStates
+      href: https://github.com/globalgov/manydata
     packages:
       text: Other packages
       menu:
@@ -51,21 +51,22 @@ navbar:
         - text: manytrade
           href: https://globalgov.github.io/manytrade/
 reference:
-  - title: "Obtaining and inspecting data in qPackages"
-    desc: "These functions are to assist data analysts with identifying, downloading, and analysing data on particular parts of global governance:"
+  - title: "Obtaining and inspecting data in many packages"
+    desc: "These functions are to assist data analysts with downloading data on particular parts of global governance"
     contents:
       - get_packages
       - starts_with("data_")
   - title: "Working with many databases"
-    desc: "These functions are to assist data analysts with identifying, downloading, and analysing data on particular parts of global governance:"
+    desc: "These functions are to assist data analysts with analysing data on particular parts of global governance"
     contents:
       - consolidate
       - coalesce_rows
       - coalesce_compatible
-  - title: "Working with manydata"
-    desc: "These functions are to assist data analysts with identifying, downloading, and analysing data on particular parts of global governance:"
+  - title: "Data wrangling with manydata"
+    desc: "These functions are to assist data analysts with wrangling data on particular parts of global governance"
     contents:
       - transmutate
-      - rearrange
+      - coalesce_rows
       - recollect
       - reunite
+      - repaint
