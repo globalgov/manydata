@@ -118,7 +118,7 @@ get_packages <- function(pkg) {
                                            per_page = 100, page = 1))
       repo <- suppressMessages(httr::content(repo, type = "text"))
       repo <- jsonlite::fromJSON(repo, flatten = TRUE)
-      repo <- subset(repo, grepl("q[[:upper:]]", repo$name))
+      repo <- subset(repo, grep("Unreleased", repo$latest, invert = TRUE))
       repo <- repo[c("name", "full_name", "description")]
       repo$installed <- get_installed_release(repo$name)
       repo$latest <- get_latest_release(repo$full_name)
@@ -143,17 +143,17 @@ get_packages <- function(pkg) {
       remotes::install_github(pkg)
       pkg <- strsplit(pkg, "/")[[1]][2]
     } else if (stringr::str_detect(pkg, "^[:digit:]{1}$")) {
-      if (pkg == 1) {
-        pkg <- "qCreate"
+      if (pkg == 3) {
+        pkg <- "manypkgs"
         remotes::install_github("globalgov/manypkgs")
-      } else if (pkg == 3) {
-        pkg <- "qEnviron"
+      } else if (pkg == 2) {
+        pkg <- "manyenviron"
         remotes::install_github("globalgov/manyenviron")
       } else if (pkg == 4) {
-        pkg <- "qStates"
+        pkg <- "manystates"
         remotes::install_github("globalgov/manystates")
       } else if (pkg == 5) {
-        pkg <- "qTrade"
+        pkg <- "manytrade"
         remotes::install_github("globalgov/manytrade")
       }
     } else {
