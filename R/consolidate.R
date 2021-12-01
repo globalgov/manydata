@@ -108,7 +108,7 @@ consolidate <- function(database,
     resolve <- data.frame(var = names(resolve), resolve = resolve)
     for (k in seq_len(nrow(resolve))) {
       if (resolve$resolve[k] == "coalesce") {
-        rc <- r_coalesce(resolve$var[k], out, key)
+        rco <- r_coalesce(resolve$var[k], out, key)
       }
       if (resolve$resolve[k] == "min") {
         rmin <- r_min(resolve$var[k], out, key)
@@ -120,14 +120,14 @@ consolidate <- function(database,
         rmd <- r_median(resolve$var[k], out, key)
       }
       if (resolve$resolve[k] == "mean") {
-        rme <- r_mean(resolve$var[k])
+        rme <- r_mean(resolve$var[k], out, key)
       }
       if (resolve$resolve[k] == "random") {
-        rra <- r_random(resolve$var[k])
+        rra <- r_random(resolve$var[k], out, key)
       }
     }
-    if (exists("rc")) {
-      out <- rc
+    if (exists("rco")) {
+      out <- rco
     } else {
       out <- dplyr::select(out, key)
     }
