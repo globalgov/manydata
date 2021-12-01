@@ -5,7 +5,7 @@
 #' extracting adjacency edgelist for bilaterals agreements in a mixed edgelist,
 #' and extracting adjacency edgelist for multilateral agreements
 #' in a mixed edgelist.
-#' These membership edgelist can be found in memebership databases across
+#' These membership edgelists can be found in membership databases across
 #' the many package universe.
 #' @name extraction
 NULL
