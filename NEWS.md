@@ -5,7 +5,7 @@
 * Closed #189 by renaming package from `{qData}` to `{manydata}`
 * Updated user vignette to include more examples on working with `consolidate()`
 * Updated package website
-* Added cheatsheet to README
+* Closed #167 by adding a cheatsheet to README
 
 ## Connection
 
