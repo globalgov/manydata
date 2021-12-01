@@ -44,12 +44,12 @@ navbar:
       menu:
         - text: manypkgs
           href: https://globalgov.github.io/manypkgs/
-        - text: qStates
-          href: https://globalgov.github.io/qStates/
+        - text: manystates
+          href: https://globalgov.github.io/manystates/
         - text: manyenviron
           href: https://globalgov.github.io/manyenviron/
-        - text: qTrade
-          href: https://globalgov.github.io/qTrade/
+        - text: manytrade
+          href: https://globalgov.github.io/manytrade/
 reference:
   - title: "Obtaining and inspecting data in qPackages"
     desc: "These functions are to assist data analysts with identifying, downloading, and analysing data on particular parts of global governance:"
