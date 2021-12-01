@@ -1,5 +1,4 @@
 #' Extracting adjacency edgelist for international agreements
-#' 
 #' @param membs A memberships dataset from one of the many packages 
 #' @description The set of functions help
 #' extracting adjacency edgelist for bilaterals agreements in a mixed edgelist,
