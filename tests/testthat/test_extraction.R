@@ -1,4 +1,4 @@
-membs <- data.frame(qID_ref = c("ROU-RUS[RFP]_1901A","ROU-RUS[RFP]_1901A", "GD16FI_1901A", "GD16FI_1901A"),
+membs <- data.frame(many_ID = c("ROU-RUS[RFP]_1901A","ROU-RUS[RFP]_1901A", "GD16FI_1901A", "GD16FI_1901A"),
                     CountryID = c("ROU", "RUS", "DNK", "GBR"),
                     Title = c("Convention Between Roumania And Russia Concerning Fishing In The Danube And The Pruth",
                               "Convention Between Roumania And Russia Concerning Fishing In The Danube And The Pruth",

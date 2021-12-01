@@ -11,7 +11,7 @@ r_min(other_variables, out, key)
 
 \item{out}{A dataframe}
 
-\item{key}{The ID column to collapse by. By default "qID_ref"}
+\item{key}{The ID column to collapse by. By default "many_ID"}
 }
 \value{
 The resolved dataframed or variable
