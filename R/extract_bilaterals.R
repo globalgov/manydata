@@ -21,17 +21,17 @@ NULL
 #' }
 #' @export
 extract_bilaterals <- function(membs){
-  Beg <- CountryID <- CountryID1 <- CountryID2 <- End <- Title <- qID_ref <- NULL
-  bilats <- subset(membs, grepl("[A-Z]{3}-", qID_ref)) %>% 
-    dplyr::arrange(qID_ref, CountryID) %>% 
-    dplyr::select(CountryID, qID_ref, Title, Beg, End)
-  bilats <- bilats %>% dplyr::filter(qID_ref %in% names(table(bilats$qID_ref)[table(bilats$qID_ref)==2]))
+  Beg <- CountryID <- CountryID1 <- CountryID2 <- End <- Title <- many_ID <- NULL
+  bilats <- subset(membs, grepl("[A-Z]{3}-", many_ID)) %>% 
+    dplyr::arrange(many_ID, CountryID) %>% 
+    dplyr::select(CountryID, many_ID, Title, Beg, End)
+  bilats <- bilats %>% dplyr::filter(many_ID %in% names(table(bilats$many_ID)[table(bilats$many_ID)==2]))
   bilats1 <- bilats %>% dplyr::filter(row_number() %% 2 == 0) %>% 
     dplyr::rename(CountryID1 = "CountryID")
   bilats2 <- bilats %>% dplyr::filter(row_number() %% 2 == 1) %>% 
     dplyr::rename(CountryID2 = "CountryID")
   bilats <- dplyr::full_join(bilats2, bilats1, 
-                             by = c("qID_ref","Title","Beg", "End")) %>% 
+                             by = c("many_ID","Title","Beg", "End")) %>% 
     dplyr::select(CountryID1, CountryID2, Title, Beg, End)
   bilats
 }
@@ -48,7 +48,7 @@ extract_bilaterals <- function(membs){
 #' }
 #' @export
 extract_multilaterals <- function(membs){
-  qID_ref <- NULLref <- NULL
+  many_ID <- NULLref <- NULL
   subset(membs, !grepl("[A-Z]{3}-", NULLref)) %>% 
-    dplyr::filter(qID_ref %in% names(table(qID_ref)[table(qID_ref)!=2]))
+    dplyr::filter(many_ID %in% names(table(many_ID)[table(many_ID)!=2]))
 }
