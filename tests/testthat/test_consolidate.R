@@ -1,29 +1,29 @@
 # input data
-data1 <- dplyr::tibble(qID_ref = c("NZL", "BRA", "CHF"),
+data1 <- dplyr::tibble(many_ID = c("NZL", "BRA", "CHF"),
                        date = c("1990-01-01", "1990-01-02",
                                 "1990-01-01:1990-01-31"),
                        number = c(100, 1000, 10000))
-data2 <- dplyr::tibble(qID_ref = c("NZL", "BRA"),
+data2 <- dplyr::tibble(many_ID = c("NZL", "BRA"),
                        date = c("1990-01-01", "1990-01-03"))
-data3 <- dplyr::tibble(qID_ref = c("NZL", "BRA", "CHF", "OTH"),
+data3 <- dplyr::tibble(many_ID = c("NZL", "BRA", "CHF", "OTH"),
                        date = c("1990-01-01", "1990-01-02",
                                 "1990-01-01:1990-01-31", NA),
                        number = c(100, 1200, 12222, 21))
 test <- tibble::lst(a = data1, b = data2, c = data3)
 
 # expected output data
-data.con.con <- dplyr::tibble(qID_ref = c("NZL", "BRA"),
+data.con.con <- dplyr::tibble(many_ID = c("NZL", "BRA"),
                                 date = c("1990-01-01",
                                          "1990-01-02"))
-data.con.any <- dplyr::tibble(qID_ref = c("NZL", "BRA"),
+data.con.any <- dplyr::tibble(many_ID = c("NZL", "BRA"),
                               date = c("1990-01-01",
                                        "1990-01-02"),
                               number = c(100, 1000))
-data.13.any <- dplyr::tibble(qID_ref = c("NZL", "BRA", "CHF", "OTH"),
+data.13.any <- dplyr::tibble(many_ID = c("NZL", "BRA", "CHF", "OTH"),
                                 date = c("1990-01-01", "1990-01-02",
                                          "1990-01-01:1990-01-31", NA),
                                 number = c(100, 1000, 10000, 21))
-data.dup <- dplyr::tibble(qID_ref = c("NZL", "BRA", "CHF", "OTH",
+data.dup <- dplyr::tibble(many_ID = c("NZL", "BRA", "CHF", "OTH",
                                   "NZL", "BRA", "CHF", "OTH"),
                           date = c("1990-01-01", "1990-01-02",
                                    "1990-01-01:1990-01-31", NA,
@@ -31,23 +31,29 @@ data.dup <- dplyr::tibble(qID_ref = c("NZL", "BRA", "CHF", "OTH",
                                    "1990-01-01:1990-01-31", NA),
                           number = c(100, 1000, 10000, 21,
                                      100, 1000, 10000, 21))
-data.con.min <- dplyr::tibble(qID_ref = c("NZL", "BRA"),
+data.con.min <- dplyr::tibble(many_ID = c("NZL", "BRA"),
                               date = c("1990-01-01",
                                        "1990-01-02"),
                               number = c("100", "1000"))
-data.con.max <- dplyr::tibble(qID_ref = c("NZL", "BRA"),
+data.con.max <- dplyr::tibble(many_ID = c("NZL", "BRA"),
                               date = c("1990-01-01",
                                        "1990-01-03"),
                               number = c("100", "1200"))
-data.con.median <- dplyr::tibble(qID_ref = c("NZL", "BRA"),
+data.con.median <- dplyr::tibble(many_ID = c("NZL", "BRA"),
                               date = c("1990-01-01",
                                        "1990-01-02"),
                               number = c("100", "1100"))
 
-data.multi <- dplyr::tibble(qID_ref = c("NZL", "BRA", "CHF", "OTH"),
+data.multi <- dplyr::tibble(many_ID = c("NZL", "BRA", "CHF", "OTH"),
                             date = c("1990-01-01", "1990-01-02",
                                      "1990-01-01:1990-01-31", NA),
                             number = c("100", "1200", "12222", "21"))
+
+data.many <- dplyr::tibble(many_ID = c("NZL", "BRA", "CHF", "OTH"),
+                           number = c("100", "1100", "11111", "21"),
+                           date = c("1990-01-01", "1990-01-02",
+                                    "1990-01-01:1990-01-31", NA))
+
 
 test_that("pluck works", {
   expect_equal(pluck(test, "a"), data1)
@@ -69,5 +75,8 @@ test_that("consolidate methods", {
   expect_equal(consolidate(test, "every", "any", resolve = "max"), data.con.max)
   expect_equal(consolidate(test, "every", "any", resolve = "median"), data.con.median)
   expect_equal(consolidate(test, "every", "any", resolve = "mean"), data.con.median)
-  expect_equal(consolidate(test, "any", "any", resolve = c(date = "min", number = "max" )), data.multi)
+  expect_length(consolidate(test, "every", "any", resolve = "random"), 3)
+  expect_equal(consolidate(test, "any", "any", resolve = c(date = "min", number = "max")), data.multi)
+  expect_equal(consolidate(test, "any", "any", resolve = c(date = "mean", number = "median")), data.many)
+  expect_length(consolidate(test, "any", "any", resolve = c(date = "coalesce", number = "random")), 3)
 })
