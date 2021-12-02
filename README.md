@@ -19,8 +19,8 @@ Practices](https://bestpractices.coreinfrastructure.org/projects/4562/badge)](ht
 <!-- ![GitHub All Releases](https://img.shields.io/github/downloads/jhollway/roctopus/total) -->
 <!-- badges: end -->
 
-`{manydata}` is the central package in the many universe of qPackages
-aimed at collecting, connecting and correcting network data across
+`{manydata}` is the central package in the many packages universe aimed
+at collecting, connecting and correcting network data across
 issue-domains of global governance. To assist users in doing so,
 `{manydata}` also contains functions that enable users to clean and
 manipulate data easily.
@@ -28,11 +28,11 @@ manipulate data easily.
 ## Why manydata?
 
 `{manydata}` offers users access to all of the tested data in the
-various many packages available in the universe, for use in analyses of
-global governance and beyond. A special feature of the many universe of
-packages is that it is not ‘opinionated’ - instead of offering a single,
-supposedly authoritative version of global governance events, the
-packages in the many universe gather well-regarded datasets in each
+various ‘many packages’ available, for use in analyses of global
+governance and beyond. A special feature of the ‘many packages’ is that
+it is not ‘opinionated’ - instead of offering a single, supposedly
+authoritative version of global governance events, the packages in the
+many packages universe gather well-regarded datasets in each
 issue-domain into three-dimensional ‘datacubes’. The chief advantage of
 this for global governance researchers is that it enables a quick and
 easy way to check the robustness of their results using different
@@ -51,38 +51,59 @@ from GitHub.
 remotes::install_github("globalgov/manydata")
 ```
 
-## Available qPackages
+## Available ‘many packages’
 
 `{manydata}` connects users to other packages that help fill global
 governance researchers’ data needs. The `get_packages()` function can be
-used to discover the many packages currently available.
+used to discover the ‘many packages’ currently available.
 
 ``` r
 library(manydata)
+```
+
+    ## Warning: package 'tibble' was built under R version 4.0.5
+
+``` r
 get_packages()
 ```
 
-    ## # A tibble: 3 x 6
-    ##   name    full_name         description                                     
-    ##   <chr>   <chr>             <chr>                                           
-    ## 1 qData   globalgov/qData   An R portal for ensembled global governance data
-    ## 2 qStates globalgov/qStates qPackage for ensembled data on sovereign states 
-    ## 3 qTrade  globalgov/qTrade  qPackage for ensembled data on trade agreements 
-    ##   installed latest updated   
-    ##   <chr>     <chr>  <date>    
-    ## 1 0.5.0     0.5.0  2021-07-26
-    ## 2 0.0.5     0.0.5  2021-10-11
-    ## 3 0.0.1     0.0.1  2021-10-08
+    ## Warning: 1 failed to parse.
+
+    ## # A tibble: 6 x 6
+    ##   name        full_name            
+    ##   <chr>       <chr>                
+    ## 1 manyenviron globalgov/manyenviron
+    ## 2 manypkgs    globalgov/manypkgs   
+    ## 3 messydates  globalgov/messydates 
+    ## 4 qData       globalgov/qData      
+    ## 5 qStates     globalgov/qStates    
+    ## 6 qTrade      globalgov/qTrade     
+    ##   description                                              installed latest
+    ##   <chr>                                                    <chr>     <chr> 
+    ## 1 R Package for ensembled data on environmental agreements 0.1.0     0.1.0 
+    ## 2 Support for creating new manyverse packages              0.2.0     0.2.0 
+    ## 3 An R package for ISO's Extended Date/Time Format (EDTF)  0.1.2     0.2.0 
+    ## 4 An R portal for ensembled global governance data         0.5.0     0.5.0 
+    ## 5 qPackage for ensembled data on sovereign states          0.0.5     0.0.5 
+    ## 6 qPackage for ensembled data on trade agreements          0.0.1     0.0.1 
+    ##   updated   
+    ##   <date>    
+    ## 1 2021-11-25
+    ## 2 2021-11-24
+    ## 3 2021-11-12
+    ## 4 2021-07-26
+    ## 5 2021-10-11
+    ## 6 2021-10-08
 
 Please see [the website](https://globalgov.github.io/manydata/) for more
 information about how to use `{manydata}`.
 
-## Contributing to the many universe
-
-For more information for developers and data contributors to qPackages,
-please see `{manypkgs}` [the
-website](https://globalgov.github.io/manypkgs/).
-
 ## Cheat Sheet
 
 <a href="https://github.com/globalgov/manydata/blob/main/man/figures/cheatsheet.pdf"><img src="https://raw.githubusercontent.com/globalgov/manydata/main/man/figures/cheatsheet.png" width="525" height="378"/></a>
+
+## Contributing to the many packages universe
+
+For more information for developers and data contributors to ‘many
+packages’, please see `{manypkgs}` [the
+website](https://globalgov.github.io/manypkgs/).
