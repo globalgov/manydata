@@ -1,10 +1,10 @@
 ---
-title: "Working with qData"
-author: "James Hollway"
+title: "Working with manydata"
+author: "James Hollway and Henrique Sposito"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Working with qData}
+  %\VignetteIndexEntry{Working with manydata}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -28,29 +28,27 @@ Since some of these data packages are too big for CRAN
 we expect that their developers will instead choose
 to make their packages available on Github. 
 Github is huge though, either way it can be difficult to identify salient data. 
-We have tried to make this easy by allowing the reporting of all datasets 
-in the ecosystem that we know of that currently pass our tests.
+We have tried to make this easy by allowing the reporting of all packages in the
+many packages universe, as well as the databases and datasets included in each
+of the 'many packages' - that we know of that currently pass our tests.
 
-```{r, eval=NOT_CRAN}
-library(qData)
+```{r discover, eval=NOT_CRAN}
+library(manydata)
 get_packages()
 ```
 
-In the future, this function will report more details about the datasets
-included in each package and their provenance.
-
 ## Understanding data
 
-Packages in the `{qData}` ecosystem have the advantage to facilitate comparison 
+Packages in the many packages universe have the advantage to facilitate comparison 
 and analysis of multiple datasets in a specific domain of global governance. 
 This is possible with a particular coding system which follows the same 
 principles across the different packages. 
 
-In `{qStates}` for example, all datasets from the states database contain 
+In `{manystates}` for example, all datasets from the states database contain 
 variables named `Beg`and `End` which represent the beginning and ending date 
 of an episode of state sovereignty.
 
-In `{qEnviron}`, the agreements database also have the `Beg` and `End` variables 
+In `{manyenviron}`, the agreements database also have the `Beg` and `End` variables 
 but those are attributed to treaties (signature and term dates). 
 For the memberships database, `Beg` and `End` represent when a relationship 
 between states and an agreement starts (either signature, ratification or entry into force) 
@@ -64,19 +62,19 @@ more robust data when researching on a particular governance domain.
 
 ## Loading data
 
-Let us say that we wish to download the `{qStates}` package,
+Let us say that we wish to download the `{manystates}` package,
 which offers a set of datasets related to state actors in global governance. 
 We can download and install the latest release version of
-the `{qStates}` package using the same function as before, only
-specifying which package we want to 'get', 'get_packages("globalgov/qStates")'.
+the `{manystates}` package using the same function as before, only
+specifying which package we want to 'get', 'get_packages("manystates")'.
 
-For now, let's work with the Roman Emperors database included in qData. 
+For now, let's work with the Roman Emperors database included in manydata. 
 We can get a quick summary of the datasets included in this
 package with the following command:
 
-```{r}
-data(package = "qData")
-data(emperors, package = "qData")
+```{r load}
+data(package = "manydata")
+data(emperors, package = "manydata")
 emperors
 ```
 
@@ -88,19 +86,18 @@ to understand their differences, summarise
 variables across them, and perhaps also rerun models across them.
 
 To retrieve an individual dataset from this database,
-we can use the `pluck()` function from the `{purrr}` package.
+we can use the `pluck()` function.
 
-```{r}
-wikipedia <- purrr::pluck(emperors, "wikipedia")
+```{r pluck}
+wikipedia <- pluck(emperors, "wikipedia")
 ```
 
-However, the real value of qData packages is that multiple datasets
+However, the real value of the various 'many packages' is that multiple datasets
 relating to the same phenomenon are presented together.
-This facilitates comparison, the subject of the next section.
 
 ## Comparing data
 
-First of all, we want to understand what the differences are between these datasets.
+First of all, we want to understand what the differences between the datasets in a database.
 One important way to understand the relationship between these datasets is 
 to understand what their relative advantages and disadvantages are.
 For example, one dataset may be long (has many observations) 
@@ -113,25 +110,22 @@ data points were sourced or how certain variables were coded,
 while another provides an extensive and transparent codebook
 that facilitates replication.
 
-### Differences in documentation
+### Using `data_source()` and `data_contrast()`
 
 We can bring up the database level documentation using: `?emperors`.
 This informs users on the datasets present in the database
 as well as the variables in the various datasets. 
-However, if we want a more detailed summary of the various levels of data 
+Though, if we want a more detailed summary of the various levels of data 
 and sources, we can use `data_source()` and `data_contrast()`.
+The `data_source()` function displays bibliographic references for
+the datasets within a database.
 
-### Using `data_source()` and `data_contrast()`
-
-The `data_source()` function displays bibliographic references for the datasets
-in a qPackage or within a database.
-
-```{r}
-data_source(pkg = "qData", database = NULL, dataset = NULL)
+```{r source}
+data_source(pkg = "manydata", database = NULL, dataset = NULL)
 ```
 
 The `data_contrast()` function returns a data frame with the key metadata 
-of each level of data objects (qPackage, database, and dataset).
+of each level of data objects (many package, database, and dataset).
 This metadata includes the following elements:
 
 * Number of unique observations
@@ -141,15 +135,8 @@ This metadata includes the following elements:
 * Latest end date
 * Source URL
 
-```{r}
-data_contrast(pkg = "qData", database = NULL, dataset = NULL)
-```
-
-If we were specifically interested in the one dataset of the
-database, we can further specify the arguments. 
-
-```{r}
-data_contrast(pkg = "qData", database = "emperors", dataset = "wikipedia")
+```{r contrast}
+data_contrast(pkg = "manydata", database = NULL, dataset = NULL)
 ```
 
 ### An example of inference sensitivity to data sources:
@@ -161,12 +148,12 @@ That is, we are interested in the robustness of any results to different data sp
 We can start by exploring whether our conclusion about when emperors began their reign
 would differ depending on which dataset we use.
 We can use the `purrr::map()` function used above, but this time pass it the `mean()` function
-and tell it to operate on just the "Beg" variable, wich represents 
+and tell it to operate on just the "Beg" variable, which represents 
 when emperors began their reign (removing any NAs).
-Since qData datasets are always ordered by "Beg" (and then "ID"),
+Since manydata datasets are always ordered by "Beg" (and then "ID"),
 we can remove any subsequent (duplicated) entries by ID to concentrate on first appearances.
 
-```{r}
+```{r compare}
 emperors %>% 
   purrr::map(function(x){
     x %>% dplyr::filter(!duplicated(ID)) %>%
@@ -174,26 +161,46 @@ emperors %>%
   })
 ```
 
-It seems that there is some variation there.
-
 ## Consolidate data
 
-Now that we have visualized the data and looked at some of the different inferences
+Now that we have compared the data and looked at some of the different inferences
 drawn using different datasets, let us examine how to select and collapse databases.
-`{qData}` contains the `consolidate()` which facilitates collapsing multiple
+`{manydata}` contains the `consolidate()` function which facilitates collapsing multiple
 datasets into a dataframe for analysis.
 
-`consolidate()` collapses a set of (q)datasets, or a database,
+`consolidate()` collapses a set of datasets, or a database, from a 'many' package
 into a single dataset with some combination of the rows and columns.
 The function includes separate arguments for the rows and columns,
 as well as for how to resolve conflicts in observations across datasets.
 The key argument indicates the column to collapse datasets by.
-This provides users with considerable flexibility in how they combine qData.
-For example, users may wish to stick to units that appear in every dataset
-but include variables coded in any dataset or units that appear in any dataset,
-but only those variables that appear in every dataset.
+This provides users with considerable flexibility in how they combine data.
+For example, users may wish to see units and variables coded in any dataset,
+or units and variables coded in every dataset,
 
-```{r}
+```{r consolidate}
 consolidate(emperors, rows = "any", cols = "any", resolve = "coalesce", key = "ID")
 consolidate(emperors, rows = "every", cols = "every", resolve = "coalesce", key = "ID")
+```
+
+Users can also choose how they want to resolve conflicts between observations in `consolidate()` with several 'resolve' methods:
+
+* coalesce: the first non-NA value 
+* max: the largest value
+* min: the smallest value
+* mean: the average value
+* median: the median value
+* random: a random value
+
+```{r resolve}
+consolidate(emperors, "any", "every", resolve = "max", key = "ID")
+consolidate(emperors, "every", "any", resolve = "min", key = "ID")
+consolidate(emperors, "every", "every", resolve = "mean", key = "ID")
+consolidate(emperors, "any", "any", resolve = "median", key = "ID")
+consolidate(emperors, "every", "every", resolve = "random", key = "ID")
+```
+
+Users can even specify how conflictis for different variables should be 'resolved' differently.
+
+```{r different}
+consolidate(emperors, "every", "every", resolve = c(Beg = "min", End = "max"), key = "ID")
 ```

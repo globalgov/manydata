@@ -1,20 +1,27 @@
-#' Find and download packages in the qData ecosystem
+#' Find and download packages in the many packages universe
 #'
-#' Find and download packages in the qData ecosystem
+#' Find and download packages in the many packages universe
 #' @param pkg A character vector of package names or number of a package
-#' @details The function finds and download other packages that belong to
-#' the qData ecosystem of data packages. It allows for users to rapidly access
-#' the names and other descriptive information of these packages by simply
-#' calling the function. If users intend to download a package from the
-#' ecosystem, they can to type the package name within the function.
-#' @return If no package name is provided, this function prints a table (tibble)
-#' to the console with details on packages that are currently available within
-#' the qData ecosystem.
+#' @details The function finds and download other packages
+#' that belong to the many universe of packages.
+#' It allows users to rapidly access the names and other
+#' descriptive information of these
+#' packages by simply calling the function.
+#' If users intend to download and install
+#' a package from the universe,
+#' they can type the package name within the function.
+#' @return If no package name is provided,
+#' this function prints a table (tibble)
+#' to the console with details on packages
+#' that are currently available within
+#' the many universe.
 #' This includes the name and description of the package,
-#' the latest installed and release version number, and the latest release date,
-#' and a string of contributors. It also include a list of numbers which orders
-#' the package and can be used to load the respective package instead of
-#' the name. If one or more package names are provided,
+#' the latest installed and release version number,
+#' and the latest release date.
+#' It also include a list of numbers which orders
+#' the package and can be used to load the respective
+#' package instead of the name.
+#' If one or more package names are provided,
 #' these will be installed from Github.
 #' @importFrom pointblank %>%
 #' @importFrom stringr str_detect
@@ -26,8 +33,9 @@
 #' @importFrom utils packageVersion
 #' @importFrom lubridate as_date
 #' @examples
+#' \dontrun{
 #' get_packages()
-#' get_packages("qStates")
+#' }
 #' @export
 get_packages <- function(pkg) {
 
@@ -117,42 +125,54 @@ get_packages <- function(pkg) {
                                            per_page = 100, page = 1))
       repo <- suppressMessages(httr::content(repo, type = "text"))
       repo <- jsonlite::fromJSON(repo, flatten = TRUE)
-      repo <- subset(repo, grepl("q[[:upper:]]", repo$name))
       repo <- repo[c("name", "full_name", "description")]
       repo$installed <- get_installed_release(repo$name)
       repo$latest <- get_latest_release(repo$full_name)
       repo$updated <- lubridate::as_date(get_latest_date(repo$full_name))
+      repo <- subset(repo, !grepl("Unreleased", repo$latest))
       # repo$contributors <- get_contributors(repo$full_name)
       repo <- as.data.frame(repo)
     })
 
     repos <- tibble::as_tibble(dplyr::bind_rows(repos))
+    if(length(repos) < 2) {
+      stop("The download limit from GitHub has been reached.
+      To see all the packages in the many universe, please go to the following link:
+           https://github.com/globalgov")
+    } else {
     print(repos, width = Inf, pillar.min_chars = Inf)
+    }
   }
-
+  
+  tryCatch({
   if (!missing(pkg)) {
     if (stringr::str_detect(pkg, "/")) {
       remotes::install_github(pkg)
       pkg <- strsplit(pkg, "/")[[1]][2]
     } else if (stringr::str_detect(pkg, "^[:digit:]{1}$")) {
-      if (pkg == 1) {
-        pkg <- "qCreate"
-        remotes::install_github("globalgov/qCreate")
-      } else if (pkg == 3) {
-        pkg <- "qEnviron"
-        remotes::install_github("globalgov/qEnviron")
+      if (pkg == 3) {
+        pkg <- "manypkgs"
+        remotes::install_github("globalgov/manypkgs")
+      } else if (pkg == 2) {
+        pkg <- "manyenviron"
+        remotes::install_github("globalgov/manyenviron")
       } else if (pkg == 4) {
-        pkg <- "qStates"
-        remotes::install_github("globalgov/qStates")
-      } else {
-        stop("Package number not found, please type package name")
+        pkg <- "manystates"
+        remotes::install_github("globalgov/manystates")
+      } else if (pkg == 5) {
+        pkg <- "manytrade"
+        remotes::install_github("globalgov/manytrade")
       }
     } else {
       remotes::install_github(paste0("globalgov/", pkg))
     }
     library(pkg, character.only = TRUE)
   }
-
+  }, error = function(e) {
+  stop(paste0("The download limit from GitHub has been reached.
+       Please download our other packages using:
+              remotes::github(globalgov/", pkg, ")"))
+  })
 }
 
 # Helper function from usethis:::create_directory()

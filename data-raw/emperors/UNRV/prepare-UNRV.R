@@ -5,8 +5,7 @@
 # The dataset was improted from:
 # https://www.unrv.com/government/emperor.php
 # The dataset was impoted to the package with the following line:
-# qCreate::import_data("UNRV", "emperors")
-library(qCreate)
+# manypkgs::import_data("UNRV", "emperors")
 
 # Stage one: Collecting data
 UNRV <- readxl::read_excel("data-raw/emperors/UNRV/UNRV.xlsx")
@@ -33,20 +32,20 @@ for(i in c(13:99)) {
 # messydates::as_messydates() and messydates::make_messydates(). 
 # Let's standardise dates and variable names
 UNRV <- as_tibble(UNRV) %>%
-  dplyr::mutate(Beg = qCreate::standardise_dates(Beg),
-                End = qCreate::standardise_dates(End)) %>%
+  dplyr::mutate(Beg = manypkgs::standardise_dates(Beg),
+                End = manypkgs::standardise_dates(End)) %>%
   dplyr::rename(ID = "Common Name",
          FullName = "Full Name/Imperial Name",
          Dynasty = "Dynasty/Class/Notes") %>%
   dplyr::relocate(ID, Beg, End)
-# qData includes several functions that should help cleaning
+# manydata includes several functions that should help cleaning
 # and standardising your data.
 # Please see the vignettes or website for more details.
 
 # Stage three: Connecting data
 # Next run the following line to make UNRV available
 # within the qPackage.
-export_data(UNRV, database = "emperors", URL = "https://www.unrv.com/government/emperor.php")
+manypkgs::export_data(UNRV, database = "emperors", URL = "https://www.unrv.com/government/emperor.php")
 # This function also does two additional things.
 # First, it creates a set of tests for this object to ensure adherence
 # to certain standards.You can hit Cmd-Shift-T (Mac) or Ctrl-Shift-T (Windows)

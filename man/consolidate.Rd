@@ -8,12 +8,12 @@ consolidate(
   database,
   rows = c("any", "every"),
   cols = c("any", "every"),
-  resolve = "coalesce",
-  key = "qID"
+  resolve = c("coalesce", "min", "max", "median", "mean", "random"),
+  key = "many_ID"
 )
 }
 \arguments{
-\item{database}{A qPackage database object}
+\item{database}{A database object from one of the many packages}
 
 \item{rows}{Which rows or units to retain.
 By default "any" (or all) units are retained,
@@ -23,38 +23,57 @@ which retains only those units that appear in all parent datasets.}
 \item{cols}{Which columns or variables to retain.
 By default "any" (or all) variables are retained,
 but another option is "every",
-which retains only those variables that appear in all parent datasets.}
+which retains only those variables that appear
+in all parent datasets.}
 
-\item{resolve}{How conflicts between observations should be resolved.
-Currently only "coalesce" is offered, which takes the first non-NA value,
-but options should soon include
-"max", "min", "mean", "mode" and "median", as well as "append".}
+\item{resolve}{How should conflicts between observations be resolved?
+Currently "coalesce", "min", "max", "mean", "median",
+and "random" are offered.
+"coalesce" takes the first non-NA value.
+"max" takes the largest value,
+while "min" takes the smallest value.
+"mean" takes the average value.
+"median" takes the median value.
+"random" takes a random value.
+For different variables to be resolved differently,
+you can specify the variables' names alongside
+how each is to be resolved in a list.
+In this case, only the variables named will be resolved and returned.}
 
-\item{key}{An ID column to collapse by. By default "qID".}
+\item{key}{An ID column to collapse by.
+By default "many_ID".}
 }
 \value{
 A single tibble/data frame.
 }
 \description{
-This function collapses a set or database of (q)datasets
+This function collapses a set or database of many datasets
 into a single dataset with some combination of the
 rows, columns, and observations of the parent datasets.
 The function includes separate arguments for the rows and columns,
 as well as for how to resolve conflicts in observations across datasets.
-This provides users with considerable flexibility in how they combine qData.
-For example, users may wish to stick to units that appear in every dataset
-but include variables coded in any dataset,
+This provides users with considerable flexibility
+in how they combine manydata.
+For example, users may wish to stick to units that appear in
+every dataset but include variables coded in any dataset,
 or units that appear in any dataset
 but only those variables that appear in every dataset.
-Even then there may be conflicts, as the actual unit-variable observations
-may differ from dataset to dataset.
-Here we (will) offer a number of resolve methods that enable users to choose
-how conflicts between observations are resolved.
+Even then there may be conflicts, as the actual unit-variable
+observations may differ from dataset to dataset.
+Here we (will) offer a number of resolve methods that enable
+users to choose how conflicts between observations are resolved.
 }
 \examples{
+\donttest{
 pluck(emperors, "UNRV")
-consolidate(emperors, "any", "any", key = "ID")
-consolidate(emperors, "every", "every", key = "ID")
+consolidate(emperors, "any", "any", resolve = "coalesce", key = "ID")
+consolidate(emperors, "every", "every", resolve = "min", key = "ID")
+consolidate(emperors, "any", "every", resolve = "max", key = "ID")
+consolidate(emperors, "every", "any", resolve = "median", key = "ID")
+consolidate(emperors, "every", "every", resolve = "mean", key = "ID")
+consolidate(emperors, "every", "every", resolve = "random", key = "ID")
+consolidate(emperors, "every", "every", resolve = c(Beg = "min", End = "max"), key = "ID")
+}
 }
 \seealso{
 \code{\link[=pluck]{pluck()}} for selecting a single dataset from a database
