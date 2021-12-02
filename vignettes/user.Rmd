@@ -28,8 +28,9 @@ Since some of these data packages are too big for CRAN
 we expect that their developers will instead choose
 to make their packages available on Github. 
 Github is huge though, either way it can be difficult to identify salient data. 
-We have tried to make this easy by allowing the reporting of all datasets 
-in the ecosystem that we know of that currently pass our tests.
+We have tried to make this easy by allowing the reporting of all packages in the
+many packages universe, as well as the databases and datasets included in each
+of the 'many packages' - that we know of that currently pass our tests.
 
 ```{r discover, eval=NOT_CRAN}
 library(manydata)
@@ -38,7 +39,7 @@ get_packages()
 
 ## Understanding data
 
-Packages in the many universe have the advantage to facilitate comparison 
+Packages in the many packages universe have the advantage to facilitate comparison 
 and analysis of multiple datasets in a specific domain of global governance. 
 This is possible with a particular coding system which follows the same 
 principles across the different packages. 
@@ -65,7 +66,7 @@ Let us say that we wish to download the `{manystates}` package,
 which offers a set of datasets related to state actors in global governance. 
 We can download and install the latest release version of
 the `{manystates}` package using the same function as before, only
-specifying which package we want to 'get', 'get_packages("globalgov/manystates")'.
+specifying which package we want to 'get', 'get_packages("manystates")'.
 
 For now, let's work with the Roman Emperors database included in manydata. 
 We can get a quick summary of the datasets included in this
@@ -85,18 +86,18 @@ to understand their differences, summarise
 variables across them, and perhaps also rerun models across them.
 
 To retrieve an individual dataset from this database,
-we can use the `pluck()` function from the `{purrr}` package.
+we can use the `pluck()` function.
 
 ```{r pluck}
 wikipedia <- pluck(emperors, "wikipedia")
 ```
 
-However, the real value of manydata packages is that multiple datasets
+However, the real value of the various 'many packages' is that multiple datasets
 relating to the same phenomenon are presented together.
 
 ## Comparing data
 
-First of all, we want to understand what the differences are between datasets in a database.
+First of all, we want to understand what the differences between the datasets in a database.
 One important way to understand the relationship between these datasets is 
 to understand what their relative advantages and disadvantages are.
 For example, one dataset may be long (has many observations) 
@@ -114,7 +115,7 @@ that facilitates replication.
 We can bring up the database level documentation using: `?emperors`.
 This informs users on the datasets present in the database
 as well as the variables in the various datasets. 
-If we want a more detailed summary of the various levels of data 
+Though, if we want a more detailed summary of the various levels of data 
 and sources, we can use `data_source()` and `data_contrast()`.
 The `data_source()` function displays bibliographic references for
 the datasets within a database.
@@ -167,7 +168,7 @@ drawn using different datasets, let us examine how to select and collapse databa
 `{manydata}` contains the `consolidate()` function which facilitates collapsing multiple
 datasets into a dataframe for analysis.
 
-`consolidate()` collapses a set of datasets, or a database, from a many package
+`consolidate()` collapses a set of datasets, or a database, from a 'many' package
 into a single dataset with some combination of the rows and columns.
 The function includes separate arguments for the rows and columns,
 as well as for how to resolve conflicts in observations across datasets.
@@ -181,8 +182,7 @@ consolidate(emperors, rows = "any", cols = "any", resolve = "coalesce", key = "I
 consolidate(emperors, rows = "every", cols = "every", resolve = "coalesce", key = "ID")
 ```
 
-By default, `consolidate()` resolves conflicts between observations with the 'coalesce' method that takes the first non NA value available.
-Users can, however, choose how they want to resolve conflicts between observations with several other methods:
+Users can also choose how they want to resolve conflicts between observations in `consolidate()` with several 'resolve' methods:
 
 * coalesce: the first non-NA value 
 * max: the largest value
@@ -199,7 +199,7 @@ consolidate(emperors, "any", "any", resolve = "median", key = "ID")
 consolidate(emperors, "every", "every", resolve = "random", key = "ID")
 ```
 
-Users can also specify how conflicting observations in different variables will be resolved differently.
+Users can even specify how conflictis for different variables should be 'resolved' differently.
 
 ```{r different}
 consolidate(emperors, "every", "every", resolve = c(Beg = "min", End = "max"), key = "ID")
