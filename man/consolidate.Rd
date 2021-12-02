@@ -23,7 +23,8 @@ which retains only those units that appear in all parent datasets.}
 \item{cols}{Which columns or variables to retain.
 By default "any" (or all) variables are retained,
 but another option is "every",
-which retains only those variables that appear in all parent datasets.}
+which retains only those variables that appear
+in all parent datasets.}
 
 \item{resolve}{How conflicts between observations should be resolved?
 Currently "coalesce", "min", "max", "mean", "median",
@@ -32,7 +33,7 @@ and "random" are offered.
 "max" takes the largest value,
 while "min" takes the smallest value.
 "mean" takes the average value.
-"median" takes the meadian value.
+"median" takes the median value.
 "random" takes a random value.
 For different variables to be resolved differently,
 you can specify the variables' names alongside
@@ -51,15 +52,16 @@ into a single dataset with some combination of the
 rows, columns, and observations of the parent datasets.
 The function includes separate arguments for the rows and columns,
 as well as for how to resolve conflicts in observations across datasets.
-This provides users with considerable flexibility in how they combine manydata.
-For example, users may wish to stick to units that appear in every dataset
-but include variables coded in any dataset,
+This provides users with considerable flexibility
+in how they combine manydata.
+For example, users may wish to stick to units that appear in
+every dataset but include variables coded in any dataset,
 or units that appear in any dataset
 but only those variables that appear in every dataset.
-Even then there may be conflicts, as the actual unit-variable observations
-may differ from dataset to dataset.
-Here we (will) offer a number of resolve methods that enable users to choose
-how conflicts between observations are resolved.
+Even then there may be conflicts, as the actual unit-variable
+observations may differ from dataset to dataset.
+Here we (will) offer a number of resolve methods that enable
+users to choose how conflicts between observations are resolved.
 }
 \examples{
 \donttest{
