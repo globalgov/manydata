@@ -59,7 +59,6 @@ jobs:
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
-          remotes::install_github("globalgov/qStates")
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
 
@@ -186,11 +185,11 @@ jobs:
 
       # install packages needed
       - name: install required packages
-        run: Rscript -e 'install.packages(c("rmarkdown","remotes"))'
+        run: Rscript -e 'install.packages("rmarkdown")'
 
       # install manydata
-      - name: install manydata package
-        run: Rscript -e 'remotes::install_github("globalgov/manydata")'
+      #- name: install manypkgs package
+      #  run: Rscript -e 'remotes::install_github("globalgov/manydata")'
 
       # Render README.md using rmarkdown
       - name: render README
@@ -243,4 +242,3 @@ jobs:
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
           Rscript -e 'pkgdown::deploy_to_branch(new_process = FALSE)'
-
