@@ -26,7 +26,7 @@ but another option is "every",
 which retains only those variables that appear
 in all parent datasets.}
 
-\item{resolve}{How conflicts between observations should be resolved?
+\item{resolve}{How should conflicts between observations be resolved?
 Currently "coalesce", "min", "max", "mean", "median",
 and "random" are offered.
 "coalesce" takes the first non-NA value.
