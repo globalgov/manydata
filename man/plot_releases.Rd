@@ -10,7 +10,7 @@ https://benalexkeen.com/creating-a-timeline-graphic-using-r-and-ggplot2/
 plot_releases(repo)
 }
 \arguments{
-\item{repo}{the github repository to track, e.g. "snlab-ch/migraph"}
+\item{repo}{the github repository to track, e.g. "globalgov/manydata"}
 }
 \value{
 A ggplot graph object
@@ -25,7 +25,7 @@ with historical milestones and milestone statuses gathered from a
 specified GitHub repository.
 }
 \examples{
-if(!httr::http_error("https://api.github.com/repos/snlab-ch/migraph/releases")){
-plot_releases("snlab-ch/migraph")
+if(!httr::http_error("https://api.github.com/repos/globalgov/manydata/releases")){
+plot_releases("globalgov/manydata")
 }
 }
