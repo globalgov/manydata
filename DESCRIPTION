@@ -24,7 +24,7 @@ Authors@R:
              family = "Tan",
              role = "ctb",
              comment = c("IHEID", ORCID = "0000-0002-6234-9764")))
-Description: This is the core package for the many universe.
+Description: This is the core package for the many packages universe.
     It includes functions to help researchers work with and contribute to 
     event datasets on global governance.
 License: CC BY 4.0
