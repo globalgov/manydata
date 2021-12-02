@@ -48,7 +48,8 @@ Imports:
     remotes,
     httr,
     progress,
-    messydates
+    messydates,
+    ggplot2
 Suggests:
     testthat,
     anytime,
