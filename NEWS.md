@@ -10,7 +10,7 @@
 ## Connection
 
 * Updated `consolidate()` function
-  * Closed #169 by making default key variable "qID_ref" instead of "qID"
+  * Closed #169 by making default key variable "many_ID" instead of "qID"
   * Closed #183 by adding further methods to resolve conflicts between observations:
     * Added "max" resolve argument which resolves conflicts in favor of the largest non NA value
     * Added "min" resolve argument which resolves conflicts in favor of the smallest non NA value
@@ -20,7 +20,7 @@
   * Closed #185 by making so that users can specify resolve argument differently for different variables
 * Closed #188 by adding more informative warnings for GitHub download limits for `get_packages()` function
 * Added extraction functions to generate edgelists from agreements membership datasets
-  * Added `extract_bilaterals()` for extracting adjacency edgelist for bilaterals agreements
+  * Added `extract_bilaterals()` for extracting adjacency edgelist for bilateral agreements
   * Added `extract_multilaterals()` for extracting adjacency edgelist for multilateral agreements
 
 # qData 0.5.0
