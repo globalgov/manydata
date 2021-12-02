@@ -2,7 +2,7 @@
 #'
 #' The function will take a data frame that details this information,
 #' or more usefully, a Github repository listing.
-#' @param repo the github repository to track, e.g. "snlab-ch/migraph"
+#' @param repo the github repository to track, e.g. "globalgov/manydata"
 #' @importFrom httr GET content warn_for_status stop_for_status http_error
 #' @importFrom jsonlite fromJSON
 #' @importFrom tibble as_tibble
@@ -16,8 +16,8 @@
 #' @source https://benalexkeen.com/creating-a-timeline-graphic-using-r-and-ggplot2/
 #' @return A ggplot graph object
 #' @examples
-#' if(!httr::http_error("https://api.github.com/repos/snlab-ch/migraph/releases")){
-#' plot_releases("snlab-ch/migraph")
+#' if(!httr::http_error("https://api.github.com/repos/globalgov/manydata/releases")){
+#' plot_releases("globalgov/manydata")
 #' }
 #' @export
 plot_releases <- function(repo) {
@@ -156,4 +156,3 @@ plot_releases <- function(repo) {
                                                       size = 2.5)
   print(timeline_plot)
 }
-
