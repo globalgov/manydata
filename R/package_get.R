@@ -1,6 +1,6 @@
-#' Find and download packages in the many universe
+#' Find and download packages in the many packages universe
 #'
-#' Find and download packages in the many universe
+#' Find and download packages in the many packages universe
 #' @param pkg A character vector of package names or number of a package
 #' @details The function finds and download other packages that belong to
 #' the many universe of data packages. It allows for users to rapidly access

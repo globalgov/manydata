@@ -2,7 +2,7 @@
 % Please edit documentation in R/package_get.R
 \name{get_packages}
 \alias{get_packages}
-\title{Find and download packages in the many universe}
+\title{Find and download packages in the many packages universe}
 \usage{
 get_packages(pkg)
 }
@@ -21,7 +21,7 @@ the name. If one or more package names are provided,
 these will be installed from Github.
 }
 \description{
-Find and download packages in the many universe
+Find and download packages in the many packages universe
 }
 \details{
 The function finds and download other packages that belong to
