@@ -7,7 +7,7 @@
 #' @param pkg character string of the many package to report data on.
 #' Required input.
 #' @param database vector of character strings of the many package to
-#' report data a specific database in a many package
+#' report data on a specific database in a many package
 #' If NULL, the function returns a summary of all databases in the many package
 #' NULL by default for `data_source()` and `data_contrast()`.
 #' @param dataset character string of the many package to report data on a specific

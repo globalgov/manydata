@@ -18,7 +18,7 @@ open_codebook(pkg, database, dataset)
 Required input.}
 
 \item{database}{vector of character strings of the many package to
-report data a specific database in a many package
+report data on a specific database in a many package
 If NULL, the function returns a summary of all databases in the many package
 NULL by default for \code{data_source()} and \code{data_contrast()}.}
 

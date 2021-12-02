@@ -2,19 +2,26 @@
 #'
 #' Find and download packages in the many packages universe
 #' @param pkg A character vector of package names or number of a package
-#' @details The function finds and download other packages that belong to
-#' the many universe of data packages. It allows for users to rapidly access
-#' the names and other descriptive information of these packages by simply
-#' calling the function. If users intend to download a package from the
-#' universe, they can to type the package name within the function.
-#' @return If no package name is provided, this function prints a table (tibble)
-#' to the console with details on packages that are currently available within
+#' @details The function finds and download other packages
+#' that belong to the many universe of packages.
+#' It allows users to rapidly access the names and other
+#' descriptive information of these
+#' packages by simply calling the function.
+#' If users intend to download and install
+#' a package from the universe,
+#' they can type the package name within the function.
+#' @return If no package name is provided,
+#' this function prints a table (tibble)
+#' to the console with details on packages
+#' that are currently available within
 #' the many universe.
 #' This includes the name and description of the package,
-#' the latest installed and release version number, and the latest release date.
+#' the latest installed and release version number,
+#' and the latest release date.
 #' It also include a list of numbers which orders
-#' the package and can be used to load the respective package instead of
-#' the name. If one or more package names are provided,
+#' the package and can be used to load the respective
+#' package instead of the name.
+#' If one or more package names are provided,
 #' these will be installed from Github.
 #' @importFrom pointblank %>%
 #' @importFrom stringr str_detect
