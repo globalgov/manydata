@@ -15,11 +15,11 @@ output: github_document
 <!-- ![GitHub All Releases](https://img.shields.io/github/downloads/jhollway/roctopus/total) -->
 <!-- badges: end -->
 
-`{manydata}` is the central package in the many universe of qPackages aimed at collecting, connecting and correcting network data across issue-domains of global governance. To assist users in doing so, `{manydata}` also contains functions that enable users to clean and manipulate data easily.
+`{manydata}` is the central package in the many universe of packages aimed at collecting, connecting and correcting network data across issue-domains of global governance. To assist users in doing so, `{manydata}` also contains functions that enable users to clean and manipulate data easily.
 
 ## Why manydata?
 
-`{manydata}` offers users access to all of the tested data in the various many packages available in the universe,
+`{manydata}` offers users access to all of the tested data in the various 'many packages' available,
 for use in analyses of global governance and beyond.
 A special feature of the many universe of packages is that it is not 'opinionated' - instead of
 offering a single, supposedly authoritative version of global governance events,
@@ -42,7 +42,7 @@ remotes::install_github("globalgov/manydata")
 ## Available qPackages
 
 `{manydata}` connects users to other packages that help fill global governance researchers' data needs.
-The `get_packages()` function can be used to discover the many packages currently available.
+The `get_packages()` function can be used to discover the 'many packages' currently available.
 
 ```{r, message=FALSE}
 library(manydata)
