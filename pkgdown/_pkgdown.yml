@@ -52,18 +52,18 @@ navbar:
           href: https://globalgov.github.io/manytrade/
 reference:
   - title: "Obtaining and inspecting data in many packages"
-    desc: "These functions are to assist data analysts with downloading data on particular parts of global governance"
+    desc: "These functions are to assist data analysts with the download of data on particular parts of global governance"
     contents:
       - get_packages
       - starts_with("data_")
   - title: "Working with many databases"
-    desc: "These functions are to assist data analysts with analysing data on particular parts of global governance"
+    desc: "These functions assist data analysts with the analysis of data on particular parts of global governance"
     contents:
       - consolidate
       - coalesce_rows
       - coalesce_compatible
   - title: "Data wrangling with manydata"
-    desc: "These functions are to assist data analysts with wrangling data on particular parts of global governance"
+    desc: "These functions are to assist data analysts with the wrangling of data on particular parts of global governance"
     contents:
       - transmutate
       - coalesce_rows
