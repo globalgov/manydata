@@ -34,7 +34,7 @@ For more details, please see the [vignette](https://globalgov.github.io/manydata
 
 The development version of the package `{manydata}` can be downloaded from GitHub. 
 
-```{r, eval=FALSE}
+```{r install, eval=FALSE}
 # install.packages("remotes")
 remotes::install_github("globalgov/manydata")
 ```
@@ -44,7 +44,7 @@ remotes::install_github("globalgov/manydata")
 `{manydata}` connects users to other packages that help fill global governance researchers' data needs.
 The `get_packages()` function can be used to discover the 'many packages' currently available.
 
-```{r, message=FALSE}
+```{r get, eval=FALSE}
 library(manydata)
 get_packages()
 ```

@@ -59,41 +59,8 @@ used to discover the ‘many packages’ currently available.
 
 ``` r
 library(manydata)
-```
-
-    ## Warning: package 'tibble' was built under R version 4.0.5
-
-``` r
 get_packages()
 ```
-
-    ## Warning: 1 failed to parse.
-
-    ## # A tibble: 6 x 6
-    ##   name        full_name            
-    ##   <chr>       <chr>                
-    ## 1 manyenviron globalgov/manyenviron
-    ## 2 manypkgs    globalgov/manypkgs   
-    ## 3 messydates  globalgov/messydates 
-    ## 4 qData       globalgov/qData      
-    ## 5 qStates     globalgov/qStates    
-    ## 6 qTrade      globalgov/qTrade     
-    ##   description                                              installed latest
-    ##   <chr>                                                    <chr>     <chr> 
-    ## 1 R Package for ensembled data on environmental agreements 0.1.0     0.1.0 
-    ## 2 Support for creating new manyverse packages              0.2.0     0.2.0 
-    ## 3 An R package for ISO's Extended Date/Time Format (EDTF)  0.1.2     0.2.0 
-    ## 4 An R portal for ensembled global governance data         0.5.0     0.5.0 
-    ## 5 qPackage for ensembled data on sovereign states          0.0.5     0.0.5 
-    ## 6 qPackage for ensembled data on trade agreements          0.0.1     0.0.1 
-    ##   updated   
-    ##   <date>    
-    ## 1 2021-11-25
-    ## 2 2021-11-24
-    ## 3 2021-11-12
-    ## 4 2021-07-26
-    ## 5 2021-10-11
-    ## 6 2021-10-08
 
 Please see [the website](https://globalgov.github.io/manydata/) for more
 information about how to use `{manydata}`.
