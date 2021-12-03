@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Coalesce all compatible rows of a data frame — coalesce_compatible • qData</title>
+<title>Coalesce all compatible rows of a data frame — coalesce_compatible • manydata</title>
 
 
 <!-- jquery -->
@@ -78,8 +78,8 @@ and the other is missing the observation." />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">qData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <a class="navbar-link" href="../index.html">manydata</a>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
       </span>
     </div>
 
@@ -119,21 +119,21 @@ and the other is missing the observation." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="https://globalgov.github.io/qCreate/">qCreate</a>
+      <a href="https://globalgov.github.io/manypkgs/">manypkgs</a>
     </li>
     <li>
-      <a href="https://globalgov.github.io/qStates/">qStates</a>
+      <a href="https://globalgov.github.io/manystates/">manystates</a>
     </li>
     <li>
-      <a href="https://globalgov.github.io/qEnviron/">qEnviron</a>
+      <a href="https://globalgov.github.io/manyenviron/">manyenviron</a>
     </li>
     <li>
-      <a href="https://globalgov.github.io/qTrade/">qTrade</a>
+      <a href="https://globalgov.github.io/manytrade/">manytrade</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="https://github.com/globalgov/qStates">
+  <a href="https://github.com/globalgov/manydata">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -152,7 +152,7 @@ and the other is missing the observation." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Coalesce all compatible rows of a data frame</h1>
-    <small class="dont-index">Source: <a href='https://github.com/globalgov/qData/blob/master/R/consolidate.R'><code>R/consolidate.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/globalgov/manydata/blob/master/R/consolidate.R'><code>R/consolidate.R</code></a></small>
     <div class="hidden name"><code>coalesce_compatible.Rd</code></div>
     </div>
 
@@ -178,18 +178,19 @@ and the other is missing the observation.</p>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>eg1</span> <span class='op'>&lt;-</span> <span class='fu'>tribble</span><span class='op'>(</span>
-<span class='op'>~</span><span class='va'>x</span>, <span class='op'>~</span><span class='va'>y</span>, <span class='op'>~</span><span class='va'>z</span>,
-<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='cn'>NA</span>,
-<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>,
-<span class='st'>"j"</span>, <span class='st'>"k"</span>, <span class='cn'>NA</span>,
-<span class='cn'>NA</span>, <span class='st'>"k"</span>, <span class='st'>"l"</span><span class='op'>)</span>
-<span class='fu'>coalesce_compatible</span><span class='op'>(</span><span class='va'>eg1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 3</span>
-#&gt;   x     y     z    
-#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span> a     b     c    
-#&gt; <span style='color: #BCBCBC;'>2</span> j     k     l    </div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>eg1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tribble.html'>tribble</a></span><span class='op'>(</span></span>
+<span class='r-in'><span class='op'>~</span><span class='va'>x</span>, <span class='op'>~</span><span class='va'>y</span>, <span class='op'>~</span><span class='va'>z</span>,</span>
+<span class='r-in'><span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='cn'>NA</span>,</span>
+<span class='r-in'><span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>,</span>
+<span class='r-in'><span class='st'>"j"</span>, <span class='st'>"k"</span>, <span class='cn'>NA</span>,</span>
+<span class='r-in'><span class='cn'>NA</span>, <span class='st'>"k"</span>, <span class='st'>"l"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>coalesce_compatible</span><span class='op'>(</span><span class='va'>eg1</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 2 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   x     y     z    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> a     b     c    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> j     k     l    </span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • qData</title>
+<title>Changelog • manydata</title>
 
 
 <!-- jquery -->
@@ -72,8 +72,8 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">qData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <a class="navbar-link" href="../index.html">manydata</a>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
       </span>
     </div>
 
@@ -113,21 +113,21 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="https://globalgov.github.io/qCreate/">qCreate</a>
+      <a href="https://globalgov.github.io/manypkgs/">manypkgs</a>
     </li>
     <li>
-      <a href="https://globalgov.github.io/qStates/">qStates</a>
+      <a href="https://globalgov.github.io/manystates/">manystates</a>
     </li>
     <li>
-      <a href="https://globalgov.github.io/qEnviron/">qEnviron</a>
+      <a href="https://globalgov.github.io/manyenviron/">manyenviron</a>
     </li>
     <li>
-      <a href="https://globalgov.github.io/qTrade/">qTrade</a>
+      <a href="https://globalgov.github.io/manytrade/">manytrade</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="https://github.com/globalgov/qStates">
+  <a href="https://github.com/globalgov/manydata">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -146,33 +146,77 @@
   <div class="col-md-9 contents">
     <div class="page-header">
       <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/globalgov/qData/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+      <small>Source: <a href='https://github.com/globalgov/manydata/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="qdata-050" class="section level1">
-<h1 class="page-header" data-toc-text="0.5.0">
-<a href="#qdata-050" class="anchor"></a>qData 0.5.0</h1>
+    <div id="manydata-060" class="section level1">
+<h1 class="page-header" data-toc-text="0.6.0">
+<a href="#manydata-060" class="anchor"></a>manydata 0.6.0</h1>
 <div id="package" class="section level2">
 <h2 class="hasAnchor">
 <a href="#package" class="anchor"></a>Package</h2>
 <ul>
-<li>Updated <code><a href="../reference/get_packages.html">get_packages()</a></code> to load downloaded packages</li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/160'>#160</a> by updating how report family of functions to print objects only if not assigned</li>
-<li>Updated user vignette for working with <code><a href="../reference/consolidate.html">consolidate()</a></code>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/189'>#189</a> by renaming package from <code>{qData}</code> to <a href="https://github.com/globalgov/manydata">manydata</a>
 </li>
-<li>Fixed <a href='https://github.com/globalgov/qData/issues/165'>#165</a> by moving <code>interleave()</code> to qCreate</li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/149'>#149</a> by adding a citation file</li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/181'>#181</a> by adding data for running examples and tests</li>
+<li>Updated user vignette to include more examples on working with <code><a href="../reference/consolidate.html">consolidate()</a></code>
+</li>
+<li>Updated package website</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/167'>#167</a> by adding a cheatsheet to README</li>
 </ul>
 </div>
 <div id="connection" class="section level2">
 <h2 class="hasAnchor">
 <a href="#connection" class="anchor"></a>Connection</h2>
 <ul>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/28'>#28</a> by adding <code><a href="../reference/consolidate.html">consolidate()</a></code> for collapsing a set or database of (q)dataset into a single dataset
+<li>Updated <code><a href="../reference/consolidate.html">consolidate()</a></code> function
 <ul>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/177'>#177</a> by adding <code>coalesce_compact()</code> to coalesce all compatible rows of a data frame</li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/180'>#180</a> by adding progress bar for <code>coalesce_compact()</code>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/169'>#169</a> by making default key variable “many_ID” instead of “qID”</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/183'>#183</a> by adding further methods to resolve conflicts between observations:
+<ul>
+<li>Added “max” resolve argument which resolves conflicts in favor of the largest non NA value</li>
+<li>Added “min” resolve argument which resolves conflicts in favor of the smallest non NA value</li>
+<li>Added “mean” resolve argument which resolves conflicts in favor of the average non NA value</li>
+<li>Added “median” resolve argument which resolves conflicts in favor of the median non NA value</li>
+<li>Added “random” resolve argument which resolves conflicts in favor of a random non NA value</li>
+</ul>
+</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/185'>#185</a> by making so that users can specify resolve argument differently for different variables</li>
+</ul>
+</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/188'>#188</a> by adding more informative warnings for GitHub download limits for <code><a href="../reference/get_packages.html">get_packages()</a></code> function</li>
+<li>Added extraction functions to generate edgelists from agreements membership datasets
+<ul>
+<li>Added <code><a href="../reference/extraction.html">extract_bilaterals()</a></code> for extracting adjacency edgelist for bilateral agreements</li>
+<li>Added <code><a href="../reference/extraction.html">extract_multilaterals()</a></code> for extracting adjacency edgelist for multilateral agreements</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+    <div id="qdata-050" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.0">
+<a href="#qdata-050" class="anchor"></a>qData 0.5.0</h1>
+<div id="package-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#package-1" class="anchor"></a>Package</h2>
+<ul>
+<li>Updated <code><a href="../reference/get_packages.html">get_packages()</a></code> to load downloaded packages</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/160'>#160</a> by updating how report family of functions to print objects only if not assigned</li>
+<li>Updated user vignette for working with <code><a href="../reference/consolidate.html">consolidate()</a></code>
+</li>
+<li>Fixed <a href='https://github.com/globalgov/manydata/issues/165'>#165</a> by moving <code>interleave()</code> to qCreate</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/149'>#149</a> by adding a citation file</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/181'>#181</a> by adding data for running examples and tests</li>
+</ul>
+</div>
+<div id="connection-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#connection-1" class="anchor"></a>Connection</h2>
+<ul>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/28'>#28</a> by adding <code><a href="../reference/consolidate.html">consolidate()</a></code> for collapsing a set or database of (q)dataset into a single dataset
+<ul>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/177'>#177</a> by adding <code>coalesce_compact()</code> to coalesce all compatible rows of a data frame</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/180'>#180</a> by adding progress bar for <code>coalesce_compact()</code>
 </li>
 <li>Added tests for <code><a href="../reference/consolidate.html">consolidate()</a></code> and <code>coalesce_compact()</code>
 </li>
@@ -190,45 +234,45 @@
     <div id="qdata-040" class="section level1">
 <h1 class="page-header" data-toc-text="0.4.0">
 <a href="#qdata-040" class="anchor"></a>qData 0.4.0</h1>
-<div id="package-1" class="section level2">
+<div id="package-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#package-1" class="anchor"></a>Package</h2>
+<a href="#package-2" class="anchor"></a>Package</h2>
 <ul>
-<li>Separated <a href="https://github.com/globalgov/qData">qData</a> into two packages, <a href="https://github.com/globalgov/qData">qData</a> for users and <a href="https://github.com/globalgov/qCreate">qCreate</a> for developers
+<li>Separated <code>{qData}</code> into two packages, <code>{qData}</code> for users and <code>{qCreate}</code> for developers
 <ul>
-<li>Moved <code>setup_package()</code> and related functions to <a href="https://github.com/globalgov/qCreate">qCreate</a>
+<li>Moved <code>setup_package()</code> and related functions to <code>{qCreate}</code>
 </li>
-<li>Moved <code>import_data()</code> and related functions to <a href="https://github.com/globalgov/qCreate">qCreate</a>
+<li>Moved <code>import_data()</code> and related functions to <code>{qCreate}</code>
 </li>
-<li>Moved <code>export_data()</code> and related functions to <a href="https://github.com/globalgov/qCreate">qCreate</a>
+<li>Moved <code>export_data()</code> and related functions to <code>{qCreate}</code>
 </li>
 </ul>
 </li>
-<li>Moved <code>plot_releases()</code> to <code>{migraph}</code>
+<li>Moved <code><a href="../reference/plot_releases.html">plot_releases()</a></code> to <a href="https://github.com/snlab-ch/migraph">migraph</a>
 </li>
 </ul>
 </div>
-<div id="connection-1" class="section level2">
+<div id="connection-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#connection-1" class="anchor"></a>Connection</h2>
+<a href="#connection-2" class="anchor"></a>Connection</h2>
 <ul>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/137'>#137</a> by making <code><a href="../reference/report.html">data_contrast()</a></code> and <code><a href="../reference/report.html">data_source()</a></code> return exportable objects</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/137'>#137</a> by making <code><a href="../reference/report.html">data_contrast()</a></code> and <code><a href="../reference/report.html">data_source()</a></code> return exportable objects</li>
 </ul>
 </div>
 </div>
     <div id="qdata-035" class="section level1">
 <h1 class="page-header" data-toc-text="0.3.5">
 <a href="#qdata-035" class="anchor"></a>qData 0.3.5</h1>
-<div id="connection-2" class="section level2">
+<div id="connection-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#connection-2" class="anchor"></a>Connection</h2>
+<a href="#connection-3" class="anchor"></a>Connection</h2>
 <ul>
 <li>Updated <code><a href="../reference/get_packages.html">get_packages()</a></code> function
 <ul>
 <li>Fixed bug with dates in <code><a href="../reference/get_packages.html">get_packages()</a></code> by changing dependencies to <a href="https://lubridate.tidyverse.org">lubridate</a>
 </li>
 <li>Updated formatting of the returned tibble to display more clearly the information on qPackages</li>
-<li>Fixed <a href='https://github.com/globalgov/qData/issues/144'>#144</a> by substituting <code>NA</code> where a listed qPackage is not installed locally</li>
+<li>Fixed <a href='https://github.com/globalgov/manydata/issues/144'>#144</a> by substituting <code>NA</code> where a listed qPackage is not installed locally</li>
 </ul>
 </li>
 </ul>
@@ -237,11 +281,11 @@
     <div id="qdata-034" class="section level1">
 <h1 class="page-header" data-toc-text="0.3.4">
 <a href="#qdata-034" class="anchor"></a>qData 0.3.4</h1>
-<div id="package-2" class="section level2">
+<div id="package-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#package-2" class="anchor"></a>Package</h2>
+<a href="#package-3" class="anchor"></a>Package</h2>
 <ul>
-<li>Fixed <a href='https://github.com/globalgov/qData/issues/128'>#128</a> by suppressing issues with warnings on pkgdown website</li>
+<li>Fixed <a href='https://github.com/globalgov/manydata/issues/128'>#128</a> by suppressing issues with warnings on pkgdown website</li>
 <li>Updated contributor and user vignettes for new package changes</li>
 </ul>
 </div>
@@ -251,19 +295,19 @@
 <ul>
 <li>Updated <code>setup_package()</code> to make it more intuitive and precise for users
 <ul>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/127'>#127</a> by updating the form in which author arguments are taken in <code>setup_package()</code>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/127'>#127</a> by updating the form in which author arguments are taken in <code>setup_package()</code>
 </li>
 <li>Added role argument to <code>setup_package()</code> to make more precise</li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/139'>#139</a> by reducing file overhead generated by <code>setup_package()</code>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/139'>#139</a> by reducing file overhead generated by <code>setup_package()</code>
 </li>
 <li>Simplified <code>setup_package()</code> to be less verbose</li>
 </ul>
 </li>
 <li>Renamed <code>new_author()</code> function to <code>add_author()</code> for naming consistency
 <ul>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/140'>#140</a> by fixing bug with <code>add_author()</code>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/140'>#140</a> by fixing bug with <code>add_author()</code>
 </li>
-<li>Fixed <a href='https://github.com/globalgov/qData/issues/121'>#121</a> by allowing <code>add_author()</code> to treat multiple comments</li>
+<li>Fixed <a href='https://github.com/globalgov/manydata/issues/121'>#121</a> by allowing <code>add_author()</code> to treat multiple comments</li>
 </ul>
 </li>
 <li>Updated documentation for <code>setup_package()</code> and <code>add_author()</code>
@@ -276,26 +320,26 @@
 <ul>
 <li>Updated <code>standardise_dates()</code> to simplify function and testing
 <ul>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/110'>#110</a> by simplifying helper functions and removing redundancy in <code>standardise_dates()</code>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/110'>#110</a> by simplifying helper functions and removing redundancy in <code>standardise_dates()</code>
 </li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/108'>#108</a> by simplifying tests and removing redundancy for <code>standardise_dates()</code>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/108'>#108</a> by simplifying tests and removing redundancy for <code>standardise_dates()</code>
 </li>
 </ul>
 </li>
 </ul>
 </div>
-<div id="connection-3" class="section level2">
+<div id="connection-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#connection-3" class="anchor"></a>Connection</h2>
+<a href="#connection-4" class="anchor"></a>Connection</h2>
 <ul>
 <li>Divided, updated and renamed <code>report_data()</code>
 <ul>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/131'>#131</a> by dividing <code>report_data()</code> into <code><a href="../reference/report.html">data_source()</a></code> and <code><a href="../reference/report.html">data_contrast()</a></code> functions</li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/104'>#104</a> by allowing users to select multiple datasets with <code><a href="../reference/report.html">data_contrast()</a></code>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/131'>#131</a> by dividing <code>report_data()</code> into <code><a href="../reference/report.html">data_source()</a></code> and <code><a href="../reference/report.html">data_contrast()</a></code> functions</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/104'>#104</a> by allowing users to select multiple datasets with <code><a href="../reference/report.html">data_contrast()</a></code>
 </li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/105'>#105</a> by allowing for multiple databases to display in a package with <code><a href="../reference/report.html">data_contrast()</a></code>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/105'>#105</a> by allowing for multiple databases to display in a package with <code><a href="../reference/report.html">data_contrast()</a></code>
 </li>
-<li>Fixed <a href='https://github.com/globalgov/qData/issues/111'>#111</a> by removing tests for outdated <code>report_data()</code> function</li>
+<li>Fixed <a href='https://github.com/globalgov/manydata/issues/111'>#111</a> by removing tests for outdated <code>report_data()</code> function</li>
 </ul>
 </li>
 </ul>
@@ -304,11 +348,11 @@
     <div id="qdata-033" class="section level1">
 <h1 class="page-header" data-toc-text="0.3.3">
 <a href="#qdata-033" class="anchor"></a>qData 0.3.3</h1>
-<div id="package-3" class="section level2">
+<div id="package-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#package-3" class="anchor"></a>Package</h2>
+<a href="#package-4" class="anchor"></a>Package</h2>
 <ul>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/122'>#122</a> by setting package logo to the correct aspect ratio</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/122'>#122</a> by setting package logo to the correct aspect ratio</li>
 </ul>
 </div>
 <div id="collection-1" class="section level2">
@@ -317,30 +361,30 @@
 <ul>
 <li>Updated <code>setup_package()</code> to make it easier to set up collaborative qPackages
 <ul>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/106'>#106</a> by making <code>setup_package()</code> accept more than two authors as arguments</li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/119'>#119</a> by updating <code>setup_package()</code> function so that it adds LICENSE file to new qPackages</li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/90'>#90</a> by adding a <code>new_author()</code> function that adds new package contributors to description file</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/106'>#106</a> by making <code>setup_package()</code> accept more than two authors as arguments</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/119'>#119</a> by updating <code>setup_package()</code> function so that it adds LICENSE file to new qPackages</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/90'>#90</a> by adding a <code>new_author()</code> function that adds new package contributors to description file</li>
 </ul>
 </li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/115'>#115</a> by updating README templates for new qPackages to include more sections</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/115'>#115</a> by updating README templates for new qPackages to include more sections</li>
 </ul>
 </div>
 <div id="correction-1" class="section level2">
 <h2 class="hasAnchor">
 <a href="#correction-1" class="anchor"></a>Correction</h2>
 <ul>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/116'>#116</a> by adding more tests for new qPackage templates for standardizing NA formats</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/116'>#116</a> by adding more tests for new qPackage templates for standardizing NA formats</li>
 </ul>
 </div>
-<div id="connection-4" class="section level2">
+<div id="connection-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#connection-4" class="anchor"></a>Connection</h2>
+<a href="#connection-5" class="anchor"></a>Connection</h2>
 <ul>
 <li>Updated <code><a href="../reference/get_packages.html">get_packages()</a></code> to make it easier to install globalgov qPackages
 <ul>
-<li>Fixed <a href='https://github.com/globalgov/qData/issues/117'>#117</a> by making the <code><a href="../reference/get_packages.html">get_packages()</a></code> work with package name only for qPackages part of the globalgov organization</li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/79'>#79</a> by updating <code><a href="../reference/get_packages.html">get_packages()</a></code> to accept listed number for package as arguments</li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/103'>#103</a> by adding GitHub lookup for <code>depends()</code> function</li>
+<li>Fixed <a href='https://github.com/globalgov/manydata/issues/117'>#117</a> by making the <code><a href="../reference/get_packages.html">get_packages()</a></code> work with package name only for qPackages part of the globalgov organization</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/79'>#79</a> by updating <code><a href="../reference/get_packages.html">get_packages()</a></code> to accept listed number for package as arguments</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/103'>#103</a> by adding GitHub lookup for <code>depends()</code> function</li>
 </ul>
 </li>
 <li>Updated user and developer vignettes to be compatible with these changes</li>
@@ -350,21 +394,21 @@
     <div id="qdata-032" class="section level1">
 <h1 class="page-header" data-toc-text="0.3.2">
 <a href="#qdata-032" class="anchor"></a>qData 0.3.2</h1>
-<div id="package-4" class="section level2">
+<div id="package-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#package-4" class="anchor"></a>Package</h2>
+<a href="#package-5" class="anchor"></a>Package</h2>
 <ul>
 <li>Replaced logo with new ‘black box’ hex
 <ul>
 <li>Added open graph image to GitHub account</li>
 </ul>
 </li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/83'>#83</a> by improving CII best practices score</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/83'>#83</a> by improving CII best practices score</li>
 <li>Added <code>depends()</code> for loading and, if necessary, installing CRAN packages</li>
-<li>Added <code>plot_releases()</code> function that visualises historical milestones/releases for GitHub repositories</li>
+<li>Added <code><a href="../reference/plot_releases.html">plot_releases()</a></code> function that visualises historical milestones/releases for GitHub repositories</li>
 <li>Updated <code>setup_package()</code> function by removing license lines in the codes
 <ul>
-<li>Fixed <a href='https://github.com/globalgov/qData/issues/89'>#89</a> by adding different description templates depending on the number of authors declared in <code>setup_package()</code>
+<li>Fixed <a href='https://github.com/globalgov/manydata/issues/89'>#89</a> by adding different description templates depending on the number of authors declared in <code>setup_package()</code>
 </li>
 <li>Added ‘dtc’ contributor type in the DESCRIPTION file</li>
 </ul>
@@ -384,42 +428,42 @@
 <ul>
 <li>Updated and fixed bugs with <code>standardise_dates()</code> function and tests
 <ul>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/73'>#73</a> <code>standardise_dates()</code> function by using <code><a href="http://lubridate.tidyverse.org/reference/as_date.html">lubridate::as_date()</a></code> in place of <code><a href="https://rdrr.io/pkg/anytime/man/anytime.html">anytime::anydate()</a></code> to correctly treat historical BC and AD dates</li>
-<li>Fixed <a href='https://github.com/globalgov/qData/issues/95'>#95</a> by simplifying <code>standardise_dates()</code> to make sure it works with all types of date variables</li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/77'>#77</a> and <a href='https://github.com/globalgov/qData/issues/93'>#93</a> by devolving <code>standardise_dates()</code> into various helper functions</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/73'>#73</a> <code>standardise_dates()</code> function by using <code><a href="https://lubridate.tidyverse.org/reference/as_date.html">lubridate::as_date()</a></code> in place of <code><a href="https://rdrr.io/pkg/anytime/man/anytime.html">anytime::anydate()</a></code> to correctly treat historical BC and AD dates</li>
+<li>Fixed <a href='https://github.com/globalgov/manydata/issues/95'>#95</a> by simplifying <code>standardise_dates()</code> to make sure it works with all types of date variables</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/77'>#77</a> and <a href='https://github.com/globalgov/manydata/issues/93'>#93</a> by devolving <code>standardise_dates()</code> into various helper functions</li>
 </ul>
 </li>
 <li>Updated <code>export_data()</code> to better document new database and dataset structure
 <ul>
 <li>Documentation generated by <code>export_data()</code> references the newly created <code>report_data()</code> function to generate metadata dataframes at the desired level (Package, Database, Dataset)</li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/76'>#76</a> by adding some smart documentation updates to <code>export_data()</code>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/76'>#76</a> by adding some smart documentation updates to <code>export_data()</code>
 </li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/92'>#92</a> by tweaking <code>export_data()</code> to document datasets at the database level</li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/94'>#94</a> by adding a bibliographic attribute to each dataset with <code>export_data()</code>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/92'>#92</a> by tweaking <code>export_data()</code> to document datasets at the database level</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/94'>#94</a> by adding a bibliographic attribute to each dataset with <code>export_data()</code>
 </li>
-<li>Fixed <a href='https://github.com/globalgov/qData/issues/63'>#63</a> and <a href='https://github.com/globalgov/qData/issues/87'>#87</a> by setting up tests templates for the different types of database created</li>
+<li>Fixed <a href='https://github.com/globalgov/manydata/issues/63'>#63</a> and <a href='https://github.com/globalgov/manydata/issues/87'>#87</a> by setting up tests templates for the different types of database created</li>
 </ul>
 </li>
 <li>Added <code>retain()</code> to retain chosen objects in the environment, removing all other variables</li>
 </ul>
 </div>
-<div id="connection-5" class="section level2">
+<div id="connection-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#connection-5" class="anchor"></a>Connection</h2>
+<a href="#connection-6" class="anchor"></a>Connection</h2>
 <ul>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/78'>#78</a> by creating <code>report_data()</code> function that displays information on the data within a qPackage</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/78'>#78</a> by creating <code>report_data()</code> function that displays information on the data within a qPackage</li>
 </ul>
 </div>
 </div>
     <div id="qdata-031" class="section level1">
 <h1 class="page-header" data-toc-text="0.3.1">
 <a href="#qdata-031" class="anchor"></a>qData 0.3.1</h1>
-<div id="package-5" class="section level2">
+<div id="package-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#package-5" class="anchor"></a>Package</h2>
+<a href="#package-6" class="anchor"></a>Package</h2>
 <ul>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/81'>#81</a> by changing description of the <em>Connecting data</em> section to include <code>export_data()</code> specificities</li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/85'>#85</a> by deleting the argument in the function <code>use_ccby_license(name = packageAuthor)</code> in the description of the <code>setup_package()</code> function</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/81'>#81</a> by changing description of the <em>Connecting data</em> section to include <code>export_data()</code> specificities</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/85'>#85</a> by deleting the argument in the function <code>use_ccby_license(name = packageAuthor)</code> in the description of the <code>setup_package()</code> function</li>
 <li>Corrected the typing error found in “develop” vignette</li>
 <li>Corrected styling issues in texts (delete double space in files)</li>
 <li>Updated the description of the <code>export_data()</code> function to its new version including database name as a string</li>
@@ -429,20 +473,20 @@
     <div id="qdata-030" class="section level1">
 <h1 class="page-header" data-toc-text="0.3.0">
 <a href="#qdata-030" class="anchor"></a>qData 0.3.0</h1>
-<div id="package-6" class="section level2">
+<div id="package-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#package-6" class="anchor"></a>Package</h2>
+<a href="#package-7" class="anchor"></a>Package</h2>
 <ul>
 <li>Changed package name from qDatr to qData</li>
 <li>Created a hex logo for qData</li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/32'>#32</a> by setting up a more informative README document
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/32'>#32</a> by setting up a more informative README document
 <ul>
 <li>Added codefactor badge</li>
 <li>Added CII badge, in progress</li>
 </ul>
 </li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/69'>#69</a> by creating a vignette for users working with qData</li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/67'>#67</a> by creating a vignette for developers interested in contributing to the qData ecosystem</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/69'>#69</a> by creating a vignette for users working with qData</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/67'>#67</a> by creating a vignette for developers interested in contributing to the qData ecosystem</li>
 <li>Added pkgdown workflow for updating the website upon release</li>
 </ul>
 </div>
@@ -461,7 +505,7 @@
 <h2 class="hasAnchor">
 <a href="#correction-3" class="anchor"></a>Correction</h2>
 <ul>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/70'>#70</a> by updating <code>stadardise_dates()</code> so that extreme future dates are standardised
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/70'>#70</a> by updating <code>stadardise_dates()</code> so that extreme future dates are standardised
 <ul>
 <li>Updated <code>standardise_dates()</code> to accept multiple variable dates as inputs and it standardises separators</li>
 <li>Updated <code>standardise_dates()</code> to be more efficient when dealing with different date formats</li>
@@ -473,9 +517,9 @@
 <li>Updates exported test templates for data to test for datasets within databases</li>
 </ul>
 </div>
-<div id="connection-6" class="section level2">
+<div id="connection-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#connection-6" class="anchor"></a>Connection</h2>
+<a href="#connection-7" class="anchor"></a>Connection</h2>
 <ul>
 <li>Updates <code><a href="../reference/get_packages.html">get_packages()</a></code> function to:
 <ul>
@@ -489,13 +533,13 @@
     <div id="qdatr-021" class="section level1">
 <h1 class="page-header" data-toc-text="0.2.1">
 <a href="#qdatr-021" class="anchor"></a>qDatr 0.2.1</h1>
-<div id="package-7" class="section level2">
+<div id="package-8" class="section level2">
 <h2 class="hasAnchor">
-<a href="#package-7" class="anchor"></a>Package</h2>
+<a href="#package-8" class="anchor"></a>Package</h2>
 <ul>
-<li>Fixed <a href='https://github.com/globalgov/qData/issues/61'>#61</a> by adding tests for <code>setup_package()</code> and <code>import_data()</code>
+<li>Fixed <a href='https://github.com/globalgov/manydata/issues/61'>#61</a> by adding tests for <code>setup_package()</code> and <code>import_data()</code>
 </li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/50'>#50</a> by making sure workflow templates are created in the proper folder with <code>setup_package()</code>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/50'>#50</a> by making sure workflow templates are created in the proper folder with <code>setup_package()</code>
 </li>
 </ul>
 </div>
@@ -503,31 +547,31 @@
 <h2 class="hasAnchor">
 <a href="#correction-4" class="anchor"></a>Correction</h2>
 <ul>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/62'>#62</a> by creating a function which vectorises dates and cleans and standardizes diverse date formats, <code>standardise_dates()</code>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/62'>#62</a> by creating a function which vectorises dates and cleans and standardizes diverse date formats, <code>standardise_dates()</code>
 </li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/55'>#55</a> by deprecating <code>rearrange()</code> function in favour of <code><a href="https://dplyr.tidyverse.org/reference/relocate.html">dplyr::relocate()</a></code>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/55'>#55</a> by deprecating <code>rearrange()</code> function in favour of <code><a href="https://dplyr.tidyverse.org/reference/relocate.html">dplyr::relocate()</a></code>
 </li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/65'>#65</a> by correcting issues with the path call in <code>export_data()</code> function
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/65'>#65</a> by correcting issues with the path call in <code>export_data()</code> function
 <ul>
 <li>Ensures consistency for path calls across qData functions</li>
 </ul>
 </li>
 </ul>
 </div>
-<div id="connection-7" class="section level2">
+<div id="connection-8" class="section level2">
 <h2 class="hasAnchor">
-<a href="#connection-7" class="anchor"></a>Connection</h2>
+<a href="#connection-8" class="anchor"></a>Connection</h2>
 <ul>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/64'>#64</a> by creating the <code><a href="../reference/get_packages.html">get_packages()</a></code> function which displays other packages, and some information about these packages, in the qData ecosystem. The function serves as a wrapper for downloading qPackages from GitHub.</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/64'>#64</a> by creating the <code><a href="../reference/get_packages.html">get_packages()</a></code> function which displays other packages, and some information about these packages, in the qData ecosystem. The function serves as a wrapper for downloading qPackages from GitHub.</li>
 </ul>
 </div>
 </div>
     <div id="qdatr-020" class="section level1">
 <h1 class="page-header" data-toc-text="0.2.0">
 <a href="#qdatr-020" class="anchor"></a>qDatr 0.2.0</h1>
-<div id="package-8" class="section level2">
+<div id="package-9" class="section level2">
 <h2 class="hasAnchor">
-<a href="#package-8" class="anchor"></a>Package</h2>
+<a href="#package-9" class="anchor"></a>Package</h2>
 <ul>
 <li>Updated pushrelease.yml to upload all assets individually to release</li>
 <li>((Tests for following functions on hold…))</li>
@@ -541,29 +585,29 @@
 <ul>
 <li>Now establishes main testing framework</li>
 <li>Opens fewer files but is more verbose</li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/51'>#51</a> by trimming dependencies from <code>qPackage-DESC</code> template</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/51'>#51</a> by trimming dependencies from <code>qPackage-DESC</code> template</li>
 <li>Fixed bug in <code>qPackage-DESC</code> that names weren’t strings</li>
 </ul>
 </li>
 <li>Renamed <code>use_qData_raw()</code> to <code>import_data()</code>
 <ul>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/49'>#49</a> with path argument or selector</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/49'>#49</a> with path argument or selector</li>
 <li>Added delete_original argument (default = FALSE)</li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/58'>#58</a> by extracting file type information from path and adding it and path to preparation template</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/58'>#58</a> by extracting file type information from path and adding it and path to preparation template</li>
 </ul>
 </li>
 </ul>
 </div>
-<div id="connection-8" class="section level2">
+<div id="connection-9" class="section level2">
 <h2 class="hasAnchor">
-<a href="#connection-8" class="anchor"></a>Connection</h2>
+<a href="#connection-9" class="anchor"></a>Connection</h2>
 <ul>
 <li>Renamed <code>use_qData()</code> to <code>export_data()</code>
 <ul>
 <li>Avoided reliance on <code><a href="https://usethis.r-lib.org/reference/use_data.html">usethis::use_data()</a></code>
 </li>
 <li>Fixed bug where it wasn’t selecting object correctly</li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/57'>#57</a> by passing on object information into the documentation template (now <code>qData-doc.R</code>)</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/57'>#57</a> by passing on object information into the documentation template (now <code>qData-doc.R</code>)</li>
 <li>Adapted test template so that object name is passed forward</li>
 </ul>
 </li>
@@ -573,9 +617,9 @@
     <div id="qdatr-010" class="section level1">
 <h1 class="page-header" data-toc-text="0.1.0">
 <a href="#qdatr-010" class="anchor"></a>qDatr 0.1.0</h1>
-<div id="package-9" class="section level2">
+<div id="package-10" class="section level2">
 <h2 class="hasAnchor">
-<a href="#package-9" class="anchor"></a>Package</h2>
+<a href="#package-10" class="anchor"></a>Package</h2>
 <ul>
 <li>Updated CONTRIBUTING</li>
 <li>Added README.Rmd render to pushrelease workflow</li>
@@ -585,10 +629,10 @@
 <h2 class="hasAnchor">
 <a href="#collection-5" class="anchor"></a>Collection</h2>
 <ul>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/47'>#47</a> by adding <code>qtemplate()</code> function for finding and rendering templates</li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/44'>#44</a> by adding <code>create_qPackage()</code> that establishes a <a href="https://github.com/globalgov/qData">qData</a> consistent package framework
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/47'>#47</a> by adding <code>qtemplate()</code> function for finding and rendering templates</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/44'>#44</a> by adding <code>create_qPackage()</code> that establishes a <code>{qData}</code> consistent package framework
 <ul>
-<li>Fixed <a href='https://github.com/globalgov/qData/issues/42'>#42</a> by drawing information from DESCRIPTION where possible</li>
+<li>Fixed <a href='https://github.com/globalgov/manydata/issues/42'>#42</a> by drawing information from DESCRIPTION where possible</li>
 <li>Added DESCRIPTION template</li>
 <li>Added README template</li>
 <li>Added COC template</li>
@@ -597,7 +641,7 @@
 <li>Added workflow templates for push-release, pr-checks, and pr-commands</li>
 </ul>
 </li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/48'>#48</a> by adding <code>use_qData_raw()</code> for setting up data cleaning and wrangling
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/48'>#48</a> by adding <code>use_qData_raw()</code> for setting up data cleaning and wrangling
 <ul>
 <li>Added template for importing, cleaning and exporting raw data</li>
 </ul>
@@ -608,15 +652,15 @@
 <h2 class="hasAnchor">
 <a href="#correction-5" class="anchor"></a>Correction</h2>
 <ul>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/24'>#24</a> by adding <code><a href="../reference/repaint.html">repaint()</a></code> for filling in missing data by lookup</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/24'>#24</a> by adding <code><a href="../reference/repaint.html">repaint()</a></code> for filling in missing data by lookup</li>
 <li>Added <code>recent()</code> for sensible centuries for dates</li>
 </ul>
 </div>
-<div id="connection-9" class="section level2">
+<div id="connection-10" class="section level2">
 <h2 class="hasAnchor">
-<a href="#connection-9" class="anchor"></a>Connection</h2>
+<a href="#connection-10" class="anchor"></a>Connection</h2>
 <ul>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/45'>#45</a> by adding <code>use_qData()</code> for setting up tests, documentation, and lazy-loading of cleaned data
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/45'>#45</a> by adding <code>use_qData()</code> for setting up tests, documentation, and lazy-loading of cleaned data
 <ul>
 <li>Added template for documenting cleaned data</li>
 <li>Added template for testing cleaned data</li>
@@ -632,7 +676,7 @@
 <h2 class="hasAnchor">
 <a href="#collection-6" class="anchor"></a>Collection</h2>
 <ul>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/25'>#25</a> by adding <code>create_qpackage()</code>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/25'>#25</a> by adding <code>create_qpackage()</code>
 </li>
 <li>Fixed ‘pushrelease.yml’ postfix bug</li>
 </ul>
@@ -641,11 +685,11 @@
 <h2 class="hasAnchor">
 <a href="#correction-6" class="anchor"></a>Correction</h2>
 <ul>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/26'>#26</a> by adding <code>interleave()</code>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/26'>#26</a> by adding <code>interleave()</code>
 </li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/23'>#23</a> by adding <code>resequence()</code>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/23'>#23</a> by adding <code>resequence()</code>
 </li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/30'>#30</a> by adding <code><a href="../reference/recollect.html">recollect()</a></code>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/30'>#30</a> by adding <code><a href="../reference/recollect.html">recollect()</a></code>
 </li>
 </ul>
 </div>
@@ -653,20 +697,20 @@
     <div id="qdatr-003" class="section level1">
 <h1 class="page-header" data-toc-text="0.0.3">
 <a href="#qdatr-003" class="anchor"></a>qDatr 0.0.3</h1>
-<div id="package-10" class="section level2">
+<div id="package-11" class="section level2">
 <h2 class="hasAnchor">
-<a href="#package-10" class="anchor"></a>Package</h2>
+<a href="#package-11" class="anchor"></a>Package</h2>
 <ul>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/18'>#18</a> by setting up <a href="https://github.com/jimhester/lintr">lintr</a>, <code>{goodpractice}</code>, and <code>{spelling}</code> in prchecks.yml</li>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/18'>#18</a> by setting up <a href="https://github.com/jimhester/lintr">lintr</a>, <a href="https://github.com/mangothecat/goodpractice">goodpractice</a>, and <a href="https://docs.ropensci.org/spelling/">spelling</a> in prchecks.yml</li>
 </ul>
 </div>
 <div id="correction-7" class="section level2">
 <h2 class="hasAnchor">
 <a href="#correction-7" class="anchor"></a>Correction</h2>
 <ul>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/29'>#29</a> by adding <code>rearrange()</code>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/29'>#29</a> by adding <code>rearrange()</code>
 </li>
-<li>Closed <a href='https://github.com/globalgov/qData/issues/31'>#31</a> by adding <code><a href="../reference/reunite.html">reunite()</a></code>
+<li>Closed <a href='https://github.com/globalgov/manydata/issues/31'>#31</a> by adding <code><a href="../reference/reunite.html">reunite()</a></code>
 </li>
 </ul>
 </div>
@@ -674,9 +718,9 @@
     <div id="qdatr-002" class="section level1">
 <h1 class="page-header" data-toc-text="0.0.2">
 <a href="#qdatr-002" class="anchor"></a>qDatr 0.0.2</h1>
-<div id="package-11" class="section level2">
+<div id="package-12" class="section level2">
 <h2 class="hasAnchor">
-<a href="#package-11" class="anchor"></a>Package</h2>
+<a href="#package-12" class="anchor"></a>Package</h2>
 <ul>
 <li>Added a <code>NEWS.md</code> file to track changes to the package.</li>
 </ul>
@@ -692,9 +736,9 @@
     <div id="qdatr-001" class="section level1">
 <h1 class="page-header" data-toc-text="0.0.1">
 <a href="#qdatr-001" class="anchor"></a>qDatr 0.0.1</h1>
-<div id="package-12" class="section level2">
+<div id="package-13" class="section level2">
 <h2 class="hasAnchor">
-<a href="#package-12" class="anchor"></a>Package</h2>
+<a href="#package-13" class="anchor"></a>Package</h2>
 <ul>
 <li>Package set-up</li>
 </ul>

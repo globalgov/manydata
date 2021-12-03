@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Find and download packages in the many packages universe — get_packages • manydata</title>
+<title>Resolve Random — r_random • manydata</title>
 
 
 <!-- jquery -->
@@ -41,8 +41,9 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Find and download packages in the many packages universe — get_packages" />
-<meta property="og:description" content="Find and download packages in the many packages universe" />
+<meta property="og:title" content="Resolve Random — r_random" />
+<meta property="og:description" content="Helper function for resolving a database into a dataframe.
+&quot;random&quot; takes a random non NA value from sample" />
 
 
 
@@ -146,57 +147,39 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Find and download packages in the many packages universe</h1>
-    <small class="dont-index">Source: <a href='https://github.com/globalgov/manydata/blob/master/R/package_get.R'><code>R/package_get.R</code></a></small>
-    <div class="hidden name"><code>get_packages.Rd</code></div>
+    <h1>Resolve Random</h1>
+    <small class="dont-index">Source: <a href='https://github.com/globalgov/manydata/blob/master/R/consolidate.R'><code>R/consolidate.R</code></a></small>
+    <div class="hidden name"><code>r_random.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Find and download packages in the many packages universe</p>
+    <p>Helper function for resolving a database into a dataframe.
+"random" takes a random non NA value from sample</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_packages</span><span class='op'>(</span><span class='va'>pkg</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>r_random</span><span class='op'>(</span><span class='va'>other_variables</span>, <span class='va'>out</span>, <span class='va'>key</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>pkg</th>
-      <td><p>A character vector of package names or number of a package</p></td>
+      <th>other_variables</th>
+      <td><p>A list of variables to be resolved</p></td>
+    </tr>
+    <tr>
+      <th>out</th>
+      <td><p>A dataframe</p></td>
+    </tr>
+    <tr>
+      <th>key</th>
+      <td><p>The ID column to collapse by. By default "many_ID"</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>If no package name is provided,
-this function prints a table (tibble)
-to the console with details on packages
-that are currently available within
-the many universe.
-This includes the name and description of the package,
-the latest installed and release version number,
-and the latest release date.
-It also include a list of numbers which orders
-the package and can be used to load the respective
-package instead of the name.
-If one or more package names are provided,
-these will be installed from Github.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <p>The resolved dataframed or variable</p>
 
-    <p>The function finds and download other packages
-that belong to the many universe of packages.
-It allows users to rapidly access the names and other
-descriptive information of these
-packages by simply calling the function.
-If users intend to download and install
-a package from the universe,
-they can type the package name within the function.</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'><span class='fu'>get_packages</span><span class='op'>(</span><span class='op'>)</span></span>
-<span class='r-in'><span class='op'>}</span></span>
-</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

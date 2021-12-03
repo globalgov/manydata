@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Set of data structure exploration functions for users — report • qData</title>
+<title>Set of data structure exploration functions for users — report • manydata</title>
 
 
 <!-- jquery -->
@@ -44,7 +44,8 @@
 <meta property="og:title" content="Set of data structure exploration functions for users — report" />
 <meta property="og:description" content="The report family of functions allows users
 to quickly get information about and compare several
-aspects of a q Packages, databases and datasets." />
+aspects of  a package in the many packages universe,
+and its' databases and datasets." />
 
 
 
@@ -75,8 +76,8 @@ aspects of a q Packages, databases and datasets." />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">qData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <a class="navbar-link" href="../index.html">manydata</a>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
       </span>
     </div>
 
@@ -116,21 +117,21 @@ aspects of a q Packages, databases and datasets." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="https://globalgov.github.io/qCreate/">qCreate</a>
+      <a href="https://globalgov.github.io/manypkgs/">manypkgs</a>
     </li>
     <li>
-      <a href="https://globalgov.github.io/qStates/">qStates</a>
+      <a href="https://globalgov.github.io/manystates/">manystates</a>
     </li>
     <li>
-      <a href="https://globalgov.github.io/qEnviron/">qEnviron</a>
+      <a href="https://globalgov.github.io/manyenviron/">manyenviron</a>
     </li>
     <li>
-      <a href="https://globalgov.github.io/qTrade/">qTrade</a>
+      <a href="https://globalgov.github.io/manytrade/">manytrade</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="https://github.com/globalgov/qStates">
+  <a href="https://github.com/globalgov/manydata">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -149,39 +150,42 @@ aspects of a q Packages, databases and datasets." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Set of data structure exploration functions for users</h1>
-    <small class="dont-index">Source: <a href='https://github.com/globalgov/qData/blob/master/R/report_data.R'><code>R/report_data.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/globalgov/manydata/blob/master/R/report_data.R'><code>R/report_data.R</code></a></small>
     <div class="hidden name"><code>report.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>The report family of functions allows users
 to quickly get information about and compare several
-aspects of a q Packages, databases and datasets.</p>
+aspects of  a package in the many packages universe,
+and its' databases and datasets.</p>
     </div>
 
     <pre class="usage"><span class='fu'>data_source</span><span class='op'>(</span><span class='va'>pkg</span>, database <span class='op'>=</span> <span class='cn'>NULL</span>, dataset <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='fu'>data_contrast</span><span class='op'>(</span><span class='va'>pkg</span>, database <span class='op'>=</span> <span class='cn'>NULL</span>, dataset <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+<span class='fu'>data_contrast</span><span class='op'>(</span><span class='va'>pkg</span>, database <span class='op'>=</span> <span class='cn'>NULL</span>, dataset <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+
+<span class='fu'>open_codebook</span><span class='op'>(</span><span class='va'>pkg</span>, <span class='va'>database</span>, <span class='va'>dataset</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>pkg</th>
-      <td><p>character string of the qPackage to report data on.
+      <td><p>character string of the many package to report data on.
 Required input.</p></td>
     </tr>
     <tr>
       <th>database</th>
-      <td><p>vector of character strings of the qPackage to
-report data a specific database in a qPackage.
-If NULL, the function returns a summary of all databases in the qPackage.
+      <td><p>vector of character strings of the many package to
+report data on a specific database in a many package
+If NULL, the function returns a summary of all databases in the many package
 NULL by default for <code>data_source()</code> and <code>data_contrast()</code>.</p></td>
     </tr>
     <tr>
       <th>dataset</th>
-      <td><p>character string of the qPackage to report data on a specific
-dataset in a specific database of a qPackage.
+      <td><p>character string of the many package to report data on a specific
+dataset in a specific database of a many package
 If NULL and database is specified, returns database level metadata.
 NULL by default for <code>data_source()</code> and <code>data_contrast()</code>.</p></td>
     </tr>
@@ -190,37 +194,50 @@ NULL by default for <code>data_source()</code> and <code>data_contrast()</code>.
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A dataframe with the data sources</p>
-<p>A list with the desired metadata to compare various datasets in the
-qVerse.</p>
+<p>A list with the desired metadata to compare various datasets in a many package.</p>
+<p>Opens a pdf version of the original codebook of the specified
+dataset, if available.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><code>data_source()</code> displays names of the database/datasets and
-source material of qPackage data.</p>
+source material of data in a many package.</p>
 <p><code>data_contrast()</code> displays information about databases
 and datasets contained in them.
 Namely the number of unique ID's, the percentage of
 missing data, the number of observations, the number of variables,
 the minimum beginning date and the maximum ending date as well as
 the most direct URL to the original dataset.</p>
+<p><code>open_codebook()</code> opens the original codebook of the specified
+dataset to allow users to look up the original coding rules.
+Note that there is no original codebook for the genevar database
+and that a codebook might not exist for certain datasets.
+In the latter case, please refer to the
+source URL provided with each dataset by running <code>manydata::data_contrast()</code>
+as further information on coding rules available online.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>data_source</span><span class='op'>(</span>pkg <span class='op'>=</span> <span class='st'>"qData"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Component 1 :
-#&gt;            Reference                                                                                                        
-#&gt; wikipedia  "(????). "List_of_Roman_emperors." &lt;URL:tps://en.wikipedia.org/wiki/List_of_Roman_emperors&gt;. Accesse" [truncated]
-#&gt; UNRV       "(????). "Roman Emperor list." &lt;URL:https://www.unrv.com/government/emperor.php&gt;. Accessed: 2021-07-" [truncated]
-#&gt; britannica "(????). "List of Roman emperors." &lt;URL:https://www.britannica.com/topic/list-of-Roman-emperors-2043" [truncated]
-#&gt; </div><div class='input'><span class='fu'>data_contrast</span><span class='op'>(</span>pkg <span class='op'>=</span> <span class='st'>"qData"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; emperors :
-#&gt;            Unique ID Missing Data Rows Columns        Beg        End
-#&gt; wikipedia         68        9.9 %   68      15 0014-09-18 0395-01-17
-#&gt; UNRV              98       6.06 %   99       7    0014 BC       0518
-#&gt; britannica        87          0 %   87       3       0014       0491
-#&gt;                                                                        URL
-#&gt; wikipedia                           https://github.com/zonination/emperors
-#&gt; UNRV                           https://www.unrv.com/government/emperor.php
-#&gt; britannica https://www.britannica.com/topic/list-of-Roman-emperors-2043294
-#&gt; </div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'>data_source</span><span class='op'>(</span>pkg <span class='op'>=</span> <span class='st'>"manydata"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Component 1 :</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            Reference                                                                                                    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> wikipedia  "(????). “List_of_Roman_emperors.” &lt;URL:tps://en.wikipedia.org/wiki/List_of_Roman_emperors&gt;. Acc" [truncated]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> UNRV       "(????). “Roman Emperor list.” &lt;URL:https://www.unrv.com/government/emperor.php&gt;. Accessed: 2021" [truncated]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> britannica "(????). “List of Roman emperors.” &lt;URL:https://www.britannica.com/topic/list-of-Roman-emperors-" [truncated]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'><span class='fu'>data_contrast</span><span class='op'>(</span>pkg <span class='op'>=</span> <span class='st'>"manydata"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> emperors :</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            Unique ID Missing Data Rows Columns         Beg        End</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> wikipedia         68        9.9 %   68      15 -XX26-01-16 0014-08-19</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> UNRV              98       6.06 %   99       7       -XX27      -XX14</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> britannica        87          0 %   87       3       -XX31 0014-12-31</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                                        URL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> wikipedia                           https://github.com/zonination/emperors</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> UNRV                           https://www.unrv.com/government/emperor.php</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> britannica https://www.britannica.com/topic/list-of-Roman-emperors-2043294</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='fu'>open_codebook</span><span class='op'>(</span>pkg <span class='op'>=</span> <span class='st'>"manystates"</span>, database <span class='op'>=</span> <span class='st'>"states"</span>, dataset <span class='op'>=</span> <span class='st'>"COW"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

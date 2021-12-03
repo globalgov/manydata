@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get first non-missing — coalesce_rows • qData</title>
+<title>Get first non-missing — coalesce_rows • manydata</title>
 
 
 <!-- jquery -->
@@ -73,8 +73,8 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">qData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <a class="navbar-link" href="../index.html">manydata</a>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
       </span>
     </div>
 
@@ -114,21 +114,21 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="https://globalgov.github.io/qCreate/">qCreate</a>
+      <a href="https://globalgov.github.io/manypkgs/">manypkgs</a>
     </li>
     <li>
-      <a href="https://globalgov.github.io/qStates/">qStates</a>
+      <a href="https://globalgov.github.io/manystates/">manystates</a>
     </li>
     <li>
-      <a href="https://globalgov.github.io/qEnviron/">qEnviron</a>
+      <a href="https://globalgov.github.io/manyenviron/">manyenviron</a>
     </li>
     <li>
-      <a href="https://globalgov.github.io/qTrade/">qTrade</a>
+      <a href="https://globalgov.github.io/manytrade/">manytrade</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="https://github.com/globalgov/qStates">
+  <a href="https://github.com/globalgov/manydata">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -147,7 +147,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get first non-missing</h1>
-    <small class="dont-index">Source: <a href='https://github.com/globalgov/qData/blob/master/R/wrangling_data.R'><code>R/wrangling_data.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/globalgov/manydata/blob/master/R/wrangling_data.R'><code>R/wrangling_data.R</code></a></small>
     <div class="hidden name"><code>coalesce_rows.Rd</code></div>
     </div>
 
@@ -179,41 +179,43 @@ that is picking the first non-missing observation,
 but on observations rather than variables.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fu'>coalesce_rows</span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;     mpg
-#&gt; 1  21.0
-#&gt; 2  21.0
-#&gt; 3  22.8
-#&gt; 4  21.4
-#&gt; 5  18.7
-#&gt; 6  18.1
-#&gt; 7  14.3
-#&gt; 8  24.4
-#&gt; 9  22.8
-#&gt; 10 19.2
-#&gt; 11 17.8
-#&gt; 12 16.4
-#&gt; 13 17.3
-#&gt; 14 15.2
-#&gt; 15 10.4
-#&gt; 16 10.4
-#&gt; 17 14.7
-#&gt; 18 32.4
-#&gt; 19 30.4
-#&gt; 20 33.9
-#&gt; 21 21.5
-#&gt; 22 15.5
-#&gt; 23 15.2
-#&gt; 24 13.3
-#&gt; 25 19.2
-#&gt; 26 27.3
-#&gt; 27 26.0
-#&gt; 28 30.4
-#&gt; 29 15.8
-#&gt; 30 19.7
-#&gt; 31 15.0
-#&gt; 32 21.4</div><div class='input'><span class='fu'>coalesce_rows</span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>$</span><span class='va'>wt</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 2.62</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fu'>coalesce_rows</span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     mpg</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1  21.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2  21.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3  22.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4  21.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5  18.7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6  18.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7  14.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8  24.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9  22.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10 19.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11 17.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 12 16.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 13 17.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 14 15.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 15 10.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 16 10.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 17 14.7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 18 32.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 19 30.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 20 33.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 21 21.5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 22 15.5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 23 15.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 24 13.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 25 19.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 26 27.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 27 26.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 28 30.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 29 15.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 30 19.7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 31 15.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 32 21.4</span>
+<span class='r-in'><span class='fu'>coalesce_rows</span><span class='op'>(</span><span class='va'>mtcars</span><span class='op'>$</span><span class='va'>wt</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 2.62</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

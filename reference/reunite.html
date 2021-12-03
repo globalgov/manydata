@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Pastes unique string vectors — reunite • qData</title>
+<title>Pastes unique string vectors — reunite • manydata</title>
 
 
 <!-- jquery -->
@@ -73,8 +73,8 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">qData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <a class="navbar-link" href="../index.html">manydata</a>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
       </span>
     </div>
 
@@ -114,21 +114,21 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="https://globalgov.github.io/qCreate/">qCreate</a>
+      <a href="https://globalgov.github.io/manypkgs/">manypkgs</a>
     </li>
     <li>
-      <a href="https://globalgov.github.io/qStates/">qStates</a>
+      <a href="https://globalgov.github.io/manystates/">manystates</a>
     </li>
     <li>
-      <a href="https://globalgov.github.io/qEnviron/">qEnviron</a>
+      <a href="https://globalgov.github.io/manyenviron/">manyenviron</a>
     </li>
     <li>
-      <a href="https://globalgov.github.io/qTrade/">qTrade</a>
+      <a href="https://globalgov.github.io/manytrade/">manytrade</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="https://github.com/globalgov/qStates">
+  <a href="https://github.com/globalgov/manydata">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -147,7 +147,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Pastes unique string vectors</h1>
-    <small class="dont-index">Source: <a href='https://github.com/globalgov/qData/blob/master/R/wrangling_data.R'><code>R/wrangling_data.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/globalgov/manydata/blob/master/R/wrangling_data.R'><code>R/wrangling_data.R</code></a></small>
     <div class="hidden name"><code>reunite.Rd</code></div>
     </div>
 
@@ -176,14 +176,15 @@ currently only two at a time</p></td>
     <p>A single vector with unique non-missing information</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>fir<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='st'>"two"</span>, <span class='st'>"three"</span>, <span class='cn'>NA</span><span class='op'>)</span>,
-                   sec<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"one"</span>, <span class='cn'>NA</span>, <span class='st'>"three"</span>, <span class='cn'>NA</span><span class='op'>)</span>, stringsAsFactors <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-<span class='fu'><a href='transmutate.html'>transmutate</a></span><span class='op'>(</span><span class='va'>data</span>, single <span class='op'>=</span> <span class='fu'>reunite</span><span class='op'>(</span><span class='va'>fir</span>, <span class='va'>sec</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   single
-#&gt; 1    one
-#&gt; 2    two
-#&gt; 3  three
-#&gt; 4   &lt;NA&gt;</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>fir<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='st'>"two"</span>, <span class='st'>"three"</span>, <span class='cn'>NA</span><span class='op'>)</span>,</span>
+<span class='r-in'>                   sec<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"one"</span>, <span class='cn'>NA</span>, <span class='st'>"three"</span>, <span class='cn'>NA</span><span class='op'>)</span>, stringsAsFactors <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='transmutate.html'>transmutate</a></span><span class='op'>(</span><span class='va'>data</span>, single <span class='op'>=</span> <span class='fu'>reunite</span><span class='op'>(</span><span class='va'>fir</span>, <span class='va'>sec</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   single</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1    one</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2    two</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3  three</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4   &lt;NA&gt;</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

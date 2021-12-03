@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>An R Portal for Ensembled Global Governance Data • qData</title>
+<title>An R Portal for Ensembled Global Governance Data • manydata</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/paper/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -13,7 +13,7 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
 <meta property="og:title" content="An R Portal for Ensembled Global Governance Data">
-<meta property="og:description" content="This is the core package for the qData ecosystem.
+<meta property="og:description" content="This is the core package for the many packages universe.
     It includes functions to help researchers work with and contribute to 
     event datasets on global governance.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -33,8 +33,8 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">qData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <a class="navbar-link" href="index.html">manydata</a>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
       </span>
     </div>
 
@@ -74,21 +74,21 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="https://globalgov.github.io/qCreate/">qCreate</a>
+      <a href="https://globalgov.github.io/manypkgs/">manypkgs</a>
     </li>
     <li>
-      <a href="https://globalgov.github.io/qStates/">qStates</a>
+      <a href="https://globalgov.github.io/manystates/">manystates</a>
     </li>
     <li>
-      <a href="https://globalgov.github.io/qEnviron/">qEnviron</a>
+      <a href="https://globalgov.github.io/manyenviron/">manyenviron</a>
     </li>
     <li>
-      <a href="https://globalgov.github.io/qTrade/">qTrade</a>
+      <a href="https://globalgov.github.io/manytrade/">manytrade</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="https://github.com/globalgov/qStates">
+  <a href="https://github.com/globalgov/manydata">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -105,62 +105,44 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="qdata-" class="section level1">
+<div id="manydata-" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#qdata-" class="anchor"></a>qData <img src="reference/figures/qdata_hexlogo.png" align="right" width="220">
+<a href="#manydata-" class="anchor"></a>manydata <img src="reference/figures/manydataLogo.png" align="right" width="220">
 </h1></div>
 <!-- badges: start -->
 
-<p><a href="https://github.com/globalgov/qData">qData</a> is the central package in an ecosystem of packages aimed at collecting, connecting and correcting network data across issue-domains of global governance.</p>
-<div id="why-qdata" class="section level2">
+<p><a href="https://github.com/globalgov/manydata">manydata</a> is the central package in the many packages universe aimed at collecting, connecting and correcting network data across issue-domains of global governance. To assist users in doing so, <a href="https://github.com/globalgov/manydata">manydata</a> also contains functions that enable users to clean and manipulate data easily.</p>
+<div id="why-manydata" class="section level2">
 <h2 class="hasAnchor">
-<a href="#why-qdata" class="anchor"></a>Why qData?</h2>
-<p><a href="https://github.com/globalgov/qData">qData</a> offers users a way to access all of the tested data in the ecosystem in so-called ‘qPackages’, and use this data in their analyses of global governance. A special advantage of such qdata is that it is not ‘opinionated’, in the sense of offering a single, supposedly authoritative version of global governance events, but instead holds many well-regarded datasets together in three-dimensional ‘datacubes’. The chief advantage of this for global governance researchers is that it enables a quick and easy way to check the robustness of their results to different formulations of the study population or concept specification. The ‘datacube’ structure is requiring specific coding system for the variables across the datasets. For more details on that, please see the <a href="https://globalgov.github.io/qData/articles/user.html">vignette</a>.</p>
+<a href="#why-manydata" class="anchor"></a>Why manydata?</h2>
+<p><a href="https://github.com/globalgov/manydata">manydata</a> offers users access to all of the tested data in the various ‘many packages’ available, for use in analyses of global governance and beyond. A special feature of the ‘many packages’ is that it is not ‘opinionated’ - instead of offering a single, supposedly authoritative version of global governance events, the packages in the many packages universe gather well-regarded datasets in each issue-domain into three-dimensional ‘datacubes’. The chief advantage of this for global governance researchers is that it enables a quick and easy way to check the robustness of their results using different formulations of the study population or concept specification. The ‘datacube’ structure has a specific coding system for the variables across the datasets. For more details, please see the <a href="https://globalgov.github.io/manydata/articles/user.html">vignette</a>.</p>
 </div>
-<div id="downloading-and-installing-qdata" class="section level2">
+<div id="downloading-and-installing-manydata" class="section level2">
 <h2 class="hasAnchor">
-<a href="#downloading-and-installing-qdata" class="anchor"></a>Downloading and installing qData</h2>
-<p>The development version of the package <a href="https://github.com/globalgov/qData">qData</a> can be downloaded from GitHub.</p>
+<a href="#downloading-and-installing-manydata" class="anchor"></a>Downloading and installing manydata</h2>
+<p>The development version of the package <a href="https://github.com/globalgov/manydata">manydata</a> can be downloaded from GitHub.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"globalgov/qData"</span><span class="op">)</span></code></pre></div>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"globalgov/manydata"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="available-qpackages" class="section level2">
+<div id="available-many-packages" class="section level2">
 <h2 class="hasAnchor">
-<a href="#available-qpackages" class="anchor"></a>Available qPackages</h2>
-<p><a href="https://github.com/globalgov/qData">qData</a> connects users to other packages that help fill global governance researchers’ data needs. The <code><a href="reference/get_packages.html">get_packages()</a></code> function can be used to discover which packages are currently available.</p>
+<a href="#available-many-packages" class="anchor"></a>Available ‘many packages’</h2>
+<p><a href="https://github.com/globalgov/manydata">manydata</a> connects users to other packages that help fill global governance researchers’ data needs. The <code><a href="reference/get_packages.html">get_packages()</a></code> function can be used to discover the ‘many packages’ currently available.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/globalgov/qData">qData</a></span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Warning: package 'tibble' was built under R version 4.0.5</span></span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/get_packages.html">get_packages</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Warning: All formats failed to parse. No formats found.</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 4 x 6</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="do">##   name     full_name         </span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="do">##   &lt;chr&gt;    &lt;chr&gt;             </span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="do">## 1 qCreate  globalgov/qCreate </span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="do">## 2 qData    globalgov/qData   </span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="do">## 3 qEnviron globalgov/qEnviron</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="do">## 4 qStates  globalgov/qStates </span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="do">##   description                                             installed latest    </span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="do">##   &lt;chr&gt;                                                   &lt;chr&gt;     &lt;chr&gt;     </span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="do">## 1 Support for creating new qPackages                      0.0.1     Unreleased</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="do">## 2 An R portal for ensembled global governance data        0.4.0     0.3.5     </span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="do">## 3 qPackage for ensembled data on environmental agreements 0.0.2     0.0.2     </span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="do">## 4 qPackage for ensembled data on sovereign states         0.0.3     0.0.3     </span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="do">##   updated   </span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="do">##   &lt;date&gt;    </span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="do">## 1 NA        </span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="do">## 2 NA        </span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="do">## 3 NA        </span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="do">## 4 NA</span></span></code></pre></div>
-<p>Please see <a href="https://globalgov.github.io/qData/">the website</a> for more information about how to use <a href="https://github.com/globalgov/qData">qData</a>.</p>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/globalgov/manydata">manydata</a></span><span class="op">)</span>
+<span class="fu"><a href="reference/get_packages.html">get_packages</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p>Please see <a href="https://globalgov.github.io/manydata/">the website</a> for more information about how to use <a href="https://github.com/globalgov/manydata">manydata</a>.</p>
 </div>
-<div id="contributing-to-the-qverse" class="section level2">
+<div id="cheat-sheet" class="section level2">
 <h2 class="hasAnchor">
-<a href="#contributing-to-the-qverse" class="anchor"></a>Contributing to the qVerse</h2>
-<p>For more information for developers and data contributors to qPackages, please see <a href="https://github.com/globalgov/qCreate">qCreate</a> <a href="https://globalgov.github.io/qCreate/">the website</a>.</p>
+<a href="#cheat-sheet" class="anchor"></a>Cheat Sheet</h2>
+<p><a href="https://github.com/globalgov/manydata/blob/main/man/figures/cheatsheet.pdf"><img src="https://raw.githubusercontent.com/globalgov/manydata/main/man/figures/cheatsheet.png" width="525" height="378"></a></p>
+</div>
+<div id="contributing-to-the-many-packages-universe" class="section level2">
+<h2 class="hasAnchor">
+<a href="#contributing-to-the-many-packages-universe" class="anchor"></a>Contributing to the many packages universe</h2>
+<p>For more information for developers and data contributors to ‘many packages’, please see <code>{manypkgs}</code> <a href="https://globalgov.github.io/manypkgs/">the website</a>.</p>
 </div>
 </div>
   </div>
@@ -169,9 +151,9 @@
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/globalgov/qData/">https://​github.com/​globalgov/​qData/​</a>
+<li>Browse source code at <br><a href="https://github.com/globalgov/manydata/">https://​github.com/​globalgov/​manydata/​</a>
 </li>
-<li>Report a bug at <br><a href="https://github.com/globalgov/qData/issues">https://​github.com/​globalgov/​qData/​issues</a>
+<li>Report a bug at <br><a href="https://github.com/globalgov/manydata/issues">https://​github.com/​globalgov/​manydata/​issues</a>
 </li>
 </ul>
 </div>
@@ -192,7 +174,7 @@
 <div class="citation">
 <h2>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html">Citing qData</a></li>
+<li><a href="authors.html">Citing manydata</a></li>
 </ul>
 </div>
 <div class="developers">
@@ -209,8 +191,8 @@
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="lifecycle"></a></li>
-<li><a href="https://codecov.io/gh/globalgov/qData?branch=main"><img src="https://codecov.io/gh/globalgov/qData/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
-<li><a href="https://www.codefactor.io/repository/github/globalgov/qdata"><img src="https://www.codefactor.io/repository/github/globalgov/qdata/badge" alt="CodeFactor"></a></li>
+<li><a href="https://codecov.io/gh/globalgov/manydata?branch=main"><img src="https://codecov.io/gh/globalgov/manydata/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://www.codefactor.io/repository/github/globalgov/manydata"><img src="https://www.codefactor.io/repository/github/globalgov/manydata/badge" alt="CodeFactor"></a></li>
 <li><a href="https://bestpractices.coreinfrastructure.org/projects/4562"><img src="https://bestpractices.coreinfrastructure.org/projects/4562/badge" alt="CII Best Practices"></a></li>
 </ul>
 </div>

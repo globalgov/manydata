@@ -5,15 +5,15 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Working with qData • qData</title>
+<title>Working with manydata • manydata</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/paper/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
-<meta property="og:title" content="Working with qData">
-<meta property="og:description" content="qData">
+<meta property="og:title" content="Working with manydata">
+<meta property="og:description" content="manydata">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -31,8 +31,8 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">qData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <a class="navbar-link" href="../index.html">manydata</a>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
       </span>
     </div>
 
@@ -72,21 +72,21 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="https://globalgov.github.io/qCreate/">qCreate</a>
+      <a href="https://globalgov.github.io/manypkgs/">manypkgs</a>
     </li>
     <li>
-      <a href="https://globalgov.github.io/qStates/">qStates</a>
+      <a href="https://globalgov.github.io/manystates/">manystates</a>
     </li>
     <li>
-      <a href="https://globalgov.github.io/qEnviron/">qEnviron</a>
+      <a href="https://globalgov.github.io/manyenviron/">manyenviron</a>
     </li>
     <li>
-      <a href="https://globalgov.github.io/qTrade/">qTrade</a>
+      <a href="https://globalgov.github.io/manytrade/">manytrade</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="https://github.com/globalgov/qStates">
+  <a href="https://github.com/globalgov/manydata">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -101,15 +101,15 @@
 
       
 
-      </header><script src="user_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
+      </header><script src="user_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Working with qData</h1>
-                        <h4 class="author">James Hollway</h4>
+      <h1 data-toc-skip>Working with manydata</h1>
+                        <h4 class="author">James Hollway and Henrique Sposito</h4>
             
-            <h4 class="date">2021-09-20</h4>
+            <h4 class="date">2021-12-03</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/globalgov/qData/blob/master/vignettes/user.Rmd"><code>vignettes/user.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/globalgov/manydata/blob/master/vignettes/user.Rmd"><code>vignettes/user.Rmd</code></a></small>
       <div class="hidden name"><code>user.Rmd</code></div>
 
     </div>
@@ -119,52 +119,127 @@
 <div id="discovering-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#discovering-data" class="anchor"></a>Discovering data</h2>
-<p>The first thing users of the package will want to do is to identify datasets that might contribute to their research goals. Since some of these data packages are too big for CRAN (the main though not only R package repository), we expect that their developers will instead choose to make their packages available on Github. Github is huge though, either way it can be difficult to identify salient data. We have tried to make this easy by allowing the reporting of all datasets in the ecosystem that we know of that currently pass our tests.</p>
+<p>The first thing users of the package will want to do is to identify datasets that might contribute to their research goals. Since some of these data packages are too big for CRAN (the main though not only R package repository), we expect that their developers will instead choose to make their packages available on Github. Github is huge though, either way it can be difficult to identify salient data. We have tried to make this easy by allowing the reporting of all packages in the many packages universe, as well as the databases and datasets included in each of the ‘many packages’ - that we know of that currently pass our tests.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/globalgov/qData">qData</a></span><span class="op">)</span>
-<span class="fu"><a href="../reference/get_packages.html">get_packages</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p>In the future, this function will report more details about the datasets included in each package and their provenance.</p>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/globalgov/manydata">manydata</a></span><span class="op">)</span></code></pre></div>
+<pre><code>#&gt; Loading required package: tibble</code></pre>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/get_packages.html">get_packages</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<pre><code>#&gt; Warning: 1 failed to parse.</code></pre>
+<pre><code>#&gt; # A tibble: 6 × 6
+#&gt;   name        full_name            
+#&gt;   &lt;chr&gt;       &lt;chr&gt;                
+#&gt; 1 manydata    globalgov/manydata   
+#&gt; 2 manyenviron globalgov/manyenviron
+#&gt; 3 manypkgs    globalgov/manypkgs   
+#&gt; 4 manystates  globalgov/manystates 
+#&gt; 5 manytrade   globalgov/manytrade  
+#&gt; 6 messydates  globalgov/messydates 
+#&gt;   description                                              installed latest
+#&gt;   &lt;chr&gt;                                                    &lt;chr&gt;     &lt;chr&gt; 
+#&gt; 1 An R portal for ensembled global governance data         0.6.0     0.6.0 
+#&gt; 2 R Package for ensembled data on environmental agreements &lt;NA&gt;      0.1.0 
+#&gt; 3 Support for creating new manyverse packages              &lt;NA&gt;      0.2.0 
+#&gt; 4 qPackage for ensembled data on sovereign states          &lt;NA&gt;      0.0.5 
+#&gt; 5 qPackage for ensembled data on trade agreements          &lt;NA&gt;      0.1.0 
+#&gt; 6 An R package for ISO's Extended Date/Time Format (EDTF)  0.2.0     0.2.0 
+#&gt;   updated   
+#&gt;   &lt;date&gt;    
+#&gt; 1 2021-12-03
+#&gt; 2 2021-11-25
+#&gt; 3 2021-11-24
+#&gt; 4 2021-10-11
+#&gt; 5 2021-12-03
+#&gt; 6 2021-11-12</code></pre>
 </div>
 <div id="understanding-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#understanding-data" class="anchor"></a>Understanding data</h2>
-<p>Packages in the <a href="https://github.com/globalgov/qData">qData</a> ecosystem have the advantage to facilitate comparison and analysis of multiple datasets in a specific domain of global governance. This is possible with a particular coding system which follows the same principles across the different packages.</p>
-<p>In <a href="https://github.com/globalgov/qStates">qStates</a> for example, all datasets from the states database contain variables named <code>Beg</code>and <code>End</code> which represent the beginning and ending date of an episode of state sovereignty.</p>
-<p>In <code>{qEnviron}</code>, the agreements database also have the <code>Beg</code> and <code>End</code> variables but those are attributed to treaties (signature and term dates). For the memberships database, <code>Beg</code> and <code>End</code> represent when a relationship between states and an agreement starts (either signature, ratification or entry into force) and ends (either withdrawal or term).</p>
+<p>Packages in the many packages universe have the advantage to facilitate comparison and analysis of multiple datasets in a specific domain of global governance. This is possible with a particular coding system which follows the same principles across the different packages.</p>
+<p>In <code>{manystates}</code> for example, all datasets from the states database contain variables named <code>Beg</code>and <code>End</code> which represent the beginning and ending date of an episode of state sovereignty.</p>
+<p>In <code>{manyenviron}</code>, the agreements database also have the <code>Beg</code> and <code>End</code> variables but those are attributed to treaties (signature and term dates). For the memberships database, <code>Beg</code> and <code>End</code> represent when a relationship between states and an agreement starts (either signature, ratification or entry into force) and ends (either withdrawal or term).</p>
 <p>This specific variable name allows the comparison across the datasets which have different sources but same informations. It enables to point out the recurrence, difference or absence of observations between the datasets and extract more robust data when researching on a particular governance domain.</p>
 </div>
 <div id="loading-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#loading-data" class="anchor"></a>Loading data</h2>
-<p>Let us say that we wish to download the <a href="https://github.com/globalgov/qStates">qStates</a> package, which offers a set of datasets related to state actors in global governance. We can download and install the latest release version of the <a href="https://github.com/globalgov/qStates">qStates</a> package using the same function as before, only specifying which package we want to ‘get’, ‘get_packages(“globalgov/qStates”)’.</p>
-<p>For now, let’s work with the Roman Emperors database included in qData. We can get a quick summary of the datasets included in this package with the following command:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"qData"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">emperors</span>, package <span class="op">=</span> <span class="st">"qData"</span><span class="op">)</span>
+<p>Let us say that we wish to download the <code>{manystates}</code> package, which offers a set of datasets related to state actors in global governance. We can download and install the latest release version of the <code>{manystates}</code> package using the same function as before, only specifying which package we want to ‘get’, ‘get_packages(“manystates”)’.</p>
+<p>For now, let’s work with the Roman Emperors database included in manydata. We can get a quick summary of the datasets included in this package with the following command:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"manydata"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">emperors</span>, package <span class="op">=</span> <span class="st">"manydata"</span><span class="op">)</span>
 <span class="va">emperors</span></code></pre></div>
+<pre><code>#&gt; $wikipedia
+#&gt; # A tibble: 68 × 15
+#&gt;    ID     Beg    End   FullName  Birth Death CityBirth ProvinceBirth Rise  Cause
+#&gt;    &lt;chr&gt;  &lt;mess&gt; &lt;mes&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt;
+#&gt;  1 Augus… -XX26… 0014… IMPERATO… 0062… 0014… Rome      Italia        Birt… Assa…
+#&gt;  2 Tiber… 0014-… 0037… TIBERIVS… 0041… 0037… Rome      Italia        Birt… Assa…
+#&gt;  3 Calig… 0037-… 0041… GAIVS IV… 0012… 0041… Antitum   Italia        Birt… Assa…
+#&gt;  4 Claud… 0041-… 0054… TIBERIVS… 0009… 0054… Lugdunum  Gallia Lugdu… Birt… Assa…
+#&gt;  5 Nero   0054-… 0068… NERO CLA… 0037… 0068… Antitum   Italia        Birt… Suic…
+#&gt;  6 Galba  0068-… 0069… SERVIVS … 0002… 0069… Terracina Italia        Seiz… Assa…
+#&gt;  7 Otho   0069-… 0069… MARCVS S… 0032… 0069… Terentin… Italia        Appo… Suic…
+#&gt;  8 Vitel… 0069-… 0069… AVLVS VI… 0015… 0069… Rome      Italia        Seiz… Assa…
+#&gt;  9 Vespa… 0069-… 0079… TITVS FL… 0009… 0079… Falacrine Italia        Seiz… Natu…
+#&gt; 10 Titus  0079-… 0081… TITVS FL… 0039… 0081… Rome      Italia        Birt… Natu…
+#&gt; # … with 58 more rows, and 5 more variables: Killer &lt;chr&gt;, Dynasty &lt;chr&gt;,
+#&gt; #   Era &lt;chr&gt;, Notes &lt;chr&gt;, Verif &lt;chr&gt;
+#&gt; 
+#&gt; $UNRV
+#&gt; # A tibble: 99 × 7
+#&gt;    ID               Beg       End       Birth Death FullName          Dynasty   
+#&gt;    &lt;chr&gt;            &lt;messydt&gt; &lt;messydt&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;             &lt;chr&gt;     
+#&gt;  1 Augustus         -XX27     -XX14     63 BC 14    Gaius Julius Cae… Julio-Cla…
+#&gt;  2 Tiberius         -XX14     0037      42 BC 37    Tiberius Claudiu… Julio-Cla…
+#&gt;  3 Gaius (Caligula) 0037      0041      12    14    Gaius Caesar Ger… Julio-Cla…
+#&gt;  4 Claudius         0041      0054      10 BC 41    Tiberius Claudiu… Julio-Cla…
+#&gt;  5 Nero             0054      0068      37    68    Claudius Nero Ca… Julio-Cla…
+#&gt;  6 Galba            0068      0069      3 BC  69    Servius Sulpiciu… Year of t…
+#&gt;  7 Otho             0069      0069      32    69    Marcus Salvius O… Year of t…
+#&gt;  8 Vitellius        0069      0069      15    69    Aulus Vitellius … Year of t…
+#&gt;  9 Vespasian        0069      0079      9     79    Titus Flavius Ve… Year of t…
+#&gt; 10 Titus            0079      0081      39    79    Titus Flavius Ve… Flavian   
+#&gt; # … with 89 more rows
+#&gt; 
+#&gt; $britannica
+#&gt; # A tibble: 87 × 3
+#&gt;    ID              Beg       End      
+#&gt;    &lt;chr&gt;           &lt;messydt&gt; &lt;messydt&gt;
+#&gt;  1 Augustus        -XX31     0014     
+#&gt;  2 Tiberius        0014      0037     
+#&gt;  3 Caligula        0037      0041     
+#&gt;  4 Claudius        0041      0054     
+#&gt;  5 Nero            0054      0068     
+#&gt;  6 Galba           0068      0069     
+#&gt;  7 Otho            0069-01   0069-04  
+#&gt;  8 Aulus Vitellius 0069-07   0069-12  
+#&gt;  9 Vespasian       0069      0079     
+#&gt; 10 Titus           0079      0081     
+#&gt; # … with 77 more rows</code></pre>
 <p>We can see that there are three named datasets relating to emperors here: <code>wikipedia</code> (dataset assembled from Wikipedia pages), <code>UNVR</code> (United Nations of Roman Vitrix), and <code>britannica</code> (Britannica Encyclopedia List of Roman Emperors). Each of these datasets has their advantages and so we may wish to understand their differences, summarise variables across them, and perhaps also rerun models across them.</p>
-<p>To retrieve an individual dataset from this database, we can use the <code><a href="https://purrr.tidyverse.org/reference/pluck.html">pluck()</a></code> function from the <a href="http://purrr.tidyverse.org">purrr</a> package.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">wikipedia</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html">pluck</a></span><span class="op">(</span><span class="va">emperors</span>, <span class="st">"wikipedia"</span><span class="op">)</span></code></pre></div>
-<p>However, the real value of qData packages is that multiple datasets relating to the same phenomenon are presented together. This facilitates comparison, the subject of the next section.</p>
+<p>To retrieve an individual dataset from this database, we can use the <code><a href="https://purrr.tidyverse.org/reference/pluck.html">pluck()</a></code> function.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">wikipedia</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html">pluck</a></span><span class="op">(</span><span class="va">emperors</span>, <span class="st">"wikipedia"</span><span class="op">)</span></code></pre></div>
+<p>However, the real value of the various ‘many packages’ is that multiple datasets relating to the same phenomenon are presented together.</p>
 </div>
 <div id="comparing-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#comparing-data" class="anchor"></a>Comparing data</h2>
-<p>First of all, we want to understand what the differences are between these datasets. One important way to understand the relationship between these datasets is to understand what their relative advantages and disadvantages are. For example, one dataset may be long (has many observations) while another is shorter but wider (has more variables). One might include details further back in history while the other is more recent, but include more missing data or less precise data (i.e. coded at a less granular level) than another with a more restrictive. Or one might appear complete yet offer less information on where the original data points were sourced or how certain variables were coded, while another provides an extensive and transparent codebook that facilitates replication.</p>
-<div id="differences-in-documentation" class="section level3">
-<h3 class="hasAnchor">
-<a href="#differences-in-documentation" class="anchor"></a>Differences in documentation</h3>
-<p>We can bring up the database level documentation using: <code><a href="../reference/emperors.html">?emperors</a></code>. This informs users on the datasets present in the database as well as the variables in the various datasets. However, if we want a more detailed summary of the various levels of data and sources, we can use <code><a href="../reference/report.html">data_source()</a></code> and <code><a href="../reference/report.html">data_contrast()</a></code>.</p>
-</div>
+<p>First of all, we want to understand what the differences between the datasets in a database. One important way to understand the relationship between these datasets is to understand what their relative advantages and disadvantages are. For example, one dataset may be long (has many observations) while another is shorter but wider (has more variables). One might include details further back in history while the other is more recent, but include more missing data or less precise data (i.e. coded at a less granular level) than another with a more restrictive. Or one might appear complete yet offer less information on where the original data points were sourced or how certain variables were coded, while another provides an extensive and transparent codebook that facilitates replication.</p>
 <div id="using-data_source-and-data_contrast" class="section level3">
 <h3 class="hasAnchor">
 <a href="#using-data_source-and-data_contrast" class="anchor"></a>Using <code>data_source()</code> and <code>data_contrast()</code>
 </h3>
-<p>The <code><a href="../reference/report.html">data_source()</a></code> function displays bibliographic references for the datasets in a qPackage or within a database.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/report.html">data_source</a></span><span class="op">(</span>pkg <span class="op">=</span> <span class="st">"qData"</span>, database <span class="op">=</span> <span class="cn">NULL</span>, dataset <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
-<p>The <code><a href="../reference/report.html">data_contrast()</a></code> function returns a data frame with the key metadata of each level of data objects (qPackage, database, and dataset). This metadata includes the following elements:</p>
+<p>We can bring up the database level documentation using: <code><a href="../reference/emperors.html">?emperors</a></code>. This informs users on the datasets present in the database as well as the variables in the various datasets. Though, if we want a more detailed summary of the various levels of data and sources, we can use <code><a href="../reference/report.html">data_source()</a></code> and <code><a href="../reference/report.html">data_contrast()</a></code>. The <code><a href="../reference/report.html">data_source()</a></code> function displays bibliographic references for the datasets within a database.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/report.html">data_source</a></span><span class="op">(</span>pkg <span class="op">=</span> <span class="st">"manydata"</span>, database <span class="op">=</span> <span class="cn">NULL</span>, dataset <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+<pre><code>#&gt; Component 1 :
+#&gt;            Reference                                                                                                        
+#&gt; wikipedia  "(????). "List_of_Roman_emperors." &lt;URL:tps://en.wikipedia.org/wiki/List_of_Roman_emperors&gt;. Accesse" [truncated]
+#&gt; UNRV       "(????). "Roman Emperor list." &lt;URL:https://www.unrv.com/government/emperor.php&gt;. Accessed: 2021-07-" [truncated]
+#&gt; britannica "(????). "List of Roman emperors." &lt;URL:https://www.britannica.com/topic/list-of-Roman-emperors-2043" [truncated]</code></pre>
+<p>The <code><a href="../reference/report.html">data_contrast()</a></code> function returns a data frame with the key metadata of each level of data objects (many package, database, and dataset). This metadata includes the following elements:</p>
 <ul>
 <li>Number of unique observations</li>
 <li>Number of rows</li>
@@ -173,34 +248,202 @@
 <li>Latest end date</li>
 <li>Source URL</li>
 </ul>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/report.html">data_contrast</a></span><span class="op">(</span>pkg <span class="op">=</span> <span class="st">"qData"</span>, database <span class="op">=</span> <span class="cn">NULL</span>, dataset <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
-<p>If we were specifically interested in the one dataset of the database, we can further specify the arguments.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/report.html">data_contrast</a></span><span class="op">(</span>pkg <span class="op">=</span> <span class="st">"qData"</span>, database <span class="op">=</span> <span class="st">"emperors"</span>, dataset <span class="op">=</span> <span class="st">"wikipedia"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/report.html">data_contrast</a></span><span class="op">(</span>pkg <span class="op">=</span> <span class="st">"manydata"</span>, database <span class="op">=</span> <span class="cn">NULL</span>, dataset <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+<pre><code>#&gt; emperors :
+#&gt;            Unique ID Missing Data Rows Columns         Beg        End
+#&gt; wikipedia         68        9.9 %   68      15 -XX26-01-16 0395-01-17
+#&gt; UNRV              98       6.06 %   99       7       -XX14       0518
+#&gt; britannica        87          0 %   87       3       -XX31       0491
+#&gt;                                                                        URL
+#&gt; wikipedia                           https://github.com/zonination/emperors
+#&gt; UNRV                           https://www.unrv.com/government/emperor.php
+#&gt; britannica https://www.britannica.com/topic/list-of-Roman-emperors-2043294</code></pre>
 </div>
 <div id="an-example-of-inference-sensitivity-to-data-sources" class="section level3">
 <h3 class="hasAnchor">
 <a href="#an-example-of-inference-sensitivity-to-data-sources" class="anchor"></a>An example of inference sensitivity to data sources:</h3>
 <p>Next we may be interested in whether any relationships we are interested in or inferences we want to draw are sensitive to which data we use. That is, we are interested in the robustness of any results to different data specifications.</p>
-<p>We can start by exploring whether our conclusion about when emperors began their reign would differ depending on which dataset we use. We can use the <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code> function used above, but this time pass it the <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code> function and tell it to operate on just the “Beg” variable, wich represents when emperors began their reign (removing any NAs). Since qData datasets are always ordered by “Beg” (and then “ID”), we can remove any subsequent (duplicated) entries by ID to concentrate on first appearances.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">emperors</span> <span class="op">%&gt;%</span> 
+<p>We can start by exploring whether our conclusion about when emperors began their reign would differ depending on which dataset we use. We can use the <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map()</a></code> function used above, but this time pass it the <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code> function and tell it to operate on just the “Beg” variable, which represents when emperors began their reign (removing any NAs). Since manydata datasets are always ordered by “Beg” (and then “ID”), we can remove any subsequent (duplicated) entries by ID to concentrate on first appearances.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">emperors</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span>
-    <span class="va">x</span> <span class="op">%&gt;%</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span><span class="op">(</span><span class="va">ID</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="va">x</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span><span class="op">(</span><span class="va">ID</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
       <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Beg</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
   <span class="op">}</span><span class="op">)</span></code></pre></div>
-<p>It seems that there is some variation there.</p>
+<pre><code>#&gt; Warning in mean.default(Beg, na.rm = TRUE): argument is not numeric or logical:
+#&gt; returning NA
+
+#&gt; Warning in mean.default(Beg, na.rm = TRUE): argument is not numeric or logical:
+#&gt; returning NA
+
+#&gt; Warning in mean.default(Beg, na.rm = TRUE): argument is not numeric or logical:
+#&gt; returning NA</code></pre>
+<pre><code>#&gt; $wikipedia
+#&gt; # A tibble: 1 × 1
+#&gt;   `mean(Beg, na.rm = TRUE)`
+#&gt;                       &lt;dbl&gt;
+#&gt; 1                        NA
+#&gt; 
+#&gt; $UNRV
+#&gt; # A tibble: 1 × 1
+#&gt;   `mean(Beg, na.rm = TRUE)`
+#&gt;                       &lt;dbl&gt;
+#&gt; 1                        NA
+#&gt; 
+#&gt; $britannica
+#&gt; # A tibble: 1 × 1
+#&gt;   `mean(Beg, na.rm = TRUE)`
+#&gt;                       &lt;dbl&gt;
+#&gt; 1                        NA</code></pre>
 </div>
 </div>
 <div id="consolidate-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#consolidate-data" class="anchor"></a>Consolidate data</h2>
-<p>Now that we have visualized the data and looked at some of the different inferences drawn using different datasets, let us examine how to select and collapse databases. <a href="https://github.com/globalgov/qData">qData</a> contains the <code><a href="../reference/consolidate.html">consolidate()</a></code> which facilitates collapsing multiple datasets into a dataframe for analysis.</p>
-<p><code><a href="../reference/consolidate.html">consolidate()</a></code> collapses a set of (q)datasets, or a database, into a single dataset with some combination of the rows and columns. The function includes separate arguments for the rows and columns, as well as for how to resolve conflicts in observations across datasets. The key argument indicates the column to collapse datasets by. This provides users with considerable flexibility in how they combine qData. For example, users may wish to stick to units that appear in every dataset but include variables coded in any dataset or units that appear in any dataset, but only those variables that appear in every dataset.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span><span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"any"</span>, cols <span class="op">=</span> <span class="st">"any"</span>, resolve <span class="op">=</span> <span class="st">"coalesce"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span>
-<span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span><span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"every"</span>, cols <span class="op">=</span> <span class="st">"every"</span>, resolve <span class="op">=</span> <span class="st">"coalesce"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></code></pre></div>
+<p>Now that we have compared the data and looked at some of the different inferences drawn using different datasets, let us examine how to select and collapse databases. <a href="https://github.com/globalgov/manydata">manydata</a> contains the <code><a href="../reference/consolidate.html">consolidate()</a></code> function which facilitates collapsing multiple datasets into a dataframe for analysis.</p>
+<p><code><a href="../reference/consolidate.html">consolidate()</a></code> collapses a set of datasets, or a database, from a ‘many’ package into a single dataset with some combination of the rows and columns. The function includes separate arguments for the rows and columns, as well as for how to resolve conflicts in observations across datasets. The key argument indicates the column to collapse datasets by. This provides users with considerable flexibility in how they combine data. For example, users may wish to see units and variables coded in any dataset, or units and variables coded in every dataset,</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span><span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"any"</span>, cols <span class="op">=</span> <span class="st">"any"</span>, resolve <span class="op">=</span> <span class="st">"coalesce"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 137 × 15
+#&gt;    ID        CityBirth  ProvinceBirth Rise  Cause Killer Era   Notes Verif Birth
+#&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+#&gt;  1 Augustus  Rome       Italia        Birt… Assa… Wife   Prin… birt… Redd… 0062…
+#&gt;  2 Tiberius  Rome       Italia        Birt… Assa… Other… Prin… birt… Redd… 0041…
+#&gt;  3 Caligula  Antitum    Italia        Birt… Assa… Senate Prin… assa… Redd… 0012…
+#&gt;  4 Claudius  Lugdunum   Gallia Lugdu… Birt… Assa… Wife   Prin… birt… Redd… 0009…
+#&gt;  5 Nero      Antitum    Italia        Birt… Suic… Senate Prin… &lt;NA&gt;  Redd… 0037…
+#&gt;  6 Galba     Terracina  Italia        Seiz… Assa… Other… Prin… birt… Redd… 0002…
+#&gt;  7 Otho      Terentinum Italia        Appo… Suic… Other… Prin… &lt;NA&gt;  &lt;NA&gt;  0032…
+#&gt;  8 Vitellius Rome       Italia        Seiz… Assa… Other… Prin… &lt;NA&gt;  &lt;NA&gt;  0015…
+#&gt;  9 Vespasian Falacrine  Italia        Seiz… Natu… Disea… Prin… &lt;NA&gt;  &lt;NA&gt;  0009…
+#&gt; 10 Titus     Rome       Italia        Birt… Natu… Disea… Prin… &lt;NA&gt;  &lt;NA&gt;  0039…
+#&gt; # … with 127 more rows, and 5 more variables: Death &lt;chr&gt;, FullName &lt;chr&gt;,
+#&gt; #   Dynasty &lt;chr&gt;, Beg &lt;messydt&gt;, End &lt;messydt&gt;</code></pre>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span><span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"every"</span>, cols <span class="op">=</span> <span class="st">"every"</span>, resolve <span class="op">=</span> <span class="st">"coalesce"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 41 × 3
+#&gt;    ID        Beg         End       
+#&gt;    &lt;chr&gt;     &lt;messydt&gt;   &lt;messydt&gt; 
+#&gt;  1 Augustus  -XX26-01-16 0014-08-19
+#&gt;  2 Tiberius  0014-09-18  0037-03-16
+#&gt;  3 Claudius  0041-01-25  0054-10-13
+#&gt;  4 Nero      0054-10-13  0068-06-09
+#&gt;  5 Galba     0068-06-08  0069-01-15
+#&gt;  6 Otho      0069-01-15  0069-04-16
+#&gt;  7 Vespasian 0069-12-21  0079-06-24
+#&gt;  8 Titus     0079-06-24  0081-09-13
+#&gt;  9 Domitian  0081-09-14  0096-09-18
+#&gt; 10 Nerva     0096-09-18  0098-01-27
+#&gt; # … with 31 more rows</code></pre>
+<p>Users can also choose how they want to resolve conflicts between observations in <code><a href="../reference/consolidate.html">consolidate()</a></code> with several ‘resolve’ methods:</p>
+<ul>
+<li>coalesce: the first non-NA value</li>
+<li>max: the largest value</li>
+<li>min: the smallest value</li>
+<li>mean: the average value</li>
+<li>median: the median value</li>
+<li>random: a random value</li>
+</ul>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span><span class="va">emperors</span>, <span class="st">"any"</span>, <span class="st">"every"</span>, resolve <span class="op">=</span> <span class="st">"max"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 137 × 3
+#&gt;    ID        Beg        End       
+#&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;     
+#&gt;  1 Augustus  -XX31      0014-12-31
+#&gt;  2 Tiberius  0014-12-31 0037-12-31
+#&gt;  3 Caligula  0037-12-31 0041-12-31
+#&gt;  4 Claudius  0041-12-31 0054-12-31
+#&gt;  5 Nero      0054-12-31 0068-12-31
+#&gt;  6 Galba     0068-12-31 0069-12-31
+#&gt;  7 Otho      0069-12-31 0069-12-31
+#&gt;  8 Vitellius 0069-12-31 0069-12-31
+#&gt;  9 Vespasian 0069-12-31 0079-12-31
+#&gt; 10 Titus     0079-12-31 0081-12-31
+#&gt; # … with 127 more rows</code></pre>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span><span class="va">emperors</span>, <span class="st">"every"</span>, <span class="st">"any"</span>, resolve <span class="op">=</span> <span class="st">"min"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 41 × 15
+#&gt;    ID        CityBirth  ProvinceBirth Rise  Cause Killer Era   Notes Verif Birth
+#&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+#&gt;  1 Augustus  Rome       Italia        Birt… Assa… Wife   Prin… birt… Redd… 0062…
+#&gt;  2 Tiberius  Rome       Italia        Birt… Assa… Other… Prin… birt… Redd… 0041…
+#&gt;  3 Claudius  Lugdunum   Gallia Lugdu… Birt… Assa… Wife   Prin… birt… Redd… 0009…
+#&gt;  4 Nero      Antitum    Italia        Birt… Suic… Senate Prin… &lt;NA&gt;  Redd… 0037…
+#&gt;  5 Galba     Terracina  Italia        Seiz… Assa… Other… Prin… birt… Redd… 0002…
+#&gt;  6 Otho      Terentinum Italia        Appo… Suic… Other… Prin… &lt;NA&gt;  &lt;NA&gt;  0032…
+#&gt;  7 Vespasian Falacrine  Italia        Seiz… Natu… Disea… Prin… &lt;NA&gt;  &lt;NA&gt;  0009…
+#&gt;  8 Titus     Rome       Italia        Birt… Natu… Disea… Prin… &lt;NA&gt;  &lt;NA&gt;  0039…
+#&gt;  9 Domitian  Rome       Italia        Birt… Assa… Court… Prin… &lt;NA&gt;  &lt;NA&gt;  0051…
+#&gt; 10 Nerva     Narni      Italia        Appo… Natu… Disea… Prin… &lt;NA&gt;  &lt;NA&gt;  0030…
+#&gt; # … with 31 more rows, and 5 more variables: Death &lt;chr&gt;, FullName &lt;chr&gt;,
+#&gt; #   Dynasty &lt;chr&gt;, Beg &lt;chr&gt;, End &lt;chr&gt;</code></pre>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span><span class="va">emperors</span>, <span class="st">"every"</span>, <span class="st">"every"</span>, resolve <span class="op">=</span> <span class="st">"mean"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 41 × 3
+#&gt;    ID        Beg         End       
+#&gt;    &lt;chr&gt;     &lt;chr&gt;       &lt;chr&gt;     
+#&gt;  1 Augustus  -XX26-01-16 0014-08-19
+#&gt;  2 Tiberius  0014-09-18  0037-03-16
+#&gt;  3 Claudius  0041-01-25  0054-10-13
+#&gt;  4 Nero      0054-10-13  0068-06-09
+#&gt;  5 Galba     0068-06-08  0069-01-15
+#&gt;  6 Otho      0069-01-15  0069-04-16
+#&gt;  7 Vespasian 0069-12-21  0079-06-24
+#&gt;  8 Titus     0079-06-24  0081-09-13
+#&gt;  9 Domitian  0081-09-14  0096-09-18
+#&gt; 10 Nerva     0096-09-18  0098-01-27
+#&gt; # … with 31 more rows</code></pre>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span><span class="va">emperors</span>, <span class="st">"any"</span>, <span class="st">"any"</span>, resolve <span class="op">=</span> <span class="st">"median"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 137 × 15
+#&gt;    ID        CityBirth  ProvinceBirth Rise  Cause Killer Era   Notes Verif Birth
+#&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+#&gt;  1 Augustus  Rome       Italia        Birt… Assa… Wife   Prin… birt… Redd… 0062…
+#&gt;  2 Tiberius  Rome       Italia        Birt… Assa… Other… Prin… birt… Redd… 0041…
+#&gt;  3 Caligula  Antitum    Italia        Birt… Assa… Senate Prin… assa… Redd… 0012…
+#&gt;  4 Claudius  Lugdunum   Gallia Lugdu… Birt… Assa… Wife   Prin… birt… Redd… 0009…
+#&gt;  5 Nero      Antitum    Italia        Birt… Suic… Senate Prin… &lt;NA&gt;  Redd… 0037…
+#&gt;  6 Galba     Terracina  Italia        Seiz… Assa… Other… Prin… birt… Redd… 0002…
+#&gt;  7 Otho      Terentinum Italia        Appo… Suic… Other… Prin… &lt;NA&gt;  &lt;NA&gt;  0032…
+#&gt;  8 Vitellius Rome       Italia        Seiz… Assa… Other… Prin… &lt;NA&gt;  &lt;NA&gt;  0015…
+#&gt;  9 Vespasian Falacrine  Italia        Seiz… Natu… Disea… Prin… &lt;NA&gt;  &lt;NA&gt;  0009…
+#&gt; 10 Titus     Rome       Italia        Birt… Natu… Disea… Prin… &lt;NA&gt;  &lt;NA&gt;  0039…
+#&gt; # … with 127 more rows, and 5 more variables: Death &lt;chr&gt;, FullName &lt;chr&gt;,
+#&gt; #   Dynasty &lt;chr&gt;, Beg &lt;chr&gt;, End &lt;chr&gt;</code></pre>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span><span class="va">emperors</span>, <span class="st">"every"</span>, <span class="st">"every"</span>, resolve <span class="op">=</span> <span class="st">"random"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 41 × 3
+#&gt;    ID        Beg        End       
+#&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;     
+#&gt;  1 Augustus  -XX31      -XX14     
+#&gt;  2 Tiberius  0014-09-18 0037-03-16
+#&gt;  3 Claudius  0041-01-25 0054-04-21
+#&gt;  4 Nero      0054-01-20 0068-06-09
+#&gt;  5 Galba     0068-06-08 0069-07-31
+#&gt;  6 Otho      0069-07-28 0069-04-10
+#&gt;  7 Vespasian 0069-12-21 0079-06-24
+#&gt;  8 Titus     0079-06-25 0081-05-08
+#&gt;  9 Domitian  0081-06-24 0096-09-18
+#&gt; 10 Nerva     0096-09-18 0098-02-26
+#&gt; # … with 31 more rows</code></pre>
+<p>Users can even specify how conflictis for different variables should be ‘resolved’ differently.</p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span><span class="va">emperors</span>, <span class="st">"every"</span>, <span class="st">"every"</span>, resolve <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>Beg <span class="op">=</span> <span class="st">"min"</span>, End <span class="op">=</span> <span class="st">"max"</span><span class="op">)</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></code></pre></div>
+<pre><code>#&gt; # A tibble: 41 × 3
+#&gt;    ID        Beg         End       
+#&gt;    &lt;chr&gt;     &lt;chr&gt;       &lt;chr&gt;     
+#&gt;  1 Augustus  -XX26-01-16 0014-12-31
+#&gt;  2 Tiberius  -XX14       0037-12-31
+#&gt;  3 Claudius  0041-01-01  0054-12-31
+#&gt;  4 Nero      0054-01-01  0068-12-31
+#&gt;  5 Galba     0068-01-01  0069-12-31
+#&gt;  6 Otho      0069-01-01  0069-12-31
+#&gt;  7 Vespasian 0069-01-01  0079-12-31
+#&gt;  8 Titus     0079-01-01  0081-12-31
+#&gt;  9 Domitian  0081-01-01  0096-12-31
+#&gt; 10 Nerva     0096-01-01  0098-12-31
+#&gt; # … with 31 more rows</code></pre>
 </div>
   </div>
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Drop only columns used in formula — transmutate • qData</title>
+<title>Drop only columns used in formula — transmutate • manydata</title>
 
 
 <!-- jquery -->
@@ -73,8 +73,8 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">qData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <a class="navbar-link" href="../index.html">manydata</a>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
       </span>
     </div>
 
@@ -114,21 +114,21 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="https://globalgov.github.io/qCreate/">qCreate</a>
+      <a href="https://globalgov.github.io/manypkgs/">manypkgs</a>
     </li>
     <li>
-      <a href="https://globalgov.github.io/qStates/">qStates</a>
+      <a href="https://globalgov.github.io/manystates/">manystates</a>
     </li>
     <li>
-      <a href="https://globalgov.github.io/qEnviron/">qEnviron</a>
+      <a href="https://globalgov.github.io/manyenviron/">manyenviron</a>
     </li>
     <li>
-      <a href="https://globalgov.github.io/qTrade/">qTrade</a>
+      <a href="https://globalgov.github.io/manytrade/">manytrade</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="https://github.com/globalgov/qStates">
+  <a href="https://github.com/globalgov/manydata">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -147,7 +147,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Drop only columns used in formula</h1>
-    <small class="dont-index">Source: <a href='https://github.com/globalgov/qData/blob/master/R/wrangling_data.R'><code>R/wrangling_data.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/globalgov/manydata/blob/master/R/wrangling_data.R'><code>R/wrangling_data.R</code></a></small>
     <div class="hidden name"><code>transmutate.Rd</code></div>
     </div>
 
@@ -180,40 +180,41 @@ and none of the variables used in the mutations,
 but, unlike <code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>dplyr::transmute()</a></code>, all other unnamed variables.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>transmutate</span><span class='op'>(</span><span class='va'>mtcars</span>, X <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span> <span class='va'>vs</span>, <span class='va'>drat</span>, <span class='va'>wt</span> <span class='op'>)</span>, Y <span class='op'>=</span> <span class='va'>mpg</span><span class='op'>*</span><span class='va'>cyl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                      disp  hp  qsec am gear carb     X     Y
-#&gt; Mazda RX4           160.0 110 16.46  1    4    4 2.620 126.0
-#&gt; Mazda RX4 Wag       160.0 110 17.02  1    4    4 2.875 126.0
-#&gt; Datsun 710          108.0  93 18.61  1    4    1 3.850  91.2
-#&gt; Hornet 4 Drive      258.0 110 19.44  0    3    1 3.080 128.4
-#&gt; Hornet Sportabout   360.0 175 17.02  0    3    2 3.440 149.6
-#&gt; Valiant             225.0 105 20.22  0    3    1 2.760 108.6
-#&gt; Duster 360          360.0 245 15.84  0    3    4 3.570 114.4
-#&gt; Merc 240D           146.7  62 20.00  0    4    2 3.690  97.6
-#&gt; Merc 230            140.8  95 22.90  0    4    2 3.920  91.2
-#&gt; Merc 280            167.6 123 18.30  0    4    4 3.920 115.2
-#&gt; Merc 280C           167.6 123 18.90  0    4    4 3.920 106.8
-#&gt; Merc 450SE          275.8 180 17.40  0    3    3 4.070 131.2
-#&gt; Merc 450SL          275.8 180 17.60  0    3    3 3.730 138.4
-#&gt; Merc 450SLC         275.8 180 18.00  0    3    3 3.780 121.6
-#&gt; Cadillac Fleetwood  472.0 205 17.98  0    3    4 5.250  83.2
-#&gt; Lincoln Continental 460.0 215 17.82  0    3    4 5.424  83.2
-#&gt; Chrysler Imperial   440.0 230 17.42  0    3    4 5.345 117.6
-#&gt; Fiat 128             78.7  66 19.47  1    4    1 4.080 129.6
-#&gt; Honda Civic          75.7  52 18.52  1    4    2 4.930 121.6
-#&gt; Toyota Corolla       71.1  65 19.90  1    4    1 4.220 135.6
-#&gt; Toyota Corona       120.1  97 20.01  0    3    1 3.700  86.0
-#&gt; Dodge Challenger    318.0 150 16.87  0    3    2 3.520 124.0
-#&gt; AMC Javelin         304.0 150 17.30  0    3    2 3.435 121.6
-#&gt; Camaro Z28          350.0 245 15.41  0    3    4 3.840 106.4
-#&gt; Pontiac Firebird    400.0 175 17.05  0    3    2 3.845 153.6
-#&gt; Fiat X1-9            79.0  66 18.90  1    4    1 4.080 109.2
-#&gt; Porsche 914-2       120.3  91 16.70  1    5    2 2.140 104.0
-#&gt; Lotus Europa         95.1 113 16.90  1    5    2 3.770 121.6
-#&gt; Ford Pantera L      351.0 264 14.50  1    5    4 3.170 126.4
-#&gt; Ferrari Dino        145.0 175 15.50  1    5    6 2.770 118.2
-#&gt; Maserati Bora       301.0 335 14.60  1    5    8 3.570 120.0
-#&gt; Volvo 142E          121.0 109 18.60  1    4    2 4.110  85.6</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'>transmutate</span><span class='op'>(</span><span class='va'>mtcars</span>, X <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span> <span class='va'>vs</span>, <span class='va'>drat</span>, <span class='va'>wt</span> <span class='op'>)</span>, Y <span class='op'>=</span> <span class='va'>mpg</span><span class='op'>*</span><span class='va'>cyl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                      disp  hp  qsec am gear carb     X     Y</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Mazda RX4           160.0 110 16.46  1    4    4 2.620 126.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Mazda RX4 Wag       160.0 110 17.02  1    4    4 2.875 126.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Datsun 710          108.0  93 18.61  1    4    1 3.850  91.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Hornet 4 Drive      258.0 110 19.44  0    3    1 3.080 128.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Hornet Sportabout   360.0 175 17.02  0    3    2 3.440 149.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Valiant             225.0 105 20.22  0    3    1 2.760 108.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Duster 360          360.0 245 15.84  0    3    4 3.570 114.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Merc 240D           146.7  62 20.00  0    4    2 3.690  97.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Merc 230            140.8  95 22.90  0    4    2 3.920  91.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Merc 280            167.6 123 18.30  0    4    4 3.920 115.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Merc 280C           167.6 123 18.90  0    4    4 3.920 106.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Merc 450SE          275.8 180 17.40  0    3    3 4.070 131.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Merc 450SL          275.8 180 17.60  0    3    3 3.730 138.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Merc 450SLC         275.8 180 18.00  0    3    3 3.780 121.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Cadillac Fleetwood  472.0 205 17.98  0    3    4 5.250  83.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Lincoln Continental 460.0 215 17.82  0    3    4 5.424  83.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Chrysler Imperial   440.0 230 17.42  0    3    4 5.345 117.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Fiat 128             78.7  66 19.47  1    4    1 4.080 129.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Honda Civic          75.7  52 18.52  1    4    2 4.930 121.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Toyota Corolla       71.1  65 19.90  1    4    1 4.220 135.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Toyota Corona       120.1  97 20.01  0    3    1 3.700  86.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Dodge Challenger    318.0 150 16.87  0    3    2 3.520 124.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> AMC Javelin         304.0 150 17.30  0    3    2 3.435 121.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Camaro Z28          350.0 245 15.41  0    3    4 3.840 106.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Pontiac Firebird    400.0 175 17.05  0    3    2 3.845 153.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Fiat X1-9            79.0  66 18.90  1    4    1 4.080 109.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Porsche 914-2       120.3  91 16.70  1    5    2 2.140 104.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Lotus Europa         95.1 113 16.90  1    5    2 3.770 121.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Ford Pantera L      351.0 264 14.50  1    5    4 3.170 126.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Ferrari Dino        145.0 175 15.50  1    5    6 2.770 118.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Maserati Bora       301.0 335 14.60  1    5    8 3.570 120.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Volvo 142E          121.0 109 18.60  1    4    2 4.110  85.6</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

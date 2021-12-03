@@ -6,13 +6,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A plotting function that visualises historical milestones/releases — plot_releases • qData</title>
+<title>A plotting function that visualises historical milestones/releases — plot_releases • manydata</title>
 
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/paper/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
@@ -38,6 +38,8 @@
 
 
 
+  <link href="../extra.css" rel="stylesheet">
+  
 
 <meta property="og:title" content="A plotting function that visualises historical milestones/releases — plot_releases" />
 <meta property="og:description" content="The function will take a data frame that details this information,
@@ -72,8 +74,8 @@ or more usefully, a Github repository listing." />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">qData</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
+        <a class="navbar-link" href="../index.html">manydata</a>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
       </span>
     </div>
 
@@ -81,7 +83,7 @@ or more usefully, a Github repository listing." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -98,9 +100,6 @@ or more usefully, a Github repository listing." />
     <li>
       <a href="../articles/user.html">Use</a>
     </li>
-    <li>
-      <a href="../articles/developer.html">Develop</a>
-    </li>
   </ul>
 </li>
 <li>
@@ -108,8 +107,29 @@ or more usefully, a Github repository listing." />
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/globalgov/qDatr/">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Other packages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://globalgov.github.io/manypkgs/">manypkgs</a>
+    </li>
+    <li>
+      <a href="https://globalgov.github.io/manystates/">manystates</a>
+    </li>
+    <li>
+      <a href="https://globalgov.github.io/manyenviron/">manyenviron</a>
+    </li>
+    <li>
+      <a href="https://globalgov.github.io/manytrade/">manytrade</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://github.com/globalgov/manydata">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -128,7 +148,7 @@ or more usefully, a Github repository listing." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>A plotting function that visualises historical milestones/releases</h1>
-    <small class="dont-index">Source: <a href='https://github.com/globalgov/qDatr/blob/master/R/plot_releases.R'><code>R/plot_releases.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/globalgov/manydata/blob/master/R/plot_releases.R'><code>R/plot_releases.R</code></a></small>
     <div class="hidden name"><code>plot_releases.Rd</code></div>
     </div>
 
@@ -144,7 +164,7 @@ or more usefully, a Github repository listing.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>repo</th>
-      <td><p>the github repository to track, e.g. "jhollway/migraph"</p></td>
+      <td><p>the github repository to track, e.g. "globalgov/manydata"</p></td>
     </tr>
     </table>
 
@@ -161,10 +181,11 @@ with historical milestones and milestone statuses gathered from a
 specified GitHub repository.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>plot_releases</span><span class='op'>(</span><span class='st'>"globalgov/qData"</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='fu'>httr</span><span class='fu'>::</span><span class='fu'><a href='https://httr.r-lib.org/reference/http_error.html'>http_error</a></span><span class='op'>(</span><span class='st'>"https://api.github.com/repos/globalgov/manydata/releases"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span></span>
+<span class='r-in'><span class='fu'>plot_releases</span><span class='op'>(</span><span class='st'>"globalgov/manydata"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-plt img'><img src='plot_releases-1.png' alt='' width='700' height='433' /></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
