@@ -6,21 +6,35 @@ Caput Mortuum (crimson red) #591818, used for hovered links
 Dark White #f3f3f3, used for discrete active things, like the active dropdown
                     menu link.
 */
+/* Changes Bootstrap 5 theme switch */
+p {
+  font-size: 14px;
+  font-family: 'Lato', sans-serif;
+}
 
 h1 {
-  font-size: 40px;
+    font-size: 36px;
 }
 
 h2 {
-  font-size: 30px;
+    font-size: 28px;
 }
 
 h3 {
-  font-size: 17px;
+    font-size: 24px;
 }
 
-p {
-  font-size: 14px;
+h4 {
+    font-size: 18px;
+}
+
+/* Package name in the navbar*/
+.navbar-light .navbar-brand {
+  color: #595959;
+}
+/* Navbar menu names*/
+.navbar-light .navbar-nav .nav-link {
+  color: #595959;
 }
 
 .version {
@@ -29,7 +43,19 @@ p {
 
 body{
   font-family: 'Lato', sans-serif;
+  font-size: 1.05rem;
 }
+
+/* Right column titles*/
+aside .h2 {
+  font-size: 1.275rem;
+}
+/* Right column ul*/
+aside ul {
+  font-size: 0.95rem;
+}
+/* End of changes Bootstrap 5 theme switch */
+
 
 /* ---- particles.js container ---- */
 #particles-js {
@@ -37,7 +63,7 @@ body{
   width: 100%;
   height: 100%;
   background-color: #b61924;
-  background-image: url("");
+  /* background-image: url("");*/
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 50% 50%;

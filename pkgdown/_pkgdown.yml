@@ -2,8 +2,9 @@ url: https://globalgov.github.io/manydata/
 development:
     mode: auto
 template:
+  bootstrap: 5
   params:
-    bootswatch: paper
+    bootswatch: litera
 authors:
   James Hollway:
     href: https://jameshollway.com
@@ -20,6 +21,7 @@ navbar:
     - news
     right:
     - packages
+    - search
     - github
   components:
     home:
@@ -70,3 +72,10 @@ reference:
       - recollect
       - reunite
       - repaint
+footer:
+  structure:
+    left: devs
+    right: panarchic
+  components:
+    devs: Developed by [James Hollway](https://jameshollway.com/).
+    panarchic: Part of the [PANARCHIC project](https://panarchic.ch/).
