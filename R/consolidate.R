@@ -239,6 +239,7 @@ r_coalesce <- function(other_variables, out, key) {
 #' @param other_variables A list of variables to be resolved
 #' @param out A dataframe
 #' @param key The ID column to collapse by. By default "many_ID"
+#' @import messydates
 #' @return The resolved dataframed or variable
 r_min <- function(other_variables, out, key) {
   for (var in other_variables) {
@@ -248,7 +249,7 @@ r_min <- function(other_variables, out, key) {
     if (cl[[1]] == "messydt") {
       new_var <- data.frame(purrr::map(new_var, as.character))
       for (k in names(new_var)) {
-        new_var[, k] <- suppressWarnings(messydates:::min.messydt(messydates::as_messydate(new_var[, k])))
+        new_var[, k] <- min(messydates::as_messydate(new_var[, k]))
       }
     }
     new_var <- suppressWarnings(apply(new_var, 1, function(x)
@@ -272,6 +273,7 @@ r_min <- function(other_variables, out, key) {
 #' @param other_variables A list of variables to be resolved
 #' @param out A dataframe
 #' @param key The ID column to collapse by. By default "many_ID"
+#' @import messydates
 #' @return The resolved dataframed or variable
 r_max <- function(other_variables, out, key) {
   for (var in other_variables) {
@@ -281,7 +283,7 @@ r_max <- function(other_variables, out, key) {
     if (cl[[1]] == "messydt") {
       new_var <- data.frame(purrr::map(new_var, as.character))
       for (k in names(new_var)) {
-        new_var[, k] <- suppressWarnings(messydates:::max.messydt(messydates::as_messydate(new_var[, k])))
+        new_var[, k] <- max(messydates::as_messydate(new_var[, k]))
       }
     }
     new_var <- suppressWarnings(apply(new_var, 1, function(x)
@@ -305,6 +307,7 @@ r_max <- function(other_variables, out, key) {
 #' @param other_variables A list of variables to be resolved
 #' @param out A dataframe
 #' @param key The ID column to collapse by. By default "many_ID"
+#' @import messydates
 #' @return The resolved dataframed or variable
 r_median <- function(other_variables, out, key) {
   for (var in other_variables) {
@@ -314,7 +317,7 @@ r_median <- function(other_variables, out, key) {
     if (cl[[1]] == "messydt") {
       new_var <- data.frame(purrr::map(new_var, as.character))
       for (k in names(new_var)) {
-        new_var[, k] <- suppressWarnings(messydates:::median.messydt(messydates::as_messydate(new_var[, k])))
+        new_var[, k] <- median(messydates::as_messydate(new_var[, k]))
       }
     }
     new_var <- suppressWarnings(apply(new_var, 1, function(x)
@@ -338,6 +341,7 @@ r_median <- function(other_variables, out, key) {
 #' @param other_variables A list of variables to be resolved
 #' @param out A dataframe
 #' @param key The ID column to collapse by. By default "many_ID"
+#' @import messydates
 #' @return The resolved dataframed or variable
 r_mean <- function(other_variables, out, key) {
   for (var in other_variables) {
@@ -347,7 +351,7 @@ r_mean <- function(other_variables, out, key) {
     if (cl[[1]] == "messydt") {
       new_var <- data.frame(purrr::map(new_var, as.character))
       for (k in names(new_var)) {
-        new_var[, k] <- suppressWarnings(messydates:::mean.messydt(messydates::as_messydate(new_var[, k])))
+        new_var[, k] <- mean(messydates::as_messydate(new_var[, k]))
       }
     }
     new_var <- suppressWarnings(apply(new_var, 1, function(x)
@@ -371,6 +375,7 @@ r_mean <- function(other_variables, out, key) {
 #' @param other_variables A list of variables to be resolved
 #' @param out A dataframe
 #' @param key The ID column to collapse by. By default "many_ID"
+#' @import messydates
 #' @return The resolved dataframed or variable
 r_random <- function(other_variables, out, key) {
   for (var in other_variables) {
@@ -380,7 +385,7 @@ r_random <- function(other_variables, out, key) {
     if (cl[[1]] == "messydt") {
       new_var <- data.frame(purrr::map(new_var, as.character))
       for (k in names(new_var)) {
-        new_var[, k] <- suppressWarnings(messydates:::random.messydt(messydates::as_messydate(new_var[, k])))
+        new_var[, k] <- random(messydates::as_messydate(new_var[, k]))
       }
     }
     new_var <- suppressWarnings(apply(new_var, 1, function(x)
