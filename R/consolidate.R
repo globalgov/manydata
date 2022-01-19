@@ -67,7 +67,6 @@ consolidate <- function(database,
                         cols = c("any", "every"),
                         resolve = c("coalesce", "min", "max", "median", "mean", "random"),
                         key = "many_ID") {
-
   # Step 1: Join datasets by ID
   rows <- match.arg(rows)
   if (rows == "any") {
@@ -75,7 +74,6 @@ consolidate <- function(database,
   } else if (rows == "every") {
     out <- purrr::reduce(database, dplyr::inner_join, by = key)
   }
-
   # Step 2: Drop any unwanted variables
   cols <- match.arg(cols)
   all_variables <- unname(unlist(purrr::map(database, names)))
@@ -83,7 +81,6 @@ consolidate <- function(database,
     all_variables <- names(table(all_variables)[table(all_variables) == length(database)])
     out <- out %>% dplyr::select(all_of(key), starts_with(all_variables))
   }
-
   # Step 3: Resolve conflicts
   if (length(resolve) < 2) {
   resolve <- match.arg(resolve)
@@ -176,22 +173,18 @@ consolidate <- function(database,
 #' coalesce_compatible(eg1)
 #' @export
 coalesce_compatible <- function(.data) {
-
   pairs <- compatible_rows(.data)
-
   if (length(pairs) > 0) {
     merged <- apply(pairs, 1, function(x) {
       dplyr::coalesce(.data[x[1], ], .data[x[2], ])
     })
     merged <- dplyr::bind_rows(merged)
-
     dplyr::bind_rows(dplyr::slice(.data, -unique(c(pairs))),
                      merged)
   } else .data
 }
 
 compatible_rows <- function(x) {
-
   complete_vars <- x[, apply(x, 2, function(y) !any(is.na(y)))]
   compat_candidates <- which(duplicated(complete_vars) | duplicated(complete_vars, fromLast = TRUE))
   if (length(compat_candidates) == 0) {
@@ -200,7 +193,6 @@ compatible_rows <- function(x) {
     pairs <- t(utils::combn(compat_candidates, 2))
     pb <- progress::progress_bar$new(format = "identifying compatible pairs [:bar] :percent eta: :eta",
                                      total = nrow(pairs))
-
     compatico <- apply(pairs, 1, function(y) {
       pb$tick()
       o <- x[y[1], ] == x[y[2], ]
