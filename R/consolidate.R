@@ -308,6 +308,7 @@ r_max <- function(other_variables, out, key) {
 #' @param out A dataframe
 #' @param key The ID column to collapse by. By default "many_ID"
 #' @import messydates
+#' @importFrom stats median
 #' @return The resolved dataframed or variable
 r_median <- function(other_variables, out, key) {
   for (var in other_variables) {
@@ -317,7 +318,7 @@ r_median <- function(other_variables, out, key) {
     if (cl[[1]] == "messydt") {
       new_var <- data.frame(purrr::map(new_var, as.character))
       for (k in names(new_var)) {
-        new_var[, k] <- median(messydates::as_messydate(new_var[, k]))
+        new_var[, k] <- stats::median(messydates::as_messydate(new_var[, k]))
       }
     }
     new_var <- suppressWarnings(apply(new_var, 1, function(x)
