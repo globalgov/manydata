@@ -10,7 +10,8 @@
 #' report data on a specific database in a many package
 #' If NULL, the function returns a summary of all databases in the many package
 #' NULL by default for `data_source()` and `data_contrast()`.
-#' @param dataset character string of the many package to report data on a specific
+#' @param dataset character string of the many package to
+#' report data on a specific
 #' dataset in a specific database of a many package
 #' If NULL and database is specified, returns database level metadata.
 #' NULL by default for `data_source()` and `data_contrast()`.
@@ -29,7 +30,6 @@ data_source <- function(pkg, database = NULL, dataset = NULL) {
   pkg_path <- find.package(pkg)
   data_path <- file.path(pkg_path, "data")
   #selcts all dbs
-  pkg_dbs <- unname(unlist(readRDS(file.path(data_path, "Rdata.rds"))))
   if (!is.null(database)) {
     # Database specified, dataset unspecified
     if (is.null(dataset)) {
@@ -106,7 +106,8 @@ data_source <- function(pkg, database = NULL, dataset = NULL) {
 #' the most direct URL to the original dataset.
 #' @importFrom purrr map
 #' @importFrom stringr str_to_title
-#' @return A list with the desired metadata to compare various datasets in a many package.
+#' @return A list with the desired metadata
+#' to compare various datasets in a many package.
 #' @examples
 #' data_contrast(pkg = "manydata")
 #' @export

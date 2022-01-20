@@ -19,6 +19,8 @@ test_that("data_contrast() returns the correct output format", {
 })
 
 test_that("open_codebook() works", {
-  expect_error(open_codebook("manydata"), "argument \"database\" is missing, with no default")
-  expect_error(open_codebook("manydata", "emperors"), "argument \"dataset\" is missing, with no default")
+  expect_error(open_codebook("manydata"),
+               "argument \"database\" is missing, with no default")
+  expect_error(open_codebook("manydata", "emperors"),
+               "argument \"dataset\" is missing, with no default")
 })

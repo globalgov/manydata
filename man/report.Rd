@@ -22,7 +22,8 @@ report data on a specific database in a many package
 If NULL, the function returns a summary of all databases in the many package
 NULL by default for \code{data_source()} and \code{data_contrast()}.}
 
-\item{dataset}{character string of the many package to report data on a specific
+\item{dataset}{character string of the many package to
+report data on a specific
 dataset in a specific database of a many package
 If NULL and database is specified, returns database level metadata.
 NULL by default for \code{data_source()} and \code{data_contrast()}.}
@@ -30,7 +31,8 @@ NULL by default for \code{data_source()} and \code{data_contrast()}.}
 \value{
 A dataframe with the data sources
 
-A list with the desired metadata to compare various datasets in a many package.
+A list with the desired metadata
+to compare various datasets in a many package.
 
 Opens a pdf version of the original codebook of the specified
 dataset, if available.

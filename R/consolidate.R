@@ -59,7 +59,8 @@ purrr::pluck
 #' consolidate(emperors, "every", "any", resolve = "median", key = "ID")
 #' consolidate(emperors, "every", "every", resolve = "mean", key = "ID")
 #' consolidate(emperors, "every", "every", resolve = "random", key = "ID")
-#' consolidate(emperors, "every", "every", resolve = c(Beg = "min", End = "max"), key = "ID")
+#' consolidate(emperors, "every", "every",
+#' resolve = c(Beg = "min", End = "max"), key = "ID")
 #' }
 #' @export
 consolidate <- function(database,

@@ -25,7 +25,7 @@ with historical milestones and milestone statuses gathered from a
 specified GitHub repository.
 }
 \examples{
-if(!httr::http_error("https://api.github.com/repos/globalgov/manydata/releases")){
+if(!httr::http_error("https://api.github.com/repos/globalgov/manydata/releases")) {
 plot_releases("globalgov/manydata")
 }
 }
