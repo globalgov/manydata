@@ -100,25 +100,6 @@ get_packages <- function(pkg) {
       installed_v
     }
 
-    # get_contributors <- function(full_name) {
-    #   contribs <- paste0("https://api.github.com/repos/",
-    #                      full_name, "/contributors")
-    #   if(length(contribs)==1) {
-    #     contribs <- httr::GET(contribs)
-    #     contribs <- suppressMessages(httr::content(contribs, type = "text"))
-    #     contribs <- jsonlite::fromJSON(contribs, flatten = TRUE)$login
-    #     contribs <- paste(contribs, collapse = "\n")
-    #   } else {
-    #     contribs <- sapply(contribs, function(x) {
-    #       x <- httr::GET(x)
-    #       x <- suppressMessages(httr::content(x, type = "text"))
-    #       x <- jsonlite::fromJSON(x, flatten = TRUE)$login
-    #       x <- paste(x, collapse = ", ")
-    #     })
-    #   }
-    #   unlist(contribs)
-    # }
-
     repos <- lapply(orgs, function(x) {
       repo <- paste0("https://api.github.com/users/", x, "/repos")
       repo <- httr::GET(repo, query = list(state = "all",
@@ -130,12 +111,11 @@ get_packages <- function(pkg) {
       repo$latest <- get_latest_release(repo$full_name)
       repo$updated <- lubridate::as_date(get_latest_date(repo$full_name))
       repo <- subset(repo, !grepl("Unreleased", repo$latest))
-      # repo$contributors <- get_contributors(repo$full_name)
       repo <- as.data.frame(repo)
     })
 
     repos <- tibble::as_tibble(dplyr::bind_rows(repos))
-    if(length(repos) < 2) {
+    if (length(repos) < 2) {
       stop("The download limit from GitHub has been reached.
       To see all the packages in the many universe, please go to the following link:
            https://github.com/globalgov")
@@ -143,7 +123,7 @@ get_packages <- function(pkg) {
     print(repos, width = Inf, pillar.min_chars = Inf)
     }
   }
-  
+
   tryCatch({
   if (!missing(pkg)) {
     if (stringr::str_detect(pkg, "/")) {
