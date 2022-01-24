@@ -8,8 +8,8 @@
 #' @importFrom tibble as_tibble
 #' @importFrom stats ave
 #' @importFrom stringr str_split str_remove
+#' @importFrom lubridate ymd ceiling_date floor_date
 #' @import ggplot2
-#' @import lubridate
 #' @details The function creates a project timeline graphic using ggplot2
 #' with historical milestones and milestone statuses gathered from a
 #' specified GitHub repository.
