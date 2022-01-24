@@ -22,10 +22,14 @@ NULL
 #' @export
 extract_bilaterals <- function(membs) {
   Beg <- CountryID <- CountryID1 <- CountryID2 <- End <- Title <- many_ID <- NULL
+  if (!any(colnames(membs) == "many_ID")) {
+    stop("many_ID column not found, please declare a many packages dataset.")
+  }
   bilats <- subset(membs, grepl("[A-Z]{3}-", many_ID)) %>%
     dplyr::arrange(many_ID, CountryID) %>%
     dplyr::select(CountryID, many_ID, Title, Beg, End)
-  bilats <- bilats %>% dplyr::filter(many_ID %in% names(table(bilats$many_ID)[table(bilats$many_ID) == 2]))
+  bilats <- bilats %>%
+    dplyr::filter(many_ID %in% names(table(bilats$many_ID)[table(bilats$many_ID) == 2]))
   bilats1 <- bilats %>%
     dplyr::filter(row_number() %% 2 == 0) %>%
     dplyr::rename(CountryID1 = "CountryID")
@@ -42,6 +46,7 @@ extract_bilaterals <- function(membs) {
 #' @details The function helps extracting adjacency edgelist
 #' for multilateral agreements in a mixed edgelist.
 #' @importFrom dplyr filter
+#' @importFrom stringr str_detect
 #' @return An edgelist for multilateral agreements
 #' @examples
 #' \dontrun{
@@ -50,7 +55,12 @@ extract_bilaterals <- function(membs) {
 #' }
 #' @export
 extract_multilaterals <- function(membs) {
-  many_ID <- NULLref <- NULL
-  subset(membs, !grepl("[A-Z]{3}-", NULLref)) %>%
-    dplyr::filter(many_ID %in% names(table(many_ID)[table(many_ID) != 2]))
+  many_ID <- Title <- Beg <- End <- NULL
+  if (!any(colnames(membs) == "many_ID")) {
+    stop("many_ID column not found, please declare a many packages dataset.")
+  }
+  multi <- subset(membs, stringr::str_detect(many_ID, "\\-", negate = TRUE)) %>%
+    dplyr::filter(many_ID %in% names(table(many_ID)[table(many_ID) != 2])) %>%
+    dplyr::select(many_ID, Title, Beg, End)
+  multi
 }
