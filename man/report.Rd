@@ -65,7 +65,7 @@ as further information on coding rules available online.
 \examples{
 data_source(pkg = "manydata")
 data_contrast(pkg = "manydata")
-\dontrun{
-open_codebook(pkg = "manystates", database = "states", dataset = "COW")
+\donttest{
+open_codebook(pkg = "manydata", database = "emperors", dataset = "wikipedia")
 }
 }

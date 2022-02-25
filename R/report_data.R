@@ -239,8 +239,8 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
 #' @return Opens a pdf version of the original codebook of the specified
 #' dataset, if available.
 #' @examples
-#' \dontrun{
-#' open_codebook(pkg = "manystates", database = "states", dataset = "COW")
+#' \donttest{
+#' open_codebook(pkg = "manydata", database = "emperors", dataset = "wikipedia")
 #' }
 #' @export
 open_codebook <- function(pkg, database, dataset) {
