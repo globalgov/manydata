@@ -11,7 +11,7 @@
 #' @import dplyr
 #' @source https://stackoverflow.com/questions/51428156/dplyr-mutate-transmute-drop-only-the-columns-used-in-the-formula
 #' @examples
-#' transmutate(mtcars, X = ifelse( vs, drat, wt ), Y = mpg*cyl)
+#' transmutate(emperors$wikipedia, Beggining = Beg)
 #' @export
 transmutate <- function(.data, ...) {
 
@@ -83,8 +83,8 @@ recollect <- function(x, collapse = "_") {
 #' but on observations rather than variables.
 #' @source https://stackoverflow.com/questions/40515180/dplyr-how-to-find-the-first-non-missing-string-by-groups
 #' @examples
-#' dplyr::summarise(mtcars, coalesce_rows(mtcars))
-#' coalesce_rows(mtcars$wt)
+#' dplyr::summarise(emperors$wikipedia, coalesce_rows(emperors$wikipedia))
+#' coalesce_rows(emperors$wikipedia$Beg)
 #' @export
 coalesce_rows <- function(x) {
   x[which(!is.na(x))[1]]
