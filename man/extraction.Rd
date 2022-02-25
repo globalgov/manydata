@@ -34,12 +34,24 @@ The function helps extracting adjacency edgelist
 for multilateral agreements in a mixed edgelist.
 }
 \examples{
-\dontrun{
-membs <- manyenviron::memberships$IEADB_MEM
+membs <- tibble::tibble(CountryID = c("ROU", "RUS", "DNK"),
+manyID = c("ROU-RUS[RFP]_1901A", "ROU-RUS[RFP]_1901A", "GD16FI_1901A"),
+Title = c("Convention Between Roumania And Russia Concerning Fishing In The Danube And The Pruth",
+"Convention Between Roumania And Russia Concerning Fishing In The Danube And The Pruth",
+"Convention Between The Governments Of Denmark And The United Kingdom Of Great Britain
+And Northern Ireland For Regulating The Fisheries Of Their Respective Subjects Outside
+Territorial Waters In The Ocean Surrounding The Faroe Islands"),
+Beg = c("1901-02-22", "1901-02-22", "1901-06-24"),
+End = c(NA, NA, NA))
 extract_bilaterals(membs)
-}
-\dontrun{
-membs <- manyenviron::memberships$IEADB_MEM
+membs <- tibble::tibble(CountryID = c("ROU", "RUS", "DNK"),
+manyID = c("ROU-RUS[RFP]_1901A", "ROU-RUS[RFP]_1901A", "GD16FI_1901A"),
+Title = c("Convention Between Roumania And Russia Concerning Fishing In The Danube And The Pruth",
+"Convention Between Roumania And Russia Concerning Fishing In The Danube And The Pruth",
+"Convention Between The Governments Of Denmark And The United Kingdom Of Great Britain
+And Northern Ireland For Regulating The Fisheries Of Their Respective Subjects Outside
+Territorial Waters In The Ocean Surrounding The Faroe Islands"),
+Beg = c("1901-02-22", "1901-02-22", "1901-06-24"),
+End = c(NA, NA, NA))
 extract_multilaterals(membs)
-}
 }
