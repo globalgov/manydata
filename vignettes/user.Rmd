@@ -19,6 +19,10 @@ knitr::opts_chunk$set(
 )
 ```
 
+```{r lib, eval=NOT_CRAN}
+library(manydata)
+```
+
 ## Discovering data
 
 The first thing users of the package will want to do is to identify
@@ -32,8 +36,7 @@ We have tried to make this easy by allowing the reporting of all packages in the
 many packages universe, as well as the databases and datasets included in each
 of the 'many packages' - that we know of that currently pass our tests.
 
-```{r discover, eval=NOT_CRAN}
-library(manydata)
+```{r discover, eval=FALSE}
 get_packages()
 ```
 
@@ -153,7 +156,8 @@ when emperors began their reign (removing any NAs).
 Since manydata datasets are always ordered by "Beg" (and then "ID"),
 we can remove any subsequent (duplicated) entries by ID to concentrate on first appearances.
 
-```{r compare}
+```{r compare, message=FALSE, warning=FALSE}
+library(dplyr)
 emperors %>% 
   purrr::map(function(x){
     x %>% dplyr::filter(!duplicated(ID)) %>%
