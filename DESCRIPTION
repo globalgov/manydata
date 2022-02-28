@@ -31,10 +31,9 @@ License: CC BY 4.0
 URL: https://github.com/globalgov/manydata
 BugReports: https://github.com/globalgov/manydata/issues
 Depends:
-    R (>= 3.5.0),
-    tibble
+    R (>= 3.5.0)
 Imports:
-    covr,
+    tibble,
     dplyr,
     messydates,
     lubridate,
@@ -49,7 +48,8 @@ Imports:
     remotes,
     httr,
     progress,
-    ggplot2
+    ggplot2,
+    covr
 Suggests:
     testthat,
     anytime,
