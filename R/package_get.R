@@ -32,10 +32,6 @@
 #' @importFrom remotes install_github
 #' @importFrom utils packageVersion
 #' @importFrom lubridate as_date
-#' @examples
-#' \dontrun{
-#' get_packages()
-#' }
 #' @export
 get_packages <- function(pkg) {
 
