@@ -165,7 +165,7 @@ consolidate <- function(database,
 #' @importFrom dplyr coalesce bind_rows slice
 #' @importFrom progress progress_bar
 #' @examples
-#' eg1 <- tribble(
+#' eg1 <- tibble::tribble(
 #' ~x, ~y, ~z,
 #' "a", "b", NA,
 #' "a", "b", "c",

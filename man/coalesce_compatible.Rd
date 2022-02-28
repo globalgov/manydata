@@ -18,7 +18,7 @@ allowing for equality where one row has an element present
 and the other is missing the observation.
 }
 \examples{
-eg1 <- tribble(
+eg1 <- tibble::tribble(
 ~x, ~y, ~z,
 "a", "b", NA,
 "a", "b", "c",
