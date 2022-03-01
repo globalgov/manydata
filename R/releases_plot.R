@@ -21,7 +21,6 @@
 #' }
 #' @export
 plot_releases <- function(repo) {
-
   # Step one: get releases from repo
   if (!is.data.frame(repo)) {
     get_releases <- function(repo) {
