@@ -9,7 +9,8 @@ consolidate(
   rows = c("any", "every"),
   cols = c("any", "every"),
   resolve = c("coalesce", "min", "max", "median", "mean", "random"),
-  key = "many_ID"
+  key = "manyID",
+  favour = NULL
 )
 }
 \arguments{
@@ -42,6 +43,10 @@ In this case, only the variables named will be resolved and returned.}
 
 \item{key}{An ID column to collapse by.
 By default "many_ID".}
+
+\item{favour}{Would you like a dataset to be favoured over others?
+In this case the dataset selected becomes the reference for
+the first non NA value.}
 }
 \value{
 A single tibble/data frame.
@@ -67,6 +72,8 @@ users to choose how conflicts between observations are resolved.
 \donttest{
 pluck(emperors, "UNRV")
 consolidate(emperors, "any", "any", resolve = "coalesce", key = "ID")
+consolidate(emperors, "any", "any", resolve = "coalesce", key = "ID",
+favour = "UNRV")
 consolidate(emperors, "every", "every", resolve = "min", key = "ID")
 consolidate(emperors, "any", "every", resolve = "max", key = "ID")
 consolidate(emperors, "every", "any", resolve = "median", key = "ID")
