@@ -24,5 +24,5 @@ Favour datasets
 }
 \examples{
 favour(emperors, "UNRV")
-favor(emperors, c("wikipedia", "UNRV", "britannica"))
+favour(emperors, c("wikipedia", "UNRV", "britannica"))
 }

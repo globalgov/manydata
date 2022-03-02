@@ -218,7 +218,7 @@ compatible_rows <- function(x) {
 #' @return The same database with datasets re-ordered accordingly
 #' @examples
 #' favour(emperors, "UNRV")
-#' favor(emperors, c("wikipedia", "UNRV", "britannica"))
+#' favour(emperors, c("wikipedia", "UNRV", "britannica"))
 #' @export
 favour <- favor <- function(database, x) {
   if (length(x) > 1) {
