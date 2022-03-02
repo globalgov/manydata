@@ -24,7 +24,9 @@ NULL
 #' @importFrom stringr str_to_title
 #' @return A dataframe with the data sources
 #' @examples
+#' \donttest{
 #' data_source(pkg = "manydata")
+#' }
 #' @export
 data_source <- function(pkg, database = NULL, dataset = NULL) {
   pkg_path <- find.package(pkg)
@@ -109,7 +111,9 @@ data_source <- function(pkg, database = NULL, dataset = NULL) {
 #' @return A list with the desired metadata
 #' to compare various datasets in a many package.
 #' @examples
+#' \donttest{
 #' data_contrast(pkg = "manydata")
+#' }
 #' @export
 data_contrast <- function(pkg, database = NULL, dataset = NULL) {
   pkg_path <- find.package(pkg)

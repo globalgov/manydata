@@ -63,8 +63,12 @@ source URL provided with each dataset by running \code{manydata::data_contrast()
 as further information on coding rules available online.
 }
 \examples{
+\donttest{
 data_source(pkg = "manydata")
+}
+\donttest{
 data_contrast(pkg = "manydata")
+}
 \donttest{
 open_codebook(pkg = "manydata", database = "emperors", dataset = "wikipedia")
 }
