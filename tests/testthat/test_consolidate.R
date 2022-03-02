@@ -53,21 +53,21 @@ data.dup <- dplyr::tibble(manyID = c("NZL", "BRA", "CHF", "OTH",
 data.con.min <- dplyr::tibble(manyID = c("NZL", "BRA"),
                               date = c("1990-01-01",
                                        "1990-01-02"),
-                              number = c("100", "1000"))
+                              number = c(100, 1000))
 data.con.max <- dplyr::tibble(manyID = c("NZL", "BRA"),
                               date = c("1990-01-01",
                                        "1990-01-03"),
-                              number = c("100", "1200"))
+                              number = c(100, 1200))
 data.con.median <- dplyr::tibble(manyID = c("NZL", "BRA"),
                               date = c("1990-01-01",
                                        "1990-01-02"),
-                              number = c("100", "1100"))
+                              number = c(100, 1100))
 data.multi <- dplyr::tibble(manyID = c("NZL", "BRA", "CHF", "OTH"),
                             date = c("1990-01-01", "1990-01-02",
-                                     "1990-01-01", NA),
-                            number = c("100", "1200", "12222", "21"))
+                                     "1990-01-01..1990-01-31", NA),
+                            number = c(100, 1200, 12222, 21))
 data.many <- dplyr::tibble(manyID = c("NZL", "BRA", "CHF", "OTH"),
-                           number = c("100", "1100", "11111", "21"),
+                           number = c(100, 1100, 11111, 21),
                            date = c("1990-01-01", "1990-01-02",
                                     "1990-01-01..1990-01-31", NA))
 
@@ -82,11 +82,9 @@ test_that("coalesce_compatible works", {
   expect_equal(coalesce_compatible(data.dup), data.13.any)
 })
 
-test_that("consolidate methods", {
+test_that("consolidate methods work", {
   expect_equal(consolidate(test, "every", "every",
                            resolve = "coalesce"), data.con.con)
-  expect_equal(consolidate(favour(test, "b"), "every", "every",
-                           resolve = "coalesce"), data.favour)
   expect_equal(consolidate(test, "every", "any",
                            resolve = "coalesce"), data.con.any)
   expect_equal(consolidate(test, "any", "any",
@@ -122,4 +120,9 @@ test_that("consolidate methods", {
   expect_length(consolidate(test2, "any", "any",
                             resolve = c(date = "coalesce",
                                         number = "random")), 3)
+})
+
+test_that("favouring a dataset works", {
+  expect_equal(consolidate(favour(test, "b"), "every", "every",
+                           resolve = "coalesce"), data.favour)
 })
