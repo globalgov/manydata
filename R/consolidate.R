@@ -40,9 +40,6 @@
 #' In this case, only the variables named will be resolved and returned.
 #' @param key An ID column to collapse by.
 #' By default "many_ID".
-#' @param favour Would you like a dataset to be favoured over others?
-#' In this case the dataset selected becomes the reference for
-#' the first non NA value.
 #' @seealso [pluck()] for selecting a single dataset from a database
 #' @return A single tibble/data frame.
 #' @name consolidate
@@ -57,8 +54,7 @@ purrr::pluck
 #' \donttest{
 #' pluck(emperors, "UNRV")
 #' consolidate(emperors, "any", "any", resolve = "coalesce", key = "ID")
-#' consolidate(emperors, "any", "any", resolve = "coalesce", key = "ID",
-#' favour = "UNRV")
+#' consolidate(favour(emperors, "UNRV"), "any", "any", resolve = "coalesce", key = "ID")
 #' consolidate(emperors, "every", "every", resolve = "min", key = "ID")
 #' consolidate(emperors, "any", "every", resolve = "max", key = "ID")
 #' consolidate(emperors, "every", "any", resolve = "median", key = "ID")
@@ -72,31 +68,23 @@ consolidate <- function(database,
                         rows = c("any", "every"),
                         cols = c("any", "every"),
                         resolve = c("coalesce", "min", "max", "median", "mean", "random"),
-                        key = "manyID",
-                        favour = NULL) {
-  
-  # Step 1: Re-arrange tibble list, if favour argument is not NULL
-  if (!is.null(favour)) {
-    fav <- database[favour]
-    database[favour] <- NULL
-    database <- append(fav, database)
-  }
-  
-  # Step 2: Join datasets by ID
+                        key = "manyID") {
+
+  # Step 1: Join datasets by ID
   rows <- match.arg(rows)
   if (rows == "any") {
     out <- purrr::reduce(database, dplyr::full_join, by = key)
   } else if (rows == "every") {
     out <- purrr::reduce(database, dplyr::inner_join, by = key)
   }
-  # Step 3: Drop any unwanted variables
+  # Step 2: Drop any unwanted variables
   cols <- match.arg(cols)
   all_variables <- unname(unlist(purrr::map(database, names)))
   if (cols == "every") {
     all_variables <- names(table(all_variables)[table(all_variables) == length(database)])
     out <- out %>% dplyr::select(all_of(key), starts_with(all_variables))
   }
-  # Step 4: Resolve conflicts
+  # Step 3: Resolve conflicts
   if (length(resolve) < 2) {
   resolve <- match.arg(resolve)
   other_variables <- unname(all_variables[!key == all_variables])
@@ -216,6 +204,35 @@ compatible_rows <- function(x) {
     })
     pairs[apply(t(compatico), 1, function(y) all(y)), ]
   }
+}
+
+#' Favour datasets
+#' 
+#' @param database A many database
+#' @param x Would you like a dataset to be favoured over others?
+#' In this case the dataset selected becomes the reference for
+#' the first non NA value.
+#' If more than one dataset is declared,
+#' please add datasets increasing order of importance
+#' (.i.e. last dataset should be favoured over previous).
+#' @return The same database with datasets re-ordered accordingly
+#' @examples
+#' favour(emperors, "UNRV")
+#' favor(emperors, c("wikipedia", "UNRV", "britannica"))
+#' @export
+favour <- favor <- function(database, x) {
+  if (length(x) > 1) {
+    for (n in unlist(x)) {
+      fav <- database[n]
+      database[n] <- NULL
+      database <- append(fav, database)
+    }
+  } else {
+    fav <- database[x]
+    database[x] <- NULL
+    database <- append(fav, database)
+  }
+  database
 }
 
 #' Resolve Coalesce
