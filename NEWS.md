@@ -1,3 +1,20 @@
+# manydata 0.6.1
+
+## Package
+
+* Updated package website
+  * Closed #196 by updating elements that configure website to work properly
+  * Updated `{pkgdown}` to use bootstrap 5 template
+* Closed #194 by updating all remaining references from qID to manyID
+
+## Connection
+
+* Updated `consolidate()` function
+  * Closed #191 by making `consolidate()` function more concise
+  * Fixed warnings by changing how ´{messydates}` package resolves dates
+  * Updated how `consolidate()` substitutes NAs observations left with first non-missing observation
+* Closed #199 by adding `favour()` function that re-orders datasets within a database
+
 # manydata 0.6.0
 
 ## Package
