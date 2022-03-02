@@ -85,8 +85,8 @@ test_that("coalesce_compatible works", {
 test_that("consolidate methods", {
   expect_equal(consolidate(test, "every", "every",
                            resolve = "coalesce"), data.con.con)
-  expect_equal(consolidate(test, "every", "every",
-                           resolve = "coalesce", favour = "b"), data.favour)
+  expect_equal(consolidate(favour(test, "b"), "every", "every",
+                           resolve = "coalesce"), data.favour)
   expect_equal(consolidate(test, "every", "any",
                            resolve = "coalesce"), data.con.any)
   expect_equal(consolidate(test, "any", "any",
