@@ -19,10 +19,10 @@ The first thing users of the package will want to do is to identify
 datasets that might contribute to their research goals. 
 Since some of these data packages are too big for CRAN, 
 we expect that their developers will instead choose
-to make their packages available on Github.
+to make their packages available on GitHub.
 To make it easier to identify of all packages in the
 many packages universe, we have developed the `get_packages()` function.
-The function lists the many packages available and allow users to downlaod them.
+The function lists the many packages available and allow users to download them.
 
 ```{r discover, eval=FALSE}
 get_packages()
@@ -191,7 +191,7 @@ consolidate(emperors, "any", "any", resolve = "median", key = "ID")
 consolidate(emperors, "every", "every", resolve = "random", key = "ID")
 ```
 
-Users can even specify how conflictis for different variables should be 'resolved':
+Users can even specify how conflicts for different variables should be 'resolved':
 
 ```{r different}
 consolidate(emperors, "any", "every", resolve = c(Beg = "min", End = "max"), key = "ID")
