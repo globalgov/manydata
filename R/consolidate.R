@@ -208,6 +208,7 @@ compatible_rows <- function(x) {
 
 #' Favour datasets
 #' 
+#' @name favour
 #' @param database A many database
 #' @param x Would you like a dataset to be favoured over others?
 #' In this case the dataset selected becomes the reference for
@@ -220,7 +221,7 @@ compatible_rows <- function(x) {
 #' favour(emperors, "UNRV")
 #' favour(emperors, c("wikipedia", "UNRV", "britannica"))
 #' @export
-favour <- favor <- function(database, x) {
+favour <- function(database, x) {
   if (length(x) > 1) {
     for (n in unlist(x)) {
       fav <- database[n]
@@ -234,6 +235,10 @@ favour <- favor <- function(database, x) {
   }
   database
 }
+
+#' @rdname favour
+#' @export
+favor <- favour
 
 #' Resolve Coalesce
 #'

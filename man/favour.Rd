@@ -2,9 +2,12 @@
 % Please edit documentation in R/consolidate.R
 \name{favour}
 \alias{favour}
+\alias{favor}
 \title{Favour datasets}
 \usage{
 favour(database, x)
+
+favor(database, x)
 }
 \arguments{
 \item{database}{A many database}
