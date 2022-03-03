@@ -125,4 +125,6 @@ test_that("consolidate methods work", {
 test_that("favouring a dataset works", {
   expect_equal(consolidate(favour(test, "b"), "every", "every",
                            resolve = "coalesce"), data.favour)
+  expect_equal(consolidate(favor(test, "b"), "every", "every",
+                           resolve = "coalesce"), data.favour)
 })
