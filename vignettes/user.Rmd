@@ -9,17 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include = FALSE}
-NOT_CRAN <- identical(tolower(Sys.getenv("NOT_CRAN")), "true")
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  purl = NOT_CRAN,
-  eval = NOT_CRAN
-)
-```
-
-```{r lib, eval=NOT_CRAN}
+```{r lib}
 library(manydata)
 ```
 
@@ -27,14 +17,12 @@ library(manydata)
 
 The first thing users of the package will want to do is to identify
 datasets that might contribute to their research goals. 
-Since some of these data packages are too big for CRAN 
-(the main though not only R package repository), 
+Since some of these data packages are too big for CRAN, 
 we expect that their developers will instead choose
-to make their packages available on Github. 
-Github is huge though, either way it can be difficult to identify salient data. 
-We have tried to make this easy by allowing the reporting of all packages in the
-many packages universe, as well as the databases and datasets included in each
-of the 'many packages' - that we know of that currently pass our tests.
+to make their packages available on Github.
+To make it easier to identify of all packages in the
+many packages universe, we have developed the `get_packages()` function.
+The function lists the many packages available and allow users to downlaod them.
 
 ```{r discover, eval=FALSE}
 get_packages()
@@ -120,6 +108,7 @@ This informs users on the datasets present in the database
 as well as the variables in the various datasets. 
 Though, if we want a more detailed summary of the various levels of data 
 and sources, we can use `data_source()` and `data_contrast()`.
+
 The `data_source()` function displays bibliographic references for
 the datasets within a database.
 
@@ -142,7 +131,7 @@ This metadata includes the following elements:
 data_contrast(pkg = "manydata", database = NULL, dataset = NULL)
 ```
 
-### An example of inference sensitivity to data sources:
+### An example of inference sensitivity to data sources
 
 Next we may be interested in whether any relationships we are interested in
 or inferences we want to draw are sensitive to which data we use.
@@ -165,21 +154,20 @@ emperors %>%
   })
 ```
 
-## Consolidate data
+## Consolidating data
 
-Now that we have compared the data and looked at some of the different inferences
-drawn using different datasets, let us examine how to select and collapse databases.
-`{manydata}` contains the `consolidate()` function which facilitates collapsing multiple
-datasets into a dataframe for analysis.
+Now that we have compared the data and looked at some of the different inferences drawn,
+let us examine how to select and consolidate databases.
 
-`consolidate()` collapses a set of datasets, or a database, from a 'many' package
-into a single dataset with some combination of the rows and columns.
-The function includes separate arguments for the rows and columns,
+The `consolidate()` function which facilitates consolidating a set of datasets, or a database,
+from a 'many' package into a single dataset with some combination of the rows and columns.
+The function includes separate arguments for rows and columns,
 as well as for how to resolve conflicts in observations across datasets.
 The key argument indicates the column to collapse datasets by.
 This provides users with considerable flexibility in how they combine data.
+
 For example, users may wish to see units and variables coded in any dataset,
-or units and variables coded in every dataset,
+or units and variables coded in every dataset:
 
 ```{r consolidate}
 consolidate(emperors, rows = "any", cols = "any", resolve = "coalesce", key = "ID")
@@ -203,8 +191,14 @@ consolidate(emperors, "any", "any", resolve = "median", key = "ID")
 consolidate(emperors, "every", "every", resolve = "random", key = "ID")
 ```
 
-Users can even specify how conflictis for different variables should be 'resolved' differently.
+Users can even specify how conflictis for different variables should be 'resolved':
 
 ```{r different}
-consolidate(emperors, "every", "every", resolve = c(Beg = "min", End = "max"), key = "ID")
+consolidate(emperors, "any", "every", resolve = c(Beg = "min", End = "max"), key = "ID")
+```
+
+Alternatively, users can "favour" a dataset in a database over others:
+
+```{r favour}
+consolidate(favour(emperors, "UNRV"), "every", "any", resolve = "coalesce", key = "ID")
 ```
