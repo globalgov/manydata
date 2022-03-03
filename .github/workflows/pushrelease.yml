@@ -187,10 +187,6 @@ jobs:
       - name: install required packages
         run: Rscript -e 'install.packages("rmarkdown")'
 
-      # install manydata
-      #- name: install manypkgs package
-      #  run: Rscript -e 'remotes::install_github("globalgov/manydata")'
-
       # Render README.md using rmarkdown
       - name: render README
         run: Rscript -e 'rmarkdown::render("README.Rmd", output_format = "md_document")'
