@@ -1,4 +1,4 @@
-# manydata 0.6.1
+# manydata 0.7.0
 
 ## Package
 
