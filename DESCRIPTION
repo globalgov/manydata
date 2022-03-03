@@ -33,6 +33,7 @@ BugReports: https://github.com/globalgov/manydata/issues
 Depends:
     R (>= 3.5.0)
 Imports:
+    covr,
     tibble,
     dplyr,
     messydates,
@@ -48,8 +49,7 @@ Imports:
     remotes,
     httr,
     progress,
-    ggplot2,
-    covr
+    ggplot2
 Suggests:
     testthat,
     anytime,

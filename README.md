@@ -1,5 +1,5 @@
 
-# manydata <img src="man/figures/manydataLogo.png" align="right" width="250" height="250"/>
+# manydata <img src="man/figures/manydataLogo.png" align="right" width="200" height="200"/>
 
 <!-- badges: start -->
 
@@ -20,9 +20,9 @@ Practices](https://bestpractices.coreinfrastructure.org/projects/4562/badge)](ht
 <!-- badges: end -->
 
 `{manydata}` is the central package in the many packages universe aimed
-at collecting, connecting and correcting network data across
+at collecting, connecting, and correcting network data across
 issue-domains of global governance. To assist users in doing so,
-`{manydata}` also contains functions that enable users to clean and
+`{manydata}` contains functions that enable users to download and
 manipulate data easily.
 
 ## Why manydata?
@@ -43,8 +43,14 @@ across the datasets. For more details, please see the
 
 ## Downloading and installing manydata
 
-The development version of the package `{manydata}` can be downloaded
-from GitHub.
+The easiest way to install `{manydata}` is directly from CRAN:
+
+``` r
+install.packages("manydata")
+```
+
+The development version of the package `{manydata}` can also be
+downloaded from GitHub.
 
 ``` r
 # install.packages("remotes")
