@@ -11,7 +11,7 @@
 
 * Updated `consolidate()` function
   * Closed #191 by making `consolidate()` function more concise
-  * Fixed warnings by changing how ´{messydates}` package resolves dates
+  * Fixed warnings by changing how `{messydates}` package resolves dates
   * Updated how `consolidate()` substitutes NAs observations left with first non-missing observation
 * Closed #199 by adding `favour()` function that re-orders datasets within a database
 
