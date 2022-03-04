@@ -12,7 +12,7 @@ Date](https://img.shields.io/github/release-date/globalgov/manydata)
 issues](https://img.shields.io/github/issues-raw/globalgov/manydata)
 <!-- [![HitCount](http://hits.dwyl.com/globalgov/manydata.svg)](http://hits.dwyl.com/globalgov/manydata) -->
 [![Codecov test
-coverage](https://codecov.io/gh/globalgov/manydata/branch/main/graph/badge.svg)](https://codecov.io/gh/globalgov/manydata?branch=main)
+coverage](https://codecov.io/gh/globalgov/manydata/branch/main/graph/badge.svg)](https://app.codecov.io/gh/globalgov/manydata?branch=main)
 [![CodeFactor](https://www.codefactor.io/repository/github/globalgov/manydata/badge)](https://www.codefactor.io/repository/github/globalgov/manydata)
 [![CII Best
 Practices](https://bestpractices.coreinfrastructure.org/projects/4562/badge)](https://bestpractices.coreinfrastructure.org/projects/4562)
@@ -43,7 +43,7 @@ across the datasets. For more details, please see the
 
 ## Downloading and installing manydata
 
-The easiest way to install `{manydata}` is directly from CRAN:
+The easiest way to install `{manydata}` is directly from CRAN.
 
 ``` r
 install.packages("manydata")
