@@ -23,12 +23,11 @@
 #' package instead of the name.
 #' If one or more package names are provided,
 #' these will be installed from Github.
-#' @importFrom pointblank %>%
+#' @importFrom dplyr %>%
 #' @importFrom stringr str_detect
 #' @importFrom tibble as_tibble
 #' @importFrom jsonlite fromJSON
-#' @importFrom httr GET
-#' @importFrom httr content
+#' @importFrom httr GET content
 #' @importFrom remotes install_github
 #' @importFrom utils packageVersion
 #' @importFrom lubridate as_date
@@ -112,10 +111,10 @@ get_packages <- function(pkg) {
 
     repos <- tibble::as_tibble(dplyr::bind_rows(repos))
     if (length(repos) < 2) {
-      stop("The download limit from GitHub has been reached.
+      stop(
+      "The download limit from GitHub has been reached.
       To see all the packages in the many universe,
-      please go to the following link:
-           https://github.com/globalgov")
+      please go to the following link: https://github.com/globalgov")
     } else {
     print(repos, width = Inf, pillar.min_chars = Inf)
     }
