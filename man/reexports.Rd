@@ -4,7 +4,12 @@
 \name{reexports}
 \alias{reexports}
 \alias{pluck}
-\title{Objects exported from other packages}
+\title{Selects a single dataset from a database}
+\examples{
+\donttest{
+pluck(emperors, "UNRV")
+}
+}
 \keyword{internal}
 \description{
 These objects are imported from other packages. Follow the links
