@@ -65,9 +65,9 @@ users to choose how conflicts between observations are resolved.
 }
 \examples{
 \donttest{
-pluck(emperors, "UNRV")
 consolidate(emperors, "any", "any", resolve = "coalesce", key = "ID")
-consolidate(favour(emperors, "UNRV"), "every", "every", resolve = "coalesce", key = "ID")
+consolidate(favour(emperors, "UNRV"), "every", "every",
+resolve = "coalesce", key = "ID")
 consolidate(emperors, "any", "every", resolve = "min", key = "ID")
 consolidate(emperors, "every", "any", resolve = "max", key = "ID")
 consolidate(emperors, "every", "every", resolve = "median", key = "ID")
@@ -76,7 +76,4 @@ consolidate(emperors, "every", "every", resolve = "random", key = "ID")
 consolidate(emperors, "every", "every",
 resolve = c(Beg = "min", End = "max"), key = "ID")
 }
-}
-\seealso{
-\code{\link[=pluck]{pluck()}} for selecting a single dataset from a database
 }

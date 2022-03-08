@@ -40,21 +40,15 @@
 #' In this case, only the variables named will be resolved and returned.
 #' @param key An ID column to collapse by.
 #' By default "many_ID".
-#' @seealso [pluck()] for selecting a single dataset from a database
+#' @importFrom purrr reduce map
+#' @importFrom dplyr select full_join inner_join distinct
+#' @import messydates
 #' @return A single tibble/data frame.
-#' @name consolidate
-NULL
-
-#' @importFrom purrr pluck
-#' @export
-purrr::pluck
-
-#' @rdname consolidate
 #' @examples
 #' \donttest{
-#' pluck(emperors, "UNRV")
 #' consolidate(emperors, "any", "any", resolve = "coalesce", key = "ID")
-#' consolidate(favour(emperors, "UNRV"), "every", "every", resolve = "coalesce", key = "ID")
+#' consolidate(favour(emperors, "UNRV"), "every", "every",
+#' resolve = "coalesce", key = "ID")
 #' consolidate(emperors, "any", "every", resolve = "min", key = "ID")
 #' consolidate(emperors, "every", "any", resolve = "max", key = "ID")
 #' consolidate(emperors, "every", "every", resolve = "median", key = "ID")
@@ -154,6 +148,16 @@ consolidate <- function(database,
   out
 }
 
+#' Selects a single dataset from a database
+#' 
+#' @importFrom purrr pluck
+#' @examples
+#' \donttest{
+#' pluck(emperors, "UNRV")
+#' }
+#' @export
+purrr::pluck
+
 #' Coalesce all compatible rows of a data frame
 #'
 #' This function identifies and coalesces
@@ -240,14 +244,6 @@ favour <- function(database, dataset) {
 #' @export
 favor <- favour
 
-#' Resolve Coalesce
-#'
-#' Helper function for resolving a database into a dataframe with coalesce.
-#' "coalesce" takes the first non-NA value
-#' @param other_variables A list of variables to be resolved
-#' @param out A dataframe
-#' @param key The ID column to collapse by. By default "many_ID"
-#' @return The resolved dataframed or variable
 resolve_coalesce <- function(other_variables, out, key) {
   for (var in other_variables) {
     vars_to_combine <- startsWith(names(out), var)
@@ -261,15 +257,6 @@ resolve_coalesce <- function(other_variables, out, key) {
   out
 }
 
-#' Resolve Minimum
-#'
-#' Helper function for resolving a database into a dataframe.
-#' "Minimum" takes the smallest non-NA value
-#' @param other_variables A list of variables to be resolved
-#' @param out A dataframe
-#' @param key The ID column to collapse by. By default "many_ID"
-#' @import messydates
-#' @return The resolved dataframed or variable
 resolve_min <- function(other_variables, out, key) {
   for (var in other_variables) {
     vars_to_combine <- startsWith(names(out), var)
@@ -295,15 +282,6 @@ resolve_min <- function(other_variables, out, key) {
   out
 }
 
-#' Resolve Maximum
-#'
-#' Helper function for resolving a database into a dataframe.
-#' "maximum" takes the maximum non-NA value
-#' @param other_variables A list of variables to be resolved
-#' @param out A dataframe
-#' @param key The ID column to collapse by. By default "many_ID"
-#' @import messydates
-#' @return The resolved dataframed or variable
 resolve_max <- function(other_variables, out, key) {
   for (var in other_variables) {
     vars_to_combine <- startsWith(names(out), var)
@@ -329,16 +307,6 @@ resolve_max <- function(other_variables, out, key) {
   out
 }
 
-#' Resolve Median
-#'
-#' Helper function for resolving a database into a dataframe.
-#' "Median" takes the median non NA value
-#' @param other_variables A list of variables to be resolved
-#' @param out A dataframe
-#' @param key The ID column to collapse by. By default "many_ID"
-#' @import messydates
-#' @importFrom stats median
-#' @return The resolved dataframed or variable
 resolve_median <- function(other_variables, out, key) {
   for (var in other_variables) {
     vars_to_combine <- startsWith(names(out), var)
@@ -363,15 +331,6 @@ resolve_median <- function(other_variables, out, key) {
   out
 }
 
-#' Resolve Mean
-#'
-#' Helper function for resolving a database into a dataframe.
-#' "mean" takes the average non NA value
-#' @param other_variables A list of variables to be resolved
-#' @param out A dataframe
-#' @param key The ID column to collapse by. By default "many_ID"
-#' @import messydates
-#' @return The resolved dataframed or variable
 resolve_mean <- function(other_variables, out, key) {
   for (var in other_variables) {
     vars_to_combine <- startsWith(names(out), var)
@@ -396,15 +355,6 @@ resolve_mean <- function(other_variables, out, key) {
   out
 }
 
-#' Resolve Random
-#'
-#' Helper function for resolving a database into a dataframe.
-#' "random" takes a random non NA value from sample
-#' @param other_variables A list of variables to be resolved
-#' @param out A dataframe
-#' @param key The ID column to collapse by. By default "many_ID"
-#' @import messydates
-#' @return The resolved dataframed or variable
 resolve_random <- function(other_variables, out, key) {
   for (var in other_variables) {
     vars_to_combine <- startsWith(names(out), var)
