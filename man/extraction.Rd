@@ -4,7 +4,7 @@
 \alias{extraction}
 \alias{extract_bilaterals}
 \alias{extract_multilaterals}
-\title{Extracting adjacency edgelist for international agreements}
+\title{Extracting international agreements}
 \usage{
 extract_bilaterals(membs)
 
@@ -14,24 +14,21 @@ extract_multilaterals(membs)
 \item{membs}{A memberships dataset from one of the many packages}
 }
 \value{
-An edgelist for bilaterals agreements
+A tibble of bilateral agreements
 
-An edgelist for multilateral agreements
+A tibble of multilateral agreements
 }
 \description{
-The set of functions help
-extracting adjacency edgelist for bilaterals agreements in a mixed edgelist,
-and extracting adjacency edgelist for multilateral agreements
-in a mixed edgelist.
-These membership edgelists can be found in membership databases across
-the many package universe.
+This set of functions help extracting bilateral agreements or
+multilateral agreements from a membership database
+in the many packages universe.
 }
 \details{
-The function helps extracting adjacency edgelist
-for bilaterals agreements in a mixed edgelist.
+The function helps extracting bilateral agreements
+from a membership database in the many packages universe.
 
-The function helps extracting adjacency edgelist
-for multilateral agreements in a mixed edgelist.
+The function helps extracting multilateral agreements
+from a membership database in the many packages universe.
 }
 \examples{
 membs <- tibble::tibble(CountryID = c("ROU", "RUS", "DNK"),
