@@ -89,43 +89,43 @@ consolidate <- function(database,
   resolve <- match.arg(resolve)
   other_variables <- unname(all_variables[!key == all_variables])
   if (resolve == "coalesce") {
-    out <- r_coalesce(other_variables, out, key)
+    out <- resolve_coalesce(other_variables, out, key)
   }
   if (resolve == "min") {
-    out <- r_min(other_variables, out, key)
+    out <- resolve_min(other_variables, out, key)
   }
   if (resolve == "max") {
-    out <- r_max(other_variables, out, key)
+    out <- resolve_max(other_variables, out, key)
   }
   if (resolve == "median") {
-    out <- r_median(other_variables, out, key)
+    out <- resolve_median(other_variables, out, key)
   }
   if (resolve == "mean") {
-  out <- r_mean(other_variables, out, key)
+  out <- resolve_mean(other_variables, out, key)
   }
   if (resolve == "random") {
-    out <- r_random(other_variables, out, key)
+    out <- resolve_random(other_variables, out, key)
   }
   } else {
     resolve <- data.frame(var = names(resolve), resolve = resolve)
     for (k in seq_len(nrow(resolve))) {
       if (resolve$resolve[k] == "coalesce") {
-        rco <- r_coalesce(resolve$var[k], out, key)
+        rco <- resolve_coalesce(resolve$var[k], out, key)
       }
       if (resolve$resolve[k] == "min") {
-        rmin <- r_min(resolve$var[k], out, key)
+        rmin <- resolve_min(resolve$var[k], out, key)
       }
       if (resolve$resolve[k] == "max") {
-        rmax <- r_max(resolve$var[k], out, key)
+        rmax <- resolve_max(resolve$var[k], out, key)
       }
       if (resolve$resolve[k] == "median") {
-        rmd <- r_median(resolve$var[k], out, key)
+        rmd <- resolve_median(resolve$var[k], out, key)
       }
       if (resolve$resolve[k] == "mean") {
-        rme <- r_mean(resolve$var[k], out, key)
+        rme <- resolve_mean(resolve$var[k], out, key)
       }
       if (resolve$resolve[k] == "random") {
-        rra <- r_random(resolve$var[k], out, key)
+        rra <- resolve_random(resolve$var[k], out, key)
       }
     }
     if (exists("rco")) {
@@ -206,13 +206,13 @@ compatible_rows <- function(x) {
   }
 }
 
-#' Favour datasets
+#' Favour datasets in a database
 #' 
 #' @name favour
 #' @param database A many database
-#' @param x Would you like a dataset to be favoured over others?
-#' In this case the dataset selected becomes the reference for
-#' the first non NA value.
+#' @param dataset The name of one, or more, datasets within the database
+#' to be favoured over others.
+#' The dataset declared becomes the reference for the first non NA value.
 #' If more than one dataset is declared,
 #' please add datasets increasing order of importance
 #' (.i.e. last dataset should be favoured over previous).
@@ -221,16 +221,16 @@ compatible_rows <- function(x) {
 #' favour(emperors, "UNRV")
 #' favour(emperors, c("wikipedia", "UNRV", "britannica"))
 #' @export
-favour <- function(database, x) {
-  if (length(x) > 1) {
-    for (n in unlist(x)) {
+favour <- function(database, dataset) {
+  if (length(dataset) > 1) {
+    for (n in unlist(dataset)) {
       fav <- database[n]
       database[n] <- NULL
       database <- append(fav, database)
     }
   } else {
-    fav <- database[x]
-    database[x] <- NULL
+    fav <- database[dataset]
+    database[dataset] <- NULL
     database <- append(fav, database)
   }
   database
@@ -248,7 +248,7 @@ favor <- favour
 #' @param out A dataframe
 #' @param key The ID column to collapse by. By default "many_ID"
 #' @return The resolved dataframed or variable
-r_coalesce <- function(other_variables, out, key) {
+resolve_coalesce <- function(other_variables, out, key) {
   for (var in other_variables) {
     vars_to_combine <- startsWith(names(out), var)
     new_var <- dplyr::coalesce(!!!out[vars_to_combine])
@@ -270,7 +270,7 @@ r_coalesce <- function(other_variables, out, key) {
 #' @param key The ID column to collapse by. By default "many_ID"
 #' @import messydates
 #' @return The resolved dataframed or variable
-r_min <- function(other_variables, out, key) {
+resolve_min <- function(other_variables, out, key) {
   for (var in other_variables) {
     vars_to_combine <- startsWith(names(out), var)
     new_var <- out[vars_to_combine]
@@ -304,7 +304,7 @@ r_min <- function(other_variables, out, key) {
 #' @param key The ID column to collapse by. By default "many_ID"
 #' @import messydates
 #' @return The resolved dataframed or variable
-r_max <- function(other_variables, out, key) {
+resolve_max <- function(other_variables, out, key) {
   for (var in other_variables) {
     vars_to_combine <- startsWith(names(out), var)
     new_var <- out[vars_to_combine]
@@ -339,7 +339,7 @@ r_max <- function(other_variables, out, key) {
 #' @import messydates
 #' @importFrom stats median
 #' @return The resolved dataframed or variable
-r_median <- function(other_variables, out, key) {
+resolve_median <- function(other_variables, out, key) {
   for (var in other_variables) {
     vars_to_combine <- startsWith(names(out), var)
     new_var <- out[vars_to_combine]
@@ -372,7 +372,7 @@ r_median <- function(other_variables, out, key) {
 #' @param key The ID column to collapse by. By default "many_ID"
 #' @import messydates
 #' @return The resolved dataframed or variable
-r_mean <- function(other_variables, out, key) {
+resolve_mean <- function(other_variables, out, key) {
   for (var in other_variables) {
     vars_to_combine <- startsWith(names(out), var)
     new_var <- out[vars_to_combine]
@@ -405,7 +405,7 @@ r_mean <- function(other_variables, out, key) {
 #' @param key The ID column to collapse by. By default "many_ID"
 #' @import messydates
 #' @return The resolved dataframed or variable
-r_random <- function(other_variables, out, key) {
+resolve_random <- function(other_variables, out, key) {
   for (var in other_variables) {
     vars_to_combine <- startsWith(names(out), var)
     new_var <- out[vars_to_combine]
