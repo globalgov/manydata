@@ -235,17 +235,13 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
 #' @name report
 #' @details `open_codebook()` opens the original codebook of the specified
 #' dataset to allow users to look up the original coding rules.
-#' Note that there is no original codebook for the genevar database
+#' Note that there is no original codebook for the GNEVAR database
 #' and that a codebook might not exist for certain datasets.
 #' In the latter case, please refer to the
 #' source URL provided with each dataset by running `manydata::data_contrast()`
 #' as further information on coding rules available online.
 #' @return Opens a pdf version of the original codebook of the specified
 #' dataset, if available.
-#' @examples
-#' \donttest{
-#' open_codebook(pkg = "manydata", database = "emperors", dataset = "wikipedia")
-#' }
 #' @export
 open_codebook <- function(pkg, database, dataset) {
   # Check if input is null

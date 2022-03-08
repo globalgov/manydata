@@ -56,7 +56,7 @@ the most direct URL to the original dataset.
 
 \code{open_codebook()} opens the original codebook of the specified
 dataset to allow users to look up the original coding rules.
-Note that there is no original codebook for the genevar database
+Note that there is no original codebook for the GNEVAR database
 and that a codebook might not exist for certain datasets.
 In the latter case, please refer to the
 source URL provided with each dataset by running \code{manydata::data_contrast()}
@@ -68,8 +68,5 @@ data_source(pkg = "manydata")
 }
 \donttest{
 data_contrast(pkg = "manydata")
-}
-\donttest{
-open_codebook(pkg = "manydata", database = "emperors", dataset = "wikipedia")
 }
 }
