@@ -3,18 +3,18 @@
 \name{favour}
 \alias{favour}
 \alias{favor}
-\title{Favour datasets}
+\title{Favour datasets in a database}
 \usage{
-favour(database, x)
+favour(database, dataset)
 
-favor(database, x)
+favor(database, dataset)
 }
 \arguments{
 \item{database}{A many database}
 
-\item{x}{Would you like a dataset to be favoured over others?
-In this case the dataset selected becomes the reference for
-the first non NA value.
+\item{dataset}{The name of one, or more, datasets within the database
+to be favoured over others.
+The dataset declared becomes the reference for the first non NA value.
 If more than one dataset is declared,
 please add datasets increasing order of importance
 (.i.e. last dataset should be favoured over previous).}
@@ -23,7 +23,7 @@ please add datasets increasing order of importance
 The same database with datasets re-ordered accordingly
 }
 \description{
-Favour datasets
+Favour datasets in a database
 }
 \examples{
 favour(emperors, "UNRV")
