@@ -56,11 +56,14 @@ reference:
     desc: "These functions assist data analysts with the download of data on particular domains of global governance"
     contents:
       - get_packages
+      - plot_releases
       - starts_with("data_")
+      - emperors
   - title: "Consolidating many databases"
     desc: "These functions assist data analysts with the analysis of data on particular domains of global governance"
     contents:
       - consolidate
+      - pluck
       - coalesce_compatible
       - favour
   - title: "Data wrangling with manydata"
@@ -71,6 +74,7 @@ reference:
       - recollect
       - reunite
       - repaint
+      - extraction
 footer:
   structure:
     left: devs
