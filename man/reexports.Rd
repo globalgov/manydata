@@ -5,6 +5,14 @@
 \alias{reexports}
 \alias{pluck}
 \title{Selects a single dataset from a database}
+\value{
+The selected database
+}
+\details{
+This function is reexported from the purrr package.
+It allows users to select a single dataset from one
+of the databases available across the 'many* packages'.
+}
 \examples{
 \donttest{
 pluck(emperors, "UNRV")

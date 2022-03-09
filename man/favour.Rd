@@ -12,18 +12,21 @@ favor(database, dataset)
 \arguments{
 \item{database}{A many database}
 
-\item{dataset}{The name of one, or more, datasets within the database
-to be favoured over others.
-The dataset declared becomes the reference for the first non NA value.
-If more than one dataset is declared,
-please add datasets increasing order of importance
-(.i.e. last dataset should be favoured over previous).}
+\item{dataset}{The name of one, or more,
+atasets within the database to be favoured over others.}
 }
 \value{
-The same database with datasets re-ordered accordingly
+The database with datasets re-ordered accordingly
 }
 \description{
 Favour datasets in a database
+}
+\details{
+The dataset declared becomes the reference for
+the first non NA value.
+If more than one dataset is declared,
+please add datasets increasing order of importance
+(.i.e. last dataset should be favoured over previous).
 }
 \examples{
 favour(emperors, "UNRV")

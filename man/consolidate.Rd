@@ -47,13 +47,12 @@ By default "many_ID".}
 A single tibble/data frame.
 }
 \description{
-This function collapses a set or database of many datasets
-into a single dataset with some combination of the
-rows, columns, and observations of the parent datasets.
+This function collapses a set or database of many datasets into a single
+dataset with some combination of the rows, columns, and observations
+of the parent datasets.
 The function includes separate arguments for the rows and columns,
 as well as for how to resolve conflicts in observations across datasets.
-This provides users with considerable flexibility
-in how they combine manydata.
+This provides users with considerable flexibility in how they combine data.
 For example, users may wish to stick to units that appear in
 every dataset but include variables coded in any dataset,
 or units that appear in any dataset

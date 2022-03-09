@@ -1,12 +1,11 @@
 #' Consolidate database into a single dataset
 #'
-#' This function collapses a set or database of many datasets
-#' into a single dataset with some combination of the
-#' rows, columns, and observations of the parent datasets.
+#' This function collapses a set or database of many datasets into a single
+#' dataset with some combination of the rows, columns, and observations
+#' of the parent datasets.
 #' The function includes separate arguments for the rows and columns,
 #' as well as for how to resolve conflicts in observations across datasets.
-#' This provides users with considerable flexibility
-#' in how they combine manydata.
+#' This provides users with considerable flexibility in how they combine data.
 #' For example, users may wish to stick to units that appear in
 #' every dataset but include variables coded in any dataset,
 #' or units that appear in any dataset
@@ -148,102 +147,6 @@ consolidate <- function(database,
   out
 }
 
-#' Selects a single dataset from a database
-#' 
-#' @importFrom purrr pluck
-#' @examples
-#' \donttest{
-#' pluck(emperors, "UNRV")
-#' }
-#' @export
-purrr::pluck
-
-#' Coalesce all compatible rows of a data frame
-#'
-#' This function identifies and coalesces
-#' all compatible rows in a data frame.
-#' Compatible rows are defined as those rows where
-#' all present elements are equal,
-#' allowing for equality where one row has an element present
-#' and the other is missing the observation.
-#' @param .data data frame to consolidate
-#' @importFrom utils combn
-#' @importFrom dplyr coalesce bind_rows slice
-#' @importFrom progress progress_bar
-#' @examples
-#' eg1 <- tibble::tribble(
-#' ~x, ~y, ~z,
-#' "a", "b", NA,
-#' "a", "b", "c",
-#' "j", "k", NA,
-#' NA, "k", "l")
-#' coalesce_compatible(eg1)
-#' @export
-coalesce_compatible <- function(.data) {
-  pairs <- compatible_rows(.data)
-  if (length(pairs) > 0) {
-    merged <- apply(pairs, 1, function(x) {
-      dplyr::coalesce(.data[x[1], ], .data[x[2], ])
-    })
-    merged <- dplyr::bind_rows(merged)
-    dplyr::bind_rows(dplyr::slice(.data, -unique(c(pairs))),
-                     merged)
-  } else .data
-}
-
-compatible_rows <- function(x) {
-  complete_vars <- x[, apply(x, 2, function(y) !any(is.na(y)))]
-  compat_candidates <- which(duplicated(complete_vars) | duplicated(complete_vars, fromLast = TRUE))
-  if (length(compat_candidates) == 0) {
-    pairs <- vector(mode = "numeric", length = 0)
-  } else {
-    pairs <- t(utils::combn(compat_candidates, 2))
-    pb <- progress::progress_bar$new(format = "identifying compatible pairs [:bar] :percent eta: :eta",
-                                     total = nrow(pairs))
-    compatico <- apply(pairs, 1, function(y) {
-      pb$tick()
-      o <- x[y[1], ] == x[y[2], ]
-      o[is.na(o)] <- TRUE
-      o
-    })
-    pairs[apply(t(compatico), 1, function(y) all(y)), ]
-  }
-}
-
-#' Favour datasets in a database
-#' 
-#' @name favour
-#' @param database A many database
-#' @param dataset The name of one, or more, datasets within the database
-#' to be favoured over others.
-#' The dataset declared becomes the reference for the first non NA value.
-#' If more than one dataset is declared,
-#' please add datasets increasing order of importance
-#' (.i.e. last dataset should be favoured over previous).
-#' @return The same database with datasets re-ordered accordingly
-#' @examples
-#' favour(emperors, "UNRV")
-#' favour(emperors, c("wikipedia", "UNRV", "britannica"))
-#' @export
-favour <- function(database, dataset) {
-  if (length(dataset) > 1) {
-    for (n in unlist(dataset)) {
-      fav <- database[n]
-      database[n] <- NULL
-      database <- append(fav, database)
-    }
-  } else {
-    fav <- database[dataset]
-    database[dataset] <- NULL
-    database <- append(fav, database)
-  }
-  database
-}
-
-#' @rdname favour
-#' @export
-favor <- favour
-
 resolve_coalesce <- function(other_variables, out, key) {
   for (var in other_variables) {
     vars_to_combine <- startsWith(names(out), var)
@@ -378,3 +281,104 @@ resolve_random <- function(other_variables, out, key) {
   }
   out
 }
+
+#' Selects a single dataset from a database
+#' 
+#' @importFrom purrr pluck
+#' @return The selected database
+#' @details This function is reexported from the purrr package.
+#' It allows users to select a single dataset from one
+#' of the databases available across the 'many* packages'.
+#' @examples
+#' \donttest{
+#' pluck(emperors, "UNRV")
+#' }
+#' @export
+purrr::pluck
+
+#' Coalesce all compatible rows of a data frame
+#'
+#' This function identifies and coalesces
+#' all compatible rows in a data frame.
+#' Compatible rows are defined as those rows where
+#' all present elements are equal,
+#' allowing for equality where one row has an element present
+#' and the other is missing the observation.
+#' @param .data data frame to consolidate
+#' @importFrom utils combn
+#' @importFrom dplyr coalesce bind_rows slice
+#' @importFrom progress progress_bar
+#' @examples
+#' eg1 <- tibble::tribble(
+#' ~x, ~y, ~z,
+#' "a", "b", NA,
+#' "a", "b", "c",
+#' "j", "k", NA,
+#' NA, "k", "l")
+#' coalesce_compatible(eg1)
+#' @export
+coalesce_compatible <- function(.data) {
+  pairs <- compatible_rows(.data)
+  if (length(pairs) > 0) {
+    merged <- apply(pairs, 1, function(x) {
+      dplyr::coalesce(.data[x[1], ], .data[x[2], ])
+    })
+    merged <- dplyr::bind_rows(merged)
+    dplyr::bind_rows(dplyr::slice(.data, -unique(c(pairs))),
+                     merged)
+  } else .data
+}
+
+compatible_rows <- function(x) {
+  complete_vars <- x[, apply(x, 2, function(y) !any(is.na(y)))]
+  compat_candidates <- which(duplicated(complete_vars) | duplicated(complete_vars, fromLast = TRUE))
+  if (length(compat_candidates) == 0) {
+    pairs <- vector(mode = "numeric", length = 0)
+  } else {
+    pairs <- t(utils::combn(compat_candidates, 2))
+    pb <- progress::progress_bar$new(format = "identifying compatible pairs [:bar] :percent eta: :eta",
+                                     total = nrow(pairs))
+    compatico <- apply(pairs, 1, function(y) {
+      pb$tick()
+      o <- x[y[1], ] == x[y[2], ]
+      o[is.na(o)] <- TRUE
+      o
+    })
+    pairs[apply(t(compatico), 1, function(y) all(y)), ]
+  }
+}
+
+#' Favour datasets in a database
+#' 
+#' @name favour
+#' @param database A many database
+#' @param dataset The name of one, or more, 
+#' atasets within the database to be favoured over others.
+#' @details The dataset declared becomes the reference for
+#' the first non NA value.
+#' If more than one dataset is declared,
+#' please add datasets increasing order of importance
+#' (.i.e. last dataset should be favoured over previous).
+#' @return The database with datasets re-ordered accordingly
+#' @examples
+#' favour(emperors, "UNRV")
+#' favour(emperors, c("wikipedia", "UNRV", "britannica"))
+#' @export
+favour <- function(database, dataset) {
+  if (length(dataset) > 1) {
+    for (n in unlist(dataset)) {
+      fav <- database[n]
+      database[n] <- NULL
+      database <- append(fav, database)
+    }
+  } else {
+    fav <- database[dataset]
+    database[dataset] <- NULL
+    database <- append(fav, database)
+  }
+  database
+}
+
+#' @rdname favour
+#' @export
+favor <- favour
