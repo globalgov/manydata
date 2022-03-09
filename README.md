@@ -1,5 +1,5 @@
 
-# manydata <img src="man/figures/manydataLogo.png" align="right" width="200" height="200"/>
+# manydata <img src="man/figures/manydataLogo.png" align="right"/>
 
 <!-- badges: start -->
 

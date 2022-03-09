@@ -1,7 +1,7 @@
 ---
 output: github_document
 ---
-# manydata <img src="man/figures/manydataLogo.png" align="right" width="200" height="200"/>
+# manydata <img src="man/figures/manydataLogo.png" align="right"/>
 
 <!-- badges: start -->
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
