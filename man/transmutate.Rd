@@ -23,5 +23,5 @@ but, unlike \code{dplyr::transmute()}, all other unnamed variables.
 A function between dplyr's transmute and mutate
 }
 \examples{
-transmutate(emperors$wikipedia, Beggining = Beg)
+transmutate(emperors$wikipedia, Beginning = Beg)
 }

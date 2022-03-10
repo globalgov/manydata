@@ -6,7 +6,7 @@
 \alias{pluck}
 \title{Selects a single dataset from a database}
 \value{
-The selected database
+The selected dataset
 }
 \details{
 This function is reexported from the purrr package.

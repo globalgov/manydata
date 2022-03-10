@@ -12,8 +12,8 @@ favor(database, dataset)
 \arguments{
 \item{database}{A many database}
 
-\item{dataset}{The name of one, or more,
-atasets within the database to be favoured over others.}
+\item{dataset}{The name of one, or more, datasets within the database
+to be favoured over others.}
 }
 \value{
 The database with datasets re-ordered accordingly

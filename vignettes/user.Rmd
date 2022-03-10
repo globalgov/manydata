@@ -159,22 +159,23 @@ emperors %>%
 Now that we have compared the data and looked at some of the different inferences drawn,
 let us examine how to select and consolidate databases.
 
-The `consolidate()` function which facilitates consolidating a set of datasets, or a database,
+The `consolidate()` function facilitates consolidating a set of datasets, or a database,
 from a 'many' package into a single dataset with some combination of the rows and columns.
 The function includes separate arguments for rows and columns,
 as well as for how to resolve conflicts in observations across datasets.
 The key argument indicates the column to collapse datasets by.
 This provides users with considerable flexibility in how they combine data.
 
-For example, users may wish to see units and variables coded in any dataset,
-or units and variables coded in every dataset:
+For example, users may wish to see units and variables coded in "any" dataset,
+or units and variables coded in "every" dataset:
 
 ```{r consolidate}
 consolidate(emperors, rows = "any", cols = "any", resolve = "coalesce", key = "ID")
 consolidate(emperors, rows = "every", cols = "every", resolve = "coalesce", key = "ID")
 ```
 
-Users can also choose how they want to resolve conflicts between observations in `consolidate()` with several 'resolve' methods:
+Users can also choose how they want to resolve conflicts between observations in
+`consolidate()` with several 'resolve' methods:
 
 * coalesce: the first non-NA value 
 * max: the largest value

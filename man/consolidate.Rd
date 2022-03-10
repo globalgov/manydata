@@ -49,7 +49,7 @@ A single tibble/data frame.
 \description{
 This function collapses a set or database of many datasets into a single
 dataset with some combination of the rows, columns, and observations
-of the parent datasets.
+of the datasets in a database.
 The function includes separate arguments for the rows and columns,
 as well as for how to resolve conflicts in observations across datasets.
 This provides users with considerable flexibility in how they combine data.

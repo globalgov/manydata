@@ -2,7 +2,7 @@
 #'
 #' This function collapses a set or database of many datasets into a single
 #' dataset with some combination of the rows, columns, and observations
-#' of the parent datasets.
+#' of the datasets in a database.
 #' The function includes separate arguments for the rows and columns,
 #' as well as for how to resolve conflicts in observations across datasets.
 #' This provides users with considerable flexibility in how they combine data.
@@ -40,7 +40,7 @@
 #' @param key An ID column to collapse by.
 #' By default "many_ID".
 #' @importFrom purrr reduce map
-#' @importFrom dplyr select full_join inner_join distinct
+#' @importFrom dplyr select full_join inner_join distinct all_of starts_with
 #' @import messydates
 #' @return A single tibble/data frame.
 #' @examples
@@ -285,7 +285,7 @@ resolve_random <- function(other_variables, out, key) {
 #' Selects a single dataset from a database
 #' 
 #' @importFrom purrr pluck
-#' @return The selected database
+#' @return The selected dataset
 #' @details This function is reexported from the purrr package.
 #' It allows users to select a single dataset from one
 #' of the databases available across the 'many* packages'.
@@ -352,14 +352,15 @@ compatible_rows <- function(x) {
 #' 
 #' @name favour
 #' @param database A many database
-#' @param dataset The name of one, or more, 
-#' atasets within the database to be favoured over others.
+#' @param dataset The name of one, or more, datasets within the database
+#' to be favoured over others.
 #' @details The dataset declared becomes the reference for
 #' the first non NA value.
 #' If more than one dataset is declared,
 #' please add datasets increasing order of importance
 #' (.i.e. last dataset should be favoured over previous).
 #' @return The database with datasets re-ordered accordingly
+#' @aliases favor
 #' @examples
 #' favour(emperors, "UNRV")
 #' favour(emperors, c("wikipedia", "UNRV", "britannica"))
