@@ -20,7 +20,7 @@ datasets that might contribute to their research goals.
 Since some of these data packages are too big for CRAN, 
 we expect that their developers will instead choose
 to make their packages available on GitHub.
-To make it easier to identify of all packages in the
+To make it easier to identify all packages in the
 many packages universe, we have developed the `get_packages()` function.
 The function lists the many packages available and allow users to download them.
 
@@ -166,8 +166,10 @@ as well as for how to resolve conflicts in observations across datasets.
 The key argument indicates the column to collapse datasets by.
 This provides users with considerable flexibility in how they combine data.
 
-For example, users may wish to see units and variables coded in "any" dataset,
-or units and variables coded in "every" dataset:
+For example, users may wish to see units and variables coded in "any" dataset
+(i.e. units or variables present in at least one of the datasets in the 
+database) or units and variables coded in "every" dataset (i.e. units or
+variables present in all of the datasets in the database).
 
 ```{r consolidate}
 consolidate(emperors, rows = "any", cols = "any", resolve = "coalesce", key = "ID")
