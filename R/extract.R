@@ -1,16 +1,27 @@
 #' Extracting international agreements
 #' 
+#' @description Some datasets in the membership databases across the
+#' 'many* packages' (e.g. manyenviron) contain a myriad of information on
+#' international agreements governing an international domain.
+#' The extraction functions help researchers retrieve all bilateral
+#' agreements, or multilateral agreements, from these datasets.
+#' Researchers can use, for example, `extract_bileterals()` to retrieve
+#' which countries have signed a specific international agreement or
+#' several international agreements signed in a respective year.
+#' Also, researchers can use `extract_multilaterals()` to retrieve
+#' the titles of all multilateral agreements signed in the past 10 years.
+#' Alternatively, to extract information from several datasets in a
+#' memberships database, researchers can `consolidate()` the database
+#' into one dataset with some combination of the rows, columns,
+#' and observations of the datasets before extracting
+#' bilateral or multilateral agreements.
 #' @param membs A memberships dataset from one of the many packages
-#' @description This set of functions help extracting bilateral agreements or
-#' multilateral agreements from a membership database
-#' in the many packages universe.
+#' @import dplyr
+#' @importFrom stringr str_detect
 #' @name extraction
 NULL
 
-#' @name extraction
-#' @details The function helps extracting bilateral agreements
-#' from a membership database in the many packages universe.
-#' @import dplyr
+#' @rdname extraction
 #' @return A tibble of bilateral agreements
 #' @examples
 #' membs <- tibble::tibble(CountryID = c("ROU", "RUS", "DNK"),
@@ -51,11 +62,7 @@ extract_bilaterals <- function(membs) {
   bilats
 }
 
-#' @name extraction
-#' @details The function helps extracting multilateral agreements
-#' from a membership database in the many packages universe.
-#' @importFrom dplyr filter
-#' @importFrom stringr str_detect
+#' @rdname extraction
 #' @return A tibble of multilateral agreements
 #' @examples
 #' membs <- tibble::tibble(CountryID = c("ROU", "RUS", "DNK"),
