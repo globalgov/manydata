@@ -256,7 +256,7 @@ open_codebook <- function(pkg, database, dataset) {
   repo <- jsonlite::fromJSON(repo, flatten = TRUE)
   reponames <- repo[["name"]]
   if (!(pkg %in% reponames)) {
-    stop("Please enter a valid ")
+    stop("Please enter a valid package name.")
   }
   # Find the PDF on GitHub
   url <- paste0("https://github.com/globalgov/",
