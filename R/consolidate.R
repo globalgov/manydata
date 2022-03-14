@@ -320,12 +320,15 @@ purrr::pluck
 coalesce_compatible <- function(.data) {
   pairs <- compatible_rows(.data)
   if (length(pairs) > 0) {
-    merged <- apply(pairs, 1, function(x) {
-      dplyr::coalesce(.data[x[1], ], .data[x[2], ])
+    if (length(pairs) == 2) {
+      merged <- dplyr::coalesce(.data[pairs[1], ], .data[pairs[2], ])
+    } else {
+      merged <- apply(pairs, 1, function(x) {
+        dplyr::coalesce(.data[x[1], ], .data[x[2], ])
     })
+    }
     merged <- dplyr::bind_rows(merged)
-    dplyr::bind_rows(dplyr::slice(.data, -unique(c(pairs))),
-                     merged)
+    dplyr::bind_rows(dplyr::slice(.data, -unique(c(pairs))), merged)
   } else .data
 }
 
