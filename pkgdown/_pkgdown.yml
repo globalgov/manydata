@@ -77,7 +77,7 @@ reference:
       - extraction
 footer:
   structure:
-    left: devs
+    left: package
     right: panarchic
   components:
     panarchic: Part of the [PANARCHIC project](https://panarchic.ch/).
