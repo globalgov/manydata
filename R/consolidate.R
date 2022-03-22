@@ -149,7 +149,7 @@ consolidate <- function(database,
 
 resolve_coalesce <- function(other_variables, out, key) {
   for (var in other_variables) {
-    vvars <- paste0("^", var, "$|^", var, ".")
+    vvars <- paste0("^", var, "$|^", var, "\\.")
     vars_to_combine <- grepl(vvars, names(out))
     new_var <- dplyr::coalesce(!!!out[vars_to_combine])
     out <- out %>% dplyr::select(-dplyr::starts_with(var))
@@ -163,7 +163,7 @@ resolve_coalesce <- function(other_variables, out, key) {
 
 resolve_min <- function(other_variables, out, key) {
   for (var in other_variables) {
-    vvars <- paste0("^", var, "$|^", var, ".")
+    vvars <- paste0("^", var, "$|^", var, "\\.")
     vars_to_combine <- grepl(vvars, names(out))
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
@@ -189,7 +189,7 @@ resolve_min <- function(other_variables, out, key) {
 
 resolve_max <- function(other_variables, out, key) {
   for (var in other_variables) {
-    vvars <- paste0("^", var, "$|^", var, ".")
+    vvars <- paste0("^", var, "$|^", var, "\\.")
     vars_to_combine <- grepl(vvars, names(out))
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
@@ -215,7 +215,7 @@ resolve_max <- function(other_variables, out, key) {
 
 resolve_median <- function(other_variables, out, key) {
   for (var in other_variables) {
-    vvars <- paste0("^", var, "$|^", var, ".")
+    vvars <- paste0("^", var, "$|^", var, "\\.")
     vars_to_combine <- grepl(vvars, names(out))
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
@@ -240,7 +240,7 @@ resolve_median <- function(other_variables, out, key) {
 
 resolve_mean <- function(other_variables, out, key) {
   for (var in other_variables) {
-    vvars <- paste0("^", var, "$|^", var, ".")
+    vvars <- paste0("^", var, "$|^", var, "\\.")
     vars_to_combine <- grepl(vvars, names(out))
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
@@ -265,7 +265,7 @@ resolve_mean <- function(other_variables, out, key) {
 
 resolve_random <- function(other_variables, out, key) {
   for (var in other_variables) {
-    vvars <- paste0("^", var, "$|^", var, ".")
+    vvars <- paste0("^", var, "$|^", var, "\\.")
     vars_to_combine <- grepl(vvars, names(out))
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
