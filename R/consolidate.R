@@ -168,7 +168,7 @@ resolve_min <- function(other_variables, out, key) {
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
-      if(class(dates) == "messydt") {
+      if (class(dates) == "messydt") {
         dates <- suppressWarnings(as.Date(dates, min))
         new_var[k] <- dates
         }
@@ -194,7 +194,7 @@ resolve_max <- function(other_variables, out, key) {
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
-      if(class(dates) == "messydt") {
+      if (class(dates) == "messydt") {
         dates <- suppressWarnings(as.Date(dates, max))
         new_var[k] <- dates
       }
@@ -220,7 +220,7 @@ resolve_median <- function(other_variables, out, key) {
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
-      if(class(dates) == "messydt") {
+      if (class(dates) == "messydt") {
         dates <- suppressWarnings(as.Date(dates, max))
         new_var[k] <- dates
       }
@@ -245,7 +245,7 @@ resolve_mean <- function(other_variables, out, key) {
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
-      if(class(dates) == "messydt") {
+      if (class(dates) == "messydt") {
         dates <- suppressWarnings(as.Date(dates, max))
         new_var[k] <- dates
       }
@@ -270,7 +270,7 @@ resolve_random <- function(other_variables, out, key) {
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
-      if(class(dates) == "messydt") {
+      if (class(dates) == "messydt") {
         dates <- suppressWarnings(as.Date(dates, max))
         new_var[k] <- dates
       }
@@ -289,7 +289,7 @@ resolve_random <- function(other_variables, out, key) {
 }
 
 #' Selects a single dataset from a database
-#' 
+#'
 #' @importFrom purrr pluck
 #' @return The selected dataset
 #' @details This function is reexported from the purrr package.
@@ -358,7 +358,7 @@ compatible_rows <- function(x) {
 }
 
 #' Favour datasets in a database
-#' 
+#'
 #' @name favour
 #' @param database A many database
 #' @param dataset The name of one, or more, datasets within the database

@@ -1,5 +1,5 @@
 #' Extracting international agreements
-#' 
+#'
 #' @description Some datasets in the membership databases across the
 #' 'many* packages' (e.g. manyenviron) contain a myriad of information on
 #' international agreements governing an international domain.
