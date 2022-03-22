@@ -149,7 +149,8 @@ consolidate <- function(database,
 
 resolve_coalesce <- function(other_variables, out, key) {
   for (var in other_variables) {
-    vars_to_combine <- startsWith(names(out), var)
+    vvars <- paste0("^", var, "$|^", var, ".")
+    vars_to_combine <- grepl(vvars, names(out))
     new_var <- dplyr::coalesce(!!!out[vars_to_combine])
     out <- out %>% dplyr::select(-dplyr::starts_with(var))
     out[, var] <- new_var
@@ -162,7 +163,8 @@ resolve_coalesce <- function(other_variables, out, key) {
 
 resolve_min <- function(other_variables, out, key) {
   for (var in other_variables) {
-    vars_to_combine <- startsWith(names(out), var)
+    vvars <- paste0("^", var, "$|^", var, ".")
+    vars_to_combine <- grepl(vvars, names(out))
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
@@ -187,7 +189,8 @@ resolve_min <- function(other_variables, out, key) {
 
 resolve_max <- function(other_variables, out, key) {
   for (var in other_variables) {
-    vars_to_combine <- startsWith(names(out), var)
+    vvars <- paste0("^", var, "$|^", var, ".")
+    vars_to_combine <- grepl(vvars, names(out))
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
@@ -212,7 +215,8 @@ resolve_max <- function(other_variables, out, key) {
 
 resolve_median <- function(other_variables, out, key) {
   for (var in other_variables) {
-    vars_to_combine <- startsWith(names(out), var)
+    vvars <- paste0("^", var, "$|^", var, ".")
+    vars_to_combine <- grepl(vvars, names(out))
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
@@ -236,7 +240,8 @@ resolve_median <- function(other_variables, out, key) {
 
 resolve_mean <- function(other_variables, out, key) {
   for (var in other_variables) {
-    vars_to_combine <- startsWith(names(out), var)
+    vvars <- paste0("^", var, "$|^", var, ".")
+    vars_to_combine <- grepl(vvars, names(out))
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
@@ -260,7 +265,8 @@ resolve_mean <- function(other_variables, out, key) {
 
 resolve_random <- function(other_variables, out, key) {
   for (var in other_variables) {
-    vars_to_combine <- startsWith(names(out), var)
+    vvars <- paste0("^", var, "$|^", var, ".")
+    vars_to_combine <- grepl(vvars, names(out))
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
