@@ -1,27 +1,28 @@
-#' Extracting international agreements
+#' Get international treaties
 #'
 #' @description Some datasets in the membership databases across the
 #' 'many* packages' (e.g. manyenviron) contain a myriad of information on
-#' international agreements governing an international domain.
-#' The extraction functions help researchers retrieve all bilateral
+#' international treaties governing an international domain.
+#' The get treaty functions help researchers retrieve all bilateral
 #' agreements, or multilateral agreements, from these datasets.
-#' Researchers can use, for example, `extract_bileterals()` to retrieve
-#' which countries have signed a specific international agreement or
+#' Researchers can, for example, use `get_bilaterals()` to retrieve
+#' which countries have signed a specific international agreement, or
 #' several international agreements signed in a respective year.
-#' Also, researchers can use `extract_multilaterals()` to retrieve
-#' the titles of all multilateral agreements signed in the past 10 years.
-#' Alternatively, to extract information from several datasets in a
+#' As well, researchers can use `get_multilaterals()` to retrieve
+#' the titles of all multilateral agreements signed in the past 10 years,
+#' for instance.
+#' Alternatively, to get information from several datasets in a
 #' memberships database, researchers can `consolidate()` the database
 #' into one dataset with some combination of the rows, columns,
-#' and observations of the datasets before extracting
-#' bilateral or multilateral agreements.
+#' and observations of the datasets before getting the desired
+#' bilateral or multilateral treaties.
 #' @param membs A memberships dataset from one of the many packages
 #' @import dplyr
 #' @importFrom stringr str_detect
-#' @name extraction
+#' @name get_treaty
 NULL
 
-#' @rdname extraction
+#' @rdname get_treaty
 #' @return A tibble of bilateral agreements
 #' @examples
 #' membs <- tibble::tibble(CountryID = c("ROU", "RUS", "DNK"),
@@ -37,9 +38,9 @@ NULL
 #' Territorial Waters In The Ocean Surrounding The Faroe Islands"),
 #' Beg = c("1901-02-22", "1901-02-22", "1901-06-24"),
 #' End = c(NA, NA, NA))
-#' extract_bilaterals(membs)
+#' get_bilaterals(membs)
 #' @export
-extract_bilaterals <- function(membs) {
+get_bilaterals <- function(membs) {
   Beg <- CountryID <- CountryID1 <- CountryID2 <- End <- Title <- manyID <- NULL
   if (!any(colnames(membs) == "manyID")) {
     stop("manyID column not found, please declare a many packages dataset.")
@@ -62,7 +63,7 @@ extract_bilaterals <- function(membs) {
   bilats
 }
 
-#' @rdname extraction
+#' @rdname get_treaty
 #' @return A tibble of multilateral agreements
 #' @examples
 #' membs <- tibble::tibble(CountryID = c("ROU", "RUS", "DNK"),
@@ -78,9 +79,9 @@ extract_bilaterals <- function(membs) {
 #' Territorial Waters In The Ocean Surrounding The Faroe Islands"),
 #' Beg = c("1901-02-22", "1901-02-22", "1901-06-24"),
 #' End = c(NA, NA, NA))
-#' extract_multilaterals(membs)
+#' get_multilaterals(membs)
 #' @export
-extract_multilaterals <- function(membs) {
+get_multilaterals <- function(membs) {
   manyID <- Title <- Beg <- End <- NULL
   if (!any(colnames(membs) == "manyID")) {
     stop("manyID column not found, please declare a many packages dataset.")

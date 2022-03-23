@@ -13,6 +13,6 @@ multi <- tibble::tibble(manyID = "GD16FI_1901A",
                         Beg = "1901-06-24", End = NA)
 
 test_that("extract functions work", {
-  expect_equal(extract_bilaterals(membs), bilats)
-  expect_equal(extract_multilaterals(membs), multi)
+  expect_equal(get_bilaterals(membs), bilats)
+  expect_equal(get_multilaterals(membs), multi)
 })

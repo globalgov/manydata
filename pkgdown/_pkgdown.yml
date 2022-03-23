@@ -74,7 +74,7 @@ reference:
       - recollect
       - reunite
       - repaint
-      - extraction
+      - get_treaty
 footer:
   structure:
     left: package
