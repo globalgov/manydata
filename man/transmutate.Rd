@@ -23,5 +23,6 @@ but, unlike \code{dplyr::transmute()}, all other unnamed variables.
 A function between dplyr's transmute and mutate
 }
 \examples{
+pluck(emperors, "wikipedia")
 transmutate(emperors$wikipedia, Beginning = Beg)
 }

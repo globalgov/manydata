@@ -11,6 +11,7 @@
 #' @import dplyr
 #' @source https://stackoverflow.com/questions/51428156/dplyr-mutate-transmute-drop-only-the-columns-used-in-the-formula
 #' @examples
+#' pluck(emperors, "wikipedia")
 #' transmutate(emperors$wikipedia, Beginning = Beg)
 #' @export
 transmutate <- function(.data, ...) {
