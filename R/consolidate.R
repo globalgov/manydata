@@ -45,15 +45,21 @@
 #' @return A single tibble/data frame.
 #' @examples
 #' \donttest{
-#' consolidate(emperors, "any", "any", resolve = "coalesce", key = "ID")
-#' consolidate(favour(emperors, "UNRV"), "every", "every",
+#' consolidate(database = emperors, rows = "any", cols = "any",
 #' resolve = "coalesce", key = "ID")
-#' consolidate(emperors, "any", "every", resolve = "min", key = "ID")
-#' consolidate(emperors, "every", "any", resolve = "max", key = "ID")
-#' consolidate(emperors, "every", "every", resolve = "median", key = "ID")
-#' consolidate(emperors, "every", "every", resolve = "mean", key = "ID")
-#' consolidate(emperors, "every", "every", resolve = "random", key = "ID")
-#' consolidate(emperors, "every", "every",
+#' consolidate(database = favour(emperors, "UNRV"), rows = "every",
+#' cols = "every", resolve = "coalesce", key = "ID")
+#' consolidate(database = emperors, rows = "any", cols = "every",
+#' resolve = "min", key = "ID")
+#' consolidate(database = emperors, rows = "every", cols = "any",
+#' resolve = "max", key = "ID")
+#' consolidate(database = emperors, rows = "every", cols = "every",
+#' resolve = "median", key = "ID")
+#' consolidate(database = emperors, rows = "every", cols = "every",
+#' resolve = "mean", key = "ID")
+#' consolidate(database = emperors, rows = "every", cols = "every",
+#' resolve = "random", key = "ID")
+#' consolidate(database = emperors, rows = "every", cols = "every",
 #' resolve = c(Beg = "min", End = "max"), key = "ID")
 #' }
 #' @export
