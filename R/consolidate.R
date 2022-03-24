@@ -86,7 +86,7 @@ consolidate <- function(database,
   # Step 3: Resolve conflicts
   if (length(resolve) < 2) {
   resolve <- match.arg(resolve)
-  other_variables <- unname(all_variables[!key == all_variables])
+  other_variables <- all_variables[!all_variables %in% key]
   if (resolve == "coalesce") {
     out <- resolve_coalesce(other_variables, out, key)
   }
@@ -162,7 +162,7 @@ resolve_coalesce <- function(other_variables, out, key) {
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
-    out <- dplyr::select(out, key, other_variables)
+    out <- dplyr::select(out, all_of(key), other_variables)
   }
   out
 }
@@ -188,7 +188,7 @@ resolve_min <- function(other_variables, out, key) {
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
-    out <- dplyr::select(out, key, other_variables)
+    out <- dplyr::select(out, all_of(key), other_variables)
   }
   out
 }
@@ -214,7 +214,7 @@ resolve_max <- function(other_variables, out, key) {
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
-    out <- dplyr::select(out, key, other_variables)
+    out <- dplyr::select(out, all_of(key), other_variables)
   }
   out
 }
@@ -239,7 +239,7 @@ resolve_median <- function(other_variables, out, key) {
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
-    out <- dplyr::select(out, key, other_variables)
+    out <- dplyr::select(out, all_of(key), other_variables)
   }
   out
 }
@@ -264,7 +264,7 @@ resolve_mean <- function(other_variables, out, key) {
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
-    out <- dplyr::select(out, key, other_variables)
+    out <- dplyr::select(out, all_of(key), other_variables)
   }
   out
 }
@@ -289,7 +289,7 @@ resolve_random <- function(other_variables, out, key) {
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
-    out <- dplyr::select(out, key, other_variables)
+    out <- dplyr::select(out, all_of(key), other_variables)
   }
   out
 }
