@@ -6,9 +6,9 @@
 \usage{
 consolidate(
   database,
-  rows = c("any", "every"),
-  cols = c("any", "every"),
-  resolve = c("coalesce", "min", "max", "median", "mean", "random"),
+  rows = "any",
+  cols = "any",
+  resolve = "coalesce",
   key = "manyID"
 )
 }
@@ -27,31 +27,37 @@ which retains only those variables that appear
 in all parent datasets.}
 
 \item{resolve}{How should conflicts between observations be resolved?
-Currently "coalesce", "min", "max", "mean", "median",
-and "random" are offered.
+By default "coalesce",
+but other options include: "min", "max", "mean", "median", and "random".
 "coalesce" takes the first non-NA value.
-"max" takes the largest value,
-while "min" takes the smallest value.
+"max" takes the largest value.
+"min" takes the smallest value.
 "mean" takes the average value.
 "median" takes the median value.
 "random" takes a random value.
 For different variables to be resolved differently,
 you can specify the variables' names alongside
-how each is to be resolved in a list.
+how each is to be resolved in a list
+(e.g. \code{resolve = c(var1 = "min", var2 = "max")}).
 In this case, only the variables named will be resolved and returned.}
 
 \item{key}{An ID column to collapse by.
-By default "many_ID".}
+By default "many_ID".
+Users can also specify multiple key variables in a list.
+For multiple key variables, the key variables must be present in
+all the datasets in the database (e.g. \code{key = c("key1", "key2")}).
+For equivalent key columns with different names across datasets,
+matching is possible if keys are declared (e.g. \code{key = c("key1" = "key2")}).}
 }
 \value{
 A single tibble/data frame.
 }
 \description{
-This function collapses a set or database of many datasets into a single
-dataset with some combination of the rows, columns, and observations
-of the datasets in a database.
+This function consolidates a set of datasets in a 'many* package' database
+into a single dataset with some combination of the rows, columns,
+and observations of the datasets in the database.
 The function includes separate arguments for the rows and columns,
-as well as for how to resolve conflicts in observations across datasets.
+as well as for how to resolve conflicts for observations across datasets.
 This provides users with considerable flexibility in how they combine data.
 For example, users may wish to stick to units that appear in
 every dataset but include variables coded in any dataset,
@@ -59,13 +65,12 @@ or units that appear in any dataset
 but only those variables that appear in every dataset.
 Even then there may be conflicts, as the actual unit-variable
 observations may differ from dataset to dataset.
-Here we (will) offer a number of resolve methods that enable
+We offer a number of resolve methods that enable
 users to choose how conflicts between observations are resolved.
 }
 \examples{
 \donttest{
-consolidate(database = emperors, rows = "any", cols = "any",
-resolve = "coalesce", key = "ID")
+consolidate(database = emperors, key = "ID")
 consolidate(database = favour(emperors, "UNRV"), rows = "every",
 cols = "every", resolve = "coalesce", key = "ID")
 consolidate(database = emperors, rows = "any", cols = "every",
@@ -80,5 +85,8 @@ consolidate(database = emperors, rows = "every", cols = "every",
 resolve = "random", key = "ID")
 consolidate(database = emperors, rows = "every", cols = "every",
 resolve = c(Beg = "min", End = "max"), key = "ID")
+consolidate(database = emperors, rows = "any", cols = "any",
+resolve = c(Death = "max", Cause = "coalesce"),
+key = c("ID", "Beg"))
 }
 }

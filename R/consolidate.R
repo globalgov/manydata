@@ -1,10 +1,10 @@
 #' Consolidate database into a single dataset
 #'
-#' This function collapses a set or database of many datasets into a single
-#' dataset with some combination of the rows, columns, and observations
-#' of the datasets in a database.
+#' This function consolidates a set of datasets in a 'many* package' database
+#' into a single dataset with some combination of the rows, columns,
+#' and observations of the datasets in the database.
 #' The function includes separate arguments for the rows and columns,
-#' as well as for how to resolve conflicts in observations across datasets.
+#' as well as for how to resolve conflicts for observations across datasets.
 #' This provides users with considerable flexibility in how they combine data.
 #' For example, users may wish to stick to units that appear in
 #' every dataset but include variables coded in any dataset,
@@ -12,7 +12,7 @@
 #' but only those variables that appear in every dataset.
 #' Even then there may be conflicts, as the actual unit-variable
 #' observations may differ from dataset to dataset.
-#' Here we (will) offer a number of resolve methods that enable
+#' We offer a number of resolve methods that enable
 #' users to choose how conflicts between observations are resolved.
 #' @param database A database object from one of the many packages
 #' @param rows Which rows or units to retain.
@@ -25,28 +25,33 @@
 #' which retains only those variables that appear
 #' in all parent datasets.
 #' @param resolve How should conflicts between observations be resolved?
-#' Currently "coalesce", "min", "max", "mean", "median",
-#' and "random" are offered.
+#' By default "coalesce",
+#' but other options include: "min", "max", "mean", "median", and "random".
 #' "coalesce" takes the first non-NA value.
-#' "max" takes the largest value,
-#' while "min" takes the smallest value.
+#' "max" takes the largest value.
+#' "min" takes the smallest value.
 #' "mean" takes the average value.
 #' "median" takes the median value.
 #' "random" takes a random value.
 #' For different variables to be resolved differently,
 #' you can specify the variables' names alongside
-#' how each is to be resolved in a list.
+#' how each is to be resolved in a list
+#' (e.g. `resolve = c(var1 = "min", var2 = "max")`).
 #' In this case, only the variables named will be resolved and returned.
 #' @param key An ID column to collapse by.
 #' By default "many_ID".
+#' Users can also specify multiple key variables in a list.
+#' For multiple key variables, the key variables must be present in
+#' all the datasets in the database (e.g. `key = c("key1", "key2")`).
+#' For equivalent key columns with different names across datasets,
+#' matching is possible if keys are declared (e.g. `key = c("key1" = "key2")`).
 #' @importFrom purrr reduce map
 #' @importFrom dplyr select full_join inner_join distinct all_of starts_with
 #' @import messydates
 #' @return A single tibble/data frame.
 #' @examples
 #' \donttest{
-#' consolidate(database = emperors, rows = "any", cols = "any",
-#' resolve = "coalesce", key = "ID")
+#' consolidate(database = emperors, key = "ID")
 #' consolidate(database = favour(emperors, "UNRV"), rows = "every",
 #' cols = "every", resolve = "coalesce", key = "ID")
 #' consolidate(database = emperors, rows = "any", cols = "every",
@@ -61,95 +66,100 @@
 #' resolve = "random", key = "ID")
 #' consolidate(database = emperors, rows = "every", cols = "every",
 #' resolve = c(Beg = "min", End = "max"), key = "ID")
+#' consolidate(database = emperors, rows = "any", cols = "any",
+#' resolve = c(Death = "max", Cause = "coalesce"),
+#' key = c("ID", "Beg"))
 #' }
 #' @export
-consolidate <- function(database,
-                        rows = c("any", "every"),
-                        cols = c("any", "every"),
-                        resolve = c("coalesce", "min", "max", "median", "mean", "random"),
-                        key = "manyID") {
+consolidate <- function(database, rows = "any", cols = "any",
+                        resolve = "coalesce", key = "manyID") {
 
   # Step 1: Join datasets by ID
-  rows <- match.arg(rows)
   if (rows == "any") {
     out <- purrr::reduce(database, dplyr::full_join, by = key)
   } else if (rows == "every") {
     out <- purrr::reduce(database, dplyr::inner_join, by = key)
   }
   # Step 2: Drop any unwanted variables
-  cols <- match.arg(cols)
   all_variables <- unname(unlist(purrr::map(database, names)))
   if (cols == "every") {
-    all_variables <- names(table(all_variables)[table(all_variables) == length(database)])
-    out <- out %>% dplyr::select(all_of(key), starts_with(all_variables))
+    all_variables <- names(table(all_variables)[table(all_variables) ==
+                                                  length(database)])
+    out <- dplyr::select(out, dplyr::all_of(key),
+                                 dplyr::starts_with(all_variables))
   }
   # Step 3: Resolve conflicts
   if (length(resolve) < 2) {
-  resolve <- match.arg(resolve)
   other_variables <- all_variables[!all_variables %in% key]
-  if (resolve == "coalesce") {
-    out <- resolve_coalesce(other_variables, out, key)
-  }
-  if (resolve == "min") {
-    out <- resolve_min(other_variables, out, key)
-  }
-  if (resolve == "max") {
-    out <- resolve_max(other_variables, out, key)
-  }
-  if (resolve == "median") {
-    out <- resolve_median(other_variables, out, key)
-  }
-  if (resolve == "mean") {
-  out <- resolve_mean(other_variables, out, key)
-  }
-  if (resolve == "random") {
-    out <- resolve_random(other_variables, out, key)
-  }
+  out <- resolve_unique(resolve, other_variables, out, key)
   } else {
     resolve <- data.frame(var = names(resolve), resolve = resolve)
-    for (k in seq_len(nrow(resolve))) {
-      if (resolve$resolve[k] == "coalesce") {
-        rco <- resolve_coalesce(resolve$var[k], out, key)
-      }
-      if (resolve$resolve[k] == "min") {
-        rmin <- resolve_min(resolve$var[k], out, key)
-      }
-      if (resolve$resolve[k] == "max") {
-        rmax <- resolve_max(resolve$var[k], out, key)
-      }
-      if (resolve$resolve[k] == "median") {
-        rmd <- resolve_median(resolve$var[k], out, key)
-      }
-      if (resolve$resolve[k] == "mean") {
-        rme <- resolve_mean(resolve$var[k], out, key)
-      }
-      if (resolve$resolve[k] == "random") {
-        rra <- resolve_random(resolve$var[k], out, key)
-      }
-    }
-    if (exists("rco")) {
-      out <- rco
-    } else {
-      out <- dplyr::select(out, key)
-    }
-    if (exists("rmin")) {
-      out <- dplyr::full_join(out, rmin, by = key)
-    }
-    if (exists("rmax")) {
-      out <- dplyr::full_join(out, rmax, by = key)
-    }
-    if (exists("rmd")) {
-      out <- dplyr::full_join(out, rmd, by = key)
-    }
-    if (exists("rme")) {
-      out <- dplyr::full_join(out, rme, by = key)
-    }
-    if (exists("rra")) {
-      out <- dplyr::full_join(out, rra, by = key)
-    }
+    out <- resolve_multiple(resolve, out, key)
   }
+  # Step 4: Remove duplicates
   out <- dplyr::distinct(out)
   if (any(duplicated(out[, 1]))) out <- coalesce_compatible(out)
+  out
+}
+
+resolve_unique <- function(resolve, other_variables, out, key) {
+  if (resolve == "coalesce") {
+    out <- resolve_coalesce(other_variables, out, key)
+  } else if (resolve == "min") {
+    out <- resolve_min(other_variables, out, key)
+  } else if (resolve == "max") {
+    out <- resolve_max(other_variables, out, key)
+  } else if (resolve == "median") {
+    out <- resolve_median(other_variables, out, key)
+  } else if (resolve == "mean") {
+    out <- resolve_mean(other_variables, out, key)
+  } else if (resolve == "random") {
+    out <- resolve_random(other_variables, out, key)
+  }
+  out
+}
+
+resolve_multiple <- function(resolve, out, key) {
+  for (k in seq_len(nrow(resolve))) {
+    if (resolve$resolve[k] == "coalesce") {
+      rco <- resolve_coalesce(resolve$var[k], out, key)
+    }
+    if (resolve$resolve[k] == "min") {
+      rmin <- resolve_min(resolve$var[k], out, key)
+    }
+    if (resolve$resolve[k] == "max") {
+      rmax <- resolve_max(resolve$var[k], out, key)
+    }
+    if (resolve$resolve[k] == "median") {
+      rmd <- resolve_median(resolve$var[k], out, key)
+    }
+    if (resolve$resolve[k] == "mean") {
+      rme <- resolve_mean(resolve$var[k], out, key)
+    }
+    if (resolve$resolve[k] == "random") {
+      rra <- resolve_random(resolve$var[k], out, key)
+    }
+  }
+  if (exists("rco")) {
+    out <- rco
+  } else {
+    out <- dplyr::select(out, key)
+  }
+  if (exists("rmin")) {
+    out <- dplyr::full_join(out, rmin, by = key)
+  }
+  if (exists("rmax")) {
+    out <- dplyr::full_join(out, rmax, by = key)
+  }
+  if (exists("rmd")) {
+    out <- dplyr::full_join(out, rmd, by = key)
+  }
+  if (exists("rme")) {
+    out <- dplyr::full_join(out, rme, by = key)
+  }
+  if (exists("rra")) {
+    out <- dplyr::full_join(out, rra, by = key)
+  }
   out
 }
 
@@ -158,11 +168,11 @@ resolve_coalesce <- function(other_variables, out, key) {
     vvars <- paste0("^", var, "$|^", var, "\\.")
     vars_to_combine <- grepl(vvars, names(out))
     new_var <- dplyr::coalesce(!!!out[vars_to_combine])
-    out <- out %>% dplyr::select(-dplyr::starts_with(var))
+    out <- dplyr::select(out, -dplyr::starts_with(var))
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
-    out <- dplyr::select(out, all_of(key), other_variables)
+    out <- dplyr::select(out, dplyr::all_of(key), other_variables)
   }
   out
 }
@@ -188,7 +198,7 @@ resolve_min <- function(other_variables, out, key) {
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
-    out <- dplyr::select(out, all_of(key), other_variables)
+    out <- dplyr::select(out, dplyr::all_of(key), other_variables)
   }
   out
 }
@@ -214,7 +224,7 @@ resolve_max <- function(other_variables, out, key) {
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
-    out <- dplyr::select(out, all_of(key), other_variables)
+    out <- dplyr::select(out, dplyr::all_of(key), other_variables)
   }
   out
 }
@@ -235,11 +245,11 @@ resolve_median <- function(other_variables, out, key) {
     # Sub NAs for first non NA value
     a <- dplyr::coalesce(!!!out[vars_to_combine])
     new_var <- ifelse(is.na(new_var), a, new_var)
-    out <- out %>% dplyr::select(-dplyr::starts_with(var))
+    out <- dplyr::select(out, -dplyr::starts_with(var))
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
-    out <- dplyr::select(out, all_of(key), other_variables)
+    out <- dplyr::select(out, dplyr::all_of(key), other_variables)
   }
   out
 }
@@ -260,11 +270,11 @@ resolve_mean <- function(other_variables, out, key) {
     # Sub NAs for first non NA value
     a <- dplyr::coalesce(!!!out[vars_to_combine])
     new_var <- ifelse(is.na(new_var), a, new_var)
-    out <- out %>% dplyr::select(-dplyr::starts_with(var))
+    out <- dplyr::select(out, -dplyr::starts_with(var))
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
-    out <- dplyr::select(out, all_of(key), other_variables)
+    out <- dplyr::select(out, dplyr::all_of(key), other_variables)
   }
   out
 }
@@ -285,11 +295,11 @@ resolve_random <- function(other_variables, out, key) {
     # Sub NAs for first non NA value
     a <- dplyr::coalesce(!!!out[vars_to_combine])
     new_var <- ifelse(is.na(new_var), a, new_var)
-    out <- out %>% dplyr::select(-dplyr::starts_with(var))
+    out <- dplyr::select(out, -dplyr::starts_with(var))
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
-    out <- dplyr::select(out, all_of(key), other_variables)
+    out <- dplyr::select(out, dplyr::all_of(key), other_variables)
   }
   out
 }
@@ -346,13 +356,15 @@ coalesce_compatible <- function(.data) {
 
 compatible_rows <- function(x) {
   complete_vars <- x[, apply(x, 2, function(y) !any(is.na(y)))]
-  compat_candidates <- which(duplicated(complete_vars) | duplicated(complete_vars, fromLast = TRUE))
+  compat_candidates <- which(duplicated(complete_vars) |
+                               duplicated(complete_vars, fromLast = TRUE))
   if (length(compat_candidates) == 0) {
     pairs <- vector(mode = "numeric", length = 0)
   } else {
     pairs <- t(utils::combn(compat_candidates, 2))
-    pb <- progress::progress_bar$new(format = "identifying compatible pairs [:bar] :percent eta: :eta",
-                                     total = nrow(pairs))
+    pb <- progress::progress_bar$new(
+      format = "identifying compatible pairs [:bar] :percent eta: :eta",
+      total = nrow(pairs))
     compatico <- apply(pairs, 1, function(y) {
       pb$tick()
       o <- x[y[1], ] == x[y[2], ]
