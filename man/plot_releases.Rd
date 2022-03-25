@@ -26,8 +26,9 @@ specified GitHub repository.
 }
 \examples{
 \donttest{
-if(!httr::http_error("https://api.github.com/repos/globalgov/manydata/releases")) {
-plot_releases("globalgov/manydata")
+if(!httr::http_error(
+"https://api.github.com/repos/globalgov/manydata/releases")) {
+plot_releases("globalgov/manypkgs")
 }
 }
 }
