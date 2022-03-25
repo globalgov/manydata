@@ -120,6 +120,8 @@ test_that("consolidate methods work", {
   expect_length(consolidate(test2, "any", "any",
                             resolve = c(date = "coalesce",
                                         number = "random")), 3)
+  expect_length(consolidate(test2, "any", "any",
+                            resolve = "coalesce", key = c("manyID", "date")), 3)
 })
 
 test_that("favouring a dataset works", {
