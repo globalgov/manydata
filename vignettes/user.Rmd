@@ -172,8 +172,8 @@ database) or units and variables coded in "every" dataset (i.e. units or
 variables present in all of the datasets in the database).
 
 ```{r consolidate}
-consolidate(emperors, rows = "any", cols = "any", resolve = "coalesce", key = "ID")
-consolidate(emperors, rows = "every", cols = "every", resolve = "coalesce", key = "ID")
+consolidate(database = emperors, rows = "any", cols = "any", resolve = "coalesce", key = "ID")
+consolidate(database = emperors, rows = "every", cols = "every", resolve = "coalesce", key = "ID")
 ```
 
 Users can also choose how they want to resolve conflicts between observations in
@@ -187,21 +187,28 @@ Users can also choose how they want to resolve conflicts between observations in
 * random: a random value
 
 ```{r resolve}
-consolidate(emperors, "any", "every", resolve = "max", key = "ID")
-consolidate(emperors, "every", "any", resolve = "min", key = "ID")
-consolidate(emperors, "every", "every", resolve = "mean", key = "ID")
-consolidate(emperors, "any", "any", resolve = "median", key = "ID")
-consolidate(emperors, "every", "every", resolve = "random", key = "ID")
+consolidate(database = emperors, rows = "any", cols = "every", resolve = "max", key = "ID")
+consolidate(database = emperors, rows = "every", cols = "any", resolve = "min", key = "ID")
+consolidate(database = emperors, rows = "every", cols = "every", resolve = "mean", key = "ID")
+consolidate(database = emperors, rows = "any", cols = "any", resolve = "median", key = "ID")
+consolidate(database = emperors, rows = "every", cols = "every", resolve = "random", key = "ID")
 ```
 
 Users can even specify how conflicts for different variables should be 'resolved':
 
 ```{r different}
-consolidate(emperors, "any", "every", resolve = c(Beg = "min", End = "max"), key = "ID")
+consolidate(database = emperors, rows = "any", cols = "every", resolve = c(Beg = "min", End = "max"), key = "ID")
 ```
 
 Alternatively, users can "favour" a dataset in a database over others:
 
 ```{r favour}
-consolidate(favour(emperors, "UNRV"), "every", "any", resolve = "coalesce", key = "ID")
+consolidate(database = favour(emperors, "UNRV"), rows = "every", cols = "any", resolve = "coalesce", key = "ID")
+```
+
+Users can, even, declare multiple key ID columns to consolidate a database or multiple datasets:
+
+```{r multiple}
+consolidate(database = emperors, rows = "any", cols = "any", resolve = c(Death = "max", Cause = "coalesce"),
+            key = c("ID", "Beg"))
 ```
