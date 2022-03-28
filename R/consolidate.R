@@ -384,7 +384,7 @@ compatible_rows <- function(x) {
 #' @details The dataset declared becomes the reference for
 #' the first non NA value.
 #' If more than one dataset is declared,
-#' please add datasets increasing order of importance
+#' please list datasets in increasing order of importance
 #' (.i.e. last dataset should be favoured over previous).
 #' @return The database with datasets re-ordered accordingly
 #' @aliases favor
