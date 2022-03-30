@@ -184,7 +184,7 @@ resolve_min <- function(other_variables, out, key) {
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
-      if (class(dates) == "messydt") {
+      if (inherits(dates, "messydt")) {
         dates <- suppressWarnings(as.Date(dates, min))
         new_var[k] <- dates
         }
@@ -210,7 +210,7 @@ resolve_max <- function(other_variables, out, key) {
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
-      if (class(dates) == "messydt") {
+      if (inherits(dates, "messydt")) {
         dates <- suppressWarnings(as.Date(dates, max))
         new_var[k] <- dates
       }
@@ -236,7 +236,7 @@ resolve_median <- function(other_variables, out, key) {
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
-      if (class(dates) == "messydt") {
+      if (inherits(dates, "messydt")) {
         dates <- suppressWarnings(as.Date(dates, max))
         new_var[k] <- dates
       }
@@ -261,7 +261,7 @@ resolve_mean <- function(other_variables, out, key) {
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
-      if (class(dates) == "messydt") {
+      if (inherits(dates, "messydt")) {
         dates <- suppressWarnings(as.Date(dates, max))
         new_var[k] <- dates
       }
@@ -286,7 +286,7 @@ resolve_random <- function(other_variables, out, key) {
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
-      if (class(dates) == "messydt") {
+      if (inherits(dates, "messydt")) {
         dates <- suppressWarnings(as.Date(dates, max))
         new_var[k] <- dates
       }
