@@ -1,3 +1,14 @@
+# manydata 0.7.1
+
+## Package
+
+* Updated DESCRIPTION by removing ambiguous word from title
+* Updated README by correcting the URL for the life cycle badge
+
+## Connection
+
+* Updated `consolidate()` function to use `inherits()` to identify variable's class
+
 # manydata 0.7.0
 
 ## Package
