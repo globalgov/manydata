@@ -13,3 +13,4 @@
 ^data-raw/emperors/wikipedia$
 ^data-raw/emperors/UNRV$
 ^data-raw/emperors/britannica$
+^cran-comments.md$
