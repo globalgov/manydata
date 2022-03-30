@@ -4,15 +4,17 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>An R Portal for Ensembled Global Governance Data • manydata</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/paper/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
-<script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="This is the core package for the many packages universe.
+    It includes functions to help researchers work with and contribute to 
+    event datasets on global governance.">
+<title>A Portal for Ensembled Global Governance Data • manydata</title>
+<script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
-<meta property="og:title" content="An R Portal for Ensembled Global Governance Data">
+<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
+<meta property="og:title" content="A Portal for Ensembled Global Governance Data">
 <meta property="og:description" content="This is the core package for the many packages universe.
     It includes functions to help researchers work with and contribute to 
     event datasets on global governance.">
@@ -21,198 +23,181 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body data-spy="scroll" data-target="#toc">
-    <div class="container template-home">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">manydata</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
-      </span>
-    </div>
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+    
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    
+    <a class="navbar-brand me-2" href="index.html">manydata</a>
+
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.7.0</small>
+
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="active nav-item">
+  <a class="nav-link" href="index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
-<li>
-  <a href="reference/index.html">Reference</a>
+<li class="nav-item">
+  <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="articles/user.html">Use</a>
-    </li>
-  </ul>
-</li>
-<li>
-  <a href="news/index.html">News</a>
-</li>
-      </ul>
-<ul class="nav navbar-nav navbar-right">
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Other packages
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="https://globalgov.github.io/manypkgs/">manypkgs</a>
-    </li>
-    <li>
-      <a href="https://globalgov.github.io/manystates/">manystates</a>
-    </li>
-    <li>
-      <a href="https://globalgov.github.io/manyenviron/">manyenviron</a>
-    </li>
-    <li>
-      <a href="https://globalgov.github.io/manytrade/">manytrade</a>
-    </li>
-  </ul>
-</li>
-<li>
-  <a href="https://github.com/globalgov/manydata">
-    <span class="fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
-      </ul>
-</div>
-<!--/.nav-collapse -->
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="articles/user.html">Use</a>
   </div>
-<!--/.container -->
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="news/index.html">News</a>
+</li>
+      </ul>
+<form class="form-inline my-2 my-lg-0" role="search">
+        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
+</form>
+
+      <ul class="navbar-nav">
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-other-packages">Other packages</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-other-packages">
+    <a class="external-link dropdown-item" href="https://globalgov.github.io/manypkgs/">manypkgs</a>
+    <a class="external-link dropdown-item" href="https://globalgov.github.io/manystates/">manystates</a>
+    <a class="external-link dropdown-item" href="https://globalgov.github.io/manyenviron/">manyenviron</a>
+    <a class="external-link dropdown-item" href="https://globalgov.github.io/manytrade/">manytrade</a>
+  </div>
+</li>
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/globalgov/manydata">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
-<!--/.navbar -->
 
-      
-
-      </header><div class="row">
-  <div class="contents col-md-9">
-<div id="manydata-" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#manydata-" class="anchor"></a>manydata <img src="reference/figures/manydataLogo.png" align="right" width="220">
+    
+  </div>
+</nav><div class="container template-home">
+<div class="row">
+  <main id="main" class="col-md-9"><div class="section level1">
+<div class="page-header"><h1 id="manydata-">manydata <img src="reference/figures/manydataLogo.png" align="right" width="220"><a class="anchor" aria-label="anchor" href="#manydata-"></a>
 </h1></div>
 <!-- badges: start -->
 
-<p><a href="https://github.com/globalgov/manydata">manydata</a> is the central package in the many packages universe aimed at collecting, connecting and correcting network data across issue-domains of global governance. To assist users in doing so, <a href="https://github.com/globalgov/manydata">manydata</a> also contains functions that enable users to clean and manipulate data easily.</p>
-<div id="why-manydata" class="section level2">
-<h2 class="hasAnchor">
-<a href="#why-manydata" class="anchor"></a>Why manydata?</h2>
-<p><a href="https://github.com/globalgov/manydata">manydata</a> offers users access to all of the tested data in the various ‘many packages’ available, for use in analyses of global governance and beyond. A special feature of the ‘many packages’ is that it is not ‘opinionated’ - instead of offering a single, supposedly authoritative version of global governance events, the packages in the many packages universe gather well-regarded datasets in each issue-domain into three-dimensional ‘datacubes’. The chief advantage of this for global governance researchers is that it enables a quick and easy way to check the robustness of their results using different formulations of the study population or concept specification. The ‘datacube’ structure has a specific coding system for the variables across the datasets. For more details, please see the <a href="https://globalgov.github.io/manydata/articles/user.html">vignette</a>.</p>
+<p><a href="https://github.com/globalgov/manydata" class="external-link">manydata</a> is the central package in the many packages universe aimed at collecting, connecting, and correcting network data across issue-domains of global governance. To assist users in doing so, <a href="https://github.com/globalgov/manydata" class="external-link">manydata</a> contains functions that enable users to download and manipulate data easily.</p>
+<div class="section level2">
+<h2 id="why-manydata">Why manydata?<a class="anchor" aria-label="anchor" href="#why-manydata"></a>
+</h2>
+<p><a href="https://github.com/globalgov/manydata" class="external-link">manydata</a> offers users access to all of the tested data in the various ‘many packages’ available, for use in analyses of global governance and beyond. A special feature of the ‘many packages’ is that it is not ‘opinionated’ - instead of offering a single, supposedly authoritative version of global governance events, the packages in the many packages universe gather well-regarded datasets in each issue-domain into three-dimensional ‘datacubes’. The chief advantage of this for global governance researchers is that it enables a quick and easy way to check the robustness of their results using different formulations of the study population or concept specification. The ‘datacube’ structure has a specific coding system for the variables across the datasets. For more details, please see the <a href="https://globalgov.github.io/manydata/articles/user.html">vignette</a>.</p>
 </div>
-<div id="downloading-and-installing-manydata" class="section level2">
-<h2 class="hasAnchor">
-<a href="#downloading-and-installing-manydata" class="anchor"></a>Downloading and installing manydata</h2>
-<p>The development version of the package <a href="https://github.com/globalgov/manydata">manydata</a> can be downloaded from GitHub.</p>
+<div class="section level2">
+<h2 id="downloading-and-installing-manydata">Downloading and installing manydata<a class="anchor" aria-label="anchor" href="#downloading-and-installing-manydata"></a>
+</h2>
+<p>The easiest way to install <a href="https://github.com/globalgov/manydata" class="external-link">manydata</a> is directly from CRAN.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"globalgov/manydata"</span><span class="op">)</span></code></pre></div>
-</div>
-<div id="available-many-packages" class="section level2">
-<h2 class="hasAnchor">
-<a href="#available-many-packages" class="anchor"></a>Available ‘many packages’</h2>
-<p><a href="https://github.com/globalgov/manydata">manydata</a> connects users to other packages that help fill global governance researchers’ data needs. The <code><a href="reference/get_packages.html">get_packages()</a></code> function can be used to discover the ‘many packages’ currently available.</p>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"manydata"</span><span class="op">)</span></code></pre></div>
+<p>The development version of the package <a href="https://github.com/globalgov/manydata" class="external-link">manydata</a> can also be downloaded from GitHub.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/globalgov/manydata">manydata</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"globalgov/manydata"</span><span class="op">)</span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="available-many-packages">Available ‘many packages’<a class="anchor" aria-label="anchor" href="#available-many-packages"></a>
+</h2>
+<p><a href="https://github.com/globalgov/manydata" class="external-link">manydata</a> connects users to other packages that help fill global governance researchers’ data needs. The <code><a href="reference/get_packages.html">get_packages()</a></code> function can be used to discover the ‘many packages’ currently available.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/globalgov/manydata" class="external-link">manydata</a></span><span class="op">)</span>
 <span class="fu"><a href="reference/get_packages.html">get_packages</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p>Please see <a href="https://globalgov.github.io/manydata/">the website</a> for more information about how to use <a href="https://github.com/globalgov/manydata">manydata</a>.</p>
+<p>Please see <a href="https://globalgov.github.io/manydata/">the website</a> for more information about how to use <a href="https://github.com/globalgov/manydata" class="external-link">manydata</a>.</p>
 </div>
-<div id="cheat-sheet" class="section level2">
-<h2 class="hasAnchor">
-<a href="#cheat-sheet" class="anchor"></a>Cheat Sheet</h2>
-<p><a href="https://github.com/globalgov/manydata/blob/main/man/figures/cheatsheet.pdf"><img src="https://raw.githubusercontent.com/globalgov/manydata/main/man/figures/cheatsheet.png" width="525" height="378"></a></p>
+<div class="section level2">
+<h2 id="cheat-sheet">Cheat Sheet<a class="anchor" aria-label="anchor" href="#cheat-sheet"></a>
+</h2>
+<p><a href="https://github.com/globalgov/manydata/blob/main/man/figures/cheatsheet.pdf" class="external-link"><img src="https://raw.githubusercontent.com/globalgov/manydata/main/man/figures/cheatsheet.png" width="525" height="378"></a></p>
 </div>
-<div id="contributing-to-the-many-packages-universe" class="section level2">
-<h2 class="hasAnchor">
-<a href="#contributing-to-the-many-packages-universe" class="anchor"></a>Contributing to the many packages universe</h2>
-<p>For more information for developers and data contributors to ‘many packages’, please see <code>{manypkgs}</code> <a href="https://globalgov.github.io/manypkgs/">the website</a>.</p>
+<div class="section level2">
+<h2 id="contributing-to-the-many-packages-universe">Contributing to the many packages universe<a class="anchor" aria-label="anchor" href="#contributing-to-the-many-packages-universe"></a>
+</h2>
+<p>For more information for developers and data contributors to ‘many packages’, please see <code>{manypkgs}</code> <a href="https://globalgov.github.io/manypkgs/" class="external-link">the website</a>.</p>
 </div>
 </div>
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div class="links">
-<h2>Links</h2>
+  </main><aside class="col-md-3"><div class="links">
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/globalgov/manydata/">https://​github.com/​globalgov/​manydata/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/globalgov/manydata/issues">https://​github.com/​globalgov/​manydata/​issues</a>
-</li>
+<li><a href="https://github.com/globalgov/manydata/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/globalgov/manydata/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://creativecommons.org/licenses/by/4.0">CC BY 4.0</a></small></li>
+<li><small><a href="https://creativecommons.org/licenses/by/4.0" class="external-link">CC BY 4.0</a></small></li>
 </ul>
 </div>
+
 <div class="community">
-<h2>Community</h2>
+<h2 data-toc-skip>Community</h2>
 <ul class="list-unstyled">
 <li><a href="CONTRIBUTING.html">Contributing guide</a></li>
 <li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
 </ul>
 </div>
+
 <div class="citation">
-<h2>Citation</h2>
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html">Citing manydata</a></li>
+<li><a href="authors.html#citation">Citing manydata</a></li>
 </ul>
 </div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>
-<a href="https://jameshollway.com">James Hollway</a> <br><small class="roles"> Maintainer, author, contributor </small> <a href="https://orcid.org/0000-0002-8361-9647" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> <br><small>(IHEID)</small>
-</li>
-<li><a href="authors.html">All authors...</a></li>
+<a href="https://jameshollway.com" class="external-link">James Hollway</a> <br><small class="roles"> Maintainer, author, contributor </small> <a href="https://orcid.org/0000-0002-8361-9647" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="lifecycle"></a></li>
-<li><a href="https://codecov.io/gh/globalgov/manydata?branch=main"><img src="https://codecov.io/gh/globalgov/manydata/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
-<li><a href="https://www.codefactor.io/repository/github/globalgov/manydata"><img src="https://www.codefactor.io/repository/github/globalgov/manydata/badge" alt="CodeFactor"></a></li>
-<li><a href="https://bestpractices.coreinfrastructure.org/projects/4562"><img src="https://bestpractices.coreinfrastructure.org/projects/4562/badge" alt="CII Best Practices"></a></li>
+<li><a href="https://www.tidyverse.org/lifecycle/#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="lifecycle"></a></li>
+<li><a href="https://app.codecov.io/gh/globalgov/manydata?branch=main" class="external-link"><img src="https://codecov.io/gh/globalgov/manydata/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://www.codefactor.io/repository/github/globalgov/manydata" class="external-link"><img src="https://www.codefactor.io/repository/github/globalgov/manydata/badge" alt="CodeFactor"></a></li>
+<li><a href="https://bestpractices.coreinfrastructure.org/projects/4562" class="external-link"><img src="https://bestpractices.coreinfrastructure.org/projects/4562/badge" alt="CII Best Practices"></a></li>
 </ul>
 </div>
-</div>
-</div>
 
-
-      <footer><div class="copyright">
-  <p>Developed by <a href="https://jameshollway.com">James Hollway</a>.</p>
+  </aside>
 </div>
 
-<div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+
+    <footer><div class="pkgdown-footer-left">
+  <p></p>
+<p>manydata</p>
 </div>
 
-      </footer>
+<div class="pkgdown-footer-right">
+  <p></p>
+<p>Part of the <a href="https://panarchic.ch/" class="external-link">PANARCHIC project</a>.</p>
+</div>
+
+    </footer>
 </div>
 
   
 
+  
 
   </body>
 </html>
