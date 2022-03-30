@@ -3,11 +3,11 @@
 ## Package
 
 * Updated DESCRIPTION by removing ambiguous word from title
-* Updated README by correcting the URL for the life cycle badge
+* Updated README by correcting the URL for life cycle badge
 
 ## Connection
 
-* Updated `consolidate()` function to use `inherits()` to identify variable's class
+* Updated helper functions for `consolidate()` to use `inherits()` to identify variable's class
 
 # manydata 0.7.0
 
