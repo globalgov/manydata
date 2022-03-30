@@ -11,23 +11,24 @@
 #' @import dplyr
 #' @source https://stackoverflow.com/questions/51428156/dplyr-mutate-transmute-drop-only-the-columns-used-in-the-formula
 #' @examples
-#' transmutate(mtcars, X = ifelse( vs, drat, wt ), Y = mpg*cyl)
+#' pluck(emperors, "wikipedia")
+#' transmutate(emperors$wikipedia, Beginning = Beg)
 #' @export
 transmutate <- function(.data, ...) {
-
   # Helper functions
-  getAST <- function(ee) { as.list(ee) %>% purrr::map_if(is.call, getAST) }
-  getSyms <- function(ee) { getAST(ee) %>% unlist %>% purrr::map_chr(deparse) }
-
-  ## Capture the provided expressions and retrieve their symbols
+  getAST <- function(ee) {
+    as.list(ee) %>% purrr::map_if(is.call, getAST)
+    }
+  getSyms <- function(ee) {
+    getAST(ee) %>% unlist %>% purrr::map_chr(deparse)
+    }
+  # Capture the provided expressions and retrieve their symbols
   vSyms <- rlang::enquos(...) %>% purrr::map(~getSyms(rlang::get_expr(.x)))
-
-  ## Identify symbols that are in common with the provided dataset
-  ## These columns are to be removed
+  # Identify symbols that are in common with the provided dataset
+  # These columns are to be removed
   vToRemove <- intersect(colnames(.data), unlist(vSyms))
-
-  ## Pass on the expressions to mutate to do the work
-  ## Remove the identified columns from the result
+  # Pass on the expressions to mutate to do the work
+  # Remove the identified columns from the result
   dplyr::mutate(.data, ...) %>% dplyr::select(-dplyr::one_of(vToRemove))
 }
 
@@ -83,8 +84,8 @@ recollect <- function(x, collapse = "_") {
 #' but on observations rather than variables.
 #' @source https://stackoverflow.com/questions/40515180/dplyr-how-to-find-the-first-non-missing-string-by-groups
 #' @examples
-#' dplyr::summarise(mtcars, coalesce_rows(mtcars))
-#' coalesce_rows(mtcars$wt)
+#' dplyr::summarise(emperors$wikipedia, coalesce_rows(emperors$wikipedia))
+#' coalesce_rows(emperors$wikipedia$Beg)
 #' @export
 coalesce_rows <- function(x) {
   x[which(!is.na(x))[1]]

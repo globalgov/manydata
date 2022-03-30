@@ -3,7 +3,7 @@
 \docType{data}
 \name{emperors}
 \alias{emperors}
-\title{emperors database documentation}
+\title{Emperors database documentation}
 \format{
 The emperors database is a list that contains the
 following 3 datasets: wikipedia, UNRV, britannica.
@@ -27,6 +27,6 @@ following 3 variables: ID, Beg, End.}
 emperors
 }
 \description{
-emperors database documentation
+Emperors database documentation
 }
 \keyword{datasets}

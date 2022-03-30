@@ -4,7 +4,20 @@
 \name{reexports}
 \alias{reexports}
 \alias{pluck}
-\title{Objects exported from other packages}
+\title{Selects a single dataset from a database}
+\value{
+The selected dataset
+}
+\details{
+This function is reexported from the purrr package.
+It allows users to select a single dataset from one
+of the databases available across the 'many* packages'.
+}
+\examples{
+\donttest{
+pluck(emperors, "UNRV")
+}
+}
 \keyword{internal}
 \description{
 These objects are imported from other packages. Follow the links

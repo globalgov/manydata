@@ -1,4 +1,4 @@
-#' emperors database documentation
+#' Emperors database documentation
 #'
 #' @format The emperors database is a list that contains the
 #' following 3 datasets: wikipedia, UNRV, britannica.

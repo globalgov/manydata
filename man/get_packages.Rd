@@ -37,8 +37,3 @@ If users intend to download and install
 a package from the universe,
 they can type the package name within the function.
 }
-\examples{
-\dontrun{
-get_packages()
-}
-}

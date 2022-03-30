@@ -24,6 +24,6 @@ that is picking the first non-missing observation,
 but on observations rather than variables.
 }
 \examples{
-dplyr::summarise(mtcars, coalesce_rows(mtcars))
-coalesce_rows(mtcars$wt)
+dplyr::summarise(emperors$wikipedia, coalesce_rows(emperors$wikipedia))
+coalesce_rows(emperors$wikipedia$Beg)
 }

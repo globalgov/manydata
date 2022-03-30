@@ -103,8 +103,7 @@ wikipedia$birth[66] <-  paste0(wikipedia$birth[66], "..", "0359-05-23")
 wikipedia <- as_tibble(wikipedia) %>%
   manydata::transmutate(ID = name,
                      Beg = manypkgs::standardise_dates(reign.start),
-                     End = manypkgs::standardise_dates(reign.end)
-  ) %>%
+                     End = manypkgs::standardise_dates(reign.end)) %>%
   dplyr::rename(FullName = name.full,
                 Birth = birth,
                 Death = death,

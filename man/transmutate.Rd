@@ -23,5 +23,6 @@ but, unlike \code{dplyr::transmute()}, all other unnamed variables.
 A function between dplyr's transmute and mutate
 }
 \examples{
-transmutate(mtcars, X = ifelse( vs, drat, wt ), Y = mpg*cyl)
+pluck(emperors, "wikipedia")
+transmutate(emperors$wikipedia, Beginning = Beg)
 }

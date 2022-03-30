@@ -10,7 +10,8 @@
 #' report data on a specific database in a many package
 #' If NULL, the function returns a summary of all databases in the many package
 #' NULL by default for `data_source()` and `data_contrast()`.
-#' @param dataset character string of the many package to report data on a specific
+#' @param dataset character string of the many package to
+#' report data on a specific
 #' dataset in a specific database of a many package
 #' If NULL and database is specified, returns database level metadata.
 #' NULL by default for `data_source()` and `data_contrast()`.
@@ -23,13 +24,14 @@ NULL
 #' @importFrom stringr str_to_title
 #' @return A dataframe with the data sources
 #' @examples
+#' \donttest{
 #' data_source(pkg = "manydata")
+#' }
 #' @export
 data_source <- function(pkg, database = NULL, dataset = NULL) {
   pkg_path <- find.package(pkg)
   data_path <- file.path(pkg_path, "data")
   #selcts all dbs
-  pkg_dbs <- unname(unlist(readRDS(file.path(data_path, "Rdata.rds"))))
   if (!is.null(database)) {
     # Database specified, dataset unspecified
     if (is.null(dataset)) {
@@ -106,9 +108,12 @@ data_source <- function(pkg, database = NULL, dataset = NULL) {
 #' the most direct URL to the original dataset.
 #' @importFrom purrr map
 #' @importFrom stringr str_to_title
-#' @return A list with the desired metadata to compare various datasets in a many package.
+#' @return A list with the desired metadata
+#' to compare various datasets in a many package.
 #' @examples
+#' \donttest{
 #' data_contrast(pkg = "manydata")
+#' }
 #' @export
 data_contrast <- function(pkg, database = NULL, dataset = NULL) {
   pkg_path <- find.package(pkg)
@@ -230,17 +235,12 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
 #' @name report
 #' @details `open_codebook()` opens the original codebook of the specified
 #' dataset to allow users to look up the original coding rules.
-#' Note that there is no original codebook for the genevar database
-#' and that a codebook might not exist for certain datasets.
+#' Note that no original codebook might exist for certain datasets.
 #' In the latter case, please refer to the
 #' source URL provided with each dataset by running `manydata::data_contrast()`
 #' as further information on coding rules available online.
 #' @return Opens a pdf version of the original codebook of the specified
 #' dataset, if available.
-#' @examples
-#' \dontrun{
-#' open_codebook(pkg = "manystates", database = "states", dataset = "COW")
-#' }
 #' @export
 open_codebook <- function(pkg, database, dataset) {
   # Check if input is null
@@ -256,7 +256,7 @@ open_codebook <- function(pkg, database, dataset) {
   repo <- jsonlite::fromJSON(repo, flatten = TRUE)
   reponames <- repo[["name"]]
   if (!(pkg %in% reponames)) {
-    stop("Please enter a valid ")
+    stop("Please enter a valid package name.")
   }
   # Find the PDF on GitHub
   url <- paste0("https://github.com/globalgov/",
