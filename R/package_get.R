@@ -31,6 +31,10 @@
 #' @importFrom remotes install_github
 #' @importFrom utils packageVersion
 #' @importFrom lubridate as_date
+#' @examples
+#' \donttest{
+#' get_packages()
+#' }
 #' @export
 get_packages <- function(pkg) {
 
@@ -86,11 +90,12 @@ get_packages <- function(pkg) {
     }
 
     get_installed_release <- function(name) {
-      installed <- utils::installed.packages()
       installed_v <- sapply(name, function(x) {
-        ifelse(x %in% installed,
-               as.character(utils::packageVersion(x)),
-               NA_character_)
+        tryCatch({
+          as.character(utils::packageVersion(x))
+        }, error = function(e) {
+          NA_character_
+          })
       })
       installed_v
     }
