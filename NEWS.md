@@ -1,3 +1,10 @@
+# manydata 0.7.2
+
+## Connection
+
+* Updated how the `get_packages()` function identifies installed packages to avoid using `installed.packages()`
+* Updated documentation for `coalesce_compatible()` function to include the returns
+
 # manydata 0.7.1
 
 ## Package
