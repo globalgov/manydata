@@ -15,7 +15,7 @@ repaint(df, id, var)
 to be filled}
 }
 \value{
-a dataframe
+A dataframe
 }
 \description{
 Fills missing data where known by other observations with the same id/index

@@ -98,7 +98,7 @@ coalesce_rows <- function(x) {
 #' @param id a string identifying a column in the dataframe for indexing
 #' @param var a string identifying a column or columns in the dataframe
 #' to be filled
-#' @return a dataframe
+#' @return A dataframe
 #' @examples
 #' data <- data.frame(ID = c(1,2,3,3,2,1),
 #'                     One = c(1,NA,3,NA,2,NA),

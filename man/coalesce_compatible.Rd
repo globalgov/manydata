@@ -9,6 +9,9 @@ coalesce_compatible(.data)
 \arguments{
 \item{.data}{data frame to consolidate}
 }
+\value{
+A tibble with the missing observations coalesced for compatible rows
+}
 \description{
 This function identifies and coalesces
 all compatible rows in a data frame.
