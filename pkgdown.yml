@@ -3,7 +3,7 @@ pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
   user: user.html
-last_built: 2022-03-30T23:58Z
+last_built: 2022-03-31T22:59Z
 urls:
   reference: https://globalgov.github.io/manydata/reference
   article: https://globalgov.github.io/manydata/articles
