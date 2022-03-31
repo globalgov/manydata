@@ -330,6 +330,7 @@ purrr::pluck
 #' @importFrom utils combn
 #' @importFrom dplyr coalesce bind_rows slice
 #' @importFrom progress progress_bar
+#' @return A tibble with the missing observations coalesced for compatible rows
 #' @examples
 #' eg1 <- tibble::tribble(
 #' ~x, ~y, ~z,
