@@ -33,15 +33,12 @@ BugReports: https://github.com/globalgov/manydata/issues
 Depends:
     R (>= 3.5.0)
 Imports:
-    covr,
     tibble,
     dplyr,
     messydates,
     lubridate,
-    pkgdown,
     purrr,
     rlang,
-    roxygen2,
     stringr,
     usethis,
     jsonlite,
@@ -51,6 +48,9 @@ Imports:
     ggplot2
 Suggests:
     testthat,
+    pkgdown,
+    covr,
+    roxygen2,
     anytime,
     mice,
     withr,
