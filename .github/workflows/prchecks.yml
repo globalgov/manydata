@@ -36,7 +36,11 @@ jobs:
       
       - uses: r-lib/actions/setup-r-dependencies@master
         with:
-          extra-packages: any::rcmdcheck, any::covr, any::lintr, any::goodpractice, any::spelling
+          extra-packages: |
+            any::rcmdcheck
+            any::lintr
+            any::spelling
+            any::covr
           needs: check
 
       # - name: Query dependencies

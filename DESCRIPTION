@@ -49,7 +49,7 @@ Imports:
 Suggests:
     testthat,
     pkgdown,
-    covr,
+    goodpractice,
     roxygen2,
     anytime,
     mice,
