@@ -49,7 +49,6 @@ Imports:
 Suggests:
     testthat,
     pkgdown,
-    goodpractice,
     roxygen2,
     anytime,
     mice,

@@ -117,10 +117,10 @@ jobs:
         run: lintr::lint_package()
         shell: Rscript {0}
 
-      - name: Goodpractice
-        run: |
-          goodpractice::gp()
-        shell: Rscript {0}
+      # - name: Goodpractice
+      #   run: |
+      #     goodpractice::gp()
+      #   shell: Rscript {0}
 
       - name: Spell check
         run: spelling::spell_check_package()
