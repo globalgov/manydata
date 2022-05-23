@@ -127,8 +127,8 @@ emperors database documentation
 ## 
 ## ── Variable type: mdate ────────────────────────────────────────────────────────
 ##   skim_variable n_missing complete_rate n_empty n_unique max        min       
-## 1 Beg                   0             1       0       69 0475-12-31 -031-01-01
-## 2 End                   0             1       0       76 0491-12-31 0014-01-01
+## 1 Beg                   0             1       0       69 0475-12-31 0014-01-01
+## 2 End                   0             1       0       76 0491-12-31 0037-01-01
 }
 }
 \keyword{datasets}

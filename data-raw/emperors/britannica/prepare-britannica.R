@@ -61,6 +61,9 @@ britannica$reign_end[81] <- "0472-11"
 britannica$reign_start <- gsub("BCE", "BC", britannica$reign_start)
 britannica$reign_end <- gsub("CE", "", britannica$reign_end)
 
+# Remove non-ASCII characters
+britannica <- apply(britannica, 2, stringi::stri_enc_toascii)
+
 # Let's standardise dates and variable names
 britannica <- as_tibble(britannica) %>%
   manydata::transmutate(ID = Name,

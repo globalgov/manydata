@@ -97,11 +97,14 @@ wikipedia$birth[24] <-  stringr::str_extract(wikipedia$birth[24], "^[0-9]{4}")
 wikipedia$birth[20] <-  paste0(wikipedia$birth[20], "..", "0137-02-02")
 wikipedia$birth[66] <-  paste0(wikipedia$birth[66], "..", "0359-05-23")
 
+# Remove non-ASCII characters
+wikipedia <- apply(wikipedia, 2, stringi::stri_enc_toascii)
+
 # Let's standardise dates and variable names
 wikipedia <- as_tibble(wikipedia) %>%
   manydata::transmutate(ID = name,
-                     Beg = messydates::as_messydate(reign.start),
-                     End = messydates::as_messydate(reign.end)) %>%
+                        Beg = messydates::as_messydate(reign.start),
+                        End = messydates::as_messydate(reign.end)) %>%
   dplyr::rename(FullName = name.full,
                 Birth = birth,
                 Death = death,

@@ -29,6 +29,9 @@ for(i in c(13:99)) {
   UNRV$End[i] <- paste0("0", UNRV$End[i])
 }
 
+# Remove non-ASCII characters
+UNRV <- apply(UNRV, 2, stringi::stri_enc_toascii)
+
 # Let's standardise dates and variable names
 UNRV <- tibble::as_tibble(UNRV) %>%
   dplyr::mutate(Beg = messydates::as_messydate(Beg),
