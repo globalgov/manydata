@@ -17,7 +17,7 @@ jobs:
         config:
           - {os: macOS-latest, r: 'release', artifact_name: '*.tar.gz', asset_name: macOS}
           - {os: windows-latest, r: 'release', artifact_name: '*.zip', asset_name: winOS}
-          - {os: ubuntu-latest, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest", artifact_name: '*.tar.gz', asset_name: linuxOS}
+          - {os: ubuntu-20.04, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest", artifact_name: '*.tar.gz', asset_name: linuxOS}
          # - {os: ubuntu-20.04, r: 'devel', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
 
     env:
@@ -98,7 +98,7 @@ jobs:
   release:
     name: Bump version and release
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout one
         uses: actions/checkout@master
