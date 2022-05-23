@@ -15,13 +15,13 @@ test_that("a column indicating an ID source exists", {
 
 test_that("Columns with dates are standardized", {
   if (!is.null(emperors[["UNRV"]]$Beg)) {
-    expect_equal(class(emperors[["UNRV"]]$Beg), "messydt")
+    expect_equal(class(emperors[["UNRV"]]$Beg), "mdate")
     expect_false(any(grepl("/", emperors[["UNRV"]]$Beg)))
     expect_false(any(grepl("^[:alpha:]$",
                            emperors[["UNRV"]]$Beg)))
   }
   if (!is.null(emperors[["UNRV"]]$End)) {
-    expect_equal(class(emperors[["UNRV"]]$End), "messydt")
+    expect_equal(class(emperors[["UNRV"]]$End), "mdate")
     expect_false(any(grepl("/", emperors[["UNRV"]]$End)))
     expect_false(any(grepl("^[:alpha:]$",
                            emperors[["UNRV"]]$End)))
