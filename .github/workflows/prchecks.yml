@@ -79,8 +79,3 @@ jobs:
       - name: Spell check
         run: spelling::spell_check_package()
         shell: Rscript {0}
-
-      - name: Fix path for Windows caching
-        if: runner.os == 'Windows'
-        shell: bash
-        run: echo "C:/Program Files/Git/usr/bin" >> $GITHUB_PATH
