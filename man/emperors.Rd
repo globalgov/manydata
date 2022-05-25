@@ -48,7 +48,7 @@ Emperors database documentation
 emperors database documentation
 }
 \details{
-\preformatted{## $wikipedia
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## $wikipedia
 ## ── Data Summary ────────────────────────
 ##                            Values
 ## Name                       X[[i]]
@@ -62,20 +62,20 @@ emperors database documentation
 ## Group variables            None  
 ## 
 ## ── Variable type: character ────────────────────────────────────────────────────
-##    skim_variable n_missing complete_rate   min   max empty n_unique whitespace
-##  1 ID                    0         1         4    21     0       68          0
-##  2 FullName              0         1        26    72     0       67          0
-##  3 Birth                 5         0.926     4    22     0       60          0
-##  4 Death                 0         1        10    11     0       66          0
-##  5 CityBirth            17         0.75      4    16     0       30          0
-##  6 ProvinceBirth         0         1         5    18     0       18          0
-##  7 Rise                  0         1         8    31     0        8          0
-##  8 Cause                 0         1         7    14     0        7          0
-##  9 Killer                0         1         4    16     0       14          0
-## 10 Dynasty               0         1         7    14     0        8          0
-## 11 Era                   0         1         8    10     0        2          0
-## 12 Notes                22         0.676    22   104     0       23          0
-## 13 Verif                57         0.162    22    23     0        2          0
+##    skim_variable n_missing complete_rate min max empty n_unique whitespace
+##  1 ID                    0         1       4  21     0       68          0
+##  2 FullName              0         1      26  72     0       67          0
+##  3 Birth                 5         0.926   4  22     0       60          0
+##  4 Death                 0         1      10  11     0       66          0
+##  5 CityBirth            17         0.75    4  16     0       30          0
+##  6 ProvinceBirth         0         1       5  18     0       18          0
+##  7 Rise                  0         1       8  31     0        8          0
+##  8 Cause                 0         1       7  14     0        7          0
+##  9 Killer                0         1       4  16     0       14          0
+## 10 Dynasty               0         1       7  14     0        8          0
+## 11 Era                   0         1       8  10     0        2          0
+## 12 Notes                22         0.676  22 104     0       23          0
+## 13 Verif                57         0.162  22  23     0        2          0
 ## 
 ## ── Variable type: mdate ────────────────────────────────────────────────────────
 ##   skim_variable n_missing complete_rate n_empty n_unique max        min       
@@ -96,12 +96,12 @@ emperors database documentation
 ## Group variables            None  
 ## 
 ## ── Variable type: character ────────────────────────────────────────────────────
-##   skim_variable n_missing complete_rate   min   max empty n_unique whitespace
-## 1 ID                    0         1         4    28     0       98          0
-## 2 Birth                 0         1         1     5     0       70          0
-## 3 Death                 0         1         1     4     0       79          0
-## 4 FullName              5         0.949     1   141     0       91          0
-## 5 Dynasty              37         0.626     1    98     0       28          0
+##   skim_variable n_missing complete_rate min max empty n_unique whitespace
+## 1 ID                    0         1       4  28     0       98          0
+## 2 Birth                 0         1       1   5     0       70          0
+## 3 Death                 0         1       1   4     0       79          0
+## 4 FullName              5         0.949   1 141     0       91          0
+## 5 Dynasty              37         0.626   1  98     0       28          0
 ## 
 ## ── Variable type: mdate ────────────────────────────────────────────────────────
 ##   skim_variable n_missing complete_rate n_empty n_unique max        min       
@@ -122,13 +122,13 @@ emperors database documentation
 ## Group variables            None  
 ## 
 ## ── Variable type: character ────────────────────────────────────────────────────
-##   skim_variable n_missing complete_rate   min   max empty n_unique whitespace
-## 1 ID                    0             1     4    30     0       87          0
+##   skim_variable n_missing complete_rate min max empty n_unique whitespace
+## 1 ID                    0             1   4  30     0       87          0
 ## 
 ## ── Variable type: mdate ────────────────────────────────────────────────────────
 ##   skim_variable n_missing complete_rate n_empty n_unique max        min       
 ## 1 Beg                   0             1       0       69 0475-12-31 0014-01-01
 ## 2 End                   0             1       0       76 0491-12-31 0037-01-01
-}
+}\if{html}{\out{</div>}}
 }
 \keyword{datasets}
