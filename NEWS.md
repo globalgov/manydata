@@ -2,8 +2,6 @@
 
 ## Package
 
-## Package
-
 * Closed #187 by updating Github actions to implement package caching
 * Closed #209 by removing all non-ASCII characters in package
 * Closed #210 by removing `{pkgdown}` dependency
