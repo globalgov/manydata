@@ -15,4 +15,4 @@
 ^data-raw/emperors/britannica$
 ^cran-comments\.md$
 ^CRAN-SUBMISSION$
-*.DS_Store
+^.DS_Store$
