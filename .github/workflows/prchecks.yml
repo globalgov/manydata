@@ -41,6 +41,7 @@ jobs:
             lintr
             spelling
             covr
+            openssl
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2
