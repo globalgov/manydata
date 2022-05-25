@@ -48,6 +48,8 @@ Imports:
     ggplot2
 Suggests:
     testthat,
+    pkgdown,
+    roxygen2,
     anytime,
     mice,
     withr,
