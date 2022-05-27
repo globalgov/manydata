@@ -48,6 +48,20 @@ Emperors database documentation
 emperors database documentation
 }
 \details{
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## [1] "Please specify 'approx_range' argument if you want approximate dates to also be expanded"
+## [1] "Please specify 'approx_range' argument if you want approximate dates to also be expanded"
+## [1] "Please specify 'approx_range' argument if you want approximate dates to also be expanded"
+## [1] "Please specify 'approx_range' argument if you want approximate dates to also be expanded"
+## [1] "Please specify 'approx_range' argument if you want approximate dates to also be expanded"
+## [1] "Please specify 'approx_range' argument if you want approximate dates to also be expanded"
+## [1] "Please specify 'approx_range' argument if you want approximate dates to also be expanded"
+## [1] "Please specify 'approx_range' argument if you want approximate dates to also be expanded"
+## [1] "Please specify 'approx_range' argument if you want approximate dates to also be expanded"
+## [1] "Please specify 'approx_range' argument if you want approximate dates to also be expanded"
+## [1] "Please specify 'approx_range' argument if you want approximate dates to also be expanded"
+## [1] "Please specify 'approx_range' argument if you want approximate dates to also be expanded"
+}\if{html}{\out{</div>}}
+
 \if{html}{\out{<div class="sourceCode">}}\preformatted{## $wikipedia
 ## ── Data Summary ────────────────────────
 ##                            Values
