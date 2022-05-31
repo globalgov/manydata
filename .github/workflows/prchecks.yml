@@ -2,6 +2,7 @@ on:
   pull_request:
     branches:
       - main
+      - master
 
 name: Binary checks
 
@@ -36,9 +37,10 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@master
         with:
           extra-packages: |
-            any::lintr
-            any::spelling
-            any::covr, MASS=?ignore-before-r=4.3.0
+            lintr
+            spelling
+            covr
+            MASS=?ignore-before-r=4.3.0
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2
