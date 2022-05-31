@@ -33,14 +33,13 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@master
 
-      - uses: r-lib/actions/setup-r-dependencies@master
+      - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: 2
           extra-packages: |
-            lintr
-            spelling
-            covr
-            package=<MASS>?ignore
+            any::lintr
+            any::spelling
+            any::covr
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2
