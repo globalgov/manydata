@@ -28,12 +28,14 @@ for(i in c(1:12)) {
 for(i in c(13:99)) {
   UNRV$End[i] <- paste0("0", UNRV$End[i])
 }
-# standardise_dates() is a wrapper function for
-# messydates::as_messydates() and messydates::make_messydates(). 
+
+# Remove non-ASCII characters
+UNRV <- apply(UNRV, 2, stringi::stri_enc_toascii)
+
 # Let's standardise dates and variable names
-UNRV <- as_tibble(UNRV) %>%
-  dplyr::mutate(Beg = manypkgs::standardise_dates(Beg),
-                End = manypkgs::standardise_dates(End)) %>%
+UNRV <- tibble::as_tibble(UNRV) %>%
+  dplyr::mutate(Beg = messydates::as_messydate(Beg),
+                End = messydates::as_messydate(End)) %>%
   dplyr::rename(ID = "Common Name",
          FullName = "Full Name/Imperial Name",
          Dynasty = "Dynasty/Class/Notes") %>%

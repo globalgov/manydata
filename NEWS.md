@@ -1,3 +1,12 @@
+# manydata 0.7.4
+
+## Package
+
+* Closed #187 by updating Github actions to implement package caching
+* Closed #209 by removing all non-ASCII characters in package
+* Closed #210 by removing `{pkgdown}` dependency
+* Updated `emperors` data to contain correct date class name consistent with `{messydates}`
+
 # manydata 0.7.3
 
 ## Connection

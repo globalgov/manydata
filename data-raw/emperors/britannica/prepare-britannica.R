@@ -60,13 +60,15 @@ britannica$reign_end[81] <- "0472-11"
 # Let's also just make sure BC and CE dates are reposrted consistently.
 britannica$reign_start <- gsub("BCE", "BC", britannica$reign_start)
 britannica$reign_end <- gsub("CE", "", britannica$reign_end)
-# standardise_dates() is a wrapper function for
-# messydates::as_messydates() and messydates::make_messydates(). 
+
+# Remove non-ASCII characters
+britannica <- apply(britannica, 2, stringi::stri_enc_toascii)
+
 # Let's standardise dates and variable names
 britannica <- as_tibble(britannica) %>%
   manydata::transmutate(ID = Name,
-                     Beg = manypkgs::standardise_dates(reign_start),
-                     End = manypkgs::standardise_dates(reign_end)) %>%
+                     Beg = messydates::as_messydate(reign_start),
+                     End = messydates::as_messydate(reign_end)) %>%
   dplyr::relocate(ID, Beg, End)
 # manydata includes several functions that should help cleaning
 # and standardising your data.

@@ -97,13 +97,14 @@ wikipedia$birth[24] <-  stringr::str_extract(wikipedia$birth[24], "^[0-9]{4}")
 wikipedia$birth[20] <-  paste0(wikipedia$birth[20], "..", "0137-02-02")
 wikipedia$birth[66] <-  paste0(wikipedia$birth[66], "..", "0359-05-23")
 
-# standardise_dates() is a wrapper function for
-# messydates::as_messydates() and messydates::make_messydates(). 
+# Remove non-ASCII characters
+wikipedia <- apply(wikipedia, 2, stringi::stri_enc_toascii)
+
 # Let's standardise dates and variable names
 wikipedia <- as_tibble(wikipedia) %>%
   manydata::transmutate(ID = name,
-                     Beg = manypkgs::standardise_dates(reign.start),
-                     End = manypkgs::standardise_dates(reign.end)) %>%
+                        Beg = messydates::as_messydate(reign.start),
+                        End = messydates::as_messydate(reign.end)) %>%
   dplyr::rename(FullName = name.full,
                 Birth = birth,
                 Death = death,
@@ -132,7 +133,7 @@ manypkgs::export_data(wikipedia,  database = "emperors", URL = "https://github.c
 # to run these tests locally at any point.
 # Any test failures should be pretty self-explanatory and may require
 # you to return to stage two and further clean, standardise, or wrangle
-# your data into the expected format.
+# your data into the expected format.
 # Second, it also creates a documentation file for you to fill in.
 # Please make sure that you cite any sources appropriately and fill in as
 # much detail about the variables etc as possible.
