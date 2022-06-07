@@ -1,7 +1,7 @@
 Package: manydata
 Title: A Portal for Global Governance Data
 Version: 0.7.5
-Date: 2022-06-01
+Date: 2022-06-07
 Authors@R:
     c(person(given = "James",
              family = "Hollway",
