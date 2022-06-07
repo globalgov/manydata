@@ -1,3 +1,8 @@
+This is a resubmission. In this version I have:
+
+* Removed `{skimr}` table from `emperors` database documentation
+* Updated path for binaries in push release GitHub actions
+
 ## Test environments
 
 * local R installation, x86_64-apple-darwin17.0, R 4.2.0
