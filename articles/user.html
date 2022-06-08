@@ -27,7 +27,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">manydata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.7.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.7.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -89,7 +89,7 @@
       <img src="" class="logo" alt=""><h1>Working with manydata</h1>
                         <h4 data-toc-skip class="author">James Hollway and Henrique Sposito</h4>
             
-            <h4 data-toc-skip class="date">2022-06-03</h4>
+            <h4 data-toc-skip class="date">2022-06-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/globalgov/manydata/blob/HEAD/vignettes/user.Rmd" class="external-link"><code>vignettes/user.Rmd</code></a></small>
       <div class="d-none name"><code>user.Rmd</code></div>
@@ -204,11 +204,17 @@
 </ul>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/report.html">data_contrast</a></span><span class="op">(</span>pkg <span class="op">=</span> <span class="st">"manydata"</span>, database <span class="op">=</span> <span class="cn">NULL</span>, dataset <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## Please specify 'approx_range' argument if you want approximate dates to also be expanded</span>
+<span class="co">## Please specify 'approx_range' argument if you want approximate dates to also be expanded</span>
+<span class="co">## Please specify 'approx_range' argument if you want approximate dates to also be expanded</span>
+<span class="co">## Please specify 'approx_range' argument if you want approximate dates to also be expanded</span>
+<span class="co">## Please specify 'approx_range' argument if you want approximate dates to also be expanded</span>
+<span class="co">## Please specify 'approx_range' argument if you want approximate dates to also be expanded</span></code></pre>
 <pre><code><span class="co">## emperors :</span>
-<span class="co">##            Unique ID Missing Data Rows Columns         Beg        End</span>
-<span class="co">## wikipedia         68        9.9 %   68      15 -0026-01-16 0395-01-17</span>
-<span class="co">## UNRV              98       6.06 %   99       7       -0014       0518</span>
-<span class="co">## britannica        87          0 %   87       3   -0031\032       0491</span>
+<span class="co">##            Unique ID Missing Data Rows Columns         Beg         End</span>
+<span class="co">## wikipedia         68        9.9 %   68      15 -0026-01-16  0014-08-19</span>
+<span class="co">## UNRV              98       6.06 %   99       7 -0027-01-01 -0014-12-31</span>
+<span class="co">## britannica        87          0 %   87       3   -0031\032    0014\032</span>
 <span class="co">##                                                                        URL</span>
 <span class="co">## wikipedia                           https://github.com/zonination/emperors</span>
 <span class="co">## UNRV                           https://www.unrv.com/government/emperor.php</span>
@@ -219,7 +225,7 @@
 </h3>
 <p>Next we may be interested in whether any relationships we are interested in or inferences we want to draw are sensitive to which data we use. That is, we are interested in the robustness of any results to different data specifications.</p>
 <p>We can start by exploring whether our conclusion about when emperors began their reign would differ depending on which dataset we use. We can use the <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map()</a></code> function used above, but this time pass it the <code><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean()</a></code> function and tell it to operate on just the “Beg” variable, which represents when emperors began their reign (removing any NAs). Since manydata datasets are always ordered by “Beg” (and then “ID”), we can remove any subsequent (duplicated) entries by ID to concentrate on first appearances.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
 <span class="va">emperors</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span>
@@ -227,22 +233,52 @@
       <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">Beg</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
   <span class="op">}</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## $wikipedia</span>
-<span class="co">## <span style="color: #949494;"># A tibble: 1 × 1</span></span>
-<span class="co">##   `mean(Beg, na.rm = TRUE)`</span>
-<span class="co">##                       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">## <span style="color: #BCBCBC;">1</span>                        <span style="color: #BB0000;">NA</span></span>
+<span class="co">## <span style="color: #949494;"># A tibble: 68 × 1</span></span>
+<span class="co">##    `mean(Beg, na.rm = TRUE)`</span>
+<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 1</span> -0026-01-16              </span>
+<span class="co">## <span style="color: #BCBCBC;"> 2</span> 0014-09-18               </span>
+<span class="co">## <span style="color: #BCBCBC;"> 3</span> 0037-03-18               </span>
+<span class="co">## <span style="color: #BCBCBC;"> 4</span> 0041-01-25               </span>
+<span class="co">## <span style="color: #BCBCBC;"> 5</span> 0054-10-13               </span>
+<span class="co">## <span style="color: #BCBCBC;"> 6</span> 0068-06-08               </span>
+<span class="co">## <span style="color: #BCBCBC;"> 7</span> 0069-01-15               </span>
+<span class="co">## <span style="color: #BCBCBC;"> 8</span> 0069-04-17               </span>
+<span class="co">## <span style="color: #BCBCBC;"> 9</span> 0069-12-21               </span>
+<span class="co">## <span style="color: #BCBCBC;">10</span> 0079-06-24               </span>
+<span class="co">## <span style="color: #949494;"># … with 58 more rows</span></span>
 <span class="co">## </span>
 <span class="co">## $UNRV</span>
-<span class="co">## <span style="color: #949494;"># A tibble: 1 × 1</span></span>
-<span class="co">##   `mean(Beg, na.rm = TRUE)`</span>
-<span class="co">##                       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">## <span style="color: #BCBCBC;">1</span>                        <span style="color: #BB0000;">NA</span></span>
+<span class="co">## <span style="color: #949494;"># A tibble: 98 × 1</span></span>
+<span class="co">##    `mean(Beg, na.rm = TRUE)`</span>
+<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 1</span> -0027-07-02              </span>
+<span class="co">## <span style="color: #BCBCBC;"> 2</span> -0014-07-02              </span>
+<span class="co">## <span style="color: #BCBCBC;"> 3</span> 0037-07-02               </span>
+<span class="co">## <span style="color: #BCBCBC;"> 4</span> 0041-07-02               </span>
+<span class="co">## <span style="color: #BCBCBC;"> 5</span> 0054-07-02               </span>
+<span class="co">## <span style="color: #BCBCBC;"> 6</span> 0068-07-01               </span>
+<span class="co">## <span style="color: #BCBCBC;"> 7</span> 0069-07-02               </span>
+<span class="co">## <span style="color: #BCBCBC;"> 8</span> 0069-07-02               </span>
+<span class="co">## <span style="color: #BCBCBC;"> 9</span> 0069-07-02               </span>
+<span class="co">## <span style="color: #BCBCBC;">10</span> 0079-07-02               </span>
+<span class="co">## <span style="color: #949494;"># … with 88 more rows</span></span>
 <span class="co">## </span>
 <span class="co">## $britannica</span>
-<span class="co">## <span style="color: #949494;"># A tibble: 1 × 1</span></span>
-<span class="co">##   `mean(Beg, na.rm = TRUE)`</span>
-<span class="co">##                       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">## <span style="color: #BCBCBC;">1</span>                        <span style="color: #BB0000;">NA</span></span></code></pre>
+<span class="co">## <span style="color: #949494;"># A tibble: 87 × 1</span></span>
+<span class="co">##    `mean(Beg, na.rm = TRUE)`</span>
+<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    </span>
+<span class="co">## <span style="color: #BCBCBC;"> 1</span> <span style="color: #949494;">"</span>-0031\u001a<span style="color: #949494;">"</span>            </span>
+<span class="co">## <span style="color: #BCBCBC;"> 2</span> <span style="color: #949494;">"</span>0014-07-02<span style="color: #949494;">"</span>             </span>
+<span class="co">## <span style="color: #BCBCBC;"> 3</span> <span style="color: #949494;">"</span>0037-07-02<span style="color: #949494;">"</span>             </span>
+<span class="co">## <span style="color: #BCBCBC;"> 4</span> <span style="color: #949494;">"</span>0041-07-02<span style="color: #949494;">"</span>             </span>
+<span class="co">## <span style="color: #BCBCBC;"> 5</span> <span style="color: #949494;">"</span>0054-07-02<span style="color: #949494;">"</span>             </span>
+<span class="co">## <span style="color: #BCBCBC;"> 6</span> <span style="color: #949494;">"</span>0068-07-01<span style="color: #949494;">"</span>             </span>
+<span class="co">## <span style="color: #BCBCBC;"> 7</span> <span style="color: #949494;">"</span>0069-01-16<span style="color: #949494;">"</span>             </span>
+<span class="co">## <span style="color: #BCBCBC;"> 8</span> <span style="color: #949494;">"</span>0069-07-16<span style="color: #949494;">"</span>             </span>
+<span class="co">## <span style="color: #BCBCBC;"> 9</span> <span style="color: #949494;">"</span>0069-07-02<span style="color: #949494;">"</span>             </span>
+<span class="co">## <span style="color: #BCBCBC;">10</span> <span style="color: #949494;">"</span>0079-07-02<span style="color: #949494;">"</span>             </span>
+<span class="co">## <span style="color: #949494;"># … with 77 more rows</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -251,7 +287,7 @@
 <p>Now that we have compared the data and looked at some of the different inferences drawn, let us examine how to select and consolidate databases.</p>
 <p>The <code><a href="../reference/consolidate.html">consolidate()</a></code> function facilitates consolidating a set of datasets, or a database, from a ‘many’ package into a single dataset with some combination of the rows and columns. The function includes separate arguments for rows and columns, as well as for how to resolve conflicts in observations across datasets. The key argument indicates the column to collapse datasets by. This provides users with considerable flexibility in how they combine data.</p>
 <p>For example, users may wish to see units and variables coded in “any” dataset (i.e. units or variables present in at least one of the datasets in the database) or units and variables coded in “every” dataset (i.e. units or variables present in all of the datasets in the database).</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"any"</span>, cols <span class="op">=</span> <span class="st">"any"</span>, resolve <span class="op">=</span> <span class="st">"coalesce"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## <span style="color: #949494;"># A tibble: 137 × 15</span></span>
 <span class="co">##    ID        CityBirth  ProvinceBirth Rise  Cause Killer Era   Notes Verif Birth</span>
@@ -268,7 +304,7 @@
 <span class="co">## <span style="color: #BCBCBC;">10</span> Titus     Rome       Italia        Birt… Natu… Disea… Prin… <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    0039…</span>
 <span class="co">## <span style="color: #949494;"># … with 127 more rows, and 5 more variables: Death &lt;chr&gt;, FullName &lt;chr&gt;,</span></span>
 <span class="co">## <span style="color: #949494;">#   Dynasty &lt;chr&gt;, Beg &lt;mdate&gt;, End &lt;mdate&gt;</span></span></code></pre>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"every"</span>, cols <span class="op">=</span> <span class="st">"every"</span>, resolve <span class="op">=</span> <span class="st">"coalesce"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## <span style="color: #949494;"># A tibble: 41 × 3</span></span>
 <span class="co">##    ID        Beg         End       </span>
@@ -293,7 +329,7 @@
 <li>median: the median value</li>
 <li>random: a random value</li>
 </ul>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"any"</span>, cols <span class="op">=</span> <span class="st">"every"</span>, resolve <span class="op">=</span> <span class="st">"max"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## <span style="color: #949494;"># A tibble: 137 × 3</span></span>
 <span class="co">##    ID        Beg           End       </span>
@@ -309,7 +345,7 @@
 <span class="co">## <span style="color: #BCBCBC;"> 9</span> Vespasian <span style="color: #949494;">"</span>0069-12-21<span style="color: #949494;">"</span>  0079-06-24</span>
 <span class="co">## <span style="color: #BCBCBC;">10</span> Titus     <span style="color: #949494;">"</span>0079-06-24<span style="color: #949494;">"</span>  0081-09-13</span>
 <span class="co">## <span style="color: #949494;"># … with 127 more rows</span></span></code></pre>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"every"</span>, cols <span class="op">=</span> <span class="st">"any"</span>, resolve <span class="op">=</span> <span class="st">"min"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## <span style="color: #949494;"># A tibble: 41 × 15</span></span>
 <span class="co">##    ID        CityBirth  ProvinceBirth Rise  Cause Killer Era   Notes Verif Birth</span>
@@ -326,7 +362,7 @@
 <span class="co">## <span style="color: #BCBCBC;">10</span> Nerva     Narni      Italia        Appo… Natu… Disea… Prin… <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    0030…</span>
 <span class="co">## <span style="color: #949494;"># … with 31 more rows, and 5 more variables: Death &lt;chr&gt;, FullName &lt;chr&gt;,</span></span>
 <span class="co">## <span style="color: #949494;">#   Dynasty &lt;chr&gt;, Beg &lt;chr&gt;, End &lt;chr&gt;</span></span></code></pre>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"every"</span>, cols <span class="op">=</span> <span class="st">"every"</span>, resolve <span class="op">=</span> <span class="st">"mean"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## <span style="color: #949494;"># A tibble: 41 × 3</span></span>
 <span class="co">##    ID        Beg         End       </span>
@@ -342,7 +378,7 @@
 <span class="co">## <span style="color: #BCBCBC;"> 9</span> Domitian  0081-09-14  0096-09-18</span>
 <span class="co">## <span style="color: #BCBCBC;">10</span> Nerva     0096-09-18  0098-01-27</span>
 <span class="co">## <span style="color: #949494;"># … with 31 more rows</span></span></code></pre>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"any"</span>, cols <span class="op">=</span> <span class="st">"any"</span>, resolve <span class="op">=</span> <span class="st">"median"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## <span style="color: #949494;"># A tibble: 137 × 15</span></span>
 <span class="co">##    ID        CityBirth  ProvinceBirth Rise  Cause Killer Era   Notes Verif Birth</span>
@@ -359,24 +395,24 @@
 <span class="co">## <span style="color: #BCBCBC;">10</span> Titus     Rome       Italia        Birt… Natu… Disea… Prin… <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    0039…</span>
 <span class="co">## <span style="color: #949494;"># … with 127 more rows, and 5 more variables: Death &lt;chr&gt;, FullName &lt;chr&gt;,</span></span>
 <span class="co">## <span style="color: #949494;">#   Dynasty &lt;chr&gt;, Beg &lt;chr&gt;, End &lt;chr&gt;</span></span></code></pre>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"every"</span>, cols <span class="op">=</span> <span class="st">"every"</span>, resolve <span class="op">=</span> <span class="st">"random"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## <span style="color: #949494;"># A tibble: 41 × 3</span></span>
-<span class="co">##    ID        Beg         End         </span>
-<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span>
-<span class="co">## <span style="color: #BCBCBC;"> 1</span> Augustus  -0026-01-16 <span style="color: #949494;">"</span>0014\u001a<span style="color: #949494;">"</span></span>
-<span class="co">## <span style="color: #BCBCBC;"> 2</span> Tiberius  0014        <span style="color: #949494;">"</span>0037-03-16<span style="color: #949494;">"</span></span>
-<span class="co">## <span style="color: #BCBCBC;"> 3</span> Claudius  0041        <span style="color: #949494;">"</span>0054<span style="color: #949494;">"</span>      </span>
-<span class="co">## <span style="color: #BCBCBC;"> 4</span> Nero      0054        <span style="color: #949494;">"</span>0068<span style="color: #949494;">"</span>      </span>
-<span class="co">## <span style="color: #BCBCBC;"> 5</span> Galba     0068-06-08  <span style="color: #949494;">"</span>0069-01-15<span style="color: #949494;">"</span></span>
-<span class="co">## <span style="color: #BCBCBC;"> 6</span> Otho      0069        <span style="color: #949494;">"</span>0069-04<span style="color: #949494;">"</span>   </span>
-<span class="co">## <span style="color: #BCBCBC;"> 7</span> Vespasian 0069        <span style="color: #949494;">"</span>0079<span style="color: #949494;">"</span>      </span>
-<span class="co">## <span style="color: #BCBCBC;"> 8</span> Titus     0079        <span style="color: #949494;">"</span>0081-09-13<span style="color: #949494;">"</span></span>
-<span class="co">## <span style="color: #BCBCBC;"> 9</span> Domitian  0081        <span style="color: #949494;">"</span>0096<span style="color: #949494;">"</span>      </span>
-<span class="co">## <span style="color: #BCBCBC;">10</span> Nerva     0096        <span style="color: #949494;">"</span>0098<span style="color: #949494;">"</span>      </span>
+<span class="co">##    ID        Beg        End       </span>
+<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
+<span class="co">## <span style="color: #BCBCBC;"> 1</span> Augustus  -0027      -0014     </span>
+<span class="co">## <span style="color: #BCBCBC;"> 2</span> Tiberius  0014-09-18 0037-03-16</span>
+<span class="co">## <span style="color: #BCBCBC;"> 3</span> Claudius  0041-01-25 0054-10-13</span>
+<span class="co">## <span style="color: #BCBCBC;"> 4</span> Nero      0054-10-13 0068      </span>
+<span class="co">## <span style="color: #BCBCBC;"> 5</span> Galba     0068-06-08 0069      </span>
+<span class="co">## <span style="color: #BCBCBC;"> 6</span> Otho      0069-01-15 0069-04   </span>
+<span class="co">## <span style="color: #BCBCBC;"> 7</span> Vespasian 0069       0079      </span>
+<span class="co">## <span style="color: #BCBCBC;"> 8</span> Titus     0079-06-24 0081-09-13</span>
+<span class="co">## <span style="color: #BCBCBC;"> 9</span> Domitian  0081       0096-09-18</span>
+<span class="co">## <span style="color: #BCBCBC;">10</span> Nerva     0096-09-18 0098      </span>
 <span class="co">## <span style="color: #949494;"># … with 31 more rows</span></span></code></pre>
 <p>Users can even specify how conflicts for different variables should be ‘resolved’:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"any"</span>, cols <span class="op">=</span> <span class="st">"every"</span>, resolve <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Beg <span class="op">=</span> <span class="st">"min"</span>, End <span class="op">=</span> <span class="st">"max"</span><span class="op">)</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## <span style="color: #949494;"># A tibble: 137 × 3</span></span>
 <span class="co">##    ID        Beg         End       </span>
@@ -393,7 +429,7 @@
 <span class="co">## <span style="color: #BCBCBC;">10</span> Titus     0079        0081-09-13</span>
 <span class="co">## <span style="color: #949494;"># … with 127 more rows</span></span></code></pre>
 <p>Alternatively, users can “favour” a dataset in a database over others:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span>database <span class="op">=</span> <span class="fu"><a href="../reference/favour.html">favour</a></span><span class="op">(</span><span class="va">emperors</span>, <span class="st">"UNRV"</span><span class="op">)</span>, rows <span class="op">=</span> <span class="st">"every"</span>, cols <span class="op">=</span> <span class="st">"any"</span>, resolve <span class="op">=</span> <span class="st">"coalesce"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## <span style="color: #949494;"># A tibble: 41 × 15</span></span>
 <span class="co">##    ID    FullName Birth Death CityBirth ProvinceBirth Rise  Cause Killer Dynasty</span>
@@ -411,7 +447,7 @@
 <span class="co">## <span style="color: #949494;"># … with 31 more rows, and 5 more variables: Era &lt;chr&gt;, Notes &lt;chr&gt;,</span></span>
 <span class="co">## <span style="color: #949494;">#   Verif &lt;chr&gt;, Beg &lt;mdate&gt;, End &lt;mdate&gt;</span></span></code></pre>
 <p>Users can, even, declare multiple key ID columns to consolidate a database or multiple datasets:</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"any"</span>, cols <span class="op">=</span> <span class="st">"any"</span>, resolve <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Death <span class="op">=</span> <span class="st">"max"</span>, Cause <span class="op">=</span> <span class="st">"coalesce"</span><span class="op">)</span>,
             key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ID"</span>, <span class="st">"Beg"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## <span style="color: #949494;"># A tibble: 201 × 4</span></span>

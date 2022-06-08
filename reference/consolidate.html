@@ -36,7 +36,7 @@ users to choose how conflicts between observations are resolved."><!-- mathjax -
     
     <a class="navbar-brand me-2" href="../index.html">manydata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.7.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.7.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -270,15 +270,15 @@ matching is possible if keys are declared (e.g. <code>key = c("key1" = "key2")</
 <span class="r-out co"><span class="r-pr">#&gt;</span>    ID        Beg           End       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Augustus  <span style="color: #949494;">"</span>-0031\u001a<span style="color: #949494;">"</span> -0014     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Tiberius  <span style="color: #949494;">"</span>0014<span style="color: #949494;">"</span>        0037      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Claudius  <span style="color: #949494;">"</span>0041<span style="color: #949494;">"</span>        0054      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Tiberius  <span style="color: #949494;">"</span>0014<span style="color: #949494;">"</span>        0037-03-16</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Claudius  <span style="color: #949494;">"</span>0041<span style="color: #949494;">"</span>        0054-10-13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Nero      <span style="color: #949494;">"</span>0054<span style="color: #949494;">"</span>        0068-06-09</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Galba     <span style="color: #949494;">"</span>0068<span style="color: #949494;">"</span>        0069-01-15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Otho      <span style="color: #949494;">"</span>0069-01-15<span style="color: #949494;">"</span>  0069-04-16</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Vespasian <span style="color: #949494;">"</span>0069-12-21<span style="color: #949494;">"</span>  0079-06-24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Galba     <span style="color: #949494;">"</span>0068<span style="color: #949494;">"</span>        0069      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Otho      <span style="color: #949494;">"</span>0069<span style="color: #949494;">"</span>        0069-04   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Vespasian <span style="color: #949494;">"</span>0069-12-21<span style="color: #949494;">"</span>  0079      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Titus     <span style="color: #949494;">"</span>0079<span style="color: #949494;">"</span>        0081      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Domitian  <span style="color: #949494;">"</span>0081<span style="color: #949494;">"</span>        0096      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Nerva     <span style="color: #949494;">"</span>0096-09-18<span style="color: #949494;">"</span>  0098      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Domitian  <span style="color: #949494;">"</span>0081<span style="color: #949494;">"</span>        0096-09-18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Nerva     <span style="color: #949494;">"</span>0096<span style="color: #949494;">"</span>        0098      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 31 more rows</span></span>
 <span class="r-in"><span class="fu">consolidate</span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"every"</span>, cols <span class="op">=</span> <span class="st">"every"</span>,</span>
 <span class="r-in">resolve <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Beg <span class="op">=</span> <span class="st">"min"</span>, End <span class="op">=</span> <span class="st">"max"</span><span class="op">)</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span>
