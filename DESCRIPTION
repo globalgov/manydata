@@ -55,7 +55,8 @@ Suggests:
     readxl,
     readr,
     knitr,
-    rmarkdown
+    rmarkdown,
+    descriptr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

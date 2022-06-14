@@ -17,4 +17,8 @@
 #' \item{britannica: }{A dataset with 87 observations and the
 #' following 3 variables: ID, Beg, End.}
 #' }
+#' @details
+#' ``` {r, echo = FALSE, warning = FALSE}
+#' lapply(emperors, descriptr::ds_screener)
+#' ```
 "emperors"

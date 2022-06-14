@@ -29,4 +29,64 @@ emperors
 \description{
 Emperors database documentation
 }
+\details{
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## $wikipedia
+## ----------------------------------------------------------------------
+## |  Column Name  |  Data Type  |  Levels  |  Missing  |  Missing (\%)  |
+## ----------------------------------------------------------------------
+## |      ID       |  character  |    NA    |     0     |       0       |
+## |      Beg      |    mdate    |    NA    |     0     |       0       |
+## |      End      |    mdate    |    NA    |     0     |       0       |
+## |   FullName    |  character  |    NA    |     0     |       0       |
+## |     Birth     |  character  |    NA    |     5     |     7.35      |
+## |     Death     |  character  |    NA    |     0     |       0       |
+## |   CityBirth   |  character  |    NA    |    17     |      25       |
+## | ProvinceBirth |  character  |    NA    |     0     |       0       |
+## |     Rise      |  character  |    NA    |     0     |       0       |
+## |     Cause     |  character  |    NA    |     0     |       0       |
+## |    Killer     |  character  |    NA    |     0     |       0       |
+## |    Dynasty    |  character  |    NA    |     0     |       0       |
+## |      Era      |  character  |    NA    |     0     |       0       |
+## |     Notes     |  character  |    NA    |    22     |     32.35     |
+## |     Verif     |  character  |    NA    |    57     |     83.82     |
+## ----------------------------------------------------------------------
+## 
+##  Overall Missing Values           101 
+##  Percentage of Missing Values     9.9 \%
+##  Rows with Missing Values         60 
+##  Columns With Missing Values      4 
+## 
+## $UNRV
+## ----------------------------------------------------------------------
+## |  Column Name  |  Data Type  |  Levels  |  Missing  |  Missing (\%)  |
+## ----------------------------------------------------------------------
+## |      ID       |  character  |    NA    |     0     |       0       |
+## |      Beg      |    mdate    |    NA    |     0     |       0       |
+## |      End      |    mdate    |    NA    |     0     |       0       |
+## |     Birth     |  character  |    NA    |     0     |       0       |
+## |     Death     |  character  |    NA    |     0     |       0       |
+## |   FullName    |  character  |    NA    |     5     |     5.05      |
+## |    Dynasty    |  character  |    NA    |    37     |     37.37     |
+## ----------------------------------------------------------------------
+## 
+##  Overall Missing Values           42 
+##  Percentage of Missing Values     6.06 \%
+##  Rows with Missing Values         39 
+##  Columns With Missing Values      2 
+## 
+## $britannica
+## ----------------------------------------------------------------------
+## |  Column Name  |  Data Type  |  Levels  |  Missing  |  Missing (\%)  |
+## ----------------------------------------------------------------------
+## |      ID       |  character  |    NA    |     0     |       0       |
+## |      Beg      |    mdate    |    NA    |     0     |       0       |
+## |      End      |    mdate    |    NA    |     0     |       0       |
+## ----------------------------------------------------------------------
+## 
+##  Overall Missing Values           0 
+##  Percentage of Missing Values     0 \%
+##  Rows with Missing Values         0 
+##  Columns With Missing Values      0
+}\if{html}{\out{</div>}}
+}
 \keyword{datasets}
