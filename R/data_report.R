@@ -272,3 +272,40 @@ open_codebook <- function(pkg, database, dataset) {
   utils::browseURL(url, browser = getOption("browser"),
             encodeIfNeeded = FALSE)
 }
+
+# data_evolution <- function(pkg, database, dataset, preparation_script = FALSE) {
+#   if (missing(pkg)) {
+#     stop("Please declare the package.")
+#   }
+#   if (missing(database)) {
+#     stop("Please declare the database.")
+#   }
+#   if (missing(dataset)) {
+#     stop("Please declare the dataset.")
+#   }
+#   url <- paste0("https://github.com/globalgov/", pkg, "/blob/main/data-raw/",
+#                 database, "/", dataset)
+#   if (preparation_script == TRUE) {
+#     return <- utils::browseURL(paste0(url, "/", "prepare-", dataset, ".R"),
+#                                browser = getOption("browser"),
+#                                encodeIfNeeded = FALSE)
+#     message("Opening preparation script on GitHub.")
+#   } else {
+#     datacsv <- httr::GET(paste0(url, "/", dataset, ".csv"))
+#     dataxlsx <- httr::GET(paste0(url, "/", dataset, ".xlsx"))
+#     if (datacsv$status_code != "404") {
+#       datacsv <- repmis::source_data(paste0(url, "/", dataset, ".csv"))
+#       return <- dplyr::all_equal(datacsv, database[dataset])
+#     } else if (dataxlsx$status_code != "404") {
+#       dataxlsx <- repmis::source_XlsxData(paste0(url, "/", dataset, ".xlsx"))
+#       return <- dplyr::all_equal(dataxlsx, database[dataset])
+#     } else {
+#       message("Raw data could not be open or is not available for this dataset,
+#               opening preparation script instead.")
+#       return <- utils::browseURL(paste0(url, "/", "prepare-", dataset, ".R"),
+#                                  browser = getOption("browser"),
+#                                  encodeIfNeeded = FALSE)
+#     }
+#   }
+#   return
+# }
