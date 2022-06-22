@@ -273,39 +273,57 @@ open_codebook <- function(pkg, database, dataset) {
             encodeIfNeeded = FALSE)
 }
 
-# data_evolution <- function(pkg, database, dataset, preparation_script = FALSE) {
-#   if (missing(pkg)) {
-#     stop("Please declare the package.")
-#   }
-#   if (missing(database)) {
-#     stop("Please declare the database.")
-#   }
-#   if (missing(dataset)) {
-#     stop("Please declare the dataset.")
-#   }
-#   url <- paste0("https://github.com/globalgov/", pkg, "/blob/main/data-raw/",
-#                 database, "/", dataset)
-#   if (preparation_script == TRUE) {
-#     return <- utils::browseURL(paste0(url, "/", "prepare-", dataset, ".R"),
-#                                browser = getOption("browser"),
-#                                encodeIfNeeded = FALSE)
-#     message("Opening preparation script on GitHub.")
-#   } else {
-#     datacsv <- httr::GET(paste0(url, "/", dataset, ".csv"))
-#     dataxlsx <- httr::GET(paste0(url, "/", dataset, ".xlsx"))
-#     if (datacsv$status_code != "404") {
-#       datacsv <- repmis::source_data(paste0(url, "/", dataset, ".csv"))
-#       return <- dplyr::all_equal(datacsv, database[dataset])
-#     } else if (dataxlsx$status_code != "404") {
-#       dataxlsx <- repmis::source_XlsxData(paste0(url, "/", dataset, ".xlsx"))
-#       return <- dplyr::all_equal(dataxlsx, database[dataset])
-#     } else {
-#       message("Raw data could not be open or is not available for this dataset,
-#               opening preparation script instead.")
-#       return <- utils::browseURL(paste0(url, "/", "prepare-", dataset, ".R"),
-#                                  browser = getOption("browser"),
-#                                  encodeIfNeeded = FALSE)
-#     }
-#   }
-#   return
-# }
+#' @name report
+#' @param preparation_script Would you like to open the preparation script
+#' for the dataset? By default false.
+#' @importFrom utils browseURL read.csv
+#' @importFrom dplyr rename
+#' @importFrom janitor compare_df_cols
+#' @details `data_evolution()` facilitates for users to access the
+#' differences between raw data and the data made available to them
+#' in one of the 'many' packages.
+#' @return Either the data comparison between raw and available data or
+#' the preparation script detailing all the steps taken to prepare
+#' raw data before making it available in one of the 'many' packages.
+#' @examples
+#' \donttest{
+#' data_evolution(pkg = "manydata", database = emperors,
+#' dataset = "wikipedia")
+#' #data_evolution(pkg = "manytrade", database = agreements, dataset = "GPTAD")
+#' }
+#' @export
+data_evolution <- function(pkg, database, dataset, preparation_script = FALSE) {
+  if(class(database) != "list") {
+    stop("Please declare a 'many' database")
+  }
+  db <- deparse(substitute(database))
+  url <- paste0("https://github.com/globalgov/", pkg, "/blob/main/data-raw/",
+                db, "/", dataset)
+  out <- NULL
+  if (preparation_script == TRUE) {
+    out <- utils::browseURL(paste0(url, "/", "prepare-", dataset, ".R"),
+                               browser = getOption("browser"),
+                               encodeIfNeeded = FALSE)
+    message("Opened preparation script on GitHub.")
+  } else {
+    datacsv <- tryCatch({
+      suppressWarnings(utils::read.csv(paste0("https://raw.githubusercontent.com/globalgov/",
+                                              pkg, "/main/data-raw/", db, "/",
+                                              dataset, "/", dataset, ".csv")))
+    }, error = function(e) {
+      NA_character_
+    })
+    if (!is.na(datacsv)) {
+      out <- janitor::compare_df_cols(datacsv, database[[dataset]]) %>%
+        dplyr::rename("Raw Data" = datacsv,
+                      "Available Data" = "database[[dataset]]")
+    } else {
+      message("Raw data could not be open or is not available for this dataset,
+              opening preparation script instead.")
+      out <- utils::browseURL(paste0(url, "/", "prepare-", dataset, ".R"),
+                                 browser = getOption("browser"),
+                                 encodeIfNeeded = FALSE)
+    }
+  }
+  out
+}

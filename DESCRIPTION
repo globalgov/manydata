@@ -45,7 +45,8 @@ Imports:
     remotes,
     httr,
     progress,
-    ggplot2
+    ggplot2,
+    janitor
 Suggests:
     testthat,
     anytime,
