@@ -287,18 +287,18 @@ open_codebook <- function(pkg, database, dataset) {
 #' raw data before making it available in one of the 'many' packages.
 #' @examples
 #' \donttest{
-#' data_evolution(pkg = "manydata", database = emperors,
+#' data_evolution(pkg = "manydata", database = "emperors",
 #' dataset = "wikipedia")
-#' #data_evolution(pkg = "manytrade", database = agreements, dataset = "GPTAD")
+#' data_evolution(pkg = "manytrade", database = "agreements", dataset = "GPTAD")
 #' }
 #' @export
 data_evolution <- function(pkg, database, dataset, preparation_script = FALSE) {
-  if(class(database) != "list") {
+  db <- get(database)
+  if(class(db) != "list") {
     stop("Please declare a 'many' database")
   }
-  db <- deparse(substitute(database))
   url <- paste0("https://github.com/globalgov/", pkg, "/blob/main/data-raw/",
-                db, "/", dataset)
+                database, "/", dataset)
   out <- NULL
   if (preparation_script == TRUE) {
     out <- utils::browseURL(paste0(url, "/", "prepare-", dataset, ".R"),
@@ -308,15 +308,15 @@ data_evolution <- function(pkg, database, dataset, preparation_script = FALSE) {
   } else {
     datacsv <- tryCatch({
       suppressWarnings(utils::read.csv(paste0("https://raw.githubusercontent.com/globalgov/",
-                                              pkg, "/main/data-raw/", db, "/",
+                                              pkg, "/main/data-raw/", database, "/",
                                               dataset, "/", dataset, ".csv")))
     }, error = function(e) {
       NA_character_
     })
     if (!is.na(datacsv)) {
-      out <- janitor::compare_df_cols(datacsv, database[[dataset]]) %>%
+      out <- janitor::compare_df_cols(datacsv, db[[dataset]]) %>%
         dplyr::rename("Raw Data" = datacsv,
-                      "Available Data" = "database[[dataset]]")
+                      "Available Data" = "db[[dataset]]")
     } else {
       message("Raw data could not be open or is not available for this dataset,
               opening preparation script instead.")
