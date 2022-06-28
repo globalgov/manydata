@@ -289,10 +289,14 @@ open_codebook <- function(pkg, database, dataset) {
 #' \donttest{
 #' data_evolution(pkg = "manydata", database = "emperors",
 #' dataset = "wikipedia")
-#' data_evolution(pkg = "manytrade", database = "agreements", dataset = "GPTAD")
+#' #data_evolution(pkg = "manytrade", database = "agreements",
+#' #dataset = "GPTAD")
 #' }
 #' @export
 data_evolution <- function(pkg, database, dataset, preparation_script = FALSE) {
+  if (length(grep(pkg, search())) == 0) {
+    require(pkg, character.only = TRUE)
+  }
   db <- get(database)
   if(class(db) != "list") {
     stop("Please declare a 'many' database")
@@ -302,8 +306,8 @@ data_evolution <- function(pkg, database, dataset, preparation_script = FALSE) {
   out <- NULL
   if (preparation_script == TRUE) {
     out <- utils::browseURL(paste0(url, "/", "prepare-", dataset, ".R"),
-                               browser = getOption("browser"),
-                               encodeIfNeeded = FALSE)
+                            browser = getOption("browser"),
+                            encodeIfNeeded = FALSE)
     message("Opened preparation script on GitHub.")
   } else {
     datacsv <- tryCatch({
@@ -313,16 +317,17 @@ data_evolution <- function(pkg, database, dataset, preparation_script = FALSE) {
     }, error = function(e) {
       NA_character_
     })
-    if (!is.na(datacsv)) {
-      out <- janitor::compare_df_cols(datacsv, db[[dataset]]) %>%
-        dplyr::rename("Raw Data" = datacsv,
-                      "Available Data" = "db[[dataset]]")
-    } else {
+    if (length(datacsv) == 1) {
       message("Raw data could not be open or is not available for this dataset,
               opening preparation script instead.")
       out <- utils::browseURL(paste0(url, "/", "prepare-", dataset, ".R"),
-                                 browser = getOption("browser"),
-                                 encodeIfNeeded = FALSE)
+                              browser = getOption("browser"),
+                              encodeIfNeeded = FALSE)
+    } else {
+      out <- janitor::compare_df_cols(datacsv, db[[dataset]]) %>%
+        dplyr::rename("Raw Data" = datacsv,
+                      "Available Data" = "db[[dataset]]",
+                      "Variables" = "column_name")
     }
   }
   out

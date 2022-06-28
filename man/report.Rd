@@ -83,8 +83,9 @@ data_source(pkg = "manydata")
 data_contrast(pkg = "manydata")
 }
 \donttest{
-data_evolution(pkg = "manydata", database = emperors,
+data_evolution(pkg = "manydata", database = "emperors",
 dataset = "wikipedia")
-#data_evolution(pkg = "manytrade", database = agreements, dataset = "GPTAD")
+#data_evolution(pkg = "manytrade", database = "agreements",
+#dataset = "GPTAD")
 }
 }
