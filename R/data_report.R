@@ -233,47 +233,6 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
 }
 
 #' @name report
-#' @details `open_codebook()` opens the original codebook of the specified
-#' dataset to allow users to look up the original coding rules.
-#' Note that no original codebook might exist for certain datasets.
-#' In the latter case, please refer to the
-#' source URL provided with each dataset by running `manydata::data_contrast()`
-#' as further information on coding rules available online.
-#' @return Opens a pdf version of the original codebook of the specified
-#' dataset, if available.
-#' @export
-open_codebook <- function(pkg, database, dataset) {
-  # Check if input is null
-  if (is.null(pkg) | is.null(database) | is.null(dataset)) {
-    stop("Please specify a pkg, a database and a dataset for which you would
-         like to open the original codebook.")
-  }
-  # Check if package exists
-  repo <- paste0("https://api.github.com/users/globalgov/repos")
-  repo <- httr::GET(repo, query = list(state = "all",
-                                       per_page = 100, page = 1))
-  repo <- suppressMessages(httr::content(repo, type = "text"))
-  repo <- jsonlite::fromJSON(repo, flatten = TRUE)
-  reponames <- repo[["name"]]
-  if (!(pkg %in% reponames)) {
-    stop("Please enter a valid package name.")
-  }
-  # Find the PDF on GitHub
-  url <- paste0("https://github.com/globalgov/",
-                 pkg,
-                 "/raw/develop/data-raw/",
-                 database,
-                 "/",
-                 dataset,
-                 "/",
-                 dataset,
-                 "OriginalCodebook.pdf")
-  # Open the PDF
-  utils::browseURL(url, browser = getOption("browser"),
-            encodeIfNeeded = FALSE)
-}
-
-#' @name report
 #' @param preparation_script Would you like to open the preparation script
 #' for the dataset? By default false.
 #' @importFrom utils browseURL read.csv
@@ -331,4 +290,45 @@ data_evolution <- function(pkg, database, dataset, preparation_script = FALSE) {
     }
   }
   out
+}
+
+#' @name report
+#' @details `open_codebook()` opens the original codebook of the specified
+#' dataset to allow users to look up the original coding rules.
+#' Note that no original codebook might exist for certain datasets.
+#' In the latter case, please refer to the
+#' source URL provided with each dataset by running `manydata::data_contrast()`
+#' as further information on coding rules available online.
+#' @return Opens a pdf version of the original codebook of the specified
+#' dataset, if available.
+#' @export
+open_codebook <- function(pkg, database, dataset) {
+  # Check if input is null
+  if (is.null(pkg) | is.null(database) | is.null(dataset)) {
+    stop("Please specify a pkg, a database and a dataset for which you would
+         like to open the original codebook.")
+  }
+  # Check if package exists
+  repo <- paste0("https://api.github.com/users/globalgov/repos")
+  repo <- httr::GET(repo, query = list(state = "all",
+                                       per_page = 100, page = 1))
+  repo <- suppressMessages(httr::content(repo, type = "text"))
+  repo <- jsonlite::fromJSON(repo, flatten = TRUE)
+  reponames <- repo[["name"]]
+  if (!(pkg %in% reponames)) {
+    stop("Please enter a valid package name.")
+  }
+  # Find the PDF on GitHub
+  url <- paste0("https://github.com/globalgov/",
+                 pkg,
+                 "/raw/develop/data-raw/",
+                 database,
+                 "/",
+                 dataset,
+                 "/",
+                 dataset,
+                 "OriginalCodebook.pdf")
+  # Open the PDF
+  utils::browseURL(url, browser = getOption("browser"),
+            encodeIfNeeded = FALSE)
 }
