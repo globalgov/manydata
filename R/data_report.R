@@ -131,21 +131,17 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
         assign(paste0("tabl", i),
                rbind(purrr::map(dbs[[i]], function(x) length(unique(x$ID))),
                      purrr::map(dbs[[i]], function(x)
-                       paste0(
-                         round(sum(is.na(x)) * 100 / prod(dim(x)),
-                               digits = 2), " %")
-                       ),
+                       paste0(round(sum(is.na(x)) * 100 / prod(dim(x)),
+                               digits = 2), " %")),
                      purrr::map(dbs[[i]], function(x) nrow(x)),
                      purrr::map(dbs[[i]], function(x) ncol(x)),
                      purrr::map(dbs[[i]], function(x)
                        as.character(ifelse(!all(is.na(x$Beg)),
-                                                   min(x$Beg,
-                                                       na.rm = TRUE),
+                                                   min(x$Beg, na.rm = TRUE),
                                                    NA))),
                      purrr::map(dbs[[i]], function(x)
                        as.character(ifelse(!all(is.na(x$End)),
-                                                   max(x$End,
-                                                       na.rm = TRUE),
+                                                   max(x$End, na.rm = TRUE),
                                                    NA))),
                      purrr::map(dbs[[i]], function(x)
                        attr(x, which = "source_URL"))))
@@ -206,13 +202,11 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
                    purrr::map(dbs[[i]], function(x) ncol(x)),
                    purrr::map(dbs[[i]], function(x)
                      as.character(ifelse(!all(is.na(x$Beg)),
-                                                 min(x$Beg,
-                                                     na.rm = TRUE),
+                                                 min(x$Beg, na.rm = TRUE),
                                                  NA))),
                    purrr::map(dbs[[i]], function(x)
                      as.character(ifelse(!all(is.na(x$End)),
-                                                 max(x$End,
-                                                     na.rm = TRUE),
+                                                 max(x$End, na.rm = TRUE),
                                                  NA))),
                    purrr::map(dbs[[i]], function(x)
                      attr(x, which = "source_URL"))))

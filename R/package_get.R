@@ -23,20 +23,20 @@
 #' package instead of the name.
 #' If one or more package names are provided,
 #' these will be installed from Github.
-#' @importFrom dplyr %>%
-#' @importFrom stringr str_detect
 #' @importFrom tibble as_tibble
+#' @importFrom dplyr bind_rows rename relocate %>%
+#' @importFrom stringr str_detect str_remove
 #' @importFrom jsonlite fromJSON
 #' @importFrom httr GET content
 #' @importFrom remotes install_github
-#' @importFrom utils packageVersion
+#' @importFrom utils packageVersion askYesNo
 #' @importFrom lubridate as_date
 #' @export
 get_packages <- function(pkg) {
-
+  # get info from GitHub if pkg is missing
   if (missing(pkg)) {
     orgs <- "globalgov" # add more users/orgs as they 'register'
-
+    # get releases
     get_latest_release <- function(full_name) {
       latest <- paste0("https://api.github.com/repos/",
                        full_name, "/releases/latest")
@@ -60,7 +60,7 @@ get_packages <- function(pkg) {
       }
       unlist(latest)
     }
-
+    # get release dates
     get_latest_date <- function(full_name) {
       latest <- paste0("https://api.github.com/repos/",
                        full_name, "/releases/latest")
@@ -84,7 +84,7 @@ get_packages <- function(pkg) {
       }
       unlist(latest)
     }
-
+    # get version loclly installed
     get_installed_release <- function(name) {
       installed_v <- sapply(name, function(x) {
         tryCatch({
@@ -95,7 +95,7 @@ get_packages <- function(pkg) {
       })
       installed_v
     }
-
+    # bind information 
     repos <- lapply(orgs, function(x) {
       repo <- paste0("https://api.github.com/users/", x, "/repos")
       repo <- httr::GET(repo, query = list(state = "all",
@@ -103,51 +103,80 @@ get_packages <- function(pkg) {
       repo <- suppressMessages(httr::content(repo, type = "text"))
       repo <- jsonlite::fromJSON(repo, flatten = TRUE)
       repo <- repo[c("name", "full_name", "description")]
-      repo$installed <- get_installed_release(repo$name)
-      repo$latest <- get_latest_release(repo$full_name)
-      repo$updated <- lubridate::as_date(get_latest_date(repo$full_name))
-      repo <- subset(repo, !grepl("Unreleased", repo$latest))
+      repo$Installed <- get_installed_release(repo$name)
+      repo$Latest <- get_latest_release(repo$full_name)
+      repo$Updated <- suppressWarnings(lubridate::as_date(get_latest_date(repo$full_name)))
+      repo <- subset(repo, !grepl("Unreleased", repo$Latest))
       repo <- as.data.frame(repo)
     })
-
-    repos <- tibble::as_tibble(dplyr::bind_rows(repos))
+    Description <- Installed <- Latest <- Name <- Updated <- Repository <-
+      description <- full_name <- name <- NULL
+    repos <- dplyr::bind_rows(repos) %>% 
+      dplyr::rename(Name = name, Repository = full_name, Description = description) %>% 
+      dplyr::relocate(Name, Repository, Installed, Latest, Updated, Description) %>% 
+      tibble::as_tibble()
+    # check for possible issues
     if (length(repos) < 2) {
       stop(
       "The download limit from GitHub has been reached.
       To see all the packages in the many universe,
       please go to the following link: https://github.com/globalgov")
     } else {
-    print(repos, width = Inf, pillar.min_chars = Inf)
+    print(repos, justify = "center")
     }
   }
-
+  # download package if pkg is declared
   tryCatch({
   if (!missing(pkg)) {
-    if (stringr::str_detect(pkg, "/")) {
-      remotes::install_github(pkg)
-      pkg <- strsplit(pkg, "/")[[1]][2]
-    } else if (stringr::str_detect(pkg, "^[:digit:]{1}$")) {
-      if (pkg == 3) {
-        pkg <- "manypkgs"
-        remotes::install_github("globalgov/manypkgs")
-      } else if (pkg == 2) {
-        pkg <- "manyenviron"
-        remotes::install_github("globalgov/manyenviron")
-      } else if (pkg == 4) {
-        pkg <- "manystates"
-        remotes::install_github("globalgov/manystates")
-      } else if (pkg == 5) {
-        pkg <- "manytrade"
-        remotes::install_github("globalgov/manytrade")
+    if (askYesNo(paste0("Would you like to install the main or develop version of ",
+                        pkg, "?"), prompts = c("main", "develop", "cancel")) == TRUE) {
+      if (stringr::str_detect(pkg, "/")) {
+        remotes::install_github(pkg)
+        pkg <- strsplit(pkg, "/")[[1]][2]
+      } else if (stringr::str_detect(pkg, "^[:digit:]{1}$")) {
+        if (pkg == 3) {
+          pkg <- "manypkgs"
+          remotes::install_github("globalgov/manypkgs")
+        } else if (pkg == 2) {
+          pkg <- "manyenviron"
+          remotes::install_github("globalgov/manyenviron")
+        } else if (pkg == 4) {
+          pkg <- "manystates"
+          remotes::install_github("globalgov/manystates")
+        } else if (pkg == 5) {
+          pkg <- "manytrade"
+          remotes::install_github("globalgov/manytrade")
+        }
+      } else {
+        remotes::install_github(paste0("globalgov/", pkg))
       }
     } else {
-      remotes::install_github(paste0("globalgov/", pkg))
+      if (stringr::str_detect(pkg, "/")) {
+        remotes::install_github(pkg, ref = "develop")
+        pkg <- strsplit(pkg, "/")[[1]][2]
+      } else if (stringr::str_detect(pkg, "^[:digit:]{1}$")) {
+        if (pkg == 3) {
+          pkg <- "manypkgs"
+          remotes::install_github("globalgov/manypkgs", ref = "develop")
+        } else if (pkg == 2) {
+          pkg <- "manyenviron"
+          remotes::install_github("globalgov/manyenviron", ref = "develop")
+        } else if (pkg == 4) {
+          pkg <- "manystates"
+          remotes::install_github("globalgov/manystates", ref = "develop")
+        } else if (pkg == 5) {
+          pkg <- "manytrade"
+          remotes::install_github("globalgov/manytrade", ref = "develop")
+        }
+      } else {
+        remotes::install_github(paste0("globalgov/", pkg), ref = "develop")
+      }
     }
     library(pkg, character.only = TRUE)
   }
   }, error = function(e) {
   stop(paste0("The download limit from GitHub has been reached.
-       Please download our other packages using:
+       Please download the package using:
               remotes::github(globalgov/", pkg, ")"))
   })
 }
