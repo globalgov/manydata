@@ -13,7 +13,7 @@
 #' amend, or expand other treaties with `retrieve_links()`.
 #' Or, even, researchers can retrieve membership lists of
 #' treaty IDs and countries part to a certain treaty with
-#' `retrieve_memebership_list()`.
+#' `retrieve_membership_list()`.
 #' To retrieve information from several datasets in a database,
 #' researchers can also `consolidate()` a database into one dataset
 #' with some combination of the rows, columns, and observations of the datasets
@@ -60,17 +60,18 @@ retrieve_bilaterals <- function(dataset, actor = "CountryID") {
     dplyr::arrange(manyID, actor) %>%
     dplyr::relocate(actor) %>% 
     rename(Actor = 1) %>% 
-    dplyr::select(Actor, manyID, Title, Beg, End)
-  bilats <- dplyr::filter(bilats, manyID %in% names(table(bilats$manyID)[table(bilats$manyID) == 2]))
+    dplyr::select(Actor, manyID, Title, Beg)
+  bilats <- dplyr::filter(bilats, manyID %in%
+                            names(table(bilats$manyID)[table(bilats$manyID) == 2]))
   bilats1 <- bilats %>%
     dplyr::filter(row_number() %% 2 == 0) %>%
     dplyr::rename(CountryID1 = "Actor")
   bilats2 <- bilats %>%
     dplyr::filter(row_number() %% 2 == 1) %>%
     dplyr::rename(CountryID2 = "Actor")
-  bilats <- dplyr::full_join(bilats2, bilats1,
-                             by = c("manyID", "Title", "Beg", "End")) %>%
-    dplyr::select(CountryID1, CountryID2, Title, Beg, End)
+  bilats <- dplyr::full_join(bilats2, bilats1, 
+                             by = c("manyID", "Title", "Beg")) %>%
+      dplyr::select(CountryID1, CountryID2, Title, Beg)
   bilats
 }
 
@@ -98,8 +99,12 @@ retrieve_multilaterals <- function(dataset) {
     stop("manyID column not found, please declare a many packages dataset.")
   }
   multi <- subset(dataset, stringr::str_detect(manyID, "\\-", negate = TRUE)) %>%
-    dplyr::filter(manyID %in% names(table(manyID)[table(manyID) != 2])) %>%
-    dplyr::select(manyID, Title, Beg, End)
+    dplyr::filter(manyID %in% names(table(manyID)[table(manyID) != 2]))
+  if (!any(colnames(multi) == "End")) {
+    multi <- dplyr::select(multi, manyID, Title, Beg, End)
+  } else {
+    multi <- dplyr::select(multi, manyID, Title, Beg)
+  }
   multi
 }
 
