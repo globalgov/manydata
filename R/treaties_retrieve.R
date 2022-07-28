@@ -51,23 +51,23 @@ NULL
 #' End = c(NA, NA, NA))
 #' retrieve_bilaterals(membs)
 #' @export
-retrieve_bilaterals <- function(dataset) {
-  Beg <- CountryID <- CountryID1 <- CountryID2 <- End <- Title <- manyID <- NULL
+retrieve_bilaterals <- function(dataset, actor = "CountryID") {
+  Beg <- Actor <- CountryID1 <- CountryID2 <- End <- Title <- manyID <- NULL
   if (!any(colnames(dataset) == "manyID")) {
     stop("manyID column not found, please declare a many packages dataset.")
   }
   bilats <- subset(dataset, grepl("[A-Z]{3}-", manyID)) %>%
-    dplyr::arrange(manyID, CountryID) %>%
-    dplyr::select(CountryID, manyID, Title, Beg, End)
-  bilats <- bilats %>%
-    dplyr::filter(manyID %in%
-                    names(table(bilats$manyID)[table(bilats$manyID) == 2]))
+    dplyr::arrange(manyID, actor) %>%
+    dplyr::relocate(actor) %>% 
+    rename(Actor = 1) %>% 
+    dplyr::select(Actor, manyID, Title, Beg, End)
+  bilats <- dplyr::filter(bilats, manyID %in% names(table(bilats$manyID)[table(bilats$manyID) == 2]))
   bilats1 <- bilats %>%
     dplyr::filter(row_number() %% 2 == 0) %>%
-    dplyr::rename(CountryID1 = "CountryID")
+    dplyr::rename(CountryID1 = "Actor")
   bilats2 <- bilats %>%
     dplyr::filter(row_number() %% 2 == 1) %>%
-    dplyr::rename(CountryID2 = "CountryID")
+    dplyr::rename(CountryID2 = "Actor")
   bilats <- dplyr::full_join(bilats2, bilats1,
                              by = c("manyID", "Title", "Beg", "End")) %>%
     dplyr::select(CountryID1, CountryID2, Title, Beg, End)
@@ -110,12 +110,7 @@ retrieve_multilaterals <- function(dataset) {
 #' manyID = c("ROU-RUS[RFP]_1901A", "ROU-RUS[RFP]_1901A", "GD16FI_1901A"))
 #' retrieve_membership_list(dataset = membs)
 #' @export
-retrieve_membership_list <- function(dataset, actor = NULL, treaty_type = NULL) {
-  if (is.null(actor) & !any(colnames(dataset) == "CountryID")) {
-    stop("Please declare an actor variable.")
-  } else if (is.null(actor)) {
-    actor <- "CountryID"
-  }
+retrieve_membership_list <- function(dataset, actor = "CountryID", treaty_type = NULL) {
   Actor <- Memberships <- manyID <- NULL
   membs_list <- dplyr::select(dataset, manyID, actor) %>%
     rename(Actor = 2)

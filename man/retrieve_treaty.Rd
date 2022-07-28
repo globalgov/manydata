@@ -8,11 +8,11 @@
 \alias{retrieve_links}
 \title{Retrieve international treaties}
 \usage{
-retrieve_bilaterals(dataset)
+retrieve_bilaterals(dataset, actor = "CountryID")
 
 retrieve_multilaterals(dataset)
 
-retrieve_membership_list(dataset, actor = NULL, treaty_type = NULL)
+retrieve_membership_list(dataset, actor = "CountryID", treaty_type = NULL)
 
 retrieve_links(database, dataset, treaty_type = NULL)
 }
