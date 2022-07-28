@@ -57,7 +57,9 @@ Suggests:
     readr,
     knitr,
     rmarkdown,
-    descriptr
+    descriptr,
+    migraph,
+    ggraph
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
