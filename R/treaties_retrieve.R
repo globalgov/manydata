@@ -115,13 +115,12 @@ retrieve_membership_list <- function(dataset, actor = "CountryID", treaty_type =
   membs_list <- dplyr::select(dataset, manyID, actor) %>%
     rename(Actor = 2)
   if (!is.null(treaty_type)) {
-  if (treaty_type == "bilateral") {
-    membs_list <- subset(membs_list, stringr::str_detect(manyID, "\\-"))
-  }
-  if (treaty_type == "multilateral") {
-    membs_list <- subset(membs_list, stringr::str_detect(manyID,
-                                                         "\\-", negate = TRUE))
-  }
+    if (treaty_type == "bilateral") {
+      membs_list <- subset(membs_list, stringr::str_detect(manyID, "\\-"))
+    }
+    if (treaty_type == "multilateral") {
+      membs_list <- subset(membs_list, stringr::str_detect(manyID, "\\-", negate = TRUE))
+      }
   }
   ml <- membs_list %>%
     dplyr::group_by(manyID) %>%

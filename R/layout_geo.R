@@ -31,18 +31,9 @@
 #'                  subtitle = "Ecolex data",
 #'                  caption = "Created with love by {migraph}")
 #' @export
-network_map <- function(object,
-                        date,
-                        theme = "light") {
-  if (!requireNamespace(c("migraph", "ggplot2", "ggraph"), quietly = TRUE)) {
-    stop(
-      "Packages \"migraph\", \"ggraph\", and \"ggplot2\" must be installed
-      to use this function.",
-      call. = FALSE
-    )
-  }
-  ID <- weight <- NULL
+network_map <- function(object, date, theme = "light") {
   # Checks for correct input
+  ID <- weight <- NULL
   if (!migraph::is_graph(object)) stop("Not a valid graph object.")
   if (migraph::is_multiplex(object)) stop("Graph should be unimodal. Use project_cols() to convert it.")
   if (!is.character(date)) as.character(date)
@@ -66,21 +57,15 @@ network_map <- function(object,
   cshapes <- manystates::import_cshapes(date)
   # Step 2: create edges with from/to lat/long
   edges <- migraph::as_edgelist(object) %>%
-    dplyr::inner_join(cshapes,
-      by = c("from" = "COW_ID")
-    ) %>%
+    dplyr::inner_join(cshapes, by = c("from" = "COW_ID")) %>%
     dplyr::rename(x = .data$CapitalLong, y = .data$CapitalLat) %>%
-    dplyr::inner_join(cshapes,
-      by = c("to" = "COW_ID")
-    ) %>%
+    dplyr::inner_join(cshapes, by = c("to" = "COW_ID")) %>%
     dplyr::rename(xend = .data$CapitalLong, yend = .data$CapitalLat)
   # Step 3: Create plotted network from computed edges
   g <- migraph::as_tidygraph(edges)
   # Step 4: Get the country shapes from the edges dataframe
-  country_shapes <- ggplot2::geom_sf(
-    data = cshapes$geometry,
-    fill = countrycolor
-  )
+  country_shapes <- ggplot2::geom_sf(data = cshapes$geometry, 
+                                     fill = countrycolor)
   # Step 5: Get a non-standard projection of the underlying map(optional)
   # Could include different projections for continents etc
   # Step 6: Generate the point coordinates for capitals
@@ -88,10 +73,8 @@ network_map <- function(object,
     dplyr::filter(.data$COW_ID %in% migraph::node_names(g)) %>%
     dplyr::rename(x = .data$CapitalLong, y = .data$CapitalLat)
   # Reorder things according to nodes in plotted network g
-  cshapes_pos <- cshapes_pos[match(
-    migraph::node_names(g),
-    cshapes_pos[["COW_ID"]]
-  ), ]
+  cshapes_pos <- cshapes_pos[match(migraph::node_names(g),
+                                   cshapes_pos[["COW_ID"]]), ]
   # Generate the layout
   lay <- ggraph::create_layout(g, layout = cshapes_pos)
   # Add additional elements to the layout
@@ -99,24 +82,14 @@ network_map <- function(object,
   edges$edge.id <- rep(1, nrow(edges))
   # Step 7: Plot things
   ggraph::ggraph(lay) + country_shapes +
-    ggraph::geom_edge_arc(
-      data = edges, ggplot2::aes(edge_width = weight),
-      strength = 0.33,
-      alpha = 0.25
-    ) +
-    ggraph::scale_edge_width_continuous(
-      range = c(0.5, 2), # scale for edge widths
-      guide = "none"
-    ) +
-    ggraph::geom_node_point(
-      shape = 21, # draw nodes
-      fill = "white", color = "black",
-      stroke = 0.5
-    ) +
+    ggraph::geom_edge_arc(data = edges, ggplot2::aes(edge_width = weight),
+                          strength = 0.33,alpha = 0.25) +
+    ggraph::scale_edge_width_continuous(range = c(0.5, 2), # scale for edge widths
+                                        guide = "none") +
+    ggraph::geom_node_point(shape = 21, # draw nodes
+                            fill = "white", color = "black", stroke = 0.5) +
     ggraph::geom_node_text(ggplot2::aes(label = migraph::node_names(g)),
-      repel = TRUE, size = 3,
-      color = "white", fontface = "bold"
-    ) +
+                           repel = TRUE, size = 3, color = "white", fontface = "bold") +
     maptheme
 }
 
@@ -134,22 +107,12 @@ maptheme <- function(palette = c("#FFFAFA", "#596673")) {
     ggplot2::theme(panel.grid = ggplot2::element_blank()) +
     ggplot2::theme(panel.background = ggplot2::element_blank()) +
     ggplot2::theme(plot.background = ggplot2::element_rect(fill = oceancolor)) +
-    ggplot2::theme(
-      plot.title = ggplot2::element_text(
-        color = titlecolor,
-        hjust = 0.1,
-        vjust = 0.1
-      ),
-      plot.subtitle = ggplot2::element_text(
-        color = titlecolor,
-        hjust = 0.065,
-        vjust = 0.1
-      ),
-      plot.caption = ggplot2::element_text(
-        color = titlecolor,
-        hjust = 0.96
-      )
-    ) +
+    ggplot2::theme(plot.title = ggplot2::element_text(color = titlecolor,
+                                                      hjust = 0.1, vjust = 0.1),
+                   plot.subtitle = ggplot2::element_text(color = titlecolor,
+                                                         hjust = 0.065,
+                                                         vjust = 0.1),
+      plot.caption = ggplot2::element_text(color = titlecolor, hjust = 0.96)) +
     ggplot2::theme(plot.margin = ggplot2::unit(c(0, 0, 0.5, 0), "cm"))
   # This function returns a map theme for ggplot
   maptheme
