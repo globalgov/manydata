@@ -54,13 +54,16 @@ network_map <- function(object, date, theme = "light") {
     countrycolor <- "#596673"
   }
   # Step 1: Import the historical shapefile data
-  cshapes <- manystates::import_cshapes(date)
+  cshapes <- cshapes::cshp(as.Date(date), useGW = FALSE) %>%
+    dplyr::mutate(cowID = countrycode::countrycode(.data$cowcode,
+                                                   origin = "cown",
+                                                   destination = "cowc"))
   # Step 2: create edges with from/to lat/long
   edges <- migraph::as_edgelist(object) %>%
-    dplyr::inner_join(cshapes, by = c("from" = "COW_ID")) %>%
-    dplyr::rename(x = .data$CapitalLong, y = .data$CapitalLat) %>%
-    dplyr::inner_join(cshapes, by = c("to" = "COW_ID")) %>%
-    dplyr::rename(xend = .data$CapitalLong, yend = .data$CapitalLat)
+    dplyr::inner_join(cshapes, by = c("from" = "cowID")) %>%
+    dplyr::rename(x = .data$caplong, y = .data$caplat) %>%
+    dplyr::inner_join(cshapes, by = c("to" = "cowID")) %>%
+    dplyr::rename(xend = .data$caplong, yend = .data$caplat)
   # Step 3: Create plotted network from computed edges
   g <- migraph::as_tidygraph(edges)
   # Step 4: Get the country shapes from the edges dataframe
@@ -70,11 +73,11 @@ network_map <- function(object, date, theme = "light") {
   # Could include different projections for continents etc
   # Step 6: Generate the point coordinates for capitals
   cshapes_pos <- cshapes %>%
-    dplyr::filter(.data$COW_ID %in% migraph::node_names(g)) %>%
-    dplyr::rename(x = .data$CapitalLong, y = .data$CapitalLat)
+    dplyr::filter(.data$cowID %in% migraph::node_names(g)) %>%
+    dplyr::rename(x = .data$caplong, y = .data$caplat)
   # Reorder things according to nodes in plotted network g
   cshapes_pos <- cshapes_pos[match(migraph::node_names(g),
-                                   cshapes_pos[["COW_ID"]]), ]
+                                   cshapes_pos[["cowID"]]), ]
   # Generate the layout
   lay <- ggraph::create_layout(g, layout = cshapes_pos)
   # Add additional elements to the layout
