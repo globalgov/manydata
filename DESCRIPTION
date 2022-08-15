@@ -46,10 +46,11 @@ Imports:
     httr,
     progress,
     ggplot2,
-    janitor,
     migraph,
+    cshapes,
+    countrycode,
     ggraph,
-    cshapes
+    janitor
 Suggests:
     testthat,
     anytime,
