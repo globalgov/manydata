@@ -10,6 +10,12 @@
 #' @param theme Theme you would like to use to plot the graph. Available themes
 #' are "light", "dark", and "earth".
 #' @return A map of a country level geographical network.
+#' @importFrom cshapes cshp
+#' @importFrom countrycode countrycode
+#' @import migraph
+#' @import dplyr
+#' @import ggraph
+#' @import ggplot2
 #' @examples
 #' # Load the unimodal network of environmental agreements signed in 2010
 #' # Made from {manyenviron} using data from ECOLEX.
