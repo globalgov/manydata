@@ -52,7 +52,7 @@ Alternatively, researchers can retrieve treaties that modify,
 amend, or expand other treaties with \code{retrieve_links()}.
 Or, even, researchers can retrieve membership lists of
 treaty IDs and countries part to a certain treaty with
-\code{retrieve_memebership_list()}.
+\code{retrieve_membership_list()}.
 To retrieve information from several datasets in a database,
 researchers can also \code{consolidate()} a database into one dataset
 with some combination of the rows, columns, and observations of the datasets

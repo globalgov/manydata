@@ -46,7 +46,10 @@ Imports:
     httr,
     progress,
     ggplot2,
-    janitor
+    janitor,
+    migraph,
+    ggraph,
+    cshapes
 Suggests:
     testthat,
     anytime,
@@ -56,11 +59,7 @@ Suggests:
     readxl,
     readr,
     knitr,
-    rmarkdown,
-    descriptr,
-    migraph,
-    ggraph,
-    cshapes
+    rmarkdown
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

@@ -9,8 +9,14 @@
 #' be between 1886 and 2021.
 #' @param theme Theme you would like to use to plot the graph. Available themes
 #' are "light", "dark", and "earth".
+#' @importFrom migraph is_graph is_multiplex as_edgelist as_tidygraph node_names
+#' @importFrom ggraph create_layout ggraph geom_edge_arc scale_edge_width_continuous
+#' geom_node_point geom_node_text
+#' @importFrom dplyr mutate inner_join rename filter
+#' @importFrom cshapes cshp
 #' @return A map of a country level geographical network.
 #' @examples
+#' \dontrun{
 #' # Load the unimodal network of environmental agreements signed in 2010
 #' # Made from {manyenviron} using data from ECOLEX.
 #' membership <- migraph:::membership
@@ -19,17 +25,18 @@
 #' network_map(membership, date = "2010-01-01", theme = "light") +
 #'   ggplot2::labs(title = "International Environmental Treaties 2010",
 #'                  subtitle = "Ecolex data",
-#'                  caption = "Created with love by {migraph}")
+#'                  caption = "Created with love by {}")
 #' # Dark theme
 #' network_map(membership, date = "2010-01-01", theme = "dark") +
 #'   ggplot2::labs(title = "International Environmental Treaties 2010",
 #'                  subtitle = "Ecolex data",
-#'                  caption = "Created with love by {migraph}")
+#'                  caption = "Created with love by {}")
 #' # Earth theme
 #' network_map(membership, date = "2010-01-01", theme = "earth") +
 #'   ggplot2::labs(title = "International Environmental Treaties 2010",
 #'                  subtitle = "Ecolex data",
-#'                  caption = "Created with love by {migraph}")
+#'                  caption = "Created with love by {}")
+#'}
 #' @export
 network_map <- function(object, date, theme = "light") {
   # Checks for correct input
@@ -92,7 +99,8 @@ network_map <- function(object, date, theme = "light") {
     ggraph::geom_node_point(shape = 21, # draw nodes
                             fill = "white", color = "black", stroke = 0.5) +
     ggraph::geom_node_text(ggplot2::aes(label = migraph::node_names(g)),
-                           repel = TRUE, size = 3, color = "white", fontface = "bold") +
+                           repel = TRUE, size = 3, color = "white",
+                           fontface = "bold") +
     maptheme
 }
 
