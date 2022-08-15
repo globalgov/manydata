@@ -7,10 +7,10 @@ membs <- tibble::tibble(CountryID = c("ROU", "RUS", "DNK"),
                         End = c(NA, NA, NA))
 bilats <- tibble::tibble(CountryID1 = "RUS", CountryID2 = "ROU",
                           Title = "Convention Between Roumania And Russia Concerning Fishing",
-                          Beg = "1901-02-22", End = NA)
+                          Beg = "1901-02-22")
 multi <- tibble::tibble(manyID = "GD16FI_1901A",
                         Title = "Convention Between The Governments Of Denmark And ...",
-                        Beg = "1901-06-24", End = NA)
+                        Beg = "1901-06-24")
 mlist <- tibble::tibble(manyID = c("ROU-RUS[RFP]_1901A", "GD16FI_1901A"),
                        Memberships = c("ROU, RUS", "DNK"))
 db <- tibble::tibble(manyID = c("ROU-RUS[RFP]_1901A",
