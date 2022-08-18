@@ -1,14 +1,14 @@
 #' Plot geographical networks
 #'
-#' Creates a plot of the a unimodal geographical network. Requires the following
-#' packages `{migraph}`, `{ggraph}`, and `{ggplot2}` to be installed.
+#' Creates a plot of the a unimodal geographical network.
 #' @param object Unimodal geographical network. Needs to contain ISO3c country
 #' IDs.
-#' @param date String date at which the network snapshot was taken e.g.
-#' "2010-01-01". Used by \code{{cshapes}} to plot the correct map hence needs to
-#' be between 1886 and 2021.
-#' @param theme Theme you would like to use to plot the graph. Available themes
-#' are "light", "dark", and "earth".
+#' @param date String date at which the network snapshot was taken
+#' (e.g. "2010-01-01").
+#' Used by \code{{cshapes}} to plot the correct map.
+#' Date can be between 1886 and 2021.
+#' @param theme Theme you would like to use to plot the graph.
+#' Available themes are "light", "dark", and "earth".
 #' @importFrom migraph is_graph is_multiplex as_edgelist as_tidygraph node_names
 #' @importFrom ggraph create_layout ggraph geom_edge_arc scale_edge_width_continuous
 #' geom_node_point geom_node_text

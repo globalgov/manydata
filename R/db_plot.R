@@ -7,8 +7,6 @@
 #' db_plot(emperors, "ID")
 #' @export
 db_plot <- function(database, key) {
-  # assign values
-  vriable
   if(length(grepl(key, purrr::map(database, names))) != length(database)) {
     stop("Please declare a key variable present in all datasets in the database.")
   }

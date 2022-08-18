@@ -10,19 +10,19 @@ network_map(object, date, theme = "light")
 \item{object}{Unimodal geographical network. Needs to contain ISO3c country
 IDs.}
 
-\item{date}{String date at which the network snapshot was taken e.g.
-"2010-01-01". Used by \code{{cshapes}} to plot the correct map hence needs to
-be between 1886 and 2021.}
+\item{date}{String date at which the network snapshot was taken
+(e.g. "2010-01-01").
+Used by \code{{cshapes}} to plot the correct map.
+Date can be between 1886 and 2021.}
 
-\item{theme}{Theme you would like to use to plot the graph. Available themes
-are "light", "dark", and "earth".}
+\item{theme}{Theme you would like to use to plot the graph.
+Available themes are "light", "dark", and "earth".}
 }
 \value{
 A map of a country level geographical network.
 }
 \description{
-Creates a plot of the a unimodal geographical network. Requires the following
-packages \code{{migraph}}, \code{{ggraph}}, and \code{{ggplot2}} to be installed.
+Creates a plot of the a unimodal geographical network.
 }
 \examples{
 \dontrun{
