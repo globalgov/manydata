@@ -48,7 +48,6 @@ Imports:
     ggplot2,
     migraph,
     cshapes,
-    countrycode,
     ggraph,
     janitor
 Suggests:
