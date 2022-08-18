@@ -73,7 +73,6 @@
 #' @export
 consolidate <- function(database, rows = "any", cols = "any",
                         resolve = "coalesce", key = "manyID") {
-
   # Step 1: Join datasets by ID
   if (rows == "any") {
     out <- purrr::reduce(database, dplyr::full_join, by = key)
