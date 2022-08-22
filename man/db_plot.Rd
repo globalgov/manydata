@@ -7,9 +7,9 @@
 db_plot(database, key)
 }
 \arguments{
-\item{database}{A many database}
+\item{database}{A many database.}
 
-\item{key}{A joining key}
+\item{key}{A joining key.}
 }
 \value{
 A plot with a profile of the database.
