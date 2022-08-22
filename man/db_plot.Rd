@@ -9,14 +9,26 @@ db_plot(database, key)
 \arguments{
 \item{database}{A many database.}
 
-\item{key}{A joining key.}
+\item{key}{A variable key to join datasets by.}
 }
 \value{
-A plot with a profile of the database.
+A plot with the dataset profile.
 }
 \description{
 Plot database profile
 }
+\details{
+The plot returns the percentage of confirmed, unique, missing,
+conflicting, or asymmetric values in all (non-ID) variables in the datasets
+in a 'many' package database.
+Confirmed values are the same in all datasets in database.
+Unique values appear once in datasets in database.
+Missing values are missing in all datasets in database.
+Conflicting values are different in the same number of datasets in database.
+Asymmetric values have the same value in multiple, but not all,
+datasets in database.
+}
 \examples{
 db_plot(emperors, "ID")
+#db_plot(manyenviron::agreemets, "manyID")
 }
