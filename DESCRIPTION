@@ -49,7 +49,8 @@ Imports:
     migraph,
     cshapes,
     ggraph,
-    janitor
+    janitor,
+    tidyr
 Suggests:
     testthat,
     anytime,
