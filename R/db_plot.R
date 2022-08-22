@@ -1,16 +1,23 @@
 #' Plot database profile
 #'
-#' @param database A many database
-#' @param key A joining key
+#' @param database A many database.
+#' @param key A joining key.
 #' @return A plot with a profile of the database.
+#' @importFrom dplyr full_join summarise group_by mutate rename select %>%
+#' @importFrom stringr str_count str_remove_all str_split
+#' @importFrom tidyr pivot_longer pivot_wider replace_na
+#' @importFrom purrr reduce map
+#' @import ggplot2
 #' @examples
 #' db_plot(emperors, "ID")
 #' @export
 db_plot <- function(database, key) {
+  # todo: make function more concise and efficient by re-working
+  # how string matching and database gathering work.
   if(length(grepl(key, purrr::map(database, names))) != length(database)) {
     stop("Please declare a key variable present in all datasets in the database.")
   }
-  # reduce database
+  # Step 1: reduce database by key and get names
   out <- purrr::reduce(database, dplyr::full_join, by = key)
   # get the number of pairwise overlap between datasets by key variable
   cat("There were", sum(duplicated(unname(unlist(purrr::map(database, key))))),
@@ -23,20 +30,20 @@ db_plot <- function(database, key) {
   all_variables <- all_variables[!all_variables %in% ID_var]
   # create an empty data frame
   db <- data.frame(out[,1], stringsAsFactors = TRUE)
-  # check if values are missing, confirmed, conflicting, asymmetrical, or unique
+  # Step 2: check if missing, confirmed, conflict, asymmetric, or unique
   for (var in all_variables) {
     vvars <- paste0("^", var, "$|^", var, "\\.")
     vars_to_combine <- grepl(vvars, names(out))
     if (length(out[vars_to_combine]) > 1) {
       # paste variables to work at the string value
-      value <- apply(out[vars_to_combine], 1, paste, collapse = "!")
+      vl <- apply(out[vars_to_combine], 1, paste, collapse = "!")
       # weird code added to some variables? need to double check messydates...
-      value <- stringr::str_remove_all(value, "\032")
+      vl <- stringr::str_remove_all(vl, "\032")
       # remove string duplicates and collapse unique values (except NAs)
-      value <- sapply(stringr::str_split(value, "!"), function(x) {
-                        paste(unique(trimws(x), incomparables = "NA"),
-                              collapse = '!')
-        })
+      # todo: is unique() slow for lists?
+      value <- unlist(lapply(stringr::str_split(vl, "!"), function(x) {
+        paste(unique(trimws(x), incomparables = "NA"), collapse = '!')
+        }))
       # missing
       value <- ifelse(stringr::str_count(value, "NA") ==
                         length(out[vars_to_combine]), "missing", value)
@@ -47,23 +54,32 @@ db_plot <- function(database, key) {
       value <- ifelse(stringr::str_count(value, "\\!") == 0 &
                         !grepl("^missing$|^unique$", value),
                       "confirmed", value)
-      # remove duplicated NAs
-      valuec <- sapply(stringr::str_split(value, "!"), function(x) {
-        paste(unique(trimws(x)), collapse = '!')
-        })
       # confirmed (by multiple datasets in database, other values are NAs)
-      value <- ifelse(stringr::str_count(valuec, "\\!") == 1 &
-                        stringr::str_count(valuec, "\\!NA|NA\\!") == 1,
+      valuec <- lapply(stringr::str_split(value, "!"), function(x) {
+        x[!grepl("^NA$", x) & x != ""]
+        })
+      value <- ifelse(lengths(valuec) == 1 &
+                        !grepl("^missing$|^unique$|^confirmed$", valuec),
                       "confirmed", value)
-      # conflict (when there are no duplicates apart from NAs)
-      value <- ifelse(stringr::str_count(value, "\\!") ==
+      # conflict (when there are no duplicates, apart from NAs possibly)
+      value <- ifelse(!grepl("^missing$|^unique$|^confirmed$", value) &
+                        stringr::str_count(value, "\\!") ==
                         (length(out[vars_to_combine]) - 1),
                       "conflict", value)
-      # asymmetric (assumes the rest is asymmetric for now)
-      # todo: fix this by "opening" where duplicated the variables are across
-      value <- ifelse(grepl("^missing$|^conflict$|^confirmed$|^unique$", value),
-                      value, "asymmetric")
+      # open (and close) the values to find if asymmetric or conflict
+      vl <- lapply(stringr::str_split(vl, "!"), function(x) {
+        x <- x[!grepl("^NA$", x) & x != ""]
+        x <- unique(rle(x)$lengths)
+        x
+        })
+      # conflict (an even number of non-NA conflicting obs)
+      value <- ifelse(!grepl("^missing$|^unique$|^confirmed$|^conflict$", value) &
+                        lengths(vl) == 1, "conflict", value)
+      # asymmetric (an unbalanced number of non-NA matching obs)
+      value <- ifelse(!grepl("^missing$|^unique$|^confirmed$|^conflict$", value),
+                      "asymmetric", value)
       # todo: what to do with similar dates with different levels of precision?
+      # For now, these are treated as different.
       } else {
         value <- out[vars_to_combine]
         value <- ifelse(is.na(value), "missing", "unique")
@@ -71,26 +87,28 @@ db_plot <- function(database, key) {
     # fill df
     db[, var] <- value
   }
-  # gather data
+  # Step 3: gather and reshape data
+  Category <- Variable <- Percentage <- name <- NULL
   dbgather <- db %>%
     dplyr::select(-key) %>% 
-    tidyr::pivot_longer(cols = everything(), names_to = "variable",
-                        values_to = "category") %>% 
-    dplyr::group_by(variable, category) %>%
+    tidyr::pivot_longer(cols = everything(), names_to = "Variable",
+                        values_to = "Category") %>% 
+    dplyr::group_by(Variable, Category) %>%
     dplyr::summarise(count = n(), .groups = ) %>%
-    dplyr::mutate(perc = count / sum(count)) %>% 
-    tidyr::pivot_wider(id_cols = variable, names_from = category,
-                       values_from = perc) %>% 
+    dplyr::mutate(Percentage = count / sum(count)) %>% 
+    tidyr::pivot_wider(id_cols = Variable, names_from = Category,
+                       values_from = Percentage) %>% 
     dplyr::mutate(across(everything(), ~tidyr::replace_na(.x, 0))) %>%
-    tidyr::pivot_longer(-variable) %>% 
-    dplyr::rename(Variables = variable, Category = name, Percentage = value)
-  # set colors
+    tidyr::pivot_longer(-Variable) %>% 
+    dplyr::rename(Category = name, Percentage = value)
+  # Step 4: Plot
   cols <- c(confirmed = 'Green', unique = 'Blue', missing = 'Beige',
             conflict = 'Red', asymmetric = 'Orange')
   # plot
-    ggplot(dbgather, aes(fill = Category, y = Percentage, x = Variables )) + 
-      geom_bar(position = "fill", stat = "identity") +
-      scale_fill_manual(values = cols) +
-      coord_flip() +
-      theme_minimal()
+  ggplot(dbgather, aes(fill = Category, y = Percentage, x = Variable)) + 
+    geom_bar(position = "fill", stat = "identity") +
+    scale_fill_manual(values = cols) +
+    coord_flip() +
+    theme_minimal() +
+    labs(title = deparse(substitute(database)))
 }
