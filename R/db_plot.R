@@ -32,7 +32,7 @@ db_plot <- function(database, key) {
   out <- purrr::reduce(database, dplyr::full_join, by = key)
   # get the number of pairwise overlap between datasets by key variable
   cat("There were", sum(duplicated(unname(unlist(purrr::map(database, key))))),
-      "matched observations by key variable across datasets in database.")
+      "matched observations by", key, "variable across datasets in database.")
   # get variable names, but key
   all_variables <- unname(unlist(purrr::map(database, names)))
   all_variables <- all_variables[!all_variables %in% key]
