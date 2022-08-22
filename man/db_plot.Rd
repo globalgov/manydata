@@ -30,5 +30,6 @@ datasets in database.
 }
 \examples{
 db_plot(emperors, "ID")
-#db_plot(manyenviron::agreemets, "manyID")
+#db_plot(manyenviron::agreements, "manyID")
+#db_plot(manytrade::memberships, "manyID")
 }

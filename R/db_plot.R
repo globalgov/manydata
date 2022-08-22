@@ -19,7 +19,8 @@
 #' @import ggplot2
 #' @examples
 #' db_plot(emperors, "ID")
-#' #db_plot(manyenviron::agreemets, "manyID")
+#' #db_plot(manyenviron::agreements, "manyID")
+#' #db_plot(manytrade::memberships, "manyID")
 #' @export
 db_plot <- function(database, key) {
   # todo: make function more concise and efficient by re-working
