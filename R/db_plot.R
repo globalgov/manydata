@@ -1,7 +1,7 @@
 #' Plot database profile
 #'
 #' @param database A many database.
-#' @param key A variable key to join datasets by.
+#' @param key A variable key to join datasets by, "manyID" by default.
 #' @return A plot with the dataset profile.
 #' @details The plot returns the percentage of confirmed, unique, missing,
 #' conflicting, or majority values in all (non-ID) variables in the datasets
@@ -18,9 +18,9 @@
 #' @importFrom purrr reduce map
 #' @import ggplot2
 #' @examples
-#' db_plot(emperors, "ID")
-#' #db_plot(manyenviron::agreements, "manyID")
-#' #db_plot(manytrade::memberships, "manyID")
+#' db_plot(database = emperors, key = "ID")
+#' #db_plot(manyenviron::agreements)
+#' #db_plot(manytrade::memberships)
 #' @export
 db_plot <- function(database, key = "manyID") {
   # todo: make function more concise and efficient by re-working
