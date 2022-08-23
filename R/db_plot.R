@@ -4,13 +4,13 @@
 #' @param key A variable key to join datasets by.
 #' @return A plot with the dataset profile.
 #' @details The plot returns the percentage of confirmed, unique, missing,
-#' conflicting, or asymmetric values in all (non-ID) variables in the datasets
+#' conflicting, or majority values in all (non-ID) variables in the datasets
 #' in a 'many' package database.
 #' Confirmed values are the same in all datasets in database.
 #' Unique values appear once in datasets in database.
 #' Missing values are missing in all datasets in database.
 #' Conflicting values are different in the same number of datasets in database.
-#' Asymmetric values have the same value in multiple, but not all,
+#' majority values have the same value in multiple, but not all,
 #' datasets in database.
 #' @importFrom dplyr full_join summarise group_by mutate rename select %>%
 #' @importFrom stringr str_count str_remove_all str_split
@@ -22,7 +22,7 @@
 #' #db_plot(manyenviron::agreements, "manyID")
 #' #db_plot(manytrade::memberships, "manyID")
 #' @export
-db_plot <- function(database, key) {
+db_plot <- function(database, key = "manyID") {
   # todo: make function more concise and efficient by re-working
   # how string matching and database gathering work.
   if(length(grepl(key, purrr::map(database, names))) != length(database)) {
@@ -41,7 +41,7 @@ db_plot <- function(database, key) {
   all_variables <- all_variables[!all_variables %in% ID_var]
   # create an empty data frame
   db <- data.frame(out[,1], stringsAsFactors = TRUE)
-  # Step 2: check if missing, confirmed, conflict, asymmetric, or unique
+  # Step 2: check if missing, confirmed, conflict, majority, or unique
   for (var in all_variables) {
     vvars <- paste0("^", var, "$|^", var, "\\.")
     vars_to_combine <- grepl(vvars, names(out))
@@ -77,7 +77,7 @@ db_plot <- function(database, key) {
                         stringr::str_count(value, "\\!") ==
                         (length(out[vars_to_combine]) - 1),
                       "conflict", value)
-      # open (and close) the values to find if asymmetric or conflict
+      # open (and close) the values to find if majority or conflict
       vl <- lapply(stringr::str_split(vl, "!"), function(x) {
         x <- x[!grepl("^NA$", x) & x != ""]
         x <- unique(rle(x)$lengths)
@@ -86,17 +86,17 @@ db_plot <- function(database, key) {
       # conflict (an even number of non-NA conflicting obs)
       value <- ifelse(!grepl("^missing$|^unique$|^confirmed$|^conflict$", value) &
                         lengths(vl) == 1, "conflict", value)
-      # asymmetric (an unbalanced number of non-NA matching obs)
+      # majority (an unbalanced number of non-NA matching obs)
       value <- ifelse(!grepl("^missing$|^unique$|^confirmed$|^conflict$", value),
-                      "asymmetric", value)
+                      "majority", value)
       # todo: what to do with similar dates with different levels of precision?
       # For now, these are treated as different.
       } else {
         value <- out[vars_to_combine]
         value <- ifelse(is.na(value), "missing", "unique")
     }
-    # fill df
-    db[, var] <- value
+    # fill dataframe with variable and presence in datasets
+    db[, paste0(var, " (", length(out[vars_to_combine]), ")")] <- value
   }
   # Step 3: gather and reshape data
   Category <- Variable <- Percentage <- name <- NULL
@@ -111,15 +111,19 @@ db_plot <- function(database, key) {
                        values_from = Percentage) %>% 
     dplyr::mutate(across(everything(), ~tidyr::replace_na(.x, 0))) %>%
     tidyr::pivot_longer(-Variable) %>% 
-    dplyr::rename(Category = name, Percentage = value)
+    dplyr::rename(Category = name, Percentage = value) %>%
+    dplyr::mutate(Category = factor(Category, levels = c("missing", "unique",
+                                                         "conflict", "majority",
+                                                         "confirmed")))
   # Step 4: Plot
-  cols <- c(confirmed = 'Green', unique = 'Blue', missing = 'Beige',
-            conflict = 'Red', asymmetric = 'Orange')
-  # plot
+  cols <- c(confirmed = 'olivedrab3', majority = 'dodgerblue3', conflict = 'red3',
+            unique = 'goldenrod3', missing = 'honeydew3')
   ggplot(dbgather, aes(fill = Category, y = Percentage, x = Variable)) + 
     geom_bar(position = "fill", stat = "identity") +
+    scale_x_discrete(guide = guide_axis(angle = 90)) +
     scale_fill_manual(values = cols) +
-    coord_flip() +
     theme_minimal() +
-    labs(title = deparse(substitute(database)))
+    labs(title = deparse(substitute(database)),
+         subtitle = paste0("Based on ", nrow(out), " consolidated observations."),
+         caption = "Parenthesis represent the number of datasets in which variable is present.")
 }
