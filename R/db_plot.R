@@ -15,12 +15,13 @@
 #' @importFrom dplyr full_join summarise group_by mutate rename select %>%
 #' @importFrom stringr str_count str_remove_all str_split
 #' @importFrom tidyr pivot_longer pivot_wider replace_na
+#' @importFrom stats reorder
 #' @importFrom purrr reduce map
 #' @import ggplot2
 #' @examples
 #' db_plot(database = emperors, key = "ID")
-#' #db_plot(manyenviron::agreements)
-#' #db_plot(manytrade::memberships)
+#' #db_plot(database = manyenviron::agreements)
+#' #db_plot(database = manytrade::memberships)
 #' @export
 db_plot <- function(database, key = "manyID") {
   # todo: make function more concise and efficient by re-working
@@ -99,7 +100,7 @@ db_plot <- function(database, key = "manyID") {
     db[, paste0(var, " (", length(out[vars_to_combine]), ")")] <- value
   }
   # Step 3: gather and reshape data
-  Category <- Variable <- Percentage <- name <- NULL
+  Category <- Variable <- Percentage <- Missing <- name <- NULL
   dbgather <- db %>%
     dplyr::select(-key) %>% 
     tidyr::pivot_longer(cols = everything(), names_to = "Variable",
@@ -112,18 +113,27 @@ db_plot <- function(database, key = "manyID") {
     dplyr::mutate(across(everything(), ~tidyr::replace_na(.x, 0))) %>%
     tidyr::pivot_longer(-Variable) %>% 
     dplyr::rename(Category = name, Percentage = value) %>%
-    dplyr::mutate(Category = factor(Category, levels = c("missing", "unique",
-                                                         "conflict", "majority",
-                                                         "confirmed")))
+    dplyr::mutate(Category = factor(Category, levels = c("missing", "conflict",
+                                                         "unique", "majority",
+                                                         "confirmed"))) %>%
+    dplyr::mutate(Missing = ifelse(Category == "missing", Percentage, 0)) %>%
+    dplyr::filter(Percentage != 0)
   # Step 4: Plot
-  cols <- c(confirmed = 'olivedrab3', majority = 'dodgerblue3', conflict = 'red3',
-            unique = 'goldenrod3', missing = 'honeydew3')
-  ggplot(dbgather, aes(fill = Category, y = Percentage, x = Variable)) + 
+  cols <- c(confirmed = 'deepskyblue3', majority = 'aquamarine3',
+            unique = 'khaki', conflict = 'firebrick', missing = 'grey90')
+  ggplot(dbgather, aes(fill = Category, y = Percentage,
+                       x = stats::reorder(Variable, Missing))) + 
     geom_bar(position = "fill", stat = "identity") +
     scale_x_discrete(guide = guide_axis(angle = 90)) +
+    scale_y_reverse(labels = function(x) {
+      ifelse(x == 1|x == 0.5, paste0(x*100, "%", "\n(", x*nrow(out), " obs)"),
+             paste0(x*100, "%"))
+      }) +
     scale_fill_manual(values = cols) +
     theme_minimal() +
     labs(title = deparse(substitute(database)),
          subtitle = paste0("Based on ", nrow(out), " consolidated observations."),
-         caption = "Parenthesis represent the number of datasets in which variable is present.")
+         caption = "Parenthesis represent the number of datasets in which variable is present.",
+         x = "Variable")
+  # To make the plot interactive with hovering option use plotly::ggplotly().
 }
