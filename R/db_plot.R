@@ -14,7 +14,7 @@
 #' datasets in database.
 #' @importFrom dplyr full_join summarise group_by mutate rename select %>%
 #' @importFrom stringr str_count str_remove_all str_split
-#' @importFrom tidyr pivot_longer pivot_wider replace_na
+#' @importFrom tidyr pivot_longer pivot_wider replace_na fill
 #' @importFrom stats reorder
 #' @importFrom purrr reduce map
 #' @import ggplot2
@@ -116,8 +116,12 @@ db_plot <- function(database, key = "manyID") {
     dplyr::mutate(Category = factor(Category, levels = c("missing", "conflict",
                                                          "unique", "majority",
                                                          "confirmed"))) %>%
-    dplyr::mutate(Missing = ifelse(Category == "missing", Percentage, 0)) %>%
-    dplyr::filter(Percentage != 0)
+    dplyr::filter(Percentage != 0) %>%
+    dplyr::mutate(Missing = ifelse(Category == "missing",
+                                   Percentage, NA_character_)) %>%
+    dplyr::group_by(Variable) %>%
+    tidyr::fill(Missing, .direction = "up") %>% 
+    dplyr::mutate(Missing = ifelse(is.na(Missing), 0, as.numeric(Missing)))
   # Step 4: Plot
   cols <- c(confirmed = 'deepskyblue3', majority = 'aquamarine3',
             unique = 'khaki', conflict = 'firebrick', missing = 'grey90')
