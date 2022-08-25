@@ -137,7 +137,7 @@ db_plot <- function(database, key = "manyID") {
     theme_minimal() +
     labs(title = deparse(substitute(database)),
          subtitle = paste0("Based on ", nrow(out), " consolidated observations."),
-         caption = "Inbetween parenthesis is the number of datasets in which variable is present.",
+         caption = "In between the parenthesis are the number of datasets in which variable is present.",
          x = "Variable")
   # To make the plot interactive with hovering option use plotly::ggplotly().
 }
