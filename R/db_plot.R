@@ -116,17 +116,17 @@ db_plot <- function(database, key = "manyID") {
     dplyr::mutate(Category = factor(Category, levels = c("missing", "conflict",
                                                          "unique", "majority",
                                                          "confirmed"))) %>%
-    dplyr::filter(Percentage != 0) %>%
     dplyr::mutate(Missing = ifelse(Category == "missing",
                                    Percentage, NA_character_)) %>%
     dplyr::group_by(Variable) %>%
-    tidyr::fill(Missing, .direction = "up") %>% 
-    dplyr::mutate(Missing = ifelse(is.na(Missing), 0, as.numeric(Missing)))
+    tidyr::fill(Missing, .direction = "downup") %>% 
+    ungroup() %>%
+    dplyr::filter(Percentage != 0)
   # Step 4: Plot
   cols <- c(confirmed = 'deepskyblue3', majority = 'aquamarine3',
             unique = 'khaki', conflict = 'firebrick', missing = 'grey90')
   ggplot(dbgather, aes(fill = Category, y = Percentage,
-                       x = stats::reorder(Variable, Missing))) + 
+                       x = stats::reorder(Variable, as.numeric(Missing)))) + 
     geom_bar(position = "fill", stat = "identity") +
     scale_x_discrete(guide = guide_axis(angle = 90)) +
     scale_y_reverse(labels = function(x) {
@@ -137,7 +137,7 @@ db_plot <- function(database, key = "manyID") {
     theme_minimal() +
     labs(title = deparse(substitute(database)),
          subtitle = paste0("Based on ", nrow(out), " consolidated observations."),
-         caption = "Parenthesis represent the number of datasets in which variable is present.",
+         caption = "Inbetween parenthesis is the number of datasets in which variable is present.",
          x = "Variable")
   # To make the plot interactive with hovering option use plotly::ggplotly().
 }
