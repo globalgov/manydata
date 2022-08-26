@@ -15,15 +15,17 @@
 #' @importFrom dplyr full_join summarise group_by mutate rename select %>%
 #' @importFrom stringr str_count str_remove_all str_split
 #' @importFrom tidyr pivot_longer pivot_wider replace_na fill
-#' @importFrom stats reorder
+#' @importFrom stats reorder aggregate
 #' @importFrom purrr reduce map
+#' @importFrom stringi stri_list2matrix
+#' @importFrom plotly ggplotly layout
 #' @import ggplot2
 #' @examples
-#' db_plot(database = emperors, key = "ID")
-#' #db_plot(database = manyenviron::agreements)
-#' #db_plot(database = manytrade::memberships)
+#' dbplot(database = emperors, key = "ID")
+#' #dbplot(database = manyenviron::agreements)
+#' #dbplot(database = manytrade::memberships)
 #' @export
-db_plot <- function(database, key = "manyID") {
+dbplot <- function(database, key = "manyID") {
   # todo: make function more concise and efficient by re-working
   # how string matching and database gathering work.
   if(length(grepl(key, purrr::map(database, names))) != length(database)) {
@@ -97,10 +99,10 @@ db_plot <- function(database, key = "manyID") {
         value <- ifelse(is.na(value), "missing", "unique")
     }
     # fill dataframe with variable and presence in datasets
-    db[, paste0(var, " (", length(out[vars_to_combine]), ")")] <- value
+    db[, var] <- value
   }
   # Step 3: gather and reshape data
-  Category <- Variable <- Percentage <- Missing <- name <- NULL
+  Category <- Variable <- Percentage <- Missing <- Dataset <- name <- NULL
   dbgather <- db %>%
     dplyr::select(-key) %>% 
     tidyr::pivot_longer(cols = everything(), names_to = "Variable",
@@ -122,11 +124,25 @@ db_plot <- function(database, key = "manyID") {
     tidyr::fill(Missing, .direction = "downup") %>% 
     ungroup() %>%
     dplyr::filter(Percentage != 0)
+  # Step 4: add variables' source dataset
+  varsc <- lapply(database, names)
+  varso <- as.data.frame(stringi::stri_list2matrix(varsc))
+  colnames(varso) <- names(varsc)
+  varso <- na.omit(tidyr::pivot_longer(varso, cols = everything(),
+                                       names_to = "Dataset",
+                                       values_to = "Variable"))
+  varso <- stats::aggregate(Dataset ~ Variable, unique(varso), paste,
+                            collapse = ", ")
+  dbgather <- dplyr::left_join(dbgather, varso, by = "Variable")
   # Step 4: Plot
   cols <- c(confirmed = 'deepskyblue3', majority = 'aquamarine3',
             unique = 'khaki', conflict = 'firebrick', missing = 'grey90')
-  ggplot(dbgather, aes(fill = Category, y = Percentage,
-                       x = stats::reorder(Variable, as.numeric(Missing)))) + 
+  dbplot <- ggplot(dbgather, aes(fill = Category, y = Percentage,
+                                 x = stats::reorder(Variable,
+                                                    as.numeric(Missing)),
+                                 text = paste("<br>Datasets: ", Dataset,
+                                              "<br>Category: ", Category,
+                                              "<br>Percentage: ", Percentage))) + 
     geom_bar(position = "fill", stat = "identity") +
     scale_x_discrete(guide = guide_axis(angle = 90)) +
     scale_y_reverse(labels = function(x) {
@@ -136,8 +152,15 @@ db_plot <- function(database, key = "manyID") {
     scale_fill_manual(values = cols) +
     theme_minimal() +
     labs(title = deparse(substitute(database)),
-         subtitle = paste0("Based on ", nrow(out), " consolidated observations."),
-         caption = "In between the parenthesis are the number of datasets in which variable is present.",
          x = "Variable")
-  # To make the plot interactive with hovering option use plotly::ggplotly().
+  plotly::ggplotly(dbplot, tooltip = "text") %>%
+    reverse_legend() %>% 
+    plotly::layout(xaxis = list("Variable", tickangle = 60))
+}
+
+# Helper function for ordering legend correctly
+reverse_legend <- function(plotly_plot) {
+  n_labels <- length(plotly_plot$x$data)
+  plotly_plot$x$data[1:n_labels] <- plotly_plot$x$data[n_labels:1]
+  plotly_plot
 }
