@@ -50,9 +50,7 @@ Imports:
     cshapes,
     ggraph,
     janitor,
-    tidyr,
-    stringi,
-    plotly
+    tidyr
 Suggests:
     testthat,
     anytime,

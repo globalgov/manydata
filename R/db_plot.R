@@ -17,8 +17,6 @@
 #' @importFrom tidyr pivot_longer pivot_wider replace_na fill
 #' @importFrom stats reorder aggregate
 #' @importFrom purrr reduce map
-#' @importFrom stringi stri_list2matrix
-#' @importFrom plotly ggplotly layout
 #' @import ggplot2
 #' @examples
 #' dbplot(database = emperors, key = "ID")
@@ -35,7 +33,9 @@ dbplot <- function(database, key = "manyID") {
   out <- purrr::reduce(database, dplyr::full_join, by = key)
   # get the number of pairwise overlap between datasets by key variable
   cat("There were", sum(duplicated(unname(unlist(purrr::map(database, key))))),
-      "matched observations by", key, "variable across datasets in database.")
+      "matched observations by", key, "variable across datasets in database.
+      For a more granular variable comparison across datasets,
+      please see the `dbcomp()` function.")
   # get variable names, but key
   all_variables <- unname(unlist(purrr::map(database, names)))
   all_variables <- all_variables[!all_variables %in% key]
@@ -48,9 +48,18 @@ dbplot <- function(database, key = "manyID") {
   for (var in all_variables) {
     vvars <- paste0("^", var, "$|^", var, "\\.")
     vars_to_combine <- grepl(vvars, names(out))
-    if (length(out[vars_to_combine]) > 1) {
-      # paste variables to work at the string value
-      vl <- apply(out[vars_to_combine], 1, paste, collapse = "!")
+    vl <- out[vars_to_combine]
+    if (length(vl) > 1) {
+      # check if variable is "mdate" and lower precision for matching if needed
+      if (unname(unlist(purrr::map(vl[1], class))) == "mdate" &
+          min(unlist(lapply(vl, function(x) min(nchar(x), na.rm = TRUE)))) < 6) {
+        vl <- lapply(vl, function(x)
+          stringr::str_extract_all(x, "^-[:digit:]{4}|^[:digit:]{4}"))
+        vl <- stringr::str_replace_all(do.call(paste, vl), " ", "!")
+        } else {
+          # paste variables to work at the string value
+          vl <- apply(vl, 1, paste, collapse = "!") 
+        }
       # weird code added to some variables? need to double check messydates...
       vl <- stringr::str_remove_all(vl, "\032")
       # remove string duplicates and collapse unique values (except NAs)
@@ -92,17 +101,15 @@ dbplot <- function(database, key = "manyID") {
       # majority (an unbalanced number of non-NA matching obs)
       value <- ifelse(!grepl("^missing$|^unique$|^confirmed$|^conflict$", value),
                       "majority", value)
-      # todo: what to do with similar dates with different levels of precision?
-      # For now, these are treated as different.
       } else {
         value <- out[vars_to_combine]
         value <- ifelse(is.na(value), "missing", "unique")
-    }
-    # fill dataframe with variable and presence in datasets
-    db[, var] <- value
+        }
+    # fill data frame with variable and presence in datasets
+    db[, paste0(var, " (", length(out[vars_to_combine]), ")")] <- value
   }
   # Step 3: gather and reshape data
-  Category <- Variable <- Percentage <- Missing <- Dataset <- name <- NULL
+  Category <- Variable <- Percentage <- Missing <- name <- NULL
   dbgather <- db %>%
     dplyr::select(-key) %>% 
     tidyr::pivot_longer(cols = everything(), names_to = "Variable",
@@ -124,43 +131,20 @@ dbplot <- function(database, key = "manyID") {
     tidyr::fill(Missing, .direction = "downup") %>% 
     ungroup() %>%
     dplyr::filter(Percentage != 0)
-  # Step 4: add variables' source dataset
-  varsc <- lapply(database, names)
-  varso <- as.data.frame(stringi::stri_list2matrix(varsc))
-  colnames(varso) <- names(varsc)
-  varso <- na.omit(tidyr::pivot_longer(varso, cols = everything(),
-                                       names_to = "Dataset",
-                                       values_to = "Variable"))
-  varso <- stats::aggregate(Dataset ~ Variable, unique(varso), paste,
-                            collapse = ", ")
-  dbgather <- dplyr::left_join(dbgather, varso, by = "Variable")
-  # Step 4: Plot
   cols <- c(confirmed = 'deepskyblue3', majority = 'aquamarine3',
             unique = 'khaki', conflict = 'firebrick', missing = 'grey90')
-  dbplot <- ggplot(dbgather, aes(fill = Category, y = Percentage,
-                                 x = stats::reorder(Variable,
-                                                    as.numeric(Missing)),
-                                 text = paste("<br>Datasets: ", Dataset,
-                                              "<br>Category: ", Category,
-                                              "<br>Percentage: ", Percentage))) + 
+  ggplot(dbgather, aes(fill = Category, y = Percentage,
+                       x = stats::reorder(Variable, as.numeric(Missing)))) + 
     geom_bar(position = "fill", stat = "identity") +
     scale_x_discrete(guide = guide_axis(angle = 90)) +
     scale_y_reverse(labels = function(x) {
       ifelse(x == 1|x == 0.5, paste0(x*100, "%", "\n(", x*nrow(out), " obs)"),
              paste0(x*100, "%"))
-      }) +
+    }) +
     scale_fill_manual(values = cols) +
     theme_minimal() +
     labs(title = deparse(substitute(database)),
+         subtitle = paste0("Based on ", nrow(out), " consolidated observations."),
+         caption = "In between the parenthesis are the number of datasets in which variable is present.",
          x = "Variable")
-  plotly::ggplotly(dbplot, tooltip = "text") %>%
-    reverse_legend() %>% 
-    plotly::layout(xaxis = list("Variable", tickangle = 60))
-}
-
-# Helper function for ordering legend correctly
-reverse_legend <- function(plotly_plot) {
-  n_labels <- length(plotly_plot$x$data)
-  plotly_plot$x$data[1:n_labels] <- plotly_plot$x$data[n_labels:1]
-  plotly_plot
 }
