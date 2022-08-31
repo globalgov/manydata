@@ -31,5 +31,4 @@ datasets in database.
 \examples{
 dbplot(database = emperors, key = "ID")
 #dbplot(database = manyenviron::agreements)
-#dbplot(database = manytrade::memberships)
 }

@@ -4,17 +4,18 @@
 \alias{dbcomp}
 \title{Compare variable(s) in a 'many' database}
 \usage{
-dbcomp(database, variable, key = "manyID", category = "all")
+dbcomp(database, key = "manyID", variable = "all", category = "all")
 }
 \arguments{
 \item{database}{A many database.}
 
-\item{variable}{One, or more, variables present in multiple datasets
-in a many database.
-For multiple variables, please declare as a list
-(i.e. c("variable1", "variable2"))}
-
 \item{key}{A variable key to join datasets by, "manyID" by default.}
+
+\item{variable}{Would you like to focus on one, or more, specific variables?
+By default "all".
+For one variable, please declare the variable name (i.e. "variable").
+For multiple variables, please declare variable names as a list
+(i.e. c("variable1", "variable2")).}
 
 \item{category}{Would you like to focus on one specific code category?
 By default "all" are returned.
@@ -40,9 +41,10 @@ majority values have the same value in multiple, but not all,
 datasets in database.
 }
 \examples{
-dbcomp(database = emperors, variable = "Beg", key = "ID")
-dbcomp(database = emperors, variable = c("Beg", "End"), key = "ID",
+dbcomp(database = emperors, key = "ID")
+dbcomp(database = emperors, key = "ID", variable = "Beg")
+dbcomp(database = emperors, key = "ID", variable = c("Beg", "End"),
 category = "conflict")
-#dbcomp(database = manyenviron::agreements, variable = "Title",
+#dbcomp(database = manyenviron::agreements, variable = c("Title", "Beg"),
 #category = "conflict")
 }
