@@ -13,7 +13,7 @@
 #' majority values have the same value in multiple, but not all,
 #' datasets in database.
 #' @importFrom purrr map
-#' @importFrom dplyr summarise group_by mutate rename select %>%
+#' @importFrom dplyr summarise group_by mutate select %>% filter
 #' @importFrom tidyr pivot_longer pivot_wider replace_na fill
 #' @importFrom stats reorder
 #' @import ggplot2
@@ -27,29 +27,27 @@ dbplot <- function(database, key = "manyID") {
   # Step 1: run dbcomp() to check key, get variable names, and code observations
   db <- dbcomp(database = database, key = key)
   # remove extra variable level information
-  db <- db[!grepl(paste(names(database), collapse = "|"), names(db))]
+  db <- db[!grepl("\\$", names(db))]
   # Step 2: gather and reshape data
-  Category <- Variable <- Percentage <- Missing <- name <- value <- NULL
+  Category <- Variable <- Percentage <- Missing <- NULL
   dbgather <- db %>%
-    dplyr::select(-key) %>% 
+    dplyr::select(-key) %>%
     tidyr::pivot_longer(cols = everything(), names_to = "Variable",
-                        values_to = "Category") %>% 
+                        values_to = "Category") %>%
     dplyr::group_by(Variable, Category) %>%
     dplyr::summarise(count = n(), .groups = ) %>%
-    dplyr::mutate(Percentage = count / sum(count)) %>% 
+    dplyr::mutate(Percentage = count / sum(count)) %>%
     tidyr::pivot_wider(id_cols = Variable, names_from = Category,
                        values_from = Percentage) %>% 
     dplyr::mutate(across(everything(), ~tidyr::replace_na(.x, 0))) %>%
-    tidyr::pivot_longer(-Variable) %>% 
-    dplyr::rename(Category = name, Percentage = value) %>%
+    tidyr::pivot_longer(-Variable, names_to = "Category",
+                        values_to = "Percentage") %>%
     dplyr::mutate(Category = factor(Category, levels = c("missing", "conflict",
                                                          "unique", "majority",
-                                                         "confirmed"))) %>%
-    dplyr::mutate(Missing = ifelse(Category == "missing",
+                                                         "confirmed")),
+                  Missing = ifelse(Category == "missing",
                                    Percentage, NA_character_)) %>%
-    dplyr::group_by(Variable) %>%
-    tidyr::fill(Missing, .direction = "downup") %>% 
-    ungroup() %>%
+    tidyr::fill(Missing, .direction = "downup") %>%
     dplyr::filter(Percentage != 0)
   # Step 3: plot
   cols <- c(confirmed = 'deepskyblue3', majority = 'aquamarine3',
@@ -137,16 +135,18 @@ dbcomp <- function(database, key = "manyID", variable = "all", category = "all")
     col <- names(col[!sapply(col, is.null)])
     colnames(vlb) <- paste0(col, "$", var)
     if (length(vlb) > 1) {
-      # check if variable is "mdate" and lower precision for matching if needed
-      if (unname(unlist(purrr::map(vlb[1], class))) == "mdate" &
-          min(unlist(lapply(vlb, function(x) min(nchar(x), na.rm = TRUE)))) < 6) {
-        vl <- lapply(vlb, function(x)
-          stringr::str_extract_all(x, "^-[:digit:]{4}|^[:digit:]{4}"))
-        vl <- stringr::str_replace_all(do.call(paste, vl), " ", "!")
-      } else {
-        # paste variables to work at the string value
-        vl <- apply(vlb, 1, paste, collapse = "!") 
-      }
+      # # check if variable is "mdate" and lower precision to year if needed
+      # if (unname(unlist(purrr::map(vlb[1], class))) == "mdate" &
+      #     min(unlist(lapply(vlb, function(x) min(nchar(x), na.rm = TRUE)))) < 6) {
+      #   vl <- lapply(vlb, function(x)
+      #     stringr::str_extract_all(x, "^-[:digit:]{4}|^[:digit:]{4}"))
+      #   vl <- stringr::str_replace_all(do.call(paste, vl), " ", "!")
+      # } else {
+      #   # paste variables to work at the string value
+      #   vl <- apply(vlb, 1, paste, collapse = "!") 
+      # }
+      #paste variables to work at the string value
+      vl <- apply(vlb, 1, paste, collapse = "!")
       # Bug: weird code added to some variables? Might need fixing in messydates
       vl <- stringr::str_remove_all(vl, "\032")
       # remove string duplicates and collapse unique values (except NAs)
