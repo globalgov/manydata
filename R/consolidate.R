@@ -81,6 +81,8 @@ consolidate <- function(database, rows = "any", cols = "any",
   }
   # Step 2: Drop any unwanted variables
   all_variables <- unname(unlist(purrr::map(database, names)))
+  all_variables <- all_variables[!grepl("text", all_variables,
+                                        ignore.case = TRUE)]
   if (cols == "every") {
     all_variables <- names(table(all_variables)[table(all_variables) ==
                                                   length(database)])
