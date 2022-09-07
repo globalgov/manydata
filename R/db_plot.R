@@ -38,7 +38,7 @@ dbplot <- function(database, key = "manyID") {
     dplyr::summarise(count = n(), .groups = ) %>%
     dplyr::mutate(Percentage = count / sum(count)) %>%
     tidyr::pivot_wider(id_cols = Variable, names_from = Category,
-                       values_from = Percentage) %>% 
+                       values_from = Percentage) %>%
     dplyr::mutate(across(everything(), ~tidyr::replace_na(.x, 0))) %>%
     tidyr::pivot_longer(-Variable, names_to = "Category",
                         values_to = "Percentage") %>%
@@ -50,15 +50,16 @@ dbplot <- function(database, key = "manyID") {
     tidyr::fill(Missing, .direction = "downup") %>%
     dplyr::filter(Percentage != 0)
   # Step 3: plot
-  cols <- c(confirmed = 'deepskyblue3', majority = 'aquamarine3',
-            unique = 'khaki', conflict = 'firebrick', missing = 'grey90')
+  cols <- c(confirmed = "deepskyblue3", majority = "aquamarine3",
+            unique = "khaki", conflict = "firebrick", missing = "grey90")
   ggplot(dbgather, aes(fill = Category, y = Percentage,
-                       x = stats::reorder(Variable, as.numeric(Missing)))) + 
+                       x = stats::reorder(Variable, as.numeric(Missing)))) +
     geom_bar(position = "fill", stat = "identity") +
     scale_x_discrete(guide = guide_axis(angle = 90)) +
     scale_y_reverse(labels = function(x) {
-      ifelse(x == 1|x == 0.5, paste0(x*100, "%", "\n(", x*nrow(db), " obs)"),
-             paste0(x*100, "%"))
+      ifelse(x == 1 | x == 0.5,
+             paste0(x * 100, "%", "\n(", x * nrow(db), " obs)"),
+             paste0(x * 100, "%"))
     }) +
     scale_fill_manual(values = cols) +
     theme_minimal() +
@@ -107,7 +108,7 @@ dbplot <- function(database, key = "manyID") {
 #' @export
 dbcomp <- function(database, key = "manyID", variable = "all", category = "all") {
   # Step 1: reduce data
-  if(length(grepl(key, purrr::map(database, names))) != length(database)) {
+  if (length(grepl(key, purrr::map(database, names))) != length(database)) {
     stop("Please declare a key variable present in all datasets in the database.")
   }
   out <- purrr::reduce(database, dplyr::full_join, by = key)
@@ -124,7 +125,7 @@ dbcomp <- function(database, key = "manyID", variable = "all", category = "all")
     all_variables <- all_variables[all_variables %in% variable]
   }
   # create an empty data frame in case there is multiple variables
-  db <- data.frame(out[,1], stringsAsFactors = TRUE)
+  db <- data.frame(out[, 1], stringsAsFactors = TRUE)
   # Step 2: code variables
   for (var in all_variables) {
     vvars <- paste0("^", var, "$|^", var, "\\.")
@@ -143,7 +144,7 @@ dbcomp <- function(database, key = "manyID", variable = "all", category = "all")
       #   vl <- stringr::str_replace_all(do.call(paste, vl), " ", "!")
       # } else {
       #   # paste variables to work at the string value
-      #   vl <- apply(vlb, 1, paste, collapse = "!") 
+      #   vl <- apply(vlb, 1, paste, collapse = "!")
       # }
       #paste variables to work at the string value
       vl <- apply(vlb, 1, paste, collapse = "!")
@@ -152,7 +153,7 @@ dbcomp <- function(database, key = "manyID", variable = "all", category = "all")
       # remove string duplicates and collapse unique values (except NAs)
       # todo: is unique() slow for lists?
       value <- unlist(lapply(stringr::str_split(vl, "!"), function(x) {
-        paste(unique(trimws(x), incomparables = "NA"), collapse = '!')
+        paste(unique(trimws(x), incomparables = "NA"), collapse = "!")
       }))
       # missing
       value <- ifelse(stringr::str_count(value, "NA") ==
