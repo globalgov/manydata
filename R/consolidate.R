@@ -73,6 +73,13 @@
 #' @export
 consolidate <- function(database, rows = "any", cols = "any",
                         resolve = "coalesce", key = "manyID") {
+  # Check that database has multiple datasets
+  if (length(database) == 1) {
+    dataset <- names(database)
+    database <- deparse(substitute(database))
+    stop(paste0(database, " contains only the ", dataset,
+                " dataset and cannot be consolidated."))
+  }
   # Step 1: Join datasets by ID
   if (rows == "any") {
     out <- purrr::reduce(database, dplyr::full_join, by = key)
