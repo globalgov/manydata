@@ -1,14 +1,9 @@
 # britannica Preparation Script
 
-# This is a template for importing, cleaning, and exporting data
-# ready for the qPackage.
-# The dataset was improted from:
+# The dataset was imported from:
 # https://www.britannica.com/topic/list-of-Roman-emperors-2043294
-# The dataset was impoted to the package with the following line:
-# manypkgs::import_data("britannica", "emperors")
 # Stage one: Collecting data
 britannica <- readxl::read_excel("data-raw/emperors/britannica/britannica.xlsx")
-
 # Stage two: Correcting data
 # In this stage you will want to correct the variable names and
 # formats of the 'britannica' object until the object created
@@ -17,24 +12,10 @@ britannica <- readxl::read_excel("data-raw/emperors/britannica/britannica.xlsx")
 # reign_start and reign_end date variables.
 # Some dates have months, while other dates only have year.
 # Let's just fix a few of these issues.
-# First, let's just complete year variables so that they
-# at least have 4 digits.
-for(i in c(1:6, 9:13)) {
-  britannica$reign_start[i] <- paste0("00", britannica$reign_start[i])
-}
-for(i in c(14:18, 21:27,32:43, 45:75, 77:80, 82:87)) {
-  britannica$reign_start[i] <- paste0("0", britannica$reign_start[i])
-}
-for(i in c(1:6, 9:12)) {
-  britannica$reign_end[i] <- paste0("00", britannica$reign_end[i])
-}
-for(i in c(13:18, 21:27, 32:43, 45:75, 77:80, 82:87)) {
-  britannica$reign_end[i] <- paste0("0", britannica$reign_end[i])
-}
-# Now, some months are speeled thrghout and years
+# Now, some months are and years
 # are in the inverse order.
 # While some other dates are precise to the day.
-# Let's adress these issues
+# Let's address these issues
 britannica$reign_start[7] <- "0069-01"
 britannica$reign_start[8] <- "0069-07"
 britannica$reign_start[19] <- "0193-01"
@@ -57,23 +38,17 @@ britannica$reign_end[31] <- "0238-07-29"
 britannica$reign_end[44] <- "0276-09"
 britannica$reign_end[76] <- "0455-05-32"
 britannica$reign_end[81] <- "0472-11"
-# Let's also just make sure BC and CE dates are reposrted consistently.
-britannica$reign_start <- gsub("BCE", "BC", britannica$reign_start)
-britannica$reign_end <- gsub("CE", "", britannica$reign_end)
-
-# Remove non-ASCII characters
-britannica <- apply(britannica, 2, stringi::stri_enc_toascii)
-
+# Replace some unicode characters
+britannica$reign_end[1] <- "14 CE"
 # Let's standardise dates and variable names
 britannica <- as_tibble(britannica) %>%
   manydata::transmutate(ID = Name,
-                     Beg = messydates::as_messydate(reign_start),
-                     End = messydates::as_messydate(reign_end)) %>%
+                        Beg = messydates::as_messydate(reign_start),
+                        End = messydates::as_messydate(reign_end)) %>%
   dplyr::relocate(ID, Beg, End)
 # manydata includes several functions that should help cleaning
 # and standardising your data.
 # Please see the vignettes or website for more details.
-
 # Stage three: Connecting data
 # Next run the following line to make britannica available
 # within the qPackage.
@@ -85,7 +60,7 @@ manypkgs::export_data(britannica, database = "emperors",
 # to run these tests locally at any point.
 # Any test failures should be pretty self-explanatory and may require
 # you to return to stage two and further clean, standardise, or wrangle
-# your data into the expected format.
+# your data into the expected format.
 # Second, it also creates a documentation file for you to fill in.
 # Please make sure that you cite any sources appropriately and fill in as
 # much detail about the variables etc as possible.

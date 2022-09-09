@@ -19,6 +19,6 @@
 #' }
 #' @details
 #' ``` {r, echo = FALSE, warning = FALSE}
-#' lapply(emperors, descriptr::ds_screener)
+#' lapply(emperors, messydates::mreport)
 #' ```
 "emperors"

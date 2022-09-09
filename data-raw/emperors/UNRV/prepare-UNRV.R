@@ -1,11 +1,7 @@
 # UNRV Preparation Script
 
-# This is a template for importing, cleaning, and exporting data
-# ready for the qPackage.
-# The dataset was improted from:
+# The dataset was imported from:
 # https://www.unrv.com/government/emperor.php
-# The dataset was impoted to the package with the following line:
-# manypkgs::import_data("UNRV", "emperors")
 
 # Stage one: Collecting data
 UNRV <- readxl::read_excel("data-raw/emperors/UNRV/UNRV.xlsx")
@@ -14,24 +10,8 @@ UNRV <- readxl::read_excel("data-raw/emperors/UNRV/UNRV.xlsx")
 # In this stage you will want to correct the variable names and
 # formats of the 'UNRV' object until the object created
 # below (in stage three) passes all the tests.
-# First, let's just complete year variables so that Beg and End variables
-# have at least have 4 digits for years.
-for(i in c(1:13)) {
-  UNRV$Beg[i] <- paste0("00", UNRV$Beg[i])
-}
-for(i in c(14:99)) {
-  UNRV$Beg[i] <- paste0("0", UNRV$Beg[i])
-}
-for(i in c(1:12)) {
-  UNRV$End[i] <- paste0("00", UNRV$End[i])
-}
-for(i in c(13:99)) {
-  UNRV$End[i] <- paste0("0", UNRV$End[i])
-}
-
 # Remove non-ASCII characters
 UNRV <- apply(UNRV, 2, stringi::stri_enc_toascii)
-
 # Let's standardise dates and variable names
 UNRV <- tibble::as_tibble(UNRV) %>%
   dplyr::mutate(Beg = messydates::as_messydate(Beg),

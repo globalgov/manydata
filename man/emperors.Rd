@@ -31,62 +31,49 @@ Emperors database documentation
 }
 \details{
 \if{html}{\out{<div class="sourceCode">}}\preformatted{## $wikipedia
-## ----------------------------------------------------------------------
-## |  Column Name  |  Data Type  |  Levels  |  Missing  |  Missing (\%)  |
-## ----------------------------------------------------------------------
-## |      ID       |  character  |    NA    |     0     |       0       |
-## |      Beg      |    mdate    |    NA    |     0     |       0       |
-## |      End      |    mdate    |    NA    |     0     |       0       |
-## |   FullName    |  character  |    NA    |     0     |       0       |
-## |     Birth     |  character  |    NA    |     5     |     7.35      |
-## |     Death     |  character  |    NA    |     0     |       0       |
-## |   CityBirth   |  character  |    NA    |    17     |      25       |
-## | ProvinceBirth |  character  |    NA    |     0     |       0       |
-## |     Rise      |  character  |    NA    |     0     |       0       |
-## |     Cause     |  character  |    NA    |     0     |       0       |
-## |    Killer     |  character  |    NA    |     0     |       0       |
-## |    Dynasty    |  character  |    NA    |     0     |       0       |
-## |      Era      |  character  |    NA    |     0     |       0       |
-## |     Notes     |  character  |    NA    |    22     |     32.35     |
-## |     Verif     |  character  |    NA    |    57     |     83.82     |
-## ----------------------------------------------------------------------
+## ----------------------------------------------------------------------------
+## |  Column Name  |  Data Type  |  Observations  |  Missing  |  Missing (\%)  |
+## ----------------------------------------------------------------------------
+## |      ID       |  character  |              68|     0     |       0       |
+## |      Beg      |    mdate    |              68|     0     |       0       |
+## |      End      |    mdate    |              68|     0     |       0       |
+## |   FullName    |  character  |              68|     0     |       0       |
+## |     Birth     |  character  |              68|     5     |     7.35      |
+## |     Death     |  character  |              68|     0     |       0       |
+## |   CityBirth   |  character  |              68|    17     |      25       |
+## | ProvinceBirth |  character  |              68|     0     |       0       |
+## |     Rise      |  character  |              68|     0     |       0       |
+## |     Cause     |  character  |              68|     0     |       0       |
+## |    Killer     |  character  |              68|     0     |       0       |
+## |    Dynasty    |  character  |              68|     0     |       0       |
+## |      Era      |  character  |              68|     0     |       0       |
+## |     Notes     |  character  |              68|    22     |     32.35     |
+## |     Verif     |  character  |              68|    57     |     83.82     |
+## ----------------------------------------------------------------------------
 ## 
-##  Overall Missing Values           101 
-##  Percentage of Missing Values     9.9 \%
-##  Rows with Missing Values         60 
-##  Columns With Missing Values      4 
 ## 
 ## $UNRV
-## ----------------------------------------------------------------------
-## |  Column Name  |  Data Type  |  Levels  |  Missing  |  Missing (\%)  |
-## ----------------------------------------------------------------------
-## |      ID       |  character  |    NA    |     0     |       0       |
-## |      Beg      |    mdate    |    NA    |     0     |       0       |
-## |      End      |    mdate    |    NA    |     0     |       0       |
-## |     Birth     |  character  |    NA    |     0     |       0       |
-## |     Death     |  character  |    NA    |     0     |       0       |
-## |   FullName    |  character  |    NA    |     5     |     5.05      |
-## |    Dynasty    |  character  |    NA    |    37     |     37.37     |
-## ----------------------------------------------------------------------
+## ----------------------------------------------------------------------------
+## |  Column Name  |  Data Type  |  Observations  |  Missing  |  Missing (\%)  |
+## ----------------------------------------------------------------------------
+## |      ID       |  character  |              99|     0     |       0       |
+## |      Beg      |    mdate    |              99|     0     |       0       |
+## |      End      |    mdate    |              99|     0     |       0       |
+## |     Birth     |  character  |              99|     0     |       0       |
+## |     Death     |  character  |              99|     0     |       0       |
+## |   FullName    |  character  |              99|     5     |     5.05      |
+## |    Dynasty    |  character  |              99|    37     |     37.37     |
+## ----------------------------------------------------------------------------
 ## 
-##  Overall Missing Values           42 
-##  Percentage of Missing Values     6.06 \%
-##  Rows with Missing Values         39 
-##  Columns With Missing Values      2 
 ## 
 ## $britannica
-## ----------------------------------------------------------------------
-## |  Column Name  |  Data Type  |  Levels  |  Missing  |  Missing (\%)  |
-## ----------------------------------------------------------------------
-## |      ID       |  character  |    NA    |     0     |       0       |
-## |      Beg      |    mdate    |    NA    |     0     |       0       |
-## |      End      |    mdate    |    NA    |     0     |       0       |
-## ----------------------------------------------------------------------
-## 
-##  Overall Missing Values           0 
-##  Percentage of Missing Values     0 \%
-##  Rows with Missing Values         0 
-##  Columns With Missing Values      0
+## ----------------------------------------------------------------------------
+## |  Column Name  |  Data Type  |  Observations  |  Missing  |  Missing (\%)  |
+## ----------------------------------------------------------------------------
+## |      ID       |  character  |              87|     0     |       0       |
+## |      Beg      |    mdate    |              87|     0     |       0       |
+## |      End      |    mdate    |              87|     0     |       0       |
+## ----------------------------------------------------------------------------
 }\if{html}{\out{</div>}}
 }
 \keyword{datasets}
