@@ -46,7 +46,7 @@
 #' For equivalent key columns with different names across datasets,
 #' matching is possible if keys are declared (e.g. `key = c("key1" = "key2")`).
 #' @importFrom purrr reduce map
-#' @importFrom dplyr select full_join inner_join distinct all_of starts_with
+#' @importFrom dplyr select full_join inner_join distinct all_of
 #' @import messydates
 #' @return A single tibble/data frame.
 #' @examples
@@ -174,9 +174,9 @@ resolve_multiple <- function(resolve, out, key) {
 resolve_coalesce <- function(other_variables, out, key) {
   for (var in other_variables) {
     vvars <- paste0("^", var, "$|^", var, "\\.")
-    vars_to_combine <- grepl(vvars, names(out))
+    vars_to_combine <- grep(vvars, names(out), value = TRUE)
     new_var <- dplyr::coalesce(!!!out[vars_to_combine])
-    out <- dplyr::select(out, -dplyr::starts_with(var))
+    out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
@@ -188,7 +188,7 @@ resolve_coalesce <- function(other_variables, out, key) {
 resolve_min <- function(other_variables, out, key) {
   for (var in other_variables) {
     vvars <- paste0("^", var, "$|^", var, "\\.")
-    vars_to_combine <- grepl(vvars, names(out))
+    vars_to_combine <- grep(vvars, names(out), value = TRUE)
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
@@ -201,7 +201,7 @@ resolve_min <- function(other_variables, out, key) {
     # Sub NAs for first non NA value
     a <- dplyr::coalesce(!!!out[vars_to_combine])
     new_var <- ifelse(is.na(new_var), a, new_var)
-    out <- dplyr::select(out, -dplyr::starts_with(var))
+    out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
     new_var
     out[, var] <- new_var
   }
@@ -214,7 +214,7 @@ resolve_min <- function(other_variables, out, key) {
 resolve_max <- function(other_variables, out, key) {
   for (var in other_variables) {
     vvars <- paste0("^", var, "$|^", var, "\\.")
-    vars_to_combine <- grepl(vvars, names(out))
+    vars_to_combine <- grep(vvars, names(out), value = TRUE)
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
@@ -227,7 +227,7 @@ resolve_max <- function(other_variables, out, key) {
     # Sub NAs for first non NA value
     a <- dplyr::coalesce(!!!out[vars_to_combine])
     new_var <- ifelse(is.na(new_var), a, new_var)
-    out <- dplyr::select(out, -dplyr::starts_with(var))
+    out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
     new_var
     out[, var] <- new_var
   }
@@ -240,7 +240,7 @@ resolve_max <- function(other_variables, out, key) {
 resolve_median <- function(other_variables, out, key) {
   for (var in other_variables) {
     vvars <- paste0("^", var, "$|^", var, "\\.")
-    vars_to_combine <- grepl(vvars, names(out))
+    vars_to_combine <- grep(vvars, names(out), value = TRUE)
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
@@ -253,7 +253,7 @@ resolve_median <- function(other_variables, out, key) {
     # Sub NAs for first non NA value
     a <- dplyr::coalesce(!!!out[vars_to_combine])
     new_var <- ifelse(is.na(new_var), a, new_var)
-    out <- dplyr::select(out, -dplyr::starts_with(var))
+    out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
@@ -265,7 +265,7 @@ resolve_median <- function(other_variables, out, key) {
 resolve_mean <- function(other_variables, out, key) {
   for (var in other_variables) {
     vvars <- paste0("^", var, "$|^", var, "\\.")
-    vars_to_combine <- grepl(vvars, names(out))
+    vars_to_combine <- grep(vvars, names(out), value = TRUE)
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
@@ -278,7 +278,7 @@ resolve_mean <- function(other_variables, out, key) {
     # Sub NAs for first non NA value
     a <- dplyr::coalesce(!!!out[vars_to_combine])
     new_var <- ifelse(is.na(new_var), a, new_var)
-    out <- dplyr::select(out, -dplyr::starts_with(var))
+    out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
@@ -290,7 +290,7 @@ resolve_mean <- function(other_variables, out, key) {
 resolve_random <- function(other_variables, out, key) {
   for (var in other_variables) {
     vvars <- paste0("^", var, "$|^", var, "\\.")
-    vars_to_combine <- grepl(vvars, names(out))
+    vars_to_combine <- grep(vvars, names(out), value = TRUE)
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
@@ -303,7 +303,7 @@ resolve_random <- function(other_variables, out, key) {
     # Sub NAs for first non NA value
     a <- dplyr::coalesce(!!!out[vars_to_combine])
     new_var <- ifelse(is.na(new_var), a, new_var)
-    out <- dplyr::select(out, -dplyr::starts_with(var))
+    out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
