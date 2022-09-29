@@ -68,6 +68,9 @@ observations may differ from dataset to dataset.
 We offer a number of resolve methods that enable
 users to choose how conflicts between observations are resolved.
 }
+\details{
+Text variables are dropped for more efficient consolidation.
+}
 \examples{
 \donttest{
 consolidate(database = emperors, key = "ID")

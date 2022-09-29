@@ -45,6 +45,7 @@
 #' all the datasets in the database (e.g. `key = c("key1", "key2")`).
 #' For equivalent key columns with different names across datasets,
 #' matching is possible if keys are declared (e.g. `key = c("key1" = "key2")`).
+#' @details Text variables are dropped for more efficient consolidation.
 #' @importFrom purrr reduce map
 #' @importFrom dplyr select full_join inner_join distinct all_of
 #' @import messydates
@@ -80,16 +81,18 @@ consolidate <- function(database, rows = "any", cols = "any",
     stop(paste0(database, " contains only the ", dataset,
                 " dataset and cannot be consolidated."))
   }
-  # Step 1: Join datasets by ID
+  # Step 1: Join datasets by ID and keep pertinent rows
   if (rows == "any") {
     out <- purrr::reduce(database, dplyr::full_join, by = key)
   } else if (rows == "every") {
     out <- purrr::reduce(database, dplyr::inner_join, by = key)
   }
-  # Step 2: Drop any unwanted variables
-  all_variables <- unname(unlist(purrr::map(database, names)))
-  all_variables <- all_variables[!grepl("text", all_variables,
-                                        ignore.case = TRUE)]
+  # Step 2: Drop any unwanted columns (including text variables)
+  all_variables <- grep("text", unname(unlist(purrr::map(database, names))),
+                        ignore.case = TRUE, value = TRUE, invert = TRUE)
+  out <- dplyr::select(out, -dplyr::all_of(grep("text", names(out),
+                                                ignore.case = TRUE,
+                                                value = TRUE)))
   if (cols == "every") {
     all_variables <- names(table(all_variables)[table(all_variables) ==
                                                   length(database)])
