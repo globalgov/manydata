@@ -109,7 +109,13 @@ consolidate <- function(database, rows = "any", cols = "any",
   }
   # Step 4: Remove duplicates
   out <- dplyr::distinct(out)
-  if (any(duplicated(out[, 1]))) out <- coalesce_compatible(out)
+  tryCatch({
+    if (any(duplicated(out[, 1]))) {
+      out <- coalesce_compatible(out)
+      }
+    }, error = function(e) {
+      message("Generated matrix is too large, could not coalesce compatible rows.")
+    })
   out
 }
 
@@ -373,7 +379,7 @@ compatible_rows <- function(x) {
   if (length(compat_candidates) == 0) {
     pairs <- vector(mode = "numeric", length = 0)
   } else {
-    pairs <- t(utils::combn(compat_candidates, 2))
+    pairs <- suppressWarnings(t(utils::combn(compat_candidates, 2)))
     pb <- progress::progress_bar$new(
       format = "identifying compatible pairs [:bar] :percent eta: :eta",
       total = nrow(pairs))
