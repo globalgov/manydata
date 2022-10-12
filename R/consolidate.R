@@ -99,22 +99,25 @@ consolidate <- function(database, rows = "any", cols = "any",
     all_variables <- names(table(all_variables)[table(all_variables) ==
                                                   length(database)])
     out <- dplyr::select(out, dplyr::all_of(key),
-                                 dplyr::starts_with(all_variables))
+                         dplyr::starts_with(all_variables))
   }
   # Step 3: Resolve conflicts
   if(length(resolve) < 2) {
-  other_variables <- all_variables[!all_variables %in% key]
-  out <- resolve_unique(resolve, other_variables, out, key)
+    other_variables <- all_variables[!all_variables %in% key]
+    out <- resolve_unique(resolve, other_variables, out, key)
   } else {
     resolve <- data.frame(var = names(resolve), resolve = resolve)
     out <- resolve_multiple(resolve, out, key)
   }
   # Step 4: Remove duplicates
-  out <- dplyr::distinct(out) %>%
-    dplyr::group_by(across({{ key }})) %>% 
-    tidyr::fill(-dplyr::all_of(key), .direction = "downup") %>%
-    dplyr::distinct() %>% 
-    dplyr::ungroup()
+  out <- dplyr::distinct(out)
+  if (any(duplicated(out[, 1]))) {
+    out <- out %>% 
+      dplyr::group_by(across({{ key }})) %>% 
+      tidyr::fill(-dplyr::all_of(key), .direction = "downup") %>%
+      dplyr::distinct() %>% 
+      dplyr::ungroup()
+  }
   out
 }
 
@@ -203,8 +206,8 @@ resolve_min <- function(other_variables, out, key) {
       if (inherits(dates, "messydt")) {
         dates <- suppressWarnings(as.Date(dates, min))
         new_var[k] <- dates
-        }
       }
+    }
     new_var <- apply(new_var, 1, min)
     # Sub NAs for first non NA value
     a <- dplyr::coalesce(!!!out[vars_to_combine])
@@ -364,7 +367,7 @@ coalesce_compatible <- function(.data) {
     } else {
       merged <- apply(pairs, 1, function(x) {
         dplyr::coalesce(.data[x[1], ], .data[x[2], ])
-    })
+      })
     }
     merged <- dplyr::bind_rows(merged)
     dplyr::bind_rows(dplyr::slice(.data, -unique(c(pairs))), merged)
