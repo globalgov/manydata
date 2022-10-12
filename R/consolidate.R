@@ -48,6 +48,8 @@
 #' @details Text variables are dropped for more efficient consolidation.
 #' @importFrom purrr reduce map
 #' @importFrom dplyr select full_join inner_join distinct all_of
+#' group_by ungroup %>% across
+#' @importFrom tidyr fill
 #' @import messydates
 #' @return A single tibble/data frame.
 #' @examples
@@ -100,7 +102,7 @@ consolidate <- function(database, rows = "any", cols = "any",
                                  dplyr::starts_with(all_variables))
   }
   # Step 3: Resolve conflicts
-  if (length(resolve) < 2) {
+  if(length(resolve) < 2) {
   other_variables <- all_variables[!all_variables %in% key]
   out <- resolve_unique(resolve, other_variables, out, key)
   } else {
@@ -108,14 +110,11 @@ consolidate <- function(database, rows = "any", cols = "any",
     out <- resolve_multiple(resolve, out, key)
   }
   # Step 4: Remove duplicates
-  out <- dplyr::distinct(out)
-  tryCatch({
-    if (any(duplicated(out[, 1]))) {
-      out <- coalesce_compatible(out)
-      }
-    }, error = function(e) {
-      message("Generated matrix is too large, could not coalesce compatible rows.")
-    })
+  out <- dplyr::distinct(out) %>%
+    dplyr::group_by(across({{ key }})) %>% 
+    tidyr::fill(-dplyr::all_of(key), .direction = "downup") %>%
+    dplyr::distinct() %>% 
+    dplyr::ungroup()
   out
 }
 
