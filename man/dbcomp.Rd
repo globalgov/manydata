@@ -41,10 +41,12 @@ majority values have the same value in multiple, but not all,
 datasets in database.
 }
 \examples{
+\donttest{
 dbcomp(database = emperors, key = "ID")
 dbcomp(database = emperors, key = "ID", variable = "Beg")
 dbcomp(database = emperors, key = "ID", variable = c("Beg", "End"),
 category = "conflict")
 #dbcomp(database = manyenviron::agreements, variable = c("Title", "Beg"),
 #category = "conflict")
+}
 }

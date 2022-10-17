@@ -97,6 +97,7 @@ dbplot <- function(database, key = "manyID") {
 #' @importFrom dplyr full_join filter_all
 #' @importFrom purrr reduce map
 #' @importFrom tibble tibble
+#' @importFrom tidyr drop_na
 #' @importFrom stringr str_count str_remove_all str_split str_extract_all
 #' str_replace_all
 #' @return A tibble with the varaible(s) profile.

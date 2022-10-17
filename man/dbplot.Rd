@@ -29,6 +29,8 @@ majority values have the same value in multiple, but not all,
 datasets in database.
 }
 \examples{
+\donttest{
 dbplot(database = emperors, key = "ID")
 #dbplot(database = manyenviron::agreements)
+}
 }
