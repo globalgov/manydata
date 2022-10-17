@@ -18,8 +18,10 @@
 #' @importFrom stats reorder
 #' @import ggplot2
 #' @examples
+#' \donttest{
 #' dbplot(database = emperors, key = "ID")
 #' #dbplot(database = manyenviron::agreements)
+#' }
 #' @export
 dbplot <- function(database, key = "manyID") {
   # todo: make function more concise and efficient by re-working
@@ -99,19 +101,23 @@ dbplot <- function(database, key = "manyID") {
 #' str_replace_all
 #' @return A tibble with the varaible(s) profile.
 #' @examples
+#' \donttest{
 #' dbcomp(database = emperors, key = "ID")
 #' dbcomp(database = emperors, key = "ID", variable = "Beg")
 #' dbcomp(database = emperors, key = "ID", variable = c("Beg", "End"),
 #' category = "conflict")
 #' #dbcomp(database = manyenviron::agreements, variable = c("Title", "Beg"),
 #' #category = "conflict")
+#' }
 #' @export
-dbcomp <- function(database, key = "manyID", variable = "all", category = "all") {
+dbcomp <- function(database, key = "manyID",
+                   variable = "all", category = "all") {
   # Step 1: reduce data
   if (length(grepl(key, purrr::map(database, names))) != length(database)) {
     stop("Please declare a key variable present in all datasets in the database.")
   }
-  out <- purrr::reduce(database, dplyr::full_join, by = key)
+  out <- purrr::reduce(database, dplyr::full_join, by = key) %>%
+    tidyr::drop_na(dplyr::all_of(key))
   cat("There were", sum(duplicated(unname(unlist(purrr::map(database, key))))),
       "matched observations by", key, "variable across datasets in database.")
   # get variable(s) of interest if declared
@@ -148,7 +154,7 @@ dbcomp <- function(database, key = "manyID", variable = "all", category = "all")
       # }
       #paste variables to work at the string value
       vl <- apply(vlb, 1, paste, collapse = "!")
-      # Bug: weird code added to some variables? Might need fixing in messydates
+      # Bug: fixed in messydates
       vl <- stringr::str_remove_all(vl, "\032")
       # remove string duplicates and collapse unique values (except NAs)
       # todo: is unique() slow for lists?
