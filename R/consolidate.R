@@ -50,8 +50,11 @@
 #' @importFrom purrr reduce map
 #' @importFrom dplyr select full_join inner_join distinct all_of
 #' group_by ungroup %>% across
-#' @importFrom tidyr fill drop_na
+#' @importFrom tidyr drop_na
+#' @importFrom plyr ddply
+#' @importFrom zoo na.locf
 #' @importFrom usethis ui_info
+#' @importFrom tibble as_tibble
 #' @import messydates
 #' @return A single tibble/data frame.
 #' @examples
@@ -88,7 +91,8 @@ consolidate <- function(database, rows = "any", cols = "any",
   # Step 1: Join datasets by ID and keep pertinent rows
   usethis::ui_info("Joining datasets by pertinent rows and columns...")
   if (rows == "any") {
-    out <- purrr::reduce(database, dplyr::full_join, by = key)
+    out <- purrr::reduce(database, dplyr::full_join, by = key) %>%
+      tidyr::drop_na(dplyr::all_of(key))
   } else if (rows == "every") {
     out <- purrr::reduce(database, dplyr::inner_join, by = key)
   }
@@ -114,14 +118,13 @@ consolidate <- function(database, rows = "any", cols = "any",
     out <- resolve_multiple(resolve, out, key)
   }
   # Step 4: Remove duplicates
+  mdate <- names(out[grepl("mdate", sapply(out, class))])
   usethis::ui_info("Coalescing compatible rows...")
-  out <- tidyr::drop_na(out, dplyr::all_of(key)) %>%
-    dplyr::distinct()
-  if (any(duplicated(out[, 1]))) {
-    out <- dplyr::group_by(out, across({{ key }})) %>% 
-      tidyr::fill(-dplyr::all_of(key), .direction = "downup") %>%
-      dplyr::ungroup() %>%
-      dplyr::distinct()
+  out <- plyr::ddply(out, key, zoo::na.locf, na.rm = FALSE) %>% 
+    dplyr::distinct() %>%
+    tibble::as_tibble()
+  if (length(mdate) != 0) {
+    out <- mutate_at(out, dplyr::all_of(mdate), messydates::as_messydate)
   }
   out
 }
@@ -386,7 +389,7 @@ compatible_rows <- function(x) {
   if (length(compat_candidates) == 0) {
     pairs <- vector(mode = "numeric", length = 0)
   } else {
-    pairs <- suppressWarnings(t(utils::combn(compat_candidates, 2)))
+    pairs <- t(utils::combn(compat_candidates, 2))
     pb <- progress::progress_bar$new(
       format = "identifying compatible pairs [:bar] :percent eta: :eta",
       total = nrow(pairs))
