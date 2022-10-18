@@ -84,7 +84,7 @@ get_packages <- function(pkg) {
       }
       unlist(latest)
     }
-    # get version loclly installed
+    # get version locally installed
     get_installed_release <- function(name) {
       installed_v <- sapply(name, function(x) {
         tryCatch({
