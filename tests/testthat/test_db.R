@@ -1,5 +1,5 @@
 test_that("dbplot() returns the correct output format", {
-  db <- dbplot(database = emperors, key = "ID")
+  db <- db_plot(database = emperors, key = "ID")
   expect_type(db, "list")
   expect_length(db, 9)
   expect_true(ggplot2::is.ggplot(db))
@@ -8,9 +8,9 @@ test_that("dbplot() returns the correct output format", {
 })
 
 test_that("dbcomp() returns the correct output format", {
-  db <- dbcomp(database = emperors, key = "ID")
-  db1 <- dbcomp(database = emperors, key = "ID", variable = "Beg")
-  db2 <- dbcomp(database = emperors, key = "ID", variable = c("Beg", "End"),
+  db <- db_comp(database = emperors, key = "ID")
+  db1 <- db_comp(database = emperors, key = "ID", variable = "Beg")
+  db2 <- db_comp(database = emperors, key = "ID", variable = c("Beg", "End"),
          category = "conflict")
   expect_type(db, "list")
   expect_type(db1, "list")
