@@ -1,39 +1,59 @@
-#' Plot database profile
-#'
+#' @name db_profile
+#' @title Database profile functions
+#' @description Database profiling functions that returns confirmed, unique,
+#' missing, conflicting, or majority values in all (non-ID) variables
+#' in the datasets in a 'many' package database.
 #' @param database A many database.
 #' @param key A variable key to join datasets by, "manyID" by default.
-#' @return A plot with the dataset profile.
-#' @details The plot returns the percentage of confirmed, unique, missing,
-#' conflicting, or majority values in all (non-ID) variables in the datasets
-#' in a 'many' package database.
-#' Confirmed values are the same in all datasets in database.
+#' @param variable Would you like to focus on one, or more, specific variables?
+#' By default "all".
+#' For multiple variables, please declare variable names as a vector.
+#' @param category Would you like to focus on one specific code category?
+#' By default "all" are returned.
+#' Other options include "confirmed", "unique", "missing", "conflicting",
+#' or "majority".
+#' For multiple variables, please declare categories as a vector.
+#' @details Confirmed values are the same in all datasets in database.
 #' Unique values appear once in datasets in database.
 #' Missing values are missing in all datasets in database.
 #' Conflicting values are different in the same number of datasets in database.
-#' majority values have the same value in multiple, but not all,
+#' Majority values have the same value in multiple, but not all,
 #' datasets in database.
+#' @return A plot, or a tibble, with the profile of the variables across all
+#' datasets in a "many" database.
+#' For multiple categories across multiple variables,
+#' the functions return all rows that contain at least one of the selected 
+#' variables coded as one of the categories.
+NULL
+
+#' @name db_profile
+#' @details `db_plot()` plots the database profile.
 #' @importFrom purrr map
-#' @importFrom dplyr summarise group_by mutate select %>% filter
+#' @importFrom dplyr summarise group_by mutate select %>% filter all_of
 #' @importFrom tidyr pivot_longer pivot_wider replace_na fill
 #' @importFrom stats reorder
 #' @import ggplot2
 #' @examples
 #' \donttest{
-#' dbplot(database = emperors, key = "ID")
-#' #dbplot(database = manyenviron::agreements)
+#' db_plot(database = emperors, key = "ID")
+#' db_plot(database = emperors, key = "ID", variable = c("Beg", "End"))
+#' db_plot(database = emperors, key = "ID", variable = c("Beg", "End"),
+#' category = c("conflict", "unique"))
 #' }
 #' @export
-dbplot <- function(database, key = "manyID") {
+db_plot <- function(database, key = "manyID",
+                   variable = "all", category = "all") {
   # todo: make function more concise and efficient by re-working
   # how string matching and database gathering work.
   # Step 1: run dbcomp() to check key, get variable names, and code observations
-  db <- dbcomp(database = database, key = key)
+  db <- db_comp(database = database, key = key, 
+               variable = variable, category = category)
   # remove extra variable level information
   db <- db[!grepl("\\$", names(db))]
   # Step 2: gather and reshape data
   Category <- Variable <- Percentage <- Missing <- NULL
   dbgather <- db %>%
-    dplyr::select(-key) %>%
+    dplyr::select(-all_of(key)) %>%
     tidyr::pivot_longer(cols = everything(), names_to = "Variable",
                         values_to = "Category") %>%
     dplyr::group_by(Variable, Category) %>%
@@ -71,47 +91,25 @@ dbplot <- function(database, key = "manyID") {
          x = "Variable")
 }
 
-#' Compare variable(s) in a 'many' database
-#'
-#' @param database A many database.
-#' @param key A variable key to join datasets by, "manyID" by default.
-#' @param variable Would you like to focus on one, or more, specific variables?
-#' By default "all".
-#' For one variable, please declare the variable name (i.e. "variable").
-#' For multiple variables, please declare variable names as a list
-#' (i.e. c("variable1", "variable2")).
-#' @param category Would you like to focus on one specific code category?
-#' By default "all" are returned.
-#' Other options include "confirmed", "unique", "missing", "conflicting",
-#' or "majority".
-#' @details The tibble returns the values for all observations
-#' in the variable(s) selected from a 'many' package databasethat belong to all,
-#' or a specific, code category.
-#' Code categories include:
-#' Confirmed values are the same in all datasets in database.
-#' Unique values appear once in datasets in database.
-#' Missing values are missing in all datasets in database.
-#' Conflicting values are different in the same number of datasets in database.
-#' majority values have the same value in multiple, but not all,
-#' datasets in database.
+#' @name db_profile
+#' @details `db_comp()` creates a tibble comparing the variables in a database.
 #' @importFrom dplyr full_join filter_all
 #' @importFrom purrr reduce map
 #' @importFrom tibble tibble
 #' @importFrom tidyr drop_na
 #' @importFrom stringr str_count str_remove_all str_split str_extract_all
 #' str_replace_all
-#' @return A tibble with the varaible(s) profile.
 #' @examples
 #' \donttest{
-#' dbcomp(database = emperors, key = "ID")
-#' dbcomp(database = emperors, key = "ID", variable = "Beg")
-#' dbcomp(database = emperors, key = "ID", variable = c("Beg", "End"),
+#' db_comp(database = emperors, key = "ID")
+#' db_comp(database = emperors, key = "ID", variable = "Beg")
+#' db_comp(database = emperors, key = "ID", variable = c("Beg", "End"),
 #' category = "conflict")
-#' #dbcomp(database = manyenviron::agreements, variable = c("Title", "Beg"),
-#' #category = "conflict")
+#' db_comp(database = emperors, key = "ID", variable = c("Beg", "End"),
+#' category = c("conflict", "unique"))
 #' }
 #' @export
-dbcomp <- function(database, key = "manyID",
+db_comp <- function(database, key = "manyID",
                    variable = "all", category = "all") {
   # Step 1: reduce data
   if (length(grepl(key, purrr::map(database, names))) != length(database)) {
@@ -158,7 +156,6 @@ dbcomp <- function(database, key = "manyID",
       # Bug: fixed in messydates
       vl <- stringr::str_remove_all(vl, "\032")
       # remove string duplicates and collapse unique values (except NAs)
-      # todo: is unique() slow for lists?
       value <- unlist(lapply(stringr::str_split(vl, "!"), function(x) {
         paste(unique(trimws(x), incomparables = "NA"), collapse = "!")
       }))
@@ -207,8 +204,9 @@ dbcomp <- function(database, key = "manyID",
   db <- tibble::tibble(db[unique(colnames(db))])
   # Step 3: filter categories if necessary
   . <- NULL
-  if (category != "all") {
-    db <- dplyr::filter_all(db, any_vars(grepl(category, .)))
+  if (any(category != "all")) {
+    db <- dplyr::filter_all(db, any_vars(grepl(paste(category,
+                                                     collapse = "|"), .)))
   }
   db
 }
