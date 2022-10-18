@@ -345,64 +345,6 @@ resolve_random <- function(other_variables, out, key) {
 #' @export
 purrr::pluck
 
-#' Coalesce all compatible rows of a data frame
-#'
-#' This function identifies and coalesces
-#' all compatible rows in a data frame.
-#' Compatible rows are defined as those rows where
-#' all present elements are equal,
-#' allowing for equality where one row has an element present
-#' and the other is missing the observation.
-#' @param .data data frame to consolidate
-#' @importFrom utils combn
-#' @importFrom dplyr coalesce bind_rows slice
-#' @importFrom progress progress_bar
-#' @return A tibble with the missing observations coalesced for compatible rows
-#' @examples
-#' eg1 <- tibble::tribble(
-#' ~x, ~y, ~z,
-#' "a", "b", NA,
-#' "a", "b", "c",
-#' "j", "k", NA,
-#' NA, "k", "l")
-#' coalesce_compatible(eg1)
-#' @export
-coalesce_compatible <- function(.data) {
-  pairs <- compatible_rows(.data)
-  if (length(pairs) > 0) {
-    if (length(pairs) == 2) {
-      merged <- dplyr::coalesce(.data[pairs[1], ], .data[pairs[2], ])
-    } else {
-      merged <- apply(pairs, 1, function(x) {
-        dplyr::coalesce(.data[x[1], ], .data[x[2], ])
-      })
-    }
-    merged <- dplyr::bind_rows(merged)
-    dplyr::bind_rows(dplyr::slice(.data, -unique(c(pairs))), merged)
-  } else .data
-}
-
-compatible_rows <- function(x) {
-  complete_vars <- x[, apply(x, 2, function(y) !any(is.na(y)))]
-  compat_candidates <- which(duplicated(complete_vars) |
-                               duplicated(complete_vars, fromLast = TRUE))
-  if (length(compat_candidates) == 0) {
-    pairs <- vector(mode = "numeric", length = 0)
-  } else {
-    pairs <- t(utils::combn(compat_candidates, 2))
-    pb <- progress::progress_bar$new(
-      format = "identifying compatible pairs [:bar] :percent eta: :eta",
-      total = nrow(pairs))
-    compatico <- apply(pairs, 1, function(y) {
-      pb$tick()
-      o <- x[y[1], ] == x[y[2], ]
-      o[is.na(o)] <- TRUE
-      o
-    })
-    pairs[apply(t(compatico), 1, function(y) all(y)), ]
-  }
-}
-
 #' Favour datasets in a database
 #'
 #' @name favour
