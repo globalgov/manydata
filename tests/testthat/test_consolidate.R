@@ -77,11 +77,6 @@ test_that("pluck works", {
   expect_equal(pluck(test, "c"), data3)
 })
 
-test_that("coalesce_compatible works", {
-  expect_equal(coalesce_compatible(data.13.any), data.13.any)
-  expect_equal(coalesce_compatible(data.dup), data.13.any)
-})
-
 test_that("consolidate methods work", {
   expect_equal(consolidate(test, "every", "every",
                            resolve = "coalesce"),
