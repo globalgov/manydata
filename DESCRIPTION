@@ -44,7 +44,6 @@ Imports:
     jsonlite,
     remotes,
     httr,
-    progress,
     ggplot2,
     migraph,
     cshapes,
