@@ -3,8 +3,8 @@ test_that("dbplot() returns the correct output format", {
   expect_type(db, "list")
   expect_length(db, 9)
   expect_true(ggplot2::is.ggplot(db))
-  expect_named(db, c('data', 'layers', 'scales', 'mapping', 'theme',
-                      'coordinates', 'facet', 'plot_env', 'labels'))
+  expect_named(db, c("data", "layers", "scales", "mapping", "theme",
+                      "coordinates", "facet", "plot_env", "labels"))
 })
 
 test_that("dbcomp() returns the correct output format", {

@@ -22,7 +22,7 @@
 #' @return A plot, or a tibble, with the profile of the variables across all
 #' datasets in a "many" database.
 #' For multiple categories across multiple variables,
-#' the functions return all rows that contain at least one of the selected 
+#' the functions return all rows that contain at least one of the selected
 #' variables coded as one of the categories.
 NULL
 
@@ -44,8 +44,8 @@ NULL
 db_plot <- function(database, key = "manyID",
                    variable = "all", category = "all") {
   # Step 1: run dbcomp() to check key, get variable names, and code observations
-  db <- db_comp(database = database, key = key, 
-               variable = variable, category = category)
+  db <- db_comp(database = database, key = key,
+                variable = variable, category = category)
   # remove extra variable level information
   db <- db[!grepl("\\$", names(db))]
   # Step 2: gather and reshape data

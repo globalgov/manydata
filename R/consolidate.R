@@ -110,7 +110,7 @@ consolidate <- function(database, rows = "any", cols = "any",
   }
   # Step 3: Resolve conflicts
   usethis::ui_info("Resolving conflicts...")
-  if(length(resolve) < 2) {
+  if (length(resolve) < 2) {
     other_variables <- all_variables[!all_variables %in% key]
     out <- resolve_unique(resolve, other_variables, out, key)
   } else {
@@ -120,7 +120,7 @@ consolidate <- function(database, rows = "any", cols = "any",
   # Step 4: Remove duplicates
   mdate <- names(out[grepl("mdate", lapply(out, class))])
   usethis::ui_info("Coalescing compatible rows...")
-  out <- plyr::ddply(out, key, zoo::na.locf, na.rm = FALSE) %>% 
+  out <- plyr::ddply(out, key, zoo::na.locf, na.rm = FALSE) %>%
     dplyr::distinct() %>%
     tibble::as_tibble()
   if (length(mdate) != 0) {

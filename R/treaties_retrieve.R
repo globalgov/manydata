@@ -52,14 +52,14 @@ NULL
 #' retrieve_bilaterals(membs)
 #' @export
 retrieve_bilaterals <- function(dataset, actor = "CountryID") {
-  Beg <- Actor <- CountryID1 <- CountryID2 <- End <- Title <- manyID <- NULL
+  Beg <- Actor <- CountryID1 <- CountryID2 <- Title <- manyID <- NULL
   if (!any(colnames(dataset) == "manyID")) {
     stop("manyID column not found, please declare a many packages dataset.")
   }
   bilats <- subset(dataset, grepl("[A-Z]{3}-", manyID)) %>%
     dplyr::arrange(manyID, actor) %>%
-    dplyr::relocate(actor) %>% 
-    rename(Actor = 1) %>% 
+    dplyr::relocate(actor) %>%
+    rename(Actor = 1) %>%
     dplyr::select(Actor, manyID, Title, Beg)
   bilats <- dplyr::filter(bilats, manyID %in%
                             names(table(bilats$manyID)[table(bilats$manyID) == 2]))
@@ -69,7 +69,7 @@ retrieve_bilaterals <- function(dataset, actor = "CountryID") {
   bilats2 <- bilats %>%
     dplyr::filter(row_number() %% 2 == 1) %>%
     dplyr::rename(CountryID2 = "Actor")
-  bilats <- dplyr::full_join(bilats2, bilats1, 
+  bilats <- dplyr::full_join(bilats2, bilats1,
                              by = c("manyID", "Title", "Beg")) %>%
       dplyr::select(CountryID1, CountryID2, Title, Beg)
   bilats

@@ -64,17 +64,18 @@ reference:
     contents:
       - consolidate
       - pluck
-      - coalesce_compatible
       - favour
+      - starts_with("db_")
+      - starts_with("retrieve_")
+      - network_map
   - title: "Data wrangling with manydata"
     desc: "Ensembled data adds special challenges to data wrangling. These functions assist analysts with wrangling such data"
     contents:
       - transmutate
-      - coalesce_rows
       - recollect
       - reunite
       - repaint
-      - get_treaty
+      - coalesce_rows
 footer:
   structure:
     left: package

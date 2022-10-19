@@ -10,8 +10,8 @@
 #' @param theme Theme you would like to use to plot the graph.
 #' Available themes are "light", "dark", and "earth".
 #' @importFrom migraph is_graph is_multiplex as_edgelist as_tidygraph node_names
-#' @importFrom ggraph create_layout ggraph geom_edge_arc scale_edge_width_continuous
-#' geom_node_point geom_node_text
+#' @importFrom ggraph create_layout ggraph geom_edge_arc
+#' scale_edge_width_continuous geom_node_point geom_node_text
 #' @importFrom dplyr mutate inner_join rename filter
 #' @importFrom cshapes cshp
 #' @return A map of a country level geographical network.
@@ -40,7 +40,7 @@
 #' @export
 network_map <- function(object, date, theme = "light") {
   # Checks for correct input
-  ID <- weight <- NULL
+  weight <- NULL
   if (!migraph::is_graph(object)) stop("Not a valid graph object.")
   if (migraph::is_multiplex(object)) stop("Graph should be unimodal. Use project_cols() to convert it.")
   if (!is.character(date)) as.character(date)
@@ -63,8 +63,8 @@ network_map <- function(object, date, theme = "light") {
   # Step 1: Import the historical shapefile data
   cshapes <- cshapes::cshp(as.Date(date), useGW = FALSE)
   coment <- vapply(countryregex[, 3], # add stateID abbreviations
-                   function(x) grepl(x, cshapes$country_name, ignore.case = TRUE,
-                                     perl = TRUE) * 1,
+                   function(x) grepl(x, cshapes$country_name,
+                                     ignore.case = TRUE, perl = TRUE) * 1,
                    FUN.VALUE = double(length(cshapes$country_name)))
   colnames(coment) <- countryregex[, 1]
   rownames(coment) <- cshapes$country_name
@@ -82,7 +82,7 @@ network_map <- function(object, date, theme = "light") {
   # Step 3: Create plotted network from computed edges
   g <- migraph::as_tidygraph(edges)
   # Step 4: Get the country shapes from the edges dataframe
-  country_shapes <- ggplot2::geom_sf(data = cshapes$geometry, 
+  country_shapes <- ggplot2::geom_sf(data = cshapes$geometry,
                                      fill = countrycolor)
   # Step 5: Get a non-standard projection of the underlying map(optional)
   # Could include different projections for continents etc
@@ -101,8 +101,8 @@ network_map <- function(object, date, theme = "light") {
   # Step 7: Plot things
   ggraph::ggraph(lay) + country_shapes +
     ggraph::geom_edge_arc(data = edges, ggplot2::aes(edge_width = weight),
-                          strength = 0.33,alpha = 0.25) +
-    ggraph::scale_edge_width_continuous(range = c(0.5, 2), # scale for edge widths
+                          strength = 0.33, alpha = 0.25) +
+    ggraph::scale_edge_width_continuous(range = c(0.5, 2), # scales edge widths
                                         guide = "none") +
     ggraph::geom_node_point(shape = 21, # draw nodes
                             fill = "white", color = "black", stroke = 0.5) +
@@ -114,7 +114,6 @@ network_map <- function(object, date, theme = "light") {
 
 # Helper function providing the network map function with a few map themes.
 maptheme <- function(palette = c("#FFFAFA", "#596673")) {
-  landcolor <- palette[1]
   oceancolor <- palette[2]
   titlecolor <- ifelse(is_dark(palette[2]), "white", "black")
   # Create map theme

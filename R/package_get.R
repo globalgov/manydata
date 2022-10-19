@@ -95,7 +95,7 @@ get_packages <- function(pkg) {
       })
       installed_v
     }
-    # bind information 
+    # bind information
     repos <- lapply(orgs, function(x) {
       repo <- paste0("https://api.github.com/users/", x, "/repos")
       repo <- httr::GET(repo, query = list(state = "all",
@@ -111,9 +111,9 @@ get_packages <- function(pkg) {
     })
     Description <- Installed <- Latest <- Name <- Updated <- Repository <-
       description <- full_name <- name <- NULL
-    repos <- dplyr::bind_rows(repos) %>% 
-      dplyr::rename(Name = name, Repository = full_name, Description = description) %>% 
-      dplyr::relocate(Name, Repository, Installed, Latest, Updated, Description) %>% 
+    repos <- dplyr::bind_rows(repos) %>%
+      dplyr::rename(Name = name, Repository = full_name, Description = description) %>%
+      dplyr::relocate(Name, Repository, Installed, Latest, Updated, Description) %>%
       tibble::as_tibble()
     # check for possible issues
     if (length(repos) < 2) {
