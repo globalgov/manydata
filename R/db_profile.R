@@ -43,8 +43,6 @@ NULL
 #' @export
 db_plot <- function(database, key = "manyID",
                    variable = "all", category = "all") {
-  # todo: make function more concise and efficient by re-working
-  # how string matching and database gathering work.
   # Step 1: run dbcomp() to check key, get variable names, and code observations
   db <- db_comp(database = database, key = key, 
                variable = variable, category = category)
@@ -110,7 +108,7 @@ db_plot <- function(database, key = "manyID",
 #' }
 #' @export
 db_comp <- function(database, key = "manyID",
-                   variable = "all", category = "all") {
+                    variable = "all", category = "all") {
   # Step 1: reduce data
   if (length(grepl(key, purrr::map(database, names))) != length(database)) {
     stop("Please declare a key variable present in all datasets in the database.")
@@ -134,11 +132,10 @@ db_comp <- function(database, key = "manyID",
   # Step 2: code variables
   for (var in all_variables) {
     vvars <- paste0("^", var, "$|^", var, "\\.")
-    vars_to_combine <- grepl(vvars, names(out))
+    vars_to_combine <- grep(vvars, names(out), value = TRUE)
     vlb <- out[vars_to_combine]
-    # fix bug here
     col <- purrr::map(database, var)
-    col <- names(col[!sapply(col, is.null)])
+    col <- names(col[lengths(col) != 0])
     colnames(vlb) <- paste0(col, "$", var)
     if (length(vlb) > 1) {
       # # check if variable is "mdate" and lower precision to year if needed
@@ -153,7 +150,7 @@ db_comp <- function(database, key = "manyID",
       # }
       #paste variables to work at the string value
       vl <- apply(vlb, 1, paste, collapse = "!")
-      # Bug: fixed in messydates
+      # fixed in messydates
       vl <- stringr::str_remove_all(vl, "\032")
       # remove string duplicates and collapse unique values (except NAs)
       value <- unlist(lapply(stringr::str_split(vl, "!"), function(x) {

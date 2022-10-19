@@ -248,7 +248,9 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
 #' @export
 data_evolution <- function(pkg, database, dataset, preparation_script = FALSE) {
   if (length(grep(pkg, search())) == 0) {
-    require(pkg, character.only = TRUE)
+    stop(paste0(pkg, " not found.
+    Please install, if necessary, and load ", pkg, " before runing 'data_evolution()'.
+                You can use 'library(", pkg, ")' to load the package."))
   }
   db <- get(database)
   if(class(db) != "list") {
