@@ -118,7 +118,7 @@ consolidate <- function(database, rows = "any", cols = "any",
     out <- resolve_multiple(resolve, out, key)
   }
   # Step 4: Remove duplicates
-  mdate <- names(out[grepl("mdate", sapply(out, class))])
+  mdate <- names(out[grepl("mdate", lapply(out, class))])
   usethis::ui_info("Coalescing compatible rows...")
   out <- plyr::ddply(out, key, zoo::na.locf, na.rm = FALSE) %>% 
     dplyr::distinct() %>%
@@ -211,7 +211,7 @@ resolve_min <- function(other_variables, out, key) {
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
-      if (inherits(dates, "messydt")) {
+      if (inherits(dates, "mdate")) {
         dates <- suppressWarnings(as.Date(dates, min))
         new_var[k] <- dates
       }
@@ -237,7 +237,7 @@ resolve_max <- function(other_variables, out, key) {
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
-      if (inherits(dates, "messydt")) {
+      if (inherits(dates, "mdate")) {
         dates <- suppressWarnings(as.Date(dates, max))
         new_var[k] <- dates
       }
@@ -263,7 +263,7 @@ resolve_median <- function(other_variables, out, key) {
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
-      if (inherits(dates, "messydt")) {
+      if (inherits(dates, "mdate")) {
         dates <- suppressWarnings(as.Date(dates, max))
         new_var[k] <- dates
       }
@@ -288,7 +288,7 @@ resolve_mean <- function(other_variables, out, key) {
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
-      if (inherits(dates, "messydt")) {
+      if (inherits(dates, "mdate")) {
         dates <- suppressWarnings(as.Date(dates, max))
         new_var[k] <- dates
       }
@@ -313,7 +313,7 @@ resolve_random <- function(other_variables, out, key) {
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
-      if (inherits(dates, "messydt")) {
+      if (inherits(dates, "mdate")) {
         dates <- suppressWarnings(as.Date(dates, max))
         new_var[k] <- dates
       }
