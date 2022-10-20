@@ -91,7 +91,7 @@ db_plot <- function(database, key = "manyID",
 
 #' @name db_profile
 #' @details `db_comp()` creates a tibble comparing the variables in a database.
-#' @importFrom dplyr full_join filter_all
+#' @importFrom dplyr full_join filter_all %>% all_of
 #' @importFrom purrr reduce map
 #' @importFrom tibble tibble
 #' @importFrom tidyr drop_na
@@ -115,15 +115,26 @@ db_comp <- function(database, key = "manyID",
   }
   out <- purrr::reduce(database, dplyr::full_join, by = key) %>%
     tidyr::drop_na(dplyr::all_of(key))
-  cat("There were", sum(duplicated(unname(unlist(purrr::map(database, key))))),
-      "matched observations by", key, "variable across datasets in database.")
+  db_size <- sum(duplicated(unname(unlist(purrr::map(database, key)))))
+  if (db_size > 50000 & variable[1] == "all") {
+    stop("There were ", db_size, "matched observations by ", key,
+         " variable across datasets in database.
+         The database is too large, please, instead,
+         declare the variables you would like to focus on.")
+  } else {
+    cat("There were", db_size, "matched observations by", key,
+        "variable across datasets in database.")
+  }
   # get variable(s) of interest if declared
   all_variables <- unname(unlist(purrr::map(database, names)))
   if (variable[1] == "all") {
     all_variables <- all_variables[!all_variables %in% key]
-    # remove other ID variables
+    # remove other ID variables and text variables
     ID_var <- grep("^ID$|ID$", all_variables, value = TRUE)
     all_variables <- all_variables[!all_variables %in% ID_var]
+    # remove text variables
+    all_variables <- grep("text", all_variables,
+                          ignore.case = TRUE, value = TRUE, invert = TRUE)
   } else {
     all_variables <- all_variables[all_variables %in% variable]
   }
