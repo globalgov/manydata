@@ -26,18 +26,16 @@ Creates a plot of the a unimodal geographical network.
 }
 \examples{
 \dontrun{
-# Load the unimodal network of environmental agreements signed in 2010
-# Made from {manyenviron} using data from ECOLEX.
-membership <- migraph:::membership
-# Plot the network at the specified date
+# Plot a network of environmental agreements signed in 2010
+# extracted from {manyenviron} using data from ECOLEX.
 # Light theme
+membership <- migraph::as_igraph(data.frame(
+  from = c("ETH", "ETH", "ETH", "ETH", "UKR", "UKR",
+           "MOZ", "MOZ", "JPN", "JPN"),
+  to = c("GNQ", "KEN", "TZA", "RWA", "CHN", "POL",
+         "COL", "NZL", "MNE", "LKA")))
 network_map(membership, date = "2010-01-01", theme = "light") +
-  ggplot2::labs(title = "International Environmental Treaties 2010",
-                 subtitle = "Ecolex data",
-                 caption = "Created with love by {}")
-# Dark theme
-network_map(membership, date = "2010-01-01", theme = "dark") +
-  ggplot2::labs(title = "International Environmental Treaties 2010",
+  ggplot2::labs(title = "Sample of International Environmental Treaties 2010",
                  subtitle = "Ecolex data",
                  caption = "Created with love by {}")
 # Earth theme
