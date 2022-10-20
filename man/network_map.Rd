@@ -25,7 +25,7 @@ A map of a country level geographical network.
 Creates a plot of the a unimodal geographical network.
 }
 \examples{
-\dontrun{
+\donttest{
 # Plot a network of environmental agreements signed in 2010
 # extracted from {manyenviron} using data from ECOLEX.
 # Light theme

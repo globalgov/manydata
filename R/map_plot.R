@@ -16,7 +16,7 @@
 #' @importFrom cshapes cshp
 #' @return A map of a country level geographical network.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Plot a network of environmental agreements signed in 2010
 #' # extracted from {manyenviron} using data from ECOLEX.
 #' # Light theme
