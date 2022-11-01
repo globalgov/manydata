@@ -92,14 +92,15 @@ consolidate <- function(database, rows = "any", cols = "any",
   cat("There were", sum(duplicated(unname(unlist(purrr::map(database, key))))),
       "matched observations by", key, "variable across datasets in database.")
   # Step 2: Drop any unwanted columns (including text variables)
-  all_variables <- grep("text", unique(unname(unlist(purrr::map(database, names)))),
+  all_variables <- grep("text", unname(unlist(purrr::map(database, names))),
                         ignore.case = TRUE, value = TRUE, invert = TRUE)
-  out <- purrr::map(database, extract_if_present, c(key, all_variables))
+  vars_subset <- unique(all_variables)
+  out <- purrr::map(database, extract_if_present, c(key, vars_subset))
   # Step 3: for "memberships" data, remove duplicates
   if(grepl("membership", deparse(substitute(database)))) {
     out <- lapply(out, function(x) {
       x %>%
-        dplyr::group_by(manyID) %>%
+        dplyr::group_by(dplyr::all_of(key)) %>%
         tidyr::fill(.direction = "downup") %>%
         dplyr::ungroup() %>%
         dplyr::distinct()
