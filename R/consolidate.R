@@ -88,27 +88,38 @@ consolidate <- function(database, rows = "any", cols = "any",
     stop(paste0(database, " contains only the ", dataset,
                 " dataset and cannot be consolidated."))
   }
-  # Step 1: Join datasets by ID and keep pertinent rows
+  # Step 1: Inform users about duplicates
+  cat("There were", sum(duplicated(unname(unlist(purrr::map(database, key))))),
+      "matched observations by", key, "variable across datasets in database.")
+  # Step 2: Drop any unwanted columns (including text variables)
+  all_variables <- grep("text", unique(unname(unlist(purrr::map(database, names)))),
+                        ignore.case = TRUE, value = TRUE, invert = TRUE)
+  out <- purrr::map(database, extract_if_present, c(key, all_variables))
+  # Step 3: for "memberships" data, remove duplicates
+  if(grepl("membership", deparse(substitute(database)))) {
+    out <- lapply(out, function(x) {
+      x %>%
+        dplyr::group_by(manyID) %>%
+        tidyr::fill(.direction = "downup") %>%
+        dplyr::ungroup() %>%
+        dplyr::distinct()
+    })
+  }
+  # Step 4: Join datasets by ID and keep pertinent rows
   usethis::ui_info("Joining datasets by pertinent rows and columns...")
   if (rows == "any") {
-    out <- purrr::reduce(database, dplyr::full_join, by = key) %>%
-      tidyr::drop_na(dplyr::all_of(key))
+    out <- purrr::map(out, tidyr::drop_na, dplyr::all_of(key)) %>%
+      purrr::reduce(dplyr::full_join, by = key)
   } else if (rows == "every") {
-    out <- purrr::reduce(database, dplyr::inner_join, by = key)
+    out <- purrr::reduce(out, dplyr::inner_join, by = key)
   }
-  # Step 2: Drop any unwanted columns (including text variables)
-  all_variables <- grep("text", unname(unlist(purrr::map(database, names))),
-                        ignore.case = TRUE, value = TRUE, invert = TRUE)
-  out <- dplyr::select(out, -dplyr::all_of(grep("text", names(out),
-                                                ignore.case = TRUE,
-                                                value = TRUE)))
   if (cols == "every") {
     all_variables <- names(table(all_variables)[table(all_variables) ==
                                                   length(database)])
     out <- dplyr::select(out, dplyr::all_of(key),
                          dplyr::starts_with(all_variables))
   }
-  # Step 3: Resolve conflicts
+  # Step 5: Resolve conflicts
   usethis::ui_info("Resolving conflicts...")
   if (length(resolve) < 2) {
     other_variables <- all_variables[!all_variables %in% key]
@@ -117,16 +128,29 @@ consolidate <- function(database, rows = "any", cols = "any",
     resolve <- data.frame(var = names(resolve), resolve = resolve)
     out <- resolve_multiple(resolve, out, key)
   }
-  # Step 4: Remove duplicates
+  # Step 6: Remove duplicates and filling in NA values
   mdate <- names(out[grepl("mdate", lapply(out, class))])
   usethis::ui_info("Coalescing compatible rows...")
-  out <- plyr::ddply(out, key, zoo::na.locf, na.rm = FALSE) %>%
-    dplyr::distinct() %>%
-    tibble::as_tibble()
+  if (sum(duplicated(out[,1])) > 20000) {
+    if (askYesNo("Would you like to coalesce compatible rows?
+    This might take a few of hours due to the size of the databse") == TRUE) {
+      out <- plyr::ddply(out, key, zoo::na.locf, na.rm = FALSE) %>%
+        dplyr::distinct() %>%
+        tibble::as_tibble()
+    }
+  } else {
+    out <- plyr::ddply(out, key, zoo::na.locf, na.rm = FALSE) %>%
+      dplyr::distinct() %>%
+      tibble::as_tibble()
+  }
   if (length(mdate) != 0) {
     out <- mutate_at(out, dplyr::all_of(mdate), messydates::as_messydate)
   }
   out
+}
+
+extract_if_present <- function(x, y) {
+  x[intersect(y, names(x))]
 }
 
 resolve_unique <- function(resolve, other_variables, out, key) {
