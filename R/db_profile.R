@@ -134,7 +134,7 @@ db_comp <- function(database, key = "manyID", variable = "all",
   if (grepl("membership", deparse(substitute(database)))) {
     out <- lapply(out, function(x) {
       x %>%
-        dplyr::group_by(manyID) %>%
+        dplyr::group_by(dplyr::all_of(key)) %>%
         tidyr::fill(.direction = "downup") %>%
         dplyr::ungroup() %>%
         dplyr::distinct()

@@ -115,7 +115,8 @@ retrieve_multilaterals <- function(dataset) {
 #' manyID = c("ROU-RUS[RFP]_1901A", "ROU-RUS[RFP]_1901A", "GD16FI_1901A"))
 #' retrieve_membership_list(dataset = membs)
 #' @export
-retrieve_membership_list <- function(dataset, actor = "CountryID", treaty_type = NULL) {
+retrieve_membership_list <- function(dataset, actor = "CountryID",
+                                     treaty_type = NULL) {
   Actor <- Memberships <- manyID <- NULL
   membs_list <- dplyr::select(dataset, manyID, actor) %>%
     rename(Actor = 2)
@@ -124,7 +125,8 @@ retrieve_membership_list <- function(dataset, actor = "CountryID", treaty_type =
       membs_list <- subset(membs_list, stringr::str_detect(manyID, "\\-"))
     }
     if (treaty_type == "multilateral") {
-      membs_list <- subset(membs_list, stringr::str_detect(manyID, "\\-", negate = TRUE))
+      membs_list <- subset(membs_list, stringr::str_detect(manyID, "\\-",
+                                                           negate = TRUE))
       }
   }
   ml <- membs_list %>%
