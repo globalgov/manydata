@@ -41,11 +41,11 @@ NULL
 #' category = c("conflict", "unique"))
 #' }
 #' @export
-db_plot <- function(database, key = "manyID",
-                   variable = "all", category = "all") {
+db_plot <- function(database, key = "manyID", variable = "all",
+                    category = "all") {
   # Step 1: run dbcomp() to check key, get variable names, and code observations
-  db <- db_comp(database = database, key = key,
-                variable = variable, category = category)
+  db <- db_comp(database = database, key = key, variable = variable,
+                category = category)
   # remove extra variable level information
   db <- db[!grepl("\\$", names(db))]
   # Step 2: gather and reshape data
@@ -107,26 +107,17 @@ db_plot <- function(database, key = "manyID",
 #' category = c("conflict", "unique"))
 #' }
 #' @export
-db_comp <- function(database, key = "manyID",
-                    variable = "all", category = "all") {
-  # Step 1: reduce data
+db_comp <- function(database, key = "manyID", variable = "all",
+                    category = "all") {
+  # Step 1: get variables of interest
   if (length(grepl(key, purrr::map(database, names))) != length(database)) {
     stop("Please declare a key variable present in all datasets in the database.")
   }
-  out <- purrr::reduce(database, dplyr::full_join, by = key) %>%
-    tidyr::drop_na(dplyr::all_of(key))
-  db_size <- sum(duplicated(unname(unlist(purrr::map(database, key)))))
-  if (db_size > 50000 & variable[1] == "all") {
-    stop("There were ", db_size, "matched observations by ", key,
-         " variable across datasets in database.
-         The database is too large, please, instead,
-         declare the variables you would like to focus on.")
-  } else {
-    cat("There were", db_size, "matched observations by", key,
+  cat("There were", sum(duplicated(unname(unlist(purrr::map(database, key))))),
+        "matched observations by", key,
         "variable across datasets in database.")
-  }
   # get variable(s) of interest if declared
-  all_variables <- unname(unlist(purrr::map(database, names)))
+  all_variables <- unique(unname(unlist(purrr::map(database, names))))
   if (variable[1] == "all") {
     all_variables <- all_variables[!all_variables %in% key]
     # remove other ID variables and text variables
@@ -138,9 +129,22 @@ db_comp <- function(database, key = "manyID",
   } else {
     all_variables <- all_variables[all_variables %in% variable]
   }
+  out <- purrr::map(database, extract_if_present, c(key, all_variables))
+  # step 2: reduce and join data
+  if (grepl("membership", deparse(substitute(database)))) {
+    out <- lapply(out, function(x) {
+      x %>%
+        dplyr::group_by(manyID) %>%
+        tidyr::fill(.direction = "downup") %>%
+        dplyr::ungroup() %>%
+        dplyr::distinct()
+    })
+  }
+  out <- purrr::map(out, tidyr::drop_na, dplyr::all_of(key)) %>%
+    purrr::reduce(dplyr::full_join, by = key)
   # create an empty data frame in case there is multiple variables
   db <- data.frame(out[, 1], stringsAsFactors = TRUE)
-  # Step 2: code variables
+  # Step 3: code variables
   for (var in all_variables) {
     vvars <- paste0("^", var, "$|^", var, "\\.")
     vars_to_combine <- grep(vvars, names(out), value = TRUE)
@@ -210,7 +214,7 @@ db_comp <- function(database, key = "manyID",
     db[, paste0(var, " (", length(vlb), ")")] <- value
   }
   db <- tibble::tibble(db[unique(colnames(db))])
-  # Step 3: filter categories if necessary
+  # Step 4: filter categories if necessary
   . <- NULL
   if (any(category != "all")) {
     db <- dplyr::filter_all(db, any_vars(grepl(paste(category,
