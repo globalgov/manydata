@@ -91,10 +91,10 @@ db_plot <- function(database, key = "manyID", variable = "all",
 
 #' @name db_profile
 #' @details `db_comp()` creates a tibble comparing the variables in a database.
-#' @importFrom dplyr full_join filter_all %>% all_of
+#' @importFrom dplyr full_join filter_all %>% all_of group_by ungroup distinct
 #' @importFrom purrr reduce map
 #' @importFrom tibble tibble
-#' @importFrom tidyr drop_na
+#' @importFrom tidyr drop_na fill
 #' @importFrom stringr str_count str_remove_all str_split str_extract_all
 #' str_replace_all
 #' @examples
@@ -113,7 +113,8 @@ db_comp <- function(database, key = "manyID", variable = "all",
   if (length(grepl(key, purrr::map(database, names))) != length(database)) {
     stop("Please declare a key variable present in all datasets in the database.")
   }
-  cat("There were", sum(duplicated(unname(unlist(purrr::map(database, key))))),
+  db_size <- sum(duplicated(unname(unlist(purrr::map(database, key)))))
+  cat("There were", db_size,
         "matched observations by", key,
         "variable across datasets in database.")
   # get variable(s) of interest if declared
@@ -152,66 +153,61 @@ db_comp <- function(database, key = "manyID", variable = "all",
     col <- purrr::map(database, var)
     col <- names(col[lengths(col) != 0])
     colnames(vlb) <- paste0(col, "$", var)
-    if (length(vlb) > 1) {
-      # # check if variable is "mdate" and lower precision to year if needed
-      # if (unname(unlist(purrr::map(vlb[1], class))) == "mdate" &
-      #     min(unlist(lapply(vlb, function(x) min(nchar(x), na.rm = TRUE)))) < 6) {
-      #   vl <- lapply(vlb, function(x)
-      #     stringr::str_extract_all(x, "^-[:digit:]{4}|^[:digit:]{4}"))
-      #   vl <- stringr::str_replace_all(do.call(paste, vl), " ", "!")
-      # } else {
-      #   # paste variables to work at the string value
-      #   vl <- apply(vlb, 1, paste, collapse = "!")
-      # }
-      #paste variables to work at the string value
-      vl <- apply(vlb, 1, paste, collapse = "!")
-      # fixed in messydates
-      vl <- stringr::str_remove_all(vl, "\032")
-      # remove string duplicates and collapse unique values (except NAs)
-      value <- unlist(lapply(stringr::str_split(vl, "!"), function(x) {
-        paste(unique(trimws(x), incomparables = "NA"), collapse = "!")
-      }))
-      # missing
-      value <- ifelse(stringr::str_count(value, "NA") ==
-                        length(out[vars_to_combine]), "missing", value)
-      # unique
-      value <- ifelse(stringr::str_count(value, "NA") ==
-                        (length(out[vars_to_combine]) - 1), "unique", value)
-      # confirmed (by all datasets in database)
-      value <- ifelse(stringr::str_count(value, "\\!") == 0 &
-                        !grepl("^missing$|^unique$", value),
-                      "confirmed", value)
-      # confirmed (by multiple datasets in database, other values are NAs)
-      valuec <- lapply(stringr::str_split(value, "!"), function(x) {
-        x[!grepl("^NA$", x) & x != ""]
-      })
-      value <- ifelse(lengths(valuec) == 1 &
-                        !grepl("^missing$|^unique$|^confirmed$", valuec),
-                      "confirmed", value)
-      # conflict (when there are no duplicates, apart from NAs possibly)
-      value <- ifelse(!grepl("^missing$|^unique$|^confirmed$", value) &
-                        stringr::str_count(value, "\\!") ==
-                        (length(out[vars_to_combine]) - 1),
-                      "conflict", value)
-      # open (and close) the values to find if majority or conflict
-      vl <- lapply(stringr::str_split(vl, "!"), function(x) {
-        x <- x[!grepl("^NA$", x) & x != ""]
-        x <- unique(rle(x)$lengths)
-        x
-      })
-      # conflict (an even number of non-NA conflicting obs)
-      value <- ifelse(!grepl("^missing$|^unique$|^confirmed$|^conflict$", value) &
-                        lengths(vl) == 1, "conflict", value)
-      # majority (an unbalanced number of non-NA matching obs)
-      value <- ifelse(!grepl("^missing$|^unique$|^confirmed$|^conflict$", value),
-                      "majority", value)
-    } else {
-      value <- unname(unlist(out[vars_to_combine]))
-      value <- ifelse(is.na(value), "missing", "unique")
-    }
+    value <- NULL
+    if (nrow(out) < 1000000) {
+      if (length(vlb) > 1) {
+        # remove string duplicates and collapse unique values (except NAs)
+        value <- apply(vlb, 1, function(x) {
+          paste(unique(trimws(x), incomparables = c("^NA$", NA_character_)),
+                collapse = "!")
+          })
+        # missing
+        value <- ifelse(stringr::str_count(value, "NA") ==
+                          length(out[vars_to_combine]), "missing", value)
+        # unique
+        value <- ifelse(stringr::str_count(value, "NA") ==
+                          (length(out[vars_to_combine]) - 1), "unique", value)
+        # confirmed (by all datasets in database)
+        value <- ifelse(stringr::str_count(value, "\\!") == 0 &
+                          !grepl("^missing$|^unique$", value),
+                        "confirmed", value)
+        # confirmed (by multiple datasets in database, other values are NAs)
+        valuec <- lapply(stringr::str_split(value, "!"), function(x) {
+          x[!grepl("^NA$", x) & x != ""]
+        })
+        value <- ifelse(lengths(valuec) == 1 &
+                          !grepl("^missing$|^unique$|^confirmed$", valuec),
+                        "confirmed", value)
+        # conflict (when there are no duplicates, apart from NAs possibly)
+        value <- ifelse(!grepl("^missing$|^unique$|^confirmed$", value) &
+                          stringr::str_count(value, "\\!") ==
+                          (length(out[vars_to_combine]) - 1),
+                        "conflict", value)
+        # open (and close) the values to find if majority or conflict
+        vl <- apply(vlb, 1, function(x) {
+          x <- x[!grepl("^NA$", x) & x != ""]
+          x <- unique(rle(x)$lengths)
+          x
+          })
+        # conflict (an even number of non-NA conflicting obs)
+        value <- ifelse(!grepl("^missing$|^unique$|^confirmed$|^conflict$", value) &
+                          lengths(vl) == 1, "conflict", value)
+        # majority (an unbalanced number of non-NA matching obs)
+        value <- ifelse(!grepl("^missing$|^unique$|^confirmed$|^conflict$", value),
+                        "majority", value)
+        } else {
+          value <- unname(unlist(out[vars_to_combine]))
+          value <- ifelse(is.na(value), "missing", "unique")
+          }
+      }
     # fill data frame with variable and presence in datasets
     db <- cbind(db, vlb)
-    db[, paste0(var, " (", length(vlb), ")")] <- value
+    if (length(value) == nrow(db)) {
+      db[, paste0(var, " (", length(vlb), ")")] <- value
+    } else {
+      cat("Rowwise coding is not possible because of the size of the database.
+        Returning a non-coded comparative dataset.")
+    }
   }
   db <- tibble::tibble(db[unique(colnames(db))])
   # Step 4: filter categories if necessary
