@@ -49,8 +49,8 @@
 #' @details Text variables are dropped for more efficient consolidation.
 #' @importFrom purrr reduce map
 #' @importFrom dplyr select full_join inner_join distinct all_of
-#' group_by ungroup %>% across
-#' @importFrom tidyr drop_na
+#' group_by ungroup %>% across mutate_at
+#' @importFrom tidyr drop_na fill
 #' @importFrom plyr ddply
 #' @importFrom zoo na.locf
 #' @importFrom usethis ui_info
@@ -97,7 +97,7 @@ consolidate <- function(database, rows = "any", cols = "any",
   vars_subset <- unique(all_variables)
   out <- purrr::map(database, extract_if_present, c(key, vars_subset))
   # Step 3: for "memberships" data, remove duplicates
-  if(grepl("membership", deparse(substitute(database)))) {
+  if(grepl("membership", deparse(substitute(database)), ignore.case = TRUE)) {
     out <- lapply(out, function(x) {
       x %>%
         dplyr::group_by(dplyr::all_of(key)) %>%

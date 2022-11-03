@@ -46,47 +46,52 @@ db_plot <- function(database, key = "manyID", variable = "all",
   # Step 1: run dbcomp() to check key, get variable names, and code observations
   db <- db_comp(database = database, key = key, variable = variable,
                 category = category)
-  # remove extra variable level information
-  db <- db[!grepl("\\$", names(db))]
-  # Step 2: gather and reshape data
-  Category <- Variable <- Percentage <- Missing <- NULL
-  dbgather <- db %>%
-    dplyr::select(-all_of(key)) %>%
-    tidyr::pivot_longer(cols = everything(), names_to = "Variable",
-                        values_to = "Category") %>%
-    dplyr::group_by(Variable, Category) %>%
-    dplyr::summarise(count = n(), .groups = ) %>%
-    dplyr::mutate(Percentage = count / sum(count)) %>%
-    tidyr::pivot_wider(id_cols = Variable, names_from = Category,
-                       values_from = Percentage) %>%
-    dplyr::mutate(across(everything(), ~tidyr::replace_na(.x, 0))) %>%
-    tidyr::pivot_longer(-Variable, names_to = "Category",
-                        values_to = "Percentage") %>%
-    dplyr::mutate(Category = factor(Category, levels = c("missing", "conflict",
-                                                         "unique", "majority",
-                                                         "confirmed")),
-                  Missing = ifelse(Category == "missing",
-                                   Percentage, NA_character_)) %>%
-    tidyr::fill(Missing, .direction = "downup") %>%
-    dplyr::filter(Percentage != 0)
-  # Step 3: plot
-  cols <- c(confirmed = "deepskyblue3", majority = "aquamarine3",
-            unique = "khaki", conflict = "firebrick", missing = "grey90")
-  ggplot(dbgather, aes(fill = Category, y = Percentage,
-                       x = stats::reorder(Variable, as.numeric(Missing)))) +
-    geom_bar(position = "fill", stat = "identity") +
-    scale_x_discrete(guide = guide_axis(angle = 90)) +
-    scale_y_reverse(labels = function(x) {
-      ifelse(x == 1 | x == 0.5,
-             paste0(x * 100, "%", "\n(", x * nrow(db), " obs)"),
-             paste0(x * 100, "%"))
-    }) +
-    scale_fill_manual(values = cols) +
-    theme_minimal() +
-    labs(title = deparse(substitute(database)),
-         subtitle = paste0("Based on ", nrow(db), " consolidated observations."),
-         caption = "In between the parenthesis are the number of datasets in which variable is present.",
-         x = "Variable")
+  if (nrow(db) > 1000000) {
+  cat("Rowwise plotting is not possible because of the size of the database.
+      Returning a non-coded comparative dataset.")
+  } else {
+    # remove extra variable level information
+    db <- db[!grepl("\\$", names(db))]
+    # Step 2: gather and reshape data
+    Category <- Variable <- Percentage <- Missing <- NULL
+    dbgather <- db %>%
+      dplyr::select(-all_of(key)) %>%
+      tidyr::pivot_longer(cols = everything(), names_to = "Variable",
+                          values_to = "Category") %>%
+      dplyr::group_by(Variable, Category) %>%
+      dplyr::summarise(count = n(), .groups = ) %>%
+      dplyr::mutate(Percentage = count / sum(count)) %>%
+      tidyr::pivot_wider(id_cols = Variable, names_from = Category,
+                         values_from = Percentage) %>%
+      dplyr::mutate(across(everything(), ~tidyr::replace_na(.x, 0))) %>%
+      tidyr::pivot_longer(-Variable, names_to = "Category",
+                          values_to = "Percentage") %>%
+      dplyr::mutate(Category = factor(Category, levels = c("missing", "conflict",
+                                                           "unique", "majority",
+                                                           "confirmed")),
+                    Missing = ifelse(Category == "missing",
+                                     Percentage, NA_character_)) %>%
+      tidyr::fill(Missing, .direction = "downup") %>%
+      dplyr::filter(Percentage != 0)
+    # Step 3: plot
+    cols <- c(confirmed = "deepskyblue3", majority = "aquamarine3",
+              unique = "khaki", conflict = "firebrick", missing = "grey90")
+    ggplot(dbgather, aes(fill = Category, y = Percentage,
+                         x = stats::reorder(Variable, as.numeric(Missing)))) +
+      geom_bar(position = "fill", stat = "identity") +
+      scale_x_discrete(guide = guide_axis(angle = 90)) +
+      scale_y_reverse(labels = function(x) {
+        ifelse(x == 1 | x == 0.5,
+               paste0(x * 100, "%", "\n(", x * nrow(db), " obs)"),
+               paste0(x * 100, "%"))
+      }) +
+      scale_fill_manual(values = cols) +
+      theme_minimal() +
+      labs(title = deparse(substitute(database)),
+           subtitle = paste0("Based on ", nrow(db), " consolidated observations."),
+           caption = "In between the parenthesis are the number of datasets in which variable is present.",
+           x = "Variable")
+    }
 }
 
 #' @name db_profile
@@ -132,7 +137,7 @@ db_comp <- function(database, key = "manyID", variable = "all",
   }
   out <- purrr::map(database, extract_if_present, c(key, all_variables))
   # step 2: reduce and join data
-  if (grepl("membership", deparse(substitute(database)))) {
+  if (grepl("membership", deparse(substitute(database)), ignore.case = TRUE)) {
     out <- lapply(out, function(x) {
       x %>%
         dplyr::group_by(dplyr::all_of(key)) %>%
