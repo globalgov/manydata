@@ -47,8 +47,9 @@ db_plot <- function(database, key = "manyID", variable = "all",
   db <- db_comp(database = database, key = key, variable = variable,
                 category = category)
   if (nrow(db) > 1000000) {
-  cat("Rowwise plotting is not possible because of the size of the database.
+  cat("Plotting is not possible because of the size of the database.
       Returning a non-coded comparative dataset.")
+    db
   } else {
     # remove extra variable level information
     db <- db[!grepl("\\$", names(db))]
@@ -209,10 +210,11 @@ db_comp <- function(database, key = "manyID", variable = "all",
     db <- cbind(db, vlb)
     if (length(value) == nrow(db)) {
       db[, paste0(var, " (", length(vlb), ")")] <- value
-    } else {
-      cat("Rowwise coding is not possible because of the size of the database.
-        Returning a non-coded comparative dataset.")
     }
+  }
+  if (nrow(db) > 1000000) {
+  cat("Rowwise coding is not possible because of the size of the database.
+      Returning a non-coded comparative dataset.") 
   }
   db <- tibble::tibble(db[unique(colnames(db))])
   # Step 4: filter categories if necessary
