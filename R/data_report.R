@@ -232,7 +232,7 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
 #' @importFrom utils browseURL read.csv
 #' @importFrom dplyr rename
 #' @importFrom janitor compare_df_cols
-#' @details `data_evolution()` facilitates for users to access the
+#' @details `data_evolution()` enables users to access the
 #' differences between raw data and the data made available to them
 #' in one of the 'many' packages.
 #' @return Either the data comparison between raw and available data or
@@ -249,7 +249,7 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
 data_evolution <- function(pkg, database, dataset, preparation_script = FALSE) {
   if (length(grep(pkg, search())) == 0) {
     stop(paste0(pkg, " not found.
-    Please install, if necessary, and load ", pkg, " before runing 'data_evolution()'.
+    Please install, if necessary, and load ", pkg, " before running 'data_evolution()'.
                 You can use 'library(", pkg, ")' to load the package."))
   }
   db <- get(database)

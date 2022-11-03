@@ -18,7 +18,7 @@ wikipedia$notes
 # Some of the first few dates are supposed to be negative (BC).
 # While for other dates, only the year is accurate...
 # However, due to issues in dealing with dates with most R packages,
-# these dates became positive or were completed arbitrary.
+# these dates became positive or were completed arbitrarily.
 # Let's change these back and treat dates with `{messydates}`.
 # Get these columns into character to be able to modify them.
 wikipedia$birth <- as.character(wikipedia$birth)

@@ -64,7 +64,7 @@ missing data, the number of observations, the number of variables,
 the minimum beginning date and the maximum ending date as well as
 the most direct URL to the original dataset.
 
-\code{data_evolution()} facilitates for users to access the
+\code{data_evolution()} enables users to access the
 differences between raw data and the data made available to them
 in one of the 'many' packages.
 
