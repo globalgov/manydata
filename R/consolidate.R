@@ -96,8 +96,8 @@ consolidate <- function(database, rows = "any", cols = "any",
                         ignore.case = TRUE, value = TRUE, invert = TRUE)
   vars_subset <- unique(all_variables)
   out <- purrr::map(database, extract_if_present, c(key, vars_subset))
-  # Step 3: for "memberships" data, remove duplicates
-  if(grepl("membership", deparse(substitute(database)), ignore.case = TRUE)) {
+  # Step 3: for "memberships" data, fill and remove duplicates
+  if (grepl("membership", deparse(substitute(database)), ignore.case = TRUE)) {
     out <- lapply(out, function(x) {
       x %>%
         dplyr::group_by(dplyr::all_of(key)) %>%
@@ -129,10 +129,10 @@ consolidate <- function(database, rows = "any", cols = "any",
     resolve <- data.frame(var = names(resolve), resolve = resolve)
     out <- resolve_multiple(resolve, out, key)
   }
-  # Step 6: Remove duplicates and filling in NA values
+  # Step 6: Remove duplicates and fill NA values
   mdate <- names(out[grepl("mdate", lapply(out, class))])
   usethis::ui_info("Coalescing compatible rows...")
-  if (sum(duplicated(out[,1])) > 20000) {
+  if (sum(duplicated(out[, 1])) > 20000) {
     if (askYesNo("Would you like to coalesce compatible rows?
     This might take a few of hours due to the size of the databse") == TRUE) {
       out <- plyr::ddply(out, key, zoo::na.locf, na.rm = FALSE) %>%

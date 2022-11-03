@@ -214,7 +214,7 @@ db_comp <- function(database, key = "manyID", variable = "all",
   }
   if (nrow(db) > 1000000) {
   cat("Rowwise coding is not possible because of the size of the database.
-      Returning a non-coded comparative dataset.") 
+      Returning a non-coded comparative dataset.")
   }
   db <- tibble::tibble(db[unique(colnames(db))])
   # Step 4: filter categories if necessary
