@@ -13,7 +13,7 @@ issues](https://img.shields.io/github/issues-raw/globalgov/manydata)
 <!-- [![HitCount](http://hits.dwyl.com/globalgov/manydata.svg)](http://hits.dwyl.com/globalgov/manydata) -->
 [![Codecov test
 coverage](https://codecov.io/gh/globalgov/manydata/branch/main/graph/badge.svg)](https://app.codecov.io/gh/globalgov/manydata?branch=main)
-[![CodeFactor](https://www.codefactor.io/repository/github/globalgov/manydata/badge)](https://www.codefactor.io/repository/github/globalgov/manydata)
+[![CodeFactor](https://www.codefactor.io/repository/github/globalgov/manydata/badge)](https://www.codefactdevtor.io/repository/github/globalgov/manydata)
 [![CII Best
 Practices](https://bestpractices.coreinfrastructure.org/projects/4562/badge)](https://bestpractices.coreinfrastructure.org/projects/4562)
 <!-- ![GitHub All Releases](https://img.shields.io/github/downloads/jhollway/roctopus/total) -->
@@ -119,6 +119,10 @@ consolidate(database = emperors, rows = "any", cols = "any",
     ## #   ²​ProvinceBirth
 
 ## Cheat Sheet
+
+`{manydata}` contains several other functions to help global governance
+researchers. For a quick overview, please also check the package cheat
+sheet.
 
 <a href="https://github.com/globalgov/manydata/blob/main/man/figures/cheatsheet.pdf"><img src="https://raw.githubusercontent.com/globalgov/manydata/main/man/figures/cheatsheet.png" width="525" height="378"/></a>
 

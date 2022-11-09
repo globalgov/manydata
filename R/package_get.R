@@ -1,7 +1,9 @@
 #' Find and download packages in the many packages universe
 #'
-#' Find and download packages in the many packages universe
-#' @param pkg A character vector of package names or number of a package
+#' Find and download packages in the many packages universe.
+#' @param pkg A character vector of package names or number of a package.
+#' To download multiple packages at once,
+#' please declare package names as a vector (e.g. c("pkg1", "pkg2)).
 #' @details The function finds and download other packages
 #' that belong to the many universe of packages.
 #' It allows users to rapidly access the names and other
