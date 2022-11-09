@@ -53,21 +53,22 @@ navbar:
           href: https://globalgov.github.io/manytrade/
 reference:
   - title: "Downloading 'many* packages' and inspecting data"
-    desc: "These functions assist data analysts with the download of data on particular domains of global governance"
+    desc: "These functions assist data analysts with the download and inspection of 'many* packages' and their data"
     contents:
       - get_packages
       - plot_releases
       - starts_with("data_")
-      - emperors
+  - title: "Visualising 'many' packages data"
+    desc: "These functions assist data analysts with the visualisation of data on particular domains of global governance"
+    contents:
+      - starts_with("db_")
+      - network_map
   - title: "Consolidating many databases"
     desc: "These functions assist data analysts with the analysis of data on particular domains of global governance"
     contents:
       - consolidate
       - pluck
       - favour
-      - starts_with("db_")
-      - starts_with("retrieve_")
-      - network_map
   - title: "Data wrangling with manydata"
     desc: "Ensembled data adds special challenges to data wrangling. These functions assist analysts with wrangling such data"
     contents:
@@ -76,6 +77,8 @@ reference:
       - reunite
       - repaint
       - coalesce_rows
+      - starts_with("retrieve_")
+      - emperors
 footer:
   structure:
     left: package
