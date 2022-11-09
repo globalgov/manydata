@@ -10,8 +10,8 @@
 
 * Closed #134 by adding a ´data_evolution()´ function to the report family of functions that gets original datasets, if available, or opens the preparation scripts, if not available
 * Added 'db_profile' family of functions to visualise databases
-  * Closed #214 by adding ´db_plot()´ function to plot a profile of the database
-  * Closed #224 by adding ´db_comp()´ function that creates a tibble comparing datasets
+  * Closed #214 by adding ´db_plot()´ function to plot a profile of the database to facilitate comparison of matched observations across datasets
+  * Closed #224 by adding ´db_comp()´ function that creates a tibble of the database to facilitate comparison of matched observations across datasets
 * Updated ´get_packages()´ function
   * Closed #215 by making ´get_packages()´ interactive so that users can chose which branch to download
   * Closed #219 by improving ´get_packages()´ printing 
