@@ -158,7 +158,7 @@ retrieve_links <- function(database, dataset, treaty_type = NULL) {
   # Filter by links
   treatyID <- grep(":", treatyID, value = TRUE)
   # Filter by treaty_type
-  if(!is.null(treaty_type)) {
+  if (!is.null(treaty_type)) {
     if (treaty_type == "bilateral") {
     treatyID <- grep("-", treatyID, value = TRUE)
     }

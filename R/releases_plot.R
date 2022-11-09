@@ -89,7 +89,7 @@ plot_releases <- function(repo) {
                           by = "month")
   month_format <- format(month_date_range, "%b")
   month_df <- data.frame(month_date_range, month_format)
-  
+
   # Step five: get years date range
   year_date_range <- c(min(month_date_range), max(month_date_range))
   year_format <- format(year_date_range, "%Y")

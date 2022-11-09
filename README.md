@@ -95,28 +95,26 @@ rows, columns, as well as for how to resolve conflicts for observations
 across datasets.
 
 ``` r
-consolidate(database = emperors, rows = "any", cols = "any",
+consolidate(database = emperors, rows = "every", cols = "every",
             resolve = "coalesce", key = "ID")
 ```
 
     #> There were 116 matched observations by ID variable across datasets in database.
 
-    #> # A tibble: 138 × 15
-    #>    ID           CityB…¹ Provi…² Rise  Cause Killer Era   Notes Verif Birth Death
-    #>    <chr>        <chr>   <chr>   <chr> <chr> <chr>  <chr> <chr> <chr> <chr> <chr>
-    #>  1 Aemilian     <NA>    Africa  Appo… Assa… Other… Prin… birt… <NA>  0207… 0253…
-    #>  2 Allectus     <NA>    <NA>    <NA>  <NA>  <NA>   <NA>  <NA>  <NA>  ?     297  
-    #>  3 Anastasius   <NA>    <NA>    <NA>  <NA>  <NA>   <NA>  <NA>  <NA>  430   518  
-    #>  4 Anthemius    <NA>    <NA>    <NA>  <NA>  <NA>   <NA>  <NA>  <NA>  420   472  
-    #>  5 Antoninus P… <NA>    <NA>    <NA>  <NA>  <NA>   <NA>  <NA>  <NA>  86    161  
-    #>  6 Antonius Pi… Lanuvi… Italia  Birt… Natu… Disea… Prin… <NA>  <NA>  0086… 0161…
-    #>  7 Arcadius     <NA>    <NA>    <NA>  <NA>  <NA>   <NA>  <NA>  <NA>  377   408  
-    #>  8 Augustus     Rome    Italia  Birt… Assa… Wife   Prin… birt… Redd… 0062… 0014…
-    #>  9 Aulus Vitel… <NA>    <NA>    <NA>  <NA>  <NA>   <NA>  <NA>  <NA>  <NA>  <NA> 
-    #> 10 Aurelian     Sirmium Pannon… Appo… Assa… Praet… Prin… <NA>  <NA>  0214… 0275…
-    #> # … with 128 more rows, 4 more variables: FullName <chr>, Dynasty <chr>,
-    #> #   Beg <mdate>, End <mdate>, and abbreviated variable names ¹​CityBirth,
-    #> #   ²​ProvinceBirth
+    #> # A tibble: 41 × 3
+    #>    ID             Beg         End        
+    #>    <chr>          <mdate>     <mdate>    
+    #>  1 Aemilian       0253-08-15~ 0253-10-15~
+    #>  2 Augustus       -0026-01-16 0014-08-19 
+    #>  3 Aurelian       0270-09-15  0275-09-15 
+    #>  4 Balbinus       0238-04-22  0238-07-29 
+    #>  5 Caracalla      0198        0217-04-08 
+    #>  6 Carinus        0283-08-01~ 0285-08-01~
+    #>  7 Carus          0282-10-01~ 0283-08-01~
+    #>  8 Claudius       0041-01-25  0054-10-13 
+    #>  9 Commodus       0177        0192-12-31 
+    #> 10 Constantine II 0337-05-22  0340-01-01 
+    #> # … with 31 more rows
 
 ## Cheat Sheet
 

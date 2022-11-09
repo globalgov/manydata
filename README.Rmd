@@ -94,7 +94,7 @@ into a single dataset with some combination of the rows, columns,
 as well as for how to resolve conflicts for observations across datasets.
 
 ```{r, message=FALSE, warning=FALSE}
-consolidate(database = emperors, rows = "any", cols = "any",
+consolidate(database = emperors, rows = "every", cols = "every",
             resolve = "coalesce", key = "ID")
 ```
 
