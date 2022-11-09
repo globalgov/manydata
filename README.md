@@ -57,7 +57,7 @@ downloaded from GitHub.
 remotes::install_github("globalgov/manydata")
 ```
 
-## Available ‘many packages’
+## Available ‘many’ packages
 
 `{manydata}` connects users to other packages that help fill global
 governance researchers’ data needs. The `get_packages()` function can be
@@ -83,11 +83,11 @@ variables in the datasets for a ‘many’ package database.
 db_plot(database = emperors, key = "ID", variable = "all", category = "all")
 ```
 
-    ## There were 116 matched observations by ID variable across datasets in database.
+    #> There were 116 matched observations by ID variable across datasets in database.
 
-![](README_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
 
-## Consolidating ’many’databases
+## Consolidating ‘many’ databases
 
 `{manydata}` also contains flexible methods for consolidating ‘many’
 package database into a single dataset with some combination of the
@@ -99,24 +99,24 @@ consolidate(database = emperors, rows = "any", cols = "any",
             resolve = "coalesce", key = "ID")
 ```
 
-    ## There were 116 matched observations by ID variable across datasets in database.
+    #> There were 116 matched observations by ID variable across datasets in database.
 
-    ## # A tibble: 138 × 15
-    ##    ID           CityB…¹ Provi…² Rise  Cause Killer Era   Notes Verif Birth Death
-    ##    <chr>        <chr>   <chr>   <chr> <chr> <chr>  <chr> <chr> <chr> <chr> <chr>
-    ##  1 Aemilian     <NA>    Africa  Appo… Assa… Other… Prin… birt… <NA>  0207… 0253…
-    ##  2 Allectus     <NA>    <NA>    <NA>  <NA>  <NA>   <NA>  <NA>  <NA>  ?     297  
-    ##  3 Anastasius   <NA>    <NA>    <NA>  <NA>  <NA>   <NA>  <NA>  <NA>  430   518  
-    ##  4 Anthemius    <NA>    <NA>    <NA>  <NA>  <NA>   <NA>  <NA>  <NA>  420   472  
-    ##  5 Antoninus P… <NA>    <NA>    <NA>  <NA>  <NA>   <NA>  <NA>  <NA>  86    161  
-    ##  6 Antonius Pi… Lanuvi… Italia  Birt… Natu… Disea… Prin… <NA>  <NA>  0086… 0161…
-    ##  7 Arcadius     <NA>    <NA>    <NA>  <NA>  <NA>   <NA>  <NA>  <NA>  377   408  
-    ##  8 Augustus     Rome    Italia  Birt… Assa… Wife   Prin… birt… Redd… 0062… 0014…
-    ##  9 Aulus Vitel… <NA>    <NA>    <NA>  <NA>  <NA>   <NA>  <NA>  <NA>  <NA>  <NA> 
-    ## 10 Aurelian     Sirmium Pannon… Appo… Assa… Praet… Prin… <NA>  <NA>  0214… 0275…
-    ## # … with 128 more rows, 4 more variables: FullName <chr>, Dynasty <chr>,
-    ## #   Beg <mdate>, End <mdate>, and abbreviated variable names ¹​CityBirth,
-    ## #   ²​ProvinceBirth
+    #> # A tibble: 138 × 15
+    #>    ID           CityB…¹ Provi…² Rise  Cause Killer Era   Notes Verif Birth Death
+    #>    <chr>        <chr>   <chr>   <chr> <chr> <chr>  <chr> <chr> <chr> <chr> <chr>
+    #>  1 Aemilian     <NA>    Africa  Appo… Assa… Other… Prin… birt… <NA>  0207… 0253…
+    #>  2 Allectus     <NA>    <NA>    <NA>  <NA>  <NA>   <NA>  <NA>  <NA>  ?     297  
+    #>  3 Anastasius   <NA>    <NA>    <NA>  <NA>  <NA>   <NA>  <NA>  <NA>  430   518  
+    #>  4 Anthemius    <NA>    <NA>    <NA>  <NA>  <NA>   <NA>  <NA>  <NA>  420   472  
+    #>  5 Antoninus P… <NA>    <NA>    <NA>  <NA>  <NA>   <NA>  <NA>  <NA>  86    161  
+    #>  6 Antonius Pi… Lanuvi… Italia  Birt… Natu… Disea… Prin… <NA>  <NA>  0086… 0161…
+    #>  7 Arcadius     <NA>    <NA>    <NA>  <NA>  <NA>   <NA>  <NA>  <NA>  377   408  
+    #>  8 Augustus     Rome    Italia  Birt… Assa… Wife   Prin… birt… Redd… 0062… 0014…
+    #>  9 Aulus Vitel… <NA>    <NA>    <NA>  <NA>  <NA>   <NA>  <NA>  <NA>  <NA>  <NA> 
+    #> 10 Aurelian     Sirmium Pannon… Appo… Assa… Praet… Prin… <NA>  <NA>  0214… 0275…
+    #> # … with 128 more rows, 4 more variables: FullName <chr>, Dynasty <chr>,
+    #> #   Beg <mdate>, End <mdate>, and abbreviated variable names ¹​CityBirth,
+    #> #   ²​ProvinceBirth
 
 ## Cheat Sheet
 

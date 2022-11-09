@@ -1,6 +1,12 @@
 ---
 output: github_document
 ---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(warning   = FALSE, message   = FALSE, out.width = "100%",
+                      comment   = "#>", fig.path  = "man/figures/README-")
+```
+
 # manydata <img src="man/figures/manydataLogo.png" align="right" width="220"/>
 
 <!-- badges: start -->
@@ -52,7 +58,7 @@ The development version of the package `{manydata}` can also be downloaded from 
 remotes::install_github("globalgov/manydata")
 ```
 
-## Available 'many packages'
+## Available 'many' packages
 
 `{manydata}` connects users to other packages that help fill global governance
 researchers' data needs.
@@ -81,7 +87,7 @@ in the datasets for a 'many' package database.
 db_plot(database = emperors, key = "ID", variable = "all", category = "all")
 ```
 
-## Consolidating 'many'databases
+## Consolidating 'many' databases
 
 `{manydata}` also contains flexible methods for consolidating 'many' package database
 into a single dataset with some combination of the rows, columns,
