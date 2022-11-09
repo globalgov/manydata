@@ -32,7 +32,7 @@
 #' @importFrom httr GET content
 #' @importFrom remotes install_github
 #' @importFrom utils packageVersion askYesNo
-#' @importFrom lubridate as_date
+#' @importFrom messydates as_messydate
 #' @export
 get_packages <- function(pkg) {
   # get info from GitHub if pkg is missing
@@ -107,7 +107,7 @@ get_packages <- function(pkg) {
       repo <- repo[c("name", "full_name", "description")]
       repo$Installed <- get_installed_release(repo$name)
       repo$Latest <- get_latest_release(repo$full_name)
-      repo$Updated <- suppressWarnings(lubridate::as_date(get_latest_date(repo$full_name)))
+      repo$Updated <- messydates::as_messydate(get_latest_date(repo$full_name))
       repo <- subset(repo, !grepl("Unreleased", repo$Latest))
       repo <- as.data.frame(repo)
     })

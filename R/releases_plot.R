@@ -8,7 +8,7 @@
 #' @importFrom tibble as_tibble
 #' @importFrom stats ave
 #' @importFrom stringr str_split str_remove
-#' @importFrom lubridate ymd ceiling_date floor_date
+#' @importFrom messydates as_messydate
 #' @import ggplot2
 #' @details The function creates a project timeline graphic using ggplot2
 #' with historical milestones and milestone statuses gathered from a
@@ -37,8 +37,9 @@ plot_releases <- function(repo) {
       df <- jsonlite::fromJSON(df, flatten = TRUE)
       df <- df[, c("tag_name", "url", "published_at")]
       df$date <- stringr::str_remove(df$published_at, "T.*$")
-      df$date <- lubridate::ymd(stringr::str_replace(df$date,
-                                                     "-[:digit:]*$", "-01"))
+      df$date <- messydates::as_messydate(stringr::str_replace(df$date,
+                                                               "-[:digit:]*$",
+                                                               "-01"))
       # Get milestones
       code_milestone <- function(tag_name) {
         tags <- c(tag_name, "v0.0.0")
@@ -83,24 +84,14 @@ plot_releases <- function(repo) {
   month_buffer <- 2
 
   # Step five: get months date range
-  month_date_range <- seq(min(df$date) - months(month_buffer),
-                          max(df$date) + months(month_buffer),
+  month_date_range <- seq(as.Date(min(df$date)) - months(month_buffer),
+                          as.Date(max(df$date)) + months(month_buffer),
                           by = "month")
   month_format <- format(month_date_range, "%b")
   month_df <- data.frame(month_date_range, month_format)
-  year_date_range <- seq(min(df$date) - months(month_buffer),
-                         max(df$date) + months(month_buffer), by = "year")
-
-  # Step six: get years date range
-  if (length(year_date_range) == 1) year_date_range <- c(min(df$date) -
-                                                           months(month_buffer),
-                                                         max(df$date) +
-                                                           months(month_buffer))
-  year_date_range <- as.Date(intersect(lubridate::ceiling_date(year_date_range,
-                                                               unit = "year"),
-                                       lubridate::floor_date(year_date_range,
-                                                             unit = "year")),
-                             origin = "1970-01-01")
+  
+  # Step five: get years date range
+  year_date_range <- c(min(month_date_range), max(month_date_range))
   year_format <- format(year_date_range, "%Y")
   year_df <- data.frame(year_date_range, year_format)
 
@@ -117,13 +108,13 @@ plot_releases <- function(repo) {
   # Plot horizontal black line for timeline
   timeline_plot <- timeline_plot + ggplot2::geom_hline(yintercept = 0,
                                                        color = "black",
-                                                       size = 0.3)
+                                                       linewidth = 0.3)
   # Plot vertical segment lines for milestones
   timeline_plot <- timeline_plot +
     ggplot2::geom_segment(data = df[df$month_count == 1, ],
                           ggplot2::aes(y = .data$position,
                                        yend = 0, xend = date),
-                          color = "black", size = 0.2)
+                          color = "black", linewidth = 0.2)
 
   # Plot scatter points at zero and date
   timeline_plot <- timeline_plot +
@@ -143,12 +134,12 @@ plot_releases <- function(repo) {
   # Show text for each month
   timeline_plot <- timeline_plot +
     ggplot2::geom_text(data = month_df,
-                       ggplot2::aes(x = month_date_range,
+                       ggplot2::aes(x = as.character(month_date_range),
                                     y = -0.1, label = month_format),
                        size = 2.5, vjust = 0.5, color = "black", angle = 90)
   # Show year text if applicable
-  if (nrow(year_df) > 0) timeline_plot <- timeline_plot +
-    ggplot2::geom_text(data = year_df, ggplot2::aes(x = year_date_range,
+  if (nrow(month_df) > 12) timeline_plot <- timeline_plot +
+    ggplot2::geom_text(data = year_df, ggplot2::aes(x = as.character(year_date_range),
                                                     y = -0.2,
                                                     label = year_format,
                                                     fontface = "bold"),
