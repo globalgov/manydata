@@ -18,12 +18,11 @@
   * Closed #219 by improving ´get_packages()´ printing 
   * Updated ´get_packages()´ and ´plot_releases()´ to use ´{messydates}´, instead of ´{lubridate}´, for dates coercion
 * Closed #222 by adding ´network_map()´function for plotting geographical networks
-* Updated ´consolidate()´function
-  * Closed #227 by making ´consolidate()´ ignore text related variables
-  * Closed #230 by re-working how ´consolidate()´ works to avoid running into memory limits
-  * Closed #228 and #232 by replacing ´coalesce_compatible()´ for a simpler and faster approach to coalescing compatible missing observations row wise
-  * Made ´coalesce_compatible()´ defunct
-*
+* Updated ´consolidate()´function to make function over 20 times faster
+  * Closed #227 by making ´consolidate()´ ignore text related variables due to their size
+  * Closed #230 by making ´consolidate()´ more concise to avoid running into memory limits
+  * Closed #228 and #232 by replacing ´coalesce_compatible()´ for a faster approach to coalescing compatible missing observations that relies on ´zoo::na.locf()´
+  * Made ´coalesce_compatible()´ function defunct
 
 # manydata 0.7.5
 
