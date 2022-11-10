@@ -80,12 +80,13 @@ unique, missing, conflicting, or majority values in all (non-ID)
 variables in the datasets for a ‘many’ package database.
 
 ``` r
-db_plot(database = emperors, key = "ID", variable = "all", category = "all")
+manydata::db_plot(database = manydata::emperors, key = "ID",
+                  variable = "all", category = "all")
 ```
 
     #> There were 116 matched observations by ID variable across datasets in database.
 
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-1-1.png" width="100%" />
 
 ## Consolidating ‘many’ databases
 
@@ -95,8 +96,8 @@ rows, columns, as well as for how to resolve conflicts for observations
 across datasets.
 
 ``` r
-consolidate(database = emperors, rows = "every", cols = "every",
-            resolve = "coalesce", key = "ID")
+manydata::consolidate(database = manydata::emperors, rows = "every", cols = "every",
+                      resolve = "coalesce", key = "ID")
 ```
 
     #> There were 116 matched observations by ID variable across datasets in database.
