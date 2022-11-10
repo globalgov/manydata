@@ -7,7 +7,9 @@
 get_packages(pkg)
 }
 \arguments{
-\item{pkg}{A character vector of package names or number of a package}
+\item{pkg}{A character vector of package names or number of a package.
+To download multiple packages at once,
+please declare package names as a vector (e.g. c("pkg1", "pkg2)).}
 }
 \value{
 If no package name is provided,
@@ -25,7 +27,7 @@ If one or more package names are provided,
 these will be installed from Github.
 }
 \description{
-Find and download packages in the many packages universe
+Find and download packages in the many packages universe.
 }
 \details{
 The function finds and download other packages

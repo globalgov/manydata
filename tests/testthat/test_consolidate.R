@@ -77,46 +77,52 @@ test_that("pluck works", {
   expect_equal(pluck(test, "c"), data3)
 })
 
-test_that("coalesce_compatible works", {
-  expect_equal(coalesce_compatible(data.13.any), data.13.any)
-  expect_equal(coalesce_compatible(data.dup), data.13.any)
-})
-
 test_that("consolidate methods work", {
   expect_equal(consolidate(test, "every", "every",
-                           resolve = "coalesce"), data.con.con)
+                           resolve = "coalesce"),
+               data.con.con[order(data.con.con$manyID),])
   expect_equal(consolidate(test, "every", "any",
-                           resolve = "coalesce"), data.con.any)
+                           resolve = "coalesce"),
+               data.con.any[order(data.con.any$manyID),])
   expect_equal(consolidate(test, "any", "any",
-                           resolve = "coalesce"), data.13.any)
+                           resolve = "coalesce"),
+               data.13.any[order(data.13.any$manyID),])
   expect_equal(consolidate(test, "any", resolve = "coalesce"),
-               data.13.any)
+               data.13.any[order(data.13.any$manyID),])
   expect_equal(consolidate(test, "every", "any",
-                           resolve = "min"), data.con.min)
+                           resolve = "min"),
+               data.con.min[order(data.con.min$manyID),])
   expect_equal(consolidate(test, "every", "any",
-                           resolve = "max"), data.con.max)
+                           resolve = "max"),
+               data.con.max[order(data.con.max$manyID),])
   expect_equal(consolidate(test, "every", "any",
-                           resolve = "median"), data.con.median)
+                           resolve = "median"),
+               data.con.median[order(data.con.median$manyID),])
   expect_equal(consolidate(test, "every", "any",
-                           resolve = "mean"), data.con.median)
+                           resolve = "mean"),
+                 data.con.median[order(data.con.median$manyID),])
   expect_length(consolidate(test, "every", "any",
                             resolve = "random"), 3)
   expect_equal(consolidate(test2, "every", "any",
-                           resolve = "min"), data.con.min)
+                           resolve = "min"),
+               data.con.min[order(data.con.min$manyID),])
   expect_equal(consolidate(test2, "every", "any",
-                           resolve = "max"), data.con.max)
+                           resolve = "max"),
+               data.con.max[order(data.con.max$manyID),])
   expect_equal(consolidate(test2, "every", "any",
-                           resolve = "median"), data.con.median)
+                           resolve = "median"),
+               data.con.median[order(data.con.median$manyID),])
   expect_equal(consolidate(test2, "every", "any",
-                           resolve = "mean"), data.con.median)
+                           resolve = "mean"),
+               data.con.median[order(data.con.median$manyID),])
   expect_length(consolidate(test2, "every", "any",
                             resolve = "random"), 3)
   expect_equal(consolidate(test2, "any", "any",
                            resolve = c(date = "min", number = "max")),
-               data.multi)
+               data.multi[order(data.multi$manyID),])
   expect_equal(consolidate(test2, "any", "any",
                            resolve = c(date = "mean", number = "median")),
-               data.many)
+               data.many[order(data.many$manyID),])
   expect_length(consolidate(test2, "any", "any",
                             resolve = c(date = "coalesce",
                                         number = "random")), 3)
@@ -126,9 +132,12 @@ test_that("consolidate methods work", {
 
 test_that("favouring a dataset works", {
   expect_equal(consolidate(favour(test, "b"), "every", "every",
-                           resolve = "coalesce"), data.favour)
+                           resolve = "coalesce"),
+               data.favour[order(data.favour$manyID),])
   expect_equal(consolidate(favor(test, "b"), "every", "every",
-                           resolve = "coalesce"), data.favour)
+                           resolve = "coalesce"),
+               data.favour[order(data.favour$manyID),])
   expect_equal(consolidate(favor(test, c("c", "a", "b")), "every", "every",
-                           resolve = "coalesce"), data.favour)
+                           resolve = "coalesce"),
+               data.favour[order(data.favour$manyID),])
 })

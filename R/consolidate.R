@@ -45,8 +45,16 @@
 #' all the datasets in the database (e.g. `key = c("key1", "key2")`).
 #' For equivalent key columns with different names across datasets,
 #' matching is possible if keys are declared (e.g. `key = c("key1" = "key2")`).
+#' Missing observations in the key variable are removed.
+#' @details Text variables are dropped for more efficient consolidation.
 #' @importFrom purrr reduce map
-#' @importFrom dplyr select full_join inner_join distinct all_of starts_with
+#' @importFrom dplyr select full_join inner_join distinct all_of
+#' group_by ungroup %>% across mutate_at
+#' @importFrom tidyr drop_na fill
+#' @importFrom plyr ddply
+#' @importFrom zoo na.locf
+#' @importFrom usethis ui_info
+#' @importFrom tibble as_tibble
 #' @import messydates
 #' @return A single tibble/data frame.
 #' @examples
@@ -73,33 +81,77 @@
 #' @export
 consolidate <- function(database, rows = "any", cols = "any",
                         resolve = "coalesce", key = "manyID") {
-
-  # Step 1: Join datasets by ID
-  if (rows == "any") {
-    out <- purrr::reduce(database, dplyr::full_join, by = key)
-  } else if (rows == "every") {
-    out <- purrr::reduce(database, dplyr::inner_join, by = key)
+  # Check that database has multiple datasets
+  if (length(database) == 1) {
+    dataset <- names(database)
+    database <- deparse(substitute(database))
+    stop(paste0(database, " contains only the ", dataset,
+                " dataset and cannot be consolidated."))
   }
-  # Step 2: Drop any unwanted variables
-  all_variables <- unname(unlist(purrr::map(database, names)))
+  # Step 1: Inform users about duplicates
+  cat("There were", sum(duplicated(unname(unlist(purrr::map(database, key))))),
+      "matched observations by", key, "variable across datasets in database.")
+  # Step 2: Drop any unwanted columns (including text variables)
+  all_variables <- grep("text", unname(unlist(purrr::map(database, names))),
+                        ignore.case = TRUE, value = TRUE, invert = TRUE)
+  vars_subset <- unique(all_variables)
+  out <- purrr::map(database, extract_if_present, c(key, vars_subset))
+  # Step 3: for "memberships" data, fill and remove duplicates
+  if (grepl("membership", deparse(substitute(database)), ignore.case = TRUE)) {
+    out <- lapply(out, function(x) {
+      x %>%
+        dplyr::group_by(dplyr::all_of(key)) %>%
+        tidyr::fill(.direction = "downup") %>%
+        dplyr::ungroup() %>%
+        dplyr::distinct()
+    })
+  }
+  # Step 4: Join datasets by ID and keep pertinent rows
+  usethis::ui_info("Joining datasets by pertinent rows and columns...")
+  if (rows == "any") {
+    out <- purrr::map(out, tidyr::drop_na, dplyr::all_of(key)) %>%
+      purrr::reduce(dplyr::full_join, by = key)
+  } else if (rows == "every") {
+    out <- purrr::reduce(out, dplyr::inner_join, by = key)
+  }
   if (cols == "every") {
     all_variables <- names(table(all_variables)[table(all_variables) ==
                                                   length(database)])
     out <- dplyr::select(out, dplyr::all_of(key),
-                                 dplyr::starts_with(all_variables))
+                         dplyr::starts_with(all_variables))
   }
-  # Step 3: Resolve conflicts
+  # Step 5: Resolve conflicts
+  usethis::ui_info("Resolving conflicts...")
   if (length(resolve) < 2) {
-  other_variables <- all_variables[!all_variables %in% key]
-  out <- resolve_unique(resolve, other_variables, out, key)
+    other_variables <- all_variables[!all_variables %in% key]
+    out <- resolve_unique(resolve, other_variables, out, key)
   } else {
     resolve <- data.frame(var = names(resolve), resolve = resolve)
     out <- resolve_multiple(resolve, out, key)
   }
-  # Step 4: Remove duplicates
-  out <- dplyr::distinct(out)
-  if (any(duplicated(out[, 1]))) out <- coalesce_compatible(out)
+  # Step 6: Remove duplicates and fill NA values
+  mdate <- names(out[grepl("mdate", lapply(out, class))])
+  usethis::ui_info("Coalescing compatible rows...")
+  if (sum(duplicated(out[, 1])) > 20000) {
+    if (askYesNo("Would you like to coalesce compatible rows?
+    This might take a few of hours due to the size of the databse") == TRUE) {
+      out <- plyr::ddply(out, key, zoo::na.locf, na.rm = FALSE) %>%
+        dplyr::distinct() %>%
+        tibble::as_tibble()
+    }
+  } else {
+    out <- plyr::ddply(out, key, zoo::na.locf, na.rm = FALSE) %>%
+      dplyr::distinct() %>%
+      tibble::as_tibble()
+  }
+  if (length(mdate) != 0) {
+    out <- mutate_at(out, dplyr::all_of(mdate), messydates::as_messydate)
+  }
   out
+}
+
+extract_if_present <- function(x, y) {
+  x[intersect(y, names(x))]
 }
 
 resolve_unique <- function(resolve, other_variables, out, key) {
@@ -166,9 +218,9 @@ resolve_multiple <- function(resolve, out, key) {
 resolve_coalesce <- function(other_variables, out, key) {
   for (var in other_variables) {
     vvars <- paste0("^", var, "$|^", var, "\\.")
-    vars_to_combine <- grepl(vvars, names(out))
+    vars_to_combine <- grep(vvars, names(out), value = TRUE)
     new_var <- dplyr::coalesce(!!!out[vars_to_combine])
-    out <- dplyr::select(out, -dplyr::starts_with(var))
+    out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
@@ -180,20 +232,20 @@ resolve_coalesce <- function(other_variables, out, key) {
 resolve_min <- function(other_variables, out, key) {
   for (var in other_variables) {
     vvars <- paste0("^", var, "$|^", var, "\\.")
-    vars_to_combine <- grepl(vvars, names(out))
+    vars_to_combine <- grep(vvars, names(out), value = TRUE)
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
-      if (inherits(dates, "messydt")) {
+      if (inherits(dates, "mdate")) {
         dates <- suppressWarnings(as.Date(dates, min))
         new_var[k] <- dates
-        }
       }
+    }
     new_var <- apply(new_var, 1, min)
     # Sub NAs for first non NA value
     a <- dplyr::coalesce(!!!out[vars_to_combine])
     new_var <- ifelse(is.na(new_var), a, new_var)
-    out <- dplyr::select(out, -dplyr::starts_with(var))
+    out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
     new_var
     out[, var] <- new_var
   }
@@ -206,11 +258,11 @@ resolve_min <- function(other_variables, out, key) {
 resolve_max <- function(other_variables, out, key) {
   for (var in other_variables) {
     vvars <- paste0("^", var, "$|^", var, "\\.")
-    vars_to_combine <- grepl(vvars, names(out))
+    vars_to_combine <- grep(vvars, names(out), value = TRUE)
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
-      if (inherits(dates, "messydt")) {
+      if (inherits(dates, "mdate")) {
         dates <- suppressWarnings(as.Date(dates, max))
         new_var[k] <- dates
       }
@@ -219,7 +271,7 @@ resolve_max <- function(other_variables, out, key) {
     # Sub NAs for first non NA value
     a <- dplyr::coalesce(!!!out[vars_to_combine])
     new_var <- ifelse(is.na(new_var), a, new_var)
-    out <- dplyr::select(out, -dplyr::starts_with(var))
+    out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
     new_var
     out[, var] <- new_var
   }
@@ -232,11 +284,11 @@ resolve_max <- function(other_variables, out, key) {
 resolve_median <- function(other_variables, out, key) {
   for (var in other_variables) {
     vvars <- paste0("^", var, "$|^", var, "\\.")
-    vars_to_combine <- grepl(vvars, names(out))
+    vars_to_combine <- grep(vvars, names(out), value = TRUE)
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
-      if (inherits(dates, "messydt")) {
+      if (inherits(dates, "mdate")) {
         dates <- suppressWarnings(as.Date(dates, max))
         new_var[k] <- dates
       }
@@ -245,7 +297,7 @@ resolve_median <- function(other_variables, out, key) {
     # Sub NAs for first non NA value
     a <- dplyr::coalesce(!!!out[vars_to_combine])
     new_var <- ifelse(is.na(new_var), a, new_var)
-    out <- dplyr::select(out, -dplyr::starts_with(var))
+    out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
@@ -257,11 +309,11 @@ resolve_median <- function(other_variables, out, key) {
 resolve_mean <- function(other_variables, out, key) {
   for (var in other_variables) {
     vvars <- paste0("^", var, "$|^", var, "\\.")
-    vars_to_combine <- grepl(vvars, names(out))
+    vars_to_combine <- grep(vvars, names(out), value = TRUE)
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
-      if (inherits(dates, "messydt")) {
+      if (inherits(dates, "mdate")) {
         dates <- suppressWarnings(as.Date(dates, max))
         new_var[k] <- dates
       }
@@ -270,7 +322,7 @@ resolve_mean <- function(other_variables, out, key) {
     # Sub NAs for first non NA value
     a <- dplyr::coalesce(!!!out[vars_to_combine])
     new_var <- ifelse(is.na(new_var), a, new_var)
-    out <- dplyr::select(out, -dplyr::starts_with(var))
+    out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
@@ -282,11 +334,11 @@ resolve_mean <- function(other_variables, out, key) {
 resolve_random <- function(other_variables, out, key) {
   for (var in other_variables) {
     vvars <- paste0("^", var, "$|^", var, "\\.")
-    vars_to_combine <- grepl(vvars, names(out))
+    vars_to_combine <- grep(vvars, names(out), value = TRUE)
     new_var <- out[vars_to_combine]
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
-      if (inherits(dates, "messydt")) {
+      if (inherits(dates, "mdate")) {
         dates <- suppressWarnings(as.Date(dates, max))
         new_var[k] <- dates
       }
@@ -295,7 +347,7 @@ resolve_random <- function(other_variables, out, key) {
     # Sub NAs for first non NA value
     a <- dplyr::coalesce(!!!out[vars_to_combine])
     new_var <- ifelse(is.na(new_var), a, new_var)
-    out <- dplyr::select(out, -dplyr::starts_with(var))
+    out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
@@ -317,64 +369,6 @@ resolve_random <- function(other_variables, out, key) {
 #' }
 #' @export
 purrr::pluck
-
-#' Coalesce all compatible rows of a data frame
-#'
-#' This function identifies and coalesces
-#' all compatible rows in a data frame.
-#' Compatible rows are defined as those rows where
-#' all present elements are equal,
-#' allowing for equality where one row has an element present
-#' and the other is missing the observation.
-#' @param .data data frame to consolidate
-#' @importFrom utils combn
-#' @importFrom dplyr coalesce bind_rows slice
-#' @importFrom progress progress_bar
-#' @return A tibble with the missing observations coalesced for compatible rows
-#' @examples
-#' eg1 <- tibble::tribble(
-#' ~x, ~y, ~z,
-#' "a", "b", NA,
-#' "a", "b", "c",
-#' "j", "k", NA,
-#' NA, "k", "l")
-#' coalesce_compatible(eg1)
-#' @export
-coalesce_compatible <- function(.data) {
-  pairs <- compatible_rows(.data)
-  if (length(pairs) > 0) {
-    if (length(pairs) == 2) {
-      merged <- dplyr::coalesce(.data[pairs[1], ], .data[pairs[2], ])
-    } else {
-      merged <- apply(pairs, 1, function(x) {
-        dplyr::coalesce(.data[x[1], ], .data[x[2], ])
-    })
-    }
-    merged <- dplyr::bind_rows(merged)
-    dplyr::bind_rows(dplyr::slice(.data, -unique(c(pairs))), merged)
-  } else .data
-}
-
-compatible_rows <- function(x) {
-  complete_vars <- x[, apply(x, 2, function(y) !any(is.na(y)))]
-  compat_candidates <- which(duplicated(complete_vars) |
-                               duplicated(complete_vars, fromLast = TRUE))
-  if (length(compat_candidates) == 0) {
-    pairs <- vector(mode = "numeric", length = 0)
-  } else {
-    pairs <- t(utils::combn(compat_candidates, 2))
-    pb <- progress::progress_bar$new(
-      format = "identifying compatible pairs [:bar] :percent eta: :eta",
-      total = nrow(pairs))
-    compatico <- apply(pairs, 1, function(y) {
-      pb$tick()
-      o <- x[y[1], ] == x[y[2], ]
-      o[is.na(o)] <- TRUE
-      o
-    })
-    pairs[apply(t(compatico), 1, function(y) all(y)), ]
-  }
-}
 
 #' Favour datasets in a database
 #'

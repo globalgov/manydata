@@ -29,4 +29,51 @@ emperors
 \description{
 Emperors database documentation
 }
+\details{
+\if{html}{\out{<div class="sourceCode">}}\preformatted{#> $wikipedia
+#> ----------------------------------------------------------------------------
+#> |  Column Name  |  Data Type  |  Observations  |  Missing  |  Missing (\%)  |
+#> ----------------------------------------------------------------------------
+#> |      ID       |  character  |              68|     0     |       0       |
+#> |      Beg      |    mdate    |              68|     0     |       0       |
+#> |      End      |    mdate    |              68|     0     |       0       |
+#> |   FullName    |  character  |              68|     0     |       0       |
+#> |     Birth     |  character  |              68|     5     |     7.35      |
+#> |     Death     |  character  |              68|     0     |       0       |
+#> |   CityBirth   |  character  |              68|    17     |      25       |
+#> | ProvinceBirth |  character  |              68|     0     |       0       |
+#> |     Rise      |  character  |              68|     0     |       0       |
+#> |     Cause     |  character  |              68|     0     |       0       |
+#> |    Killer     |  character  |              68|     0     |       0       |
+#> |    Dynasty    |  character  |              68|     0     |       0       |
+#> |      Era      |  character  |              68|     0     |       0       |
+#> |     Notes     |  character  |              68|    22     |     32.35     |
+#> |     Verif     |  character  |              68|    57     |     83.82     |
+#> ----------------------------------------------------------------------------
+#> 
+#> 
+#> $UNRV
+#> ----------------------------------------------------------------------------
+#> |  Column Name  |  Data Type  |  Observations  |  Missing  |  Missing (\%)  |
+#> ----------------------------------------------------------------------------
+#> |      ID       |  character  |              99|     0     |       0       |
+#> |      Beg      |    mdate    |              99|     0     |       0       |
+#> |      End      |    mdate    |              99|     0     |       0       |
+#> |     Birth     |  character  |              99|     0     |       0       |
+#> |     Death     |  character  |              99|     0     |       0       |
+#> |   FullName    |  character  |              99|     5     |     5.05      |
+#> |    Dynasty    |  character  |              99|    37     |     37.37     |
+#> ----------------------------------------------------------------------------
+#> 
+#> 
+#> $britannica
+#> ----------------------------------------------------------------------------
+#> |  Column Name  |  Data Type  |  Observations  |  Missing  |  Missing (\%)  |
+#> ----------------------------------------------------------------------------
+#> |      ID       |  character  |              87|     0     |       0       |
+#> |      Beg      |    mdate    |              87|     0     |       0       |
+#> |      End      |    mdate    |              87|     0     |       0       |
+#> ----------------------------------------------------------------------------
+}\if{html}{\out{</div>}}
+}
 \keyword{datasets}

@@ -131,21 +131,17 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
         assign(paste0("tabl", i),
                rbind(purrr::map(dbs[[i]], function(x) length(unique(x$ID))),
                      purrr::map(dbs[[i]], function(x)
-                       paste0(
-                         round(sum(is.na(x)) * 100 / prod(dim(x)),
-                               digits = 2), " %")
-                       ),
+                       paste0(round(sum(is.na(x)) * 100 / prod(dim(x)),
+                               digits = 2), " %")),
                      purrr::map(dbs[[i]], function(x) nrow(x)),
                      purrr::map(dbs[[i]], function(x) ncol(x)),
                      purrr::map(dbs[[i]], function(x)
                        as.character(ifelse(!all(is.na(x$Beg)),
-                                                   min(x$Beg,
-                                                       na.rm = TRUE),
+                                                   min(x$Beg, na.rm = TRUE),
                                                    NA))),
                      purrr::map(dbs[[i]], function(x)
                        as.character(ifelse(!all(is.na(x$End)),
-                                                   max(x$End,
-                                                       na.rm = TRUE),
+                                                   max(x$End, na.rm = TRUE),
                                                    NA))),
                      purrr::map(dbs[[i]], function(x)
                        attr(x, which = "source_URL"))))
@@ -206,13 +202,11 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
                    purrr::map(dbs[[i]], function(x) ncol(x)),
                    purrr::map(dbs[[i]], function(x)
                      as.character(ifelse(!all(is.na(x$Beg)),
-                                                 min(x$Beg,
-                                                     na.rm = TRUE),
+                                                 min(x$Beg, na.rm = TRUE),
                                                  NA))),
                    purrr::map(dbs[[i]], function(x)
                      as.character(ifelse(!all(is.na(x$End)),
-                                                 max(x$End,
-                                                     na.rm = TRUE),
+                                                 max(x$End, na.rm = TRUE),
                                                  NA))),
                    purrr::map(dbs[[i]], function(x)
                      attr(x, which = "source_URL"))))
@@ -230,6 +224,68 @@ data_contrast <- function(pkg, database = NULL, dataset = NULL) {
     class(outlist) <- "listof"
     return(outlist)
   }
+}
+
+#' @name report
+#' @param preparation_script Would you like to open the preparation script
+#' for the dataset? By default false.
+#' @importFrom utils browseURL read.csv
+#' @importFrom dplyr rename
+#' @importFrom janitor compare_df_cols
+#' @details `data_evolution()` enables users to access the
+#' differences between raw data and the data made available to them
+#' in one of the 'many' packages.
+#' @return Either the data comparison between raw and available data or
+#' the preparation script detailing all the steps taken to prepare
+#' raw data before making it available in one of the 'many' packages.
+#' @examples
+#' \donttest{
+#' data_evolution(pkg = "manydata", database = "emperors",
+#' dataset = "wikipedia")
+#' #data_evolution(pkg = "manytrade", database = "agreements",
+#' #dataset = "GPTAD")
+#' }
+#' @export
+data_evolution <- function(pkg, database, dataset, preparation_script = FALSE) {
+  if (length(grep(pkg, search())) == 0) {
+    stop(paste0(pkg, " not found.
+    Please install, if necessary, and load ", pkg, " before running 'data_evolution()'.
+                You can use 'library(", pkg, ")' to load the package."))
+  }
+  db <- get(database)
+  if (class(db) != "list") {
+    stop("Please declare a 'many' database")
+  }
+  url <- paste0("https://github.com/globalgov/", pkg, "/blob/main/data-raw/",
+                database, "/", dataset)
+  out <- NULL
+  if (preparation_script == TRUE) {
+    out <- utils::browseURL(paste0(url, "/", "prepare-", dataset, ".R"),
+                            browser = getOption("browser"),
+                            encodeIfNeeded = FALSE)
+    message("Opened preparation script on GitHub.")
+  } else {
+    datacsv <- tryCatch({
+      suppressWarnings(utils::read.csv(paste0("https://raw.githubusercontent.com/globalgov/",
+                                              pkg, "/main/data-raw/", database, "/",
+                                              dataset, "/", dataset, ".csv")))
+    }, error = function(e) {
+      NA_character_
+    })
+    if (length(datacsv) == 1) {
+      message("Raw data could not be open or is not available for this dataset,
+              opening preparation script instead.")
+      out <- utils::browseURL(paste0(url, "/", "prepare-", dataset, ".R"),
+                              browser = getOption("browser"),
+                              encodeIfNeeded = FALSE)
+    } else {
+      out <- janitor::compare_df_cols(datacsv, db[[dataset]]) %>%
+        dplyr::rename("Raw Data" = datacsv,
+                      "Available Data" = "db[[dataset]]",
+                      "Variables" = "column_name")
+    }
+  }
+  out
 }
 
 #' @name report

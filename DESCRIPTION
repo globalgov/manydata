@@ -1,7 +1,7 @@
 Package: manydata
 Title: A Portal for Global Governance Data
-Version: 0.7.5
-Date: 2022-06-07
+Version: 0.8.0
+Date: 2022-11-10
 Authors@R:
     c(person(given = "James",
              family = "Hollway",
@@ -36,7 +36,6 @@ Imports:
     tibble,
     dplyr,
     messydates,
-    lubridate,
     purrr,
     rlang,
     stringr,
@@ -44,8 +43,14 @@ Imports:
     jsonlite,
     remotes,
     httr,
-    progress,
-    ggplot2
+    ggplot2 (>= 3.4.0),
+    migraph,
+    cshapes,
+    ggraph,
+    janitor,
+    tidyr,
+    plyr,
+    zoo
 Suggests:
     testthat,
     anytime,
@@ -59,5 +64,5 @@ Suggests:
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1
 VignetteBuilder: knitr

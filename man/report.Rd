@@ -4,12 +4,15 @@
 \alias{report}
 \alias{data_source}
 \alias{data_contrast}
+\alias{data_evolution}
 \alias{open_codebook}
 \title{Set of data structure exploration functions for users}
 \usage{
 data_source(pkg, database = NULL, dataset = NULL)
 
 data_contrast(pkg, database = NULL, dataset = NULL)
+
+data_evolution(pkg, database, dataset, preparation_script = FALSE)
 
 open_codebook(pkg, database, dataset)
 }
@@ -27,12 +30,19 @@ report data on a specific
 dataset in a specific database of a many package
 If NULL and database is specified, returns database level metadata.
 NULL by default for \code{data_source()} and \code{data_contrast()}.}
+
+\item{preparation_script}{Would you like to open the preparation script
+for the dataset? By default false.}
 }
 \value{
 A dataframe with the data sources
 
 A list with the desired metadata
 to compare various datasets in a many package.
+
+Either the data comparison between raw and available data or
+the preparation script detailing all the steps taken to prepare
+raw data before making it available in one of the 'many' packages.
 
 Opens a pdf version of the original codebook of the specified
 dataset, if available.
@@ -54,6 +64,10 @@ missing data, the number of observations, the number of variables,
 the minimum beginning date and the maximum ending date as well as
 the most direct URL to the original dataset.
 
+\code{data_evolution()} enables users to access the
+differences between raw data and the data made available to them
+in one of the 'many' packages.
+
 \code{open_codebook()} opens the original codebook of the specified
 dataset to allow users to look up the original coding rules.
 Note that no original codebook might exist for certain datasets.
@@ -67,5 +81,11 @@ data_source(pkg = "manydata")
 }
 \donttest{
 data_contrast(pkg = "manydata")
+}
+\donttest{
+data_evolution(pkg = "manydata", database = "emperors",
+dataset = "wikipedia")
+#data_evolution(pkg = "manytrade", database = "agreements",
+#dataset = "GPTAD")
 }
 }

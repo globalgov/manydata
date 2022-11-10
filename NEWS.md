@@ -1,3 +1,29 @@
+# manydata 0.8.0
+
+## Package
+
+* Closed #212 by implementing package caching in GitHub actions workflows
+* Closed #218 by fixing bug with GitHub actions workflows
+* Closed #225 by changing the structure of datasets in "many" data packages
+* Closed #240 by updating the package cheatsheet
+
+## Connection
+
+* Closed #134 by adding a ´data_evolution()´ function to the report family of functions that gets original datasets, if available, or opens the preparation scripts, if not available
+* Added 'db_profile' family of functions to visualise databases
+  * Closed #214 by adding ´db_plot()´ function to plot a profile of the database to facilitate comparison of matched observations across datasets
+  * Closed #224 by adding ´db_comp()´ function that creates a tibble of the database to facilitate comparison of matched observations across datasets
+* Updated ´get_packages()´ function
+  * Closed #215 by making ´get_packages()´ interactive so that users can chose which branch to download
+  * Closed #219 by improving ´get_packages()´ printing 
+  * Updated ´get_packages()´ and ´plot_releases()´ to use ´{messydates}´, instead of ´{lubridate}´, for dates coercion
+* Closed #222 by adding ´network_map()´function for plotting geographical networks
+* Updated ´consolidate()´function to make function over 20 times faster
+  * Closed #227 by making ´consolidate()´ ignore text related variables due to their size
+  * Closed #230 by making ´consolidate()´ more concise to avoid running into memory limits
+  * Closed #228 and #232 by replacing ´coalesce_compatible()´ for a faster approach to coalescing compatible missing observations that relies on ´zoo::na.locf()´
+  * Made ´coalesce_compatible()´ function defunct
+
 # manydata 0.7.5
 
 ## Package

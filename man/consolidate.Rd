@@ -47,7 +47,8 @@ Users can also specify multiple key variables in a list.
 For multiple key variables, the key variables must be present in
 all the datasets in the database (e.g. \code{key = c("key1", "key2")}).
 For equivalent key columns with different names across datasets,
-matching is possible if keys are declared (e.g. \code{key = c("key1" = "key2")}).}
+matching is possible if keys are declared (e.g. \code{key = c("key1" = "key2")}).
+Missing observations in the key variable are removed.}
 }
 \value{
 A single tibble/data frame.
@@ -67,6 +68,9 @@ Even then there may be conflicts, as the actual unit-variable
 observations may differ from dataset to dataset.
 We offer a number of resolve methods that enable
 users to choose how conflicts between observations are resolved.
+}
+\details{
+Text variables are dropped for more efficient consolidation.
 }
 \examples{
 \donttest{

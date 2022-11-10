@@ -1,14 +1,9 @@
 # wikipedia Preparation Script
 
-# This is a template for importing, cleaning, and exporting data
-# ready for the qPackage.
-# The dataset was improted from:
+# The dataset was imported from:
 # https://github.com/zonination/emperors
 # It was assembled from the following wikipedia page:
 # https://en.wikipedia.org/wiki/List_of_Roman_emperors
-# The dataset was imported to the package with the following line:
-# manypkgs::import_data(dataset = "wikipedia", database = "emperors")
-# This also created and opened this preparation script.
 
 # Stage one: Collecting data
 wikipedia <- readr::read_csv("data-raw/emperors/wikipedia/emperors.csv")
@@ -23,15 +18,14 @@ wikipedia$notes
 # Some of the first few dates are supposed to be negative (BC).
 # While for other dates, only the year is accurate...
 # However, due to issues in dealing with dates with most R packages,
-# these dates became positive or were completed arbitrarly.
+# these dates became positive or were completed arbitrarily.
 # Let's change these back and treat dates with `{messydates}`.
-
 # Get these columns into character to be able to modify them.
 wikipedia$birth <- as.character(wikipedia$birth)
 wikipedia$death <- as.character(wikipedia$death)
 wikipedia$reign.start <- as.character(wikipedia$reign.start)
 wikipedia$reign.end <- as.character(wikipedia$reign.end)
-# Now let's correct ngative columns, according to the notes,
+# Now let's correct negative columns, according to the notes,
 # by adding a BC to them.
 for(i in c(1, 2, 4, 6)) {
   wikipedia$birth[i] <- paste0(wikipedia$birth[i], " BC")
@@ -83,7 +77,6 @@ for(i in c(34, 35, 36, 37, 38, 39, 40, 41, 45, 46, 60)){
   wikipedia$reign.end[i] <-  paste0(wikipedia$reign.end[i], "~")
   wikipedia$reign.start[i] <-  paste0(wikipedia$reign.start[i], "~")
 }
-
 # Let's also keep the year only for those dates which
 # the notes detail only year in certain.
 for(i in c(18, 22, 23)){ # reign start year only
@@ -91,15 +84,12 @@ for(i in c(18, 22, 23)){ # reign start year only
 }
 # birth year only
 wikipedia$birth[24] <-  stringr::str_extract(wikipedia$birth[24], "^[0-9]{4}")
-
 # Finally, some dates appear to be ranges.
 # `{messydates}` deals with ranges with a ".." separator.
 wikipedia$birth[20] <-  paste0(wikipedia$birth[20], "..", "0137-02-02")
 wikipedia$birth[66] <-  paste0(wikipedia$birth[66], "..", "0359-05-23")
-
 # Remove non-ASCII characters
 wikipedia <- apply(wikipedia, 2, stringi::stri_enc_toascii)
-
 # Let's standardise dates and variable names
 wikipedia <- as_tibble(wikipedia) %>%
   manydata::transmutate(ID = name,

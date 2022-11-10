@@ -57,7 +57,7 @@ downloaded from GitHub.
 remotes::install_github("globalgov/manydata")
 ```
 
-## Available ‘many packages’
+## Available ‘many’ packages
 
 `{manydata}` connects users to other packages that help fill global
 governance researchers’ data needs. The `get_packages()` function can be
@@ -71,7 +71,56 @@ get_packages()
 Please see [the website](https://globalgov.github.io/manydata/) for more
 information about how to use `{manydata}`.
 
+## Visualising ‘many’ databases
+
+Once ‘many’ data packages are downloaded, `{manydata}` helps users
+visualize the relationship between matched observations across datasets
+within a database. Database profiling functions return confirmed,
+unique, missing, conflicting, or majority values in all (non-ID)
+variables in the datasets for a ‘many’ package database.
+
+``` r
+db_plot(database = emperors, key = "ID", variable = "all", category = "all")
+```
+
+    #> There were 116 matched observations by ID variable across datasets in database.
+
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+
+## Consolidating ‘many’ databases
+
+`{manydata}` also contains flexible methods for consolidating ‘many’
+package database into a single dataset with some combination of the
+rows, columns, as well as for how to resolve conflicts for observations
+across datasets.
+
+``` r
+consolidate(database = emperors, rows = "every", cols = "every",
+            resolve = "coalesce", key = "ID")
+```
+
+    #> There were 116 matched observations by ID variable across datasets in database.
+
+    #> # A tibble: 41 × 3
+    #>    ID             Beg         End        
+    #>    <chr>          <mdate>     <mdate>    
+    #>  1 Aemilian       0253-08-15~ 0253-10-15~
+    #>  2 Augustus       -0026-01-16 0014-08-19 
+    #>  3 Aurelian       0270-09-15  0275-09-15 
+    #>  4 Balbinus       0238-04-22  0238-07-29 
+    #>  5 Caracalla      0198        0217-04-08 
+    #>  6 Carinus        0283-08-01~ 0285-08-01~
+    #>  7 Carus          0282-10-01~ 0283-08-01~
+    #>  8 Claudius       0041-01-25  0054-10-13 
+    #>  9 Commodus       0177        0192-12-31 
+    #> 10 Constantine II 0337-05-22  0340-01-01 
+    #> # … with 31 more rows
+
 ## Cheat Sheet
+
+`{manydata}` contains several other functions to help global governance
+researchers. For a quick overview, please also check the package cheat
+sheet.
 
 <a href="https://github.com/globalgov/manydata/blob/main/man/figures/cheatsheet.pdf"><img src="https://raw.githubusercontent.com/globalgov/manydata/main/man/figures/cheatsheet.png" width="525" height="378"/></a>
 

@@ -1,6 +1,12 @@
 ---
 output: github_document
 ---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(warning   = FALSE, message   = FALSE, out.width = "100%",
+                      comment   = "#>", fig.path  = "man/figures/README-")
+```
+
 # manydata <img src="man/figures/manydataLogo.png" align="right" width="220"/>
 
 <!-- badges: start -->
@@ -15,20 +21,26 @@ output: github_document
 <!-- ![GitHub All Releases](https://img.shields.io/github/downloads/jhollway/roctopus/total) -->
 <!-- badges: end -->
 
-`{manydata}` is the central package in the many packages universe aimed at collecting, connecting, and correcting network data across issue-domains of global governance. To assist users in doing so, `{manydata}` contains functions that enable users to download and manipulate data easily.
+`{manydata}` is the central package in the many packages universe aimed at
+collecting, connecting, and correcting network data across issue-domains
+of global governance.
+To assist users in doing so, `{manydata}` contains functions that
+enable users to download and manipulate data easily.
 
 ## Why manydata?
 
-`{manydata}` offers users access to all of the tested data in the various 'many packages' available,
+`{manydata}` offers users access to all of the tested data in the
+various 'many packages' available,
 for use in analyses of global governance and beyond.
-A special feature of the 'many packages' is that it is not 'opinionated' - instead of
-offering a single, supposedly authoritative version of global governance events,
-the packages in the many packages universe gather well-regarded datasets in each issue-domain
-into three-dimensional 'datacubes'.
+A special feature of the 'many packages' is that it is not 'opinionated' -
+instead of offering a single, supposedly authoritative version of
+global governance events, the packages in the many packages universe gather
+well-regarded datasets in each issue-domain into three-dimensional 'datacubes'.
 The chief advantage of this for global governance researchers is that it enables
-a quick and easy way to check the robustness of their results using different formulations of
-the study population or concept specification.
-The 'datacube' structure has a specific coding system for the variables across the datasets. 
+a quick and easy way to check the robustness of their results using different
+formulations of the study population or concept specification.
+The 'datacube' structure has a specific coding system for the variables across
+the datasets. 
 For more details, please see the [vignette](https://globalgov.github.io/manydata/articles/user.html).
 
 ## Downloading and installing manydata
@@ -46,10 +58,15 @@ The development version of the package `{manydata}` can also be downloaded from 
 remotes::install_github("globalgov/manydata")
 ```
 
-## Available 'many packages'
+## Available 'many' packages
 
-`{manydata}` connects users to other packages that help fill global governance researchers' data needs.
+`{manydata}` connects users to other packages that help fill global governance
+researchers' data needs.
 The `get_packages()` function can be used to discover the 'many packages' currently available.
+
+```{r, include=FALSE, message=FALSE, warning=FALSE}
+library(manydata)
+```
 
 ```{r get, eval=FALSE}
 library(manydata)
@@ -58,7 +75,33 @@ get_packages()
 
 Please see [the website](https://globalgov.github.io/manydata/) for more information about how to use `{manydata}`.
 
+## Visualising 'many' databases
+
+Once 'many' data packages are downloaded, `{manydata}` helps users visualize the
+relationship between matched observations across datasets within a database.
+Database profiling functions return confirmed, unique,
+missing, conflicting, or majority values in all (non-ID) variables
+in the datasets for a 'many' package database.
+
+```{r, message=FALSE, warning=FALSE}
+db_plot(database = emperors, key = "ID", variable = "all", category = "all")
+```
+
+## Consolidating 'many' databases
+
+`{manydata}` also contains flexible methods for consolidating 'many' package database
+into a single dataset with some combination of the rows, columns,
+as well as for how to resolve conflicts for observations across datasets.
+
+```{r, message=FALSE, warning=FALSE}
+consolidate(database = emperors, rows = "every", cols = "every",
+            resolve = "coalesce", key = "ID")
+```
+
 ## Cheat Sheet
+
+`{manydata}` contains several other functions to help global governance researchers.
+For a quick overview, please also check the package cheat sheet.
 
 <a href="https://github.com/globalgov/manydata/blob/main/man/figures/cheatsheet.pdf"><img src="https://raw.githubusercontent.com/globalgov/manydata/main/man/figures/cheatsheet.png" width="525" height="378"/></a>
 
