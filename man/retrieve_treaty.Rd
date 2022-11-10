@@ -8,26 +8,24 @@
 \alias{retrieve_links}
 \title{Retrieve international treaties}
 \usage{
-retrieve_bilaterals(dataset, actor = "CountryID")
+retrieve_bilaterals(dataset)
 
 retrieve_multilaterals(dataset)
 
-retrieve_membership_list(dataset, actor = "CountryID", treaty_type = NULL)
+retrieve_membership_list(dataset, actor = "StateID", treaty_type = NULL)
 
-retrieve_links(database, dataset, treaty_type = NULL)
+retrieve_links(dataset, treaty_type = NULL)
 }
 \arguments{
 \item{dataset}{A dataset within an agreements or memberships database
 from one of the many packages.}
 
 \item{actor}{An actor variable.
-"CountryID", by default.}
+"StateID", by default.}
 
 \item{treaty_type}{The type of treaties to be returned.
-Null, by default.}
-
-\item{database}{An agreements or memberships database
-from one of the many packages.}
+NULL, by default.
+Other options are "bilateral" or "multilateral".}
 }
 \value{
 A tibble of bilateral agreements
@@ -59,8 +57,8 @@ with some combination of the rows, columns, and observations of the datasets
 before getting the desired information.
 }
 \examples{
-membs <- tibble::tibble(CountryID = c("ROU", "RUS", "DNK"),
-manyID = c("ROU-RUS[RFP]_1901A", "ROU-RUS[RFP]_1901A", "GD16FI_1901A"),
+membs <- tibble::tibble(manyID = c("ROU-RUS[RFP]_1901A",
+"ROU-RUS[RFP]_1901E", "GD16FI_1901A"),
 Title = c("Convention Between Roumania And Russia Concerning Fishing
 In The Danube And The Pruth",
 "Convention Between Roumania And Russia Concerning Fishing
@@ -70,11 +68,10 @@ The United Kingdom Of Great Britain
 And Northern Ireland For Regulating The Fisheries
 Of Their Respective Subjects Outside
 Territorial Waters In The Ocean Surrounding The Faroe Islands"),
-Beg = c("1901-02-22", "1901-02-22", "1901-06-24"),
-End = c(NA, NA, NA))
+Beg = c("1901-02-22", "1901-02-22", "1901-06-24"))
 retrieve_bilaterals(membs)
-membs <- tibble::tibble(CountryID = c("ROU", "RUS", "DNK"),
-manyID = c("ROU-RUS[RFP]_1901A", "ROU-RUS[RFP]_1901A", "GD16FI_1901A"),
+membs <- tibble::tibble( manyID = c("ROU-RUS[RFP]_1901A",
+"ROU-RUS[RFP]_1901A", "GD16FI_1901A"),
 Title = c("Convention Between Roumania And Russia Concerning Fishing
 In The Danube And The Pruth",
 "Convention Between Roumania And Russia Concerning Fishing
@@ -84,10 +81,9 @@ The United Kingdom Of Great Britain
 And Northern Ireland For Regulating The Fisheries
 Of Their Respective Subjects Outside
 Territorial Waters In The Ocean Surrounding The Faroe Islands"),
-Beg = c("1901-02-22", "1901-02-22", "1901-06-24"),
-End = c(NA, NA, NA))
+Beg = c("1901-02-22", "1901-02-22", "1901-06-24"))
 retrieve_multilaterals(membs)
-membs <- tibble::tibble(CountryID = c("ROU", "RUS", "DNK"),
+membs <- tibble::tibble(StateID = c("ROU", "RUS", "DNK"),
 manyID = c("ROU-RUS[RFP]_1901A", "ROU-RUS[RFP]_1901A", "GD16FI_1901A"))
 retrieve_membership_list(dataset = membs)
 membs <- tibble::tibble(manyID = c("ROU-RUS[RFP]_1901A",

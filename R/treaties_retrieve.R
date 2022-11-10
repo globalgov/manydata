@@ -20,14 +20,13 @@
 #' before getting the desired information.
 #' @param dataset A dataset within an agreements or memberships database
 #' from one of the many packages.
-#' @param database An agreements or memberships database
-#' from one of the many packages.
 #' @param treaty_type The type of treaties to be returned.
-#' Null, by default.
+#' NULL, by default.
+#' Other options are "bilateral" or "multilateral".
 #' @param actor An actor variable.
-#' "CountryID", by default.
+#' "StateID", by default.
 #' @import dplyr
-#' @importFrom stringr str_detect
+#' @importFrom stringr str_detect str_extract str_remove_all
 #' @importFrom purrr map map_chr
 #' @importFrom tibble tibble
 #' @name retrieve_treaty
@@ -36,8 +35,8 @@ NULL
 #' @rdname retrieve_treaty
 #' @return A tibble of bilateral agreements
 #' @examples
-#' membs <- tibble::tibble(CountryID = c("ROU", "RUS", "DNK"),
-#' manyID = c("ROU-RUS[RFP]_1901A", "ROU-RUS[RFP]_1901A", "GD16FI_1901A"),
+#' membs <- tibble::tibble(manyID = c("ROU-RUS[RFP]_1901A",
+#' "ROU-RUS[RFP]_1901E", "GD16FI_1901A"),
 #' Title = c("Convention Between Roumania And Russia Concerning Fishing
 #' In The Danube And The Pruth",
 #' "Convention Between Roumania And Russia Concerning Fishing
@@ -47,39 +46,28 @@ NULL
 #' And Northern Ireland For Regulating The Fisheries
 #' Of Their Respective Subjects Outside
 #' Territorial Waters In The Ocean Surrounding The Faroe Islands"),
-#' Beg = c("1901-02-22", "1901-02-22", "1901-06-24"),
-#' End = c(NA, NA, NA))
+#' Beg = c("1901-02-22", "1901-02-22", "1901-06-24"))
 #' retrieve_bilaterals(membs)
 #' @export
-retrieve_bilaterals <- function(dataset, actor = "CountryID") {
-  Beg <- Actor <- CountryID1 <- CountryID2 <- Title <- manyID <- NULL
+retrieve_bilaterals <- function(dataset) {
+  Beg <- StateID1 <- StateID2 <- Title <- manyID <- NULL
   if (!any(colnames(dataset) == "manyID")) {
     stop("manyID column not found, please declare a many packages dataset.")
   }
-  bilats <- subset(dataset, grepl("[A-Z]{3}-", manyID)) %>%
-    dplyr::arrange(manyID, actor) %>%
-    dplyr::relocate(actor) %>%
-    rename(Actor = 1) %>%
-    dplyr::select(Actor, manyID, Title, Beg)
-  bilats <- dplyr::filter(bilats, manyID %in%
-                            names(table(bilats$manyID)[table(bilats$manyID) == 2]))
-  bilats1 <- bilats %>%
-    dplyr::filter(row_number() %% 2 == 0) %>%
-    dplyr::rename(CountryID1 = "Actor")
-  bilats2 <- bilats %>%
-    dplyr::filter(row_number() %% 2 == 1) %>%
-    dplyr::rename(CountryID2 = "Actor")
-  bilats <- dplyr::full_join(bilats2, bilats1,
-                             by = c("manyID", "Title", "Beg")) %>%
-      dplyr::select(CountryID1, CountryID2, Title, Beg)
-  bilats
+  subset(dataset, grepl("[A-Z]{3}-[A-Z]{3}", manyID)) %>%
+    dplyr::mutate(StateID1 = stringr::str_extract(manyID, "^[A-Z]{3}"),
+                  StateID2 = stringr::str_remove_all(stringr::str_extract(manyID, "-[A-Z]{3}"),
+                                                     "-")) %>%
+    dplyr::arrange(manyID) %>%
+    dplyr::select(manyID, StateID1, StateID2, Title, Beg) %>% 
+    dplyr::distinct()
 }
 
 #' @rdname retrieve_treaty
 #' @return A tibble of multilateral agreements
 #' @examples
-#' membs <- tibble::tibble(CountryID = c("ROU", "RUS", "DNK"),
-#' manyID = c("ROU-RUS[RFP]_1901A", "ROU-RUS[RFP]_1901A", "GD16FI_1901A"),
+#' membs <- tibble::tibble( manyID = c("ROU-RUS[RFP]_1901A",
+#' "ROU-RUS[RFP]_1901A", "GD16FI_1901A"),
 #' Title = c("Convention Between Roumania And Russia Concerning Fishing
 #' In The Danube And The Pruth",
 #' "Convention Between Roumania And Russia Concerning Fishing
@@ -89,33 +77,27 @@ retrieve_bilaterals <- function(dataset, actor = "CountryID") {
 #' And Northern Ireland For Regulating The Fisheries
 #' Of Their Respective Subjects Outside
 #' Territorial Waters In The Ocean Surrounding The Faroe Islands"),
-#' Beg = c("1901-02-22", "1901-02-22", "1901-06-24"),
-#' End = c(NA, NA, NA))
+#' Beg = c("1901-02-22", "1901-02-22", "1901-06-24"))
 #' retrieve_multilaterals(membs)
 #' @export
 retrieve_multilaterals <- function(dataset) {
-  manyID <- Title <- Beg <- End <- NULL
+  manyID <- Title <- Beg <- NULL
   if (!any(colnames(dataset) == "manyID")) {
     stop("manyID column not found, please declare a many packages dataset.")
   }
-  multi <- subset(dataset, stringr::str_detect(manyID, "\\-", negate = TRUE)) %>%
-    dplyr::filter(manyID %in% names(table(manyID)[table(manyID) != 2]))
-  if (!any(colnames(multi) == "End")) {
-    multi <- dplyr::select(multi, manyID, Title, Beg, End)
-  } else {
-    multi <- dplyr::select(multi, manyID, Title, Beg)
-  }
-  multi
+  subset(dataset, stringr::str_detect(manyID, "\\-", negate = TRUE)) %>%
+    dplyr::filter(manyID %in% names(table(manyID)[table(manyID) != 2])) %>% 
+    dplyr::select(manyID, Title, Beg)
 }
 
 #' @name retrieve_treaty
 #' @return A tibble of treaty IDs and countries part of the treaty
 #' @examples
-#' membs <- tibble::tibble(CountryID = c("ROU", "RUS", "DNK"),
+#' membs <- tibble::tibble(StateID = c("ROU", "RUS", "DNK"),
 #' manyID = c("ROU-RUS[RFP]_1901A", "ROU-RUS[RFP]_1901A", "GD16FI_1901A"))
 #' retrieve_membership_list(dataset = membs)
 #' @export
-retrieve_membership_list <- function(dataset, actor = "CountryID",
+retrieve_membership_list <- function(dataset, actor = "StateID",
                                      treaty_type = NULL) {
   Actor <- Memberships <- manyID <- NULL
   membs_list <- dplyr::select(dataset, manyID, actor) %>%
@@ -147,16 +129,13 @@ retrieve_membership_list <- function(dataset, actor = "CountryID",
 #' "GD16FI_1901A"))
 #' retrieve_links(dataset = membs)
 #' @export
-retrieve_links <- function(database, dataset, treaty_type = NULL) {
+retrieve_links <- function(dataset, treaty_type = NULL) {
   # Get manyID
-  if (!missing(database)) {
-    treatyID <- unname(unlist(purrr::map(database, "manyID")))
-  }
-  if (!missing(dataset)) {
-    treatyID <- dataset$manyID
+  if (!any(colnames(dataset) == "manyID")) {
+    stop("manyID column not found, please declare a many packages dataset.")
   }
   # Filter by links
-  treatyID <- grep(":", treatyID, value = TRUE)
+  treatyID <- grep(":", dataset$manyID, value = TRUE)
   # Filter by treaty_type
   if (!is.null(treaty_type)) {
     if (treaty_type == "bilateral") {
