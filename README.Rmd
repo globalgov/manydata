@@ -84,8 +84,7 @@ missing, conflicting, or majority values in all (non-ID) variables
 in the datasets for a 'many' package database.
 
 ```{r, message=FALSE, warning=FALSE}
-manydata::db_plot(database = manydata::emperors, key = "ID",
-                  variable = "all", category = "all")
+db_plot(database = emperors, key = "ID", variable = "all", category = "all")
 ```
 
 ## Consolidating 'many' databases
@@ -95,8 +94,8 @@ into a single dataset with some combination of the rows, columns,
 as well as for how to resolve conflicts for observations across datasets.
 
 ```{r, message=FALSE, warning=FALSE}
-manydata::consolidate(database = manydata::emperors, rows = "every",
-                      cols = "every", resolve = "coalesce", key = "ID")
+consolidate(database = emperors, rows = "every", cols = "every",
+            resolve = "coalesce", key = "ID")
 ```
 
 ## Cheat Sheet

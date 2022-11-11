@@ -1,3 +1,10 @@
+# manydata 0.8.1
+
+## Package
+
+* Added 'RDataTmp' files to Rbuildignore and .gitignore
+* Updated ´data_evolution()´ to use ´inherits()´ instead of ´class()´ for condition comparison
+
 # manydata 0.8.0
 
 ## Package

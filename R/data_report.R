@@ -253,7 +253,7 @@ data_evolution <- function(pkg, database, dataset, preparation_script = FALSE) {
                 You can use 'library(", pkg, ")' to load the package."))
   }
   db <- get(database)
-  if (class(db) != "list") {
+  if (!inherits(db, "list")) {
     stop("Please declare a 'many' database")
   }
   url <- paste0("https://github.com/globalgov/", pkg, "/blob/main/data-raw/",
