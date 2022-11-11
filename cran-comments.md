@@ -1,6 +1,7 @@
 This is a resubmission. In this version I have:
 
 * Added 'RDataTmp' files to Rbuildignore and .gitignore
+* Updated ´data_evolution()´ to use ´inherits()´ instead of ´class()´ for condition comparison
 
 ## Test environments
 
