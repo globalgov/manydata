@@ -1,3 +1,7 @@
+This is a resubmission. In this version I have:
+
+* Added 'RDataTmp' files to Rbuildignore and .gitignore
+
 ## Test environments
 
 * local R installation, x86_64-apple-darwin17.0, R 4.2.0
