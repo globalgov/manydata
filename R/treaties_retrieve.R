@@ -59,7 +59,7 @@ retrieve_bilaterals <- function(dataset) {
                   StateID2 = stringr::str_remove_all(stringr::str_extract(manyID, "-[A-Z]{3}"),
                                                      "-")) %>%
     dplyr::arrange(manyID) %>%
-    dplyr::select(manyID, StateID1, StateID2, Title, Beg) %>% 
+    dplyr::select(manyID, StateID1, StateID2, Title, Beg) %>%
     dplyr::distinct()
 }
 
@@ -86,7 +86,7 @@ retrieve_multilaterals <- function(dataset) {
     stop("manyID column not found, please declare a many packages dataset.")
   }
   subset(dataset, stringr::str_detect(manyID, "\\-", negate = TRUE)) %>%
-    dplyr::filter(manyID %in% names(table(manyID)[table(manyID) != 2])) %>% 
+    dplyr::filter(manyID %in% names(table(manyID)[table(manyID) != 2])) %>%
     dplyr::select(manyID, Title, Beg)
 }
 
