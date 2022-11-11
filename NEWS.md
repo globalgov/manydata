@@ -1,3 +1,9 @@
+# manydata 0.8.1
+
+## Package
+
+* Added 'RDataTmp' files to Rbuildignore and .gitignore
+
 # manydata 0.8.0
 
 ## Package
