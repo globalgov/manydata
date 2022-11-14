@@ -10,8 +10,8 @@
     event datasets on global governance.">
 <title>A Portal for Global Governance Data • manydata</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
 <meta property="og:title" content="A Portal for Global Governance Data">
@@ -31,7 +31,7 @@
     
     <a class="navbar-brand me-2" href="index.html">manydata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.7.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,6 +90,7 @@
 <div class="page-header"><h1 id="manydata-">manydata <img src="reference/figures/manydataLogo.png" align="right" width="220"><a class="anchor" aria-label="anchor" href="#manydata-"></a>
 </h1></div>
 <!-- badges: start -->
+
 <p><a href="https://github.com/globalgov/manydata" class="external-link">manydata</a> is the central package in the many packages universe aimed at collecting, connecting, and correcting network data across issue-domains of global governance. To assist users in doing so, <a href="https://github.com/globalgov/manydata" class="external-link">manydata</a> contains functions that enable users to download and manipulate data easily.</p>
 <div class="section level2">
 <h2 id="why-manydata">Why manydata?<a class="anchor" aria-label="anchor" href="#why-manydata"></a>
@@ -101,24 +102,58 @@
 </h2>
 <p>The easiest way to install <a href="https://github.com/globalgov/manydata" class="external-link">manydata</a> is directly from CRAN.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"manydata"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"manydata"</span><span class="op">)</span></span></code></pre></div>
 <p>The development version of the package <a href="https://github.com/globalgov/manydata" class="external-link">manydata</a> can also be downloaded from GitHub.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"globalgov/manydata"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"globalgov/manydata"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="available-many-packages">Available ‘many packages’<a class="anchor" aria-label="anchor" href="#available-many-packages"></a>
+<h2 id="available-many-packages">Available ‘many’ packages<a class="anchor" aria-label="anchor" href="#available-many-packages"></a>
 </h2>
 <p><a href="https://github.com/globalgov/manydata" class="external-link">manydata</a> connects users to other packages that help fill global governance researchers’ data needs. The <code><a href="reference/get_packages.html">get_packages()</a></code> function can be used to discover the ‘many packages’ currently available.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/globalgov/manydata" class="external-link">manydata</a></span><span class="op">)</span>
-<span class="fu"><a href="reference/get_packages.html">get_packages</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/globalgov/manydata" class="external-link">manydata</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/get_packages.html">get_packages</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>Please see <a href="https://globalgov.github.io/manydata/">the website</a> for more information about how to use <a href="https://github.com/globalgov/manydata" class="external-link">manydata</a>.</p>
+</div>
+<div class="section level2">
+<h2 id="visualising-many-databases">Visualising ‘many’ databases<a class="anchor" aria-label="anchor" href="#visualising-many-databases"></a>
+</h2>
+<p>Once ‘many’ data packages are downloaded, <a href="https://github.com/globalgov/manydata" class="external-link">manydata</a> helps users visualize the relationship between matched observations across datasets within a database. Database profiling functions return confirmed, unique, missing, conflicting, or majority values in all (non-ID) variables in the datasets for a ‘many’ package database.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/db_profile.html">db_plot</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, key <span class="op">=</span> <span class="st">"ID"</span>, variable <span class="op">=</span> <span class="st">"all"</span>, category <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; There were 116 matched observations by ID variable across datasets in database.</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="100%"></p>
+</div>
+<div class="section level2">
+<h2 id="consolidating-many-databases">Consolidating ‘many’ databases<a class="anchor" aria-label="anchor" href="#consolidating-many-databases"></a>
+</h2>
+<p><a href="https://github.com/globalgov/manydata" class="external-link">manydata</a> also contains flexible methods for consolidating ‘many’ package database into a single dataset with some combination of the rows, columns, as well as for how to resolve conflicts for observations across datasets.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/consolidate.html">consolidate</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"every"</span>, cols <span class="op">=</span> <span class="st">"every"</span>,</span>
+<span>            resolve <span class="op">=</span> <span class="st">"coalesce"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; There were 116 matched observations by ID variable across datasets in database.</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 41 × 3</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    ID             Beg         End        </span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;          &lt;mdate&gt;     &lt;mdate&gt;    </span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1 Aemilian       0253-08-15~ 0253-10-15~</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2 Augustus       -0026-01-16 0014-08-19 </span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  3 Aurelian       0270-09-15  0275-09-15 </span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  4 Balbinus       0238-04-22  0238-07-29 </span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  5 Caracalla      0198        0217-04-08 </span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  6 Carinus        0283-08-01~ 0285-08-01~</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  7 Carus          0282-10-01~ 0283-08-01~</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  8 Claudius       0041-01-25  0054-10-13 </span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  9 Commodus       0177        0192-12-31 </span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10 Constantine II 0337-05-22  0340-01-01 </span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # … with 31 more rows</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="cheat-sheet">Cheat Sheet<a class="anchor" aria-label="anchor" href="#cheat-sheet"></a>
 </h2>
+<p><a href="https://github.com/globalgov/manydata" class="external-link">manydata</a> contains several other functions to help global governance researchers. For a quick overview, please also check the package cheat sheet.</p>
 <p><a href="https://github.com/globalgov/manydata/blob/main/man/figures/cheatsheet.pdf" class="external-link"><img src="https://raw.githubusercontent.com/globalgov/manydata/main/man/figures/cheatsheet.png" width="525" height="378"></a></p>
 </div>
 <div class="section level2">
@@ -168,15 +203,7 @@
 </ul>
 </div>
 
-<div class="dev-status">
-<h2 data-toc-skip>Dev status</h2>
-<ul class="list-unstyled">
-<li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="lifecycle"></a></li>
-<li><a href="https://app.codecov.io/gh/globalgov/manydata?branch=main" class="external-link"><img src="https://codecov.io/gh/globalgov/manydata/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
-<li><a href="https://www.codefactor.io/repository/github/globalgov/manydata" class="external-link"><img src="https://www.codefactor.io/repository/github/globalgov/manydata/badge" alt="CodeFactor"></a></li>
-<li><a href="https://bestpractices.coreinfrastructure.org/projects/4562" class="external-link"><img src="https://bestpractices.coreinfrastructure.org/projects/4562/badge" alt="CII Best Practices"></a></li>
-</ul>
-</div>
+
 
   </aside>
 </div>

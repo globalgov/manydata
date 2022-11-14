@@ -31,13 +31,16 @@
     <loc>https://globalgov.github.io/manydata/pull_request_template.html</loc>
   </url>
   <url>
-    <loc>https://globalgov.github.io/manydata/reference/coalesce_compatible.html</loc>
-  </url>
-  <url>
     <loc>https://globalgov.github.io/manydata/reference/coalesce_rows.html</loc>
   </url>
   <url>
     <loc>https://globalgov.github.io/manydata/reference/consolidate.html</loc>
+  </url>
+  <url>
+    <loc>https://globalgov.github.io/manydata/reference/db_profile.html</loc>
+  </url>
+  <url>
+    <loc>https://globalgov.github.io/manydata/reference/defunct.html</loc>
   </url>
   <url>
     <loc>https://globalgov.github.io/manydata/reference/emperors.html</loc>
@@ -49,10 +52,10 @@
     <loc>https://globalgov.github.io/manydata/reference/get_packages.html</loc>
   </url>
   <url>
-    <loc>https://globalgov.github.io/manydata/reference/get_treaty.html</loc>
+    <loc>https://globalgov.github.io/manydata/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://globalgov.github.io/manydata/reference/index.html</loc>
+    <loc>https://globalgov.github.io/manydata/reference/network_map.html</loc>
   </url>
   <url>
     <loc>https://globalgov.github.io/manydata/reference/plot_releases.html</loc>
@@ -68,6 +71,9 @@
   </url>
   <url>
     <loc>https://globalgov.github.io/manydata/reference/report.html</loc>
+  </url>
+  <url>
+    <loc>https://globalgov.github.io/manydata/reference/retrieve_treaty.html</loc>
   </url>
   <url>
     <loc>https://globalgov.github.io/manydata/reference/reunite.html</loc>
