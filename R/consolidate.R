@@ -94,8 +94,8 @@ consolidate <- function(database, rows = "any", cols = "any",
   # Step 2: Drop any unwanted columns (including text variables)
   all_variables <- grep("text", unname(unlist(purrr::map(database, names))),
                         ignore.case = TRUE, value = TRUE, invert = TRUE)
-  vars_subset <- unique(all_variables)
-  out <- purrr::map(database, extract_if_present, c(key, vars_subset))
+  vars_subset <- c(unique(all_variables), key)
+  out <- purrr::map(database, extract_if_present, vars_subset)
   # Step 3: for "memberships" data, fill and remove duplicates
   if (grepl("membership", deparse(substitute(database)), ignore.case = TRUE)) {
     out <- lapply(out, function(x) {
@@ -105,11 +105,11 @@ consolidate <- function(database, rows = "any", cols = "any",
         dplyr::ungroup() %>%
         dplyr::distinct()
     })
+    key <- c(key, "CountryID")
   }
   # Step 4: Join datasets by ID and keep pertinent rows
-  usethis::ui_info("Joining datasets by pertinent rows and columns...")
   if (rows == "any") {
-    out <- purrr::map(out, tidyr::drop_na, dplyr::all_of(key)) %>%
+    out <- purrr::map(out, tidyr::drop_na, dplyr::all_of(key)) %>% 
       purrr::reduce(dplyr::full_join, by = key)
   } else if (rows == "every") {
     out <- purrr::reduce(out, dplyr::inner_join, by = key)
@@ -132,18 +132,11 @@ consolidate <- function(database, rows = "any", cols = "any",
   # Step 6: Remove duplicates and fill NA values
   mdate <- names(out[grepl("mdate", lapply(out, class))])
   usethis::ui_info("Coalescing compatible rows...")
-  if (sum(duplicated(out[, 1])) > 20000) {
-    if (askYesNo("Would you like to coalesce compatible rows?
-    This might take a few of hours due to the size of the databse") == TRUE) {
-      out <- plyr::ddply(out, key, zoo::na.locf, na.rm = FALSE) %>%
-        dplyr::distinct() %>%
-        tibble::as_tibble()
-    }
-  } else {
-    out <- plyr::ddply(out, key, zoo::na.locf, na.rm = FALSE) %>%
-      dplyr::distinct() %>%
-      tibble::as_tibble()
-  }
+  out <- plyr::ddply(out, key, zoo::na.locf, na.rm = FALSE) %>%
+    tibble::as_tibble() %>% 
+    select(-dplyr::starts_with("dplyr")) %>%
+    dplyr::distinct()
+  # Step 7: convert messydates
   if (length(mdate) != 0) {
     out <- mutate_at(out, dplyr::all_of(mdate), messydates::as_messydate)
   }
