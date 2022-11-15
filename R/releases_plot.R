@@ -18,10 +18,7 @@
 #' @return A ggplot graph object
 #' @examples
 #' \donttest{
-#' if(!httr::http_error(
-#' "https://api.github.com/repos/globalgov/manydata/releases")) {
-#' plot_releases("globalgov/manypkgs")
-#' }
+#' #plot_releases("globalgov/manydata")
 #' }
 #' @export
 plot_releases <- function(repo) {
