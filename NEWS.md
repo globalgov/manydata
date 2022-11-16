@@ -2,7 +2,7 @@
 
 ## Connection
 
-* Updated ´consolidate()´ to use both 'manyID' and 'CountryID' by default when joining memberships' databases
+* Updated ´consolidate()´ to require two keys when joining memberships' databases
 * Updated ´db_comp()´ to follow consolidation defaults for memberships' databases
 
 # manydata 0.8.1
