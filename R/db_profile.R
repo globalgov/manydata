@@ -111,7 +111,7 @@ db_plot <- function(database, key = "manyID", variable = "all",
 db_comp <- function(database, key = "manyID", variable = "all",
                     category = "all") {
   # Step 1: get variables of interest
-  if (length(grepl(key, purrr::map(database, names))) != length(database)) {
+  if (length(grepl(key[1], purrr::map(database, names))) != length(database)) {
     stop("Please declare a key variable present in all datasets in the database.")
   }
   # Step 2: check if multiple keys for memberships' databases
