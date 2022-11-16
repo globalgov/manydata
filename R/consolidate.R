@@ -107,7 +107,7 @@ consolidate <- function(database, rows = "any", cols = "any",
   out <- purrr::map(database, extract_if_present, vars_subset)
   # Step 5: join datasets by ID and keep pertinent rows
   if (rows == "any") {
-    out <- purrr::map(out, tidyr::drop_na, dplyr::all_of(key)) %>% 
+    out <- purrr::map(out, tidyr::drop_na, dplyr::all_of(key)) %>%
       purrr::reduce(dplyr::full_join, by = key)
   } else if (rows == "every") {
     out <- purrr::reduce(out, dplyr::inner_join, by = key)
@@ -131,7 +131,7 @@ consolidate <- function(database, rows = "any", cols = "any",
   mdate <- names(out[grepl("mdate", lapply(out, class))])
   usethis::ui_info("Coalescing compatible rows...")
   out <- plyr::ddply(out, key, zoo::na.locf, na.rm = FALSE) %>%
-    tibble::as_tibble() %>% 
+    tibble::as_tibble() %>%
     select(-dplyr::starts_with("dplyr")) %>%
     dplyr::distinct()
   # Step 8: convert messydates
