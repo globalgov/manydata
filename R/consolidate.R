@@ -47,15 +47,15 @@
 #' matching is possible if keys are declared (e.g. `key = c("key1" = "key2")`).
 #' Missing observations in the key variable are removed.
 #' @details Text variables are dropped for more efficient consolidation.
-#' @importFrom purrr reduce map
+#' @importFrom purrr reduce map pluck
 #' @importFrom dplyr select full_join inner_join distinct all_of
-#' group_by ungroup %>% across mutate_at
-#' @importFrom tidyr drop_na fill
+#' group_by %>% mutate_at
+#' @importFrom tidyr drop_na
 #' @importFrom plyr ddply
 #' @importFrom zoo na.locf
 #' @importFrom usethis ui_info
 #' @importFrom tibble as_tibble
-#' @import messydates
+#' @importFrom messydates as_messydate
 #' @return A single tibble/data frame.
 #' @examples
 #' \donttest{
@@ -81,33 +81,31 @@
 #' @export
 consolidate <- function(database, rows = "any", cols = "any",
                         resolve = "coalesce", key = "manyID") {
-  # Check that database has multiple datasets
+  # Step 1: check that database has multiple datasets
   if (length(database) == 1) {
     dataset <- names(database)
-    database <- deparse(substitute(database))
-    stop(paste0(database, " contains only the ", dataset,
+    dat <- deparse(substitute(database))
+    message(paste0(dat, " contains only the ", dataset,
                 " dataset and cannot be consolidated."))
+    purrr::pluck(database, dataset)
   }
-  # Step 1: Inform users about duplicates
-  cat("There were", sum(duplicated(unname(unlist(purrr::map(database, key))))),
-      "matched observations by", key, "variable across datasets in database.")
-  # Step 2: Drop any unwanted columns (including text variables)
+  # Step 2: check if multiple keys for memberships' databases
+  if (grepl("membership", deparse(substitute(database)), ignore.case = TRUE) &
+      length(key) == 1) {
+    stop("For memberships database please indicate two keys
+         (e.g. key = c('manyID', 'CountryID'))")
+  }
+  # Step 3: inform users about duplicates
+  if (length(key) == 1) {
+    cat("There were", sum(duplicated(unname(unlist(purrr::map(database, key))))),
+        "matched observations by", key, "variable across datasets in database.")
+  }
+  # Step 4: drop any unwanted columns (including text variables)
   all_variables <- grep("text", unname(unlist(purrr::map(database, names))),
                         ignore.case = TRUE, value = TRUE, invert = TRUE)
   vars_subset <- c(unique(all_variables), key)
   out <- purrr::map(database, extract_if_present, vars_subset)
-  # Step 3: for "memberships" data, fill and remove duplicates
-  if (grepl("membership", deparse(substitute(database)), ignore.case = TRUE)) {
-    out <- lapply(out, function(x) {
-      x %>%
-        dplyr::group_by(dplyr::all_of(key)) %>%
-        tidyr::fill(.direction = "downup") %>%
-        dplyr::ungroup() %>%
-        dplyr::distinct()
-    })
-    key <- c(key, "CountryID")
-  }
-  # Step 4: Join datasets by ID and keep pertinent rows
+  # Step 5: join datasets by ID and keep pertinent rows
   if (rows == "any") {
     out <- purrr::map(out, tidyr::drop_na, dplyr::all_of(key)) %>% 
       purrr::reduce(dplyr::full_join, by = key)
@@ -120,7 +118,7 @@ consolidate <- function(database, rows = "any", cols = "any",
     out <- dplyr::select(out, dplyr::all_of(key),
                          dplyr::starts_with(all_variables))
   }
-  # Step 5: Resolve conflicts
+  # Step 6: resolve conflicts
   usethis::ui_info("Resolving conflicts...")
   if (length(resolve) < 2) {
     other_variables <- all_variables[!all_variables %in% key]
@@ -129,16 +127,16 @@ consolidate <- function(database, rows = "any", cols = "any",
     resolve <- data.frame(var = names(resolve), resolve = resolve)
     out <- resolve_multiple(resolve, out, key)
   }
-  # Step 6: Remove duplicates and fill NA values
+  # Step 7: remove duplicates and fill NA values
   mdate <- names(out[grepl("mdate", lapply(out, class))])
   usethis::ui_info("Coalescing compatible rows...")
   out <- plyr::ddply(out, key, zoo::na.locf, na.rm = FALSE) %>%
     tibble::as_tibble() %>% 
     select(-dplyr::starts_with("dplyr")) %>%
     dplyr::distinct()
-  # Step 7: convert messydates
+  # Step 8: convert messydates
   if (length(mdate) != 0) {
-    out <- mutate_at(out, dplyr::all_of(mdate), messydates::as_messydate)
+    out <- dplyr::mutate_at(out, dplyr::all_of(mdate), messydates::as_messydate)
   }
   out
 }
