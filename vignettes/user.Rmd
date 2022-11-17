@@ -172,8 +172,10 @@ database) or units and variables coded in "every" dataset (i.e. units or
 variables present in all of the datasets in the database).
 
 ```{r consolidate}
-consolidate(database = emperors, rows = "any", cols = "any", resolve = "coalesce", key = "ID")
-consolidate(database = emperors, rows = "every", cols = "every", resolve = "coalesce", key = "ID")
+consolidate(database = emperors, rows = "any", cols = "any",
+            resolve = "coalesce", key = "ID")
+consolidate(database = emperors, rows = "every", cols = "every",
+            resolve = "coalesce", key = "ID")
 ```
 
 Users can also choose how they want to resolve conflicts between observations in

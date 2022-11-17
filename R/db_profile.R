@@ -46,61 +46,56 @@ db_plot <- function(database, key = "manyID", variable = "all",
   # Step 1: run dbcomp() to check key, get variable names, and code observations
   db <- db_comp(database = database, key = key, variable = variable,
                 category = category)
-  if (nrow(db) > 1000000) {
-  cat("Plotting is not possible because of the size of the database.
-      Returning a non-coded comparative dataset.")
-    db
-  } else {
-    # remove extra variable level information
-    db <- db[!grepl("\\$", names(db))]
-    # Step 2: gather and reshape data
-    Category <- Variable <- Percentage <- Missing <- NULL
-    dbgather <- db %>%
-      dplyr::select(-all_of(key)) %>%
-      tidyr::pivot_longer(cols = everything(), names_to = "Variable",
-                          values_to = "Category") %>%
-      dplyr::group_by(Variable, Category) %>%
-      dplyr::summarise(count = n(), .groups = ) %>%
-      dplyr::mutate(Percentage = count / sum(count)) %>%
-      tidyr::pivot_wider(id_cols = Variable, names_from = Category,
-                         values_from = Percentage) %>%
-      dplyr::mutate(across(everything(), ~tidyr::replace_na(.x, 0))) %>%
-      tidyr::pivot_longer(-Variable, names_to = "Category",
-                          values_to = "Percentage") %>%
-      dplyr::mutate(Category = factor(Category, levels = c("missing", "conflict",
-                                                           "unique", "majority",
-                                                           "confirmed")),
-                    Missing = ifelse(Category == "missing",
-                                     Percentage, NA_character_)) %>%
-      tidyr::fill(Missing, .direction = "downup") %>%
-      dplyr::filter(Percentage != 0)
-    # Step 3: plot
-    cols <- c(confirmed = "deepskyblue3", majority = "aquamarine3",
-              unique = "khaki", conflict = "firebrick", missing = "grey90")
-    ggplot(dbgather, aes(fill = Category, y = Percentage,
-                         x = stats::reorder(Variable, as.numeric(Missing)))) +
-      geom_bar(position = "fill", stat = "identity") +
-      scale_x_discrete(guide = guide_axis(angle = 90)) +
-      scale_y_reverse(labels = function(x) {
-        ifelse(x == 1 | x == 0.5,
-               paste0(x * 100, "%", "\n(", x * nrow(db), " obs)"),
-               paste0(x * 100, "%"))
-      }) +
-      scale_fill_manual(values = cols) +
-      theme_minimal() +
-      labs(title = deparse(substitute(database)),
-           subtitle = paste0("Based on ", nrow(db), " consolidated observations."),
-           caption = "In between the parenthesis are the number of datasets in which variable is present.",
-           x = "Variable")
-    }
+  # remove extra variable level information
+  db <- db[!grepl("\\$", names(db))]
+  # Step 2: gather and reshape data
+  Category <- Variable <- Percentage <- Missing <- NULL
+  dbgather <- db %>%
+    dplyr::select(-all_of(key)) %>%
+    tidyr::pivot_longer(cols = everything(), names_to = "Variable",
+                        values_to = "Category") %>%
+    dplyr::group_by(Variable, Category) %>%
+    dplyr::summarise(count = n(), .groups = ) %>%
+    dplyr::mutate(Percentage = count / sum(count)) %>%
+    tidyr::pivot_wider(id_cols = Variable, names_from = Category,
+                       values_from = Percentage) %>%
+    dplyr::mutate(across(everything(), ~tidyr::replace_na(.x, 0))) %>%
+    tidyr::pivot_longer(-Variable, names_to = "Category",
+                        values_to = "Percentage") %>%
+    dplyr::mutate(Category = factor(Category, levels = c("missing", "conflict",
+                                                         "unique", "majority",
+                                                         "confirmed")),
+                  Missing = ifelse(Category == "missing",
+                                   Percentage, NA_character_)) %>%
+    tidyr::fill(Missing, .direction = "downup") %>%
+    dplyr::filter(Percentage != 0)
+  # Step 3: plot
+  cols <- c(confirmed = "deepskyblue3", majority = "aquamarine3",
+            unique = "khaki", conflict = "firebrick", missing = "grey90")
+  ggplot(dbgather, aes(fill = Category, y = Percentage,
+                       x = stats::reorder(Variable, as.numeric(Missing)))) +
+    geom_bar(position = "fill", stat = "identity") +
+    scale_x_discrete(guide = guide_axis(angle = 90)) +
+    scale_y_reverse(labels = function(x) {
+      ifelse(x == 1 | x == 0.5,
+             paste0(x * 100, "%", "\n(", x * nrow(db), " obs)"),
+             paste0(x * 100, "%"))
+    }) +
+    scale_fill_manual(values = cols) +
+    theme_minimal() +
+    labs(title = deparse(substitute(database)),
+         subtitle = paste0("Based on ", nrow(db), " consolidated observations."),
+         caption = "In between the parenthesis are the number of datasets in which variable is present.",
+         x = "Variable")
 }
 
 #' @name db_profile
 #' @details `db_comp()` creates a tibble comparing the variables in a database.
-#' @importFrom dplyr full_join filter_all %>% all_of group_by ungroup distinct
+#' @importFrom dplyr full_join filter_all %>% all_of group_by distinct any_vars
+#' starts_with
 #' @importFrom purrr reduce map
 #' @importFrom tibble tibble
-#' @importFrom tidyr drop_na fill
+#' @importFrom tidyr drop_na
 #' @importFrom stringr str_count str_remove_all str_split str_extract_all
 #' str_replace_all
 #' @examples
@@ -116,14 +111,23 @@ db_plot <- function(database, key = "manyID", variable = "all",
 db_comp <- function(database, key = "manyID", variable = "all",
                     category = "all") {
   # Step 1: get variables of interest
-  if (length(grepl(key, purrr::map(database, names))) != length(database)) {
+  if (length(grepl(key[1], purrr::map(database, names))) != length(database)) {
     stop("Please declare a key variable present in all datasets in the database.")
   }
-  db_size <- sum(duplicated(unname(unlist(purrr::map(database, key)))))
-  cat("There were", db_size,
+  # Step 2: check if multiple keys for memberships' databases
+  if (grepl("membership", deparse(substitute(database)), ignore.case = TRUE) &
+      length(key) == 1) {
+    stop("For memberships database please indicate two keys
+         (e.g. key = c('manyID', 'CountryID'))")
+  }
+  # Step 3: inform users about duplicates
+  if (length(key) == 1) {
+    db_size <- sum(duplicated(unname(unlist(purrr::map(database, key)))))
+    cat("There were", db_size,
         "matched observations by", key,
         "variable across datasets in database.")
-  # get variable(s) of interest if declared
+  }
+  # Step 4: get variable(s) of interest if declared
   all_variables <- unique(unname(unlist(purrr::map(database, names))))
   if (variable[1] == "all") {
     all_variables <- all_variables[!all_variables %in% key]
@@ -137,21 +141,12 @@ db_comp <- function(database, key = "manyID", variable = "all",
     all_variables <- all_variables[all_variables %in% variable]
   }
   out <- purrr::map(database, extract_if_present, c(key, all_variables))
-  # step 2: reduce and join data
-  if (grepl("membership", deparse(substitute(database)), ignore.case = TRUE)) {
-    out <- lapply(out, function(x) {
-      x %>%
-        dplyr::group_by(dplyr::all_of(key)) %>%
-        tidyr::fill(.direction = "downup") %>%
-        dplyr::ungroup() %>%
-        dplyr::distinct()
-    })
-  }
+  # Step 5: reduce and join data
   out <- purrr::map(out, tidyr::drop_na, dplyr::all_of(key)) %>%
     purrr::reduce(dplyr::full_join, by = key)
   # create an empty data frame in case there is multiple variables
-  db <- data.frame(out[, 1], stringsAsFactors = TRUE)
-  # Step 3: code variables
+  db <- data.frame(out[, c(key)], stringsAsFactors = TRUE)
+  # Step 6: code variables
   for (var in all_variables) {
     vvars <- paste0("^", var, "$|^", var, "\\.")
     vars_to_combine <- grep(vvars, names(out), value = TRUE)
@@ -160,68 +155,64 @@ db_comp <- function(database, key = "manyID", variable = "all",
     col <- names(col[lengths(col) != 0])
     colnames(vlb) <- paste0(col, "$", var)
     value <- NULL
-    if (nrow(out) < 1000000) {
-      if (length(vlb) > 1) {
-        # remove string duplicates and collapse unique values (except NAs)
-        value <- apply(vlb, 1, function(x) {
-          paste(unique(trimws(x), incomparables = c("^NA$", NA_character_)),
-                collapse = "!")
-          })
-        # missing
-        value <- ifelse(stringr::str_count(value, "NA") ==
-                          length(out[vars_to_combine]), "missing", value)
-        # unique
-        value <- ifelse(stringr::str_count(value, "NA") ==
-                          (length(out[vars_to_combine]) - 1), "unique", value)
-        # confirmed (by all datasets in database)
-        value <- ifelse(stringr::str_count(value, "\\!") == 0 &
-                          !grepl("^missing$|^unique$", value),
-                        "confirmed", value)
-        # confirmed (by multiple datasets in database, other values are NAs)
-        valuec <- lapply(stringr::str_split(value, "!"), function(x) {
-          x[!grepl("^NA$", x) & x != ""]
-        })
-        value <- ifelse(lengths(valuec) == 1 &
-                          !grepl("^missing$|^unique$|^confirmed$", valuec),
-                        "confirmed", value)
-        # conflict (when there are no duplicates, apart from NAs possibly)
-        value <- ifelse(!grepl("^missing$|^unique$|^confirmed$", value) &
-                          stringr::str_count(value, "\\!") ==
-                          (length(out[vars_to_combine]) - 1),
-                        "conflict", value)
-        # open (and close) the values to find if majority or conflict
-        vl <- apply(vlb, 1, function(x) {
-          x <- x[!grepl("^NA$", x) & x != ""]
-          x <- unique(rle(x)$lengths)
-          x
-          })
-        # conflict (an even number of non-NA conflicting obs)
-        value <- ifelse(!grepl("^missing$|^unique$|^confirmed$|^conflict$", value) &
-                          lengths(vl) == 1, "conflict", value)
-        # majority (an unbalanced number of non-NA matching obs)
-        value <- ifelse(!grepl("^missing$|^unique$|^confirmed$|^conflict$", value),
-                        "majority", value)
-        } else {
-          value <- unname(unlist(out[vars_to_combine]))
-          value <- ifelse(is.na(value), "missing", "unique")
-          }
-      }
+    if (length(vlb) > 1) {
+      # remove string duplicates and collapse unique values (except NAs)
+      value <- apply(vlb, 1, function(x) {
+        paste(unique(trimws(x), incomparables = c("^NA$", NA_character_)),
+              collapse = "!")
+      })
+      # missing
+      value <- ifelse(stringr::str_count(value, "NA") ==
+                        length(out[vars_to_combine]), "missing", value)
+      # unique
+      value <- ifelse(stringr::str_count(value, "NA") ==
+                        (length(out[vars_to_combine]) - 1), "unique", value)
+      # confirmed (by all datasets in database)
+      value <- ifelse(stringr::str_count(value, "\\!") == 0 &
+                        !grepl("^missing$|^unique$", value),
+                      "confirmed", value)
+      # confirmed (by multiple datasets in database, other values are NAs)
+      valuec <- lapply(stringr::str_split(value, "!"), function(x) {
+        x[!grepl("^NA$", x) & x != ""]
+      })
+      value <- ifelse(lengths(valuec) == 1 &
+                        !grepl("^missing$|^unique$|^confirmed$", valuec),
+                      "confirmed", value)
+      # conflict (when there are no duplicates, apart from NAs possibly)
+      value <- ifelse(!grepl("^missing$|^unique$|^confirmed$", value) &
+                        stringr::str_count(value, "\\!") ==
+                        (length(out[vars_to_combine]) - 1),
+                      "conflict", value)
+      # open (and close) the values to find if majority or conflict
+      vl <- apply(vlb, 1, function(x) {
+        x <- x[!grepl("^NA$", x) & x != ""]
+        x <- unique(rle(x)$lengths)
+        x
+      })
+      # conflict (an even number of non-NA conflicting obs)
+      value <- ifelse(!grepl("^missing$|^unique$|^confirmed$|^conflict$", value) &
+                        lengths(vl) == 1, "conflict", value)
+      # majority (an unbalanced number of non-NA matching obs)
+      value <- ifelse(!grepl("^missing$|^unique$|^confirmed$|^conflict$", value),
+                      "majority", value)
+    } else {
+      value <- unname(unlist(out[vars_to_combine]))
+      value <- ifelse(is.na(value), "missing", "unique")
+    }
     # fill data frame with variable and presence in datasets
     db <- cbind(db, vlb)
     if (length(value) == nrow(db)) {
       db[, paste0(var, " (", length(vlb), ")")] <- value
     }
   }
-  if (nrow(db) > 1000000) {
-  cat("Rowwise coding is not possible because of the size of the database.
-      Returning a non-coded comparative dataset.")
-  }
-  db <- tibble::tibble(db[unique(colnames(db))])
-  # Step 4: filter categories if necessary
+  db <- tibble::tibble(db[unique(colnames(db))]) %>%
+    select(-dplyr::starts_with("dplyr"))
+  # Step 7: filter categories if necessary
   . <- NULL
   if (any(category != "all")) {
-    db <- dplyr::filter_all(db, any_vars(grepl(paste(category,
-                                                     collapse = "|"), .)))
+    db <- dplyr::filter_all(db, dplyr::any_vars(grepl(paste(category,
+                                                            collapse = "|"),
+                                                      .)))
   }
   db
 }

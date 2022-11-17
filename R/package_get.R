@@ -33,6 +33,10 @@
 #' @importFrom remotes install_github
 #' @importFrom utils packageVersion askYesNo
 #' @importFrom messydates as_messydate
+#' @examples 
+#' \donttest{
+#' #get_packages()
+#' }
 #' @export
 get_packages <- function(pkg) {
   # get info from GitHub if pkg is missing

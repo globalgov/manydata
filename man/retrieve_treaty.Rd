@@ -6,6 +6,7 @@
 \alias{retrieve_multilaterals}
 \alias{retrieve_membership_list}
 \alias{retrieve_links}
+\alias{retrieve_texts}
 \title{Retrieve international treaties}
 \usage{
 retrieve_bilaterals(dataset)
@@ -15,10 +16,11 @@ retrieve_multilaterals(dataset)
 retrieve_membership_list(dataset, actor = "StateID", treaty_type = NULL)
 
 retrieve_links(dataset, treaty_type = NULL)
+
+retrieve_texts(dataset, treaty_type = NULL)
 }
 \arguments{
-\item{dataset}{A dataset within an agreements or memberships database
-from one of the many packages.}
+\item{dataset}{A dataset from one of the many packages.}
 
 \item{actor}{An actor variable.
 "StateID", by default.}
@@ -28,32 +30,33 @@ NULL, by default.
 Other options are "bilateral" or "multilateral".}
 }
 \value{
-A tibble of bilateral agreements
+A tibble of bilateral agreements.
 
-A tibble of multilateral agreements
+A tibble of multilateral agreements.
 
-A tibble of treaty IDs and countries part of the treaty
+A tibble of manyIDs and countries part of the treaty.
 
-A tibble of agreements' ID and their links.
+A tibble of manyIDs and their links.
+
+A tibble of manyIDs and their texts.
 }
 \description{
 Some databases and datasets across the
 'many* packages' (e.g. manyenviron) contain a myriad of information on
 international treaties governing an international domain.
 Researchers can, for example, use \code{retrieve_bilaterals()} to retrieve
-which countries have signed a specific international agreement, or
-several international agreements signed in a respective year.
-As well, researchers can use \code{retrieve_multilaterals()} to retrieve
-the titles of all multilateral agreements signed in the past 10 years,
-for instance.
+which countries have signed bilateral agreements in a respective year.
+Alternatively, researchers can use \code{retrieve_multilaterals()} to retrieve
+the titles of all multilateral agreements signed in the past 10 years.
 Alternatively, researchers can retrieve treaties that modify,
 amend, or expand other treaties with \code{retrieve_links()}.
-Or, even, researchers can retrieve membership lists of
-treaty IDs and countries part to a certain treaty with
-\code{retrieve_membership_list()}.
+Or, even, researchers can retrieve membership lists of countries part to a
+certain treaty with \code{retrieve_membership_list()}.
+Finally, researchers can retrieve treaty texts available in 'many' datasets
+with \code{retrieve_texts()}.
 To retrieve information from several datasets in a database,
-researchers can also \code{consolidate()} a database into one dataset
-with some combination of the rows, columns, and observations of the datasets
+researchers can \code{consolidate()} a database into one dataset
+with some combination of the rows, columns, and observations
 before getting the desired information.
 }
 \examples{
@@ -90,4 +93,10 @@ membs <- tibble::tibble(manyID = c("ROU-RUS[RFP]_1901A",
 "ROU-RUS[RFP]_1901A:ROU-RUS[RFP]_1901A",
 "GD16FI_1901A"))
 retrieve_links(dataset = membs)
+membs <- tibble::tibble(manyID = c("ROU-RUS[RFP]_1901A",
+"ROU-RUS[RFP]_1901A:ROU-RUS[RFP]_1901A",
+"GD16FI_1901A"),
+Text = c("treaty 1", "treaty 2", "treaty 3"))
+retrieve_texts(dataset = membs)
+#retrieve_texts(dataset = manyenviron::agreements$HUGGO)
 }
