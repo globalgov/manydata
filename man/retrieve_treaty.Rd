@@ -6,6 +6,7 @@
 \alias{retrieve_multilaterals}
 \alias{retrieve_membership_list}
 \alias{retrieve_links}
+\alias{retrieve_texts}
 \title{Retrieve international treaties}
 \usage{
 retrieve_bilaterals(dataset)
@@ -15,6 +16,8 @@ retrieve_multilaterals(dataset)
 retrieve_membership_list(dataset, actor = "StateID", treaty_type = NULL)
 
 retrieve_links(dataset, treaty_type = NULL)
+
+retrieve_texts(dataset, treaty_type = NULL)
 }
 \arguments{
 \item{dataset}{A dataset within an agreements or memberships database
@@ -33,6 +36,8 @@ A tibble of bilateral agreements
 A tibble of multilateral agreements
 
 A tibble of treaty IDs and countries part of the treaty
+
+A tibble of agreements' ID and their links.
 
 A tibble of agreements' ID and their links.
 }
@@ -90,4 +95,10 @@ membs <- tibble::tibble(manyID = c("ROU-RUS[RFP]_1901A",
 "ROU-RUS[RFP]_1901A:ROU-RUS[RFP]_1901A",
 "GD16FI_1901A"))
 retrieve_links(dataset = membs)
+membs <- tibble::tibble(manyID = c("ROU-RUS[RFP]_1901A",
+"ROU-RUS[RFP]_1901A:ROU-RUS[RFP]_1901A",
+"GD16FI_1901A"),
+Text = c("treaty 1", "treaty 2", "treaty 3"))
+retrieve_texts(dataset = membs)
+#retrieve_texts(dataset = manyenviron::agreements$HUGGO)
 }

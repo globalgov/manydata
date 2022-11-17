@@ -100,6 +100,9 @@ retrieve_multilaterals <- function(dataset) {
 retrieve_membership_list <- function(dataset, actor = "StateID",
                                      treaty_type = NULL) {
   Actor <- Memberships <- manyID <- NULL
+  if (!any(colnames(dataset) == "manyID")) {
+    stop("manyID column not found, please declare a many packages dataset.")
+  }
   membs_list <- dplyr::select(dataset, manyID, actor) %>%
     rename(Actor = 2)
   if (!is.null(treaty_type)) {
@@ -115,10 +118,9 @@ retrieve_membership_list <- function(dataset, actor = "StateID",
     dplyr::group_by(manyID) %>%
     dplyr::summarise(Memberships = toString(Actor)) %>%
     dplyr::ungroup()
-  membs_list <- dplyr::left_join(membs_list, ml, by = "manyID") %>%
+  dplyr::left_join(membs_list, ml, by = "manyID") %>%
     dplyr::select(manyID, Memberships) %>%
     unique()
-  membs_list
 }
 
 #' @rdname retrieve_treaty
@@ -149,6 +151,35 @@ retrieve_links <- function(dataset, treaty_type = NULL) {
   Link <- purrr::map_chr(strsplit(treatyID, ":"), 2)
   Agreement <- purrr::map_chr(strsplit(treatyID, ":"), 1)
   # Return tibble
-  out <- tibble::tibble(Agreement, Link)
-  out
+  tibble::tibble(Agreement, Link)
+}
+
+#' @rdname retrieve_treaty
+#' @return A tibble of agreements' ID and their links.
+#' @examples
+#' membs <- tibble::tibble(manyID = c("ROU-RUS[RFP]_1901A",
+#' "ROU-RUS[RFP]_1901A:ROU-RUS[RFP]_1901A",
+#' "GD16FI_1901A"),
+#' Text = c("treaty 1", "treaty 2", "treaty 3"))
+#' retrieve_texts(dataset = membs)
+#' #retrieve_texts(dataset = manyenviron::agreements$HUGGO)
+#' @export
+retrieve_texts <- function(dataset, treaty_type = NULL) {
+  manyID <- NULL
+  if (!any(colnames(dataset) == "manyID")) {
+    stop("manyID column not found, please declare a many packages dataset.")
+  }
+  text_vars <- c("manyID", grep("text", names(dataset),
+                                ignore.case = TRUE, value = TRUE))
+  if (!is.null(treaty_type)) {
+    if (treaty_type == "bilateral") {
+      dataset <- subset(dataset, stringr::str_detect(manyID, "\\-"))
+    }
+    if (treaty_type == "multilateral") {
+      dataset <- subset(dataset, stringr::str_detect(manyID, "\\-", negate = TRUE))
+    }
+  }
+  tibble::tibble(dataset[, c(text_vars)]) %>%
+    dplyr::filter(!dplyr::if_all(-manyID, is.na)) %>%
+    dplyr::distinct() 
 }
