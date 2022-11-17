@@ -36,7 +36,7 @@ users to choose how conflicts between observations are resolved."><!-- mathjax -
     
     <a class="navbar-brand me-2" href="../index.html">manydata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -185,7 +185,6 @@ Missing observations in the key variable are removed.</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="fu">consolidate</span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> There were 116 matched observations by ID variable across datasets in database.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">ℹ</span> Joining datasets by pertinent rows and columns...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">ℹ</span> Coalescing compatible rows...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 138 × 15</span></span>
@@ -207,7 +206,6 @@ Missing observations in the key variable are removed.</p></dd>
 <span class="r-in"><span><span class="fu">consolidate</span><span class="op">(</span>database <span class="op">=</span> <span class="fu"><a href="favour.html">favour</a></span><span class="op">(</span><span class="va">emperors</span>, <span class="st">"UNRV"</span><span class="op">)</span>, rows <span class="op">=</span> <span class="st">"every"</span>,</span></span>
 <span class="r-in"><span>cols <span class="op">=</span> <span class="st">"every"</span>, resolve <span class="op">=</span> <span class="st">"coalesce"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> There were 116 matched observations by ID variable across datasets in database.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">ℹ</span> Joining datasets by pertinent rows and columns...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">ℹ</span> Coalescing compatible rows...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 41 × 3</span></span>
@@ -227,7 +225,6 @@ Missing observations in the key variable are removed.</p></dd>
 <span class="r-in"><span><span class="fu">consolidate</span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"any"</span>, cols <span class="op">=</span> <span class="st">"every"</span>,</span></span>
 <span class="r-in"><span>resolve <span class="op">=</span> <span class="st">"min"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> There were 116 matched observations by ID variable across datasets in database.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">ℹ</span> Joining datasets by pertinent rows and columns...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">ℹ</span> Coalescing compatible rows...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 138 × 3</span></span>
@@ -247,7 +244,6 @@ Missing observations in the key variable are removed.</p></dd>
 <span class="r-in"><span><span class="fu">consolidate</span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"every"</span>, cols <span class="op">=</span> <span class="st">"any"</span>,</span></span>
 <span class="r-in"><span>resolve <span class="op">=</span> <span class="st">"max"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> There were 116 matched observations by ID variable across datasets in database.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">ℹ</span> Joining datasets by pertinent rows and columns...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">ℹ</span> Coalescing compatible rows...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 41 × 15</span></span>
@@ -269,7 +265,6 @@ Missing observations in the key variable are removed.</p></dd>
 <span class="r-in"><span><span class="fu">consolidate</span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"every"</span>, cols <span class="op">=</span> <span class="st">"every"</span>,</span></span>
 <span class="r-in"><span>resolve <span class="op">=</span> <span class="st">"median"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> There were 116 matched observations by ID variable across datasets in database.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">ℹ</span> Joining datasets by pertinent rows and columns...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">ℹ</span> Coalescing compatible rows...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 41 × 3</span></span>
@@ -289,7 +284,6 @@ Missing observations in the key variable are removed.</p></dd>
 <span class="r-in"><span><span class="fu">consolidate</span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"every"</span>, cols <span class="op">=</span> <span class="st">"every"</span>,</span></span>
 <span class="r-in"><span>resolve <span class="op">=</span> <span class="st">"mean"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> There were 116 matched observations by ID variable across datasets in database.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">ℹ</span> Joining datasets by pertinent rows and columns...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">ℹ</span> Coalescing compatible rows...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 41 × 3</span></span>
@@ -309,27 +303,25 @@ Missing observations in the key variable are removed.</p></dd>
 <span class="r-in"><span><span class="fu">consolidate</span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"every"</span>, cols <span class="op">=</span> <span class="st">"every"</span>,</span></span>
 <span class="r-in"><span>resolve <span class="op">=</span> <span class="st">"random"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> There were 116 matched observations by ID variable across datasets in database.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">ℹ</span> Joining datasets by pertinent rows and columns...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">ℹ</span> Coalescing compatible rows...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 41 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    ID             Beg        End       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Aemilian       0253-12-31 0253-12-31</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Augustus       -026-01-16 0014-08-19</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Aurelian       0270-12-31 0275-12-31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Augustus       -031-12-31 0014-12-31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Aurelian       0270-12-31 0275-09-15</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Balbinus       0238-04-22 0238-07-29</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Caracalla      0211-12-31 0217-04-08</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Carinus        0283-08-01 0285-12-31</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Carus          0282-12-31 0283-12-31</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Claudius       0041-12-31 0054-12-31</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Commodus       0180-12-31 0192-12-31</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Constantine II 0337-05-22 0340-12-31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Caracalla      0198-12-31 0217-12-31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Carinus        0283-12-31 0285-12-31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Carus          0282-12-31 0283-08-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Claudius       0041-01-25 0054-10-13</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Commodus       0177-12-31 0192-12-31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Constantine II 0337-12-31 0340-12-31</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 31 more rows</span></span>
 <span class="r-in"><span><span class="fu">consolidate</span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"every"</span>, cols <span class="op">=</span> <span class="st">"every"</span>,</span></span>
 <span class="r-in"><span>resolve <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Beg <span class="op">=</span> <span class="st">"min"</span>, End <span class="op">=</span> <span class="st">"max"</span><span class="op">)</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> There were 116 matched observations by ID variable across datasets in database.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">ℹ</span> Joining datasets by pertinent rows and columns...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">ℹ</span> Coalescing compatible rows...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 41 × 3</span></span>
@@ -349,8 +341,6 @@ Missing observations in the key variable are removed.</p></dd>
 <span class="r-in"><span><span class="fu">consolidate</span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"any"</span>, cols <span class="op">=</span> <span class="st">"any"</span>,</span></span>
 <span class="r-in"><span>resolve <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Death <span class="op">=</span> <span class="st">"max"</span>, Cause <span class="op">=</span> <span class="st">"coalesce"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ID"</span>, <span class="st">"Beg"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> There were 0 matched observations by ID Beg variable across datasets in database.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">ℹ</span> Joining datasets by pertinent rows and columns...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">ℹ</span> Coalescing compatible rows...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 202 × 4</span></span>

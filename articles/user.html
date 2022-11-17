@@ -27,7 +27,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">manydata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,7 +91,7 @@
                         <h4 data-toc-skip class="author">James Hollway
 and Henrique Sposito</h4>
             
-            <h4 data-toc-skip class="date">2022-11-14</h4>
+            <h4 data-toc-skip class="date">2022-11-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/globalgov/manydata/blob/HEAD/vignettes/user.Rmd" class="external-link"><code>vignettes/user.Rmd</code></a></small>
       <div class="d-none name"><code>user.Rmd</code></div>
@@ -369,10 +369,10 @@ in the database) or units and variables coded in “every” dataset
 (i.e. units or variables present in all of the datasets in the
 database).</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"any"</span>, cols <span class="op">=</span> <span class="st">"any"</span>, resolve <span class="op">=</span> <span class="st">"coalesce"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"any"</span>, cols <span class="op">=</span> <span class="st">"any"</span>,</span>
+<span>            resolve <span class="op">=</span> <span class="st">"coalesce"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## There were 116 matched observations by ID variable across datasets in database.</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Joining datasets by pertinent rows and columns...</span></span>
-<span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span></span>
+<pre><code><span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span></span>
 <span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Coalescing compatible rows...</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 138 × 15</span></span></span>
 <span><span class="co">##    ID           CityB…¹ Provi…² Rise  Cause Killer Era   Notes Verif Birth Death</span></span>
@@ -391,10 +391,10 @@ database).</p>
 <span><span class="co">## <span style="color: #949494;">#   Beg &lt;mdate&gt;, End &lt;mdate&gt;, and abbreviated variable names ¹​CityBirth,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   ²​ProvinceBirth</span></span></span></code></pre>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"every"</span>, cols <span class="op">=</span> <span class="st">"every"</span>, resolve <span class="op">=</span> <span class="st">"coalesce"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"every"</span>, cols <span class="op">=</span> <span class="st">"every"</span>,</span>
+<span>            resolve <span class="op">=</span> <span class="st">"coalesce"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## There were 116 matched observations by ID variable across datasets in database.</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Joining datasets by pertinent rows and columns...</span></span>
-<span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span></span>
+<pre><code><span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span></span>
 <span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Coalescing compatible rows...</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 41 × 3</span></span></span>
 <span><span class="co">##    ID             Beg         End        </span></span>
@@ -424,8 +424,7 @@ methods:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"any"</span>, cols <span class="op">=</span> <span class="st">"every"</span>, resolve <span class="op">=</span> <span class="st">"max"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## There were 116 matched observations by ID variable across datasets in database.</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Joining datasets by pertinent rows and columns...</span></span>
-<span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span></span>
+<pre><code><span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span></span>
 <span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Coalescing compatible rows...</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 138 × 3</span></span></span>
 <span><span class="co">##    ID              Beg        End       </span></span>
@@ -444,8 +443,7 @@ methods:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"every"</span>, cols <span class="op">=</span> <span class="st">"any"</span>, resolve <span class="op">=</span> <span class="st">"min"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## There were 116 matched observations by ID variable across datasets in database.</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Joining datasets by pertinent rows and columns...</span></span>
-<span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span></span>
+<pre><code><span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span></span>
 <span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Coalescing compatible rows...</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 41 × 15</span></span></span>
 <span><span class="co">##    ID           CityB…¹ Provi…² Rise  Cause Killer Era   Notes Verif Birth Death</span></span>
@@ -466,8 +464,7 @@ methods:</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"every"</span>, cols <span class="op">=</span> <span class="st">"every"</span>, resolve <span class="op">=</span> <span class="st">"mean"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## There were 116 matched observations by ID variable across datasets in database.</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Joining datasets by pertinent rows and columns...</span></span>
-<span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span></span>
+<pre><code><span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span></span>
 <span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Coalescing compatible rows...</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 41 × 3</span></span></span>
 <span><span class="co">##    ID             Beg         End        </span></span>
@@ -486,8 +483,7 @@ methods:</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"any"</span>, cols <span class="op">=</span> <span class="st">"any"</span>, resolve <span class="op">=</span> <span class="st">"median"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## There were 116 matched observations by ID variable across datasets in database.</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Joining datasets by pertinent rows and columns...</span></span>
-<span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span></span>
+<pre><code><span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span></span>
 <span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Coalescing compatible rows...</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 138 × 15</span></span></span>
 <span><span class="co">##    ID           CityB…¹ Provi…² Rise  Cause Killer Era   Notes Verif Birth Death</span></span>
@@ -508,21 +504,20 @@ methods:</p>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"every"</span>, cols <span class="op">=</span> <span class="st">"every"</span>, resolve <span class="op">=</span> <span class="st">"random"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## There were 116 matched observations by ID variable across datasets in database.</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Joining datasets by pertinent rows and columns...</span></span>
-<span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span></span>
+<pre><code><span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span></span>
 <span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Coalescing compatible rows...</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 41 × 3</span></span></span>
 <span><span class="co">##    ID             Beg        End       </span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Aemilian       0253-12-31 0253-12-31</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Augustus       -027-12-31 -014-12-31</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Aurelian       0270-09-15 0275-09-15</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Balbinus       0238-12-31 0238-07-29</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Augustus       -027-12-31 0014-12-31</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Aurelian       0270-12-31 0275-12-31</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Balbinus       0238-04-22 0238-07-29</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Caracalla      0198-12-31 0217-12-31</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Carinus        0283-12-31 0285-12-31</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Carinus        0283-12-31 0285-08-01</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Carus          0282-12-31 0283-12-31</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Claudius       0041-12-31 0054-12-31</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Commodus       0180-12-31 0192-12-31</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Commodus       0177-12-31 0192-12-31</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> Constantine II 0337-12-31 0340-12-31</span></span>
 <span><span class="co">## <span style="color: #949494;"># … with 31 more rows</span></span></span></code></pre>
 <p>Users can even specify how conflicts for different variables should
@@ -530,8 +525,7 @@ be ‘resolved’:</p>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"any"</span>, cols <span class="op">=</span> <span class="st">"every"</span>, resolve <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Beg <span class="op">=</span> <span class="st">"min"</span>, End <span class="op">=</span> <span class="st">"max"</span><span class="op">)</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## There were 116 matched observations by ID variable across datasets in database.</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Joining datasets by pertinent rows and columns...</span></span>
-<span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span></span>
+<pre><code><span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span></span>
 <span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Coalescing compatible rows...</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 138 × 3</span></span></span>
 <span><span class="co">##    ID              Beg        End       </span></span>
@@ -552,8 +546,7 @@ others:</p>
 <div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span>database <span class="op">=</span> <span class="fu"><a href="../reference/favour.html">favour</a></span><span class="op">(</span><span class="va">emperors</span>, <span class="st">"UNRV"</span><span class="op">)</span>, rows <span class="op">=</span> <span class="st">"every"</span>, cols <span class="op">=</span> <span class="st">"any"</span>, resolve <span class="op">=</span> <span class="st">"coalesce"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## There were 116 matched observations by ID variable across datasets in database.</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Joining datasets by pertinent rows and columns...</span></span>
-<span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span></span>
+<pre><code><span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span></span>
 <span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Coalescing compatible rows...</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 41 × 15</span></span></span>
 <span><span class="co">##    ID       FullN…¹ Birth Death CityB…² Provi…³ Rise  Cause Killer Dynasty Era  </span></span>
@@ -576,9 +569,7 @@ database or multiple datasets:</p>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/consolidate.html">consolidate</a></span><span class="op">(</span>database <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"any"</span>, cols <span class="op">=</span> <span class="st">"any"</span>, resolve <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Death <span class="op">=</span> <span class="st">"max"</span>, Cause <span class="op">=</span> <span class="st">"coalesce"</span><span class="op">)</span>,</span>
 <span>            key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ID"</span>, <span class="st">"Beg"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## There were 0 matched observations by ID Beg variable across datasets in database.</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Joining datasets by pertinent rows and columns...</span></span>
-<span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span></span>
+<pre><code><span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Resolving conflicts...</span></span>
 <span><span class="co">## <span style="color: #BBBB00;">ℹ</span> Coalescing compatible rows...</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 202 × 4</span></span></span>
 <span><span class="co">##    ID             Beg         Cause          Death      </span></span>

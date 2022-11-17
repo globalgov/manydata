@@ -3,36 +3,34 @@
 'many* packages' (e.g. manyenviron) contain a myriad of information on
 international treaties governing an international domain.
 Researchers can, for example, use retrieve_bilaterals() to retrieve
-which countries have signed a specific international agreement, or
-several international agreements signed in a respective year.
-As well, researchers can use retrieve_multilaterals() to retrieve
-the titles of all multilateral agreements signed in the past 10 years,
-for instance.
+which countries have signed bilateral agreements in a respective year.
+Alternatively, researchers can use retrieve_multilaterals() to retrieve
+the titles of all multilateral agreements signed in the past 10 years.
 Alternatively, researchers can retrieve treaties that modify,
 amend, or expand other treaties with retrieve_links().
-Or, even, researchers can retrieve membership lists of
-treaty IDs and countries part to a certain treaty with
-retrieve_membership_list().
+Or, even, researchers can retrieve membership lists of countries part to a
+certain treaty with retrieve_membership_list().
+Finally, researchers can retrieve treaty texts available in 'many' datasets
+with retrieve_texts().
 To retrieve information from several datasets in a database,
-researchers can also consolidate() a database into one dataset
-with some combination of the rows, columns, and observations of the datasets
+researchers can consolidate() a database into one dataset
+with some combination of the rows, columns, and observations
 before getting the desired information."><title>Retrieve international treaties — retrieve_treaty • manydata</title><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet"><meta property="og:title" content="Retrieve international treaties — retrieve_treaty"><meta property="og:description" content="Some databases and datasets across the
 'many* packages' (e.g. manyenviron) contain a myriad of information on
 international treaties governing an international domain.
 Researchers can, for example, use retrieve_bilaterals() to retrieve
-which countries have signed a specific international agreement, or
-several international agreements signed in a respective year.
-As well, researchers can use retrieve_multilaterals() to retrieve
-the titles of all multilateral agreements signed in the past 10 years,
-for instance.
+which countries have signed bilateral agreements in a respective year.
+Alternatively, researchers can use retrieve_multilaterals() to retrieve
+the titles of all multilateral agreements signed in the past 10 years.
 Alternatively, researchers can retrieve treaties that modify,
 amend, or expand other treaties with retrieve_links().
-Or, even, researchers can retrieve membership lists of
-treaty IDs and countries part to a certain treaty with
-retrieve_membership_list().
+Or, even, researchers can retrieve membership lists of countries part to a
+certain treaty with retrieve_membership_list().
+Finally, researchers can retrieve treaty texts available in 'many' datasets
+with retrieve_texts().
 To retrieve information from several datasets in a database,
-researchers can also consolidate() a database into one dataset
-with some combination of the rows, columns, and observations of the datasets
+researchers can consolidate() a database into one dataset
+with some combination of the rows, columns, and observations
 before getting the desired information."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -44,7 +42,7 @@ before getting the desired information."><!-- mathjax --><script src="https://cd
     
     <a class="navbar-brand me-2" href="../index.html">manydata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -105,19 +103,18 @@ before getting the desired information."><!-- mathjax --><script src="https://cd
 'many* packages' (e.g. manyenviron) contain a myriad of information on
 international treaties governing an international domain.
 Researchers can, for example, use <code>retrieve_bilaterals()</code> to retrieve
-which countries have signed a specific international agreement, or
-several international agreements signed in a respective year.
-As well, researchers can use <code>retrieve_multilaterals()</code> to retrieve
-the titles of all multilateral agreements signed in the past 10 years,
-for instance.
+which countries have signed bilateral agreements in a respective year.
+Alternatively, researchers can use <code>retrieve_multilaterals()</code> to retrieve
+the titles of all multilateral agreements signed in the past 10 years.
 Alternatively, researchers can retrieve treaties that modify,
 amend, or expand other treaties with <code>retrieve_links()</code>.
-Or, even, researchers can retrieve membership lists of
-treaty IDs and countries part to a certain treaty with
-<code>retrieve_membership_list()</code>.
+Or, even, researchers can retrieve membership lists of countries part to a
+certain treaty with <code>retrieve_membership_list()</code>.
+Finally, researchers can retrieve treaty texts available in 'many' datasets
+with <code>retrieve_texts()</code>.
 To retrieve information from several datasets in a database,
-researchers can also <code><a href="consolidate.html">consolidate()</a></code> a database into one dataset
-with some combination of the rows, columns, and observations of the datasets
+researchers can <code><a href="consolidate.html">consolidate()</a></code> a database into one dataset
+with some combination of the rows, columns, and observations
 before getting the desired information.</p>
     </div>
 
@@ -129,14 +126,15 @@ before getting the desired information.</p>
 <span></span>
 <span><span class="fu">retrieve_membership_list</span><span class="op">(</span><span class="va">dataset</span>, actor <span class="op">=</span> <span class="st">"StateID"</span>, treaty_type <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">retrieve_links</span><span class="op">(</span><span class="va">dataset</span>, treaty_type <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">retrieve_links</span><span class="op">(</span><span class="va">dataset</span>, treaty_type <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">retrieve_texts</span><span class="op">(</span><span class="va">dataset</span>, treaty_type <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>dataset</dt>
-<dd><p>A dataset within an agreements or memberships database
-from one of the many packages.</p></dd>
+<dd><p>A dataset from one of the many packages.</p></dd>
 
 
 <dt>actor</dt>
@@ -154,16 +152,19 @@ Other options are "bilateral" or "multilateral".</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>A tibble of bilateral agreements</p>
+<p>A tibble of bilateral agreements.</p>
 
 
-<p>A tibble of multilateral agreements</p>
+<p>A tibble of multilateral agreements.</p>
 
 
-<p>A tibble of treaty IDs and countries part of the treaty</p>
+<p>A tibble of manyIDs and countries part of the treaty.</p>
 
 
-<p>A tibble of agreements' ID and their links.</p>
+<p>A tibble of manyIDs and their links.</p>
+
+
+<p>A tibble of manyIDs and their texts.</p>
     </div>
 
     <div class="section level2">
@@ -219,6 +220,18 @@ Other options are "bilateral" or "multilateral".</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Agreement          Link              </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> ROU-RUS[RFP]_1901A ROU-RUS[RFP]_1901A</span>
+<span class="r-in"><span><span class="va">membs</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>manyID <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ROU-RUS[RFP]_1901A"</span>,</span></span>
+<span class="r-in"><span><span class="st">"ROU-RUS[RFP]_1901A:ROU-RUS[RFP]_1901A"</span>,</span></span>
+<span class="r-in"><span><span class="st">"GD16FI_1901A"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>Text <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"treaty 1"</span>, <span class="st">"treaty 2"</span>, <span class="st">"treaty 3"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">retrieve_texts</span><span class="op">(</span>dataset <span class="op">=</span> <span class="va">membs</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   manyID                                Text    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> ROU-RUS[RFP]_1901A                    treaty 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> ROU-RUS[RFP]_1901A:ROU-RUS[RFP]_1901A treaty 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> GD16FI_1901A                          treaty 3</span>
+<span class="r-in"><span><span class="co">#retrieve_texts(dataset = manyenviron::agreements$HUGGO)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
