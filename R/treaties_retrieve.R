@@ -179,5 +179,5 @@ retrieve_texts <- function(dataset, treaty_type = NULL) {
   }
   tibble::tibble(dataset[, c(text_vars)]) %>%
     dplyr::filter(!dplyr::if_all(-manyID, is.na)) %>%
-    dplyr::distinct() 
+    dplyr::distinct()
 }
