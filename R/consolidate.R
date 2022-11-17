@@ -92,8 +92,8 @@ consolidate <- function(database, rows = "any", cols = "any",
   # Step 2: check if multiple keys for memberships' databases
   if (grepl("membership", deparse(substitute(database)), ignore.case = TRUE) &
       length(key) == 1) {
-    stop("For memberships database please indicate two keys
-         (e.g. key = c('manyID', 'CountryID'))")
+    stop("For memberships database please indicate two keys, one identifying the
+    agreements and one identifying the actors (e.g. key = c('manyID', 'CountryID')).")
   }
   # Step 3: inform users about duplicates
   if (length(key) == 1) {
