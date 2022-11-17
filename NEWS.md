@@ -4,6 +4,7 @@
 
 * Updated ´consolidate()´ to require two keys when joining memberships' databases
 * Updated ´db_comp()´ to follow consolidation defaults for memberships' databases
+* Closed #231 by adding a ´retrieve_texts()´ function to retrieve treaty texts from other 'many' packages
 
 # manydata 0.8.1
 
