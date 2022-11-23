@@ -1,13 +1,20 @@
 #' Plot geographical networks
 #'
-#' Creates a plot of the a unimodal geographical network.
-#' @param object Unimodal geographical network. Needs to contain ISO3c country
-#' IDs.
-#' @param date String date at which the network snapshot was taken
-#' (e.g. "2010-01-01").
+#' Creates a plot of the a unimodal geographical network at a single point
+#' in time.
+#' @param dataset A dataset from one of the many packages
+#' or a "consolidated" database.
+#' @param treaty_type The type of treaties to be returned.
+#' NULL, by default.
+#' Other options are "bilateral" or "multilateral".
+#' @param actor An actor variable.
+#' "StateID", by default.
+#' @param date String date from the network snapshot.
 #' Used by \code{{cshapes}} to plot the correct map.
-#' Date can be between 1886 and 2021.
+#' By default, 2019-12-31.
+#' Date can be between 1886-01-01 and 2019-12-31.
 #' @param theme Theme you would like to use to plot the graph.
+#' bey defalt, "light".
 #' Available themes are "light", "dark", and "earth".
 #' @importFrom migraph is_graph is_multiplex as_edgelist as_tidygraph node_names
 #' @importFrom ggraph create_layout ggraph geom_edge_arc
@@ -17,35 +24,34 @@
 #' @return A map of a country level geographical network.
 #' @examples
 #' \donttest{
-#' # Plot a network of environmental agreements signed in 2010
-#' # extracted from {manyenviron} using data from ECOLEX.
-#' # Light theme
-#' membership <- migraph::as_igraph(data.frame(
-#'   from = c("ETH", "ETH", "ETH", "ETH", "UKR", "UKR",
-#'            "MOZ", "MOZ", "JPN", "JPN"),
-#'   to = c("GNQ", "KEN", "TZA", "RWA", "CHN", "POL",
-#'          "COL", "NZL", "MNE", "LKA")))
-#' network_map(membership, date = "2010-01-01", theme = "light") +
-#'   ggplot2::labs(title = "Sample of International Environmental Treaties 2010",
-#'                  subtitle = "Ecolex data",
-#'                  caption = "Created with love by {}")
-#' # Earth theme
-#' network_map(membership, date = "2010-01-01", theme = "earth") +
-#'   ggplot2::labs(title = "International Environmental Treaties 2010",
-#'                  subtitle = "Ecolex data",
-#'                  caption = "Created with love by {}")
+#' #memberships <- dplyr::filter(manyenviron::memberships$ECOLEX_MEM,
+#' #Beg > "2000-01-01" & Beg < "2000-12-12")
+#' #network_map(memberships, actor = "CountryID") +
+#' #ggplot2::labs(title = "International Environmental Treaties Signed in the year 2000",
+#' #subtitle = "Ecolex data")
 #'}
 #' @export
-network_map <- function(object, date, theme = "light") {
+network_map <- function(dataset, actor = "StateID", treaty_type = NULL,
+                        date = "2019-12-31", theme = "light") {
   # Checks for correct input
   weight <- NULL
-  if (!migraph::is_graph(object)) stop("Not a valid graph object.")
-  if (migraph::is_multiplex(object)) stop("Graph should be unimodal. Use project_cols() to convert it.")
-  if (!is.character(date)) as.character(date)
-  if (!(theme %in% c("dark", "earth", "light"))) {
-    stop("Specify a theme: light, dark, earth")
+  # Step 1: get membership list
+  dataset <- retrieve_membership_list(dataset = dataset, actor = actor,
+                                      treaty_type = treaty_type)
+  # Step 2: set up empty matrix
+  actor <- unique(unlist(strsplit(dataset$Memberships, ", ")))
+  out <- matrix(0, nrow = length(actor), ncol = length(actor))
+  rownames(out) <- actor
+  colnames(out) <- actor
+  # Step 3: fill matrix with values
+  for (k in colnames(out)) {
+    m <- data.frame(table(unlist(strsplit(grep(k, dataset$Memberships,
+                                               value = TRUE), ", "))))
+    m <- m[!(m$Var1 %in% k),]
+    out[k, ] <- ifelse(names(out[k,]) %in% m$Var1 == TRUE, m$Freq, out[k,])
   }
-  # Select ggplot theme
+  out  <- igraph::get.data.frame(igraph::graph.adjacency(out, weighted = TRUE))
+  # Step 4 = get theme
   if (theme == "dark") {
     maptheme <- maptheme(palette = c("#FFFAFA", "#596673"))
     countrycolor <- "#FFFAFA"
@@ -58,7 +64,7 @@ network_map <- function(object, date, theme = "light") {
     maptheme <- maptheme(palette = c("#596673", "#FFFAFA"))
     countrycolor <- "#596673"
   }
-  # Step 1: Import the historical shapefile data
+  # Step 5: import the historical shapefile data
   cshapes <- cshapes::cshp(as.Date(date), useGW = FALSE)
   coment <- vapply(countryregex[, 3], # add stateID abbreviations
                    function(x) grepl(x, cshapes$country_name,
@@ -66,38 +72,35 @@ network_map <- function(object, date, theme = "light") {
                    FUN.VALUE = double(length(cshapes$country_name)))
   colnames(coment) <- countryregex[, 1]
   rownames(coment) <- cshapes$country_name
-  out <- apply(coment, 1, function(x) paste(names(x[x == 1]),
+  ab <- apply(coment, 1, function(x) paste(names(x[x == 1]),
                                             collapse = "_"))
-  out[out == ""] <- NA
-  cshapes <- cshapes %>%
-    dplyr::mutate(stateID = unname(out))
-  # Step 2: create edges with from/to lat/long
-  edges <- migraph::as_edgelist(object) %>%
+  ab[ab == ""] <- NA
+  cshapes <- dplyr::mutate(cshapes, stateID = unname(ab))
+  # Step 6: create edges with from/to lat/long
+  edges <- out %>%
     dplyr::inner_join(cshapes, by = c("from" = "stateID")) %>%
     dplyr::rename(x = .data$caplong, y = .data$caplat) %>%
     dplyr::inner_join(cshapes, by = c("to" = "stateID")) %>%
     dplyr::rename(xend = .data$caplong, yend = .data$caplat)
-  # Step 3: Create plotted network from computed edges
+  # Step 7: Create plotted network from computed edges
   g <- migraph::as_tidygraph(edges)
-  # Step 4: Get the country shapes from the edges dataframe
+  # Step 8: Get the country shapes from the edges dataframe
   country_shapes <- ggplot2::geom_sf(data = cshapes$geometry,
                                      fill = countrycolor)
-  # Step 5: Get a non-standard projection of the underlying map(optional)
-  # Could include different projections for continents etc
-  # Step 6: Generate the point coordinates for capitals
+  # Step 9: generate the point coordinates for capitals
   cshapes_pos <- cshapes %>%
     dplyr::filter(.data$stateID %in% migraph::node_names(g)) %>%
     dplyr::rename(x = .data$caplong, y = .data$caplat)
   # Reorder things according to nodes in plotted network g
   cshapes_pos <- cshapes_pos[match(migraph::node_names(g),
                                    cshapes_pos[["stateID"]]), ]
-  # Generate the layout
+  # Step 10: generate the layout
   lay <- ggraph::create_layout(g, layout = cshapes_pos)
-  # Add additional elements to the layout
   edges$circular <- rep(FALSE, nrow(edges))
   edges$edge.id <- rep(1, nrow(edges))
-  # Step 7: Plot things
-  ggraph::ggraph(lay) + country_shapes +
+  # Step 11: plot
+  ggraph::ggraph(lay) +
+    country_shapes +
     ggraph::geom_edge_arc(data = edges, ggplot2::aes(edge_width = weight),
                           strength = 0.33, alpha = 0.25) +
     ggraph::scale_edge_width_continuous(range = c(0.5, 2), # scales edge widths

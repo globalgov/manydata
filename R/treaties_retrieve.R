@@ -17,7 +17,8 @@
 #' researchers can `consolidate()` a database into one dataset
 #' with some combination of the rows, columns, and observations
 #' before getting the desired information.
-#' @param dataset A dataset from one of the many packages.
+#' @param dataset A dataset from one of the many packages
+#' or a "consolidated" database.
 #' @param treaty_type The type of treaties to be returned.
 #' NULL, by default.
 #' Other options are "bilateral" or "multilateral".

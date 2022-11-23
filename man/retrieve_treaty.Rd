@@ -20,7 +20,8 @@ retrieve_links(dataset, treaty_type = NULL)
 retrieve_texts(dataset, treaty_type = NULL)
 }
 \arguments{
-\item{dataset}{A dataset from one of the many packages.}
+\item{dataset}{A dataset from one of the many packages
+or a "consolidated" database.}
 
 \item{actor}{An actor variable.
 "StateID", by default.}
