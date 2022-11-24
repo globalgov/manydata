@@ -1,13 +1,11 @@
 # Test if network_map() meets the many universe requirements
 
-membership  <-  membership <- migraph::as_igraph(data.frame(
-  from = c("ETH", "ETH", "ETH", "ETH", "UKR", "UKR",
-           "MOZ", "MOZ", "JPN", "JPN"),
-  to = c("GNQ", "KEN", "TZA", "RWA", "CHN", "POL",
-         "COL", "NZL", "MNE", "LKA")))
-testlight   <-  network_map(membership, date = "2010-01-01", theme = "light")
-testdark    <-  network_map(membership, date = "2010-01-01", theme = "dark")
-testearth   <-  network_map(membership, date = "2010-01-01", theme = "earth")
+membership  <-  tibble::tibble(StateID = c("ROU", "RUS", "DNK"),
+                               manyID = c("ROU-RUS[RFP]_1901A",
+                                          "ROU-RUS[RFP]_1901A", "GD16FI_1901A"))
+testlight   <-  network_map(membership, theme = "light")
+testdark    <-  network_map(membership, theme = "dark")
+testearth   <-  network_map(membership, theme = "earth")
 
 test_that("Mapping networks works", {
   expect_equal(class(testlight$data), c("layout_tbl_graph",

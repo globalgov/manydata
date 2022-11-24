@@ -1,14 +1,17 @@
-#' Plot geographical networks
-#'
-#' Creates a plot of the a unimodal geographical network at a single point
-#' in time.
+#' Plot agreements network
+#' @description Facilitates plotting of 'many' data.
 #' @param dataset A dataset from one of the many packages
 #' or a "consolidated" database.
-#' @param treaty_type The type of treaties to be returned.
-#' NULL, by default.
 #' Other options are "bilateral" or "multilateral".
 #' @param actor An actor variable.
 #' "StateID", by default.
+#' @param treaty_type The type of treaties to be returned.
+#' NULL, by default.
+#' Other options are "bilateral" or "multilateral".
+#' @param layout How do you want the plot to look like?
+#' An igraph layout algorithm, currently defaults to 'concentric'.
+#' Some other options are 'stress', 'bipartite', and 'alluvial'.
+#' For more information please check ´?migraph::autographr´.
 #' @param date String date from the network snapshot.
 #' Used by \code{{cshapes}} to plot the correct map.
 #' By default, 2019-12-31.
@@ -16,6 +19,37 @@
 #' @param theme Theme you would like to use to plot the graph.
 #' bey defalt, "light".
 #' Available themes are "light", "dark", and "earth".
+#' @name agreements_plot
+NULL
+
+#' @rdname agreements_plot
+#' @return A network of agreements' relations.
+#' @examples
+#' @export
+plot_agreements <- function(dataset, treaty_type = NULL, layout = "concentric") {
+    dplyr::select(dataset, manyID) %>% 
+      dplyr::mutate(link = ifelse(grepl(":", manyID),
+                                  sapply(strsplit(manyID, ":"), "[", 2 ), NA)) %>% 
+      dplyr::distinct() %>%
+      migraph::as_igraph() %>%
+      migraph::autographr(layout = layout)
+}
+
+#' @rdname agreements_plot
+#' @return A network of agreements' relations.
+#' @examples
+#' @export
+plot_memberships <- function(dataset, actor = "StateID", treaty_type = NULL,
+                             layout = "concentric") {
+  dplyr::select(dataset, manyID, actor) %>%
+    dplyr::distinct() %>%
+    migraph::as_igraph() %>%
+    migraph::autographr(layout = layout)
+}
+
+#' @rdname plot_agreements
+#' @details Creates a plot of the a unimodal geographical network at a
+#' single point in time.
 #' @importFrom migraph is_graph is_multiplex as_edgelist as_tidygraph node_names
 #' @importFrom ggraph create_layout ggraph geom_edge_arc
 #' scale_edge_width_continuous geom_node_point geom_node_text
@@ -26,8 +60,8 @@
 #' \donttest{
 #' #memberships <- dplyr::filter(manyenviron::memberships$ECOLEX_MEM,
 #' #Beg > "2000-01-01" & Beg < "2000-12-12")
-#' #network_map(memberships, actor = "CountryID") +
-#' #ggplot2::labs(title = "International Environmental Treaties Signed in the year 2000",
+#' #network_map(memberships, actor = "CountryID", treaty_type = "bilateral") +
+#' #ggplot2::labs(title = "Bilateral International Environmental Treaties Signed in the year 2000",
 #' #subtitle = "Ecolex data")
 #'}
 #' @export
@@ -48,7 +82,7 @@ network_map <- function(dataset, actor = "StateID", treaty_type = NULL,
     m <- data.frame(table(unlist(strsplit(grep(k, dataset$Memberships,
                                                value = TRUE), ", "))))
     m <- m[!(m$Var1 %in% k),]
-    out[k, ] <- ifelse(names(out[k,]) %in% m$Var1 == TRUE, m$Freq, out[k,])
+    out[k, ] <- ifelse(names(out[k,]) %in% m$Var1 == TRUE, m$Freq/100, out[k,])
   }
   out  <- igraph::get.data.frame(igraph::graph.adjacency(out, weighted = TRUE))
   # Step 4 = get theme
@@ -73,7 +107,7 @@ network_map <- function(dataset, actor = "StateID", treaty_type = NULL,
   colnames(coment) <- countryregex[, 1]
   rownames(coment) <- cshapes$country_name
   ab <- apply(coment, 1, function(x) paste(names(x[x == 1]),
-                                            collapse = "_"))
+                                           collapse = "_"))
   ab[ab == ""] <- NA
   cshapes <- dplyr::mutate(cshapes, stateID = unname(ab))
   # Step 6: create edges with from/to lat/long
@@ -131,7 +165,7 @@ maptheme <- function(palette = c("#FFFAFA", "#596673")) {
                    plot.subtitle = ggplot2::element_text(color = titlecolor,
                                                          hjust = 0.065,
                                                          vjust = 0.1),
-      plot.caption = ggplot2::element_text(color = titlecolor, hjust = 0.96)) +
+                   plot.caption = ggplot2::element_text(color = titlecolor, hjust = 0.96)) +
     ggplot2::theme(plot.margin = ggplot2::unit(c(0, 0, 0.5, 0), "cm"))
   # This function returns a map theme for ggplot
   maptheme
