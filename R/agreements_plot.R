@@ -8,26 +8,20 @@
 #' @param treaty_type The type of treaties to be returned.
 #' NULL, by default.
 #' Other options are "bilateral" or "multilateral".
-#' @param layout How do you want the plot to look like?
-#' An igraph layout algorithm, currently defaults to 'concentric'.
-#' Some other options are 'stress', 'bipartite', and 'alluvial'.
-#' For more information please check ´?migraph::autographr´.
-#' @param date String date from the network snapshot.
-#' Used by \code{{cshapes}} to plot the correct map.
-#' By default, 2019-12-31.
-#' Date can be between 1886-01-01 and 2019-12-31.
-#' @param theme Theme you would like to use to plot the graph.
-#' bey defalt, "light".
-#' Available themes are "light", "dark", and "earth".
 #' @name agreements_plot
 NULL
 
 #' @rdname agreements_plot
+#' @param layout How do you want the plot to look like?
+#' An igraph layout algorithm, currently defaults to 'concentric'.
+#' Some other options are 'stress', 'bipartite', and 'alluvial'.
+#' For more information please check ´?migraph::autographr´.
 #' @return A network of agreements' relations.
 #' @examples
 #' @export
 plot_agreements <- function(dataset, treaty_type = NULL, layout = "concentric") {
-    dplyr::select(dataset, manyID) %>% 
+  manyID <- NULL 
+  dplyr::select(dataset, manyID) %>% 
       dplyr::mutate(link = ifelse(grepl(":", manyID),
                                   sapply(strsplit(manyID, ":"), "[", 2 ), NA)) %>% 
       dplyr::distinct() %>%
@@ -36,18 +30,30 @@ plot_agreements <- function(dataset, treaty_type = NULL, layout = "concentric") 
 }
 
 #' @rdname agreements_plot
+#' @param layout How do you want the plot to look like?
+#' An igraph layout algorithm, currently defaults to 'concentric'.
+#' Some other options are 'stress', 'bipartite', and 'alluvial'.
+#' For more information please check ´?migraph::autographr´.
 #' @return A network of agreements' relations.
 #' @examples
 #' @export
 plot_memberships <- function(dataset, actor = "StateID", treaty_type = NULL,
                              layout = "concentric") {
+  manyID <- NULL
   dplyr::select(dataset, manyID, actor) %>%
     dplyr::distinct() %>%
     migraph::as_igraph() %>%
     migraph::autographr(layout = layout)
 }
 
-#' @rdname plot_agreements
+#' @rdname agreements_plot
+#' @param date String date from the network snapshot.
+#' Used by \code{{cshapes}} to plot the correct map.
+#' By default, 2019-12-31.
+#' Date can be between 1886-01-01 and 2019-12-31.
+#' @param theme Theme you would like to use to plot the graph.
+#' bey defalt, "light".
+#' Available themes are "light", "dark", and "earth".
 #' @details Creates a plot of the a unimodal geographical network at a
 #' single point in time.
 #' @importFrom migraph is_graph is_multiplex as_edgelist as_tidygraph node_names

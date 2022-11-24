@@ -4,6 +4,7 @@
 \alias{agreements_plot}
 \alias{plot_agreements}
 \alias{plot_memberships}
+\alias{network_map}
 \title{Plot agreements network}
 \usage{
 plot_agreements(dataset, treaty_type = NULL, layout = "concentric")
@@ -13,6 +14,14 @@ plot_memberships(
   actor = "StateID",
   treaty_type = NULL,
   layout = "concentric"
+)
+
+network_map(
+  dataset,
+  actor = "StateID",
+  treaty_type = NULL,
+  date = "2019-12-31",
+  theme = "light"
 )
 }
 \arguments{
@@ -45,7 +54,22 @@ Available themes are "light", "dark", and "earth".}
 A network of agreements' relations.
 
 A network of agreements' relations.
+
+A map of a country level geographical network.
 }
 \description{
 Facilitates plotting of 'many' data.
+}
+\details{
+Creates a plot of the a unimodal geographical network at a
+single point in time.
+}
+\examples{
+\donttest{
+#memberships <- dplyr::filter(manyenviron::memberships$ECOLEX_MEM,
+#Beg > "2000-01-01" & Beg < "2000-12-12")
+#network_map(memberships, actor = "CountryID", treaty_type = "bilateral") +
+#ggplot2::labs(title = "Bilateral International Environmental Treaties Signed in the year 2000",
+#subtitle = "Ecolex data")
+}
 }
