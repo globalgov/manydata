@@ -3,9 +3,9 @@
 membership  <-  tibble::tibble(StateID = c("ROU", "RUS", "DNK"),
                                manyID = c("ROU-RUS[RFP]_1901A",
                                           "ROU-RUS[RFP]_1901A", "GD16FI_1901A"))
-testlight   <-  network_map(membership, theme = "light")
-testdark    <-  network_map(membership, theme = "dark")
-testearth   <-  network_map(membership, theme = "earth")
+testlight   <-  map_plot(membership, theme = "light")
+testdark    <-  map_plot(membership, theme = "dark")
+testearth   <-  map_plot(membership, theme = "earth")
 
 test_that("Mapping networks works", {
   expect_equal(class(testlight$data), c("layout_tbl_graph",

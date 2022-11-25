@@ -8,45 +8,87 @@
 #' @param treaty_type The type of treaties to be returned.
 #' NULL, by default.
 #' Other options are "bilateral" or "multilateral".
-#' @name agreements_plot
+#' @name plot_agreements
 NULL
 
-#' @rdname agreements_plot
+#' @rdname plot_agreements
 #' @param layout How do you want the plot to look like?
-#' An igraph layout algorithm, currently defaults to 'concentric'.
-#' Some other options are 'stress', 'bipartite', and 'alluvial'.
+#' An igraph layout algorithm, some options are 'concentric',
+#' 'stress', 'bipartite', and 'alluvial'.
 #' For more information please check ´?migraph::autographr´.
+#' @importFrom dplyr %>% select mutate distinct
+#' @importFrom migraph as_igraph autographr
 #' @return A network of agreements' relations.
 #' @examples
+#' \donttest{
+#' #agreements <- dplyr::filter(manyenviron::agreements$ECOLEX,
+#' #Beg > "2000-01-01" & Beg < "2000-12-12")
+#' #agreements_plot(agreements)
+#'}
 #' @export
-plot_agreements <- function(dataset, treaty_type = NULL, layout = "concentric") {
-  manyID <- NULL 
-  dplyr::select(dataset, manyID) %>% 
-      dplyr::mutate(link = ifelse(grepl(":", manyID),
-                                  sapply(strsplit(manyID, ":"), "[", 2 ), NA)) %>% 
-      dplyr::distinct() %>%
-      migraph::as_igraph() %>%
-      migraph::autographr(layout = layout)
+agreements_plot <- function(dataset, treaty_type = NULL,
+                            layout = "concentric") {
+  manyID <- NULL
+  out <- dplyr::select(dataset, manyID)
+  if (!is.null(treaty_type)) {
+    if (treaty_type == "bilateral") {
+      out <- grep("-", out, value = TRUE)
+    }
+    if (treaty_type == "multilateral") {
+      out <- grep("-", out, value = TRUE, invert = TRUE)
+    }
+  }
+  dplyr::mutate(out, link = ifelse(grepl(":", manyID),
+                                        sapply(strsplit(manyID, ":"),
+                                               "[", 2 ), NA),
+                     manyID = gsub("\\:.*","",manyID)) %>%
+    dplyr::distinct() %>%
+    migraph::as_igraph() %>%
+    migraph::autographr(layout = layout)
+  # # How to keep isolates isolated?
+  # b <- dplyr::mutate(out, link = ifelse(grepl(":", manyID),
+  #                                       sapply(strsplit(manyID, ":"),
+  #                                              "[", 2 ), NA),
+  #                    manyID = gsub("\\:.*","",manyID)) %>%
+  #   dplyr::distinct()
+  # a <- table(lapply(b, factor, levels=na.omit(unique(unlist(b))))) %>%
+  #   igraph::graph_from_adjacency_matrix() %>%
+  #   migraph::autographr(layout = layout)
 }
 
-#' @rdname agreements_plot
+#' @rdname plot_agreements
 #' @param layout How do you want the plot to look like?
 #' An igraph layout algorithm, currently defaults to 'concentric'.
 #' Some other options are 'stress', 'bipartite', and 'alluvial'.
 #' For more information please check ´?migraph::autographr´.
-#' @return A network of agreements' relations.
+#' @importFrom dplyr %>% select distinct all_of
+#' @importFrom migraph as_igraph autographr
+#' @return A network of agreements' memberships.
 #' @examples
+#' \donttest{
+#' #memberships <- dplyr::filter(manyenviron::memberships$ECOLEX_MEM,
+#' #Beg > "2000-01-01" & Beg < "2000-06-12")
+#' #membership_plot(memberships, actor = "CountryID")
+#'}
 #' @export
-plot_memberships <- function(dataset, actor = "StateID", treaty_type = NULL,
-                             layout = "concentric") {
+membership_plot <- function(dataset, actor = "StateID", treaty_type = NULL,
+                             layout = "bipartite") {
   manyID <- NULL
-  dplyr::select(dataset, manyID, actor) %>%
-    dplyr::distinct() %>%
+  out <- dplyr::select(dataset, manyID, dplyr::all_of(actor))
+  if (!is.null(treaty_type)) {
+    if (treaty_type == "bilateral") {
+      out <- grep("-", out, value = TRUE)
+    }
+    if (treaty_type == "multilateral") {
+      out <- grep("-", out, value = TRUE, invert = TRUE)
+    }
+  }
+  dplyr::distinct(out) %>%
     migraph::as_igraph() %>%
     migraph::autographr(layout = layout)
 }
 
-#' @rdname agreements_plot
+#' @rdname plot_agreements
 #' @param date String date from the network snapshot.
 #' Used by \code{{cshapes}} to plot the correct map.
 #' By default, 2019-12-31.
@@ -66,12 +108,12 @@ plot_memberships <- function(dataset, actor = "StateID", treaty_type = NULL,
 #' \donttest{
 #' #memberships <- dplyr::filter(manyenviron::memberships$ECOLEX_MEM,
 #' #Beg > "2000-01-01" & Beg < "2000-12-12")
-#' #network_map(memberships, actor = "CountryID", treaty_type = "bilateral") +
+#' #map_plot(memberships, actor = "CountryID", treaty_type = "bilateral") +
 #' #ggplot2::labs(title = "Bilateral International Environmental Treaties Signed in the year 2000",
 #' #subtitle = "Ecolex data")
 #'}
 #' @export
-network_map <- function(dataset, actor = "StateID", treaty_type = NULL,
+map_plot <- function(dataset, actor = "StateID", treaty_type = NULL,
                         date = "2019-12-31", theme = "light") {
   # Checks for correct input
   weight <- NULL

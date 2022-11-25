@@ -102,7 +102,7 @@ retrieve_membership_list <- function(dataset, actor = "StateID",
   if (!any(colnames(dataset) == "manyID")) {
     stop("manyID column not found, please declare a many packages dataset.")
   }
-  membs_list <- dplyr::select(dataset, manyID, actor) %>%
+  membs_list <- dplyr::select(dataset, manyID, dplyr::all_of(actor)) %>%
     rename(Actor = 2)
   if (!is.null(treaty_type)) {
     if (treaty_type == "bilateral") {
