@@ -1,4 +1,5 @@
 #' Plot agreements network
+#' 
 #' @description Facilitates plotting of 'many' data.
 #' @param dataset A dataset from one of the many packages
 #' or a "consolidated" database.
@@ -18,6 +19,7 @@ NULL
 #' For more information please check ´?migraph::autographr´.
 #' @importFrom dplyr %>% select mutate distinct
 #' @importFrom migraph as_igraph autographr
+#' @importFrom igraph delete.vertices
 #' @return A network of agreements' relations.
 #' @examples
 #' \donttest{
@@ -39,21 +41,13 @@ agreements_plot <- function(dataset, treaty_type = NULL,
     }
   }
   dplyr::mutate(out, link = ifelse(grepl(":", manyID),
-                                        sapply(strsplit(manyID, ":"),
-                                               "[", 2 ), NA),
-                     manyID = gsub("\\:.*","",manyID)) %>%
+                                   sapply(strsplit(manyID, ":"),
+                                          "[", 2 ), NA),
+                manyID = gsub("\\:.*", "", manyID)) %>%
     dplyr::distinct() %>%
     migraph::as_igraph() %>%
+    igraph::delete.vertices("NA") %>% # How to delete vertices without igraph?
     migraph::autographr(layout = layout)
-  # # How to keep isolates isolated?
-  # b <- dplyr::mutate(out, link = ifelse(grepl(":", manyID),
-  #                                       sapply(strsplit(manyID, ":"),
-  #                                              "[", 2 ), NA),
-  #                    manyID = gsub("\\:.*","",manyID)) %>%
-  #   dplyr::distinct()
-  # a <- table(lapply(b, factor, levels=na.omit(unique(unlist(b))))) %>%
-  #   igraph::graph_from_adjacency_matrix() %>%
-  #   migraph::autographr(layout = layout)
 }
 
 #' @rdname plot_agreements
@@ -89,6 +83,39 @@ membership_plot <- function(dataset, actor = "StateID", treaty_type = NULL,
 }
 
 #' @rdname plot_agreements
+#' @importFrom migraph gglineage
+#' @importFrom dplyr %>% select mutate distinct filter
+#' @return A plot of agreements' lineages.
+#' @examples
+#' \donttest{
+#' #dataset <- dplyr::filter(manyenviron::agreements$ECOLEX,
+#' #Beg > "2000-01-01")
+#' #lineage_plot(agreements)
+#' }
+#' @export
+lineage_plot <- function(dataset, treaty_type = NULL) {
+  manyID <- NULL
+  out <- dplyr::select(dataset, manyID)
+  if (!is.null(treaty_type)) {
+    if (treaty_type == "bilateral") {
+      out <- grep("-", out, value = TRUE)
+    }
+    if (treaty_type == "multilateral") {
+      out <- grep("-", out, value = TRUE, invert = TRUE)
+    }
+  }
+  out %>%
+    dplyr::filter(grepl(":", manyID)) %>%
+    dplyr::mutate(link = ifelse(grepl(":", manyID),
+                                   sapply(strsplit(manyID, ":"),
+                                          "[", 2 ), NA),
+                  manyID = gsub("\\:.*", "", manyID)) %>%
+    dplyr::distinct() %>%
+    migraph::as_igraph() %>%
+    migraph::gglineage()
+} 
+
+#' @rdname plot_agreements
 #' @param date String date from the network snapshot.
 #' Used by \code{{cshapes}} to plot the correct map.
 #' By default, 2019-12-31.
@@ -103,6 +130,7 @@ membership_plot <- function(dataset, actor = "StateID", treaty_type = NULL,
 #' scale_edge_width_continuous geom_node_point geom_node_text
 #' @importFrom dplyr mutate inner_join rename filter
 #' @importFrom cshapes cshp
+#' @importFrom igraph get.data.frame graph.adjacency
 #' @return A map of a country level geographical network.
 #' @examples
 #' \donttest{

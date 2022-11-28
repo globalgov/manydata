@@ -4,6 +4,7 @@
 \alias{plot_agreements}
 \alias{agreements_plot}
 \alias{membership_plot}
+\alias{lineage_plot}
 \alias{map_plot}
 \title{Plot agreements network}
 \usage{
@@ -15,6 +16,8 @@ membership_plot(
   treaty_type = NULL,
   layout = "bipartite"
 )
+
+lineage_plot(dataset, treaty_type = NULL)
 
 map_plot(
   dataset,
@@ -55,6 +58,8 @@ A network of agreements' relations.
 
 A network of agreements' memberships.
 
+A plot of agreements' lineages.
+
 A map of a country level geographical network.
 }
 \description{
@@ -74,6 +79,11 @@ single point in time.
 #memberships <- dplyr::filter(manyenviron::memberships$ECOLEX_MEM,
 #Beg > "2000-01-01" & Beg < "2000-06-12")
 #membership_plot(memberships, actor = "CountryID")
+}
+\donttest{
+#dataset <- dplyr::filter(manyenviron::agreements$ECOLEX,
+#Beg > "2000-01-01")
+#lineage_plot(agreements)
 }
 \donttest{
 #memberships <- dplyr::filter(manyenviron::memberships$ECOLEX_MEM,
