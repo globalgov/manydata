@@ -62,10 +62,10 @@ agreements_plot <- function(dataset, treaty_type = NULL,
 #' \donttest{
 #' #memberships <- dplyr::filter(manyenviron::memberships$ECOLEX_MEM,
 #' #Beg > "2000-01-01" & Beg < "2000-06-12")
-#' #membership_plot(memberships, actor = "CountryID")
+#' #membership_plot(memberships, actor = "stateID")
 #'}
 #' @export
-membership_plot <- function(dataset, actor = "StateID", treaty_type = NULL,
+membership_plot <- function(dataset, actor = "stateID", treaty_type = NULL,
                              layout = "bipartite") {
   manyID <- NULL
   out <- dplyr::select(dataset, manyID, dplyr::all_of(actor))
@@ -88,9 +88,9 @@ membership_plot <- function(dataset, actor = "StateID", treaty_type = NULL,
 #' @return A plot of agreements' lineages.
 #' @examples
 #' \donttest{
-#' #dataset <- dplyr::filter(manyenviron::agreements$ECOLEX,
-#' #Beg > "2000-01-01")
-#' #lineage_plot(agreements)
+#' #dataset <- dplyr::filter(manyenviron::agreements$HUGGO, Beg > "2000-01-01",
+#' #Beg < "2010-12-31")
+#' #lineage_plot(dataset)
 #' }
 #' @export
 lineage_plot <- function(dataset, treaty_type = NULL) {

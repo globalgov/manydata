@@ -12,7 +12,7 @@ agreements_plot(dataset, treaty_type = NULL, layout = "concentric")
 
 membership_plot(
   dataset,
-  actor = "StateID",
+  actor = "stateID",
   treaty_type = NULL,
   layout = "bipartite"
 )
@@ -78,12 +78,12 @@ single point in time.
 \donttest{
 #memberships <- dplyr::filter(manyenviron::memberships$ECOLEX_MEM,
 #Beg > "2000-01-01" & Beg < "2000-06-12")
-#membership_plot(memberships, actor = "CountryID")
+#membership_plot(memberships, actor = "stateID")
 }
 \donttest{
-#dataset <- dplyr::filter(manyenviron::agreements$ECOLEX,
-#Beg > "2000-01-01")
-#lineage_plot(agreements)
+#dataset <- dplyr::filter(manyenviron::agreements$HUGGO, Beg > "2000-01-01",
+#Beg < "2010-12-31")
+#lineage_plot(dataset)
 }
 \donttest{
 #memberships <- dplyr::filter(manyenviron::memberships$ECOLEX_MEM,
