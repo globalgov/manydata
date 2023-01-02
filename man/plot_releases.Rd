@@ -7,10 +7,16 @@
 https://benalexkeen.com/creating-a-timeline-graphic-using-r-and-ggplot2/
 }
 \usage{
-plot_releases(repo)
+plot_releases(repo, begin = NULL, end = NULL)
 }
 \arguments{
 \item{repo}{the github repository to track, e.g. "globalgov/manydata"}
+
+\item{begin}{When to begin tracking repository milestones.
+By default NULL, two months before the first release.}
+
+\item{end}{When to end tracking repository milestones.
+By default NULL, two months after the latest release.}
 }
 \value{
 A ggplot graph object

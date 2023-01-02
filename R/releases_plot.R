@@ -3,6 +3,10 @@
 #' The function will take a data frame that details this information,
 #' or more usefully, a Github repository listing.
 #' @param repo the github repository to track, e.g. "globalgov/manydata"
+#' @param begin When to begin tracking repository milestones.
+#'   By default NULL, two months before the first release.
+#' @param end When to end tracking repository milestones.
+#'   By default NULL, two months after the latest release.
 #' @importFrom httr GET content warn_for_status stop_for_status http_error
 #' @importFrom jsonlite fromJSON
 #' @importFrom tibble as_tibble
@@ -21,7 +25,7 @@
 #' #plot_releases("globalgov/manydata")
 #' }
 #' @export
-plot_releases <- function(repo) {
+plot_releases <- function(repo, begin = NULL, end = NULL) {
   # Step one: get releases from repo
   if (!is.data.frame(repo)) {
     get_releases <- function(repo) {
@@ -37,6 +41,9 @@ plot_releases <- function(repo) {
       df$date <- messydates::as_messydate(stringr::str_replace(df$date,
                                                                "-[:digit:]*$",
                                                                "-01"))
+      if(!is.null(begin)) df <- dplyr::filter(df, date >= begin)
+      if(!is.null(end)) df <- dplyr::filter(df, date <= end)
+      
       # Get milestones
       code_milestone <- function(tag_name) {
         tags <- c(tag_name, "v0.0.0")
