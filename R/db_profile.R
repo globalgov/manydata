@@ -82,6 +82,9 @@ db_plot <- function(database, key = "manyID", variable = "all",
              paste0(x * 100, "%"))
     }) +
     scale_fill_manual(values = cols) +
+    geom_text(aes(label = paste0(round(Percentage*100, digits = 1),"%")), 
+              position = position_stack(vjust = 0.5),
+              size = 2, color = "white", angle = 90) +
     theme_minimal() +
     labs(title = deparse(substitute(database)),
          subtitle = paste0("Based on ", nrow(db), " consolidated observations."),
