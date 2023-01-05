@@ -69,7 +69,7 @@ db_plot <- function(database, key = "manyID", variable = "all",
                                    Percentage, NA_character_)) %>%
     tidyr::fill(Missing, .direction = "downup") %>%
     dplyr::filter(Percentage != 0)
-  # Step 3: plot
+  # Step 3: set colors and plot
   cols <- c(confirmed = "deepskyblue3", majority = "aquamarine3",
             unique = "khaki", conflict = "firebrick", missing = "grey90")
   ggplot(dbgather, aes(fill = Category, y = Percentage,
@@ -193,11 +193,11 @@ db_comp <- function(database, key = "manyID", variable = "all",
         x
       })
       # conflict (an even number of non-NA conflicting obs)
-      value <- ifelse(!grepl("^missing$|^unique$|^confirmed$|^conflict$", value) &
-                        lengths(vl) == 1, "conflict", value)
+      value <- ifelse(!grepl("^missing$|^unique$|^confirmed$|^conflict$",
+                             value) & lengths(vl) == 1, "conflict", value)
       # majority (an unbalanced number of non-NA matching obs)
-      value <- ifelse(!grepl("^missing$|^unique$|^confirmed$|^conflict$", value),
-                      "majority", value)
+      value <- ifelse(!grepl("^missing$|^unique$|^confirmed$|^conflict$",
+                             value), "majority", value)
     } else {
       value <- unname(unlist(out[vars_to_combine]))
       value <- ifelse(is.na(value), "missing", "unique")
@@ -213,9 +213,9 @@ db_comp <- function(database, key = "manyID", variable = "all",
   # Step 7: filter categories if necessary
   . <- NULL
   if (any(category != "all")) {
-    db <- dplyr::filter_all(db, dplyr::any_vars(grepl(paste(category,
-                                                            collapse = "|"),
-                                                      .)))
+    db <- dplyr::filter_all(db,
+                            dplyr::any_vars(grepl(paste(category,
+                                                        collapse = "|"), .)))
   }
   db
 }
