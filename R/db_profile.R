@@ -48,6 +48,22 @@ db_plot <- function(database, key = "manyID", variable = "all",
                 category = category)
   # remove extra variable level information
   db <- db[!grepl("\\$", names(db))]
+  # differentiate conflicts, for internal use and if available...
+  if (any(grepl('Checked_HUGGO', names(db)))) {
+    ch <- data.frame(db[grep("Checked_HUGGO", names(db))])
+    as.vector(ch)
+    for (v in names(db)) {
+      db[v] <- ifelse(db[v] == "conflict" & ch == "unique",
+                      "recognised conflict",
+                  ifelse(db[v] == "conflict" & ch == "missing",
+                         "open conflict",
+                         ifelse(db[v] == "confirmed", "confirmed",
+                                ifelse(db[v] == "unique", "unique",
+                                       ifelse(db[v] == "majority", "majority",
+                                              ifelse(db[v] == "missing",
+                                                     "missing", ""))))))
+    }
+  }
   # Step 2: gather and reshape data
   Category <- Variable <- Percentage <- Missing <- NULL
   dbgather <- db %>%
@@ -61,17 +77,34 @@ db_plot <- function(database, key = "manyID", variable = "all",
                        values_from = Percentage) %>%
     dplyr::mutate(across(everything(), ~tidyr::replace_na(.x, 0))) %>%
     tidyr::pivot_longer(-Variable, names_to = "Category",
-                        values_to = "Percentage") %>%
-    dplyr::mutate(Category = factor(Category, levels = c("missing", "conflict",
-                                                         "unique", "majority",
-                                                         "confirmed")),
-                  Missing = ifelse(Category == "missing",
-                                   Percentage, NA_character_)) %>%
-    tidyr::fill(Missing, .direction = "downup") %>%
-    dplyr::filter(Percentage != 0)
-  # Step 3: set colors and plot
-  cols <- c(confirmed = "deepskyblue3", majority = "aquamarine3",
-            unique = "khaki", conflict = "firebrick", missing = "grey90")
+                        values_to = "Percentage")
+  if (any(grepl('Checked_HUGGO', dbgather["Variable"]))) {
+    dbgather <- dbgather %>%
+      dplyr::mutate(Category = factor(Category, levels = c("missing", "open conflict",
+                                                           "recognised conflict",
+                                                           "unique", "majority",
+                                                           "confirmed")),
+                    Missing = ifelse(Category == "missing",
+                                     Percentage, NA_character_)) %>%
+      tidyr::fill(Missing, .direction = "downup") %>%
+      dplyr::filter(Percentage != 0)
+    # Step 3: set colors and plot
+    cols <- c(confirmed = "deepskyblue3", majority = "aquamarine3",
+              unique = "khaki", 'open conflict' = "orange3",
+              'recognised conflict' = "rosybrown", missing = "grey90")
+  } else {
+    dbgather <- dbgather %>%
+      dplyr::mutate(Category = factor(Category, levels = c("missing", "conflict",
+                                                           "unique", "majority",
+                                                           "confirmed")),
+                    Missing = ifelse(Category == "missing",
+                                     Percentage, NA_character_)) %>%
+      tidyr::fill(Missing, .direction = "downup") %>%
+      dplyr::filter(Percentage != 0)
+    # Step 3: set colors and plot
+    cols <- c(confirmed = "deepskyblue3", majority = "aquamarine3",
+              unique = "khaki", conflict = "firebrick", missing = "grey90")
+  }
   ggplot(dbgather, aes(fill = Category, y = Percentage,
                        x = stats::reorder(Variable, as.numeric(Missing)))) +
     geom_bar(position = "fill", stat = "identity") +
@@ -95,7 +128,7 @@ db_plot <- function(database, key = "manyID", variable = "all",
 #' @name db_profile
 #' @details `db_comp()` creates a tibble comparing the variables in a database.
 #' @importFrom dplyr full_join filter_all %>% all_of group_by distinct any_vars
-#' starts_with
+#' starts_with mutate
 #' @importFrom purrr reduce map
 #' @importFrom tibble tibble
 #' @importFrom tidyr drop_na
