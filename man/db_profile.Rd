@@ -6,7 +6,13 @@
 \alias{db_comp}
 \title{Database profile functions}
 \usage{
-db_plot(database, key = "manyID", variable = "all", category = "all")
+db_plot(
+  database,
+  key = "manyID",
+  variable = "all",
+  category = "all",
+  internal = FALSE
+)
 
 db_comp(database, key = "manyID", variable = "all", category = "all")
 }
@@ -24,6 +30,9 @@ By default "all" are returned.
 Other options include "confirmed", "unique", "missing", "conflicting",
 or "majority".
 For multiple variables, please declare categories as a vector.}
+
+\item{internal}{Is this for internal us?
+For internal use conflict categories are differentiated.}
 }
 \value{
 A plot, or a tibble, with the profile of the variables across all

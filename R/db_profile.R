@@ -28,6 +28,8 @@ NULL
 
 #' @name db_profile
 #' @details `db_plot()` plots the database profile.
+#' @param internal Is this for internal us?
+#' For internal use conflict categories are differentiated.
 #' @importFrom purrr map
 #' @importFrom dplyr summarise group_by mutate select %>% filter all_of
 #' @importFrom tidyr pivot_longer pivot_wider replace_na fill
@@ -42,69 +44,83 @@ NULL
 #' }
 #' @export
 db_plot <- function(database, key = "manyID", variable = "all",
-                    category = "all") {
+                    category = "all", internal = FALSE) {
+  Category <- Variable <- Percentage <- Missing <- NULL # to avoid notes
   # Step 1: run dbcomp() to check key, get variable names, and code observations
   db <- db_comp(database = database, key = key, variable = variable,
                 category = category)
   # remove extra variable level information
   db <- db[!grepl("\\$", names(db))]
-  # differentiate conflicts, for internal use and if available...
-  if (any(grepl('Checked_HUGGO', names(db)))) {
-    ch <- data.frame(db[grep("Checked_HUGGO", names(db))])
-    as.vector(ch)
-    for (v in names(db)) {
-      db[v] <- ifelse(db[v] == "conflict" & ch == "unique",
-                      "recognised conflict",
-                  ifelse(db[v] == "conflict" & ch == "missing",
-                         "open conflict",
-                         ifelse(db[v] == "confirmed", "confirmed",
-                                ifelse(db[v] == "unique", "unique",
-                                       ifelse(db[v] == "majority", "majority",
-                                              ifelse(db[v] == "missing",
-                                                     "missing", ""))))))
-    }
-  }
-  # Step 2: gather and reshape data
-  Category <- Variable <- Percentage <- Missing <- NULL
-  dbgather <- db %>%
-    dplyr::select(-all_of(key)) %>%
-    tidyr::pivot_longer(cols = everything(), names_to = "Variable",
-                        values_to = "Category") %>%
-    dplyr::group_by(Variable, Category) %>%
-    dplyr::summarise(count = n(), .groups = ) %>%
-    dplyr::mutate(Percentage = count / sum(count)) %>%
-    tidyr::pivot_wider(id_cols = Variable, names_from = Category,
-                       values_from = Percentage) %>%
-    dplyr::mutate(across(everything(), ~tidyr::replace_na(.x, 0))) %>%
-    tidyr::pivot_longer(-Variable, names_to = "Category",
-                        values_to = "Percentage")
-  if (any(grepl('Checked_HUGGO', dbgather["Variable"]))) {
-    dbgather <- dbgather %>%
-      dplyr::mutate(Category = factor(Category, levels = c("missing", "open conflict",
-                                                           "recognised conflict",
-                                                           "unique", "majority",
-                                                           "confirmed")),
-                    Missing = ifelse(Category == "missing",
-                                     Percentage, NA_character_)) %>%
-      tidyr::fill(Missing, .direction = "downup") %>%
-      dplyr::filter(Percentage != 0)
-    # Step 3: set colors and plot
-    cols <- c(confirmed = "deepskyblue3", majority = "aquamarine3",
-              unique = "khaki", 'open conflict' = "orange3",
-              'recognised conflict' = "rosybrown", missing = "grey90")
-  } else {
-    dbgather <- dbgather %>%
-      dplyr::mutate(Category = factor(Category, levels = c("missing", "conflict",
-                                                           "unique", "majority",
-                                                           "confirmed")),
-                    Missing = ifelse(Category == "missing",
-                                     Percentage, NA_character_)) %>%
-      tidyr::fill(Missing, .direction = "downup") %>%
-      dplyr::filter(Percentage != 0)
-    # Step 3: set colors and plot
-    cols <- c(confirmed = "deepskyblue3", majority = "aquamarine3",
-              unique = "khaki", conflict = "firebrick", missing = "grey90")
-  }
+  if (internal == TRUE) {
+    # differentiate conflicts, for internal use and if available...
+    if (any(grepl('Checked_HUGGO', names(db)))) {
+      ch <- data.frame(db[grep("Checked_HUGGO", names(db))])
+      as.vector(ch)
+      for (v in names(db)) {
+        db[v] <- ifelse(db[v] == "conflict" & ch == "unique",
+                        "recognised conflict",
+                        ifelse(db[v] == "conflict" & ch == "missing",
+                               "open conflict",
+                               ifelse(db[v] == "confirmed", "confirmed",
+                                      ifelse(db[v] == "unique", "unique",
+                                             ifelse(db[v] == "majority", "majority",
+                                                    ifelse(db[v] == "missing",
+                                                           "missing", ""))))))
+      }
+      # Step 2: gather and reshape data
+      dbgather <- db %>%
+        dplyr::select(-all_of(key)) %>%
+        tidyr::pivot_longer(cols = everything(), names_to = "Variable",
+                            values_to = "Category") %>%
+        dplyr::group_by(Variable, Category) %>%
+        dplyr::summarise(count = n(), .groups = ) %>%
+        dplyr::mutate(Percentage = count / sum(count)) %>%
+        tidyr::pivot_wider(id_cols = Variable, names_from = Category,
+                           values_from = Percentage) %>%
+        dplyr::mutate(across(everything(), ~tidyr::replace_na(.x, 0))) %>%
+        tidyr::pivot_longer(-Variable, names_to = "Category",
+                            values_to = "Percentage") %>%
+        dplyr::mutate(Category = factor(Category, levels = c("missing",
+                                                             "open conflict",
+                                                             "recognised conflict",
+                                                             "unique",
+                                                             "majority",
+                                                             "confirmed")),
+                      Missing = ifelse(Category == "missing",
+                                       Percentage, NA_character_)) %>%
+        tidyr::fill(Missing, .direction = "downup") %>%
+        dplyr::filter(Percentage != 0)
+      # Step 3: set colors and plot
+      cols <- c(confirmed = "deepskyblue3", majority = "aquamarine3",
+                unique = "khaki", 'open conflict' = "orange3",
+                'recognised conflict' = "rosybrown", missing = "grey90")
+      }
+    } else {
+      dbgather <- db %>%
+        dplyr::select(-all_of(key)) %>%
+        tidyr::pivot_longer(cols = everything(), names_to = "Variable",
+                            values_to = "Category") %>%
+        dplyr::group_by(Variable, Category) %>%
+        dplyr::summarise(count = n(), .groups = ) %>%
+        dplyr::mutate(Percentage = count / sum(count)) %>%
+        tidyr::pivot_wider(id_cols = Variable, names_from = Category,
+                           values_from = Percentage) %>%
+        dplyr::mutate(across(everything(), ~tidyr::replace_na(.x, 0))) %>%
+        tidyr::pivot_longer(-Variable, names_to = "Category",
+                            values_to = "Percentage") %>%
+        dplyr::mutate(Category = factor(Category, levels = c("missing",
+                                                             "conflict",
+                                                             "unique",
+                                                             "majority",
+                                                             "confirmed")),
+                      Missing = ifelse(Category == "missing",
+                                       Percentage, NA_character_)) %>%
+        tidyr::fill(Missing, .direction = "downup") %>%
+        dplyr::filter(Percentage != 0)
+      # Step 3: set colors and plot
+      cols <- c(confirmed = "deepskyblue3", majority = "aquamarine3",
+                unique = "khaki", conflict = "firebrick", missing = "grey90")
+      }
   ggplot(dbgather, aes(fill = Category, y = Percentage,
                        x = stats::reorder(Variable, as.numeric(Missing)))) +
     geom_bar(position = "fill", stat = "identity") +
@@ -120,7 +136,8 @@ db_plot <- function(database, key = "manyID", variable = "all",
               size = 2, color = "white", angle = 90) +
     theme_minimal() +
     labs(title = deparse(substitute(database)),
-         subtitle = paste0("Based on ", nrow(db), " consolidated observations."),
+         subtitle = paste0("Based on ", nrow(db),
+                           " consolidated observations."),
          caption = "In between the parenthesis are the number of datasets in which variable is present.",
          x = "Variable")
 }
