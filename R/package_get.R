@@ -4,6 +4,10 @@
 #' @param pkg A character vector of package names or number of a package.
 #' To download multiple packages at once,
 #' please declare package names as a vector (e.g. c("pkg1", "pkg2)).
+#' @param develop Would you like to download the develop
+#' version of the package?
+#' FALSE by default.
+#' If TRUE,  the function downloads the develop version of package from GitHub.
 #' @details The function finds and download other packages
 #' that belong to the many universe of packages.
 #' It allows users to rapidly access the names and other
@@ -31,14 +35,15 @@
 #' @importFrom jsonlite fromJSON
 #' @importFrom httr GET content
 #' @importFrom remotes install_github
-#' @importFrom utils packageVersion askYesNo
-#' @importFrom messydates as_messydate
+#' @importFrom utils packageVersion
 #' @examples 
 #' \donttest{
 #' #get_packages()
+#' #get_packages("manyenviron")
+#' #get_packages(2, develop = TRUE)
 #' }
 #' @export
-get_packages <- function(pkg) {
+get_packages <- function(pkg, develop = FALSE) {
   # get info from GitHub if pkg is missing
   if (missing(pkg)) {
     orgs <- "globalgov" # add more users/orgs as they 'register'
@@ -111,7 +116,7 @@ get_packages <- function(pkg) {
       repo <- repo[c("name", "full_name", "description")]
       repo$Installed <- get_installed_release(repo$name)
       repo$Latest <- get_latest_release(repo$full_name)
-      repo$Updated <- messydates::as_messydate(get_latest_date(repo$full_name))
+      repo$Updated <- as.Date(get_latest_date(repo$full_name))
       repo <- subset(repo, !grepl("Unreleased", repo$Latest))
       repo <- as.data.frame(repo)
     })
@@ -130,61 +135,71 @@ get_packages <- function(pkg) {
     } else {
     print(repos, justify = "center")
     }
-  }
-  # download package if pkg is declared
-  tryCatch({
-  if (!missing(pkg)) {
-    if (askYesNo(paste0("Would you like to install the main or develop version of ",
-                        pkg, "?"), prompts = c("main", "develop", "cancel")) == TRUE) {
-      if (stringr::str_detect(pkg, "/")) {
-        remotes::install_github(pkg)
-        pkg <- strsplit(pkg, "/")[[1]][2]
-      } else if (stringr::str_detect(pkg, "^[:digit:]{1}$")) {
-        if (pkg == 3) {
-          pkg <- "manypkgs"
-          remotes::install_github("globalgov/manypkgs")
-        } else if (pkg == 2) {
-          pkg <- "manyenviron"
-          remotes::install_github("globalgov/manyenviron")
-        } else if (pkg == 4) {
-          pkg <- "manystates"
-          remotes::install_github("globalgov/manystates")
-        } else if (pkg == 5) {
-          pkg <- "manytrade"
-          remotes::install_github("globalgov/manytrade")
+  } else {
+    # download package if pkg is declared
+    tryCatch({
+      if (develop == FALSE) {
+        if (stringr::str_detect(pkg, "/")) {
+          remotes::install_github(pkg)
+          pkg <- strsplit(pkg, "/")[[1]][2]
+        } else if (stringr::str_detect(pkg, "^[:digit:]{1}$")) {
+          if (pkg == 2) {
+            pkg <- "manyenviron"
+            remotes::install_github("globalgov/manyenviron")
+          } else if (pkg == 3) {
+            pkg <- "manyhealth"
+            remotes::install_github("globalgov/manyhealth")
+          } else if (pkg == 4) {
+            pkg <- "manypkgs"
+            remotes::install_github("globalgov/manypkgs")
+          } else if (pkg == 5) {
+            pkg <- "manystates"
+            remotes::install_github("globalgov/manystates")
+          } else if (pkg == 6) {
+            pkg <- "manytrade"
+            remotes::install_github("globalgov/manytrade")
+          } else if (pkg == 7) {
+            pkg <- "messydates"
+            remotes::install_cran("messydates")
+          }
+        } else {
+          remotes::install_github(paste0("globalgov/", pkg))
         }
       } else {
-        remotes::install_github(paste0("globalgov/", pkg))
-      }
-    } else {
-      if (stringr::str_detect(pkg, "/")) {
-        remotes::install_github(pkg, ref = "develop")
-        pkg <- strsplit(pkg, "/")[[1]][2]
-      } else if (stringr::str_detect(pkg, "^[:digit:]{1}$")) {
-        if (pkg == 3) {
-          pkg <- "manypkgs"
-          remotes::install_github("globalgov/manypkgs", ref = "develop")
-        } else if (pkg == 2) {
-          pkg <- "manyenviron"
-          remotes::install_github("globalgov/manyenviron", ref = "develop")
-        } else if (pkg == 4) {
-          pkg <- "manystates"
-          remotes::install_github("globalgov/manystates", ref = "develop")
-        } else if (pkg == 5) {
-          pkg <- "manytrade"
-          remotes::install_github("globalgov/manytrade", ref = "develop")
+        if (stringr::str_detect(pkg, "/")) {
+          remotes::install_github(pkg, ref = "develop")
+          pkg <- strsplit(pkg, "/")[[1]][2]
+        } else if (stringr::str_detect(pkg, "^[:digit:]{1}$")) {
+          if (pkg == 2) {
+            pkg <- "manyenviron"
+            remotes::install_github("globalgov/manyenviron", ref = "develop")
+          } else if (pkg == 3) {
+            pkg <- "manyhealth"
+            remotes::install_github("globalgov/manyhealth", ref = "develop")
+          } else if (pkg == 4) {
+            pkg <- "manypkgs"
+            remotes::install_github("globalgov/manypkgs", ref = "develop")
+          } else if (pkg == 5) {
+            pkg <- "manystates"
+            remotes::install_github("globalgov/manystates", ref = "develop")
+          } else if (pkg == 6) {
+            pkg <- "manytrade"
+            remotes::install_github("globalgov/manytrade", ref = "develop")
+          } else if (pkg == 7) {
+            pkg <- "messydates"
+            remotes::install_github("globalgov/messydates", ref = "develop")
+          }
+        } else {
+          remotes::install_github(paste0("globalgov/", pkg), ref = "develop")
         }
-      } else {
-        remotes::install_github(paste0("globalgov/", pkg), ref = "develop")
       }
-    }
-    library(pkg, character.only = TRUE)
-  }
-  }, error = function(e) {
-  stop(paste0("The download limit from GitHub has been reached.
+      library(pkg, character.only = TRUE)
+    }, error = function(e) {
+      stop(paste0("The download limit from GitHub has been reached.
        Please download the package using:
               remotes::github(globalgov/", pkg, ")"))
-  })
+    })
+  }
 }
 
 # Helper function from usethis:::create_directory()

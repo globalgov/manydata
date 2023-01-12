@@ -4,12 +4,17 @@
 \alias{get_packages}
 \title{Find and download packages in the many packages universe}
 \usage{
-get_packages(pkg)
+get_packages(pkg, develop = FALSE)
 }
 \arguments{
 \item{pkg}{A character vector of package names or number of a package.
 To download multiple packages at once,
 please declare package names as a vector (e.g. c("pkg1", "pkg2)).}
+
+\item{develop}{Would you like to download the develop
+version of the package?
+FALSE by default.
+If TRUE,  the function downloads the develop version of package from GitHub.}
 }
 \value{
 If no package name is provided,
@@ -42,5 +47,7 @@ they can type the package name within the function.
 \examples{
 \donttest{
 #get_packages()
+#get_packages("manyenviron")
+#get_packages(2, develop = TRUE)
 }
 }
