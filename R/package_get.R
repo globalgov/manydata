@@ -197,7 +197,7 @@ get_packages <- function(pkg, develop = FALSE) {
     }, error = function(e) {
       stop(paste0("The download limit from GitHub has been reached.
        Please download the package using:
-              remotes::github(globalgov/", pkg, ")"))
+              remotes::install_github(globalgov/", pkg, ")"))
     })
   }
 }
