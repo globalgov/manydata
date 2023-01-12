@@ -7,7 +7,12 @@
 #' @param develop Would you like to download the develop
 #' version of the package?
 #' FALSE by default.
-#' If TRUE,  the function downloads the develop version of package from GitHub.
+#' If TRUE, the function downloads the develop version of package from GitHub.
+#' @param update Would you like to update installed packages
+#' not up to date with latest version?
+#' FALSE by default.
+#' If TRUE, the function updates all installed packages not up to date
+#' to the latest version available.
 #' @details The function finds and download other packages
 #' that belong to the many universe of packages.
 #' It allows users to rapidly access the names and other
@@ -43,97 +48,41 @@
 #' #get_packages(2, develop = TRUE)
 #' }
 #' @export
-get_packages <- function(pkg, develop = FALSE) {
+get_packages <- function(pkg, develop = FALSE, update = FALSE) {
+  # introduce variables to avoid check notes
+  Description <- Installed <- Latest <- Name <- Updated <- Repository <-
+    description <- full_name <- name <- NULL
   # get info from GitHub if pkg is missing
+  orgs <- "globalgov" # add more users/orgs as they 'register'
+  # get package releases, versions, and bind information
+  repos <- lapply(orgs, function(x) {
+    repo <- paste0("https://api.github.com/users/", x, "/repos")
+    repo <- httr::GET(repo, query = list(state = "all",
+                                         per_page = 100, page = 1))
+    repo <- suppressMessages(httr::content(repo, type = "text"))
+    repo <- jsonlite::fromJSON(repo, flatten = TRUE)
+    repo <- repo[c("name", "full_name", "description")]
+    repo$Installed <- get_installed_release(repo$name)
+    repo$Latest <- get_latest_release(repo$full_name)
+    repo$Updated <- as.Date(get_latest_date(repo$full_name))
+    repo <- subset(repo, !grepl("Unreleased", repo$Latest))
+  })
+  repos <- repos %>%
+    dplyr::bind_rows() %>%
+    dplyr::rename(Name = name, Repository = full_name,
+                  Description = description) %>%
+    dplyr::relocate(Name, Repository, Installed, Latest,
+                    Updated, Description) %>%
+    tibble::as_tibble()
+  # check for possible issues
   if (missing(pkg)) {
-    orgs <- "globalgov" # add more users/orgs as they 'register'
-    # get releases
-    get_latest_release <- function(full_name) {
-      latest <- paste0("https://api.github.com/repos/",
-                       full_name, "/releases/latest")
-      if (length(latest) == 1) {
-        latest <- httr::GET(latest)
-        latest <- suppressMessages(httr::content(latest, type = "text"))
-        latest <- jsonlite::fromJSON(latest, flatten = TRUE)$tag_name
-      } else {
-        latest <- sapply(latest, function(x) {
-          x <- httr::GET(x)
-          x <- suppressMessages(httr::content(x, type = "text"))
-          x <- jsonlite::fromJSON(x, flatten = TRUE)$tag_name
-          if (is.null(x)) {
-            x <- "Unreleased"
-            x
-          } else {
-            x <- stringr::str_remove(x, "v")
-            x
-          }
-        })
-      }
-      unlist(latest)
-    }
-    # get release dates
-    get_latest_date <- function(full_name) {
-      latest <- paste0("https://api.github.com/repos/",
-                       full_name, "/releases/latest")
-      if (length(latest) == 1) {
-        latest <- httr::GET(latest)
-        latest <- suppressMessages(httr::content(latest, type = "text"))
-        latest <- jsonlite::fromJSON(latest, flatten = TRUE)$published_at
-      } else {
-        latest <- sapply(latest, function(x) {
-          x <- httr::GET(x)
-          x <- suppressMessages(httr::content(x, type = "text"))
-          x <- jsonlite::fromJSON(x, flatten = TRUE)$published_at
-          if (is.null(x)) {
-            x <- "Unreleased"
-            x
-          } else {
-            x <- as.character(x)
-            x
-          }
-        })
-      }
-      unlist(latest)
-    }
-    # get version locally installed
-    get_installed_release <- function(name) {
-      installed_v <- sapply(name, function(x) {
-        tryCatch({
-          as.character(utils::packageVersion(x))
-        }, error = function(e) {
-          NA_character_
-          })
-      })
-      installed_v
-    }
-    # bind information
-    repos <- lapply(orgs, function(x) {
-      repo <- paste0("https://api.github.com/users/", x, "/repos")
-      repo <- httr::GET(repo, query = list(state = "all",
-                                           per_page = 100, page = 1))
-      repo <- suppressMessages(httr::content(repo, type = "text"))
-      repo <- jsonlite::fromJSON(repo, flatten = TRUE)
-      repo <- repo[c("name", "full_name", "description")]
-      repo$Installed <- get_installed_release(repo$name)
-      repo$Latest <- get_latest_release(repo$full_name)
-      repo$Updated <- as.Date(get_latest_date(repo$full_name))
-      repo <- subset(repo, !grepl("Unreleased", repo$Latest))
-      repo <- as.data.frame(repo)
-    })
-    Description <- Installed <- Latest <- Name <- Updated <- Repository <-
-      description <- full_name <- name <- NULL
-    repos <- dplyr::bind_rows(repos) %>%
-      dplyr::rename(Name = name, Repository = full_name, Description = description) %>%
-      dplyr::relocate(Name, Repository, Installed, Latest, Updated, Description) %>%
-      tibble::as_tibble()
-    # check for possible issues
     if (length(repos) < 2) {
       stop(
       "The download limit from GitHub has been reached.
       To see all the packages in the many universe,
       please go to the following link: https://github.com/globalgov")
     } else {
-    print(repos, justify = "center")
+      print(repos, justify = "center")
     }
   } else {
     # download package if pkg is declared
@@ -200,17 +149,77 @@ get_packages <- function(pkg, develop = FALSE) {
               remotes::install_github(globalgov/", pkg, ")"))
     })
   }
+  if (update == TRUE) {
+    tryCatch({
+      ifelse(repos$Installed == repos$Latest,
+             paste0(repos$Name, " is up to date."),
+             remotes::install_github(repos$Repository))
+    }, error = function(e) {
+      stop(paste0("The download limit from GitHub has been reached.
+       Please download the package using:
+              remotes::install_github(globalgov/", pkg, ")"))
+    })
+  }
 }
 
-# Helper function from usethis:::create_directory()
-create_directory <- function(path) {
-  if (dir.exists(path)) {
-    return(invisible(FALSE))
+# Helper function to get package releases
+get_latest_release <- function(full_name) {
+  latest <- paste0("https://api.github.com/repos/",
+                   full_name, "/releases/latest")
+  if (length(latest) == 1) {
+    latest <- httr::GET(latest)
+    latest <- suppressMessages(httr::content(latest, type = "text"))
+    latest <- jsonlite::fromJSON(latest, flatten = TRUE)$tag_name
+  } else {
+    latest <- sapply(latest, function(x) {
+      x <- httr::GET(x)
+      x <- suppressMessages(httr::content(x, type = "text"))
+      x <- jsonlite::fromJSON(x, flatten = TRUE)$tag_name
+      if (is.null(x)) {
+        x <- "Unreleased"
+        x
+      } else {
+        x <- stringr::str_remove(x, "v")
+        x
+      }
+    })
   }
-  else if (file.exists(path)) {
-    usethis::ui_stop("{ui_path(path)} exists but is not a directory.")
+  unlist(latest)
+}
+
+# Helper function to get package release dates
+get_latest_date <- function(full_name) {
+  latest <- paste0("https://api.github.com/repos/",
+                   full_name, "/releases/latest")
+  if (length(latest) == 1) {
+    latest <- httr::GET(latest)
+    latest <- suppressMessages(httr::content(latest, type = "text"))
+    latest <- jsonlite::fromJSON(latest, flatten = TRUE)$published_at
+  } else {
+    latest <- sapply(latest, function(x) {
+      x <- httr::GET(x)
+      x <- suppressMessages(httr::content(x, type = "text"))
+      x <- jsonlite::fromJSON(x, flatten = TRUE)$published_at
+      if (is.null(x)) {
+        x <- "Unreleased"
+        x
+      } else {
+        x <- as.character(x)
+        x
+      }
+    })
   }
-  dir.create(path, recursive = TRUE)
-  usethis::ui_done("Creating {ui_path(path)}")
-  invisible(TRUE)
+  unlist(latest)
+}
+
+# Helper function to get package versions locally installed
+get_installed_release <- function(name) {
+  installed_v <- sapply(name, function(x) {
+    tryCatch({
+      as.character(utils::packageVersion(x))
+    }, error = function(e) {
+      NA_character_
+    })
+  })
+  installed_v
 }

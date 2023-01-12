@@ -4,7 +4,7 @@
 \alias{get_packages}
 \title{Find and download packages in the many packages universe}
 \usage{
-get_packages(pkg, develop = FALSE)
+get_packages(pkg, develop = FALSE, update = FALSE)
 }
 \arguments{
 \item{pkg}{A character vector of package names or number of a package.
@@ -14,7 +14,13 @@ please declare package names as a vector (e.g. c("pkg1", "pkg2)).}
 \item{develop}{Would you like to download the develop
 version of the package?
 FALSE by default.
-If TRUE,  the function downloads the develop version of package from GitHub.}
+If TRUE, the function downloads the develop version of package from GitHub.}
+
+\item{update}{Would you like to update installed packages
+not up to date with latest version?
+FALSE by default.
+If TRUE, the function updates all installed packages not up to date
+to the latest version available.}
 }
 \value{
 If no package name is provided,
