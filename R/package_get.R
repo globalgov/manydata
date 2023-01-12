@@ -83,7 +83,7 @@ get_packages <- function(pkg) {
             x <- "Unreleased"
             x
           } else {
-            x <- as.character(x)
+            x <- as.character(as.Date(x))
             x
           }
         })
@@ -183,7 +183,7 @@ get_packages <- function(pkg) {
   }, error = function(e) {
   stop(paste0("The download limit from GitHub has been reached.
        Please download the package using:
-              remotes::github(globalgov/", pkg, ")"))
+              remotes::install_github(globalgov/", pkg, ")\newline"))
   })
 }
 
