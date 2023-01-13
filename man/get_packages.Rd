@@ -16,7 +16,7 @@ version of the package?
 FALSE by default.
 If TRUE, the function downloads the develop version of package from GitHub.}
 
-\item{update}{Would you like to update installed packages
+\item{update}{Would you like to update many packages installed but
 not up to date with latest version?
 FALSE by default.
 If TRUE, the function updates all installed packages not up to date
@@ -55,5 +55,6 @@ they can type the package name within the function.
 #get_packages()
 #get_packages("manyenviron")
 #get_packages(2, develop = TRUE)
+#get_packages(update = TRUE)
 }
 }

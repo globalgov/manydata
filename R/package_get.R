@@ -8,7 +8,7 @@
 #' version of the package?
 #' FALSE by default.
 #' If TRUE, the function downloads the develop version of package from GitHub.
-#' @param update Would you like to update installed packages
+#' @param update Would you like to update many packages installed but
 #' not up to date with latest version?
 #' FALSE by default.
 #' If TRUE, the function updates all installed packages not up to date
@@ -46,43 +46,44 @@
 #' #get_packages()
 #' #get_packages("manyenviron")
 #' #get_packages(2, develop = TRUE)
+#' #get_packages(update = TRUE)
 #' }
 #' @export
 get_packages <- function(pkg, develop = FALSE, update = FALSE) {
   # introduce variables to avoid check notes
   Description <- Installed <- Latest <- Name <- Updated <- Repository <-
     description <- full_name <- name <- NULL
-  # get info from GitHub if pkg is missing
-  orgs <- "globalgov" # add more users/orgs as they 'register'
-  # get package releases, versions, and bind information
-  repos <- lapply(orgs, function(x) {
-    repo <- paste0("https://api.github.com/users/", x, "/repos")
-    repo <- httr::GET(repo, query = list(state = "all",
-                                         per_page = 100, page = 1))
-    repo <- suppressMessages(httr::content(repo, type = "text"))
-    repo <- jsonlite::fromJSON(repo, flatten = TRUE)
-    repo <- repo[c("name", "full_name", "description")]
-    repo$Installed <- get_installed_release(repo$name)
-    repo$Latest <- get_latest_release(repo$full_name)
-    repo$Updated <- as.Date(get_latest_date(repo$full_name))
-    repo <- subset(repo, !grepl("Unreleased", repo$Latest))
-  })
-  repos <- repos %>%
-    dplyr::bind_rows() %>%
-    dplyr::rename(Name = name, Repository = full_name,
-                  Description = description) %>%
-    dplyr::relocate(Name, Repository, Installed, Latest,
-                    Updated, Description) %>%
-    tibble::as_tibble()
   # check for possible issues
   if (missing(pkg)) {
+    # get info from GitHub if pkg is missing
+    orgs <- "globalgov" # add more users/orgs as they 'register'
+    # get package releases, versions, and bind information
+    repos <- lapply(orgs, function(x) {
+      repo <- paste0("https://api.github.com/users/", x, "/repos")
+      repo <- httr::GET(repo, query = list(state = "all",
+                                           per_page = 100, page = 1))
+      repo <- suppressMessages(httr::content(repo, type = "text"))
+      repo <- jsonlite::fromJSON(repo, flatten = TRUE)
+      repo <- repo[c("name", "full_name", "description")]
+      repo$Installed <- get_installed_release(repo$name)
+      repo$Latest <- get_latest_release(repo$full_name)
+      repo$Updated <- as.Date(get_latest_date(repo$full_name))
+      repo <- subset(repo, !grepl("Unreleased", repo$Latest))
+    })
     if (length(repos) < 2) {
       stop(
       "The download limit from GitHub has been reached.
-      To see all the packages in the many universe,
+      To see all the available packages in the many universe,
       please go to the following link: https://github.com/globalgov")
     } else {
-      print(repos, justify = "center")
+      repos %>%
+        dplyr::bind_rows() %>%
+        dplyr::rename(Name = name, Repository = full_name,
+                      Description = description) %>%
+        dplyr::relocate(Name, Repository, Installed, Latest,
+                        Updated, Description) %>%
+        tibble::as_tibble() %>%
+        print(justify = "center")
     }
   } else {
     # download package if pkg is declared
@@ -151,13 +152,40 @@ get_packages <- function(pkg, develop = FALSE, update = FALSE) {
   }
   if (update == TRUE) {
     tryCatch({
-      ifelse(repos$Installed == repos$Latest,
-             paste0(repos$Name, " is up to date."),
-             remotes::install_github(repos$Repository))
+      if (!missing(pkg)) {
+        orgs <- "globalgov" # add more users/orgs as they 'register'
+        # get package releases, versions, and bind information
+        repos <- lapply(orgs, function(x) {
+          repo <- paste0("https://api.github.com/users/", x, "/repos")
+          repo <- httr::GET(repo, query = list(state = "all",
+                                               per_page = 100, page = 1))
+          repo <- suppressMessages(httr::content(repo, type = "text"))
+          repo <- jsonlite::fromJSON(repo, flatten = TRUE)
+          repo <- repo[c("name", "full_name", "description")]
+          repo$Installed <- get_installed_release(repo$name)
+          repo$Latest <- get_latest_release(repo$full_name)
+          repo <- subset(repo, !grepl("Unreleased", repo$Latest))
+        })
+        repos <- repos %>%
+          dplyr::bind_rows() %>%
+          dplyr::rename(Name = name, Repository = full_name,
+                        Description = description) %>%
+          dplyr::relocate(Name, Repository, Installed, Latest, Description) %>%
+          tibble::as_tibble()
+      }
+      up <- ifelse(repos$Installed != repos$Latest, repos$Name, "")
+      up <- up[up != ""]
+      if (length(up) == 0) {
+        cat("All many packages installed are up to date!")
+      } else {
+        cat(paste0(paste(up, collapse = " and "), " will be updated."))
+        remotes::install_github(c(paste0("globalgov/", up)))
+      }   
     }, error = function(e) {
-      stop(paste0("The download limit from GitHub has been reached.
-       Please download the package using:
-              remotes::install_github(globalgov/", pkg, ")"))
+      stop(paste0(
+      "The download limit from GitHub has been reached.
+      Please update ", paste(up, collapse = " and "), " using:
+      remotes::install_github(", paste(c(paste0("globalgov/", up)), collapse = ", "), ")"))
     })
   }
 }
