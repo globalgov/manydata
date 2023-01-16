@@ -173,7 +173,8 @@ get_packages <- function(pkg, develop = FALSE, update_all = FALSE) {
           dplyr::relocate(Name, Repository, Installed, Latest, Description) %>%
           tibble::as_tibble()
       }
-      up <- ifelse(repos$Installed != repos$Latest, repos$Name, "")
+      up <- ifelse(repos$Installed != repos$Latest | is.na(repos$Installed),
+                   repos$Name, "")
       up <- up[up != ""]
       if (length(up) == 0) {
         cat("All many packages installed are up to date!")
