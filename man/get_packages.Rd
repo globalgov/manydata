@@ -4,7 +4,7 @@
 \alias{get_packages}
 \title{Find and download packages in the many packages universe}
 \usage{
-get_packages(pkg, develop = FALSE, update = FALSE)
+get_packages(pkg, develop = FALSE, update_all = FALSE)
 }
 \arguments{
 \item{pkg}{A character vector of package names or number of a package.
@@ -16,7 +16,7 @@ version of the package?
 FALSE by default.
 If TRUE, the function downloads the develop version of package from GitHub.}
 
-\item{update}{Would you like to update many packages installed but
+\item{update_all}{Would you like to update many packages installed but
 not up to date with latest version?
 FALSE by default.
 If TRUE, the function updates all installed packages not up to date
@@ -55,6 +55,6 @@ they can type the package name within the function.
 #get_packages()
 #get_packages("manyenviron")
 #get_packages(2, develop = TRUE)
-#get_packages(update = TRUE)
+#get_packages(update_all = TRUE)
 }
 }

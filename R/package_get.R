@@ -8,7 +8,7 @@
 #' version of the package?
 #' FALSE by default.
 #' If TRUE, the function downloads the develop version of package from GitHub.
-#' @param update Would you like to update many packages installed but
+#' @param update_all Would you like to update many packages installed but
 #' not up to date with latest version?
 #' FALSE by default.
 #' If TRUE, the function updates all installed packages not up to date
@@ -46,10 +46,10 @@
 #' #get_packages()
 #' #get_packages("manyenviron")
 #' #get_packages(2, develop = TRUE)
-#' #get_packages(update = TRUE)
+#' #get_packages(update_all = TRUE)
 #' }
 #' @export
-get_packages <- function(pkg, develop = FALSE, update = FALSE) {
+get_packages <- function(pkg, develop = FALSE, update_all = FALSE) {
   # introduce variables to avoid check notes
   Description <- Installed <- Latest <- Name <- Updated <- Repository <-
     description <- full_name <- name <- NULL
@@ -70,20 +70,20 @@ get_packages <- function(pkg, develop = FALSE, update = FALSE) {
       repo$Updated <- as.Date(get_latest_date(repo$full_name))
       repo <- subset(repo, !grepl("Unreleased", repo$Latest))
     })
+    repos <- repos %>%
+      dplyr::bind_rows() %>%
+      dplyr::rename(Name = name, Repository = full_name,
+                    Description = description) %>%
+      dplyr::relocate(Name, Repository, Installed, Latest,
+                      Updated, Description) %>%
+      tibble::as_tibble()
     if (length(repos) < 2) {
       stop(
       "The download limit from GitHub has been reached.
       To see all the available packages in the many universe,
       please go to the following link: https://github.com/globalgov")
     } else {
-      repos %>%
-        dplyr::bind_rows() %>%
-        dplyr::rename(Name = name, Repository = full_name,
-                      Description = description) %>%
-        dplyr::relocate(Name, Repository, Installed, Latest,
-                        Updated, Description) %>%
-        tibble::as_tibble() %>%
-        print(justify = "center")
+      print(repos, justify = "center")
     }
   } else {
     # download package if pkg is declared
@@ -150,7 +150,7 @@ get_packages <- function(pkg, develop = FALSE, update = FALSE) {
               remotes::install_github(globalgov/", pkg, ")"))
     })
   }
-  if (update == TRUE) {
+  if (update_all == TRUE) {
     tryCatch({
       if (!missing(pkg)) {
         orgs <- "globalgov" # add more users/orgs as they 'register'
