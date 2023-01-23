@@ -27,7 +27,7 @@ For multiple variables, please declare variable names as a vector.}
 
 \item{category}{Would you like to focus on one specific code category?
 By default "all" are returned.
-Other options include "confirmed", "unique", "missing", "conflicting",
+Other options include "confirmed", "unique", "missing", "conflict",
 or "majority".
 For multiple variables, please declare categories as a vector.}
 
@@ -43,14 +43,14 @@ variables coded as one of the categories.
 }
 \description{
 Database profiling functions that returns confirmed, unique,
-missing, conflicting, or majority values in all (non-ID) variables
+missing, Conflict, or majority values in all (non-ID) variables
 in the datasets in a 'many' package database.
 }
 \details{
 Confirmed values are the same in all datasets in database.
 Unique values appear once in datasets in database.
 Missing values are missing in all datasets in database.
-Conflicting values are different in the same number of datasets in database.
+Conflict values are different in the same number of datasets in database.
 Majority values have the same value in multiple, but not all,
 datasets in database.
 
