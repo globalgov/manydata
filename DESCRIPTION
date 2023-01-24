@@ -54,11 +54,6 @@ Imports:
     igraph
 Suggests:
     testthat,
-    anytime,
-    mice,
-    withr,
-    haven,
-    readxl,
     readr,
     knitr,
     rmarkdown
