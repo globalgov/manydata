@@ -6,13 +6,7 @@
 \alias{db_comp}
 \title{Database profile functions}
 \usage{
-db_plot(
-  database,
-  key = "manyID",
-  variable = "all",
-  category = "all",
-  internal = FALSE
-)
+db_plot(database, key = "manyID", variable = "all", category = "all")
 
 db_comp(database, key = "manyID", variable = "all", category = "all")
 }
