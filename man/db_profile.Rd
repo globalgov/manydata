@@ -6,12 +6,28 @@
 \alias{db_comp}
 \title{Database profile functions}
 \usage{
-db_plot(database, key = "manyID", variable = "all", category = "all")
+db_plot(
+  database,
+  dataset = "all",
+  key = "manyID",
+  variable = "all",
+  category = "all"
+)
 
-db_comp(database, key = "manyID", variable = "all", category = "all")
+db_comp(
+  database,
+  dataset = "all",
+  key = "manyID",
+  variable = "all",
+  category = "all"
+)
 }
 \arguments{
 \item{database}{A many database.}
+
+\item{dataset}{Would you like to compare specific datasets in database?
+Compares "all" datasets in database by default.
+A list of 2 or more datasets present in the database.}
 
 \item{key}{A variable key to join datasets by, "manyID" by default.}
 
@@ -55,12 +71,14 @@ datasets in database.
 \examples{
 \donttest{
 db_plot(database = emperors, key = "ID")
+db_plot(database = emperors, dataset = c("wikipedia", "UNRV"), key = "ID")
 db_plot(database = emperors, key = "ID", variable = c("Beg", "End"))
 db_plot(database = emperors, key = "ID", variable = c("Beg", "End"),
 category = c("conflict", "unique"))
 }
 \donttest{
 db_comp(database = emperors, key = "ID")
+db_comp(database = emperors, dataset = c("wikipedia", "UNRV"), key = "ID")
 db_comp(database = emperors, key = "ID", variable = "Beg")
 db_comp(database = emperors, key = "ID", variable = c("Beg", "End"),
 category = "conflict")

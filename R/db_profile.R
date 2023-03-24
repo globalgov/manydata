@@ -4,6 +4,9 @@
 #' missing, Conflict, or majority values in all (non-ID) variables
 #' in the datasets in a 'many' package database.
 #' @param database A many database.
+#' @param dataset Would you like to compare specific datasets in database?
+#' Compares "all" datasets in database by default.
+#' A list of 2 or more datasets present in the database.
 #' @param key A variable key to join datasets by, "manyID" by default.
 #' @param variable Would you like to focus on one, or more, specific variables?
 #' By default "all".
@@ -38,17 +41,18 @@ NULL
 #' @examples
 #' \donttest{
 #' db_plot(database = emperors, key = "ID")
+#' db_plot(database = emperors, dataset = c("wikipedia", "UNRV"), key = "ID")
 #' db_plot(database = emperors, key = "ID", variable = c("Beg", "End"))
 #' db_plot(database = emperors, key = "ID", variable = c("Beg", "End"),
 #' category = c("conflict", "unique"))
 #' }
 #' @export
-db_plot <- function(database, key = "manyID",
+db_plot <- function(database, dataset = "all", key = "manyID",
                     variable = "all", category = "all") {
   Category <- Variable <- Percentage <- Missing <- NULL # to avoid notes
   # Step 1: run dbcomp() to check key, get variable names, and code observations
-  db <- db_comp(database = database, key = key, variable = variable,
-                category = category)
+  db <- db_comp(database = database, dataset = dataset,
+                key = key, variable = variable, category = category)
   # Step 2: remove extra variable level information
   db <- db[!grepl("\\$", names(db))]
   # Step 3: gather and reshape the data
@@ -110,6 +114,7 @@ db_plot <- function(database, key = "manyID",
 #' @examples
 #' \donttest{
 #' db_comp(database = emperors, key = "ID")
+#' db_comp(database = emperors, dataset = c("wikipedia", "UNRV"), key = "ID")
 #' db_comp(database = emperors, key = "ID", variable = "Beg")
 #' db_comp(database = emperors, key = "ID", variable = c("Beg", "End"),
 #' category = "conflict")
@@ -117,8 +122,8 @@ db_plot <- function(database, key = "manyID",
 #' category = c("conflict", "unique"))
 #' }
 #' @export
-db_comp <- function(database, key = "manyID", variable = "all",
-                    category = "all") {
+db_comp <- function(database, dataset = "all", key = "manyID",
+                    variable = "all", category = "all") {
   # Step 1: get variables of interest
   if (length(grepl(key[1], purrr::map(database, names))) != length(database)) {
     stop("Please declare a key variable present in all datasets in the database.")
@@ -129,14 +134,18 @@ db_comp <- function(database, key = "manyID", variable = "all",
     stop("For memberships database please indicate two keys
          (e.g. key = c('manyID', 'CountryID'))")
   }
-  # Step 3: inform users about duplicates
+  # Step 3: get datasets if declared
+  if (length(dataset) > 1) {
+    database <- database[grepl(paste(dataset, collapse = "|"), names(database))]
+  }
+  # Step 4: inform users about duplicates
   if (length(key) == 1) {
     db_size <- sum(duplicated(unname(unlist(purrr::map(database, key)))))
     cat("There were", db_size,
         "matched observations by", key,
         "variable across datasets in database.")
   }
-  # Step 4: get variable(s) of interest if declared
+  # Step 5: get variable(s) of interest if declared
   all_variables <- unique(unname(unlist(purrr::map(database, names))))
   if (variable[1] == "all") {
     all_variables <- all_variables[!all_variables %in% key]
@@ -150,12 +159,12 @@ db_comp <- function(database, key = "manyID", variable = "all",
     all_variables <- all_variables[all_variables %in% variable]
   }
   out <- purrr::map(database, extract_if_present, c(key, all_variables))
-  # Step 5: reduce and join data
+  # Step 6: reduce and join data
   out <- purrr::map(out, tidyr::drop_na, dplyr::all_of(key)) %>%
     purrr::reduce(dplyr::full_join, by = key)
   # create an empty data frame in case there is multiple variables
   db <- data.frame(out[, c(key)], stringsAsFactors = TRUE)
-  # Step 6: code variables
+  # Step 7: code variables
   for (var in all_variables) {
     vvars <- paste0("^", var, "$|^", var, "\\.")
     vars_to_combine <- grep(vvars, names(out), value = TRUE)
@@ -216,7 +225,7 @@ db_comp <- function(database, key = "manyID", variable = "all",
   }
   db <- tibble::tibble(db[unique(colnames(db))]) %>%
     select(-dplyr::starts_with("dplyr"))
-  # Step 7: filter categories if necessary
+  # Step 8: filter categories if necessary
   . <- NULL
   if (any(category != "all")) {
     db <- dplyr::filter_all(db,
