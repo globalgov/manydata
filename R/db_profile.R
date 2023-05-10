@@ -31,8 +31,6 @@ NULL
 
 #' @name db_profile
 #' @details `db_plot()` plots the database profile.
-#' @param internal Is this for internal us?
-#' For internal use conflict categories are differentiated.
 #' @importFrom purrr map
 #' @importFrom dplyr summarise group_by mutate select %>% filter all_of
 #' @importFrom tidyr pivot_longer pivot_wider replace_na fill
