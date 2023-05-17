@@ -4,6 +4,7 @@
 \alias{db_profile}
 \alias{db_plot}
 \alias{db_comp}
+\alias{db_heatmap}
 \title{Database profile functions}
 \usage{
 db_plot(
@@ -21,6 +22,8 @@ db_comp(
   variable = "all",
   category = "all"
 )
+
+db_heatmap(database, dataset = "all", variable = "all")
 }
 \arguments{
 \item{database}{A many database.}
@@ -64,6 +67,9 @@ datasets in database.
 \code{db_plot()} plots the database profile.
 
 \code{db_comp()} creates a tibble comparing the variables in a database.
+
+\code{db_heatmap()} plots a heatmap of the variables in each dataset
+in the database and the proportion of missing observations.
 }
 \examples{
 \donttest{
@@ -81,5 +87,10 @@ db_comp(database = emperors, key = "ID", variable = c("Beg", "End"),
 category = "conflict")
 db_comp(database = emperors, key = "ID", variable = c("Beg", "End"),
 category = c("conflict", "unique"))
+}
+\donttest{
+db_heatmap(database = emperors)
+db_heatmap(database = emperors, dataset = c("wikipedia", "UNRV"),
+variable = c("Beg", "End", "Birth"))
 }
 }

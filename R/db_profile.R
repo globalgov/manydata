@@ -233,6 +233,60 @@ db_comp <- function(database, dataset = "all", key = "manyID",
   db
 }
 
+#' @name db_profile
+#' @details `db_heatmap()` plots a heatmap of the variables in each dataset
+#' in the database and the proportion of missing observations.
+#' @importFrom purrr map
+#' @importFrom stats reorder
+#' @importFrom messydates mreport
+#' @import ggplot2
+#' @examples
+#' \donttest{
+#' db_heatmap(database = emperors)
+#' db_heatmap(database = emperors, dataset = c("wikipedia", "UNRV"),
+#' variable = c("Beg", "End", "Birth"))
+#' }
+#' @export
+db_heatmap <- function(database, dataset = "all", variable = "all") {
+  # Avoid notes
+  Dataset <- MissingPer <- Variables <- NULL
+  # Select datasets if declared
+  if (dataset[1] != "all") {
+    database <- database[dataset]
+  }
+  all_variables <- unique(unname(unlist(purrr::map(database, names))))
+  # Select variables if declared
+  if (variable[1] == "all") {
+    # remove other ID variables and text variables
+    ID_var <- grep("^ID$|ID$", all_variables, value = TRUE)
+    all_variables <- all_variables[!all_variables %in% ID_var]
+    # remove text variables
+    all_variables <- grep("text", all_variables,
+                          ignore.case = TRUE, value = TRUE, invert = TRUE)
+  } else {
+    all_variables <- all_variables[all_variables %in% variable]
+  }
+  # Report on datasets in database
+  out <- purrr::map(database, extract_if_present, all_variables)
+  out <- purrr::map(out, messydates::mreport)
+  out <- do.call(rbind,
+                 lapply(1:length(out), function(i)
+                   data.frame(out[[i]]['Variables'],
+                              out[[i]]['MissingPer'],
+                              "Dataset" = names(out)[i])))
+  out$MissingPer <- ifelse(is.na(out$MissingPer), NA,
+                           as.numeric(out$MissingPer)/100)
+  # Plot missing proportions for variables
+  ggplot(out, aes(reorder(Dataset, MissingPer, decreasing = TRUE),
+                  reorder(Variables, MissingPer))) +
+    geom_tile(aes(fill = MissingPer)) +
+    scale_fill_gradient(low = "beige", high = "red", na.value = NA,
+                        name = "Proportion\nof missing\nobservations") +
+    theme_classic() +
+    theme(axis.text.x = element_text(angle = 90)) +
+    labs(x = "Database", y = "Variable")
+}
+
 # Database comparison, for internal use
 db_plot_internal <- function(database, key = "manyID", variable = "all",
                              category = "all", verified_var,
