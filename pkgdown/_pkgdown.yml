@@ -62,7 +62,10 @@ reference:
     desc: "These functions assist data analysts with the visualisation of data on particular domains of global governance"
     contents:
       - starts_with("db_")
-      - network_map
+      - map_plot
+      - agreements_plot
+      - membership_plot
+      - lineage_plot
   - title: "Consolidating many databases"
     desc: "These functions assist data analysts with the analysis of data on particular domains of global governance"
     contents:
