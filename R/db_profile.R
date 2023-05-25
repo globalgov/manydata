@@ -280,7 +280,7 @@ db_heatmap <- function(database, dataset = "all", variable = "all") {
   ggplot(out, aes(reorder(Dataset, MissingPer, decreasing = TRUE),
                   reorder(Variables, MissingPer))) +
     geom_tile(aes(fill = MissingPer)) +
-    scale_fill_gradient(low = "beige", high = "red", na.value = NA,
+    scale_fill_gradient(low = "darkgreen", high = "red3", na.value = NA,
                         name = "Proportion\nof missing\nobservations") +
     theme_classic() +
     theme(axis.text.x = element_text(angle = 90)) +
