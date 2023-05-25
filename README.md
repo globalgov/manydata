@@ -114,7 +114,7 @@ consolidate(database = emperors, rows = "every", cols = "every",
     #>  8 Claudius       0041-01-25  0054-10-13 
     #>  9 Commodus       0177        0192-12-31 
     #> 10 Constantine II 0337-05-22  0340-01-01 
-    #> # … with 31 more rows
+    #> # ℹ 31 more rows
 
 ## Cheat Sheet
 
@@ -122,7 +122,7 @@ consolidate(database = emperors, rows = "every", cols = "every",
 researchers. For a quick overview, please also check the package cheat
 sheet.
 
-<a href="https://github.com/globalgov/manydata/blob/main/man/figures/cheatsheet.pdf"><img src="https://raw.githubusercontent.com/globalgov/manydata/main/man/figures/cheatsheet.png" width="525" height="378"/></a>
+<a href="https://github.com/globalgov/manydata/blob/develop/man/figures/cheatsheet.pdf"><img src="https://raw.githubusercontent.com/globalgov/manydata/develop/man/figures/cheatsheet.png" width="525" height="378"/></a>
 
 ## Contributing to the many packages universe
 
