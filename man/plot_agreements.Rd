@@ -8,13 +8,13 @@
 \alias{map_plot}
 \title{Plot agreements network}
 \usage{
-agreements_plot(dataset, treaty_type = NULL, layout = "concentric")
+agreements_plot(dataset, treaty_type = NULL, layout = "circle")
 
 membership_plot(
   dataset,
   actor = "stateID",
   treaty_type = NULL,
-  layout = "bipartite"
+  layout = "circle"
 )
 
 lineage_plot(dataset, treaty_type = NULL)
@@ -78,7 +78,7 @@ single point in time.
 \donttest{
 #memberships <- dplyr::filter(manyenviron::memberships$ECOLEX_MEM,
 #Beg > "2000-01-01" & Beg < "2000-06-12")
-#membership_plot(memberships, actor = "stateID")
+#membership_plot(memberships)
 }
 \donttest{
 #dataset <- dplyr::filter(manyenviron::agreements$HUGGO, Beg > "2000-01-01",
@@ -88,7 +88,7 @@ single point in time.
 \donttest{
 #memberships <- dplyr::filter(manyenviron::memberships$ECOLEX_MEM,
 #Beg > "2000-01-01" & Beg < "2000-12-12")
-#map_plot(memberships, actor = "CountryID", treaty_type = "bilateral") +
+#map_plot(memberships, actor = "stateID") +
 #ggplot2::labs(title = "Bilateral International Environmental Treaties Signed in the year 2000",
 #subtitle = "Ecolex data")
 }

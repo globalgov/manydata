@@ -29,7 +29,7 @@ NULL
 #'}
 #' @export
 agreements_plot <- function(dataset, treaty_type = NULL,
-                            layout = "concentric") {
+                            layout = "circle") {
   manyID <- NULL
   out <- dplyr::select(dataset, manyID)
   if (!is.null(treaty_type)) {
@@ -62,11 +62,11 @@ agreements_plot <- function(dataset, treaty_type = NULL,
 #' \donttest{
 #' #memberships <- dplyr::filter(manyenviron::memberships$ECOLEX_MEM,
 #' #Beg > "2000-01-01" & Beg < "2000-06-12")
-#' #membership_plot(memberships, actor = "stateID")
+#' #membership_plot(memberships)
 #'}
 #' @export
 membership_plot <- function(dataset, actor = "stateID", treaty_type = NULL,
-                             layout = "bipartite") {
+                            layout = "circle") {
   manyID <- NULL
   out <- dplyr::select(dataset, manyID, dplyr::all_of(actor))
   if (!is.null(treaty_type)) {
@@ -111,7 +111,7 @@ lineage_plot <- function(dataset, treaty_type = NULL) {
                                           "[", 2 ), NA),
                   manyID = gsub("\\:.*", "", manyID)) %>%
     dplyr::distinct() %>%
-    migraph::as_igraph() %>%
+    migraph::as_tidygraph() %>%
     migraph::gglineage()
 } 
 
@@ -136,13 +136,13 @@ lineage_plot <- function(dataset, treaty_type = NULL) {
 #' \donttest{
 #' #memberships <- dplyr::filter(manyenviron::memberships$ECOLEX_MEM,
 #' #Beg > "2000-01-01" & Beg < "2000-12-12")
-#' #map_plot(memberships, actor = "CountryID", treaty_type = "bilateral") +
+#' #map_plot(memberships, actor = "stateID") +
 #' #ggplot2::labs(title = "Bilateral International Environmental Treaties Signed in the year 2000",
 #' #subtitle = "Ecolex data")
 #'}
 #' @export
 map_plot <- function(dataset, actor = "StateID", treaty_type = NULL,
-                        date = "2019-12-31", theme = "light") {
+                     date = "2019-12-31", theme = "light") {
   # Checks for correct input
   weight <- NULL
   # Step 1: get membership list
