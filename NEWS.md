@@ -1,3 +1,18 @@
+# manydata 0.8.3
+
+## Package
+
+* Closed #259 by revising CCC package structure and updating the package cheatsheet
+
+## Connection
+
+* Closed #243 and #257 by creating a `db_heatmap()` function to visually compare datasets in a 'many' database
+* Closed #248 by updating `map_plot()` function and adding `agreements_plot()`, `lineages_plot()`, and `memberships_plot()` functions for easy plotting of 'many' data
+* Closed #249 by updating variable categories in `db_plot()` function
+* Closed #250 by fixing numeric selection within `get_packages()` function
+* Closed #251 by adding 'update' argument to `get_packages()` function to allow users to update 'many' packages not up to date
+* Closed #253 by separating `db_plots()` into an user facing and non-user facing functions for internal use only
+
 # manydata 0.8.2
 
 ## Connection
