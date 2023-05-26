@@ -7,7 +7,7 @@
 get_packages(pkg, develop = FALSE, update = FALSE)
 }
 \arguments{
-\item{pkg}{A character vector of package names or number of a package.
+\item{pkg}{A character vector of package name.
 To download multiple packages at once,
 please declare package names as a vector (e.g. c("pkg1", "pkg2)).}
 
@@ -24,15 +24,9 @@ If TRUE, the function updates all many packages not up to date.}
 \value{
 If no package name is provided,
 this function prints a table (tibble)
-to the console with details on packages
+to the console with details on 'many packages'
 that are currently available within
 the many universe.
-This includes the name and description of the package,
-the latest installed and release version number,
-and the latest release date.
-It also include a list of numbers which orders
-the package and can be used to load the respective
-package instead of the name.
 If one or more package names are provided,
 these will be installed from Github.
 }
@@ -53,7 +47,6 @@ they can type the package name within the function.
 \donttest{
 #get_packages()
 #get_packages("manyenviron")
-#get_packages(2, develop = TRUE)
 #get_packages(update = TRUE)
 }
 }

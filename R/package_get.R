@@ -1,7 +1,7 @@
 #' Find and download packages in the many packages universe
 #'
 #' Find and download packages in the many packages universe.
-#' @param pkg A character vector of package names or number of a package.
+#' @param pkg A character vector of package name.
 #' To download multiple packages at once,
 #' please declare package names as a vector (e.g. c("pkg1", "pkg2)).
 #' @param develop Would you like to download the develop
@@ -22,15 +22,9 @@
 #' they can type the package name within the function.
 #' @return If no package name is provided,
 #' this function prints a table (tibble)
-#' to the console with details on packages
+#' to the console with details on 'many packages'
 #' that are currently available within
 #' the many universe.
-#' This includes the name and description of the package,
-#' the latest installed and release version number,
-#' and the latest release date.
-#' It also include a list of numbers which orders
-#' the package and can be used to load the respective
-#' package instead of the name.
 #' If one or more package names are provided,
 #' these will be installed from Github.
 #' @importFrom tibble as_tibble
@@ -44,7 +38,6 @@
 #' \donttest{
 #' #get_packages()
 #' #get_packages("manyenviron")
-#' #get_packages(2, develop = TRUE)
 #' #get_packages(update = TRUE)
 #' }
 #' @export
@@ -63,23 +56,20 @@ get_packages <- function(pkg, develop = FALSE, update = FALSE) {
                                            per_page = 100, page = 1))
       repo <- suppressMessages(httr::content(repo, type = "text"))
       repo <- jsonlite::fromJSON(repo, flatten = TRUE)
-      repo <- repo[c("name", "full_name", "description")]
-      repo$Installed <- get_installed_release(repo$name)
+      repo <- repo[c("Name", "full_name", "Description")]
+      repo$Installed <- get_installed_release(repo$Name)
       repo$Latest <- get_latest_release(repo$full_name)
-      repo$Updated <- as.Date(get_latest_date(repo$full_name))
       repo <- subset(repo, !grepl("Unreleased", repo$Latest))
     })
     repos <- repos %>%
       dplyr::bind_rows() %>%
-      dplyr::rename(Name = name, Repository = full_name,
-                    Description = description) %>%
-      dplyr::relocate(Name, Repository, Installed, Latest,
-                      Updated, Description) %>%
+      dplyr::select(-full_name) %>%
+      dplyr::relocate(Name, Installed, Latest, Description) %>%
       tibble::as_tibble()
-    if (length(repos) < 2) {
+    if (length(repos) < 5) {
       stop(
       "The download limit from GitHub has been reached.
-      To see all the available packages in the many universe,
+      To see all the available 'many packages' packages,
       please go to the following link: https://github.com/globalgov")
     } else {
       print(repos, justify = "center")
@@ -87,60 +77,14 @@ get_packages <- function(pkg, develop = FALSE, update = FALSE) {
   } else {
     # download package if pkg is declared
     tryCatch({
-      if (develop == FALSE) {
-        if (stringr::str_detect(pkg, "/")) {
+      if (stringr::str_detect(pkg, "/")) {
           remotes::install_github(pkg)
           pkg <- strsplit(pkg, "/")[[1]][2]
-        } else if (stringr::str_detect(pkg, "^[:digit:]{1}$")) {
-          if (pkg == 2) {
-            pkg <- "manyenviron"
-            remotes::install_github("globalgov/manyenviron")
-          } else if (pkg == 3) {
-            pkg <- "manyhealth"
-            remotes::install_github("globalgov/manyhealth")
-          } else if (pkg == 4) {
-            pkg <- "manypkgs"
-            remotes::install_github("globalgov/manypkgs")
-          } else if (pkg == 5) {
-            pkg <- "manystates"
-            remotes::install_github("globalgov/manystates")
-          } else if (pkg == 6) {
-            pkg <- "manytrade"
-            remotes::install_github("globalgov/manytrade")
-          } else if (pkg == 7) {
-            pkg <- "messydates"
-            remotes::install_cran("messydates")
-          }
-        } else {
-          remotes::install_github(paste0("globalgov/", pkg))
-        }
+      }
+      if (develop == FALSE) {
+        remotes::install_github(paste0("globalgov/", pkg))
       } else {
-        if (stringr::str_detect(pkg, "/")) {
-          remotes::install_github(pkg, ref = "develop")
-          pkg <- strsplit(pkg, "/")[[1]][2]
-        } else if (stringr::str_detect(pkg, "^[:digit:]{1}$")) {
-          if (pkg == 2) {
-            pkg <- "manyenviron"
-            remotes::install_github("globalgov/manyenviron", ref = "develop")
-          } else if (pkg == 3) {
-            pkg <- "manyhealth"
-            remotes::install_github("globalgov/manyhealth", ref = "develop")
-          } else if (pkg == 4) {
-            pkg <- "manypkgs"
-            remotes::install_github("globalgov/manypkgs", ref = "develop")
-          } else if (pkg == 5) {
-            pkg <- "manystates"
-            remotes::install_github("globalgov/manystates", ref = "develop")
-          } else if (pkg == 6) {
-            pkg <- "manytrade"
-            remotes::install_github("globalgov/manytrade", ref = "develop")
-          } else if (pkg == 7) {
-            pkg <- "messydates"
-            remotes::install_github("globalgov/messydates", ref = "develop")
-          }
-        } else {
-          remotes::install_github(paste0("globalgov/", pkg), ref = "develop")
-        }
+        remotes::install_github(paste0("globalgov/", pkg), ref = "develop")
       }
       library(pkg, character.only = TRUE)
     }, error = function(e) {
@@ -177,31 +121,6 @@ get_latest_release <- function(full_name) {
         x
       } else {
         x <- stringr::str_remove(x, "v")
-        x
-      }
-    })
-  }
-  unlist(latest)
-}
-
-# Helper function to get package release dates
-get_latest_date <- function(full_name) {
-  latest <- paste0("https://api.github.com/repos/",
-                   full_name, "/releases/latest")
-  if (length(latest) == 1) {
-    latest <- httr::GET(latest)
-    latest <- suppressMessages(httr::content(latest, type = "text"))
-    latest <- jsonlite::fromJSON(latest, flatten = TRUE)$published_at
-  } else {
-    latest <- sapply(latest, function(x) {
-      x <- httr::GET(x)
-      x <- suppressMessages(httr::content(x, type = "text"))
-      x <- jsonlite::fromJSON(x, flatten = TRUE)$published_at
-      if (is.null(x)) {
-        x <- "Unreleased"
-        x
-      } else {
-        x <- as.character(x)
         x
       }
     })
