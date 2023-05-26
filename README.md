@@ -19,26 +19,28 @@ Practices](https://bestpractices.coreinfrastructure.org/projects/4562/badge)](ht
 <!-- ![GitHub All Releases](https://img.shields.io/github/downloads/jhollway/roctopus/total) -->
 <!-- badges: end -->
 
-`{manydata}` is the central package in the many packages universe aimed
-at collecting, connecting, and correcting network data across
-issue-domains of global governance. To assist users in doing so,
-`{manydata}` contains functions that enable users to download and
-manipulate data easily.
+`{manydata}` is a portal to other ‘many packages’ that help researchers
+download and manipulate related data across various issue-domains of
+global governance, and beyond.
 
 ## Why manydata?
 
-`{manydata}` offers users access to all of the tested data in the
-various ‘many packages’ available, for use in analyses of global
-governance and beyond. A special feature of the ‘many packages’ is that
-it is not ‘opinionated’ - instead of offering a single, supposedly
-authoritative version of global governance events, the packages in the
-many packages universe gather well-regarded datasets in each
-issue-domain into three-dimensional ‘datacubes’. The chief advantage of
-this for global governance researchers is that it enables a quick and
-easy way to check the robustness of their results using different
-formulations of the study population or concept specification. The
-‘datacube’ structure has a specific coding system for the variables
-across the datasets. For more details, please see the
+- {manydata} offers users convenient access to various ‘many packages’
+  that gather well-regarded global governance datasets
+
+- {manydata} helps users to easily compare databases (i.e. collections
+  of related datasets)
+
+- {manydata} allows users to rapidly consolidate databases and datasets
+  in different ways to check the robustness of their results
+
+`{manydata}` contains several functions to help global governance
+researchers. For a quick overview, please also check the package cheat
+sheet.
+
+<a href="https://github.com/globalgov/manydata/blob/develop/man/figures/cheatsheet.pdf"><img src="https://raw.githubusercontent.com/globalgov/manydata/develop/man/figures/cheatsheet.png" width="525" height="378"/></a>
+
+For more details, please see the
 [vignette](https://globalgov.github.io/manydata/articles/user.html).
 
 ## Downloading and installing manydata
@@ -57,7 +59,7 @@ downloaded from GitHub.
 remotes::install_github("globalgov/manydata")
 ```
 
-## Available ‘many’ packages
+## Call ‘many’ packages
 
 `{manydata}` connects users to other packages that help fill global
 governance researchers’ data needs. The `get_packages()` function can be
@@ -71,13 +73,11 @@ get_packages()
 Please see [the website](https://globalgov.github.io/manydata/) for more
 information about how to use `{manydata}`.
 
-## Visualising ‘many’ databases
+## Comparing ‘many’ data
 
 Once ‘many’ data packages are downloaded, `{manydata}` helps users
 visualize the relationship between matched observations across datasets
-within a database. Database profiling functions return confirmed,
-unique, missing, conflicting, or majority values in all (non-ID)
-variables in the datasets for a ‘many’ package database.
+within a database for a ‘many’ package database.
 
 ``` r
 db_plot(database = emperors, key = "ID", variable = "all", category = "all")
@@ -87,7 +87,7 @@ db_plot(database = emperors, key = "ID", variable = "all", category = "all")
 
 <img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
 
-## Consolidating ‘many’ databases
+## Consolidating ‘many’ data
 
 `{manydata}` also contains flexible methods for consolidating ‘many’
 package database into a single dataset with some combination of the
@@ -115,14 +115,6 @@ consolidate(database = emperors, rows = "every", cols = "every",
     #>  9 Commodus       0177        0192-12-31 
     #> 10 Constantine II 0337-05-22  0340-01-01 
     #> # ℹ 31 more rows
-
-## Cheat Sheet
-
-`{manydata}` contains several other functions to help global governance
-researchers. For a quick overview, please also check the package cheat
-sheet.
-
-<a href="https://github.com/globalgov/manydata/blob/develop/man/figures/cheatsheet.pdf"><img src="https://raw.githubusercontent.com/globalgov/manydata/develop/man/figures/cheatsheet.png" width="525" height="378"/></a>
 
 ## Contributing to the many packages universe
 
