@@ -7,7 +7,7 @@
 #' @param dataset Would you like to compare specific datasets in database?
 #' Compares "all" datasets in database by default.
 #' A list of 2 or more datasets present in the database.
-#' @param key A variable key to join datasets by, "manyID" by default.
+#' @param key A variable key to join datasets. "manyID" by default.
 #' @param variable Would you like to focus on one, or more, specific variables?
 #' By default "all".
 #' For multiple variables, please declare variable names as a vector.

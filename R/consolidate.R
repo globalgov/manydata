@@ -14,7 +14,7 @@
 #' observations may differ from dataset to dataset.
 #' We offer a number of resolve methods that enable
 #' users to choose how conflicts between observations are resolved.
-#' @param database A database object from one of the many packages
+#' @param database A database from one of the many packages
 #' @param rows Which rows or units to retain.
 #' By default "any" (or all) units are retained,
 #' but another option is "every",

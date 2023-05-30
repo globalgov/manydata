@@ -32,7 +32,7 @@ db_heatmap(database, dataset = "all", variable = "all")
 Compares "all" datasets in database by default.
 A list of 2 or more datasets present in the database.}
 
-\item{key}{A variable key to join datasets by, "manyID" by default.}
+\item{key}{A variable key to join datasets. "manyID" by default.}
 
 \item{variable}{Would you like to focus on one, or more, specific variables?
 By default "all".

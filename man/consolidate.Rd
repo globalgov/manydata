@@ -13,7 +13,7 @@ consolidate(
 )
 }
 \arguments{
-\item{database}{A database object from one of the many packages}
+\item{database}{A database from one of the many packages}
 
 \item{rows}{Which rows or units to retain.
 By default "any" (or all) units are retained,

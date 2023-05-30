@@ -51,7 +51,8 @@ Imports:
     tidyr,
     plyr,
     zoo,
-    igraph
+    igraph,
+    ggVennDiagram
 Suggests:
     testthat,
     readr,
