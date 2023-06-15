@@ -16,9 +16,9 @@ NULL
 #' @param layout How do you want the plot to look like?
 #' An igraph layout algorithm, some options are 'concentric',
 #' 'stress', 'bipartite', and 'alluvial'.
-#' For more information please check ´?migraph::autographr´.
+#' For more information please check ´?manynet::autographr´.
 #' @importFrom dplyr %>% select mutate distinct
-#' @importFrom migraph as_igraph autographr
+#' @importFrom manynet as_igraph autographr
 #' @importFrom igraph delete.vertices
 #' @return A network of agreements' relations.
 #' @examples
@@ -45,18 +45,18 @@ agreements_plot <- function(dataset, treaty_type = NULL,
                                           "[", 2 ), NA),
                 manyID = gsub("\\:.*", "", manyID)) %>%
     dplyr::distinct() %>%
-    migraph::as_igraph() %>%
+    manynet::as_igraph() %>%
     igraph::delete.vertices("NA") %>% # How to delete vertices without igraph?
-    migraph::autographr(layout = layout)
+    manynet::autographr(layout = layout)
 }
 
 #' @rdname plot_agreements
 #' @param layout How do you want the plot to look like?
 #' An igraph layout algorithm, currently defaults to 'concentric'.
 #' Some other options are 'stress', 'bipartite', and 'alluvial'.
-#' For more information please check ´?migraph::autographr´.
+#' For more information please check ´?manynet::autographr´.
 #' @importFrom dplyr %>% select distinct all_of
-#' @importFrom migraph as_igraph autographr
+#' @importFrom manynet as_igraph autographr
 #' @return A network of agreements' memberships.
 #' @examples
 #' \donttest{
@@ -78,12 +78,12 @@ membership_plot <- function(dataset, actor = "stateID", treaty_type = NULL,
     }
   }
   dplyr::distinct(out) %>%
-    migraph::as_igraph() %>%
-    migraph::autographr(layout = layout)
+    manynet::as_igraph() %>%
+    manynet::autographr(layout = layout)
 }
 
 #' @rdname plot_agreements
-#' @importFrom migraph gglineage
+#' @importFrom manynet autographr
 #' @importFrom dplyr %>% select mutate distinct filter
 #' @return A plot of agreements' lineages.
 #' @examples
@@ -111,8 +111,8 @@ lineage_plot <- function(dataset, treaty_type = NULL) {
                                           "[", 2 ), NA),
                   manyID = gsub("\\:.*", "", manyID)) %>%
     dplyr::distinct() %>%
-    migraph::as_tidygraph() %>%
-    migraph::gglineage()
+    manynet::as_tidygraph() %>%
+    manynet::autograph()
 } 
 
 #' @rdname plot_agreements
@@ -125,7 +125,7 @@ lineage_plot <- function(dataset, treaty_type = NULL) {
 #' Available themes are "light", "dark", and "earth".
 #' @details Creates a plot of the a unimodal geographical network at a
 #' single point in time.
-#' @importFrom migraph is_graph is_multiplex as_edgelist as_tidygraph node_names
+#' @importFrom manynet is_graph is_multiplex as_edgelist as_tidygraph node_names
 #' @importFrom ggraph create_layout ggraph geom_edge_arc
 #' scale_edge_width_continuous geom_node_point geom_node_text
 #' @importFrom dplyr mutate inner_join rename filter
@@ -193,16 +193,16 @@ map_plot <- function(dataset, actor = "StateID", treaty_type = NULL,
     dplyr::inner_join(cshapes, by = c("to" = "stateID")) %>%
     dplyr::rename(xend = .data$caplong, yend = .data$caplat)
   # Step 7: Create plotted network from computed edges
-  g <- migraph::as_tidygraph(edges)
+  g <- manynet::as_tidygraph(edges)
   # Step 8: Get the country shapes from the edges dataframe
   country_shapes <- ggplot2::geom_sf(data = cshapes$geometry,
                                      fill = countrycolor)
   # Step 9: generate the point coordinates for capitals
   cshapes_pos <- cshapes %>%
-    dplyr::filter(.data$stateID %in% migraph::node_names(g)) %>%
+    dplyr::filter(.data$stateID %in% manynet::node_names(g)) %>%
     dplyr::rename(x = .data$caplong, y = .data$caplat)
   # Reorder things according to nodes in plotted network g
-  cshapes_pos <- cshapes_pos[match(migraph::node_names(g),
+  cshapes_pos <- cshapes_pos[match(manynet::node_names(g),
                                    cshapes_pos[["stateID"]]), ]
   # Step 10: generate the layout
   lay <- ggraph::create_layout(g, layout = cshapes_pos)
@@ -217,7 +217,7 @@ map_plot <- function(dataset, actor = "StateID", treaty_type = NULL,
                                         guide = "none") +
     ggraph::geom_node_point(shape = 21, # draw nodes
                             fill = "white", color = "black", stroke = 0.5) +
-    ggraph::geom_node_text(ggplot2::aes(label = migraph::node_names(g)),
+    ggraph::geom_node_text(ggplot2::aes(label = manynet::node_names(g)),
                            repel = TRUE, size = 3, color = "white",
                            fontface = "bold") +
     maptheme

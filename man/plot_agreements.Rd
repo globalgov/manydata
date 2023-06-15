@@ -39,7 +39,7 @@ Other options are "bilateral" or "multilateral".}
 \item{layout}{How do you want the plot to look like?
 An igraph layout algorithm, currently defaults to 'concentric'.
 Some other options are 'stress', 'bipartite', and 'alluvial'.
-For more information please check ´?migraph::autographr´.}
+For more information please check ´?manynet::autographr´.}
 
 \item{actor}{An actor variable.
 "StateID", by default.}
