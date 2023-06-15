@@ -3,9 +3,12 @@
 \name{defunct}
 \alias{defunct}
 \alias{coalesce_compatible}
+\alias{network_map}
 \title{Functions that have been renamed, superseded, or are no longer working}
 \usage{
 coalesce_compatible(.data)
+
+network_map(.data)
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
@@ -19,6 +22,8 @@ wherever possible and update your scripts accordingly.
 \section{Functions}{
 \itemize{
 \item \code{coalesce_compatible()}: Deprecated on 2022-10-18.
+
+\item \code{network_map()}: Removed on 2023-06-15.
 
 }}
 \keyword{internal}

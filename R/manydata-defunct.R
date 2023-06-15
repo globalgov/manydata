@@ -17,3 +17,10 @@ coalesce_compatible <- function(.data) {
   .Defunct("tidyr::fill()", package = "manydata")
   coalesce_compatible(.data)
 }
+
+#' @describeIn defunct Removed on 2023-06-15.
+#' @export
+network_map <- function(.data) {
+  .Defunct("manynet::autographr()", package = "manydata")
+  network_map(.data)
+}
