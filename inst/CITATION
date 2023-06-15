@@ -1,12 +1,13 @@
 citHeader("To cite manydata in publications use:")
 
-citEntry(
-  entry    = "Manual",
-  title    = "manydata: An R Portal for Ensembled Global Governance Data",
-  author   = "James Hollway",
-  year     = "2021",
-  version  = "0.5.0",
-  url      = "https://github.com/globalgov/manydata",
-  textVersion = paste("J. Hollway. manydata: An R Portal for Ensembled Global Governance Data. 2021."
-  )
+bibentry(
+     bibtype = "Manual",
+     title = "manydata: An R Portal for Ensembled Global Governance Data",
+     author = c(
+       person("James", "Hollway", 
+       role = c("cre", "aut", "ctb"),
+       email = "james.hollway@graduateinstitute.ch")
+     ),
+     year = "2021",
+     url = "https://github.com/globalgov/manydata"
 )
