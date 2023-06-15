@@ -2,7 +2,7 @@ citHeader("To cite manydata in publications use:")
 
 bibentry(
      bibtype = "Manual",
-     title = "manydata: An R Portal for Ensembled Global Governance Data",
+     title = "manydata: The portal for global governance data",
      author = c(
        person("James", "Hollway", 
        role = c("cre", "aut", "ctb"),
