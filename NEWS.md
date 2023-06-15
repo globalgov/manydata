@@ -1,3 +1,9 @@
+# manydata 0.8.3
+
+## Connection
+
+* Made ´network_map()´ function defunct
+
 # manydata 0.8.2
 
 ## Connection
