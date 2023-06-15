@@ -3,16 +3,16 @@
 #' @description The `call_` functions in `{manydata}` allows users to call,
 #' install, and update different 'many' packages, as well as additional
 #' information on databases and datasets across 'many packages'.
-#' @name call
-#' @param pkg A character vector of package name.
+#' @name call_ 
+#' @param package A character vector of package name.
 #' For multiple packages,
-#' please declare package names as a vector (e.g. c("pkg1", "pkg2)).
+#' please declare package names as a vector (e.g. c("package1", "package2")).
 #' @param database A database from one of the many packages.
 #' @param dataset A dataset in a database from one of the many packages.
 #' NULL by default.
 #' That is, all datasets in the database are used.
 #' For multiple datasets, please declare datasets as a vector
-#' (e.g. c("dataset1", "dataset2)).
+#' (e.g. c("dataset1", "dataset2")).
 #' @param treaty_type The type of treaties to be returned.
 #' NULL, by default.
 #' Other options are "bilateral" or "multilateral".
@@ -32,7 +32,7 @@
 #' \donttest{
 #' #call_packages()
 #' #call_packages("manyenviron")
-#' call_sources(emperors)
+#' call_sources("manydata", "emperors")
 #' membs <- tibble::tibble( manyID = c("ROU-RUS[RFP]_1901A",
 #' "ROU-RUS[RFP]_1901A", "GD16FI_1901A"),
 #' StateID = c("ROU", "RUS", "DNK"),
@@ -55,7 +55,7 @@
 #' The `call_` functions return tibbles with the respective information.
 NULL
 
-#' @describeIn call Call, download, and update 'many' packages
+#' @describeIn call_ Call, download, and update 'many' packages
 #' @details `call_packages()` finds and download other packages
 #' that belong to the many universe of packages.
 #' It allows users to rapidly access the names and other
@@ -73,12 +73,12 @@ NULL
 #' If one or more package names are provided,
 #' these will be installed from Github.
 #' @export
-call_packages <- function(pkg, develop = FALSE) {
+call_packages <- function(package, develop = FALSE) {
   # introduce variables to avoid check notes
   Description <- Installed <- Latest <- Name <- updated <-
     description <- full_name <- name <- NULL
-  # get info from GitHub if pkg is missing
-  if (missing(pkg)) {
+  # get info from GitHub if package is missing
+  if (missing(package)) {
     # get package releases, versions, and bind information
     repo <- httr::GET("https://api.github.com/users/globalgov/repos",
                       query = list(state = "all", per_page = 100, page = 1))
@@ -126,7 +126,7 @@ call_packages <- function(pkg, develop = FALSE) {
           }, error = function(e) {
             stop(paste0("The download limit from GitHub has been reached.
        Please download the package using:
-              remotes::install_github(globalgov/", pkg, ")"))
+              remotes::install_github(globalgov/", package, ")"))
           })
         }
       } 
@@ -141,7 +141,7 @@ call_packages <- function(pkg, develop = FALSE) {
           }, error = function(e) {
             stop(paste0("The download limit from GitHub has been reached.
        Please download the package using:
-              remotes::install_github(globalgov/", pkg, ")"))
+              remotes::install_github(globalgov/", package, ")"))
           })
         }
       }
@@ -149,20 +149,20 @@ call_packages <- function(pkg, develop = FALSE) {
   } else {
     # download package if declared
     tryCatch({
-      if (stringr::str_detect(pkg, "/")) {
-        remotes::install_github(pkg)
-        pkg <- strsplit(pkg, "/")[[1]][2]
+      if (stringr::str_detect(package, "/")) {
+        remotes::install_github(package)
+        package <- strsplit(package, "/")[[1]][2]
       }
       if (develop == FALSE) {
-        remotes::install_github(paste0("globalgov/", pkg))
+        remotes::install_github(paste0("globalgov/", package))
       } else {
-        remotes::install_github(paste0("globalgov/", pkg), ref = "develop")
+        remotes::install_github(paste0("globalgov/", package), ref = "develop")
       }
-      library(pkg, character.only = TRUE)
+      library(package, character.only = TRUE)
     }, error = function(e) {
       stop(paste0("The download limit from GitHub has been reached.
        Please download the package using:
-              remotes::install_github(globalgov/", pkg, ")"))
+              remotes::install_github(globalgov/", package, ")"))
     })
   }
 }
@@ -192,125 +192,113 @@ get_latest_release <- function(full_name) {
   unlist(latest)
 }
 
-#' @describeIn call Call sources for databases and datasets in 'many' packages
+#' @describeIn call_ Call sources for databases and datasets in 'many' packages
 #' @details `call_sources()` displays sources of the databases and datasets
 #' in 'many' packages.
-#' @importFrom purrr map
-#' @importFrom stringr str_to_title
+#' Please declare package, database, and dataset
+#' @importFrom utils help
+#' @importFrom stringr str_extract_all str_remove_all str_trim
 #' @export
-call_sources <- function(database, dataset = NULL) {
-  #selcts all dbs
-  if (!is.null(database)) {
-    # Database specified, dataset unspecified
-    if (is.null(dataset)) {
-      tmp_env <- new.env()
-      lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
-      dbs <-  mget(ls(tmp_env), tmp_env)
-      dbs <- dbs[database]
-      outlist <- list()
-      for (i in c(seq_len(length(dbs)))) {
-        assign(paste0("tabl", i), rbind(purrr::map(dbs[[i]], function(x)
-          paste0(utils::capture.output(
-            print(attr(x, which = "source_bib"))), sep = "", collapse = "")))
-        )
-        assign(paste0("tabl", i), t(get(paste0("tabl", i))))
-        tmp <- get(paste0("tabl", i))
-        colnames(tmp) <- "Reference"
-        assign(paste0("tabl", i), tmp)
-        #List output
-        outlist[i] <- list(get(paste0("tabl", i)))
-      }
-      names(outlist) <- names(dbs)
-      # Redefine outlist class to list
-      class(outlist) <- "listof"
-      return(outlist)
-    } else {
-      # Database and dataset specified
-      tmp_env <- new.env()
-      lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
-      db <- get(database, envir = tmp_env)
-      ds <- db[[dataset]]
-      tabl <- data.frame(Reference = paste0(utils::capture.output(
-        print(attr(ds, which = "source_bib"))), sep = "", collapse = "")
-      )
-      tmp <- as.data.frame(tabl)
-      colnames(tmp) <- "Reference"
-      outlist <- list(tmp)
-      names(outlist) <- dataset
-      # Redefine outlist class to list
-      class(outlist) <- "listof"
-      return(outlist)
-    }
-  } else {
-    tmp_env <- new.env()
-    lazyLoad(file.path(data_path, "Rdata"), envir = tmp_env)
-    dbs <-  mget(ls(tmp_env), tmp_env)
-    outlist <- list()
-    for (i in c(seq_len(length(dbs)))) {
-      assign(paste0("tabl", i), rbind(purrr::map(dbs[[i]], function(x)
-        paste0(utils::capture.output(
-          print(attr(x, which = "source_bib"))), sep = "", collapse = ""
-        ))))
-      assign(paste0("tabl", i), t(get(paste0("tabl", i))))
-      tmp <- get(paste0("tabl", i))
-      colnames(tmp) <- "Reference"
-      names(tmp) <- names(dbs[[i]])
-      #Clear attr from object for a prettier print to console
-      attr(tmp, "names") <- NULL
-      assign(paste0("tabl", i), tmp)
-      #Append to list output
-      outlist[i] <- list(get(paste0("tabl", i)))
-    }
-    # Redefine outlist class to list
-    class(outlist) <- "listof"
-    return(outlist)
+call_sources <- function(package, database, dataset = NULL) {
+  # get path
+  helptext <- utils::help(topic = as.character(database),
+                          package = as.character(package))
+  # get help file as text
+  helptext <- as.character(get_help_file(helptext))
+  # clean text
+  helptext <- stringr::str_remove_all(helptext,
+                                      "\\\n|\\{|\\}|\\\\tab$|\\\\cr$|^cc$")
+  helptext <- paste(stringr::str_trim(helptext[nzchar(helptext)]),
+                    collapse = " ")
+  # keep only portions we are interested in
+  helptext <- paste0(sub('.*</div>', '', helptext), " \\item")
+  # get names and sections
+  names <- unique(unlist(stringr::str_extract_all(helptext, "\\w*:")))
+  names <- names[!grepl("https:", names)]
+  sections <- c(unlist(stringr::str_extract_all(helptext,
+                                                "section \\w*")), "Source")
+  sections <- stringr::str_trim(gsub("section", "", sections))
+  # organize information into lists of list
+  out <- list()
+  for (i in names) {
+    out[i] <- stringr::str_extract_all(helptext,
+                                       paste0(i, "\\s*(.*?)\\s*\\\\item"))
   }
+  # if one or more datasets are declared
+  if(!is.null(dataset)) {
+    out <- out[grepl(dataset, names(out))]
+  }
+  # bind list
+  out <- data.frame(do.call(rbind, out))
+  colnames(out) <- sections
+  rownames(out) <- gsub(":", "", names)
+  dplyr::as_tibble(out, rownames = "Dataset")
 }
 
-#' @describeIn call Call treaties from 'many' datasets
+# Helper function to get help file into text
+get_help_file <- function(file) {
+  path <- dirname(file)
+  dirpath <- dirname(path)
+  if (!file.exists(dirpath)) 
+    stop(gettextf("invalid %s argument", sQuote("file")), 
+         domain = NA)
+  pkgname <- basename(dirpath)
+  RdDB <- file.path(path, pkgname)
+  fetchRdDB <- function(db) {
+    vals <- db$vals
+    vars <- db$vars
+    datafile <- db$datafile
+    compressed <- db$compressed
+    envhook <- db$envhook
+    key <- basename(file)
+    fetch <- function(key) lazyLoadDBfetch(vals[key][[1L]],
+                                           datafile, compressed, envhook)
+    fetch(key)
+  }
+  lazyLoadDBexec(RdDB, fetchRdDB)
+}
+
+#' @describeIn call_ Call treaties from 'many' datasets
 #' @details Certain datasets, or consolidated databases, in 'many' packages
 #' contains information on treaties which can be retrieved
 #' with `call_treaties()`.
-#' 
 #' @export
-call_treaties <- function(dataset, treaty_type = NULL, key = "manyID",
+call_treaties <- function(dataset, treaty_type = NULL,
                           variable = NULL, actor = NULL) {
-  Key <- Memberships <- NULL
+  Memberships <- manyID <- NULL
   # check if key is valid
-  if (!any(colnames(dataset) == key)) {
-    stop("Please declare a valid key variable.")
+  if (!any(colnames(dataset) == "manyID")) {
+    stop("Please declare a many dataset")
   }
   # get variables, if declared
   if (!is.null(variable)) {
-    out <- dataset[,c(key, variable)] %>% dplyr::distinct()
+    out <- dataset[,c("manyID", variable)] %>% dplyr::distinct()
   } else {
-    out <- dataset[,key] %>% dplyr::distinct()
+    out <- dataset[,"manyID"] %>% dplyr::distinct()
   }
-  names(out)[names(out) == key] <- "Key"
   # subset treaty types
   if (!is.null(treaty_type)) {
     if (treaty_type == "bilateral") {
-      out <- subset(out, stringr::str_detect(Key, "\\-"))
+      out <- subset(out, stringr::str_detect(manyID, "\\-"))
     }
     if (treaty_type == "multilateral") {
-      out <- subset(out, stringr::str_detect(Key, "\\-", negate = TRUE))
+      out <- subset(out, stringr::str_detect(manyID, "\\-", negate = TRUE))
     }
   }
   if (!is.null(actor)) {
-    actors <- dataset[,c(key, actor)] %>% dplyr::distinct()
-    names(actors)[names(actors) == key] <- "Key"
+    actors <- dataset[,c("manyID", actor)] %>% dplyr::distinct()
     names(actors)[names(actors) == actor] <- "Memberships"
     out <- actors %>%
-      dplyr::group_by(Key) %>%
+      dplyr::group_by(manyID) %>%
       dplyr::summarise(Memberships = toString(Memberships)) %>%
       dplyr::ungroup() %>%
-      dplyr::right_join(out, by = "Key") %>%
+      dplyr::right_join(out, by = "manyID") %>%
       distinct()
   }
   out
 }
 
-#' #' @describeIn call Call 'many' texts
+#' #' @describeIn call_ Call 'many' texts
 #' #' @return A tibble of treaties and their texts.
 #' #' @export
 #' call_texts <- function(dataset, treaty_type = NULL, key = "manyID") {

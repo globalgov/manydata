@@ -23,6 +23,24 @@ Birth, Death, FullName, Dynasty.}
 following 3 variables: ID, Beg, End.}
 }
 }
+\source{
+\itemize{
+\item{wikipedia: }{
+Wikipedia, List_of_Roman_emperors,
+\url{https://en.wikipedia.org/wiki/List_of_Roman_emperors}, Accessed on 2021-07-22
+}
+\item{UNRV: }{
+UNRV, Roman Emperor list,
+\url{https://www.unrv.com/government/emperor.php},
+Accessed on 2021-07-22
+}
+\item{britannica: }{
+Britannica, List of Roman emperors,
+\url{https://www.britannica.com/topic/list-of-Roman-emperors-2043294},
+Accessed on 2021-07-22
+}
+}
+}
 \usage{
 emperors
 }
@@ -76,4 +94,67 @@ Emperors database documentation
 #> ----------------------------------------------------------------------------
 }\if{html}{\out{</div>}}
 }
+\section{URL}{
+
+\itemize{
+\item{wikipedia: }{
+\url{https://en.wikipedia.org/wiki/List_of_Roman_emperors}
+}
+\item{UNRV: }{
+\url{https://www.unrv.com/government/emperor.php}
+}
+\item{britannica: }{
+\url{https://www.britannica.com/topic/list-of-Roman-emperors-2043294}
+}
+}
+}
+
+\section{Mapping}{
+
+\itemize{
+\item{wikipedia: }{
+Variable Mapping\tabular{cc}{
+   \emph{from} \tab \emph{to} \cr
+   name \tab ID \cr
+   reign.start \tab Beg \cr
+   reign.end \tab End \cr
+   name.full \tab FullName \cr
+   birth \tab Birth \cr
+   death \tab Death \cr
+   birth.cty \tab CityBirth \cr
+   birth.prv \tab ProvinceBirth \cr
+   rise \tab Rise \cr
+   cause \tab Cause \cr
+   killer \tab Killer \cr
+   dynasty \tab Dynasty \cr
+   era \tab Era \cr
+   notes \tab Notes \cr
+   verif.who \tab Verif \cr
+}
+
+
+}
+\item{UNRV: }{
+Variable Mapping\tabular{cc}{
+   \emph{from} \tab \emph{to} \cr
+   Common Name \tab ID \cr
+   'Full Name/Imperial Name' \tab FullName \cr
+   'Dynasty/Class/Notes' \tab Dynasty \cr
+}
+
+
+}
+\item{britannica: }{
+Variable Mapping\tabular{cc}{
+   \emph{from} \tab \emph{to} \cr
+   Name \tab ID \cr
+   reign_start \tab Beg \cr
+   reign_end \tab End \cr
+}
+
+
+}
+}
+}
+
 \keyword{datasets}
