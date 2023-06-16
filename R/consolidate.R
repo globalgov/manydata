@@ -49,12 +49,11 @@
 #' @details Text variables are dropped for more efficient consolidation.
 #' @importFrom purrr reduce map pluck
 #' @importFrom dplyr select full_join inner_join distinct all_of
-#' group_by %>% mutate_at
+#' group_by %>% mutate_at as_tibble
 #' @importFrom tidyr drop_na
 #' @importFrom plyr ddply
 #' @importFrom zoo na.locf
 #' @importFrom usethis ui_info
-#' @importFrom tibble as_tibble
 #' @importFrom messydates as_messydate
 #' @return A single tibble/data frame.
 #' @examples
@@ -131,12 +130,12 @@ consolidate <- function(database, rows = "any", cols = "any",
   mdate <- names(out[grepl("mdate", lapply(out, class))])
   usethis::ui_info("Coalescing compatible rows...")
   out <- plyr::ddply(out, key, zoo::na.locf, na.rm = FALSE) %>%
-    tibble::as_tibble() %>%
+    dplyr::as_tibble() %>%
     select(-dplyr::starts_with("dplyr")) %>%
     dplyr::distinct()
   # Step 8: convert messydates
   if (length(mdate) != 0) {
-    out <- dplyr::mutate_at(out, dplyr::all_of(mdate), messydates::as_messydate)
+    out <- dplyr::mutate_at(out, mdate, messydates::as_messydate)
   }
   out
 }
@@ -186,7 +185,7 @@ resolve_multiple <- function(resolve, out, key) {
   if (exists("rco")) {
     out <- rco
   } else {
-    out <- dplyr::select(out, key)
+    out <- dplyr::select(out, dplyr::all_of(key))
   }
   if (exists("rmin")) {
     out <- dplyr::full_join(out, rmin, by = key)
@@ -215,7 +214,7 @@ resolve_coalesce <- function(other_variables, out, key) {
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
-    out <- dplyr::select(out, dplyr::all_of(key), other_variables)
+    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
   }
   out
 }
@@ -241,7 +240,7 @@ resolve_min <- function(other_variables, out, key) {
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
-    out <- dplyr::select(out, dplyr::all_of(key), other_variables)
+    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
   }
   out
 }
@@ -267,7 +266,7 @@ resolve_max <- function(other_variables, out, key) {
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
-    out <- dplyr::select(out, dplyr::all_of(key), other_variables)
+    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
   }
   out
 }
@@ -292,7 +291,7 @@ resolve_median <- function(other_variables, out, key) {
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
-    out <- dplyr::select(out, dplyr::all_of(key), other_variables)
+    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
   }
   out
 }
@@ -317,7 +316,7 @@ resolve_mean <- function(other_variables, out, key) {
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
-    out <- dplyr::select(out, dplyr::all_of(key), other_variables)
+    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
   }
   out
 }
@@ -342,7 +341,7 @@ resolve_random <- function(other_variables, out, key) {
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
-    out <- dplyr::select(out, dplyr::all_of(key), other_variables)
+    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
   }
   out
 }
