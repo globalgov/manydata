@@ -19,7 +19,6 @@ NULL
 #' For more information please check ´?manynet::autographr´.
 #' @importFrom dplyr %>% select mutate distinct
 #' @importFrom manynet as_igraph autographr
-#' @importFrom igraph delete.vertices
 #' @return A network of agreements' relations.
 #' @examples
 #' \donttest{
@@ -30,6 +29,14 @@ NULL
 #' @export
 agreements_plot <- function(dataset, treaty_type = NULL,
                             layout = "circle") {
+  if (!requireNamespace("igraph", quietly = TRUE)) {
+    if(utils::askYesNo(msg = "The `igraph` package is required.
+                       Would you like to install `igraph` from CRAN?")) {
+      utils::install.packages('igraph')
+    } else {
+      stop("Please install `igraph` from CRAN to work with network data.")
+    }
+  }
   manyID <- NULL
   out <- dplyr::select(dataset, manyID)
   if (!is.null(treaty_type)) {
@@ -112,7 +119,7 @@ lineage_plot <- function(dataset, treaty_type = NULL) {
                   manyID = gsub("\\:.*", "", manyID)) %>%
     dplyr::distinct() %>%
     manynet::as_tidygraph() %>%
-    manynet::autograph()
+    manynet::autographr()
 } 
 
 #' @rdname plot_agreements
@@ -126,11 +133,7 @@ lineage_plot <- function(dataset, treaty_type = NULL) {
 #' @details Creates a plot of the a unimodal geographical network at a
 #' single point in time.
 #' @importFrom manynet is_graph is_multiplex as_edgelist as_tidygraph node_names
-#' @importFrom ggraph create_layout ggraph geom_edge_arc
-#' scale_edge_width_continuous geom_node_point geom_node_text
 #' @importFrom dplyr mutate inner_join rename filter
-#' @importFrom cshapes cshp
-#' @importFrom igraph get.data.frame graph.adjacency
 #' @return A map of a country level geographical network.
 #' @examples
 #' \donttest{
@@ -143,11 +146,36 @@ lineage_plot <- function(dataset, treaty_type = NULL) {
 #' @export
 map_plot <- function(dataset, actor = "StateID", treaty_type = NULL,
                      date = "2019-12-31", theme = "light") {
+  # check packages
+  if (!requireNamespace("cshapes", quietly = TRUE)) {
+    if(utils::askYesNo(msg = "The `cshapes` package is required.
+                       Would you like to install `cshapes` from CRAN?")) {
+      utils::install.packages('cshapes')
+    } else {
+      stop("Please install `cshapes` from CRAN to plot maps.")
+    }
+  }
+  if (!requireNamespace("ggraph", quietly = TRUE)) {
+    if(utils::askYesNo(msg = "The `ggraph` package is required.
+                       Would you like to install `ggraph` from CRAN?")) {
+      utils::install.packages('ggraph')
+    } else {
+      stop("Please install `ggraph` from CRAN for plot layouts.")
+    }
+  }
+  if (!requireNamespace("igraph", quietly = TRUE)) {
+    if(utils::askYesNo(msg = "The `igraph` package is required.
+                       Would you like to install `igraph` from CRAN?")) {
+      utils::install.packages('igraph')
+    } else {
+      stop("Please install `igraph` from CRAN to work with network data.")
+    }
+  }
   # Checks for correct input
   weight <- NULL
   # Step 1: get membership list
-  dataset <- retrieve_membership_list(dataset = dataset, actor = actor,
-                                      treaty_type = treaty_type)
+  dataset <- call_treaties(dataset = dataset, actor = actor,
+                           treaty_type = treaty_type)
   # Step 2: set up empty matrix
   actor <- unique(unlist(strsplit(dataset$Memberships, ", ")))
   out <- matrix(0, nrow = length(actor), ncol = length(actor))
