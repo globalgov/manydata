@@ -75,7 +75,7 @@
 #' 
 #' |  *from*  | *to*
 #' |:------------:|:------------:|
-#' | Common Name | ID |
+#' | 'Common Name' | ID |
 #' | 'Full Name/Imperial Name' | FullName |
 #' | 'Dynasty/Class/Notes' | Dynasty |
 #' 
