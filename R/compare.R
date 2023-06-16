@@ -28,6 +28,7 @@
 #' For multiple variables, please declare categories as a vector.
 #' @importFrom dplyr as_tibble %>%
 #' @examples
+#' \donttest{
 #' compare_data(emperors)
 #' compare_data(database = emperors, dataset = c("wikipedia", "UNRV"))
 #' compare_overlap(emperors, key = "ID")
@@ -40,6 +41,7 @@
 #' plot_categories(emperors, key = "ID")
 #' plot_categories(database = emperors, key = "ID", variable = c("Beg", "End"),
 #' category = c("conflict", "unique"))
+#' }
 #' @return
 #' The compare functions return tibbles with the respective comparative
 #' information, or the same information plotted appropriately.
@@ -78,10 +80,17 @@ compare_data <- function(database, dataset = NULL) {
 #' in each dataset in a 'many' database.
 #' "manyID" by default.
 #' @importFrom dplyr select rename
-#' @importFrom ggVennDiagram Venn process_data venn_region
 #' @export
 compare_overlap <- function(database, dataset = NULL, key = "manyID") {
   name <- NULL
+  if (!requireNamespace("ggVennDiagram", quietly = TRUE)) {
+    if(utils::askYesNo(msg = "The `ggVennDiagram` package is required.
+                       Would you like to install `ggVennDiagram` from CRAN?")) {
+      utils::install.packages('ggVennDiagram')
+    } else {
+      stop("Please install `ggVennDiagram` from CRAN to compare overlaps.")
+    }
+  }
   if (!is.null(dataset)) {
     if (length(dataset) < 2) stop("Please declare 2 or more datasets for comparison.")
     database <- database[grepl(paste(dataset, collapse = "|"), names(database))]
@@ -98,15 +107,25 @@ compare_overlap <- function(database, dataset = NULL, key = "manyID") {
 #' @describeIn compare Plots the overlap between datasets in 'many' databases
 #' @details `plot_overlap()` plots the overlap between "key" observations
 #' in each dataset in a 'many' database.
-#' @importFrom ggVennDiagram ggVennDiagram
 #' @export
 plot_overlap <- function(database, dataset = NULL, key = "manyID") {
+  if (!requireNamespace("ggVennDiagram", quietly = TRUE)) {
+    if(utils::askYesNo(msg = "The `ggVennDiagram` package is required.
+                       Would you like to install `ggVennDiagram` from CRAN?")) {
+      utils::install.packages('ggVennDiagram')
+    } else {
+      stop("Please install `ggVennDiagram` from CRAN to plot overlaps.")
+    }
+  }
   if (!is.null(dataset)) {
-    if (length(dataset) < 2) stop("Please declare 2 or more datasets for comparison.")
+    if (length(dataset) < 2)
+      stop("Please declare 2 or more datasets for comparison.")
+    if (length(dataset) > 4)
+      message("Too many datasets can make the Venn diagram hard to interpret.")
     database <- database[grepl(paste(dataset, collapse = "|"), names(database))]
   }
   out <- purrr::map(database, key)
-  ggVennDiagram(out)
+  ggVennDiagram::ggVennDiagram(out)
 }
 
 #' @describeIn compare Compare missing observations for 'many' data
@@ -186,7 +205,6 @@ plot_missing <- function(database, dataset = NULL, variable = "all") {
 #' @importFrom dplyr full_join filter_all %>% all_of group_by distinct any_vars
 #' starts_with mutate
 #' @importFrom purrr reduce map
-#' @importFrom tibble tibble
 #' @importFrom tidyr drop_na
 #' @importFrom stringr str_count str_remove_all str_split str_extract_all
 #' str_replace_all
@@ -295,7 +313,7 @@ compare_categories <- function(database,
       db[, paste0(var, " (", length(vlb), ")")] <- value
     }
   }
-  db <- tibble::tibble(db[unique(colnames(db))]) %>%
+  db <- dplyr::tibble(db[unique(colnames(db))]) %>%
     select(-dplyr::starts_with("dplyr"))
   # Step 8: filter categories if necessary
   . <- NULL
