@@ -20,6 +20,12 @@
 * Closed #269 by adding a `call_sources()` function that displays sources and variable changes for datasets in databases 
 * Closed #271 by renaming and updating the `retrieve_` family of functions to `call_` functions
 
+# manydata 0.8.3
+
+## Connection
+
+* Made ´network_map()´ function defunct
+
 # manydata 0.8.2
 
 ## Connection
