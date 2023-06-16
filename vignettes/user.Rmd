@@ -21,11 +21,18 @@ Since some of these data packages are too big for CRAN,
 we expect that their developers will instead choose
 to make their packages available on GitHub.
 To make it easier to identify all packages in the
-many packages universe, we have developed the `get_packages()` function.
+many packages universe, we have developed the `call_packages()` function.
 The function lists the many packages available and allow users to download them.
 
 ```{r discover, eval=FALSE}
-get_packages()
+call_packages()
+```
+
+As well, the `call_sources()` function displays sources, URLs, and variable changes for
+the datasets within a database within a many package.
+
+```{r source}
+call_sources(package = "manydata", database = "emperors")
 ```
 
 ## Understanding data
@@ -101,34 +108,42 @@ data points were sourced or how certain variables were coded,
 while another provides an extensive and transparent codebook
 that facilitates replication.
 
-### Using `data_source()` and `data_contrast()`
+### Comparing and ploting
 
 We can bring up the database level documentation using: `?emperors`.
 This informs users on the datasets present in the database
 as well as the variables in the various datasets. 
 Though, if we want a more detailed summary of the various levels of data 
-and sources, we can use `data_source()` and `data_contrast()`.
+and sources, we can use `compare_` family of functions.
 
-The `data_source()` function displays bibliographic references for
-the datasets within a database.
+The `compare_data()` function returns a tibble with the key metadata 
+of each level of data objects (many package, database, and dataset).
 
-```{r source}
-data_source(pkg = "manydata", database = NULL, dataset = NULL)
+```{r compare data}
+compare_data(emperors)
 ```
 
-The `data_contrast()` function returns a data frame with the key metadata 
-of each level of data objects (many package, database, and dataset).
-This metadata includes the following elements:
+The `compare_overlap()` function returns a tibble with dataset overlaps within the database.
+This can also be visualized with the `plot_overlap()` function.
 
-* Number of unique observations
-* Number of rows
-* Number of columns
-* Earliest beginning date
-* Latest end date
-* Source URL
+```{r overlap}
+compare_overlap(emperors, key = "ID")
+plot_overlap(emperors, key = "ID")
+```
 
-```{r contrast}
-data_contrast(pkg = "manydata", database = NULL, dataset = NULL)
+The `compare_missing()` function returns a tibble with missing observations in datasets within database.
+This can also be visualized with the `plot_missing()` function.
+
+```{r missing}
+compare_missing(emperors)
+plot_missing(emperors)
+```
+
+Finally, both the `compare_categories()` and the `plot_categories()` functions help researchers identify how datasets in database relate to one another.
+
+```{r categories}
+compare_categories(emperors, key = "ID")
+plot_categories(emperors, key = "ID")
 ```
 
 ### An example of inference sensitivity to data sources
