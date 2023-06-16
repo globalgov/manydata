@@ -27,13 +27,18 @@
 #' @param actor An actor variable in dataset.
 #' NULL by default.
 #' If declared, a tibble of the traties and their member actors is returned.
+#' @param open_script Would you like to open the preparation script
+#' for the dataset?
+#' By default false.
+#' @param open_codebook Would you like to open the preparation script
+#' for the dataset? By default false.
 #' @importFrom dplyr as_tibble %>%
 #' @examples
 #' \donttest{
 #' #call_packages()
 #' #call_packages("manyenviron")
 #' call_sources("manydata", "emperors")
-#' membs <- tibble::tibble( manyID = c("ROU-RUS[RFP]_1901A",
+#' membs <- dplyr::tibble(manyID = c("ROU-RUS[RFP]_1901A",
 #' "ROU-RUS[RFP]_1901A", "GD16FI_1901A"),
 #' StateID = c("ROU", "RUS", "DNK"),
 #' Title = c("Convention Between Roumania And Russia Concerning Fishing
@@ -196,10 +201,13 @@ get_latest_release <- function(full_name) {
 #' @details `call_sources()` displays sources of the databases and datasets
 #' in 'many' packages.
 #' Please declare package, database, and dataset
-#' @importFrom utils help
+#' @importFrom utils help browseURL
+#' @importFrom dplyr relocate
 #' @importFrom stringr str_extract_all str_remove_all str_trim
 #' @export
-call_sources <- function(package, database, dataset = NULL) {
+call_sources <- function(package, database, dataset = NULL,
+                         open_script = FALSE, open_codebook = FALSE) {
+  Dataset <- Source <- URL <- Mapping <- NULL
   # get path
   helptext <- utils::help(topic = as.character(database),
                           package = as.character(package))
@@ -230,9 +238,53 @@ call_sources <- function(package, database, dataset = NULL) {
   }
   # bind list
   out <- data.frame(do.call(rbind, out))
+  # clean observations
+  out <- data.frame(t(apply(out, 1, function(x) {
+    stringr::str_squish(gsub(paste0(paste(names, collapse = "|"),
+                                    "|\\\\item|\\\\tabular|\\\\url|\\\\emph|\\\\section|\\\\source|Variable Mapping"),
+                             "", x))
+    })))
+  # add names to data frame
   colnames(out) <- sections
   rownames(out) <- gsub(":", "", names)
-  dplyr::as_tibble(out, rownames = "Dataset")
+  # clean variable mapping
+  out$Mapping <- unlist(lapply(out$Mapping, function(x) {
+    gsub("\\|", " | ",
+         gsub("\\_", " ", 
+              gsub("\\(|\\)", "",
+                   gsub(" ", " - ",
+                        gsub("(\\S* \\S*) ","\\1|",
+                             gsub("\\s+(?=[^()]*\\))", "_",
+                                  gsub("('.*?')", "(\\1)", x), perl=TRUE))))))
+  }))
+  # open preparation script if declared
+  if (open_script == TRUE & !is.null(dataset)) {
+    url <- paste0("https://github.com/globalgov/", package, "/blob/main/data-raw/",
+                  database, "/", dataset, "/", "prepare-", dataset, ".R")
+    tryCatch({
+        utils::browseURL(url, browser = getOption("browser"), encodeIfNeeded = FALSE)
+      }, error = function(e) {
+        message(paste0("Unable to open preparation script, please visit: ", url))
+        })
+  } else if (open_script == TRUE & is.null(dataset)) {
+    message("Please declare a dataset to open a preparation script.")
+  }
+  # open codebook if declared
+  if (open_codebook == TRUE & !is.null(dataset)) {
+    url <- paste0("https://github.com/globalgov/", package, "/raw/develop/data-raw/",
+                  database, "/", dataset,"/", dataset)
+    tryCatch({
+      utils::browseURL(paste0(url, "/", "OriginalCodebook.pdf"),
+                       browser = getOption("browser"), encodeIfNeeded = FALSE)
+    }, error = function(e) {
+      message(paste0("Unable to open codebook, please visit: ", url))
+      })
+    } else if (open_codebook == TRUE & is.null(dataset)) {
+    message("Please declare a dataset to open codebook.")
+    }
+  # out a with a tibble
+  dplyr::as_tibble(out, rownames = "Dataset") %>%
+    dplyr::relocate(Dataset, Source, URL, Mapping)
 }
 
 # Helper function to get help file into text
