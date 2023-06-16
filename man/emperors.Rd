@@ -137,7 +137,7 @@ Variable Mapping\tabular{cc}{
 \item{UNRV: }{
 Variable Mapping\tabular{cc}{
    \emph{from} \tab \emph{to} \cr
-   Common Name \tab ID \cr
+   'Common Name' \tab ID \cr
    'Full Name/Imperial Name' \tab FullName \cr
    'Dynasty/Class/Notes' \tab Dynasty \cr
 }

@@ -9,7 +9,7 @@ data3 <- dplyr::tibble(manyID = c("NZL", "BRA", "CHF", "OTH"),
                        date = c("1990-01-01", "1990-01-02",
                                 "1990-01-01:1990-01-31", NA),
                        number = c(100, 1200, 12222, 21))
-test <- tibble::lst(a = data1, b = data2, c = data3)
+test <- list(a = data1, b = data2, c = data3)
 
 dat1 <- dplyr::tibble(manyID = c("NZL", "BRA", "CHF"),
                       date = messydates::as_messydate(c("1990-01-01",
@@ -25,7 +25,7 @@ dat3 <- dplyr::tibble(manyID = c("NZL", "BRA", "CHF", "OTH"),
                                                         "1990-01-01:1990-01-31",
                                                         NA)),
                       number = c(100, 1200, 12222, 21))
-test2 <- tibble::lst(a = dat1, b = dat2, c = dat3)
+test2 <- list(a = dat1, b = dat2, c = dat3)
 
 # expected output data
 data.con.con <- dplyr::tibble(manyID = c("NZL", "BRA"),

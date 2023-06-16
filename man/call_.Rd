@@ -9,7 +9,13 @@
 \usage{
 call_packages(package, develop = FALSE)
 
-call_sources(package, database, dataset = NULL)
+call_sources(
+  package,
+  database,
+  dataset = NULL,
+  open_script = FALSE,
+  open_codebook = FALSE
+)
 
 call_treaties(dataset, treaty_type = NULL, variable = NULL, actor = NULL)
 }
@@ -30,6 +36,13 @@ NULL by default.
 That is, all datasets in the database are used.
 For multiple datasets, please declare datasets as a vector
 (e.g. c("dataset1", "dataset2")).}
+
+\item{open_script}{Would you like to open the preparation script
+for the dataset?
+By default false.}
+
+\item{open_codebook}{Would you like to open the preparation script
+for the dataset? By default false.}
 
 \item{treaty_type}{The type of treaties to be returned.
 NULL, by default.
@@ -87,7 +100,7 @@ with \code{call_treaties()}.
 #call_packages()
 #call_packages("manyenviron")
 call_sources("manydata", "emperors")
-membs <- tibble::tibble( manyID = c("ROU-RUS[RFP]_1901A",
+membs <- dplyr::tibble(manyID = c("ROU-RUS[RFP]_1901A",
 "ROU-RUS[RFP]_1901A", "GD16FI_1901A"),
 StateID = c("ROU", "RUS", "DNK"),
 Title = c("Convention Between Roumania And Russia Concerning Fishing

@@ -124,6 +124,7 @@ datasets in database.
 
 }}
 \examples{
+\donttest{
 compare_data(emperors)
 compare_data(database = emperors, dataset = c("wikipedia", "UNRV"))
 compare_overlap(emperors, key = "ID")
@@ -136,4 +137,5 @@ key = "ID", variable = c("Beg", "End"), category = c("conflict", "unique"))
 plot_categories(emperors, key = "ID")
 plot_categories(database = emperors, key = "ID", variable = c("Beg", "End"),
 category = c("conflict", "unique"))
+}
 }
