@@ -1,7 +1,7 @@
 Package: manydata
 Title: A Portal for Global Governance Data
-Version: 0.8.3
-Date: 2023-05-25
+Version: 0.9.0
+Date: 2023-06-16
 Authors@R:
     c(person(given = "James",
              family = "Hollway",
@@ -33,7 +33,6 @@ BugReports: https://github.com/globalgov/manydata/issues
 Depends:
     R (>= 3.5.0)
 Imports:
-    tibble,
     dplyr,
     messydates,
     purrr,
@@ -45,19 +44,18 @@ Imports:
     httr,
     ggplot2 (>= 3.4.0),
     manynet,
-    cshapes,
-    ggraph,
-    janitor,
     tidyr,
     plyr,
-    zoo,
-    igraph,
-    ggVennDiagram
+    zoo
 Suggests:
     testthat,
     readr,
     knitr,
-    rmarkdown
+    rmarkdown,
+    ggVennDiagram,
+    cshapes,
+    ggraph,
+    igraph
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE, roclets = c("namespace", "rd"))
