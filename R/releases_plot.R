@@ -9,7 +9,6 @@
 #'   By default NULL, two months after the latest release.
 #' @importFrom httr GET content warn_for_status stop_for_status http_error
 #' @importFrom jsonlite fromJSON
-#' @importFrom tibble as_tibble
 #' @importFrom stats ave
 #' @importFrom stringr str_split str_remove
 #' @importFrom messydates as_messydate
