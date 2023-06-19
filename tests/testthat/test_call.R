@@ -1,12 +1,12 @@
 # Test call_ family of functions
 
-# test_that("data_source() returns the correct output format", {
-#   so <- call_sources("manydata", "emperors")
-#   expect_type(so, "list")
-#   expect_length(so, 4)
-#   expect_named(so, c('Dataset', 'Source', 'URL', 'Mapping'))
-#   expect_s3_class(so, "tbl")
-# })
+test_that("call_sources() returns the correct output format", {
+  so <- call_sources("manydata", "emperors")
+  expect_type(so, "list")
+  expect_length(so, 4)
+  expect_named(so, c('Dataset', 'Source', 'URL', 'Mapping'))
+  expect_s3_class(so, "tbl")
+})
 
 membs <- dplyr::tibble(StateID = c("ROU", "RUS", "DNK"),
                         manyID = c("ROU-RUS[RFP]_1901A", "ROU-RUS[RFP]_1901A", "GD16FI_1901A"),
