@@ -1,3 +1,25 @@
+# manydata 0.9.0
+
+## Package
+
+* Closed #259 by revising CCC package structure and updating the package cheatsheet
+* Updated documentation for 'emperors' database to new style to improve visibility and transparency
+* Closed #264 by revising and removing unnecessary dependencies in package
+
+## Connection
+
+* Closed #243 and #257 by creating a `db_heatmap()` function to visually compare datasets in a 'many' database
+* Closed #248 by updating `map_plot()` function and adding `agreements_plot()`, `lineages_plot()`, and `memberships_plot()` functions for easy plotting of 'many' data
+* Closed #249 by updating variable categories in `db_plot()` function
+* Closed #250 by fixing numeric selection within `get_packages()` function
+* Closed #251 by adding 'update' argument to `get_packages()` function to allow users to update 'many' packages not up to date
+* Closed #253 by separating `db_plots()` into an user facing and non-user facing functions for internal use only
+* Closed #261 by recoding and renaming `db_` and `report_` family of functions into `compare_` and `plot_` functions
+* Closed #262 by renaming `get_packages()` to `call_packages()` and updating how the function works and looks up for package updates
+* Closed #268 by adding `compare_overlap()` and `plot_overlap()` to help users investigate overlap for datasets within databases
+* Closed #269 by adding a `call_sources()` function that displays sources and variable changes for datasets in databases 
+* Closed #271 by renaming and updating the `retrieve_` family of functions to `call_` functions
+
 # manydata 0.8.3
 
 ## Connection
