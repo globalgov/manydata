@@ -24,12 +24,17 @@ To make it easier to identify all packages in the
 many packages universe, we have developed the `call_packages()` function.
 The function lists the many packages available and allow users to download them.
 
+Let us say that we wish to download the `{manystates}` package,
+which offers a set of datasets related to state actors in global governance. 
+We can download and install the latest release version of
+the `{manystates}` package by specifying the package name: `call_packages("manystates")`.
+
 ```{r discover, eval=FALSE}
-call_packages()
+call_packages() # returns list of many packages
 ```
 
-As well, the `call_sources()` function displays sources, URLs, and variable changes for
-the datasets within a database within a many package.
+The `call_sources()` function can be used to view the sources, URLs,
+and variable changes for the datasets within a database within a many package.
 
 ```{r source}
 call_sources(package = "manydata", database = "emperors")
@@ -40,31 +45,29 @@ call_sources(package = "manydata", database = "emperors")
 Packages in the many packages universe have the advantage to facilitate comparison 
 and analysis of multiple datasets in a specific domain of global governance. 
 This is possible with a particular coding system which follows the same 
-principles across the different packages. 
+principles across the different packages.
 
-In `{manystates}` for example, all datasets from the states database contain 
-variables named `Beg`and `End` which represent the beginning and ending date 
-of an episode of state sovereignty.
+For instance, in the data packages on international agreements
+(including `{manyenviron}`, `{manytrade}`, and `{manyhealth}`),
+the `agreements` and `memberships` databases have standardised date variables
+`Begin`, `Signature`, `Force`, and `End` that contain the beginning,
+signature, entry into force, and end dates of treaties respectively.
+The beginning date is derived from the signature or entry into force date,
+whichever is the earliest available date for the treaty.
+These specific variable name allows the comparison of information across datasets
+that have different sources.
+It enables users to point out the recurrence, 
+difference or absence of observations between the datasets and
+extract more robust data when researching on a particular governance domain. 
 
-In `{manyenviron}`, the agreements database also have the `Beg` and `End` variables 
-but those are attributed to treaties (signature and term dates). 
-For the memberships database, `Beg` and `End` represent when a relationship 
-between states and an agreement starts (either signature, ratification or entry into force) 
-and ends (either withdrawal or term).
-
-This specific variable name allows the comparison across the datasets which 
-have different sources but same informations. 
-It enables to point out the recurrence, 
-difference or absence of observations between the datasets and extract
-more robust data when researching on a particular governance domain. 
+The memberships database contains additional date variables on each state member's ratification,
+signature, entry into force, and end dates for each treaty.
+Data in the memberships database is comparable across datasets through standardised state names and stateIDs,
+made possible with the `manypkgs::code_states()` function.
+More information on each state, including its `Begin` and `End` date,
+can be found in the `{manystates}` package.
 
 ## Loading data
-
-Let us say that we wish to download the `{manystates}` package,
-which offers a set of datasets related to state actors in global governance. 
-We can download and install the latest release version of
-the `{manystates}` package using the same function as before, only
-specifying which package we want to 'get', 'get_packages("manystates")'.
 
 For now, let's work with the Roman Emperors database included in manydata. 
 We can get a quick summary of the datasets included in this
@@ -80,8 +83,8 @@ We can see that there are three named datasets relating to emperors here:
 `wikipedia` (dataset assembled from Wikipedia pages), `UNVR` (United Nations of Roman Vitrix),
 and `britannica` (Britannica Encyclopedia List of Roman Emperors).
 Each of these datasets has their advantages and so we may wish
-to understand their differences, summarise
-variables across them, and perhaps also rerun models across them.
+to understand their differences,
+summarise variables across them, and perhaps also rerun models across them.
 
 To retrieve an individual dataset from this database,
 we can use the `pluck()` function.
@@ -95,14 +98,14 @@ relating to the same phenomenon are presented together.
 
 ## Comparing data
 
-First of all, we want to understand what the differences between the datasets in a database.
+First of all, we want to understand the differences between the datasets in a database.
 One important way to understand the relationship between these datasets is 
 to understand what their relative advantages and disadvantages are.
 For example, one dataset may be long (has many observations) 
 while another is shorter but wider (has more variables).
 One might include details further back in history while the other is more recent,
-but include more missing data or less precise data
-(i.e. coded at a less granular level) than another with a more restrictive. 
+but contain more missing data or less precise data (i.e. coded at a less granular level)
+than another with a more restrictive time range. 
 Or one might appear complete yet offer less information on where the original
 data points were sourced or how certain variables were coded,
 while another provides an extensive and transparent codebook
@@ -113,17 +116,17 @@ that facilitates replication.
 We can bring up the database level documentation using: `?emperors`.
 This informs users on the datasets present in the database
 as well as the variables in the various datasets. 
-Though, if we want a more detailed summary of the various levels of data 
-and sources, we can use `compare_` family of functions.
+If we want a more detailed summary of the various levels of data 
+and sources, we can use the `compare_` family of functions.
 
 The `compare_data()` function returns a tibble with the key metadata 
-of each level of data objects (many package, database, and dataset).
+of each dataset within the specified database of a many package.
 
 ```{r compare data}
 compare_data(emperors)
 ```
 
-The `compare_overlap()` function returns a tibble with dataset overlaps within the database.
+The `compare_overlap()` function returns a tibble with the number of overlapping observations for a specified variable (specify using the `key` argument) across datasets within the database.
 This can also be visualized with the `plot_overlap()` function.
 
 ```{r overlap}
@@ -131,7 +134,7 @@ compare_overlap(emperors, key = "ID")
 plot_overlap(emperors, key = "ID")
 ```
 
-The `compare_missing()` function returns a tibble with missing observations in datasets within database.
+The `compare_missing()` function returns a tibble with the number and percentage of missing observations in datasets within database.
 This can also be visualized with the `plot_missing()` function.
 
 ```{r missing}
@@ -139,7 +142,15 @@ compare_missing(emperors)
 plot_missing(emperors)
 ```
 
-Finally, both the `compare_categories()` and the `plot_categories()` functions help researchers identify how datasets in database relate to one another.
+Finally, both the `compare_categories()` and the `plot_categories()` functions help researchers identify how variables across datasets within a database relate to one another.
+Observations are matched by an "ID" variable to facilitate comparison.
+The categories here include 'confirmed', 'majority', 'unique', 'missing', and 'conflict'.
+Observations are 'confirmed' if all non-NA values are the same across all datasets,
+and 'majority' if the non-NA values are the same across most datasets.
+'Unique' observations are present in only one dataset and
+'missing' observations indicate there are no non-NA values across all datasets for that variable.
+Observations are in 'conflict' if datasets have different non-NA values.
+
 
 ```{r categories}
 compare_categories(emperors, key = "ID")
@@ -157,7 +168,7 @@ would differ depending on which dataset we use.
 We can use the `purrr::map()` function used above, but this time pass it the `mean()` function
 and tell it to operate on just the "Beg" variable, which represents 
 when emperors began their reign (removing any NAs).
-Since manydata datasets are always ordered by "Beg" (and then "ID"),
+Since manydata datasets are always ordered by "Begin" (and then "ID"),
 we can remove any subsequent (duplicated) entries by ID to concentrate on first appearances.
 
 ```{r compare, message=FALSE, warning=FALSE}
