@@ -26,6 +26,7 @@ test_that("compare_categories() returns the correct output format", {
   expect_equal(nrow(db), nrow(db1))
   expect_named(db1, c("ID", "wikipedia$Beg", "UNRV$Beg",
                       "britannica$Beg", "Beg (3)"))
+  expect_true(db2[1,5] == db2[10,5])
 })
 
 test_that("compare_data() returns the correct output format", {

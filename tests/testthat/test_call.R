@@ -26,7 +26,7 @@ mlist <- dplyr::tibble(manyID = c("GD16FI_1901A", "ROU-RUS[RFP]_1901A"),
                         Memberships = c("DNK", "ROU, RUS"))
 manyid <- dplyr::tibble(manyID = c("ROU-RUS[RFP]_1901A", "GD16FI_1901A"))
 
-test_that("retrieve functions work", {
+test_that("call treaties works", {
   expect_equal(call_treaties(membs), manyid)
   expect_equal(call_treaties(membs, treaty_type = "bilateral",
                              variable = c("Title", "Beg")), bilats)
@@ -34,3 +34,4 @@ test_that("retrieve functions work", {
                              variable = c("Title", "Beg")), multi)
   expect_equal(call_treaties(membs, actor = "StateID"), mlist)
 })
+
