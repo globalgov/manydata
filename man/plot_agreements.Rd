@@ -29,8 +29,7 @@ map_plot(
 }
 \arguments{
 \item{dataset}{A dataset from one of the many packages
-or a "consolidated" database.
-Other options are "bilateral" or "multilateral".}
+or a "consolidated" database.}
 
 \item{treaty_type}{The type of treaties to be returned.
 NULL, by default.

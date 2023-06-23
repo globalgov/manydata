@@ -3,7 +3,6 @@
 #' @description Facilitates plotting of 'many' data.
 #' @param dataset A dataset from one of the many packages
 #' or a "consolidated" database.
-#' Other options are "bilateral" or "multilateral".
 #' @param actor An actor variable.
 #' "StateID", by default.
 #' @param treaty_type The type of treaties to be returned.
