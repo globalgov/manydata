@@ -19,7 +19,7 @@ Practices](https://bestpractices.coreinfrastructure.org/projects/4562/badge)](ht
 <!-- ![GitHub All Releases](https://img.shields.io/github/downloads/jhollway/roctopus/total) -->
 <!-- badges: end -->
 
-`{manydata}` is a portal to other ‘many packages’ that help researchers
+`{manydata}` is a portal to other ‘many packages’ that helps researchers
 download and manipulate related data across various issue-domains of
 global governance, and beyond.
 
@@ -80,7 +80,7 @@ visualize the relationship between matched observations across datasets
 within a database for a ‘many’ package database.
 
 ``` r
-db_plot(database = emperors, key = "ID", variable = "all", category = "all")
+plot_categories(database = emperors, key = "ID", variable = "all", category = "all")
 ```
 
     #> There were 116 matched observations by ID variable across datasets in database.
