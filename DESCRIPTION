@@ -1,7 +1,7 @@
 Package: manydata
 Title: A Portal for Global Governance Data
-Version: 0.8.3
-Date: 2023-06-15
+Version: 0.9.0
+Date: 2023-06-26
 Authors@R:
     c(person(given = "James",
              family = "Hollway",
@@ -43,7 +43,6 @@ Imports:
     remotes,
     httr,
     ggplot2 (>= 3.4.0),
-    janitor,
     manynet,
     tidyr,
     plyr,
