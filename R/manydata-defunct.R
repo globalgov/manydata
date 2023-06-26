@@ -21,7 +21,7 @@ coalesce_compatible <- function(.data) {
 #' @describeIn defunct Removed on 2023-06-15.
 #' @export
 network_map <- function(.data) {
-  .Defunct("manynet::autographr()", package = "manydata")
+  .Defunct("manydata::map_plot()", package = "manydata")
   network_map(.data)
 }
 
