@@ -26,7 +26,7 @@
 #' For multiple variables, please declare variable names as a vector.
 #' @param actor An actor variable in dataset.
 #' NULL by default.
-#' If declared, a tibble of the traties and their member actors is returned.
+#' If declared, a tibble of the treaties and their member actors is returned.
 #' @param open_script Would you like to open the preparation script
 #' for the dataset?
 #' By default false.
@@ -50,11 +50,11 @@
 #' And Northern Ireland For Regulating The Fisheries
 #' Of Their Respective Subjects Outside
 #' Territorial Waters In The Ocean Surrounding The Faroe Islands"),
-#' Beg = c("1901-02-22", "1901-02-22", "1901-06-24"))
+#' Begin = c("1901-02-22", "1901-02-22", "1901-06-24"))
 #' call_treaties(membs)
 #' call_treaties(membs, treaty_type = "bilaterals",
-#' variable = c("Title", "Beg"))
-#' call_treaties(membs, variable = c("Title", "Beg"), actor = "StateID")
+#' variable = c("Title", "Begin"))
+#' call_treaties(membs, variable = c("Title", "Begin"), actor = "StateID")
 #' }
 #' @return
 #' The `call_` functions return tibbles with the respective information.
