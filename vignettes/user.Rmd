@@ -1,6 +1,6 @@
 ---
 title: "Working with manydata"
-author: "James Hollway and Henrique Sposito"
+author: "James Hollway, Henrique Sposito, and Jael Tan"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -17,11 +17,10 @@ library(manydata)
 
 The first thing users of the package will want to do is to identify
 datasets that might contribute to their research goals. 
-Since some of these data packages are too big for CRAN, 
-we expect that their developers will instead choose
+We expect that their developers will choose
 to make their packages available on GitHub.
-To make it easier to identify all packages in the
-many packages universe, we have developed the `call_packages()` function.
+To make it easier to identify many packages,
+we have developed the `call_packages()` function.
 The function lists the many packages available and allow users to download them.
 
 Let us say that we wish to download the `{manystates}` package,
@@ -54,8 +53,8 @@ the `agreements` and `memberships` databases have standardised date variables
 signature, entry into force, and end dates of treaties respectively.
 The beginning date is derived from the signature or entry into force date,
 whichever is the earliest available date for the treaty.
-These specific variable name allows the comparison of information across datasets
-that have different sources.
+These specific variable name allows the comparison of information across 
+datasets that have different sources.
 It enables users to point out the recurrence, 
 difference or absence of observations between the datasets and
 extract more robust data when researching on a particular governance domain. 
