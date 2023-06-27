@@ -8,15 +8,16 @@
 #' @param treaty_type The type of treaties to be returned.
 #' NULL, by default.
 #' Other options are "bilateral" or "multilateral".
+#' @param key An ID column to collapse by.
+#' By default "manyID".
+#' @param layout How do you want the plot to look like?
+#' An `{ggraph}` layout algorithm.
+#' If not declared, reasonable defaults are used.
 #' @name plot_agreements
 NULL
 
 #' @rdname plot_agreements
-#' @param layout How do you want the plot to look like?
-#' An igraph layout algorithm, some options are 'concentric',
-#' 'stress', 'bipartite', and 'alluvial'.
-#' For more information please check ´?manynet::autographr´.
-#' @importFrom dplyr %>% select mutate distinct
+#' @importFrom dplyr %>% select mutate distinct rename
 #' @importFrom manynet as_igraph autographr
 #' @return A network of agreements' relations.
 #' @examples
@@ -26,99 +27,111 @@ NULL
 #' #agreements_plot(agreements)
 #'}
 #' @export
-agreements_plot <- function(dataset, treaty_type = NULL,
+agreements_plot <- function(dataset, treaty_type = NULL, key = "manyID",
                             layout = "circle") {
-  if (!requireNamespace("igraph", quietly = TRUE)) {
-    if(utils::askYesNo(msg = "The `igraph` package is required.
-                       Would you like to install `igraph` from CRAN?")) {
-      utils::install.packages('igraph')
-    } else {
-      stop("Please install `igraph` from CRAN to work with network data.")
-    }
-  }
-  manyID <- NULL
-  out <- dplyr::select(dataset, manyID)
+  manyID <- treatyID <- name <- NULL
+  if (key == "manyID") {
+    out <- dplyr::select(dataset, manyID) %>%
+      dplyr::rename(key = manyID) %>%
+      dplyr::distinct()
+  } else if (key == "treatyID") {
+    out <- dplyr::select(dataset, treatyID) %>%
+      dplyr::rename(key == treatyID) %>%
+      dplyr::distinct()
+  } else stop("Please declare either 'manyID' or 'treatyID'.")
   if (!is.null(treaty_type)) {
     if (treaty_type == "bilateral") {
-      out <- grep("-", out, value = TRUE)
+      out <- out[grep("-", out$key),]
     }
     if (treaty_type == "multilateral") {
-      out <- grep("-", out, value = TRUE, invert = TRUE)
+      out <- out[grep("-", out$key, invert = TRUE),]
     }
   }
-  dplyr::mutate(out, link = ifelse(grepl(":", manyID),
-                                   sapply(strsplit(manyID, ":"),
-                                          "[", 2 ), NA),
-                manyID = gsub("\\:.*", "", manyID)) %>%
-    dplyr::distinct() %>%
-    manynet::as_igraph() %>%
-    igraph::delete.vertices("NA") %>% # How to delete vertices without igraph?
+  dplyr::mutate(out,
+                link = ifelse(grepl(":", key), sapply(strsplit(key, ":"),
+                                                      "[", 2), "NA"),
+                key = gsub("\\:.*", "", key)) %>%
+    manynet::as_tidygraph() %>%
+    dplyr::filter(name != "NA") %>%
     manynet::autographr(layout = layout)
 }
 
 #' @rdname plot_agreements
-#' @param layout How do you want the plot to look like?
-#' An igraph layout algorithm, currently defaults to 'concentric'.
-#' Some other options are 'stress', 'bipartite', and 'alluvial'.
-#' For more information please check ´?manynet::autographr´.
-#' @importFrom dplyr %>% select distinct all_of
+#' @importFrom dplyr %>% select distinct all_of rename
 #' @importFrom manynet as_igraph autographr
 #' @return A network of agreements' memberships.
 #' @examples
 #' \donttest{
 #' #memberships <- dplyr::filter(manyenviron::memberships$ECOLEX_MEM,
-#' #Beg > "2000-01-01" & Beg < "2000-06-12")
+#' #Beg > "2000-01-01" & Beg < "2000-01-31")
 #' #membership_plot(memberships)
 #'}
 #' @export
 membership_plot <- function(dataset, actor = "stateID", treaty_type = NULL,
-                            layout = "circle") {
-  manyID <- NULL
-  out <- dplyr::select(dataset, manyID, dplyr::all_of(actor))
+                            key = "manyID", layout = "bipartite") {
+  manyID <- treatyID <- name <- NULL
+  if (key == "manyID") {
+    out <- dplyr::select(dataset, manyID, dplyr::all_of(actor)) %>%
+      dplyr::rename(key = manyID) %>%
+      dplyr::distinct()
+  } else if (key == "treatyID") {
+    out <- dplyr::select(dataset, treatyID, dplyr::all_of(actor)) %>%
+      dplyr::rename(key == treatyID) %>%
+      dplyr::distinct()
+  } else stop("Please declare either 'manyID' or 'treatyID'.")
   if (!is.null(treaty_type)) {
     if (treaty_type == "bilateral") {
-      out <- grep("-", out, value = TRUE)
+      out <- out[grep("-", out$key),]
     }
     if (treaty_type == "multilateral") {
-      out <- grep("-", out, value = TRUE, invert = TRUE)
+      out <- out[grep("-", out$key, invert = TRUE),]
     }
   }
-  dplyr::distinct(out) %>%
-    manynet::as_igraph() %>%
+  na.omit(out) %>%
+    manynet::as_tidygraph() %>%
+    manynet::mutate(type = ifelse(grepl("[0-9][0-9][0-9][0-9][A-Za-z]",
+                                        name), TRUE, FALSE)) %>%
     manynet::autographr(layout = layout)
 }
 
 #' @rdname plot_agreements
 #' @importFrom manynet autographr
-#' @importFrom dplyr %>% select mutate distinct filter
+#' @importFrom dplyr %>% select mutate distinct filter rename
 #' @return A plot of agreements' lineages.
 #' @examples
 #' \donttest{
-#' #dataset <- dplyr::filter(manyenviron::agreements$HUGGO, Beg > "2000-01-01",
-#' #Beg < "2010-12-31")
-#' #lineage_plot(dataset)
+#' #lineage <- dplyr::filter(manyenviron::agreements$HUGGO, Beg > "2000-01-01",
+#' #Beg < "2001-12-31")
+#' #lineage_plot(lineage)
 #' }
 #' @export
-lineage_plot <- function(dataset, treaty_type = NULL) {
-  manyID <- NULL
-  out <- dplyr::select(dataset, manyID)
+lineage_plot <- function(dataset, treaty_type = NULL, key = "manyID",
+                         layout = "nicely") {
+  manyID <- treatyID <- name <- NULL
+  if (key == "manyID") {
+    out <- dplyr::select(dataset, manyID) %>%
+      dplyr::rename(key = manyID) %>%
+      dplyr::distinct()
+  } else if (key == "treatyID") {
+    out <- dplyr::select(dataset, treatyID) %>%
+      dplyr::rename(key == treatyID) %>%
+      dplyr::distinct()
+  } else stop("Please declare either 'manyID' or 'treatyID'.")
   if (!is.null(treaty_type)) {
     if (treaty_type == "bilateral") {
-      out <- grep("-", out, value = TRUE)
+      out <- out[grep("-", out$key),]
     }
     if (treaty_type == "multilateral") {
-      out <- grep("-", out, value = TRUE, invert = TRUE)
+      out <- out[grep("-", out$key, invert = TRUE),]
     }
   }
   out %>%
-    dplyr::filter(grepl(":", manyID)) %>%
-    dplyr::mutate(link = ifelse(grepl(":", manyID),
-                                   sapply(strsplit(manyID, ":"),
-                                          "[", 2 ), NA),
-                  manyID = gsub("\\:.*", "", manyID)) %>%
+    dplyr::filter(grepl(":", key)) %>%
+    dplyr::mutate(key1 = gsub(".*\\:", "", key),
+                  key = gsub("\\:.*", "", key)) %>%
     dplyr::distinct() %>%
     manynet::as_tidygraph() %>%
-    manynet::autographr()
+    manynet::autographr(layout = "nicely")
 } 
 
 #' @rdname plot_agreements
@@ -129,8 +142,8 @@ lineage_plot <- function(dataset, treaty_type = NULL) {
 #' @param theme Theme you would like to use to plot the graph.
 #' bey defalt, "light".
 #' Available themes are "light", "dark", and "earth".
-#' @details Creates a plot of the a unimodal geographical network at a
-#' single point in time.
+#' @details `map_plot()` creates a plot of the a unimodal geographical network 
+#' at a single point in time.
 #' @importFrom manynet is_graph is_multiplex as_edgelist as_tidygraph node_names
 #' @importFrom dplyr mutate inner_join rename filter
 #' @return A map of a country level geographical network.

@@ -8,16 +8,17 @@
 \alias{map_plot}
 \title{Plot agreements network}
 \usage{
-agreements_plot(dataset, treaty_type = NULL, layout = "circle")
+agreements_plot(dataset, treaty_type = NULL, key = "manyID", layout = "circle")
 
 membership_plot(
   dataset,
   actor = "stateID",
   treaty_type = NULL,
-  layout = "circle"
+  key = "manyID",
+  layout = "bipartite"
 )
 
-lineage_plot(dataset, treaty_type = NULL)
+lineage_plot(dataset, treaty_type = NULL, key = "manyID", layout = "nicely")
 
 map_plot(
   dataset,
@@ -35,10 +36,12 @@ or a "consolidated" database.}
 NULL, by default.
 Other options are "bilateral" or "multilateral".}
 
+\item{key}{An ID column to collapse by.
+By default "manyID".}
+
 \item{layout}{How do you want the plot to look like?
-An igraph layout algorithm, currently defaults to 'concentric'.
-Some other options are 'stress', 'bipartite', and 'alluvial'.
-For more information please check ´?manynet::autographr´.}
+An \code{{ggraph}} layout algorithm.
+If not declared, reasonable defaults are used.}
 
 \item{actor}{An actor variable.
 "StateID", by default.}
@@ -65,8 +68,8 @@ A map of a country level geographical network.
 Facilitates plotting of 'many' data.
 }
 \details{
-Creates a plot of the a unimodal geographical network at a
-single point in time.
+\code{map_plot()} creates a plot of the a unimodal geographical network
+at a single point in time.
 }
 \examples{
 \donttest{
@@ -76,13 +79,13 @@ single point in time.
 }
 \donttest{
 #memberships <- dplyr::filter(manyenviron::memberships$ECOLEX_MEM,
-#Beg > "2000-01-01" & Beg < "2000-06-12")
+#Beg > "2000-01-01" & Beg < "2000-01-31")
 #membership_plot(memberships)
 }
 \donttest{
-#dataset <- dplyr::filter(manyenviron::agreements$HUGGO, Beg > "2000-01-01",
-#Beg < "2010-12-31")
-#lineage_plot(dataset)
+#lineage <- dplyr::filter(manyenviron::agreements$HUGGO, Beg > "2000-01-01",
+#Beg < "2001-12-31")
+#lineage_plot(lineage)
 }
 \donttest{
 #memberships <- dplyr::filter(manyenviron::memberships$ECOLEX_MEM,
