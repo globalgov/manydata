@@ -19,33 +19,30 @@ Practices](https://bestpractices.coreinfrastructure.org/projects/4562/badge)](ht
 <!-- ![GitHub All Releases](https://img.shields.io/github/downloads/jhollway/roctopus/total) -->
 <!-- badges: end -->
 
-`{manydata}` is a portal to other ‘many packages’ that helps researchers
-download and manipulate related data across various issue-domains of
-global governance, and beyond.
+`{manydata}` is a portal to many packages containing many databases
+(each containing many related datasets) on many issue-domains, actors
+and institutions of global governance. This package contains tools for:
 
-## Why manydata?
+- *calling* data packages and databases,
+- *comparing* individual datasets, and
+- *consolidating* databases in different ways.
 
-- {manydata} offers users convenient access to various ‘many packages’
-  that gather well-regarded global governance datasets
+We intend for `{manydata}` to be useful:
 
-- {manydata} helps users to easily compare databases (i.e. collections
-  of related datasets)
+- at the **start** of a research project, to access and gather recent
+  versions of well-regarded datasets, see what is available, describe,
+  and explore the data,
+- in the **middle** of a project, to facilitate analysis, comparison and
+  modelling, and
+- at the **end** of the project, to help with conducting robustness
+  checks, preparing replication scripts, and writing the next grant
+  application.
 
-- {manydata} allows users to rapidly consolidate databases and datasets
-  in different ways to check the robustness of their results
+## Call ‘many’ packages
 
-`{manydata}` contains several functions to help global governance
-researchers. For a quick overview, please also check the package cheat
-sheet.
-
-<a href="https://github.com/globalgov/manydata/blob/develop/man/figures/cheatsheet.pdf"><img src="https://raw.githubusercontent.com/globalgov/manydata/develop/man/figures/cheatsheet.png" width="525" height="378"/></a>
-
-For more details, please see the
-[vignette](https://globalgov.github.io/manydata/articles/user.html).
-
-## Downloading and installing manydata
-
-The easiest way to install `{manydata}` is directly from CRAN.
+`{manydata}` connects users to other packages that help fill global
+governance researchers’ data needs. The easiest way to install
+`{manydata}` is directly from CRAN.
 
 ``` r
 install.packages("manydata")
@@ -59,21 +56,20 @@ downloaded from GitHub.
 remotes::install_github("globalgov/manydata")
 ```
 
-## Call ‘many’ packages
-
-`{manydata}` connects users to other packages that help fill global
-governance researchers’ data needs. The `get_packages()` function can be
-used to discover the ‘many packages’ currently available.
+Once installed, the `call_packages()` function can be used to discover
+the ‘many packages’ currently available and/or download or update these
+packages when needed.
 
 ``` r
 library(manydata)
-get_packages()
+call_packages() # lists all packages currently available
+call_packages("manytrade") # downloads and installs this package
 ```
 
-Please see [the website](https://globalgov.github.io/manydata/) for more
-information about how to use `{manydata}`.
+`call_sources()` obtains information about the sources and original
+locations of the desired datasets.
 
-## Comparing ‘many’ data
+## Comparing ‘many’ datasets
 
 Once ‘many’ data packages are downloaded, `{manydata}` helps users
 visualize the relationship between matched observations across datasets
@@ -87,12 +83,14 @@ plot_categories(database = emperors, key = "ID", variable = "all", category = "a
 
 <img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
 
-## Consolidating ‘many’ data
+## Consolidating ‘many’ databases
 
-`{manydata}` also contains flexible methods for consolidating ‘many’
-package database into a single dataset with some combination of the
-rows, columns, as well as for how to resolve conflicts for observations
-across datasets.
+`{manydata}` also contains flexible methods for consolidating the
+different datasets in a database into a single dataset. For example, you
+could have the rows (observations) from one dataset, but add on some
+columns (variables) from another dataset. Where there are conflicts in
+the values across the different datasets, there are several ways that
+these may be resolved.
 
 ``` r
 consolidate(database = emperors, rows = "every", cols = "every",
@@ -115,6 +113,12 @@ consolidate(database = emperors, rows = "every", cols = "every",
     #>  9 Commodus       0177        0192-12-31 
     #> 10 Constantine II 0337-05-22  0340-01-01 
     #> # ℹ 31 more rows
+
+For more on `{manydata}`, please see the [user
+vignette](https://globalgov.github.io/manydata/articles/user.html) on
+our website or check out the package cheat sheet:
+
+<a href="https://github.com/globalgov/manydata/blob/develop/man/figures/cheatsheet.pdf"><img src="https://raw.githubusercontent.com/globalgov/manydata/develop/man/figures/cheatsheet.png" width="525" height="378"/></a>
 
 ## Contributing to the many packages universe
 
