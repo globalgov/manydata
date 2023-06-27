@@ -19,6 +19,8 @@
 * Closed #268 by adding `compare_overlap()` and `plot_overlap()` to help users investigate overlap for datasets within databases
 * Closed #269 by adding a `call_sources()` function that displays sources and variable changes for datasets in databases 
 * Closed #271 by renaming and updating the `retrieve_` family of functions to `call_` functions
+* Closed #276 by reviewing package tests and vignettes
+* Closed #277 by updating 'manydata-defunct' file
 
 # manydata 0.8.3
 
