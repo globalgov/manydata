@@ -39,7 +39,7 @@
 #' (e.g. `resolve = c(var1 = "min", var2 = "max")`).
 #' In this case, only the variables named will be resolved and returned.
 #' @param key An ID column to collapse by.
-#' By default "many_ID".
+#' By default "manyID".
 #' Users can also specify multiple key variables in a list.
 #' For multiple key variables, the key variables must be present in
 #' all the datasets in the database (e.g. `key = c("key1", "key2")`).
