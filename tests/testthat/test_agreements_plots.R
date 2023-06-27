@@ -1,5 +1,4 @@
 # Test plot functions
-
 test_that("agreements_plot() returns the correct output format", {
   agreements <- data.frame(manyID = c("GEO-GRC[IEO]_2000P1", "GRC-TUR[HEP]_2000S",
                                       "KAZ-KGZ[RCT]_2000A", "BGR-URY[ORA]_2000A",
@@ -61,6 +60,5 @@ test_that("membership_plot() returns the correct output format", {
   expect_true(ggplot2::is.ggplot(p))
   expect_named(p, c("data", "layers", "scales", "mapping", "theme",
                     "coordinates", "facet", "plot_env", "labels"))
-  expect_true(p[["plot_env"]][["layout"]] == "circle")
+  expect_true(p[["plot_env"]][["layout"]] == "bipartite")
 })
-
