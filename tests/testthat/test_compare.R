@@ -1,7 +1,7 @@
 # Test for compare_ family of functions
 
-test_that("plot_categories() returns the correct output format", {
-  db <- plot_categories(database = emperors, key = "ID")
+test_that("plot for compare_categories returns the correct output format", {
+  db <- plot(compare_categories(database = emperors, key = "ID"))
   expect_type(db, "list")
   expect_length(db, 9)
   expect_true(ggplot2::is.ggplot(db))
@@ -41,7 +41,7 @@ test_that("compare_overlap() and plot_overlap() returns the correct output forma
   expect_type(db, "list")
   expect_length(db, 2)
   expect_s3_class(db, "tbl_df")
-  pl <- plot_overlap(emperors, key = "ID")
+  pl <- plot(db)
   expect_type(pl, "list")
   expect_length(pl, 9)
   expect_true(ggplot2::is.ggplot(pl))
@@ -54,7 +54,7 @@ test_that("compare_missing() and plot_missing() returns the correct output forma
   expect_type(db, "list")
   expect_length(db, 6)
   expect_s3_class(db, "tbl_df")
-  pl <- plot_missing(emperors)
+  pl <- plot(db)
   expect_type(pl, "list")
   expect_length(pl, 9)
   expect_true(ggplot2::is.ggplot(pl))
