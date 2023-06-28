@@ -13,10 +13,10 @@
 #' @param layout How do you want the plot to look like?
 #' An `{ggraph}` layout algorithm.
 #' If not declared, reasonable defaults are used.
-#' @name plot_agreements
+#' @name plot_
 NULL
 
-#' @rdname plot_agreements
+#' @rdname plot_
 #' @importFrom dplyr %>% select mutate distinct rename
 #' @importFrom manynet as_igraph autographr
 #' @return A network of agreements' relations.
@@ -24,10 +24,10 @@ NULL
 #' \donttest{
 #' #agreements <- dplyr::filter(manyenviron::agreements$ECOLEX,
 #' #Beg > "2000-01-01" & Beg < "2000-12-12")
-#' #agreements_plot(agreements)
+#' #plot_agreements(agreements)
 #'}
 #' @export
-agreements_plot <- function(dataset, treaty_type = NULL, key = "manyID",
+plot_agreements <- function(dataset, treaty_type = NULL, key = "manyID",
                             layout = "circle") {
   manyID <- treatyID <- name <- NULL
   if (key == "manyID") {
@@ -56,7 +56,7 @@ agreements_plot <- function(dataset, treaty_type = NULL, key = "manyID",
     manynet::autographr(layout = layout)
 }
 
-#' @rdname plot_agreements
+#' @rdname plot_
 #' @importFrom dplyr %>% select distinct all_of rename
 #' @importFrom manynet as_igraph autographr
 #' @return A network of agreements' memberships.
@@ -64,10 +64,10 @@ agreements_plot <- function(dataset, treaty_type = NULL, key = "manyID",
 #' \donttest{
 #' #memberships <- dplyr::filter(manyenviron::memberships$ECOLEX_MEM,
 #' #Beg > "2000-01-01" & Beg < "2000-01-31")
-#' #membership_plot(memberships)
+#' #plot_memberships(memberships)
 #'}
 #' @export
-membership_plot <- function(dataset, actor = "stateID", treaty_type = NULL,
+plot_memberships <- function(dataset, actor = "stateID", treaty_type = NULL,
                             key = "manyID", layout = "bipartite") {
   manyID <- treatyID <- name <- NULL
   if (key == "manyID") {
@@ -94,7 +94,7 @@ membership_plot <- function(dataset, actor = "stateID", treaty_type = NULL,
     manynet::autographr(layout = layout)
 }
 
-#' @rdname plot_agreements
+#' @rdname plot_
 #' @importFrom manynet autographr
 #' @importFrom dplyr %>% select mutate distinct filter rename
 #' @return A plot of agreements' lineages.
@@ -102,10 +102,10 @@ membership_plot <- function(dataset, actor = "stateID", treaty_type = NULL,
 #' \donttest{
 #' #lineage <- dplyr::filter(manyenviron::agreements$HUGGO, Beg > "2000-01-01",
 #' #Beg < "2001-12-31")
-#' #lineage_plot(lineage)
+#' #plot_lineage(lineage)
 #' }
 #' @export
-lineage_plot <- function(dataset, treaty_type = NULL, key = "manyID",
+plot_lineage <- function(dataset, treaty_type = NULL, key = "manyID",
                          layout = "nicely") {
   manyID <- treatyID <- name <- NULL
   if (key == "manyID") {
@@ -134,7 +134,7 @@ lineage_plot <- function(dataset, treaty_type = NULL, key = "manyID",
     manynet::autographr(layout = "nicely")
 } 
 
-#' @rdname plot_agreements
+#' @rdname plot_
 #' @param date String date from the network snapshot.
 #' Used by \code{{cshapes}} to plot the correct map.
 #' By default, 2019-12-31.
@@ -142,7 +142,7 @@ lineage_plot <- function(dataset, treaty_type = NULL, key = "manyID",
 #' @param theme Theme you would like to use to plot the graph.
 #' bey defalt, "light".
 #' Available themes are "light", "dark", and "earth".
-#' @details `map_plot()` creates a plot of the a unimodal geographical network 
+#' @details `plot_map()` creates a plot of the a unimodal geographical network 
 #' at a single point in time.
 #' @importFrom manynet is_graph is_multiplex as_edgelist as_tidygraph node_names
 #' @importFrom dplyr mutate inner_join rename filter
@@ -151,12 +151,12 @@ lineage_plot <- function(dataset, treaty_type = NULL, key = "manyID",
 #' \donttest{
 #' #memberships <- dplyr::filter(manyenviron::memberships$ECOLEX_MEM,
 #' #Beg > "2000-01-01" & Beg < "2000-12-12")
-#' #map_plot(memberships, actor = "stateID") +
+#' #plot_map(memberships, actor = "stateID") +
 #' #ggplot2::labs(title = "Bilateral International Environmental Treaties Signed in the year 2000",
 #' #subtitle = "Ecolex data")
 #'}
 #' @export
-map_plot <- function(dataset, actor = "StateID", treaty_type = NULL,
+plot_map <- function(dataset, actor = "StateID", treaty_type = NULL,
                      date = "2019-12-31", theme = "light") {
   # check packages
   if (!requireNamespace("cshapes", quietly = TRUE)) {
