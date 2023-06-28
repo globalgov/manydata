@@ -29,18 +29,6 @@ This package contains tools for:
 - _comparing_ individual datasets, and
 - _consolidating_ databases in different ways.
 
-We intend for `{manydata}` to be useful: 
-
-- at the **start** of a research project, 
-to access and gather recent versions of well-regarded datasets, 
-see what is available, describe, and explore the data, 
-- in the **middle** of a project, 
-to facilitate analysis, comparison and modelling, and
-- at the **end** of the project, 
-to help with conducting robustness checks, preparing replication scripts, and writing the next grant application.
-
-## Call 'many' packages
-
 `{manydata}` connects users to other packages that help fill global governance researchers' data needs.
 The easiest way to install `{manydata}` is directly from CRAN.
 
@@ -55,12 +43,30 @@ The development version of the package `{manydata}` can also be downloaded from 
 remotes::install_github("globalgov/manydata")
 ```
 
-Once installed, the `call_packages()` function can be used to discover the 'many packages' currently available
-and/or download or update these packages when needed.
-
 ```{r, include=FALSE, message=FALSE, warning=FALSE}
 library(manydata)
 ```
+
+We intend for `{manydata}` to be useful: 
+
+- at the **start** of a research project, 
+to access and gather recent versions of well-regarded datasets, 
+see what is available, describe, and explore the data, 
+- in the **middle** of a project, 
+to facilitate analysis, comparison and modelling, and
+- at the **end** of the project, 
+to help with conducting robustness checks, preparing replication scripts, and writing the next grant application.
+
+Please see the vignette below for a quick overview:
+
+<a href="https://github.com/globalgov/manydata/blob/develop/man/figures/cheatsheet.pdf"><img src="https://raw.githubusercontent.com/globalgov/manydata/develop/man/figures/cheatsheet.png" width="525" height="378"/></a>
+
+## Call 'many' packages
+
+Once `{manydata}` is installed,
+the `call_` functions can be used to discover the
+'many packages' currently available and/or download or update these
+packages when needed. For this, the `call_packages()` can be used.
 
 ```{r get, eval=FALSE}
 library(manydata)
@@ -68,35 +74,138 @@ call_packages() # lists all packages currently available
 call_packages("manytrade") # downloads and installs this package
 ```
 
-`call_sources()` obtains information about the sources and original locations of the desired datasets.
+The `call_sources()` function obtains information about the sources and original locations of the desired datasets.
+
+```{r source}
+call_sources(package = "manydata", database = "emperors")
+```
 
 ## Comparing 'many' datasets
 
-Once 'many' data packages are downloaded, `{manydata}` helps users visualize the
-relationship between matched observations across datasets within a database  for a 'many' package database.
+Packages in the many packages universe have the advantage to facilitate comparison and analysis of multiple datasets in a specific domain of global governance.
 
-```{r, message=FALSE, warning=FALSE}
-plot_categories(database = emperors, key = "ID", variable = "all", category = "all")
+For now, let's work with the Roman Emperors database included in manydata. 
+We can get a quick summary of the datasets included in this
+package with the following command:
+
+```{r load}
+data(package = "manydata")
+data(emperors, package = "manydata")
+emperors
+```
+
+We can see that there are three named datasets relating to emperors here:
+`wikipedia` (dataset assembled from Wikipedia pages), `UNVR` (United Nations of Roman Vitrix),
+and `britannica` (Britannica Encyclopedia List of Roman Emperors).
+Each of these datasets has their advantages and so we may wish
+to understand their differences,
+summarise variables across them, and perhaps also rerun models across them.
+
+To retrieve an individual dataset from this database,
+we can use the `pluck()` function.
+
+```{r pluck}
+wikipedia <- pluck(emperors, "wikipedia")
+```
+
+However, the real value of the various 'many packages' is that multiple datasets
+relating to the same phenomenon are presented together.
+
+The `compare_` functions in `{manydata}` allows users to quickly compare
+different information on databases and/or datasets across 'many packages'.
+These include comparison for data summaries, missing observations, overlap, and categories.
+
+The `compare_data()` function returns a tibble with the key metadata 
+of each dataset within the specified database of a many package.
+
+```{r compare data}
+compare_data(emperors)
+```
+
+The `compare_overlap()` function returns a tibble with the number of overlapping observations for a specified variable (specify using the `key` argument) across datasets within the database.
+Most of the `compare_` functions are usually accompanied by an appropriate plotting method that allows users to visualize the comparisons.
+
+```{r overlap}
+compare_overlap(emperors, key = "ID")
+plot(compare_overlap(emperors, key = "ID"))
+```
+
+The `compare_missing()` function returns a tibble with the number and percentage of missing observations in datasets within database.
+
+```{r missing}
+compare_missing(emperors)
+plot(compare_missing(emperors))
+```
+
+Finally, the `compare_categories()` function help researchers identify how variables across datasets within a database relate to one another.
+Observations are matched by an "ID" variable to facilitate comparison.
+The categories here include 'confirmed', 'majority', 'unique', 'missing', and 'conflict'.
+Observations are 'confirmed' if all non-NA values are the same across all datasets,
+and 'majority' if the non-NA values are the same across most datasets.
+'Unique' observations are present in only one dataset and
+'missing' observations indicate there are no non-NA values across all datasets for that variable.
+Observations are in 'conflict' if datasets have different non-NA values.
+
+```{r categories}
+compare_categories(emperors, key = "ID")
+plot(compare_categories(emperors, key = "ID"))
 ```
 
 ## Consolidating 'many' databases
 
-`{manydata}` also contains flexible methods for consolidating the different datasets in a database
-into a single dataset.
+`{manydata}` also contains flexible methods for consolidating the different datasets in a database into a single dataset.
 For example, you could have the rows (observations) from one dataset, but add on some columns (variables) from another dataset.
 Where there are conflicts in the values across the different datasets,
 there are several ways that these may be resolved.
 
-```{r, message=FALSE, warning=FALSE}
+The `consolidate()` function facilitates consolidating a set of datasets, or a database,
+from a 'many' package into a single dataset with some combination of the rows and columns.
+The function includes separate arguments for rows and columns,
+as well as for how to resolve conflicts in observations across datasets.
+The key argument indicates the column to collapse datasets by.
+This provides users with considerable flexibility in how they combine data.
+
+For example, users may wish to see units and variables coded in "any" dataset
+(i.e. units or variables present in at least one of the datasets in the 
+database) or units and variables coded in "every" dataset (i.e. units or
+variables present in all of the datasets in the database).
+
+```{r consolidate}
+consolidate(database = emperors, rows = "any", cols = "any",
+            resolve = "coalesce", key = "ID")
 consolidate(database = emperors, rows = "every", cols = "every",
             resolve = "coalesce", key = "ID")
 ```
 
-For more on `{manydata}`, 
-please see the [user vignette](https://globalgov.github.io/manydata/articles/user.html) on our website 
-or check out the package cheat sheet:
+Users can also choose how they want to resolve conflicts between observations in
+`consolidate()` with several 'resolve' methods:
 
-<a href="https://github.com/globalgov/manydata/blob/develop/man/figures/cheatsheet.pdf"><img src="https://raw.githubusercontent.com/globalgov/manydata/develop/man/figures/cheatsheet.png" width="525" height="378"/></a>
+* coalesce: the first non-NA value 
+* max: the largest value
+* min: the smallest value
+* mean: the average value
+* median: the median value
+* random: a random value
+
+```{r resolve}
+consolidate(database = emperors, rows = "any", cols = "every", resolve = "max", key = "ID")
+consolidate(database = emperors, rows = "every", cols = "any", resolve = "min", key = "ID")
+consolidate(database = emperors, rows = "every", cols = "every", resolve = "mean", key = "ID")
+consolidate(database = emperors, rows = "any", cols = "any", resolve = "median", key = "ID")
+consolidate(database = emperors, rows = "every", cols = "every", resolve = "random", key = "ID")
+```
+
+Users can even specify how conflicts for different variables should be 'resolved':
+
+```{r different}
+consolidate(database = emperors, rows = "any", cols = "every", resolve = c(Beg = "min", End = "max"), key = "ID")
+```
+
+Alternatively, users can "favour" a dataset in a database over others:
+
+```{r favour}
+consolidate(database = favour(emperors, "UNRV"), rows = "every", cols = "any", resolve = "coalesce", key = "ID")
+```
 
 ## Contributing to the many packages universe
 
@@ -107,4 +216,3 @@ For more information for developers and data contributors to 'many packages', pl
 Development on this package has been funded by the Swiss National Science Foundation (SNSF)
 [Grant Number 188976](https://data.snf.ch/grants/grant/188976): 
 "Power and Networks and the Rate of Change in Institutional Complexes" (PANARCHIC).
-
