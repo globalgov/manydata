@@ -21,7 +21,7 @@ test_that("agreements_plot() returns the correct output format", {
                                      "2000-02-17"),
                            DocType = c("B", "B", "B", "B", "M", "B", "B", "B",
                                        "B", "M"))
-  p <- agreements_plot(agreements)
+  p <- plot_agreements(agreements)
   expect_type(p, "list")
   expect_length(p, 9)
   expect_true(ggplot2::is.ggplot(p))
@@ -54,7 +54,7 @@ test_that("membership_plot() returns the correct output format", {
                                       "2000-01-20"),
                             stateID = c("COG", "COM", "MDV", "MLT", "TTO",
                                         "LUX", "COM", "SVK", "HRV", "KEN"))
-  p <- membership_plot(memberships)
+  p <- plot_memberships(memberships)
   expect_type(p, "list")
   expect_length(p, 9)
   expect_true(ggplot2::is.ggplot(p))
