@@ -4,23 +4,24 @@
 
 * Closed #259 by revising CCC package structure and updating the package cheatsheet
 * Updated documentation for 'emperors' database to new style to improve visibility and transparency
-* Closed #264 by revising and removing unnecessary dependencies in package
+* Closed #264 by removing `{tibble}`and `{janitor}` package imports in DESCRIPTION file
+* Closed #276 by reviewing package vignettes
+* Closed #277 by updating 'manydata-defunct' file
 
 ## Connection
 
-* Closed #243 and #257 by creating a `db_heatmap()` function to visually compare datasets in a 'many' database
-* Closed #248 by updating `map_plot()` function and adding `agreements_plot()`, `lineages_plot()`, and `memberships_plot()` functions for easy plotting of 'many' data
-* Closed #249 by updating variable categories in `db_plot()` function
-* Closed #250 by fixing numeric selection within `get_packages()` function
-* Closed #251 by adding 'update' argument to `get_packages()` function to allow users to update 'many' packages not up to date
-* Closed #253 by separating `db_plots()` into an user facing and non-user facing functions for internal use only
-* Closed #261 by recoding and renaming `db_` and `report_` family of functions into `compare_` and `plot_` functions
-* Closed #262 by renaming `get_packages()` to `call_packages()` and updating how the function works and looks up for package updates
-* Closed #268 by adding `compare_overlap()` and `plot_overlap()` to help users investigate overlap for datasets within databases
-* Closed #269 by adding a `call_sources()` function that displays sources and variable changes for datasets in databases 
-* Closed #271 by renaming and updating the `retrieve_` family of functions to `call_` functions
-* Closed #276 by reviewing package tests and vignettes
-* Closed #277 by updating 'manydata-defunct' file
+* Renamed and updated 'plot_' family of functions
+  * Renamed and updated `retrieve_` family of functions into `agreements_plot()`, `lineages_plot()`, and `memberships_plot()` functions for easy plotting of 'many' data
+  * Closed #248 by updating `map_plot()` function
+* Renamed and updated 'call_' family of functions
+  * Closed #250, #251, and #262 by renaming `get_packages()` to `call_packages()` and updating how the function works and look up packages, version updates, and availailabity
+  * Closed #269 by adding a `call_sources()` function that displays sources and variable changes for datasets in databases 
+  * Closed #271 by updating the `retrieve_` family of functions to `call_` functions
+* Renamed and updated 'compare_' family of functions
+  * Closed #243 and #257 by creating a `compare_missing()` function to compare datasets in a 'many' database
+  * Closed #249 and  #253 by renaming `db_plot()` function to `compare_categories()` and updating variable categories
+  * Closed #261 by renaming and updating other `db_` functions to `compare_` functions
+  * Closed #268 by adding `compare_overlap()` to help users investigate overlap for datasets within databases
 
 # manydata 0.8.3
 
