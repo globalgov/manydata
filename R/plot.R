@@ -159,30 +159,9 @@ plot_lineage <- function(dataset, treaty_type = NULL, key = "manyID",
 plot_map <- function(dataset, actor = "StateID", treaty_type = NULL,
                      date = "2019-12-31", theme = "light") {
   # check packages
-  if (!requireNamespace("cshapes", quietly = TRUE)) {
-    if(utils::askYesNo(msg = "The `cshapes` package is required.
-                       Would you like to install `cshapes` from CRAN?")) {
-      utils::install.packages('cshapes')
-    } else {
-      stop("Please install `cshapes` from CRAN to plot maps.")
-    }
-  }
-  if (!requireNamespace("ggraph", quietly = TRUE)) {
-    if(utils::askYesNo(msg = "The `ggraph` package is required.
-                       Would you like to install `ggraph` from CRAN?")) {
-      utils::install.packages('ggraph')
-    } else {
-      stop("Please install `ggraph` from CRAN for plot layouts.")
-    }
-  }
-  if (!requireNamespace("igraph", quietly = TRUE)) {
-    if(utils::askYesNo(msg = "The `igraph` package is required.
-                       Would you like to install `igraph` from CRAN?")) {
-      utils::install.packages('igraph')
-    } else {
-      stop("Please install `igraph` from CRAN to work with network data.")
-    }
-  }
+  thisRequires("cshapes")
+  thisRequires("ggraph")
+  thisRequires("igraph")
   # Checks for correct input
   weight <- NULL
   # Step 1: get membership list

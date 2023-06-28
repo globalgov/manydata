@@ -83,14 +83,7 @@ compare_data <- function(database, dataset = NULL) {
 #' @export
 compare_overlap <- function(database, dataset = NULL, key = "manyID") {
   name <- NULL
-  if (!requireNamespace("ggVennDiagram", quietly = TRUE)) {
-    if(utils::askYesNo(msg = "The `ggVennDiagram` package is required.
-                       Would you like to install `ggVennDiagram` from CRAN?")) {
-      utils::install.packages('ggVennDiagram')
-    } else {
-      stop("Please install `ggVennDiagram` from CRAN to compare overlaps.")
-    }
-  }
+  thisRequires("ggVennDiagram")
   if (!is.null(dataset)) {
     if (length(dataset) < 2) stop("Please declare 2 or more datasets for comparison.")
     database <- database[grepl(paste(dataset, collapse = "|"), names(database))]
@@ -109,14 +102,7 @@ compare_overlap <- function(database, dataset = NULL, key = "manyID") {
 #' in each dataset in a 'many' database.
 #' @export
 plot_overlap <- function(database, dataset = NULL, key = "manyID") {
-  if (!requireNamespace("ggVennDiagram", quietly = TRUE)) {
-    if(utils::askYesNo(msg = "The `ggVennDiagram` package is required.
-                       Would you like to install `ggVennDiagram` from CRAN?")) {
-      utils::install.packages('ggVennDiagram')
-    } else {
-      stop("Please install `ggVennDiagram` from CRAN to plot overlaps.")
-    }
-  }
+  thisRequires("ggVennDiagram")
   if (!is.null(dataset)) {
     if (length(dataset) < 2)
       stop("Please declare 2 or more datasets for comparison.")
