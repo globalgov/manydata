@@ -350,32 +350,6 @@ call_treaties <- function(dataset, treaty_type = NULL,
   out
 }
 
-#' #' @describeIn call_ Call 'many' texts
-#' #' @return A tibble of treaties and their texts.
-#' #' @export
-#' call_texts <- function(dataset, treaty_type = NULL, key = "manyID") {
-#'   # check if key is valid
-#'   if (!any(colnames(dataset) == key)) {
-#'     stop("Please declare a valid key variable.")
-#'   }
-#'   # get variables, if declared
-#'   out <- dataset[, c(key, grep("text", names(dataset),
-#'                                ignore.case = TRUE, value = TRUE))]
-#'   names(out)[names(out) == key] <- "Key"
-#'   # subset treaty types
-#'   if (!is.null(treaty_type)) {
-#'     if (treaty_type == "bilateral") {
-#'       out <- subset(out, stringr::str_detect(Key, "\\-"))
-#'     }
-#'     if (treaty_type == "multilateral") {
-#'       out <- subset(out, stringr::str_detect(Key, "\\-", negate = TRUE))
-#'     }
-#'   }
-#'   out %>%
-#'     dplyr::filter(!dplyr::if_all(-Key, is.na)) %>%
-#'     dplyr::distinct()
-#' }
-
 thisRequires <- function(pkgname){
   if (!requireNamespace(pkgname, quietly = TRUE)) {
     if(utils::askYesNo(msg = paste("The", pkgname, 
