@@ -125,3 +125,10 @@ our website or check out the package cheat sheet:
 For more information for developers and data contributors to ‘many
 packages’, please see `{manypkgs}` [the
 website](https://globalgov.github.io/manypkgs/).
+
+## Funding details
+
+Development on this package has been funded by the Swiss National
+Science Foundation (SNSF) [Grant Number
+188976](https://data.snf.ch/grants/grant/188976): “Power and Networks
+and the Rate of Change in Institutional Complexes” (PANARCHIC).
