@@ -130,7 +130,7 @@ This can also be visualized with the `plot_overlap()` function.
 
 ```{r overlap}
 compare_overlap(emperors, key = "ID")
-plot_overlap(emperors, key = "ID")
+plot(compare_overlap(emperors, key = "ID"))
 ```
 
 The `compare_missing()` function returns a tibble with the number and percentage of missing observations in datasets within database.
@@ -138,7 +138,7 @@ This can also be visualized with the `plot_missing()` function.
 
 ```{r missing}
 compare_missing(emperors)
-plot_missing(emperors)
+plot(compare_missing(emperors))
 ```
 
 Finally, both the `compare_categories()` and the `plot_categories()` functions help researchers identify how variables across datasets within a database relate to one another.
@@ -153,7 +153,7 @@ Observations are in 'conflict' if datasets have different non-NA values.
 
 ```{r categories}
 compare_categories(emperors, key = "ID")
-plot_categories(emperors, key = "ID")
+plot(compare_categories(emperors, key = "ID"))
 ```
 
 ### An example of inference sensitivity to data sources
