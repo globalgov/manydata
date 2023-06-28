@@ -49,7 +49,7 @@ principles across the different packages.
 For instance, in the data packages on international agreements
 (including `{manyenviron}`, `{manytrade}`, and `{manyhealth}`),
 the `agreements` and `memberships` databases have standardised date variables
-`Begin`, `Signature`, `Force`, and `End` that contain the beginning,
+`Begin` and `End` that contain the beginning,
 signature, entry into force, and end dates of treaties respectively.
 The beginning date is derived from the signature or entry into force date,
 whichever is the earliest available date for the treaty.
