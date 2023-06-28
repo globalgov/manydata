@@ -1,79 +1,31 @@
-#' Call 'many' packages, sources, and data
-#' 
-#' @description The `call_` functions in `{manydata}` allows users to call,
-#' install, and update different 'many' packages, as well as additional
-#' information on databases and datasets across 'many packages'.
-#' @name call_ 
-#' @param package A character vector of package name.
-#' For multiple packages,
-#' please declare package names as a vector (e.g. c("package1", "package2")).
-#' @param database A database from one of the many packages.
-#' @param dataset A dataset in a database from one of the many packages.
-#' NULL by default.
-#' That is, all datasets in the database are used.
-#' For multiple datasets, please declare datasets as a vector
-#' (e.g. c("dataset1", "dataset2")).
-#' @param treaty_type The type of treaties to be returned.
-#' NULL, by default.
-#' Other options are "bilateral" or "multilateral".
-#' @param develop Would you like to download the develop
-#' version of the package?
-#' FALSE by default.
-#' If TRUE, the function downloads the develop version of package from GitHub.
-#' @param variable Would you like to get one, or more, specific variables
-#' present in one or more datasets in the 'many' database?
-#' NULL by default.
-#' For multiple variables, please declare variable names as a vector.
-#' @param actor An actor variable in dataset.
-#' NULL by default.
-#' If declared, a tibble of the treaties and their member actors is returned.
-#' @param open_script Would you like to open the preparation script
-#' for the dataset?
-#' By default false.
-#' @param open_codebook Would you like to open the preparation script
-#' for the dataset? By default false.
-#' @importFrom dplyr as_tibble %>%
-#' @examples
-#' \donttest{
-#' #call_packages()
-#' #call_packages("manyenviron")
-#' call_sources("manydata", "emperors")
-#' membs <- dplyr::tibble(manyID = c("ROU-RUS[RFP]_1901A",
-#' "ROU-RUS[RFP]_1901A", "GD16FI_1901A"),
-#' StateID = c("ROU", "RUS", "DNK"),
-#' Title = c("Convention Between Roumania And Russia Concerning Fishing
-#' In The Danube And The Pruth",
-#' "Convention Between Roumania And Russia Concerning Fishing
-#' In The Danube And The Pruth",
-#' "Convention Between The Governments Of Denmark And
-#' The United Kingdom Of Great Britain
-#' And Northern Ireland For Regulating The Fisheries
-#' Of Their Respective Subjects Outside
-#' Territorial Waters In The Ocean Surrounding The Faroe Islands"),
-#' Begin = c("1901-02-22", "1901-02-22", "1901-06-24"))
-#' call_treaties(membs)
-#' call_treaties(membs, treaty_type = "bilaterals",
-#' variable = c("Title", "Begin"))
-#' call_treaties(membs, variable = c("Title", "Begin"), actor = "StateID")
-#' }
-#' @return
-#' The `call_` functions return tibbles with the respective information.
-NULL
-
-#' @describeIn call_ Call, download, and update 'many' packages
+#' Call, download, and update many packages
+#'
 #' @details `call_packages()` finds and download other packages
 #' that belong to the many universe of packages.
 #' It allows users to rapidly access the names and other
 #' descriptive information of these packages.
 #' If users intend to download and install a package listed,
 #' they can type the package name within the function.
-#' @importFrom dplyr bind_rows rename relocate %>%
+#' @family call_
+#' @param package A character vector of package name.
+#' For multiple packages,
+#' please declare package names as a vector (e.g. c("package1", "package2")).
+#' @param develop Would you like to download the develop
+#' version of the package?
+#' FALSE by default.
+#' @importFrom dplyr bind_rows rename relocate %>% as_tibble
 #' @importFrom stringr str_detect str_remove
 #' @importFrom jsonlite fromJSON
 #' @importFrom httr GET content
 #' @importFrom remotes install_github
 #' @importFrom utils packageVersion askYesNo
-#' @return `call_packages()` returns a tibble with the 'many packages'
+#' @examples
+#' \donttest{
+#' #call_packages()
+#' #call_packages("manyenviron")
+#' }
+#' @return
+#' `call_packages()` returns a tibble with the 'many packages'
 #' currently available.
 #' If one or more package names are provided,
 #' these will be installed from Github.
@@ -197,13 +149,35 @@ get_latest_release <- function(full_name) {
   unlist(latest)
 }
 
-#' @describeIn call_ Call sources for databases and datasets in 'many' packages
+#' Call sources for databases and datasets in 'many' packages
+#' 
 #' @details `call_sources()` displays sources of the databases and datasets
 #' in 'many' packages.
 #' Please declare package, database, and dataset
+#' @family call_
+#' @param package A character vector of package name.
+#' For multiple packages,
+#' please declare package names as a vector (e.g. c("package1", "package2")).
+#' @param database A database from one of the many packages.
+#' @param dataset A dataset in a database from one of the many packages.
+#' NULL by default.
+#' That is, all datasets in the database are used.
+#' For multiple datasets, please declare datasets as a vector
+#' (e.g. c("dataset1", "dataset2")).
+#' @param open_script Would you like to open the preparation script
+#' for the dataset?
+#' By default false.
+#' @param open_codebook Would you like to open the preparation script
+#' for the dataset? By default false.
 #' @importFrom utils help browseURL
-#' @importFrom dplyr relocate
+#' @importFrom dplyr relocate %>% as_tibble
 #' @importFrom stringr str_extract_all str_remove_all str_trim
+#' @examples
+#' call_sources("manydata", "emperors")
+#' @return
+#' `call_sources` returns a tibble with information on the dataset,
+#' their sources, URL, and mapping to facilitate understanding
+#' variable name changes from original data.
 #' @export
 call_sources <- function(package, database, dataset = NULL,
                          open_script = FALSE, open_codebook = FALSE) {
@@ -310,23 +284,62 @@ get_help_file <- function(file) {
   lazyLoadDBexec(RdDB, fetchRdDB)
 }
 
-#' @describeIn call_ Call treaties from 'many' datasets
+#' Call treaties from 'many' datasets
+#' 
 #' @details Certain datasets, or consolidated databases, in 'many' packages
 #' contains information on treaties which can be retrieved
 #' with `call_treaties()`.
+#' @family call_
+#' @param dataset A dataset in a database from one of the many packages.
+#' NULL by default.
+#' That is, all datasets in the database are used.
+#' For multiple datasets, please declare datasets as a vector
+#' (e.g. c("dataset1", "dataset2")).
+#' @param treaty_type The type of treaties to be returned.
+#' NULL, by default.
+#' Other options are "bilateral" or "multilateral".
+#' @param variable Would you like to get one, or more, specific variables
+#' present in one or more datasets in the 'many' database?
+#' NULL by default.
+#' For multiple variables, please declare variable names as a vector.
+#' @param actor An actor variable in dataset.
+#' NULL by default.
+#' If declared, a tibble of the treaties and their member actors is returned.
+#' @param key A variable key to join datasets.
+#' 'manyID' by default.
+#' @examples
+#' membs <- dplyr::tibble(manyID = c("ROU-RUS[RFP]_1901A",
+#' "ROU-RUS[RFP]_1901A", "GD16FI_1901A"),
+#' StateID = c("ROU", "RUS", "DNK"),
+#' Title = c("Convention Between Roumania And Russia Concerning Fishing
+#' In The Danube And The Pruth",
+#' "Convention Between Roumania And Russia Concerning Fishing
+#' In The Danube And The Pruth",
+#' "Convention Between The Governments Of Denmark And
+#' The United Kingdom Of Great Britain
+#' And Northern Ireland For Regulating The Fisheries
+#' Of Their Respective Subjects Outside
+#' Territorial Waters In The Ocean Surrounding The Faroe Islands"),
+#' Begin = c("1901-02-22", "1901-02-22", "1901-06-24"))
+#' call_treaties(membs)
+#' call_treaties(membs, treaty_type = "bilaterals",
+#' variable = c("Title", "Begin"))
+#' call_treaties(membs, variable = c("Title", "Begin"), actor = "StateID")
+#' @return
+#' `call_treaties()` returns a tibble with a list of the agreements.
 #' @export
-call_treaties <- function(dataset, treaty_type = NULL,
-                          variable = NULL, actor = NULL) {
+call_treaties <- function(dataset, treaty_type = NULL, variable = NULL,
+                          actor = NULL, key = "manyID") {
   Memberships <- manyID <- NULL
   # check if key is valid
-  if (!any(colnames(dataset) == "manyID")) {
-    stop("Please declare a many dataset")
+  if (key != "manyID" & key != "treatyID") {
+    stop("Please declare either 'manyID' or 'treatyID'.")
   }
   # get variables, if declared
   if (!is.null(variable)) {
-    out <- dataset[,c("manyID", variable)] %>% dplyr::distinct()
+    out <- dataset[,c(key, variable)] %>% dplyr::distinct()
   } else {
-    out <- dataset[,"manyID"] %>% dplyr::distinct()
+    out <- dataset[,key] %>% dplyr::distinct()
   }
   # subset treaty types
   if (!is.null(treaty_type)) {
@@ -337,19 +350,21 @@ call_treaties <- function(dataset, treaty_type = NULL,
       out <- subset(out, stringr::str_detect(manyID, "\\-", negate = TRUE))
     }
   }
+  # get memebership lists, if actor is declared
   if (!is.null(actor)) {
-    actors <- dataset[,c("manyID", actor)] %>% dplyr::distinct()
+    actors <- dataset[,c(key, actor)] %>% dplyr::distinct()
     names(actors)[names(actors) == actor] <- "Memberships"
     out <- actors %>%
       dplyr::group_by(manyID) %>%
       dplyr::summarise(Memberships = toString(Memberships)) %>%
       dplyr::ungroup() %>%
-      dplyr::right_join(out, by = "manyID") %>%
+      dplyr::right_join(out, by = key) %>%
       distinct()
   }
   out
 }
 
+# Helper function for checking and downloading packages
 thisRequires <- function(pkgname){
   if (!requireNamespace(pkgname, quietly = TRUE)) {
     if(utils::askYesNo(msg = paste("The", pkgname, 
