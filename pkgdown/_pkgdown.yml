@@ -52,8 +52,8 @@ navbar:
         - text: manytrade
           href: https://globalgov.github.io/manytrade/
 reference:
-  - title: "Calling 'many* packages' and inspecting data"
-    desc: "These functions assist data analysts with the download and inspection of 'many* packages' and their data"
+  - title: "Calling 'many' packages"
+    desc: "These functions assist data analysts with the download of 'many' packages and their data"
     contents:
       - starts_with("call_")
       - plot_releases
@@ -65,7 +65,7 @@ reference:
       - plot_memberships
       - plot_lineage
       - plot_map
-  - title: "Consolidating many databases"
+  - title: "Consolidating 'many' packages data"
     desc: "These functions assist data analysts with the analysis of data on particular domains of global governance"
     contents:
       - consolidate
