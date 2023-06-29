@@ -21,7 +21,7 @@ coalesce_compatible <- function(.data) {
 #' @describeIn defunct Removed on 2023-06-15.
 #' @export
 network_map <- function(.data) {
-  .Defunct("manydata::map_plot()", package = "manydata")
+  .Defunct("manynet::autographr()", package = "manydata")
   network_map(.data)
 }
 
@@ -88,13 +88,6 @@ open_codebook <- function(.data) {
   open_codebook(.data)
 }
 
-# #' @describeIn defunct Removed on 2023-06-19.
-# #' @export
-# retrieve_texts <- function(.data) {
-#   .Defunct("manydata::call_texts()", package = "manydata")
-#   retrieve_texts(.data)
-# }
-
 #' @describeIn defunct Removed on 2023-06-19.
 #' @export
 data_contrast <- function(.data) {
@@ -105,6 +98,6 @@ data_contrast <- function(.data) {
 #' @describeIn defunct Removed on 2023-06-19.
 #' @export
 data_evolution <- function(.data) {
-  .Defunct("manydata::compare_data()", package = "manydata")
+  .Defunct("manydata::call_sources()", package = "manydata")
   data_evolution(.data)
 }
