@@ -13,14 +13,14 @@ functions.
 \describe{
 \item{wikipedia: }{A dataset with 68 observations and the
 following 15 variables:
-ID, Beg, End, FullName, Birth, Death,
+ID, Begin, End, FullName, Birth, Death,
 CityBirth, ProvinceBirth, Rise, Cause,
 Killer, Dynasty, Era, Notes, Verif.}
 \item{UNRV: }{A dataset with 99 observations and the
-following 7 variables: ID, Beg, End,
+following 7 variables: ID, Begin, End,
 Birth, Death, FullName, Dynasty.}
 \item{britannica: }{A dataset with 87 observations and the
-following 3 variables: ID, Beg, End.}
+following 3 variables: ID, Begin, End.}
 }
 }
 \source{
@@ -53,7 +53,7 @@ Emperors database documentation
 #> |  Column Name  |  Data Type  |  Observations  |  Missing  |  Missing (\%)  |
 #> ----------------------------------------------------------------------------
 #> |      ID       |  character  |              68|     0     |       0       |
-#> |      Beg      |    mdate    |              68|     0     |       0       |
+#> |     Begin     |    mdate    |              68|     0     |       0       |
 #> |      End      |    mdate    |              68|     0     |       0       |
 #> |   FullName    |  character  |              68|     0     |       0       |
 #> |     Birth     |  character  |              68|     5     |     7.35      |
@@ -75,7 +75,7 @@ Emperors database documentation
 #> |  Column Name  |  Data Type  |  Observations  |  Missing  |  Missing (\%)  |
 #> ----------------------------------------------------------------------------
 #> |      ID       |  character  |              99|     0     |       0       |
-#> |      Beg      |    mdate    |              99|     0     |       0       |
+#> |     Begin     |    mdate    |              99|     0     |       0       |
 #> |      End      |    mdate    |              99|     0     |       0       |
 #> |     Birth     |  character  |              99|     0     |       0       |
 #> |     Death     |  character  |              99|     0     |       0       |
@@ -89,7 +89,7 @@ Emperors database documentation
 #> |  Column Name  |  Data Type  |  Observations  |  Missing  |  Missing (\%)  |
 #> ----------------------------------------------------------------------------
 #> |      ID       |  character  |              87|     0     |       0       |
-#> |      Beg      |    mdate    |              87|     0     |       0       |
+#> |     Begin     |    mdate    |              87|     0     |       0       |
 #> |      End      |    mdate    |              87|     0     |       0       |
 #> ----------------------------------------------------------------------------
 }\if{html}{\out{</div>}}
@@ -116,7 +116,7 @@ Emperors database documentation
 Variable Mapping\tabular{cc}{
    \emph{from} \tab \emph{to} \cr
    name \tab ID \cr
-   reign.start \tab Beg \cr
+   reign.start \tab Begin \cr
    reign.end \tab End \cr
    name.full \tab FullName \cr
    birth \tab Birth \cr
@@ -138,6 +138,7 @@ Variable Mapping\tabular{cc}{
 Variable Mapping\tabular{cc}{
    \emph{from} \tab \emph{to} \cr
    'Common Name' \tab ID \cr
+   Beg \tab Begin \cr
    'Full Name/Imperial Name' \tab FullName \cr
    'Dynasty/Class/Notes' \tab Dynasty \cr
 }
@@ -148,7 +149,7 @@ Variable Mapping\tabular{cc}{
 Variable Mapping\tabular{cc}{
    \emph{from} \tab \emph{to} \cr
    Name \tab ID \cr
-   reign_start \tab Beg \cr
+   reign_start \tab Begin \cr
    reign_end \tab End \cr
 }
 

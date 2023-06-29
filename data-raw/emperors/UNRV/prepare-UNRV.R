@@ -14,12 +14,12 @@ UNRV <- readxl::read_excel("data-raw/emperors/UNRV/UNRV.xlsx")
 UNRV <- apply(UNRV, 2, stringi::stri_enc_toascii)
 # Let's standardise dates and variable names
 UNRV <- tibble::as_tibble(UNRV) %>%
-  dplyr::mutate(Beg = messydates::as_messydate(Beg),
+  dplyr::mutate(Begin = messydates::as_messydate(Beg),
                 End = messydates::as_messydate(End)) %>%
   dplyr::rename(ID = "Common Name",
          FullName = "Full Name/Imperial Name",
          Dynasty = "Dynasty/Class/Notes") %>%
-  dplyr::relocate(ID, Beg, End)
+  dplyr::relocate(ID, Begin, End)
 # manydata includes several functions that should help cleaning
 # and standardising your data.
 # Please see the vignettes or website for more details.

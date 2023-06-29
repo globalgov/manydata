@@ -198,7 +198,7 @@ consolidate(database = emperors, rows = "every", cols = "every", resolve = "rand
 Users can even specify how conflicts for different variables should be 'resolved':
 
 ```{r different}
-consolidate(database = emperors, rows = "any", cols = "every", resolve = c(Beg = "min", End = "max"), key = "ID")
+consolidate(database = emperors, rows = "any", cols = "every", resolve = c(Begin = "min", End = "max"), key = "ID")
 ```
 
 Alternatively, users can "favour" a dataset in a database over others:

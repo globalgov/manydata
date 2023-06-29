@@ -11,9 +11,9 @@ test_that("plot for compare_categories returns the correct output format", {
 
 test_that("compare_categories() returns the correct output format", {
   db <- compare_categories(database = emperors, key = "ID")
-  db1 <- compare_categories(database = emperors, key = "ID", variable = "Beg")
+  db1 <- compare_categories(database = emperors, key = "ID", variable = "Begin")
   db2 <- compare_categories(database = emperors, key = "ID",
-                            variable = c("Beg", "End"), category = "conflict")
+                            variable = c("Begin", "End"), category = "conflict")
   expect_type(db, "list")
   expect_type(db1, "list")
   expect_type(db2, "list")
@@ -24,8 +24,8 @@ test_that("compare_categories() returns the correct output format", {
   expect_length(db1, 5)
   expect_length(db2, 9)
   expect_equal(nrow(db), nrow(db1))
-  expect_named(db1, c("ID", "wikipedia$Beg", "UNRV$Beg",
-                      "britannica$Beg", "Beg (3)"))
+  expect_named(db1, c("ID", "wikipedia$Begin", "UNRV$Begin",
+                      "britannica$Begin", "Begin (3)"))
   expect_true(db2[1,5] == db2[10,5])
 })
 

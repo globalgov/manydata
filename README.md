@@ -54,13 +54,16 @@ We intend for `{manydata}` to be useful:
   checks, preparing replication scripts, and writing the next grant
   application.
 
+Please see the vignette below for a quick overview:
+
 <a href="https://github.com/globalgov/manydata/blob/develop/man/figures/cheatsheet.pdf"><img src="https://raw.githubusercontent.com/globalgov/manydata/develop/man/figures/cheatsheet.png" width="525" height="378"/></a>
 
 ## Call ‘many’ packages
 
-Once installed, the `call_` functions can be used to discover the ‘many
-packages’ currently available and/or download or update these packages
-when needed. For this, the `call_packages()` can be used.
+Once `{manydata}` is installed, the `call_` functions can be used to
+discover the ‘many packages’ currently available and/or download or
+update these packages when needed. For this, the `call_packages()` can
+be used.
 
 ``` r
 library(manydata)
@@ -86,21 +89,7 @@ call_sources(package = "manydata", database = "emperors")
 
 Packages in the many packages universe have the advantage to facilitate
 comparison and analysis of multiple datasets in a specific domain of
-global governance. This is possible with a particular coding system
-which follows the same principles across the different packages.
-
-For instance, in the data packages on international agreements
-(including `{manyenviron}`, `{manytrade}`, and `{manyhealth}`), the
-`agreements` and `memberships` databases have standardised date
-variables `Begin`, `Signature`, `Force`, and `End` that contain the
-beginning, signature, entry into force, and end dates of treaties
-respectively. The beginning date is derived from the signature or entry
-into force date, whichever is the earliest available date for the
-treaty. These specific variable name allows the comparison of
-information across datasets that have different sources. It enables
-users to point out the recurrence, difference or absence of observations
-between the datasets and extract more robust data when researching on a
-particular governance domain.
+global governance.
 
 For now, let’s work with the Roman Emperors database included in
 manydata. We can get a quick summary of the datasets included in this
@@ -114,7 +103,7 @@ emperors
 
     #> $wikipedia
     #> # A tibble: 68 × 15
-    #>    ID       Beg   End   FullName Birth Death CityBirth ProvinceBirth Rise  Cause
+    #>    ID       Begin End   FullName Birth Death CityBirth ProvinceBirth Rise  Cause
     #>    <chr>    <mda> <mda> <chr>    <chr> <chr> <chr>     <chr>         <chr> <chr>
     #>  1 Augustus -002… 0014… IMPERAT… 0062… 0014… Rome      Italia        Birt… Assa…
     #>  2 Tiberius 0014… 0037… TIBERIV… 0041… 0037… Rome      Italia        Birt… Assa…
@@ -132,7 +121,7 @@ emperors
     #> 
     #> $UNRV
     #> # A tibble: 99 × 7
-    #>    ID               Beg     End     Birth Death FullName                 Dynasty
+    #>    ID               Begin   End     Birth Death FullName                 Dynasty
     #>    <chr>            <mdate> <mdate> <chr> <chr> <chr>                    <chr>  
     #>  1 Augustus         -0027   -0014   63 BC 14    Gaius Julius Caesar Oct… Julio-…
     #>  2 Tiberius         -0014   0037    42 BC 37    Tiberius Claudius Nero … Julio-…
@@ -148,7 +137,7 @@ emperors
     #> 
     #> $britannica
     #> # A tibble: 87 × 3
-    #>    ID              Beg     End    
+    #>    ID              Begin   End    
     #>    <chr>           <mdate> <mdate>
     #>  1 Augustus        -0031   0014   
     #>  2 Tiberius        0014    0037   
@@ -182,9 +171,7 @@ datasets relating to the same phenomenon are presented together.
 The `compare_` functions in `{manydata}` allows users to quickly compare
 different information on databases and/or datasets across ‘many
 packages’. These include comparison for data summaries, missing
-observations, overlap, and categories. The `compare_` functions are
-usually accompanied by an appropriate printing method that allows users
-to visualize the comparisons.
+observations, overlap, and categories.
 
 The `compare_data()` function returns a tibble with the key metadata of
 each dataset within the specified database of a many package.
@@ -202,8 +189,9 @@ compare_data(emperors)
 
 The `compare_overlap()` function returns a tibble with the number of
 overlapping observations for a specified variable (specify using the
-`key` argument) across datasets within the database. This can also be
-visualized by plotting the function output.
+`key` argument) across datasets within the database. Most of the
+`compare_` functions are usually accompanied by an appropriate plotting
+method that allows users to visualize the comparisons.
 
 ``` r
 compare_overlap(emperors, key = "ID")
@@ -227,8 +215,7 @@ plot(compare_overlap(emperors, key = "ID"))
 <img src="man/figures/README-overlap-1.png" width="100%" />
 
 The `compare_missing()` function returns a tibble with the number and
-percentage of missing observations in datasets within database, which
-can be visualized by plotting the function output.
+percentage of missing observations in datasets within database.
 
 ``` r
 compare_missing(emperors)
@@ -237,9 +224,9 @@ compare_missing(emperors)
     #> # A tibble: 25 × 6
     #>    Variable  Dataset    Class     Count Missing `Percent Missing`
     #>    <chr>     <chr>      <chr>     <dbl>   <dbl>             <dbl>
-    #>  1 Beg       wikipedia  mdate        68       0              0   
-    #>  2 Beg       UNRV       mdate        99       0              0   
-    #>  3 Beg       britannica mdate        87       0              0   
+    #>  1 Begin     wikipedia  mdate        68       0              0   
+    #>  2 Begin     UNRV       mdate        99       0              0   
+    #>  3 Begin     britannica mdate        87       0              0   
     #>  4 Birth     wikipedia  character    68       5              7.35
     #>  5 Birth     UNRV       character    99       0              0   
     #>  6 Cause     wikipedia  character    68       0              0   
@@ -273,25 +260,25 @@ compare_categories(emperors, key = "ID")
     #> There were 116 matched observations by ID variable across datasets in database.
 
     #> # A tibble: 139 × 37
-    #>    ID      `wikipedia$Beg` `UNRV$Beg` `britannica$Beg` `Beg (3)` `wikipedia$End`
-    #>    <chr>   <mdate>         <mdate>    <mdate>          <chr>     <mdate>        
-    #>  1 August… -0026-01-16     -0027      -0031            conflict  0014-08-19     
-    #>  2 Tiberi… 0014-09-18      -0014      0014             conflict  0037-03-16     
-    #>  3 Caligu… 0037-03-18      NA         0037             conflict  0041-01-24     
-    #>  4 Claudi… 0041-01-25      0041       0041             majority  0054-10-13     
-    #>  5 Nero    0054-10-13      0054       0054             majority  0068-06-09     
-    #>  6 Galba   0068-06-08      0068       0068             majority  0069-01-15     
-    #>  7 Otho    0069-01-15      0069       0069-01          conflict  0069-04-16     
-    #>  8 Vitell… 0069-04-17      0069       NA               conflict  0069-12-20     
-    #>  9 Vespas… 0069-12-21      0069       0069             majority  0079-06-24     
-    #> 10 Titus   0079-06-24      0079       0079             majority  0081-09-13     
+    #>    ID        `wikipedia$Begin` `UNRV$Begin` `britannica$Begin` `Begin (3)`
+    #>    <chr>     <mdate>           <mdate>      <mdate>            <chr>      
+    #>  1 Augustus  -0026-01-16       -0027        -0031              conflict   
+    #>  2 Tiberius  0014-09-18        -0014        0014               conflict   
+    #>  3 Caligula  0037-03-18        NA           0037               conflict   
+    #>  4 Claudius  0041-01-25        0041         0041               majority   
+    #>  5 Nero      0054-10-13        0054         0054               majority   
+    #>  6 Galba     0068-06-08        0068         0068               majority   
+    #>  7 Otho      0069-01-15        0069         0069-01            conflict   
+    #>  8 Vitellius 0069-04-17        0069         NA                 conflict   
+    #>  9 Vespasian 0069-12-21        0069         0069               majority   
+    #> 10 Titus     0079-06-24        0079         0079               majority   
     #> # ℹ 129 more rows
-    #> # ℹ 31 more variables: `UNRV$End` <mdate>, `britannica$End` <mdate>,
-    #> #   `End (3)` <chr>, `wikipedia$FullName` <chr>, `UNRV$FullName` <chr>,
-    #> #   `FullName (2)` <chr>, `wikipedia$Birth` <chr>, `UNRV$Birth` <chr>,
-    #> #   `Birth (2)` <chr>, `wikipedia$Death` <chr>, `UNRV$Death` <chr>,
-    #> #   `Death (2)` <chr>, `wikipedia$CityBirth` <chr>, `CityBirth (1)` <chr>,
-    #> #   `wikipedia$ProvinceBirth` <chr>, `ProvinceBirth (1)` <chr>, …
+    #> # ℹ 32 more variables: `wikipedia$End` <mdate>, `UNRV$End` <mdate>,
+    #> #   `britannica$End` <mdate>, `End (3)` <chr>, `wikipedia$FullName` <chr>,
+    #> #   `UNRV$FullName` <chr>, `FullName (2)` <chr>, `wikipedia$Birth` <chr>,
+    #> #   `UNRV$Birth` <chr>, `Birth (2)` <chr>, `wikipedia$Death` <chr>,
+    #> #   `UNRV$Death` <chr>, `Death (2)` <chr>, `wikipedia$CityBirth` <chr>,
+    #> #   `CityBirth (1)` <chr>, `wikipedia$ProvinceBirth` <chr>, …
 
 ``` r
 plot(compare_categories(emperors, key = "ID"))
@@ -345,8 +332,8 @@ consolidate(database = emperors, rows = "any", cols = "any",
     #>  9 Aulus Vit… <NA>      <NA>          <NA>  <NA>  <NA>   <NA>  <NA>  <NA>  <NA> 
     #> 10 Aurelian   Sirmium   Pannonia      Appo… Assa… Praet… Prin… <NA>  <NA>  0214…
     #> # ℹ 128 more rows
-    #> # ℹ 5 more variables: Death <chr>, FullName <chr>, Dynasty <chr>, Beg <mdate>,
-    #> #   End <mdate>
+    #> # ℹ 5 more variables: Death <chr>, FullName <chr>, Dynasty <chr>,
+    #> #   Begin <mdate>, End <mdate>
 
 ``` r
 consolidate(database = emperors, rows = "every", cols = "every",
@@ -356,7 +343,7 @@ consolidate(database = emperors, rows = "every", cols = "every",
     #> There were 116 matched observations by ID variable across datasets in database.
 
     #> # A tibble: 41 × 3
-    #>    ID             Beg         End        
+    #>    ID             Begin       End        
     #>    <chr>          <mdate>     <mdate>    
     #>  1 Aemilian       0253-08-15~ 0253-10-15~
     #>  2 Augustus       -0026-01-16 0014-08-19 
@@ -387,7 +374,7 @@ consolidate(database = emperors, rows = "any", cols = "every", resolve = "max", 
     #> There were 116 matched observations by ID variable across datasets in database.
 
     #> # A tibble: 138 × 3
-    #>    ID              Beg        End       
+    #>    ID              Begin      End       
     #>    <chr>           <chr>      <chr>     
     #>  1 Aemilian        0253-12-31 0253-12-31
     #>  2 Allectus        0293       0297      
@@ -421,7 +408,7 @@ consolidate(database = emperors, rows = "every", cols = "any", resolve = "min", 
     #>  9 Commodus   Lanuvium  Italia        Birt… Assa… Praet… Prin… reig… <NA>  0161…
     #> 10 Constanti… Arelate   Gallia Narbo… Birt… Exec… Other… Domi… birt… <NA>  0316…
     #> # ℹ 31 more rows
-    #> # ℹ 5 more variables: Death <chr>, FullName <chr>, Dynasty <chr>, Beg <chr>,
+    #> # ℹ 5 more variables: Death <chr>, FullName <chr>, Dynasty <chr>, Begin <chr>,
     #> #   End <chr>
 
 ``` r
@@ -431,7 +418,7 @@ consolidate(database = emperors, rows = "every", cols = "every", resolve = "mean
     #> There were 116 matched observations by ID variable across datasets in database.
 
     #> # A tibble: 41 × 3
-    #>    ID             Beg         End        
+    #>    ID             Begin       End        
     #>    <chr>          <chr>       <chr>      
     #>  1 Aemilian       0253-08-15~ 0253-10-15~
     #>  2 Augustus       -0026-01-16 0014-08-19 
@@ -465,7 +452,7 @@ consolidate(database = emperors, rows = "any", cols = "any", resolve = "median",
     #>  9 Aulus Vit… <NA>      <NA>          <NA>  <NA>  <NA>   <NA>  <NA>  <NA>  <NA> 
     #> 10 Aurelian   Sirmium   Pannonia      Appo… Assa… Praet… Prin… <NA>  <NA>  0214…
     #> # ℹ 128 more rows
-    #> # ℹ 5 more variables: Death <chr>, FullName <chr>, Dynasty <chr>, Beg <chr>,
+    #> # ℹ 5 more variables: Death <chr>, FullName <chr>, Dynasty <chr>, Begin <chr>,
     #> #   End <chr>
 
 ``` r
@@ -475,31 +462,31 @@ consolidate(database = emperors, rows = "every", cols = "every", resolve = "rand
     #> There were 116 matched observations by ID variable across datasets in database.
 
     #> # A tibble: 41 × 3
-    #>    ID             Beg        End       
+    #>    ID             Begin      End       
     #>    <chr>          <chr>      <chr>     
-    #>  1 Aemilian       0253-12-31 0253-10-15
-    #>  2 Augustus       -026-01-16 0014-08-19
-    #>  3 Aurelian       0270-12-31 0275-12-31
-    #>  4 Balbinus       0238-04-22 0238-07-29
-    #>  5 Caracalla      0198-12-31 0217-12-31
-    #>  6 Carinus        0283-12-31 0285-12-31
-    #>  7 Carus          0282-10-01 0283-12-31
-    #>  8 Claudius       0041-12-31 0054-12-31
-    #>  9 Commodus       0177-12-31 0192-12-31
-    #> 10 Constantine II 0337-12-31 0340-01-01
+    #>  1 Aemilian       0253-12-31 0253-12-31
+    #>  2 Augustus       -026-01-16 0014-12-31
+    #>  3 Aurelian       0270-12-31 0275-09-15
+    #>  4 Balbinus       0238-12-31 0238-07-29
+    #>  5 Caracalla      0211-12-31 0217-04-08
+    #>  6 Carinus        0283-08-01 0285-08-01
+    #>  7 Carus          0282-12-31 0283-08-01
+    #>  8 Claudius       0041-01-25 0054-12-31
+    #>  9 Commodus       0180-12-31 0192-12-31
+    #> 10 Constantine II 0337-12-31 0340-12-31
     #> # ℹ 31 more rows
 
 Users can even specify how conflicts for different variables should be
 ‘resolved’:
 
 ``` r
-consolidate(database = emperors, rows = "any", cols = "every", resolve = c(Beg = "min", End = "max"), key = "ID")
+consolidate(database = emperors, rows = "any", cols = "every", resolve = c(Begin = "min", End = "max"), key = "ID")
 ```
 
     #> There were 116 matched observations by ID variable across datasets in database.
 
     #> # A tibble: 138 × 3
-    #>    ID              Beg        End       
+    #>    ID              Begin      End       
     #>    <chr>           <chr>      <chr>     
     #>  1 Aemilian        0253-01-01 0253-12-31
     #>  2 Allectus        0293       0297      
@@ -535,7 +522,7 @@ consolidate(database = favour(emperors, "UNRV"), rows = "every", cols = "any", r
     #>  9 Comm… "Marcus… 161   192   Lanuvium  Italia        Birt… Assa… Praet… Adopti…
     #> 10 Cons… "Flaviu… 317   340   Arelate   Gallia Narbo… Birt… Exec… Other… House …
     #> # ℹ 31 more rows
-    #> # ℹ 5 more variables: Era <chr>, Notes <chr>, Verif <chr>, Beg <mdate>,
+    #> # ℹ 5 more variables: Era <chr>, Notes <chr>, Verif <chr>, Begin <mdate>,
     #> #   End <mdate>
 
 ## Contributing to the many packages universe

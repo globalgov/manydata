@@ -25,5 +25,5 @@ but on observations rather than variables.
 }
 \examples{
 dplyr::summarise(emperors$wikipedia, coalesce_rows(emperors$wikipedia))
-coalesce_rows(emperors$wikipedia$Beg)
+coalesce_rows(emperors$wikipedia$Begin)
 }

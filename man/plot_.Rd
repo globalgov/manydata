@@ -22,7 +22,7 @@ plot_lineage(dataset, treaty_type = NULL, key = "manyID", layout = "nicely")
 
 plot_map(
   dataset,
-  actor = "StateID",
+  actor = "stateID",
   treaty_type = NULL,
   date = "2019-12-31",
   theme = "light"
@@ -44,7 +44,7 @@ An \code{{ggraph}} layout algorithm.
 If not declared, reasonable defaults are used.}
 
 \item{actor}{An actor variable.
-"StateID", by default.}
+"stateID", by default.}
 
 \item{date}{String date from the network snapshot.
 Used by \code{{cshapes}} to plot the correct map.
@@ -74,22 +74,22 @@ at a single point in time.
 \examples{
 \donttest{
 #agreements <- dplyr::filter(manyenviron::agreements$ECOLEX,
-#Beg > "2000-01-01" & Beg < "2000-12-12")
+#Begin > "2000-01-01" & Begin < "2000-12-12")
 #plot_agreements(agreements)
 }
 \donttest{
 #memberships <- dplyr::filter(manyenviron::memberships$ECOLEX_MEM,
-#Beg > "2000-01-01" & Beg < "2000-01-31")
+#Begin > "2000-01-01" & Begin < "2000-01-31")
 #plot_memberships(memberships)
 }
 \donttest{
-#lineage <- dplyr::filter(manyenviron::agreements$HUGGO, Beg > "2000-01-01",
-#Beg < "2001-12-31")
+#lineage <- dplyr::filter(manyenviron::agreements$HUGGO,
+#Begin > "2000-01-01", Begin < "2001-12-31")
 #plot_lineage(lineage)
 }
 \donttest{
 #memberships <- dplyr::filter(manyenviron::memberships$ECOLEX_MEM,
-#Beg > "2000-01-01" & Beg < "2000-12-12")
+#Begin > "2000-01-01" & Begin < "2000-12-12")
 #plot_map(memberships, actor = "stateID") +
 #ggplot2::labs(title = "Bilateral International Environmental Treaties Signed in the year 2000",
 #subtitle = "Ecolex data")

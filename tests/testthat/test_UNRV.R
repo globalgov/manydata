@@ -14,11 +14,11 @@ test_that("a column indicating an ID source exists", {
 })
 
 test_that("Columns with dates are standardized", {
-  if (!is.null(emperors[["UNRV"]]$Beg)) {
-    expect_equal(class(emperors[["UNRV"]]$Beg), "mdate")
-    expect_false(any(grepl("/", emperors[["UNRV"]]$Beg)))
+  if (!is.null(emperors[["UNRV"]]$Begin)) {
+    expect_equal(class(emperors[["UNRV"]]$Begin), "mdate")
+    expect_false(any(grepl("/", emperors[["UNRV"]]$Begin)))
     expect_false(any(grepl("^[:alpha:]$",
-                           emperors[["UNRV"]]$Beg)))
+                           emperors[["UNRV"]]$Begin)))
   }
   if (!is.null(emperors[["UNRV"]]$End)) {
     expect_equal(class(emperors[["UNRV"]]$End), "mdate")
@@ -29,7 +29,7 @@ test_that("Columns with dates are standardized", {
 })
 
 test_that("dataset is arranged by date variable", {
-  if (!is.null(emperors[["UNRV"]]$Beg)) {
-    expect_true(emperors[["UNRV"]]$Beg[10] < emperors[["UNRV"]]$Beg[20])
+  if (!is.null(emperors[["UNRV"]]$Begin)) {
+    expect_true(emperors[["UNRV"]]$Begin[10] < emperors[["UNRV"]]$Begin[20])
   }
 })

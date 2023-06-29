@@ -49,7 +49,7 @@ with \code{call_treaties()}.
 \examples{
 membs <- dplyr::tibble(manyID = c("ROU-RUS[RFP]_1901A",
 "ROU-RUS[RFP]_1901A", "GD16FI_1901A"),
-StateID = c("ROU", "RUS", "DNK"),
+stateID = c("ROU", "RUS", "DNK"),
 Title = c("Convention Between Roumania And Russia Concerning Fishing
 In The Danube And The Pruth",
 "Convention Between Roumania And Russia Concerning Fishing
@@ -61,9 +61,9 @@ Of Their Respective Subjects Outside
 Territorial Waters In The Ocean Surrounding The Faroe Islands"),
 Begin = c("1901-02-22", "1901-02-22", "1901-06-24"))
 call_treaties(membs)
-call_treaties(membs, treaty_type = "bilaterals",
+call_treaties(membs, treaty_type = "bilateral",
 variable = c("Title", "Begin"))
-call_treaties(membs, variable = c("Title", "Begin"), actor = "StateID")
+call_treaties(membs, variable = c("Title", "Begin"), actor = "stateID")
 }
 \seealso{
 Other call_: 

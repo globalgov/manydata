@@ -29,8 +29,8 @@ For multiple datasets, please declare datasets as a vector
 for the dataset?
 By default false.}
 
-\item{open_codebook}{Would you like to open the preparation script
-for the dataset? By default false.}
+\item{open_codebook}{Would you like to open the codebook for the dataset?
+By default false.}
 }
 \value{
 \code{call_sources} returns a tibble with information on the dataset,

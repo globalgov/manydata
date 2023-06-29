@@ -8,14 +8,14 @@
 #' \describe{
 #' \item{wikipedia: }{A dataset with 68 observations and the
 #' following 15 variables:
-#' ID, Beg, End, FullName, Birth, Death,
+#' ID, Begin, End, FullName, Birth, Death,
 #' CityBirth, ProvinceBirth, Rise, Cause,
 #' Killer, Dynasty, Era, Notes, Verif.}
 #' \item{UNRV: }{A dataset with 99 observations and the
-#' following 7 variables: ID, Beg, End,
+#' following 7 variables: ID, Begin, End,
 #' Birth, Death, FullName, Dynasty.}
 #' \item{britannica: }{A dataset with 87 observations and the
-#' following 3 variables: ID, Beg, End.}
+#' following 3 variables: ID, Begin, End.}
 #' }
 #' @source
 #' \itemize{
@@ -54,7 +54,7 @@
 #' |  *from*  | *to*
 #' |:------------:|:------------:|
 #' | name | ID |
-#' | reign.start | Beg |
+#' | reign.start | Begin |
 #' | reign.end | End |
 #' | name.full | FullName |
 #' | birth | Birth |
@@ -76,6 +76,7 @@
 #' |  *from*  | *to*
 #' |:------------:|:------------:|
 #' | 'Common Name' | ID |
+#' |  Beg | Begin |
 #' | 'Full Name/Imperial Name' | FullName |
 #' | 'Dynasty/Class/Notes' | Dynasty |
 #' 
@@ -86,7 +87,7 @@
 #' |  *from*  | *to*
 #' |:------------:|:------------:|
 #' | Name | ID |
-#' | reign_start | Beg |
+#' | reign_start | Begin |
 #' | reign_end | End |
 #' 
 #' }

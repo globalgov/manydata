@@ -165,7 +165,7 @@ That is, we are interested in the robustness of any results to different data sp
 We can start by exploring whether our conclusion about when emperors began their reign
 would differ depending on which dataset we use.
 We can use the `purrr::map()` function used above, but this time pass it the `mean()` function
-and tell it to operate on just the "Beg" variable, which represents 
+and tell it to operate on just the "Begin" variable, which represents 
 when emperors began their reign (removing any NAs).
 Since manydata datasets are always ordered by "Begin" (and then "ID"),
 we can remove any subsequent (duplicated) entries by ID to concentrate on first appearances.
@@ -175,7 +175,7 @@ library(dplyr)
 emperors %>% 
   purrr::map(function(x){
     x %>% dplyr::filter(!duplicated(ID)) %>%
-      dplyr::summarise(mean(Beg, na.rm = TRUE))
+      dplyr::summarise(mean(Begin, na.rm = TRUE))
   })
 ```
 
@@ -224,7 +224,7 @@ consolidate(database = emperors, rows = "every", cols = "every", resolve = "rand
 Users can even specify how conflicts for different variables should be 'resolved':
 
 ```{r different}
-consolidate(database = emperors, rows = "any", cols = "every", resolve = c(Beg = "min", End = "max"), key = "ID")
+consolidate(database = emperors, rows = "any", cols = "every", resolve = c(Begin = "min", End = "max"), key = "ID")
 ```
 
 Alternatively, users can "favour" a dataset in a database over others:
@@ -237,5 +237,5 @@ Users can, even, declare multiple key ID columns to consolidate a database or mu
 
 ```{r multiple}
 consolidate(database = emperors, rows = "any", cols = "any", resolve = c(Death = "max", Cause = "coalesce"),
-            key = c("ID", "Beg"))
+            key = c("ID", "Begin"))
 ```

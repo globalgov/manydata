@@ -88,9 +88,9 @@ resolve = "mean", key = "ID")
 consolidate(database = emperors, rows = "every", cols = "every",
 resolve = "random", key = "ID")
 consolidate(database = emperors, rows = "every", cols = "every",
-resolve = c(Beg = "min", End = "max"), key = "ID")
+resolve = c(Begin = "min", End = "max"), key = "ID")
 consolidate(database = emperors, rows = "any", cols = "any",
 resolve = c(Death = "max", Cause = "coalesce"),
-key = c("ID", "Beg"))
+key = c("ID", "Begin"))
 }
 }
