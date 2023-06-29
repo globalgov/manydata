@@ -4,7 +4,7 @@
 #' @param dataset A dataset from one of the many packages
 #' or a "consolidated" database.
 #' @param actor An actor variable.
-#' "StateID", by default.
+#' "stateID", by default.
 #' @param treaty_type The type of treaties to be returned.
 #' NULL, by default.
 #' Other options are "bilateral" or "multilateral".
@@ -23,7 +23,7 @@ NULL
 #' @examples
 #' \donttest{
 #' #agreements <- dplyr::filter(manyenviron::agreements$ECOLEX,
-#' #Beg > "2000-01-01" & Beg < "2000-12-12")
+#' #Begin > "2000-01-01" & Begin < "2000-12-12")
 #' #plot_agreements(agreements)
 #'}
 #' @export
@@ -63,7 +63,7 @@ plot_agreements <- function(dataset, treaty_type = NULL, key = "manyID",
 #' @examples
 #' \donttest{
 #' #memberships <- dplyr::filter(manyenviron::memberships$ECOLEX_MEM,
-#' #Beg > "2000-01-01" & Beg < "2000-01-31")
+#' #Begin > "2000-01-01" & Begin < "2000-01-31")
 #' #plot_memberships(memberships)
 #'}
 #' @export
@@ -100,8 +100,8 @@ plot_memberships <- function(dataset, actor = "stateID", treaty_type = NULL,
 #' @return A plot of agreements' lineages.
 #' @examples
 #' \donttest{
-#' #lineage <- dplyr::filter(manyenviron::agreements$HUGGO, Beg > "2000-01-01",
-#' #Beg < "2001-12-31")
+#' #lineage <- dplyr::filter(manyenviron::agreements$HUGGO,
+#' #Begin > "2000-01-01", Begin < "2001-12-31")
 #' #plot_lineage(lineage)
 #' }
 #' @export
@@ -150,13 +150,13 @@ plot_lineage <- function(dataset, treaty_type = NULL, key = "manyID",
 #' @examples
 #' \donttest{
 #' #memberships <- dplyr::filter(manyenviron::memberships$ECOLEX_MEM,
-#' #Beg > "2000-01-01" & Beg < "2000-12-12")
+#' #Begin > "2000-01-01" & Begin < "2000-12-12")
 #' #plot_map(memberships, actor = "stateID") +
 #' #ggplot2::labs(title = "Bilateral International Environmental Treaties Signed in the year 2000",
 #' #subtitle = "Ecolex data")
 #'}
 #' @export
-plot_map <- function(dataset, actor = "StateID", treaty_type = NULL,
+plot_map <- function(dataset, actor = "stateID", treaty_type = NULL,
                      date = "2019-12-31", theme = "light") {
   # check packages
   thisRequires("cshapes")
