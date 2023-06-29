@@ -11,8 +11,8 @@
 ## Connection
 
 * Renamed and updated 'plot_' family of functions
-  * Renamed and updated `retrieve_` family of functions into `agreements_plot()`, `lineages_plot()`, and `memberships_plot()` functions for easy plotting of 'many' data
-  * Closed #248 by updating `map_plot()` function
+  * Renamed and updated `retrieve_` family of functions into `plot_agreements()`, `plot_lineages()`, and `plot_memberships()` functions for easy plotting of 'many' data
+  * Closed #248 by updating `plot_map()` function
 * Renamed and updated 'call_' family of functions
   * Closed #250, #251, and #262 by renaming `get_packages()` to `call_packages()` and updating how the function works and look up packages, version updates, and availailabity
   * Closed #269 by adding a `call_sources()` function that displays sources and variable changes for datasets in databases 
