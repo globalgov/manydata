@@ -7,7 +7,6 @@
 #' and none of the variables used in the mutations,
 #' but, unlike `dplyr::transmute()`, all other unnamed variables.
 #' @importFrom purrr map
-#' @import rlang
 #' @import dplyr
 #' @source https://stackoverflow.com/questions/51428156/dplyr-mutate-transmute-drop-only-the-columns-used-in-the-formula
 #' @examples
@@ -21,7 +20,8 @@ transmutate <- function(.data, ...) {
     }
   getSyms <- function(ee) {
     getAST(ee) %>% unlist %>% purrr::map_chr(deparse)
-    }
+  }
+  thisRequires("rlang")
   # Capture the provided expressions and retrieve their symbols
   vSyms <- rlang::enquos(...) %>% purrr::map(~getSyms(rlang::get_expr(.x)))
   # Identify symbols that are in common with the provided dataset

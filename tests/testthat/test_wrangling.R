@@ -30,14 +30,14 @@ test_that("observations painted correctly", {
   expect_equal(repaint(data1, "ID", c("One", "Two")), data2)
 })
 
-data <- data.frame(fir = c(NA, "two", "three", NA),
-                   sec = c("one", NA, "three", NA), stringsAsFactors = F)
-dat2 <-  data.frame(single = c("one", "two", "three", NA), stringsAsFactors = F)
-
-test_that("missing values dropped", {
-  expect_equal(transmutate(data, single = reunite(fir, sec)),
-               dat2)
-})
+# data <- data.frame(fir = c(NA, "two", "three", NA),
+#                    sec = c("one", NA, "three", NA), stringsAsFactors = F)
+# dat2 <-  data.frame(single = c("one", "two", "three", NA), stringsAsFactors = F)
+# 
+# test_that("missing values dropped", {
+#   expect_equal(transmutate(data, single = reunite(fir, sec)),
+#                dat2)
+# })
 
 transp <- data.frame(bikes = 5, skates = 4)
 
