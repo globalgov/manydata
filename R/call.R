@@ -167,8 +167,8 @@ get_latest_release <- function(full_name) {
 #' @param open_script Would you like to open the preparation script
 #' for the dataset?
 #' By default false.
-#' @param open_codebook Would you like to open the preparation script
-#' for the dataset? By default false.
+#' @param open_codebook Would you like to open the codebook for the dataset?
+#' By default false.
 #' @importFrom utils help browseURL
 #' @importFrom dplyr relocate %>% as_tibble
 #' @importFrom stringr str_extract_all str_remove_all str_trim
@@ -310,7 +310,7 @@ get_help_file <- function(file) {
 #' @examples
 #' membs <- dplyr::tibble(manyID = c("ROU-RUS[RFP]_1901A",
 #' "ROU-RUS[RFP]_1901A", "GD16FI_1901A"),
-#' StateID = c("ROU", "RUS", "DNK"),
+#' stateID = c("ROU", "RUS", "DNK"),
 #' Title = c("Convention Between Roumania And Russia Concerning Fishing
 #' In The Danube And The Pruth",
 #' "Convention Between Roumania And Russia Concerning Fishing
@@ -322,9 +322,9 @@ get_help_file <- function(file) {
 #' Territorial Waters In The Ocean Surrounding The Faroe Islands"),
 #' Begin = c("1901-02-22", "1901-02-22", "1901-06-24"))
 #' call_treaties(membs)
-#' call_treaties(membs, treaty_type = "bilaterals",
+#' call_treaties(membs, treaty_type = "bilateral",
 #' variable = c("Title", "Begin"))
-#' call_treaties(membs, variable = c("Title", "Begin"), actor = "StateID")
+#' call_treaties(membs, variable = c("Title", "Begin"), actor = "stateID")
 #' @return
 #' `call_treaties()` returns a tibble with a list of the agreements.
 #' @export
