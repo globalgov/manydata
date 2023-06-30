@@ -96,16 +96,6 @@ Each of these datasets has their advantages and so we may wish
 to understand their differences,
 summarise variables across them, and perhaps also rerun models across them.
 
-To retrieve an individual dataset from this database,
-we can use the `pluck()` function.
-
-```{r pluck., eval=FALSE}
-pluck(emperors, "wikipedia")
-```
-
-However, the real value of the various 'many packages' is that multiple datasets
-relating to the same phenomenon are presented together.
-
 The `compare_` functions in `{manydata}` allows users to quickly compare
 different information on databases and/or datasets across 'many packages'.
 These include comparison for data summaries, missing observations, overlap, and categories.
@@ -145,7 +135,16 @@ plot(compare_categories(emperors, key = "ID"))
 
 ## Consolidating 'many' data
 
-`{manydata}` also contains flexible methods for consolidating the different datasets in a database into a single dataset.
+To retrieve an individual dataset from this database,
+we can use the `pluck()` function.
+
+```{r pluck., eval=FALSE}
+pluck(emperors, "wikipedia")
+```
+
+However, the real value of the various 'many packages' is that multiple datasets
+relating to the same phenomenon are presented together.
+`{manydata}` contains flexible methods for consolidating the different datasets in a database into a single dataset.
 For example, you could have the rows (observations) from one dataset, but add on some columns (variables) from another dataset.
 Where there are conflicts in the values across the different datasets,
 there are several ways that these may be resolved.

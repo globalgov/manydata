@@ -104,16 +104,6 @@ Encyclopedia List of Roman Emperors). Each of these datasets has their
 advantages and so we may wish to understand their differences, summarise
 variables across them, and perhaps also rerun models across them.
 
-To retrieve an individual dataset from this database, we can use the
-`pluck()` function.
-
-``` r
-pluck(emperors, "wikipedia")
-```
-
-However, the real value of the various ‘many packages’ is that multiple
-datasets relating to the same phenomenon are presented together.
-
 The `compare_` functions in `{manydata}` allows users to quickly compare
 different information on databases and/or datasets across ‘many
 packages’. These include comparison for data summaries, missing
@@ -175,12 +165,21 @@ plot(compare_categories(emperors, key = "ID"))
 
 ## Consolidating ‘many’ data
 
-`{manydata}` also contains flexible methods for consolidating the
-different datasets in a database into a single dataset. For example, you
-could have the rows (observations) from one dataset, but add on some
-columns (variables) from another dataset. Where there are conflicts in
-the values across the different datasets, there are several ways that
-these may be resolved.
+To retrieve an individual dataset from this database, we can use the
+`pluck()` function.
+
+``` r
+pluck(emperors, "wikipedia")
+```
+
+However, the real value of the various ‘many packages’ is that multiple
+datasets relating to the same phenomenon are presented together.
+`{manydata}` contains flexible methods for consolidating the different
+datasets in a database into a single dataset. For example, you could
+have the rows (observations) from one dataset, but add on some columns
+(variables) from another dataset. Where there are conflicts in the
+values across the different datasets, there are several ways that these
+may be resolved.
 
 The `consolidate()` function facilitates consolidating a set of
 datasets, or a database, from a ‘many’ package into a single dataset
@@ -349,16 +348,16 @@ consolidate(database = emperors, rows = "every", cols = "every", resolve = "rand
     #> # A tibble: 41 × 3
     #>    ID             Begin      End       
     #>    <chr>          <chr>      <chr>     
-    #>  1 Aemilian       0253-12-31 0253-10-15
-    #>  2 Augustus       -027-12-31 0014-12-31
-    #>  3 Aurelian       0270-09-15 0275-09-15
-    #>  4 Balbinus       0238-12-31 0238-12-31
-    #>  5 Caracalla      0211-12-31 0217-04-08
-    #>  6 Carinus        0283-08-01 0285-08-01
+    #>  1 Aemilian       0253-12-31 0253-12-31
+    #>  2 Augustus       -026-01-16 0014-12-31
+    #>  3 Aurelian       0270-12-31 0275-09-15
+    #>  4 Balbinus       0238-04-22 0238-07-29
+    #>  5 Caracalla      0211-12-31 0217-12-31
+    #>  6 Carinus        0283-12-31 0285-12-31
     #>  7 Carus          0282-12-31 0283-12-31
     #>  8 Claudius       0041-12-31 0054-12-31
     #>  9 Commodus       0177-12-31 0192-12-31
-    #> 10 Constantine II 0337-12-31 0340-12-31
+    #> 10 Constantine II 0337-05-22 0340-12-31
     #> # ℹ 31 more rows
 
 Users can even specify how conflicts for different variables should be
