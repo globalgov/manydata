@@ -121,14 +121,12 @@ The `compare_overlap()` function returns a tibble with the number of overlapping
 Most of the `compare_` functions are usually accompanied by an appropriate plotting method that allows users to visualize the comparisons.
 
 ```{r overlap}
-compare_overlap(emperors, key = "ID")
 plot(compare_overlap(emperors, key = "ID"))
 ```
 
 The `compare_missing()` function returns a tibble with the number and percentage of missing observations in datasets within database.
 
 ```{r missing}
-compare_missing(emperors)
 plot(compare_missing(emperors))
 ```
 
@@ -142,7 +140,6 @@ and 'majority' if the non-NA values are the same across most datasets.
 Observations are in 'conflict' if datasets have different non-NA values.
 
 ```{r categories}
-compare_categories(emperors, key = "ID")
 plot(compare_categories(emperors, key = "ID"))
 ```
 

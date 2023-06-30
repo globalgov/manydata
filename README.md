@@ -140,21 +140,6 @@ overlapping observations for a specified variable (specify using the
 method that allows users to visualize the comparisons.
 
 ``` r
-compare_overlap(emperors, key = "ID")
-```
-
-    #> # A tibble: 7 × 2
-    #>   `Datasets from emperors`    `Overlapping Observations by ID`
-    #>   <chr>                                                  <int>
-    #> 1 wikipedia                                                 13
-    #> 2 UNRV                                                      31
-    #> 3 britannica                                                20
-    #> 4 wikipedia..UNRV                                            7
-    #> 5 wikipedia..britannica                                      7
-    #> 6 UNRV..britannica                                          19
-    #> 7 wikipedia..UNRV..britannica                               41
-
-``` r
 plot(compare_overlap(emperors, key = "ID"))
 ```
 
@@ -162,25 +147,6 @@ plot(compare_overlap(emperors, key = "ID"))
 
 The `compare_missing()` function returns a tibble with the number and
 percentage of missing observations in datasets within database.
-
-``` r
-compare_missing(emperors)
-```
-
-    #> # A tibble: 25 × 6
-    #>    Variable  Dataset    Class     Count Missing `Percent Missing`
-    #>    <chr>     <chr>      <chr>     <dbl>   <dbl>             <dbl>
-    #>  1 Begin     wikipedia  mdate        68       0              0   
-    #>  2 Begin     UNRV       mdate        99       0              0   
-    #>  3 Begin     britannica mdate        87       0              0   
-    #>  4 Birth     wikipedia  character    68       5              7.35
-    #>  5 Birth     UNRV       character    99       0              0   
-    #>  6 Cause     wikipedia  character    68       0              0   
-    #>  7 CityBirth wikipedia  character    68      17             25   
-    #>  8 Dataset   wikipedia  character    68       0              0   
-    #>  9 Dataset   UNRV       character    99       0              0   
-    #> 10 Dataset   britannica character    87       0              0   
-    #> # ℹ 15 more rows
 
 ``` r
 plot(compare_missing(emperors))
@@ -198,33 +164,6 @@ values are the same across most datasets. ‘Unique’ observations are
 present in only one dataset and ‘missing’ observations indicate there
 are no non-NA values across all datasets for that variable. Observations
 are in ‘conflict’ if datasets have different non-NA values.
-
-``` r
-compare_categories(emperors, key = "ID")
-```
-
-    #> There were 116 matched observations by ID variable across datasets in database.
-
-    #> # A tibble: 139 × 37
-    #>    ID        `wikipedia$Begin` `UNRV$Begin` `britannica$Begin` `Begin (3)`
-    #>    <chr>     <mdate>           <mdate>      <mdate>            <chr>      
-    #>  1 Augustus  -0026-01-16       -0027        -0031              conflict   
-    #>  2 Tiberius  0014-09-18        -0014        0014               conflict   
-    #>  3 Caligula  0037-03-18        NA           0037               conflict   
-    #>  4 Claudius  0041-01-25        0041         0041               majority   
-    #>  5 Nero      0054-10-13        0054         0054               majority   
-    #>  6 Galba     0068-06-08        0068         0068               majority   
-    #>  7 Otho      0069-01-15        0069         0069-01            conflict   
-    #>  8 Vitellius 0069-04-17        0069         NA                 conflict   
-    #>  9 Vespasian 0069-12-21        0069         0069               majority   
-    #> 10 Titus     0079-06-24        0079         0079               majority   
-    #> # ℹ 129 more rows
-    #> # ℹ 32 more variables: `wikipedia$End` <mdate>, `UNRV$End` <mdate>,
-    #> #   `britannica$End` <mdate>, `End (3)` <chr>, `wikipedia$FullName` <chr>,
-    #> #   `UNRV$FullName` <chr>, `FullName (2)` <chr>, `wikipedia$Birth` <chr>,
-    #> #   `UNRV$Birth` <chr>, `Birth (2)` <chr>, `wikipedia$Death` <chr>,
-    #> #   `UNRV$Death` <chr>, `Death (2)` <chr>, `wikipedia$CityBirth` <chr>,
-    #> #   `CityBirth (1)` <chr>, `wikipedia$ProvinceBirth` <chr>, …
 
 ``` r
 plot(compare_categories(emperors, key = "ID"))
@@ -410,16 +349,16 @@ consolidate(database = emperors, rows = "every", cols = "every", resolve = "rand
     #> # A tibble: 41 × 3
     #>    ID             Begin      End       
     #>    <chr>          <chr>      <chr>     
-    #>  1 Aemilian       0253-12-31 0253-12-31
-    #>  2 Augustus       -031-12-31 -014-12-31
-    #>  3 Aurelian       0270-09-15 0275-12-31
-    #>  4 Balbinus       0238-04-22 0238-12-31
+    #>  1 Aemilian       0253-12-31 0253-10-15
+    #>  2 Augustus       -027-12-31 0014-12-31
+    #>  3 Aurelian       0270-09-15 0275-09-15
+    #>  4 Balbinus       0238-12-31 0238-12-31
     #>  5 Caracalla      0211-12-31 0217-04-08
-    #>  6 Carinus        0283-12-31 0285-12-31
-    #>  7 Carus          0282-10-01 0283-12-31
+    #>  6 Carinus        0283-08-01 0285-08-01
+    #>  7 Carus          0282-12-31 0283-12-31
     #>  8 Claudius       0041-12-31 0054-12-31
     #>  9 Commodus       0177-12-31 0192-12-31
-    #> 10 Constantine II 0337-12-31 0340-01-01
+    #> 10 Constantine II 0337-12-31 0340-12-31
     #> # ℹ 31 more rows
 
 Users can even specify how conflicts for different variables should be
