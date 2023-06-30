@@ -81,7 +81,7 @@ call_sources(package = "manydata", database = "emperors")
     #> 2 UNRV       UNRV, Roman Emperor list, https://www.unrv.com/gover… http… from -…
     #> 3 britannica Britannica, List of Roman emperors, https://www.brit… http… from -…
 
-## Comparing ‘many’ datasets
+## Comparing ‘many’ data
 
 Packages in the many packages universe have the advantage to facilitate
 comparison and analysis of multiple datasets in a specific domain of
@@ -234,7 +234,7 @@ plot(compare_categories(emperors, key = "ID"))
 
 <img src="man/figures/README-categories-1.png" width="100%" />
 
-## Consolidating ‘many’ databases
+## Consolidating ‘many’ data
 
 `{manydata}` also contains flexible methods for consolidating the
 different datasets in a database into a single dataset. For example, you
@@ -411,11 +411,11 @@ consolidate(database = emperors, rows = "every", cols = "every", resolve = "rand
     #>    ID             Begin      End       
     #>    <chr>          <chr>      <chr>     
     #>  1 Aemilian       0253-12-31 0253-12-31
-    #>  2 Augustus       -027-12-31 0014-12-31
-    #>  3 Aurelian       0270-12-31 0275-12-31
+    #>  2 Augustus       -031-12-31 -014-12-31
+    #>  3 Aurelian       0270-09-15 0275-12-31
     #>  4 Balbinus       0238-04-22 0238-12-31
-    #>  5 Caracalla      0198-12-31 0217-12-31
-    #>  6 Carinus        0283-08-01 0285-08-01
+    #>  5 Caracalla      0211-12-31 0217-04-08
+    #>  6 Carinus        0283-12-31 0285-12-31
     #>  7 Carus          0282-10-01 0283-12-31
     #>  8 Claudius       0041-12-31 0054-12-31
     #>  9 Commodus       0177-12-31 0192-12-31

@@ -75,7 +75,7 @@ The `call_sources()` function obtains information about the sources and original
 call_sources(package = "manydata", database = "emperors")
 ```
 
-## Comparing 'many' datasets
+## Comparing 'many' data
 
 Packages in the many packages universe have the advantage to facilitate comparison and analysis of multiple datasets in a specific domain of global governance.
 
@@ -146,7 +146,7 @@ compare_categories(emperors, key = "ID")
 plot(compare_categories(emperors, key = "ID"))
 ```
 
-## Consolidating 'many' databases
+## Consolidating 'many' data
 
 `{manydata}` also contains flexible methods for consolidating the different datasets in a database into a single dataset.
 For example, you could have the rows (observations) from one dataset, but add on some columns (variables) from another dataset.
