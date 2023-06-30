@@ -28,8 +28,21 @@ and institutions of global governance. This package contains tools for:
 - *consolidating* databases in different ways.
 
 `{manydata}` connects users to other packages that help fill global
-governance researchers’ data needs. The easiest way to install
-`{manydata}` is directly from CRAN.
+governance researchers’ data needs. We intend for `{manydata}` to be
+useful:
+
+- at the **start** of a research project, to access and gather recent
+  versions of well-regarded datasets, see what is available, describe,
+  and explore the data,
+- in the **middle** of a project, to facilitate analysis, comparison and
+  modelling, and
+- at the **end** of the project, to help with conducting robustness
+  checks, preparing replication scripts, and writing the next grant
+  application.
+
+## Call ‘many’ packages
+
+The easiest way to install `{manydata}` is directly from CRAN.
 
 ``` r
 install.packages("manydata")
@@ -42,23 +55,6 @@ downloaded from GitHub.
 # install.packages("remotes")
 remotes::install_github("globalgov/manydata")
 ```
-
-We intend for `{manydata}` to be useful:
-
-- at the **start** of a research project, to access and gather recent
-  versions of well-regarded datasets, see what is available, describe,
-  and explore the data,
-- in the **middle** of a project, to facilitate analysis, comparison and
-  modelling, and
-- at the **end** of the project, to help with conducting robustness
-  checks, preparing replication scripts, and writing the next grant
-  application.
-
-Please see the vignette below for a quick overview:
-
-<a href="https://github.com/globalgov/manydata/blob/develop/man/figures/cheatsheet.pdf"><img src="https://raw.githubusercontent.com/globalgov/manydata/develop/man/figures/cheatsheet.png" width="525" height="378"/></a>
-
-## Call ‘many’ packages
 
 Once `{manydata}` is installed, the `call_` functions can be used to
 discover the ‘many packages’ currently available and/or download or
@@ -101,56 +97,6 @@ data(emperors, package = "manydata")
 emperors
 ```
 
-    #> $wikipedia
-    #> # A tibble: 68 × 15
-    #>    ID       Begin End   FullName Birth Death CityBirth ProvinceBirth Rise  Cause
-    #>    <chr>    <mda> <mda> <chr>    <chr> <chr> <chr>     <chr>         <chr> <chr>
-    #>  1 Augustus -002… 0014… IMPERAT… 0062… 0014… Rome      Italia        Birt… Assa…
-    #>  2 Tiberius 0014… 0037… TIBERIV… 0041… 0037… Rome      Italia        Birt… Assa…
-    #>  3 Caligula 0037… 0041… GAIVS I… 0012… 0041… Antitum   Italia        Birt… Assa…
-    #>  4 Claudius 0041… 0054… TIBERIV… 0009… 0054… Lugdunum  Gallia Lugdu… Birt… Assa…
-    #>  5 Nero     0054… 0068… NERO CL… 0037… 0068… Antitum   Italia        Birt… Suic…
-    #>  6 Galba    0068… 0069… SERVIVS… 0002… 0069… Terracina Italia        Seiz… Assa…
-    #>  7 Otho     0069… 0069… MARCVS … 0032… 0069… Terentin… Italia        Appo… Suic…
-    #>  8 Vitelli… 0069… 0069… AVLVS V… 0015… 0069… Rome      Italia        Seiz… Assa…
-    #>  9 Vespasi… 0069… 0079… TITVS F… 0009… 0079… Falacrine Italia        Seiz… Natu…
-    #> 10 Titus    0079… 0081… TITVS F… 0039… 0081… Rome      Italia        Birt… Natu…
-    #> # ℹ 58 more rows
-    #> # ℹ 5 more variables: Killer <chr>, Dynasty <chr>, Era <chr>, Notes <chr>,
-    #> #   Verif <chr>
-    #> 
-    #> $UNRV
-    #> # A tibble: 99 × 7
-    #>    ID               Begin   End     Birth Death FullName                 Dynasty
-    #>    <chr>            <mdate> <mdate> <chr> <chr> <chr>                    <chr>  
-    #>  1 Augustus         -0027   -0014   63 BC 14    Gaius Julius Caesar Oct… Julio-…
-    #>  2 Tiberius         -0014   0037    42 BC 37    Tiberius Claudius Nero … Julio-…
-    #>  3 Gaius (Caligula) 0037    0041    12    14    Gaius Caesar Germanicus… Julio-…
-    #>  4 Claudius         0041    0054    10 BC 41    Tiberius Claudius Nero … Julio-…
-    #>  5 Nero             0054    0068    37    68    Claudius Nero Caesar (b… Julio-…
-    #>  6 Galba            0068    0069    3 BC  69    Servius Sulpicius Galba… Year o…
-    #>  7 Otho             0069    0069    32    69    Marcus Salvius Otho / I… Year o…
-    #>  8 Vitellius        0069    0069    15    69    Aulus Vitellius / Aulus… Year o…
-    #>  9 Vespasian        0069    0079    9     79    Titus Flavius Vespasian… Year o…
-    #> 10 Titus            0079    0081    39    79    Titus Flavius Vespasian… Flavian
-    #> # ℹ 89 more rows
-    #> 
-    #> $britannica
-    #> # A tibble: 87 × 3
-    #>    ID              Begin   End    
-    #>    <chr>           <mdate> <mdate>
-    #>  1 Augustus        -0031   0014   
-    #>  2 Tiberius        0014    0037   
-    #>  3 Caligula        0037    0041   
-    #>  4 Claudius        0041    0054   
-    #>  5 Nero            0054    0068   
-    #>  6 Galba           0068    0069   
-    #>  7 Otho            0069-01 0069-04
-    #>  8 Aulus Vitellius 0069-07 0069-12
-    #>  9 Vespasian       0069    0079   
-    #> 10 Titus           0079    0081   
-    #> # ℹ 77 more rows
-
 We can see that there are three named datasets relating to emperors
 here: `wikipedia` (dataset assembled from Wikipedia pages), `UNVR`
 (United Nations of Roman Vitrix), and `britannica` (Britannica
@@ -162,7 +108,7 @@ To retrieve an individual dataset from this database, we can use the
 `pluck()` function.
 
 ``` r
-wikipedia <- pluck(emperors, "wikipedia")
+pluck(emperors, "wikipedia")
 ```
 
 However, the real value of the various ‘many packages’ is that multiple
@@ -465,15 +411,15 @@ consolidate(database = emperors, rows = "every", cols = "every", resolve = "rand
     #>    ID             Begin      End       
     #>    <chr>          <chr>      <chr>     
     #>  1 Aemilian       0253-12-31 0253-12-31
-    #>  2 Augustus       -026-01-16 0014-12-31
-    #>  3 Aurelian       0270-12-31 0275-09-15
-    #>  4 Balbinus       0238-12-31 0238-07-29
-    #>  5 Caracalla      0211-12-31 0217-04-08
+    #>  2 Augustus       -027-12-31 0014-12-31
+    #>  3 Aurelian       0270-12-31 0275-12-31
+    #>  4 Balbinus       0238-04-22 0238-12-31
+    #>  5 Caracalla      0198-12-31 0217-12-31
     #>  6 Carinus        0283-08-01 0285-08-01
-    #>  7 Carus          0282-12-31 0283-08-01
-    #>  8 Claudius       0041-01-25 0054-12-31
-    #>  9 Commodus       0180-12-31 0192-12-31
-    #> 10 Constantine II 0337-12-31 0340-12-31
+    #>  7 Carus          0282-10-01 0283-12-31
+    #>  8 Claudius       0041-12-31 0054-12-31
+    #>  9 Commodus       0177-12-31 0192-12-31
+    #> 10 Constantine II 0337-12-31 0340-01-01
     #> # ℹ 31 more rows
 
 Users can even specify how conflicts for different variables should be
@@ -524,6 +470,35 @@ consolidate(database = favour(emperors, "UNRV"), rows = "every", cols = "any", r
     #> # ℹ 31 more rows
     #> # ℹ 5 more variables: Era <chr>, Notes <chr>, Verif <chr>, Begin <mdate>,
     #> #   End <mdate>
+
+Users can, even, declare multiple key ID columns to consolidate a
+database or multiple datasets:
+
+``` r
+consolidate(database = emperors, rows = "any", cols = "any", resolve = c(Death = "max", Cause = "coalesce"),
+            key = c("ID", "Begin"))
+```
+
+    #> # A tibble: 202 × 4
+    #>    ID             Begin       Cause          Death      
+    #>    <chr>          <mdate>     <chr>          <chr>      
+    #>  1 Aemilian       0253        <NA>           253        
+    #>  2 Aemilian       0253-08-15~ Assassination  0253-10-15~
+    #>  3 Allectus       0293        <NA>           297        
+    #>  4 Anastasius     0491        <NA>           518        
+    #>  5 Anthemius      0467        <NA>           472        
+    #>  6 Antoninus Pius 0138        <NA>           161        
+    #>  7 Antonius Pius  0138-07-10  Natural Causes 0161-03-07 
+    #>  8 Arcadius       0383        <NA>           <NA>       
+    #>  9 Arcadius       0395        <NA>           408        
+    #> 10 Augustus       -0026-01-16 Assassination  0014-08-19 
+    #> # ℹ 192 more rows
+
+## Cheatsheet
+
+Please see the cheat sheet below for a quick overview:
+
+<a href="https://github.com/globalgov/manydata/blob/develop/man/figures/cheatsheet.pdf"><img src="https://raw.githubusercontent.com/globalgov/manydata/develop/man/figures/cheatsheet.png" width="525" height="378"/></a>
 
 ## Contributing to the many packages universe
 

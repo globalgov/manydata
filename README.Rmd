@@ -30,6 +30,18 @@ This package contains tools for:
 - _consolidating_ databases in different ways.
 
 `{manydata}` connects users to other packages that help fill global governance researchers' data needs.
+We intend for `{manydata}` to be useful: 
+
+- at the **start** of a research project, 
+to access and gather recent versions of well-regarded datasets, 
+see what is available, describe, and explore the data, 
+- in the **middle** of a project, 
+to facilitate analysis, comparison and modelling, and
+- at the **end** of the project, 
+to help with conducting robustness checks, preparing replication scripts, and writing the next grant application.
+
+## Call 'many' packages
+
 The easiest way to install `{manydata}` is directly from CRAN.
 
 ```{r install, eval=FALSE}
@@ -47,25 +59,8 @@ remotes::install_github("globalgov/manydata")
 library(manydata)
 ```
 
-We intend for `{manydata}` to be useful: 
-
-- at the **start** of a research project, 
-to access and gather recent versions of well-regarded datasets, 
-see what is available, describe, and explore the data, 
-- in the **middle** of a project, 
-to facilitate analysis, comparison and modelling, and
-- at the **end** of the project, 
-to help with conducting robustness checks, preparing replication scripts, and writing the next grant application.
-
-Please see the vignette below for a quick overview:
-
-<a href="https://github.com/globalgov/manydata/blob/develop/man/figures/cheatsheet.pdf"><img src="https://raw.githubusercontent.com/globalgov/manydata/develop/man/figures/cheatsheet.png" width="525" height="378"/></a>
-
-## Call 'many' packages
-
-Once `{manydata}` is installed,
-the `call_` functions can be used to discover the
-'many packages' currently available and/or download or update these
+Once `{manydata}` is installed, the `call_` functions can be used to discover
+the 'many packages' currently available and/or download or update these
 packages when needed. For this, the `call_packages()` can be used.
 
 ```{r get, eval=FALSE}
@@ -88,7 +83,7 @@ For now, let's work with the Roman Emperors database included in manydata.
 We can get a quick summary of the datasets included in this
 package with the following command:
 
-```{r load}
+```{r load, eval=FALSE}
 data(package = "manydata")
 data(emperors, package = "manydata")
 emperors
@@ -104,8 +99,8 @@ summarise variables across them, and perhaps also rerun models across them.
 To retrieve an individual dataset from this database,
 we can use the `pluck()` function.
 
-```{r pluck}
-wikipedia <- pluck(emperors, "wikipedia")
+```{r pluck., eval=FALSE}
+pluck(emperors, "wikipedia")
 ```
 
 However, the real value of the various 'many packages' is that multiple datasets
@@ -206,6 +201,19 @@ Alternatively, users can "favour" a dataset in a database over others:
 ```{r favour}
 consolidate(database = favour(emperors, "UNRV"), rows = "every", cols = "any", resolve = "coalesce", key = "ID")
 ```
+
+Users can, even, declare multiple key ID columns to consolidate a database or multiple datasets:
+
+```{r multiple}
+consolidate(database = emperors, rows = "any", cols = "any", resolve = c(Death = "max", Cause = "coalesce"),
+            key = c("ID", "Begin"))
+```
+
+## Cheatsheet
+
+Please see the cheat sheet below for a quick overview:
+
+<a href="https://github.com/globalgov/manydata/blob/develop/man/figures/cheatsheet.pdf"><img src="https://raw.githubusercontent.com/globalgov/manydata/develop/man/figures/cheatsheet.png" width="525" height="378"/></a>
 
 ## Contributing to the many packages universe
 
