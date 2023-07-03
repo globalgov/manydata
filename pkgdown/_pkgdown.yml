@@ -16,7 +16,7 @@ navbar:
     - home
     - intro
     - reference
-    - articles
+    # - articles
     - news
     right:
     - packages
@@ -29,11 +29,11 @@ navbar:
     reference:
       text: Reference
       href: reference/index.html
-    articles:
-      text: Articles
-      menu:
-      - text: Use
-        href: articles/user.html
+    # articles:
+    #   text: Articles
+    #   menu:
+    #   - text: Use
+    #     href: articles/user.html
     news:
       text: News
       href: news/index.html
@@ -51,6 +51,8 @@ navbar:
           href: https://globalgov.github.io/manyenviron/
         - text: manytrade
           href: https://globalgov.github.io/manytrade/
+        - text: manyhealth
+          href: https://globalgov.github.io/manyhealth/
 reference:
   - title: "Calling 'many' packages"
     desc: "These functions assist data analysts with the download of 'many' packages and their data"
