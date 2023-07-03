@@ -35,3 +35,13 @@ test_that("call treaties works", {
   expect_equal(call_treaties(membs, actor = "StateID"), mlist)
 })
 
+test_that("call releases visualises historical
+          milestones/releases of a repository", {
+            testdf <- data.frame(tag_name = c("v0.1.0", "v0.1.1"),
+                                 date = c("2021-04-01", "2021-05-01"),
+                                 milestone = c("Minor", "Patch"))
+            testplot <- call_releases(testdf)
+            expect_true(is.list(testplot))
+            expect_length(testplot, 9)
+            expect_named(testplot[1:3], c("data", "layers", "scales"))
+            })
