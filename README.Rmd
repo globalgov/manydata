@@ -34,7 +34,7 @@ Datasets are related to one another within a datacube through a particular codin
 
 For instance, in the data packages on international agreements
 (including `{manyenviron}`, `{manytrade}`, and `{manyhealth}`),
-the `agreements` and `memberships` databases have standardised IDs (`manyID`),
+the `agreements` and `memberships` datacubes have standardised IDs (`manyID`),
 and date variables such as `Begin` and `End` that denote the beginning and end dates of treaties respectively.
 The beginning date is derived from the signature or entry into force date,
 whichever is the earliest available date for the treaty.
@@ -45,9 +45,9 @@ It enables users to point out the recurrence,
 difference or absence of observations between the datasets and
 extract more robust data when researching on a particular governance domain. 
 
-The memberships database contains additional date variables on each state member's ratification,
+The memberships datacube contains additional date variables on each state member's ratification,
 signature, entry into force, and end dates for each treaty.
-Data in the memberships database is comparable across datasets through standardised state names and stateIDs,
+Data in the memberships datacube is comparable across datasets through standardised state names and stateIDs,
 made possible with the `manypkgs::code_states()` function.
 More information on each state, including its `Begin` and `End` date,
 can be found in the `{manystates}` package.
@@ -147,7 +147,7 @@ The `compare_ranges()` function returns a tibble with the date range using the
 earliest and latest dates of each dataset within the specified datacube of a many package.
 
 ```{r compare range}
-compare_ranges(emperors)
+compare_ranges(emperors, variable = c("Begin", "End"))
 ```
 
 The `compare_overlap()` function returns a tibble with the number of overlapping observations for a specified variable (specify using the `key` argument) across datasets within the datacube.
