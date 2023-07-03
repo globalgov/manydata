@@ -21,15 +21,44 @@ knitr::opts_chunk$set(warning   = FALSE, message   = FALSE, out.width = "100%",
 <!-- ![GitHub All Releases](https://img.shields.io/github/downloads/jhollway/roctopus/total) -->
 <!-- badges: end -->
 
-`{manydata}` is a portal to many packages containing many databases (each containing many related datasets)
-on many issue-domains, actors and institutions of global governance.
-This package contains tools for: 
+`{manydata}` is a portal to 'many' packages containing many datacubes,
+each containing many related datasets on many issue-domains,
+actors and institutions of global governance.
+These 'many' packages are:
+- `{manyenviron}`: contains data on international environmental agreements
+- `{manytrade}`: contains data on international trade agreements
+- `{manyhealth}`: contains data on international health agreements
+- `{manystates}`: contains data on states throughout history
 
-- _calling_ data packages and databases, 
+Datasets are related to one another within a datacube through a particular coding system which follows the same principles across the different packages.
+
+For instance, in the data packages on international agreements
+(including `{manyenviron}`, `{manytrade}`, and `{manyhealth}`),
+the `agreements` and `memberships` databases have standardised IDs (`manyID`),
+and date variables such as `Begin` and `End` that denote the beginning and end dates of treaties respectively.
+The beginning date is derived from the signature or entry into force date,
+whichever is the earliest available date for the treaty.
+Standardised IDs across datasets allow the same observations to be matched across datasets so that the values can be compared or expanded where relevant.
+These specific variable names allows the comparison of information across 
+datasets that have different sources.
+It enables users to point out the recurrence, 
+difference or absence of observations between the datasets and
+extract more robust data when researching on a particular governance domain. 
+
+The memberships database contains additional date variables on each state member's ratification,
+signature, entry into force, and end dates for each treaty.
+Data in the memberships database is comparable across datasets through standardised state names and stateIDs,
+made possible with the `manypkgs::code_states()` function.
+More information on each state, including its `Begin` and `End` date,
+can be found in the `{manystates}` package.
+
+To enable users to work with the data in these packages,
+`{manydata}` contains tools for: 
+
+- _calling_ data packages, 
 - _comparing_ individual datasets, and
-- _consolidating_ databases in different ways.
+- _consolidating_ datacubes in different ways.
 
-`{manydata}` connects users to other packages that help fill global governance researchers' data needs.
 We intend for `{manydata}` to be useful: 
 
 - at the **start** of a research project, 
@@ -38,7 +67,8 @@ see what is available, describe, and explore the data,
 - in the **middle** of a project, 
 to facilitate analysis, comparison and modelling, and
 - at the **end** of the project, 
-to help with conducting robustness checks, preparing replication scripts, and writing the next grant application.
+to help with conducting robustness checks, preparing replication scripts,
+and writing the next grant application.
 
 ## Call 'many' packages
 
@@ -72,14 +102,23 @@ call_packages("manytrade") # downloads and installs this package
 The `call_sources()` function obtains information about the sources and original locations of the desired datasets.
 
 ```{r source}
-call_sources(package = "manydata", database = "emperors")
+call_sources(package = "manydata", datacube = "emperors")
 ```
 
 ## Comparing 'many' data
 
-Packages in the many packages universe have the advantage to facilitate comparison and analysis of multiple datasets in a specific domain of global governance.
+The first thing users of the data packages may want to do is to identify
+datasets that might contribute to their research goals.
+One major advantage of storing datasets in datacubes is that it facilitates the
+comparison and analysis of multiple datasets in a specific domain of global governance.
+To aid in the selection of datasets and the use of data within datacubes,
+the `compare_` functions in `{manydata}` allows users to quickly compare
+different information on datacubes and/or datasets across 'many packages'.
+These include comparison for data observations, variables, and ranges,
+overlap among observations, missing observations,
+and conflicts among observations.
 
-For now, let's work with the Roman Emperors database included in manydata. 
+For now, let's work with the Roman Emperors datacube included in manydata. 
 We can get a quick summary of the datasets included in this
 package with the following command:
 
@@ -90,37 +129,40 @@ emperors
 ```
 
 We can see that there are three named datasets relating to emperors here:
-`wikipedia` (dataset assembled from Wikipedia pages), `UNVR` (United Nations of Roman Vitrix),
+`wikipedia` (dataset assembled from Wikipedia pages),
+`UNVR` (United Nations of Roman Vitrix),
 and `britannica` (Britannica Encyclopedia List of Roman Emperors).
 Each of these datasets has their advantages and so we may wish
-to understand their differences,
+to understand their similarities and differences,
 summarise variables across them, and perhaps also rerun models across them.
 
-The `compare_` functions in `{manydata}` allows users to quickly compare
-different information on databases and/or datasets across 'many packages'.
-These include comparison for data summaries, missing observations, overlap, and categories.
-
-The `compare_data()` function returns a tibble with the key metadata 
-of each dataset within the specified database of a many package.
+The `compare_dimensions()` function returns a tibble with the observations and variables 
+of each dataset within the specified datacube of a many package.
 
 ```{r compare data}
-compare_data(emperors)
+compare_dimensions(emperors)
 ```
 
-The `compare_overlap()` function returns a tibble with the number of overlapping observations for a specified variable (specify using the `key` argument) across datasets within the database.
-Most of the `compare_` functions are usually accompanied by an appropriate plotting method that allows users to visualize the comparisons.
+The `compare_ranges()` function returns a tibble with the date range using the
+earliest and latest dates of each dataset within the specified datacube of a many package.
+
+```{r compare range}
+compare_ranges(emperors)
+```
+
+The `compare_overlap()` function returns a tibble with the number of overlapping observations for a specified variable (specify using the `key` argument) across datasets within the datacube.
 
 ```{r overlap}
 plot(compare_overlap(emperors, key = "ID"))
 ```
 
-The `compare_missing()` function returns a tibble with the number and percentage of missing observations in datasets within database.
+The `compare_missing()` function returns a tibble with the number and percentage of missing observations in datasets within datacube.
 
 ```{r missing}
 plot(compare_missing(emperors))
 ```
 
-Finally, the `compare_categories()` function help researchers identify how variables across datasets within a database relate to one another.
+Finally, the `compare_categories()` function help researchers identify how variables across datasets within a datacube relate to one another in five categories.
 Observations are matched by an "ID" variable to facilitate comparison.
 The categories here include 'confirmed', 'majority', 'unique', 'missing', and 'conflict'.
 Observations are 'confirmed' if all non-NA values are the same across all datasets,
@@ -135,7 +177,7 @@ plot(compare_categories(emperors, key = "ID"))
 
 ## Consolidating 'many' data
 
-To retrieve an individual dataset from this database,
+To retrieve an individual dataset from this datacube,
 we can use the `pluck()` function.
 
 ```{r pluck., eval=FALSE}
@@ -144,12 +186,13 @@ pluck(emperors, "wikipedia")
 
 However, the real value of the various 'many packages' is that multiple datasets
 relating to the same phenomenon are presented together.
-`{manydata}` contains flexible methods for consolidating the different datasets in a database into a single dataset.
-For example, you could have the rows (observations) from one dataset, but add on some columns (variables) from another dataset.
+`{manydata}` contains flexible methods for consolidating the different datasets in a datacube into a single dataset.
+For example, you could have the rows (observations) from one dataset,
+but add on some columns (variables) from another dataset.
 Where there are conflicts in the values across the different datasets,
 there are several ways that these may be resolved.
 
-The `consolidate()` function facilitates consolidating a set of datasets, or a database,
+The `consolidate()` function facilitates consolidating a set of datasets, or a datacube,
 from a 'many' package into a single dataset with some combination of the rows and columns.
 The function includes separate arguments for rows and columns,
 as well as for how to resolve conflicts in observations across datasets.
@@ -158,13 +201,13 @@ This provides users with considerable flexibility in how they combine data.
 
 For example, users may wish to see units and variables coded in "any" dataset
 (i.e. units or variables present in at least one of the datasets in the 
-database) or units and variables coded in "every" dataset (i.e. units or
-variables present in all of the datasets in the database).
+datacube) or units and variables coded in "every" dataset (i.e. units or
+variables present in all of the datasets in the datacube).
 
 ```{r consolidate}
-consolidate(database = emperors, rows = "any", cols = "any",
+consolidate(datacube = emperors, rows = "any", cols = "any",
             resolve = "coalesce", key = "ID")
-consolidate(database = emperors, rows = "every", cols = "every",
+consolidate(datacube = emperors, rows = "every", cols = "every",
             resolve = "coalesce", key = "ID")
 ```
 
@@ -179,29 +222,29 @@ Users can also choose how they want to resolve conflicts between observations in
 * random: a random value
 
 ```{r resolve}
-consolidate(database = emperors, rows = "any", cols = "every", resolve = "max", key = "ID")
-consolidate(database = emperors, rows = "every", cols = "any", resolve = "min", key = "ID")
-consolidate(database = emperors, rows = "every", cols = "every", resolve = "mean", key = "ID")
-consolidate(database = emperors, rows = "any", cols = "any", resolve = "median", key = "ID")
-consolidate(database = emperors, rows = "every", cols = "every", resolve = "random", key = "ID")
+consolidate(datacube = emperors, rows = "any", cols = "every", resolve = "max", key = "ID")
+consolidate(datacube = emperors, rows = "every", cols = "any", resolve = "min", key = "ID")
+consolidate(datacube = emperors, rows = "every", cols = "every", resolve = "mean", key = "ID")
+consolidate(datacube = emperors, rows = "any", cols = "any", resolve = "median", key = "ID")
+consolidate(datacube = emperors, rows = "every", cols = "every", resolve = "random", key = "ID")
 ```
 
 Users can even specify how conflicts for different variables should be 'resolved':
 
 ```{r different}
-consolidate(database = emperors, rows = "any", cols = "every", resolve = c(Begin = "min", End = "max"), key = "ID")
+consolidate(datacube = emperors, rows = "any", cols = "every", resolve = c(Begin = "min", End = "max"), key = "ID")
 ```
 
-Alternatively, users can "favour" a dataset in a database over others:
+Alternatively, users can "favour" a dataset in a datacube over others:
 
 ```{r favour}
-consolidate(database = favour(emperors, "UNRV"), rows = "every", cols = "any", resolve = "coalesce", key = "ID")
+consolidate(datacube = favour(emperors, "UNRV"), rows = "every", cols = "any", resolve = "coalesce", key = "ID")
 ```
 
-Users can, even, declare multiple key ID columns to consolidate a database or multiple datasets:
+Users can, even, declare multiple key ID columns to consolidate a datacube or multiple datasets:
 
 ```{r multiple}
-consolidate(database = emperors, rows = "any", cols = "any", resolve = c(Death = "max", Cause = "coalesce"),
+consolidate(datacube = emperors, rows = "any", cols = "any", resolve = c(Death = "max", Cause = "coalesce"),
             key = c("ID", "Begin"))
 ```
 
