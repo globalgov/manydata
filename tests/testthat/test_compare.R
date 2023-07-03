@@ -1,7 +1,7 @@
 # Test for compare_ family of functions
 
 test_that("plot for compare_categories returns the correct output format", {
-  db <- plot(compare_categories(database = emperors, key = "ID"))
+  db <- plot(compare_categories(datacube = emperors, key = "ID"))
   expect_type(db, "list")
   expect_length(db, 9)
   expect_true(ggplot2::is.ggplot(db))
@@ -10,9 +10,9 @@ test_that("plot for compare_categories returns the correct output format", {
 })
 
 test_that("compare_categories() returns the correct output format", {
-  db <- compare_categories(database = emperors, key = "ID")
-  db1 <- compare_categories(database = emperors, key = "ID", variable = "Begin")
-  db2 <- compare_categories(database = emperors, key = "ID",
+  db <- compare_categories(datacube = emperors, key = "ID")
+  db1 <- compare_categories(datacube = emperors, key = "ID", variable = "Begin")
+  db2 <- compare_categories(datacube = emperors, key = "ID",
                             variable = c("Begin", "End"), category = "conflict")
   expect_type(db, "list")
   expect_type(db1, "list")
@@ -29,10 +29,19 @@ test_that("compare_categories() returns the correct output format", {
   expect_true(db2[1,5] == db2[10,5])
 })
 
-test_that("compare_data() returns the correct output format", {
-  db <- compare_data(emperors)
+test_that("compare_dimensions() returns the correct output format", {
+  db <- compare_dimensions(emperors)
   expect_type(db, "list")
   expect_length(db, 5)
+  expect_s3_class(db, "tbl_df")
+})
+
+test_that("compare_ranges() returns the correct output format", {
+  expect_error(compare_ranges(emperors),
+               "Please declare one or more variables.")
+  db <- compare_ranges(emperors, variable = c("Begin", "End"))
+  expect_type(db, "list")
+  expect_length(db, 6)
   expect_s3_class(db, "tbl_df")
 })
 
