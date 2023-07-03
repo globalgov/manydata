@@ -1,6 +1,6 @@
-#' Emperors database documentation
+#' Emperors datacube documentation
 #'
-#' @format The emperors database is a list that contains the
+#' @format The emperors datacube is a list that contains the
 #' following 3 datasets: wikipedia, UNRV, britannica.
 #' For more information and references to each of the datasets used,
 #' please use the `data_source()` and `data_contrast()`.
