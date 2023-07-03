@@ -58,15 +58,10 @@ reference:
     desc: "These functions assist data analysts with the download of 'many' packages and their data"
     contents:
       - starts_with("call_")
-      - plot_releases
   - title: "Comparing 'many' packages data"
     desc: "These functions assist data analysts with the visualisation of data on particular domains of global governance"
     contents:
       - starts_with("compare_")
-      - plot_agreements
-      - plot_memberships
-      - plot_lineage
-      - plot_map
   - title: "Consolidating 'many' packages data"
     desc: "These functions assist data analysts with the analysis of data on particular domains of global governance"
     contents:
