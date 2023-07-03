@@ -101,3 +101,10 @@ data_evolution <- function(.data) {
   .Defunct("manydata::call_sources()", package = "manydata")
   data_evolution(.data)
 }
+
+#' @describeIn defunct Renamed on 2023-07-03.
+#' @export
+plot_releases <- function(.data) {
+  .Deprecated(new = "manydata::call_releases()",
+              package = "manydata")
+}

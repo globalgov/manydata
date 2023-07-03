@@ -15,6 +15,7 @@
 \alias{open_codebook}
 \alias{data_contrast}
 \alias{data_evolution}
+\alias{plot_releases}
 \title{Functions that have been renamed, superseded, or are no longer working}
 \usage{
 coalesce_compatible(.data)
@@ -42,6 +43,8 @@ open_codebook(.data)
 data_contrast(.data)
 
 data_evolution(.data)
+
+plot_releases(.data)
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
@@ -79,6 +82,8 @@ wherever possible and update your scripts accordingly.
 \item \code{data_contrast()}: Removed on 2023-06-19.
 
 \item \code{data_evolution()}: Removed on 2023-06-19.
+
+\item \code{plot_releases()}: Renamed on 2023-07-03.
 
 }}
 \keyword{internal}

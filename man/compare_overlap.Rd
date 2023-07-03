@@ -2,17 +2,17 @@
 % Please edit documentation in R/compare.R
 \name{compare_overlap}
 \alias{compare_overlap}
-\title{Compare the overlap between datasets in 'many' databases}
+\title{Compare the overlap between datasets in 'many' datacubes}
 \usage{
-compare_overlap(database, dataset = NULL, key = "manyID")
+compare_overlap(datacube, dataset = "all", key = "manyID")
 }
 \arguments{
-\item{database}{A database from one of the many packages.}
+\item{datacube}{A datacube from one of the many packages.}
 
-\item{dataset}{A dataset in a database from one of the many packages.
-NULL by default.
-That is, all datasets in the database are used.
-A list of 2 or more datasets present in the database.}
+\item{dataset}{A dataset in a datacube from one of the many packages.
+By default "all".
+That is, all datasets in the datacube are used.
+To select two or more datasets, please declare them as a vector.}
 
 \item{key}{A variable key to join datasets.
 'manyID' by default.}
@@ -22,11 +22,11 @@ A list of 2 or more datasets present in the database.}
 and the number of overlapping observations.
 }
 \description{
-Compare the overlap between datasets in 'many' databases
+Compare the overlap between datasets in 'many' datacubes
 }
 \details{
 \code{compare_overlap()} compares the overlap between "key" observations
-in each dataset in a 'many' database.
+in each dataset in a 'many' datacube.
 }
 \examples{
 \donttest{
@@ -37,7 +37,8 @@ plot(compare_overlap(emperors, key = "ID"))
 \seealso{
 Other compare_: 
 \code{\link{compare_categories}()},
-\code{\link{compare_data}()},
-\code{\link{compare_missing}()}
+\code{\link{compare_dimensions}()},
+\code{\link{compare_missing}()},
+\code{\link{compare_ranges}()}
 }
 \concept{compare_}

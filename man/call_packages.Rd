@@ -40,6 +40,7 @@ they can type the package name within the function.
 }
 \seealso{
 Other call_: 
+\code{\link{call_releases}()},
 \code{\link{call_sources}()},
 \code{\link{call_treaties}()}
 }

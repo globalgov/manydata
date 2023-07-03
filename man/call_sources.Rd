@@ -2,11 +2,11 @@
 % Please edit documentation in R/call.R
 \name{call_sources}
 \alias{call_sources}
-\title{Call sources for databases and datasets in 'many' packages}
+\title{Call sources for datacubes and datasets in 'many' packages}
 \usage{
 call_sources(
   package,
-  database,
+  datacube,
   dataset = NULL,
   open_script = FALSE,
   open_codebook = FALSE
@@ -17,11 +17,11 @@ call_sources(
 For multiple packages,
 please declare package names as a vector (e.g. c("package1", "package2")).}
 
-\item{database}{A database from one of the many packages.}
+\item{datacube}{A datacube from one of the many packages.}
 
-\item{dataset}{A dataset in a database from one of the many packages.
+\item{dataset}{A dataset in a datacube from one of the many packages.
 NULL by default.
-That is, all datasets in the database are used.
+That is, all datasets in the datacube are used.
 For multiple datasets, please declare datasets as a vector
 (e.g. c("dataset1", "dataset2")).}
 
@@ -38,12 +38,12 @@ their sources, URL, and mapping to facilitate understanding
 variable name changes from original data.
 }
 \description{
-Call sources for databases and datasets in 'many' packages
+Call sources for datacubes and datasets in 'many' packages
 }
 \details{
-\code{call_sources()} displays sources of the databases and datasets
+\code{call_sources()} displays sources of the datacubes and datasets
 in 'many' packages.
-Please declare package, database, and dataset
+Please declare package, datacube, and dataset
 }
 \examples{
 call_sources("manydata", "emperors")
@@ -51,6 +51,7 @@ call_sources("manydata", "emperors")
 \seealso{
 Other call_: 
 \code{\link{call_packages}()},
+\code{\link{call_releases}()},
 \code{\link{call_treaties}()}
 }
 \concept{call_}

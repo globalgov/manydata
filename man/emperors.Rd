@@ -3,9 +3,9 @@
 \docType{data}
 \name{emperors}
 \alias{emperors}
-\title{Emperors database documentation}
+\title{Emperors datacube documentation}
 \format{
-The emperors database is a list that contains the
+The emperors datacube is a list that contains the
 following 3 datasets: wikipedia, UNRV, britannica.
 For more information and references to each of the datasets used,
 please use the \code{data_source()} and \code{data_contrast()}.
@@ -45,7 +45,7 @@ Accessed on 2021-07-22
 emperors
 }
 \description{
-Emperors database documentation
+Emperors datacube documentation
 }
 \details{
 \if{html}{\out{<div class="sourceCode">}}\preformatted{#> $wikipedia

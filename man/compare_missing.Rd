@@ -4,18 +4,18 @@
 \alias{compare_missing}
 \title{Compare missing observations for 'many' data}
 \usage{
-compare_missing(database, dataset = NULL, variable = "all")
+compare_missing(datacube, dataset = "all", variable = "all")
 }
 \arguments{
-\item{database}{A database from one of the many packages.}
+\item{datacube}{A datacube from one of the many packages.}
 
-\item{dataset}{A dataset in a database from one of the many packages.
+\item{dataset}{A dataset in a datacube from one of the many packages.
 NULL by default.
-That is, all datasets in the database are used.
-A list of 2 or more datasets present in the database.}
+That is, all datasets in the datacube are used.
+To select two or more datasets, please declare them as a vector.}
 
 \item{variable}{Would you like to focus on one, or more, specific variables
-present in one or more datasets in the 'many' database?
+present in one or more datasets in the 'many' datacube?
 By default "all".
 For multiple variables, please declare variable names as a vector.}
 }
@@ -29,7 +29,7 @@ Compare missing observations for 'many' data
 }
 \details{
 \code{compare_missing()} compares the missing observations for variables
-in each dataset in a 'many' database.
+in each dataset in a 'many' datacube.
 }
 \examples{
 \donttest{
@@ -40,7 +40,8 @@ plot(compare_missing(emperors))
 \seealso{
 Other compare_: 
 \code{\link{compare_categories}()},
-\code{\link{compare_data}()},
-\code{\link{compare_overlap}()}
+\code{\link{compare_dimensions}()},
+\code{\link{compare_overlap}()},
+\code{\link{compare_ranges}()}
 }
 \concept{compare_}

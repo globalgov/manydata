@@ -13,9 +13,9 @@ call_treaties(
 )
 }
 \arguments{
-\item{dataset}{A dataset in a database from one of the many packages.
+\item{dataset}{A dataset in a datacube from one of the many packages.
 NULL by default.
-That is, all datasets in the database are used.
+That is, all datasets in the datacube are used.
 For multiple datasets, please declare datasets as a vector
 (e.g. c("dataset1", "dataset2")).}
 
@@ -24,7 +24,7 @@ NULL, by default.
 Other options are "bilateral" or "multilateral".}
 
 \item{variable}{Would you like to get one, or more, specific variables
-present in one or more datasets in the 'many' database?
+present in one or more datasets in the 'many' datacube?
 NULL by default.
 For multiple variables, please declare variable names as a vector.}
 
@@ -42,7 +42,7 @@ If declared, a tibble of the treaties and their member actors is returned.}
 Call treaties from 'many' datasets
 }
 \details{
-Certain datasets, or consolidated databases, in 'many' packages
+Certain datasets, or consolidated datacubes, in 'many' packages
 contains information on treaties which can be retrieved
 with \code{call_treaties()}.
 }
@@ -68,6 +68,7 @@ call_treaties(membs, variable = c("Title", "Begin"), actor = "stateID")
 \seealso{
 Other call_: 
 \code{\link{call_packages}()},
+\code{\link{call_releases}()},
 \code{\link{call_sources}()}
 }
 \concept{call_}

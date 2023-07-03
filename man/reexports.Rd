@@ -4,14 +4,14 @@
 \name{reexports}
 \alias{reexports}
 \alias{pluck}
-\title{Selects a single dataset from a database}
+\title{Selects a single dataset from a datacube}
 \value{
 The selected dataset
 }
 \details{
 This function is reexported from the purrr package.
 It allows users to select a single dataset from one
-of the databases available across the 'many* packages'.
+of the datacubes available across the 'many* packages'.
 }
 \examples{
 \donttest{

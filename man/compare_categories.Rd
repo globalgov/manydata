@@ -2,29 +2,29 @@
 % Please edit documentation in R/compare.R
 \name{compare_categories}
 \alias{compare_categories}
-\title{Compare categories in 'many' databases}
+\title{Compare categories in 'many' datacubes}
 \usage{
 compare_categories(
-  database,
-  dataset = NULL,
+  datacube,
+  dataset = "all",
   key = "manyID",
   variable = "all",
   category = "all"
 )
 }
 \arguments{
-\item{database}{A database from one of the many packages.}
+\item{datacube}{A datacube from one of the many packages.}
 
-\item{dataset}{A dataset in a database from one of the many packages.
-NULL by default.
-That is, all datasets in the database are used.
-A list of 2 or more datasets present in the database.}
+\item{dataset}{A dataset in a datacube from one of the many packages.
+By default "all".
+That is, all datasets in the datacube are used.
+To select two or more datasets, please declare them as a vector.}
 
 \item{key}{A variable key to join datasets.
 'manyID' by default.}
 
 \item{variable}{Would you like to focus on one, or more, specific variables
-present in one or more datasets in the 'many' database?
+present in one or more datasets in the 'many' datacube?
 By default "all".
 For multiple variables, please declare variable names as a vector.}
 
@@ -35,28 +35,29 @@ or "majority".
 For multiple variables, please declare categories as a vector.}
 }
 \description{
-Compare categories in 'many' databases
+Compare categories in 'many' datacubes
 }
 \details{
-Confirmed values are the same in all datasets in database.
-Unique values appear once in datasets in database.
-Missing values are missing in all datasets in database.
-Conflict values are different in the same number of datasets in database.
+Confirmed values are the same in all datasets in datacube.
+Unique values appear once in datasets in datacube.
+Missing values are missing in all datasets in datacube.
+Conflict values are different in the same number of datasets in datacube.
 Majority values have the same value in multiple, but not all,
-datasets in database.
+datasets in datacube.
 }
 \examples{
 compare_categories(emperors, key = "ID")
-compare_categories(database = emperors, dataset = c("wikipedia", "UNRV"),
+compare_categories(datacube = emperors, dataset = c("wikipedia", "UNRV"),
 key = "ID", variable = c("Beg", "End"), category = c("conflict", "unique"))
 plot(compare_categories(emperors, key = "ID"))
-plot(compare_categories(database = emperors, dataset = c("wikipedia", "UNRV"),
+plot(compare_categories(datacube = emperors, dataset = c("wikipedia", "UNRV"),
 key = "ID", variable = c("Beg", "End"), category = c("conflict", "unique")))
 }
 \seealso{
 Other compare_: 
-\code{\link{compare_data}()},
+\code{\link{compare_dimensions}()},
 \code{\link{compare_missing}()},
-\code{\link{compare_overlap}()}
+\code{\link{compare_overlap}()},
+\code{\link{compare_ranges}()}
 }
 \concept{compare_}
