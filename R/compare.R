@@ -1,33 +1,34 @@
-#' Compare data summaries for 'many' data
+#' Compare dimensions for 'many' data
 #'
-#' @details `compare_data()` compares the number of observations, variables,
-#' the earliest and latest date in each dataset in a 'many' database.
+#' @details `compare_dimensions()` compares the number of observations,
+#' variables, the earliest date, and the latest date in all observations
+#' for datasets in a 'many' datacube.
 #' @family compare_
-#' @param database A database from one of the many packages.
-#' @param dataset A dataset in a database from one of the many packages.
-#' NULL by default.
-#' That is, all datasets in the database are used.
-#' A list of 2 or more datasets present in the database.
+#' @param datacube A datacube from one of the many packages.
+#' @param dataset A dataset in a datacube from one of the many packages.
+#' By default, "all".
+#' That is, all datasets in the datacube are used.
+#' To select two or more datasets, please declare them as a vector.
 #' @importFrom purrr map
 #' @importFrom dplyr as_tibble
 #' @examples
 #' \donttest{
-#' compare_data(emperors)
+#' compare_dimensions(emperors)
 #' }
 #' @return
-#' `compare_data()` returns a tibble with information about each dataset
+#' `compare_dimensions()` returns a tibble with information about each dataset
 #' including the number of observations, the number of variables,
 #' the earliest date, and the latest date in all observations.
 #' @export
-compare_data <- function(database, dataset = NULL) {
-  if (!is.null(dataset)) {
+compare_dimensions <- function(datacube, dataset = "all") {
+  if (any(dataset != "all")) {
     if (length(dataset) < 2) stop("Please declare 2 or more datasets for comparison.")
-    database <- database[grepl(paste(dataset, collapse = "|"), names(database))]
+    datacube <- datacube[grepl(paste(dataset, collapse = "|"), names(datacube))]
   }
-  names <- data.frame(Dataset = names(database))
-  out <- do.call(rbind, lapply(database, function(x) {
+  names <- data.frame(Dataset = names(datacube))
+  out <- do.call(rbind, lapply(datacube, function(x) {
     Observations <- nrow(x)
-    Variables <- ncol(x)
+    Variables <- paste(names(x), collapse = ", ")
     Earliest_Date <- suppressWarnings(min(unlist(purrr::map(x, function(y) {
       ifelse(grepl("date", class(y), ignore.case = TRUE),
              min(y, na.rm = TRUE), NA)
@@ -41,16 +42,78 @@ compare_data <- function(database, dataset = NULL) {
   dplyr::as_tibble(cbind(names, out))
 }
 
-#' Compare the overlap between datasets in 'many' databases
+#' Compare variable ranges for 'many' data
+#'
+#' @details `compare_ranges()` compares the number of observations, variables,
+#' the earliest and latest date in each dataset in a 'many' datacube.
+#' @family compare_
+#' @param datacube A datacube from one of the many packages.
+#' @param dataset A dataset in a datacube from one of the many packages.
+#' By default, "all".
+#' That is, all datasets in the datacube are used.
+#' To select two or more datasets, please declare them as a vector.
+#' @param variable Please declare a variable present in one or more
+#' datasets in the 'many' datacube.
+#' For multiple variables, please declare variable names as a vector.
+#' @import messydates
+#' @importFrom purrr map
+#' @importFrom dplyr as_tibble
+#' @importFrom stats median
+#' @examples
+#' \donttest{
+#' compare_ranges(emperors, variable = c("Begin", "End"))
+#' }
+#' @return
+#' `compare_ranges()` returns a tibble with information about the minimal,
+#' maximal, average, and median values for selected variables in datacubes.
+#' @export
+compare_ranges <- function(datacube, dataset = "all", variable) {
+  if (any(dataset != "all")) {
+    if (length(dataset) < 2) stop("Please declare 2 or more datasets for comparison.")
+    datacube <- datacube[grepl(paste(dataset, collapse = "|"), names(datacube))]
+  }
+  if (missing(variable)) stop("Please declare one or more variables.")
+  datacube <- lapply(datacube, function(x) {
+    x[grepl(paste(variable, collapse = "|"), names(x))]
+  })
+  names <- data.frame(
+    Dataset = unlist(lapply(names(datacube), function(x) {
+    rep(x, length(variable))
+  })))
+  out <- do.call(rbind, lapply(datacube, function(x) {
+    Variable <- names(x)
+    Min <- unlist(purrr::map(x, function(y) {
+      ifelse(grepl("date", class(y), ignore.case = TRUE),
+             as.Date(as_messydate(y), min), min(y, na.rm = TRUE))
+    }))
+    Max <- unlist(purrr::map(x, function(y) {
+      ifelse(grepl("date", class(y), ignore.case = TRUE),
+             as.Date(as_messydate(y), max), max(y, na.rm = TRUE))
+    }))
+    Mean <- unlist(purrr::map(x, function(y) {
+      ifelse(grepl("date", class(y), ignore.case = TRUE),
+             as.Date(as_messydate(y), mean), mean(y, na.rm = TRUE))
+    }))
+    Median <- unlist(purrr::map(x, function(y) {
+      ifelse(grepl("date", class(y), ignore.case = TRUE),
+             as.Date(as_messydate(y), median),
+             stats::median(y, na.rm = TRUE))
+    }))
+    data.frame(cbind(Variable, Min, Max, Mean, Median))
+  }))
+  dplyr::as_tibble(cbind(names, out))
+}
+
+#' Compare the overlap between datasets in 'many' datacubes
 #' 
 #' @details `compare_overlap()` compares the overlap between "key" observations
-#' in each dataset in a 'many' database.
+#' in each dataset in a 'many' datacube.
 #' @family compare_
-#' @param database A database from one of the many packages.
-#' @param dataset A dataset in a database from one of the many packages.
-#' NULL by default.
-#' That is, all datasets in the database are used.
-#' A list of 2 or more datasets present in the database.
+#' @param datacube A datacube from one of the many packages.
+#' @param dataset A dataset in a datacube from one of the many packages.
+#' By default "all".
+#' That is, all datasets in the datacube are used.
+#' To select two or more datasets, please declare them as a vector.
 #' @param key A variable key to join datasets.
 #' 'manyID' by default.
 #' @importFrom dplyr select rename_with as_tibble
@@ -64,15 +127,15 @@ compare_data <- function(database, dataset = NULL) {
 #' `compare_overlap()` returns a tibble with information about each dataset
 #' and the number of overlapping observations.
 #' @export
-compare_overlap <- function(database, dataset = NULL, key = "manyID") {
+compare_overlap <- function(datacube, dataset = "all", key = "manyID") {
   name <- db_name <- NULL
   thisRequires("ggVennDiagram")
-  if (!is.null(dataset)) {
+  if (any(dataset != "all")) {
     if (length(dataset) < 2) stop("Please declare 2 or more datasets for comparison.")
-    database <- database[grepl(paste(dataset, collapse = "|"), names(database))]
+    datacube <- datacube[grepl(paste(dataset, collapse = "|"), names(datacube))]
   }
-  db_name <- deparse(substitute(database))
-  out <- purrr::map(database, key)
+  db_name <- deparse(substitute(datacube))
+  out <- purrr::map(datacube, key)
   out <- ggVennDiagram::Venn(out)
   out <- ggVennDiagram::process_data(out)
   out <- ggVennDiagram::venn_region(out)
@@ -91,31 +154,31 @@ compare_overlap <- function(database, dataset = NULL, key = "manyID") {
 #' @export
 plot.compare_overlap <- function(x, ...) {
   thisRequires("ggVennDiagram")
-  database <- get(stringr::word(names(x[1]),-1))
+  datacube <- get(stringr::word(names(x[1]),-1))
   dataset <- grep("\\.\\.", unique(unname(unlist(x[,1]))),
                   value = TRUE, invert = TRUE)
   key <- stringr::word(names(x[2]),-1)
-  if (length(names(database)) != length(dataset)) {
-    database <- database[grepl(paste(dataset, collapse = "|"), names(database))]
+  if (length(names(datacube)) != length(dataset)) {
+    datacube <- datacube[grepl(paste(dataset, collapse = "|"), names(datacube))]
   }
-  out <- purrr::map(database, key)
+  out <- purrr::map(datacube, key)
   ggVennDiagram::ggVennDiagram(out)
 }
 
 #' Compare missing observations for 'many' data
 #' 
 #' @details `compare_missing()` compares the missing observations for variables
-#' in each dataset in a 'many' database.
+#' in each dataset in a 'many' datacube.
 #' @family compare_
 #' @importFrom purrr map
 #' @importFrom dplyr arrange mutate as_tibble
-#' @param database A database from one of the many packages.
-#' @param dataset A dataset in a database from one of the many packages.
+#' @param datacube A datacube from one of the many packages.
+#' @param dataset A dataset in a datacube from one of the many packages.
 #' NULL by default.
-#' That is, all datasets in the database are used.
-#' A list of 2 or more datasets present in the database.
+#' That is, all datasets in the datacube are used.
+#' To select two or more datasets, please declare them as a vector.
 #' @param variable Would you like to focus on one, or more, specific variables
-#' present in one or more datasets in the 'many' database?
+#' present in one or more datasets in the 'many' datacube?
 #' By default "all".
 #' For multiple variables, please declare variable names as a vector.
 #' @examples
@@ -128,15 +191,15 @@ plot.compare_overlap <- function(x, ...) {
 #' including the number of observations, the number of variables,
 #' the earliest date, and the latest date in all observations.
 #' @export
-compare_missing <- function(database, dataset = NULL, variable = "all") {
+compare_missing <- function(datacube, dataset = "all", variable = "all") {
   # Avoid notes
   Dataset <- Count <- Variable <- Missing <- 'Percent Missing' <- NULL
   # Select datasets if declared
-  if (!is.null(dataset)) {
+  if (any(dataset != "all")) {
     if (length(dataset) < 2) stop("Please declare 2 or more datasets for comparison.")
-    database <- database[grepl(paste(dataset, collapse = "|"), names(database))]
+    datacube <- datacube[grepl(paste(dataset, collapse = "|"), names(datacube))]
   }
-  all_variables <- unique(unname(unlist(purrr::map(database, names))))
+  all_variables <- unique(unname(unlist(purrr::map(datacube, names))))
   # Select variables if declared
   if (variable[1] == "all") {
     # remove other ID variables and text variables
@@ -148,8 +211,8 @@ compare_missing <- function(database, dataset = NULL, variable = "all") {
   } else {
     all_variables <- all_variables[all_variables %in% variable]
   }
-  # Report on datasets in database
-  out <- purrr::map(database, extract_if_present, all_variables)
+  # Report on datasets in datacube
+  out <- purrr::map(datacube, extract_if_present, all_variables)
   for (n in names(out)) out[[n]]['Dataset'] = n
   out <- do.call(rbind, lapply(out, function(x) {
     varnames <- names(x)
@@ -182,27 +245,27 @@ plot.compare_missing <- function(x, ...) {
                         name = "Proportion\nof missing\nobservations") +
     theme_classic() +
     theme(axis.text.x = element_text(angle = 90)) +
-    labs(x = "Database", y = "Variable")
+    labs(x = "datacube", y = "Variable")
 }
 
-#' Compare categories in 'many' databases
+#' Compare categories in 'many' datacubes
 #' 
-#' @details Confirmed values are the same in all datasets in database.
-#' Unique values appear once in datasets in database.
-#' Missing values are missing in all datasets in database.
-#' Conflict values are different in the same number of datasets in database.
+#' @details Confirmed values are the same in all datasets in datacube.
+#' Unique values appear once in datasets in datacube.
+#' Missing values are missing in all datasets in datacube.
+#' Conflict values are different in the same number of datasets in datacube.
 #' Majority values have the same value in multiple, but not all,
-#' datasets in database.
+#' datasets in datacube.
 #' @family compare_
-#' @param database A database from one of the many packages.
-#' @param dataset A dataset in a database from one of the many packages.
-#' NULL by default.
-#' That is, all datasets in the database are used.
-#' A list of 2 or more datasets present in the database.
+#' @param datacube A datacube from one of the many packages.
+#' @param dataset A dataset in a datacube from one of the many packages.
+#' By default "all".
+#' That is, all datasets in the datacube are used.
+#' To select two or more datasets, please declare them as a vector.
 #' @param key A variable key to join datasets.
 #' 'manyID' by default.
 #' @param variable Would you like to focus on one, or more, specific variables
-#' present in one or more datasets in the 'many' database?
+#' present in one or more datasets in the 'many' datacube?
 #' By default "all".
 #' For multiple variables, please declare variable names as a vector.
 #' @param category Would you like to focus on one specific code category?
@@ -218,40 +281,40 @@ plot.compare_missing <- function(x, ...) {
 #' str_replace_all
 #' @examples
 #' compare_categories(emperors, key = "ID")
-#' compare_categories(database = emperors, dataset = c("wikipedia", "UNRV"),
+#' compare_categories(datacube = emperors, dataset = c("wikipedia", "UNRV"),
 #' key = "ID", variable = c("Beg", "End"), category = c("conflict", "unique"))
 #' plot(compare_categories(emperors, key = "ID"))
-#' plot(compare_categories(database = emperors, dataset = c("wikipedia", "UNRV"),
+#' plot(compare_categories(datacube = emperors, dataset = c("wikipedia", "UNRV"),
 #' key = "ID", variable = c("Beg", "End"), category = c("conflict", "unique")))
 #' @export
-compare_categories <- function(database,
-                               dataset = NULL,
+compare_categories <- function(datacube,
+                               dataset = "all",
                                key = "manyID",
                                variable = "all",
                                category = "all") {
   # Step 1: get variables of interest
-  if (length(grepl(key[1], purrr::map(database, names))) != length(database)) {
-    stop("Please declare a key variable present in all datasets in the database.")
+  if (length(grepl(key[1], purrr::map(datacube, names))) != length(datacube)) {
+    stop("Please declare a key variable present in all datasets in the datacube.")
   }
-  # Step 2: check if multiple keys for memberships' databases
-  if (grepl("membership", deparse(substitute(database)), ignore.case = TRUE) &
+  # Step 2: check if multiple keys for memberships' datacubes
+  if (grepl("membership", deparse(substitute(datacube)), ignore.case = TRUE) &
       length(key) == 1) {
-    stop("For memberships database please indicate two keys
+    stop("For memberships datacube please indicate two keys
          (e.g. key = c('manyID', 'CountryID'))")
   }
   # Step 3: get datasets if declared
-  if (length(dataset) > 1) {
-    database <- database[grepl(paste(dataset, collapse = "|"), names(database))]
+  if (any(dataset != "all")) {
+    datacube <- datacube[grepl(paste(dataset, collapse = "|"), names(datacube))]
   }
   # Step 4: inform users about duplicates
   if (length(key) == 1) {
-    db_size <- sum(duplicated(unname(unlist(purrr::map(database, key)))))
+    db_size <- sum(duplicated(unname(unlist(purrr::map(datacube, key)))))
     cat("There were", db_size,
         "matched observations by", key,
-        "variable across datasets in database.")
+        "variable across datasets in datacube.")
   }
   # Step 5: get variable(s) of interest if declared
-  all_variables <- unique(unname(unlist(purrr::map(database, names))))
+  all_variables <- unique(unname(unlist(purrr::map(datacube, names))))
   if (variable[1] == "all") {
     all_variables <- all_variables[!all_variables %in% key]
     # remove other ID variables and text variables
@@ -263,7 +326,7 @@ compare_categories <- function(database,
   } else {
     all_variables <- all_variables[all_variables %in% variable]
   }
-  out <- purrr::map(database, extract_if_present, c(key, all_variables))
+  out <- purrr::map(datacube, extract_if_present, c(key, all_variables))
   # Step 6: reduce and join data
   out <- purrr::map(out, tidyr::drop_na, dplyr::all_of(key)) %>%
     purrr::reduce(dplyr::full_join, by = key)
@@ -274,7 +337,7 @@ compare_categories <- function(database,
     vvars <- paste0("^", var, "$|^", var, "\\.")
     vars_to_combine <- grep(vvars, names(out), value = TRUE)
     vlb <- out[vars_to_combine]
-    col <- purrr::map(database, var)
+    col <- purrr::map(datacube, var)
     col <- names(col[lengths(col) != 0])
     colnames(vlb) <- paste0(col, "$", var)
     value <- NULL
@@ -290,11 +353,11 @@ compare_categories <- function(database,
       # unique
       value <- ifelse(stringr::str_count(value, "NA") ==
                         (length(out[vars_to_combine]) - 1), "unique", value)
-      # confirmed (by all datasets in database)
+      # confirmed (by all datasets in datacube)
       value <- ifelse(stringr::str_count(value, "\\!") == 0 &
                         !grepl("^missing$|^unique$", value),
                       "confirmed", value)
-      # confirmed (by multiple datasets in database, other values are NAs)
+      # confirmed (by multiple datasets in datacube, other values are NAs)
       valuec <- lapply(stringr::str_split(value, "!"), function(x) {
         x[!grepl("^NA$", x) & x != ""]
       })
@@ -391,7 +454,7 @@ plot.compare_categories <- function(x, ...) {
               position = position_stack(vjust = 0.5),
               size = 2, color = "white", angle = 90) +
     theme_minimal() +
-    labs(title = deparse(substitute(database)),
+    labs(title = deparse(substitute(datacube)),
          subtitle = paste0("Based on ", nrow(db),
                            " consolidated observations."),
          caption = "In between the parenthesis are the number of datasets in which variable is present.",
