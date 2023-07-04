@@ -9,8 +9,9 @@
 #' By default, "all".
 #' That is, all datasets in the datacube are used.
 #' To select two or more datasets, please declare them as a vector.
+#' @import messydates
 #' @importFrom purrr map
-#' @importFrom dplyr as_tibble
+#' @importFrom dplyr as_tibble mutate
 #' @examples
 #' \donttest{
 #' compare_dimensions(emperors)
@@ -21,6 +22,7 @@
 #' the earliest date, and the latest date in all observations.
 #' @export
 compare_dimensions <- function(datacube, dataset = "all") {
+  Earliest_Date <- Latest_Date <- NULL
   if (any(dataset != "all")) {
     if (length(dataset) < 2) stop("Please declare 2 or more datasets for comparison.")
     datacube <- datacube[grepl(paste(dataset, collapse = "|"), names(datacube))]
@@ -39,10 +41,12 @@ compare_dimensions <- function(datacube, dataset = "all") {
     })), na.rm = TRUE))
     cbind(Observations, Variables, Earliest_Date, Latest_Date)
   }))
-  dplyr::as_tibble(cbind(names, out))
+  dplyr::as_tibble(cbind(names, out)) %>%
+    dplyr::mutate(Earliest_Date = messydates::as_messydate(Earliest_Date),
+                  Latest_Date = messydates::as_messydate(Latest_Date))
 }
 
-#' Compare variable ranges for 'many' data
+#' Compare ranges of variables in 'many' data
 #'
 #' @details `compare_ranges()` compares the number of observations, variables,
 #' the earliest and latest date in each dataset in a 'many' datacube.
@@ -80,27 +84,30 @@ compare_ranges <- function(datacube, dataset = "all", variable) {
     Dataset = unlist(lapply(names(datacube), function(x) {
     rep(x, length(variable))
   })))
-  out <- do.call(rbind, lapply(datacube, function(x) {
+  out <- suppressWarnings(do.call(rbind, lapply(datacube, function(x) {
     Variable <- names(x)
-    Min <- unlist(purrr::map(x, function(y) {
+    Min <- unlist(lapply(x, function(y) {
       ifelse(grepl("date", class(y), ignore.case = TRUE),
-             as.Date(as_messydate(y), min), min(y, na.rm = TRUE))
+             as.character(as.Date(messydates::as_messydate(y), min)),
+             as.character(min(y, na.rm = TRUE)))
     }))
-    Max <- unlist(purrr::map(x, function(y) {
+    Max <- unlist(lapply(x, function(y) {
       ifelse(grepl("date", class(y), ignore.case = TRUE),
-             as.Date(as_messydate(y), max), max(y, na.rm = TRUE))
+             as.character(as.Date(messydates::as_messydate(y), max)),
+             as.character(max(y, na.rm = TRUE)))
     }))
-    Mean <- unlist(purrr::map(x, function(y) {
+    Mean <- unlist(lapply(x, function(y) {
       ifelse(grepl("date", class(y), ignore.case = TRUE),
-             as.Date(as_messydate(y), mean), mean(y, na.rm = TRUE))
+             as.character(as.Date(messydates::as_messydate(y), mean)),
+             as.character(mean(y, na.rm = TRUE)))
     }))
-    Median <- unlist(purrr::map(x, function(y) {
+    Median <- unlist(lapply(x, function(y) {
       ifelse(grepl("date", class(y), ignore.case = TRUE),
-             as.Date(as_messydate(y), median),
-             stats::median(y, na.rm = TRUE))
+             as.character(as.Date(messydates::as_messydate(y), median)),
+             as.character(stats::median(y, na.rm = TRUE)))
     }))
     data.frame(cbind(Variable, Min, Max, Mean, Median))
-  }))
+  })))
   dplyr::as_tibble(cbind(names, out))
 }
 

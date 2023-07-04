@@ -2,7 +2,7 @@
 % Please edit documentation in R/compare.R
 \name{compare_ranges}
 \alias{compare_ranges}
-\title{Compare variable ranges for 'many' data}
+\title{Compare ranges of variables in 'many' data}
 \usage{
 compare_ranges(datacube, dataset = "all", variable)
 }
@@ -23,7 +23,7 @@ For multiple variables, please declare variable names as a vector.}
 maximal, average, and median values for selected variables in datacubes.
 }
 \description{
-Compare variable ranges for 'many' data
+Compare ranges of variables in 'many' data
 }
 \details{
 \code{compare_ranges()} compares the number of observations, variables,
