@@ -2,10 +2,10 @@
 % Please edit documentation in R/consolidate.R
 \name{consolidate}
 \alias{consolidate}
-\title{Consolidate database into a single dataset}
+\title{Consolidate datacube into a single dataset}
 \usage{
 consolidate(
-  database,
+  datacube,
   rows = "any",
   cols = "any",
   resolve = "coalesce",
@@ -13,7 +13,7 @@ consolidate(
 )
 }
 \arguments{
-\item{database}{A database object from one of the many packages}
+\item{datacube}{A datacube from one of the many packages}
 
 \item{rows}{Which rows or units to retain.
 By default "any" (or all) units are retained,
@@ -42,10 +42,10 @@ how each is to be resolved in a list
 In this case, only the variables named will be resolved and returned.}
 
 \item{key}{An ID column to collapse by.
-By default "many_ID".
+By default "manyID".
 Users can also specify multiple key variables in a list.
 For multiple key variables, the key variables must be present in
-all the datasets in the database (e.g. \code{key = c("key1", "key2")}).
+all the datasets in the datacube (e.g. \code{key = c("key1", "key2")}).
 For equivalent key columns with different names across datasets,
 matching is possible if keys are declared (e.g. \code{key = c("key1" = "key2")}).
 Missing observations in the key variable are removed.}
@@ -54,9 +54,9 @@ Missing observations in the key variable are removed.}
 A single tibble/data frame.
 }
 \description{
-This function consolidates a set of datasets in a 'many* package' database
+This function consolidates a set of datasets in a 'many* package' datacube
 into a single dataset with some combination of the rows, columns,
-and observations of the datasets in the database.
+and observations of the datasets in the datacube.
 The function includes separate arguments for the rows and columns,
 as well as for how to resolve conflicts for observations across datasets.
 This provides users with considerable flexibility in how they combine data.
@@ -74,23 +74,23 @@ Text variables are dropped for more efficient consolidation.
 }
 \examples{
 \donttest{
-consolidate(database = emperors, key = "ID")
-consolidate(database = favour(emperors, "UNRV"), rows = "every",
+consolidate(datacube = emperors, key = "ID")
+consolidate(datacube = favour(emperors, "UNRV"), rows = "every",
 cols = "every", resolve = "coalesce", key = "ID")
-consolidate(database = emperors, rows = "any", cols = "every",
+consolidate(datacube = emperors, rows = "any", cols = "every",
 resolve = "min", key = "ID")
-consolidate(database = emperors, rows = "every", cols = "any",
+consolidate(datacube = emperors, rows = "every", cols = "any",
 resolve = "max", key = "ID")
-consolidate(database = emperors, rows = "every", cols = "every",
+consolidate(datacube = emperors, rows = "every", cols = "every",
 resolve = "median", key = "ID")
-consolidate(database = emperors, rows = "every", cols = "every",
+consolidate(datacube = emperors, rows = "every", cols = "every",
 resolve = "mean", key = "ID")
-consolidate(database = emperors, rows = "every", cols = "every",
+consolidate(datacube = emperors, rows = "every", cols = "every",
 resolve = "random", key = "ID")
-consolidate(database = emperors, rows = "every", cols = "every",
-resolve = c(Beg = "min", End = "max"), key = "ID")
-consolidate(database = emperors, rows = "any", cols = "any",
+consolidate(datacube = emperors, rows = "every", cols = "every",
+resolve = c(Begin = "min", End = "max"), key = "ID")
+consolidate(datacube = emperors, rows = "any", cols = "any",
 resolve = c(Death = "max", Cause = "coalesce"),
-key = c("ID", "Beg"))
+key = c("ID", "Begin"))
 }
 }

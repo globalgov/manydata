@@ -3,23 +3,23 @@
 \name{favour}
 \alias{favour}
 \alias{favor}
-\title{Favour datasets in a database}
+\title{Favour datasets in a datacube}
 \usage{
-favour(database, dataset)
+favour(datacube, dataset)
 
-favor(database, dataset)
+favor(datacube, dataset)
 }
 \arguments{
-\item{database}{A many database}
+\item{datacube}{A many datacube}
 
-\item{dataset}{The name of one, or more, datasets within the database
+\item{dataset}{The name of one, or more, datasets within the datacube
 to be favoured over others.}
 }
 \value{
-The database with datasets re-ordered accordingly
+The datacube with datasets re-ordered accordingly
 }
 \description{
-Favour datasets in a database
+Favour datasets in a datacube
 }
 \details{
 The dataset declared becomes the reference for

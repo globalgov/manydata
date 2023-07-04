@@ -93,7 +93,7 @@ wikipedia <- apply(wikipedia, 2, stringi::stri_enc_toascii)
 # Let's standardise dates and variable names
 wikipedia <- as_tibble(wikipedia) %>%
   manydata::transmutate(ID = name,
-                        Beg = messydates::as_messydate(reign.start),
+                        Begin = messydates::as_messydate(reign.start),
                         End = messydates::as_messydate(reign.end)) %>%
   dplyr::rename(FullName = name.full,
                 Birth = birth,
@@ -108,7 +108,7 @@ wikipedia <- as_tibble(wikipedia) %>%
                 Notes = notes,
                 Verif = verif.who) %>%
   dplyr::select(-index) %>%
-  dplyr::relocate(ID, Beg, End)
+  dplyr::relocate(ID, Begin, End)
 # manydata includes several functions that should help cleaning
 # and standardising your data.
 # Please see the vignettes or website for more details.

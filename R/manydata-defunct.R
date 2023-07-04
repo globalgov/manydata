@@ -24,3 +24,87 @@ network_map <- function(.data) {
   .Defunct("manynet::autographr()", package = "manydata")
   network_map(.data)
 }
+
+#' @describeIn defunct Removed on 2023-06-19.
+#' @export
+db_plot <- function(.data) {
+  .Defunct("manydata::plot_categories()", package = "manydata")
+  db_plot(.data)
+}
+
+#' @describeIn defunct Removed on 2023-06-19.
+#' @export
+db_comp <- function(.data) {
+  .Defunct("manydata::compare_categories()", package = "manydata")
+  db_comp(.data)
+}
+
+#' @describeIn defunct Removed on 2023-06-19.
+#' @export
+retrieve_bilaterals <- function(.data) {
+  .Defunct("manydata::call_treaties()", package = "manydata")
+  retrieve_bilaterals(.data)
+}
+
+#' @describeIn defunct Removed on 2023-06-19.
+#' @export
+retrieve_multilaterals <- function(.data) {
+  .Defunct("manydata::call_treaties()", package = "manydata")
+  retrieve_multilaterals(.data)
+}
+
+#' @describeIn defunct Removed on 2023-06-19.
+#' @export
+retrieve_links <- function(.data) {
+  .Defunct("manydata::call_treaties()", package = "manydata")
+  retrieve_links(.data)
+}
+
+#' @describeIn defunct Removed on 2023-06-19.
+#' @export
+retrieve_membership_list <- function(.data) {
+  .Defunct("manydata::call_treaties()", package = "manydata")
+  retrieve_membership_list(.data)
+}
+
+#' @describeIn defunct Removed on 2023-06-19.
+#' @export
+data_source <- function(.data) {
+  .Defunct("manydata::call_sources()", package = "manydata")
+  data_source(.data)
+}
+
+#' @describeIn defunct Removed on 2023-06-19.
+#' @export
+get_packages <- function(.data) {
+  .Defunct("manydata::call_packages()", package = "manydata")
+  get_packages(.data)
+}
+
+#' @describeIn defunct Removed on 2023-06-19.
+#' @export
+open_codebook <- function(.data) {
+  .Defunct("manydata::call_sources()", package = "manydata")
+  open_codebook(.data)
+}
+
+#' @describeIn defunct Removed on 2023-06-19.
+#' @export
+data_contrast <- function(.data) {
+  .Defunct("manydata::compare_data()", package = "manydata")
+  data_contrast(.data)
+}
+
+#' @describeIn defunct Removed on 2023-06-19.
+#' @export
+data_evolution <- function(.data) {
+  .Defunct("manydata::call_sources()", package = "manydata")
+  data_evolution(.data)
+}
+
+#' @describeIn defunct Renamed on 2023-07-03.
+#' @export
+plot_releases <- function(.data) {
+  .Deprecated(new = "manydata::call_releases()",
+              package = "manydata")
+}

@@ -3,9 +3,9 @@
 \docType{data}
 \name{emperors}
 \alias{emperors}
-\title{Emperors database documentation}
+\title{Emperors datacube documentation}
 \format{
-The emperors database is a list that contains the
+The emperors datacube is a list that contains the
 following 3 datasets: wikipedia, UNRV, britannica.
 For more information and references to each of the datasets used,
 please use the \code{data_source()} and \code{data_contrast()}.
@@ -13,21 +13,39 @@ functions.
 \describe{
 \item{wikipedia: }{A dataset with 68 observations and the
 following 15 variables:
-ID, Beg, End, FullName, Birth, Death,
+ID, Begin, End, FullName, Birth, Death,
 CityBirth, ProvinceBirth, Rise, Cause,
 Killer, Dynasty, Era, Notes, Verif.}
 \item{UNRV: }{A dataset with 99 observations and the
-following 7 variables: ID, Beg, End,
+following 7 variables: ID, Begin, End,
 Birth, Death, FullName, Dynasty.}
 \item{britannica: }{A dataset with 87 observations and the
-following 3 variables: ID, Beg, End.}
+following 3 variables: ID, Begin, End.}
+}
+}
+\source{
+\itemize{
+\item{wikipedia: }{
+Wikipedia, List_of_Roman_emperors,
+\url{https://en.wikipedia.org/wiki/List_of_Roman_emperors}, Accessed on 2021-07-22
+}
+\item{UNRV: }{
+UNRV, Roman Emperor list,
+\url{https://www.unrv.com/government/emperor.php},
+Accessed on 2021-07-22
+}
+\item{britannica: }{
+Britannica, List of Roman emperors,
+\url{https://www.britannica.com/topic/list-of-Roman-emperors-2043294},
+Accessed on 2021-07-22
+}
 }
 }
 \usage{
 emperors
 }
 \description{
-Emperors database documentation
+Emperors datacube documentation
 }
 \details{
 \if{html}{\out{<div class="sourceCode">}}\preformatted{#> $wikipedia
@@ -35,7 +53,7 @@ Emperors database documentation
 #> |  Column Name  |  Data Type  |  Observations  |  Missing  |  Missing (\%)  |
 #> ----------------------------------------------------------------------------
 #> |      ID       |  character  |              68|     0     |       0       |
-#> |      Beg      |    mdate    |              68|     0     |       0       |
+#> |     Begin     |    mdate    |              68|     0     |       0       |
 #> |      End      |    mdate    |              68|     0     |       0       |
 #> |   FullName    |  character  |              68|     0     |       0       |
 #> |     Birth     |  character  |              68|     5     |     7.35      |
@@ -57,7 +75,7 @@ Emperors database documentation
 #> |  Column Name  |  Data Type  |  Observations  |  Missing  |  Missing (\%)  |
 #> ----------------------------------------------------------------------------
 #> |      ID       |  character  |              99|     0     |       0       |
-#> |      Beg      |    mdate    |              99|     0     |       0       |
+#> |     Begin     |    mdate    |              99|     0     |       0       |
 #> |      End      |    mdate    |              99|     0     |       0       |
 #> |     Birth     |  character  |              99|     0     |       0       |
 #> |     Death     |  character  |              99|     0     |       0       |
@@ -71,9 +89,73 @@ Emperors database documentation
 #> |  Column Name  |  Data Type  |  Observations  |  Missing  |  Missing (\%)  |
 #> ----------------------------------------------------------------------------
 #> |      ID       |  character  |              87|     0     |       0       |
-#> |      Beg      |    mdate    |              87|     0     |       0       |
+#> |     Begin     |    mdate    |              87|     0     |       0       |
 #> |      End      |    mdate    |              87|     0     |       0       |
 #> ----------------------------------------------------------------------------
 }\if{html}{\out{</div>}}
 }
+\section{URL}{
+
+\itemize{
+\item{wikipedia: }{
+\url{https://en.wikipedia.org/wiki/List_of_Roman_emperors}
+}
+\item{UNRV: }{
+\url{https://www.unrv.com/government/emperor.php}
+}
+\item{britannica: }{
+\url{https://www.britannica.com/topic/list-of-Roman-emperors-2043294}
+}
+}
+}
+
+\section{Mapping}{
+
+\itemize{
+\item{wikipedia: }{
+Variable Mapping\tabular{cc}{
+   \emph{from} \tab \emph{to} \cr
+   name \tab ID \cr
+   reign.start \tab Begin \cr
+   reign.end \tab End \cr
+   name.full \tab FullName \cr
+   birth \tab Birth \cr
+   death \tab Death \cr
+   birth.cty \tab CityBirth \cr
+   birth.prv \tab ProvinceBirth \cr
+   rise \tab Rise \cr
+   cause \tab Cause \cr
+   killer \tab Killer \cr
+   dynasty \tab Dynasty \cr
+   era \tab Era \cr
+   notes \tab Notes \cr
+   verif.who \tab Verif \cr
+}
+
+
+}
+\item{UNRV: }{
+Variable Mapping\tabular{cc}{
+   \emph{from} \tab \emph{to} \cr
+   'Common Name' \tab ID \cr
+   Beg \tab Begin \cr
+   'Full Name/Imperial Name' \tab FullName \cr
+   'Dynasty/Class/Notes' \tab Dynasty \cr
+}
+
+
+}
+\item{britannica: }{
+Variable Mapping\tabular{cc}{
+   \emph{from} \tab \emph{to} \cr
+   Name \tab ID \cr
+   reign_start \tab Begin \cr
+   reign_end \tab End \cr
+}
+
+
+}
+}
+}
+
 \keyword{datasets}

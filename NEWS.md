@@ -1,3 +1,29 @@
+# manydata 0.9.0
+
+## Package
+
+* Closed #259 by revising CCC package structure and updating the package cheatsheet
+* Updated documentation for 'emperors' data to new style to improve visibility and transparency
+* Closed #264 by removing `{tibble}`and `{janitor}` package imports in DESCRIPTION file
+* Closed #276 by reviewing package vignettes
+* Closed #277 by updating 'manydata-defunct' file
+* Closed #284 by removing vignette and updating README to include more information on how to use the package
+* Updated all references and argument from 'database' to 'datacube'
+
+## Connection
+
+* Renamed and updated 'call_' family of functions
+  * Closed #250, #251, and #262 by renaming `get_packages()` to `call_packages()` and updating how the function works and look up packages, version updates, and availailabity
+  * Closed #269 and # by adding a `call_sources()` function that displays sources and variable changes for datasets in datacubes 
+  * Closed #271 by updating the `retrieve_` family of functions to `call_` functions
+  * Closed #283 by renaming `plot_releases()` to `call_releases`
+* Renamed and updated 'compare_' family of functions
+  * Closed #243 and #257 by creating a `compare_missing()` function to compare missing values in datasets in a 'many' datacube
+  * Closed #249 and  #253 by renaming `db_plot()` function to `compare_categories()` and updating variable categories
+  * Closed #261 by renaming and updating other `db_` functions to `compare_` functions
+  * Closed #268 by adding `compare_overlap()` to help users investigate overlap for datasets within datacubes
+  * Closed #285 by adding `compare_dimensions()` and `compare_ranges()` to compare dimensions and ranges in datacubes
+
 # manydata 0.8.3
 
 ## Connection
@@ -8,16 +34,16 @@
 
 ## Connection
 
-* Updated ´consolidate()´ to require two keys when joining memberships' databases
-* Updated ´db_comp()´ to follow consolidation defaults for memberships' databases
-* Closed #231 by adding a ´retrieve_texts()´ function to retrieve treaty texts from other 'many' packages
+* Updated `consolidate()` to require two keys when joining memberships' databases
+* Updated `db_comp()` to follow consolidation defaults for memberships' databases
+* Closed #231 by adding a `retrieve_texts()` function to retrieve treaty texts from other 'many' packages
 
 # manydata 0.8.1
 
 ## Package
 
 * Added 'RDataTmp' files to Rbuildignore and .gitignore
-* Updated ´data_evolution()´ to use ´inherits()´ instead of ´class()´ for condition comparison
+* Updated `data_evolution()` to use `inherits()` instead of `class()` for condition comparison
 
 # manydata 0.8.0
 
@@ -30,20 +56,20 @@
 
 ## Connection
 
-* Closed #134 by adding a ´data_evolution()´ function to the report family of functions that gets original datasets, if available, or opens the preparation scripts, if not available
+* Closed #134 by adding a `data_evolution()` function to the report family of functions that gets original datasets, if available, or opens the preparation scripts, if not available
 * Added 'db_profile' family of functions to visualise databases
-  * Closed #214 by adding ´db_plot()´ function to plot a profile of the database to facilitate comparison of matched observations across datasets
-  * Closed #224 by adding ´db_comp()´ function that creates a tibble of the database to facilitate comparison of matched observations across datasets
-* Updated ´get_packages()´ function
-  * Closed #215 by making ´get_packages()´ interactive so that users can chose which branch to download
-  * Closed #219 by improving ´get_packages()´ printing 
-  * Updated ´get_packages()´ and ´plot_releases()´ to use ´{messydates}´, instead of ´{lubridate}´, for dates coercion
-* Closed #222 by adding ´network_map()´function for plotting geographical networks
-* Updated ´consolidate()´function to make function over 20 times faster
-  * Closed #227 by making ´consolidate()´ ignore text related variables due to their size
-  * Closed #230 by making ´consolidate()´ more concise to avoid running into memory limits
-  * Closed #228 and #232 by replacing ´coalesce_compatible()´ for a faster approach to coalescing compatible missing observations that relies on ´zoo::na.locf()´
-  * Made ´coalesce_compatible()´ function defunct
+  * Closed #214 by adding `db_plot()` function to plot a profile of the database to facilitate comparison of matched observations across datasets
+  * Closed #224 by adding `db_comp()` function that creates a tibble of the database to facilitate comparison of matched observations across datasets
+* Updated `get_packages()` function
+  * Closed #215 by making `get_packages()` interactive so that users can chose which branch to download
+  * Closed #219 by improving `get_packages()` printing 
+  * Updated `get_packages()` and `plot_releases()` to use `{messydates}`, instead of `{lubridate}`, for dates coercion
+* Closed #222 by adding `network_map()` function for plotting geographical networks
+* Updated `consolidate()`function to make function over 20 times faster
+  * Closed #227 by making `consolidate()` ignore text related variables due to their size
+  * Closed #230 by making `consolidate()` more concise to avoid running into memory limits
+  * Closed #228 and #232 by replacing `coalesce_compatible()` for a faster approach to coalescing compatible missing observations that relies on `zoo::na.locf()`
+  * Made `coalesce_compatible()` function defunct
 
 # manydata 0.7.5
 

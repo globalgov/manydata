@@ -1,8 +1,8 @@
-#' Consolidate database into a single dataset
+#' Consolidate datacube into a single dataset
 #'
-#' This function consolidates a set of datasets in a 'many* package' database
+#' This function consolidates a set of datasets in a 'many* package' datacube
 #' into a single dataset with some combination of the rows, columns,
-#' and observations of the datasets in the database.
+#' and observations of the datasets in the datacube.
 #' The function includes separate arguments for the rows and columns,
 #' as well as for how to resolve conflicts for observations across datasets.
 #' This provides users with considerable flexibility in how they combine data.
@@ -14,7 +14,7 @@
 #' observations may differ from dataset to dataset.
 #' We offer a number of resolve methods that enable
 #' users to choose how conflicts between observations are resolved.
-#' @param database A database object from one of the many packages
+#' @param datacube A datacube from one of the many packages
 #' @param rows Which rows or units to retain.
 #' By default "any" (or all) units are retained,
 #' but another option is "every",
@@ -39,72 +39,71 @@
 #' (e.g. `resolve = c(var1 = "min", var2 = "max")`).
 #' In this case, only the variables named will be resolved and returned.
 #' @param key An ID column to collapse by.
-#' By default "many_ID".
+#' By default "manyID".
 #' Users can also specify multiple key variables in a list.
 #' For multiple key variables, the key variables must be present in
-#' all the datasets in the database (e.g. `key = c("key1", "key2")`).
+#' all the datasets in the datacube (e.g. `key = c("key1", "key2")`).
 #' For equivalent key columns with different names across datasets,
 #' matching is possible if keys are declared (e.g. `key = c("key1" = "key2")`).
 #' Missing observations in the key variable are removed.
 #' @details Text variables are dropped for more efficient consolidation.
 #' @importFrom purrr reduce map pluck
 #' @importFrom dplyr select full_join inner_join distinct all_of
-#' group_by %>% mutate_at
+#' group_by %>% mutate_at as_tibble
 #' @importFrom tidyr drop_na
 #' @importFrom plyr ddply
 #' @importFrom zoo na.locf
 #' @importFrom usethis ui_info
-#' @importFrom tibble as_tibble
 #' @importFrom messydates as_messydate
 #' @return A single tibble/data frame.
 #' @examples
 #' \donttest{
-#' consolidate(database = emperors, key = "ID")
-#' consolidate(database = favour(emperors, "UNRV"), rows = "every",
+#' consolidate(datacube = emperors, key = "ID")
+#' consolidate(datacube = favour(emperors, "UNRV"), rows = "every",
 #' cols = "every", resolve = "coalesce", key = "ID")
-#' consolidate(database = emperors, rows = "any", cols = "every",
+#' consolidate(datacube = emperors, rows = "any", cols = "every",
 #' resolve = "min", key = "ID")
-#' consolidate(database = emperors, rows = "every", cols = "any",
+#' consolidate(datacube = emperors, rows = "every", cols = "any",
 #' resolve = "max", key = "ID")
-#' consolidate(database = emperors, rows = "every", cols = "every",
+#' consolidate(datacube = emperors, rows = "every", cols = "every",
 #' resolve = "median", key = "ID")
-#' consolidate(database = emperors, rows = "every", cols = "every",
+#' consolidate(datacube = emperors, rows = "every", cols = "every",
 #' resolve = "mean", key = "ID")
-#' consolidate(database = emperors, rows = "every", cols = "every",
+#' consolidate(datacube = emperors, rows = "every", cols = "every",
 #' resolve = "random", key = "ID")
-#' consolidate(database = emperors, rows = "every", cols = "every",
-#' resolve = c(Beg = "min", End = "max"), key = "ID")
-#' consolidate(database = emperors, rows = "any", cols = "any",
+#' consolidate(datacube = emperors, rows = "every", cols = "every",
+#' resolve = c(Begin = "min", End = "max"), key = "ID")
+#' consolidate(datacube = emperors, rows = "any", cols = "any",
 #' resolve = c(Death = "max", Cause = "coalesce"),
-#' key = c("ID", "Beg"))
+#' key = c("ID", "Begin"))
 #' }
 #' @export
-consolidate <- function(database, rows = "any", cols = "any",
+consolidate <- function(datacube, rows = "any", cols = "any",
                         resolve = "coalesce", key = "manyID") {
-  # Step 1: check that database has multiple datasets
-  if (length(database) == 1) {
-    dataset <- names(database)
-    dat <- deparse(substitute(database))
+  # Step 1: check that datacube has multiple datasets
+  if (length(datacube) == 1) {
+    dataset <- names(datacube)
+    dat <- deparse(substitute(datacube))
     message(paste0(dat, " contains only the ", dataset,
                 " dataset and cannot be consolidated."))
-    purrr::pluck(database, dataset)
+    purrr::pluck(datacube, dataset)
   }
-  # Step 2: check if multiple keys for memberships' databases
-  if (grepl("membership", deparse(substitute(database)), ignore.case = TRUE) &
+  # Step 2: check if multiple keys for memberships' datacubes
+  if (grepl("membership", deparse(substitute(datacube)), ignore.case = TRUE) &
       length(key) == 1) {
-    stop("For memberships database please indicate two keys, one identifying the
+    stop("For memberships datacube please indicate two keys, one identifying the
     agreements and one identifying the actors (e.g. key = c('manyID', 'CountryID')).")
   }
   # Step 3: inform users about duplicates
   if (length(key) == 1) {
-    cat("There were", sum(duplicated(unname(unlist(purrr::map(database, key))))),
-        "matched observations by", key, "variable across datasets in database.")
+    cat("There were", sum(duplicated(unname(unlist(purrr::map(datacube, key))))),
+        "matched observations by", key, "variable across datasets in datacube.")
   }
   # Step 4: drop any unwanted columns (including text variables)
-  all_variables <- grep("text", unname(unlist(purrr::map(database, names))),
+  all_variables <- grep("text", unname(unlist(purrr::map(datacube, names))),
                         ignore.case = TRUE, value = TRUE, invert = TRUE)
   vars_subset <- c(unique(all_variables), key)
-  out <- purrr::map(database, extract_if_present, vars_subset)
+  out <- purrr::map(datacube, extract_if_present, vars_subset)
   # Step 5: join datasets by ID and keep pertinent rows
   if (rows == "any") {
     out <- purrr::map(out, tidyr::drop_na, dplyr::all_of(key)) %>%
@@ -114,7 +113,7 @@ consolidate <- function(database, rows = "any", cols = "any",
   }
   if (cols == "every") {
     all_variables <- names(table(all_variables)[table(all_variables) ==
-                                                  length(database)])
+                                                  length(datacube)])
     out <- dplyr::select(out, dplyr::all_of(key),
                          dplyr::starts_with(all_variables))
   }
@@ -131,12 +130,12 @@ consolidate <- function(database, rows = "any", cols = "any",
   mdate <- names(out[grepl("mdate", lapply(out, class))])
   usethis::ui_info("Coalescing compatible rows...")
   out <- plyr::ddply(out, key, zoo::na.locf, na.rm = FALSE) %>%
-    tibble::as_tibble() %>%
+    dplyr::as_tibble() %>%
     select(-dplyr::starts_with("dplyr")) %>%
     dplyr::distinct()
   # Step 8: convert messydates
   if (length(mdate) != 0) {
-    out <- dplyr::mutate_at(out, dplyr::all_of(mdate), messydates::as_messydate)
+    out <- dplyr::mutate_at(out, mdate, messydates::as_messydate)
   }
   out
 }
@@ -186,7 +185,7 @@ resolve_multiple <- function(resolve, out, key) {
   if (exists("rco")) {
     out <- rco
   } else {
-    out <- dplyr::select(out, key)
+    out <- dplyr::select(out, dplyr::all_of(key))
   }
   if (exists("rmin")) {
     out <- dplyr::full_join(out, rmin, by = key)
@@ -215,7 +214,7 @@ resolve_coalesce <- function(other_variables, out, key) {
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
-    out <- dplyr::select(out, dplyr::all_of(key), other_variables)
+    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
   }
   out
 }
@@ -241,7 +240,7 @@ resolve_min <- function(other_variables, out, key) {
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
-    out <- dplyr::select(out, dplyr::all_of(key), other_variables)
+    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
   }
   out
 }
@@ -267,7 +266,7 @@ resolve_max <- function(other_variables, out, key) {
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
-    out <- dplyr::select(out, dplyr::all_of(key), other_variables)
+    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
   }
   out
 }
@@ -292,7 +291,7 @@ resolve_median <- function(other_variables, out, key) {
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
-    out <- dplyr::select(out, dplyr::all_of(key), other_variables)
+    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
   }
   out
 }
@@ -317,7 +316,7 @@ resolve_mean <- function(other_variables, out, key) {
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
-    out <- dplyr::select(out, dplyr::all_of(key), other_variables)
+    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
   }
   out
 }
@@ -342,18 +341,18 @@ resolve_random <- function(other_variables, out, key) {
     out[, var] <- new_var
   }
   if (length(other_variables) == 1) {
-    out <- dplyr::select(out, dplyr::all_of(key), other_variables)
+    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
   }
   out
 }
 
-#' Selects a single dataset from a database
+#' Selects a single dataset from a datacube
 #'
 #' @importFrom purrr pluck
 #' @return The selected dataset
 #' @details This function is reexported from the purrr package.
 #' It allows users to select a single dataset from one
-#' of the databases available across the 'many* packages'.
+#' of the datacubes available across the 'many* packages'.
 #' @examples
 #' \donttest{
 #' pluck(emperors, "UNRV")
@@ -361,36 +360,36 @@ resolve_random <- function(other_variables, out, key) {
 #' @export
 purrr::pluck
 
-#' Favour datasets in a database
+#' Favour datasets in a datacube
 #'
 #' @name favour
-#' @param database A many database
-#' @param dataset The name of one, or more, datasets within the database
+#' @param datacube A many datacube
+#' @param dataset The name of one, or more, datasets within the datacube
 #' to be favoured over others.
 #' @details The dataset declared becomes the reference for
 #' the first non NA value.
 #' If more than one dataset is declared,
 #' please list datasets in increasing order of importance
 #' (.i.e. last dataset should be favoured over previous).
-#' @return The database with datasets re-ordered accordingly
+#' @return The datacube with datasets re-ordered accordingly
 #' @aliases favor
 #' @examples
 #' favour(emperors, "UNRV")
 #' favour(emperors, c("wikipedia", "UNRV", "britannica"))
 #' @export
-favour <- function(database, dataset) {
+favour <- function(datacube, dataset) {
   if (length(dataset) > 1) {
     for (n in unlist(dataset)) {
-      fav <- database[n]
-      database[n] <- NULL
-      database <- append(fav, database)
+      fav <- datacube[n]
+      datacube[n] <- NULL
+      datacube <- append(fav, datacube)
     }
   } else {
-    fav <- database[dataset]
-    database[dataset] <- NULL
-    database <- append(fav, database)
+    fav <- datacube[dataset]
+    datacube[dataset] <- NULL
+    datacube <- append(fav, datacube)
   }
-  database
+  datacube
 }
 
 #' @rdname favour

@@ -16,7 +16,7 @@ navbar:
     - home
     - intro
     - reference
-    - articles
+    # - articles
     - news
     right:
     - packages
@@ -29,11 +29,11 @@ navbar:
     reference:
       text: Reference
       href: reference/index.html
-    articles:
-      text: Articles
-      menu:
-      - text: Use
-        href: articles/user.html
+    # articles:
+    #   text: Articles
+    #   menu:
+    #   - text: Use
+    #     href: articles/user.html
     news:
       text: News
       href: news/index.html
@@ -51,18 +51,18 @@ navbar:
           href: https://globalgov.github.io/manyenviron/
         - text: manytrade
           href: https://globalgov.github.io/manytrade/
+        - text: manyhealth
+          href: https://globalgov.github.io/manyhealth/
 reference:
-  - title: "Downloading 'many* packages' and inspecting data"
-    desc: "These functions assist data analysts with the download and inspection of 'many* packages' and their data"
+  - title: "Calling 'many' packages"
+    desc: "These functions assist data analysts with the download of 'many' packages and their data"
     contents:
-      - get_packages
-      - plot_releases
-      - starts_with("data_")
-  - title: "Visualising 'many' packages data"
+      - starts_with("call_")
+  - title: "Comparing 'many' packages data"
     desc: "These functions assist data analysts with the visualisation of data on particular domains of global governance"
     contents:
-      - starts_with("db_")
-  - title: "Consolidating many databases"
+      - starts_with("compare_")
+  - title: "Consolidating 'many' packages data"
     desc: "These functions assist data analysts with the analysis of data on particular domains of global governance"
     contents:
       - consolidate
@@ -76,7 +76,6 @@ reference:
       - reunite
       - repaint
       - coalesce_rows
-      - starts_with("retrieve_")
       - emperors
 footer:
   structure:

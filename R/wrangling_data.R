@@ -7,12 +7,11 @@
 #' and none of the variables used in the mutations,
 #' but, unlike `dplyr::transmute()`, all other unnamed variables.
 #' @importFrom purrr map
-#' @import rlang
 #' @import dplyr
 #' @source https://stackoverflow.com/questions/51428156/dplyr-mutate-transmute-drop-only-the-columns-used-in-the-formula
 #' @examples
 #' pluck(emperors, "wikipedia")
-#' transmutate(emperors$wikipedia, Beginning = Beg)
+#' transmutate(emperors$wikipedia, Beginning = Begin)
 #' @export
 transmutate <- function(.data, ...) {
   # Helper functions
@@ -21,7 +20,8 @@ transmutate <- function(.data, ...) {
     }
   getSyms <- function(ee) {
     getAST(ee) %>% unlist %>% purrr::map_chr(deparse)
-    }
+  }
+  thisRequires("rlang")
   # Capture the provided expressions and retrieve their symbols
   vSyms <- rlang::enquos(...) %>% purrr::map(~getSyms(rlang::get_expr(.x)))
   # Identify symbols that are in common with the provided dataset
@@ -85,7 +85,7 @@ recollect <- function(x, collapse = "_") {
 #' @source https://stackoverflow.com/questions/40515180/dplyr-how-to-find-the-first-non-missing-string-by-groups
 #' @examples
 #' dplyr::summarise(emperors$wikipedia, coalesce_rows(emperors$wikipedia))
-#' coalesce_rows(emperors$wikipedia$Beg)
+#' coalesce_rows(emperors$wikipedia$Begin)
 #' @export
 coalesce_rows <- function(x) {
   x[which(!is.na(x))[1]]

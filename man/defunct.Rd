@@ -4,11 +4,47 @@
 \alias{defunct}
 \alias{coalesce_compatible}
 \alias{network_map}
+\alias{db_plot}
+\alias{db_comp}
+\alias{retrieve_bilaterals}
+\alias{retrieve_multilaterals}
+\alias{retrieve_links}
+\alias{retrieve_membership_list}
+\alias{data_source}
+\alias{get_packages}
+\alias{open_codebook}
+\alias{data_contrast}
+\alias{data_evolution}
+\alias{plot_releases}
 \title{Functions that have been renamed, superseded, or are no longer working}
 \usage{
 coalesce_compatible(.data)
 
 network_map(.data)
+
+db_plot(.data)
+
+db_comp(.data)
+
+retrieve_bilaterals(.data)
+
+retrieve_multilaterals(.data)
+
+retrieve_links(.data)
+
+retrieve_membership_list(.data)
+
+data_source(.data)
+
+get_packages(.data)
+
+open_codebook(.data)
+
+data_contrast(.data)
+
+data_evolution(.data)
+
+plot_releases(.data)
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
@@ -24,6 +60,30 @@ wherever possible and update your scripts accordingly.
 \item \code{coalesce_compatible()}: Deprecated on 2022-10-18.
 
 \item \code{network_map()}: Removed on 2023-06-15.
+
+\item \code{db_plot()}: Removed on 2023-06-19.
+
+\item \code{db_comp()}: Removed on 2023-06-19.
+
+\item \code{retrieve_bilaterals()}: Removed on 2023-06-19.
+
+\item \code{retrieve_multilaterals()}: Removed on 2023-06-19.
+
+\item \code{retrieve_links()}: Removed on 2023-06-19.
+
+\item \code{retrieve_membership_list()}: Removed on 2023-06-19.
+
+\item \code{data_source()}: Removed on 2023-06-19.
+
+\item \code{get_packages()}: Removed on 2023-06-19.
+
+\item \code{open_codebook()}: Removed on 2023-06-19.
+
+\item \code{data_contrast()}: Removed on 2023-06-19.
+
+\item \code{data_evolution()}: Removed on 2023-06-19.
+
+\item \code{plot_releases()}: Renamed on 2023-07-03.
 
 }}
 \keyword{internal}

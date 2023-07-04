@@ -43,9 +43,9 @@ britannica$reign_end[1] <- "14 CE"
 # Let's standardise dates and variable names
 britannica <- as_tibble(britannica) %>%
   manydata::transmutate(ID = Name,
-                        Beg = messydates::as_messydate(reign_start),
+                        Begin = messydates::as_messydate(reign_start),
                         End = messydates::as_messydate(reign_end)) %>%
-  dplyr::relocate(ID, Beg, End)
+  dplyr::relocate(ID, Begin, End)
 # manydata includes several functions that should help cleaning
 # and standardising your data.
 # Please see the vignettes or website for more details.
