@@ -287,12 +287,14 @@ plot.compare_missing <- function(x, ...) {
 #' @importFrom stringr str_count str_remove_all str_split str_extract_all
 #' str_replace_all
 #' @examples
+#' \donttest{
 #' compare_categories(emperors, key = "ID")
 #' compare_categories(datacube = emperors, dataset = c("wikipedia", "UNRV"),
 #' key = "ID", variable = c("Beg", "End"), category = c("conflict", "unique"))
 #' plot(compare_categories(emperors, key = "ID"))
 #' plot(compare_categories(datacube = emperors, dataset = c("wikipedia", "UNRV"),
 #' key = "ID", variable = c("Beg", "End"), category = c("conflict", "unique")))
+#' }
 #' @export
 compare_categories <- function(datacube,
                                dataset = "all",

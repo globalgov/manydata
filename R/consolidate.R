@@ -374,8 +374,10 @@ purrr::pluck
 #' @return The datacube with datasets re-ordered accordingly
 #' @aliases favor
 #' @examples
+#' \donttest{
 #' favour(emperors, "UNRV")
 #' favour(emperors, c("wikipedia", "UNRV", "britannica"))
+#' }
 #' @export
 favour <- function(datacube, dataset) {
   if (length(dataset) > 1) {

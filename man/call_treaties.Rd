@@ -47,6 +47,7 @@ contains information on treaties which can be retrieved
 with \code{call_treaties()}.
 }
 \examples{
+\donttest{
 membs <- dplyr::tibble(manyID = c("ROU-RUS[RFP]_1901A",
 "ROU-RUS[RFP]_1901A", "GD16FI_1901A"),
 stateID = c("ROU", "RUS", "DNK"),
@@ -64,6 +65,7 @@ call_treaties(membs)
 call_treaties(membs, treaty_type = "bilateral",
 variable = c("Title", "Begin"))
 call_treaties(membs, variable = c("Title", "Begin"), actor = "stateID")
+}
 }
 \seealso{
 Other call_: 

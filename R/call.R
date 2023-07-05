@@ -320,7 +320,9 @@ call_releases <- function(repo, begin = NULL, end = NULL) {
 #' @importFrom dplyr relocate %>% as_tibble
 #' @importFrom stringr str_extract_all str_remove_all str_trim
 #' @examples
+#' \donttest{
 #' call_sources("manydata", "emperors")
+#' }
 #' @return
 #' `call_sources` returns a tibble with information on the dataset,
 #' their sources, URL, and mapping to facilitate understanding
@@ -455,6 +457,7 @@ get_help_file <- function(file) {
 #' @param key A variable key to join datasets.
 #' 'manyID' by default.
 #' @examples
+#' \donttest{
 #' membs <- dplyr::tibble(manyID = c("ROU-RUS[RFP]_1901A",
 #' "ROU-RUS[RFP]_1901A", "GD16FI_1901A"),
 #' stateID = c("ROU", "RUS", "DNK"),
@@ -472,6 +475,7 @@ get_help_file <- function(file) {
 #' call_treaties(membs, treaty_type = "bilateral",
 #' variable = c("Title", "Begin"))
 #' call_treaties(membs, variable = c("Title", "Begin"), actor = "stateID")
+#' }
 #' @return
 #' `call_treaties()` returns a tibble with a list of the agreements.
 #' @export
