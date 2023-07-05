@@ -46,7 +46,9 @@ in 'many' packages.
 Please declare package, datacube, and dataset
 }
 \examples{
+\donttest{
 call_sources("manydata", "emperors")
+}
 }
 \seealso{
 Other call_: 

@@ -29,6 +29,8 @@ please list datasets in increasing order of importance
 (.i.e. last dataset should be favoured over previous).
 }
 \examples{
+\donttest{
 favour(emperors, "UNRV")
 favour(emperors, c("wikipedia", "UNRV", "britannica"))
+}
 }

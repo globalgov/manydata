@@ -24,6 +24,8 @@ that is picking the first non-missing observation,
 but on observations rather than variables.
 }
 \examples{
-dplyr::summarise(emperors$wikipedia, coalesce_rows(emperors$wikipedia))
+\donttest{
+dplyr::reframe(emperors$wikipedia, coalesce_rows(emperors$wikipedia))
 coalesce_rows(emperors$wikipedia$Begin)
+}
 }

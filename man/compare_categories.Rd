@@ -46,12 +46,14 @@ Majority values have the same value in multiple, but not all,
 datasets in datacube.
 }
 \examples{
+\donttest{
 compare_categories(emperors, key = "ID")
 compare_categories(datacube = emperors, dataset = c("wikipedia", "UNRV"),
 key = "ID", variable = c("Beg", "End"), category = c("conflict", "unique"))
 plot(compare_categories(emperors, key = "ID"))
 plot(compare_categories(datacube = emperors, dataset = c("wikipedia", "UNRV"),
 key = "ID", variable = c("Beg", "End"), category = c("conflict", "unique")))
+}
 }
 \seealso{
 Other compare_: 
