@@ -22,7 +22,7 @@ wherever possible and update your scripts accordingly."><!-- mathjax --><script 
     
     <a class="navbar-brand me-2" href="../index.html">manydata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.9.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,12 +39,6 @@ wherever possible and update your scripts accordingly."><!-- mathjax --><script 
 <li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
-<li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/user.html">Use</a>
-  </div>
-</li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">News</a>
 </li>
@@ -58,6 +52,7 @@ wherever possible and update your scripts accordingly."><!-- mathjax --><script 
     <a class="external-link dropdown-item" href="https://globalgov.github.io/manystates/">manystates</a>
     <a class="external-link dropdown-item" href="https://globalgov.github.io/manyenviron/">manyenviron</a>
     <a class="external-link dropdown-item" href="https://globalgov.github.io/manytrade/">manytrade</a>
+    <a class="external-link dropdown-item" href="https://globalgov.github.io/manyhealth/">manyhealth</a>
   </div>
 </li>
 <li class="nav-item">
@@ -92,7 +87,31 @@ wherever possible and update your scripts accordingly.</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">coalesce_compatible</span><span class="op">(</span><span class="va">.data</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">network_map</span><span class="op">(</span><span class="va">.data</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">network_map</span><span class="op">(</span><span class="va">.data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">db_plot</span><span class="op">(</span><span class="va">.data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">db_comp</span><span class="op">(</span><span class="va">.data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">retrieve_bilaterals</span><span class="op">(</span><span class="va">.data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">retrieve_multilaterals</span><span class="op">(</span><span class="va">.data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">retrieve_links</span><span class="op">(</span><span class="va">.data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">retrieve_membership_list</span><span class="op">(</span><span class="va">.data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">data_source</span><span class="op">(</span><span class="va">.data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">get_packages</span><span class="op">(</span><span class="va">.data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">open_codebook</span><span class="op">(</span><span class="va">.data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">data_contrast</span><span class="op">(</span><span class="va">.data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">data_evolution</span><span class="op">(</span><span class="va">.data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">plot_releases</span><span class="op">(</span><span class="va">.data</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -100,6 +119,18 @@ wherever possible and update your scripts accordingly.</p>
     
 <ul><li><p><code>coalesce_compatible()</code>: Deprecated on 2022-10-18.</p></li>
 <li><p><code>network_map()</code>: Removed on 2023-06-15.</p></li>
+<li><p><code>db_plot()</code>: Removed on 2023-06-19.</p></li>
+<li><p><code>db_comp()</code>: Removed on 2023-06-19.</p></li>
+<li><p><code>retrieve_bilaterals()</code>: Removed on 2023-06-19.</p></li>
+<li><p><code>retrieve_multilaterals()</code>: Removed on 2023-06-19.</p></li>
+<li><p><code>retrieve_links()</code>: Removed on 2023-06-19.</p></li>
+<li><p><code>retrieve_membership_list()</code>: Removed on 2023-06-19.</p></li>
+<li><p><code>data_source()</code>: Removed on 2023-06-19.</p></li>
+<li><p><code>get_packages()</code>: Removed on 2023-06-19.</p></li>
+<li><p><code>open_codebook()</code>: Removed on 2023-06-19.</p></li>
+<li><p><code>data_contrast()</code>: Removed on 2023-06-19.</p></li>
+<li><p><code>data_evolution()</code>: Removed on 2023-06-19.</p></li>
+<li><p><code>plot_releases()</code>: Renamed on 2023-07-03.</p></li>
 </ul></div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

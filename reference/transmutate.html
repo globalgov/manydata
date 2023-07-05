@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">manydata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.9.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,12 +27,6 @@
 <li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
-<li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/user.html">Use</a>
-  </div>
-</li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">News</a>
 </li>
@@ -46,6 +40,7 @@
     <a class="external-link dropdown-item" href="https://globalgov.github.io/manystates/">manystates</a>
     <a class="external-link dropdown-item" href="https://globalgov.github.io/manyenviron/">manyenviron</a>
     <a class="external-link dropdown-item" href="https://globalgov.github.io/manytrade/">manytrade</a>
+    <a class="external-link dropdown-item" href="https://globalgov.github.io/manyhealth/">manyhealth</a>
   </div>
 </li>
 <li class="nav-item">
@@ -100,9 +95,10 @@ but, unlike <code><a href="https://dplyr.tidyverse.org/reference/transmute.html"
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="va">emperors</span>, <span class="st">"wikipedia"</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="va">emperors</span>, <span class="st">"wikipedia"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 68 × 15</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    ID       Beg   End   FullName Birth Death CityBirth ProvinceBirth Rise  Cause</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    ID       Begin End   FullName Birth Death CityBirth ProvinceBirth Rise  Cause</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;mda&gt;</span> <span style="color: #949494; font-style: italic;">&lt;mda&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Augustus -002… 0014… IMPERAT… 0062… 0014… Rome      Italia        Birt… Assa…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Tiberius 0014… 0037… TIBERIV… 0041… 0037… Rome      Italia        Birt… Assa…</span>
@@ -117,7 +113,7 @@ but, unlike <code><a href="https://dplyr.tidyverse.org/reference/transmute.html"
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 58 more rows</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 5 more variables: Killer &lt;chr&gt;, Dynasty &lt;chr&gt;, Era &lt;chr&gt;, Notes &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Verif &lt;chr&gt;</span></span>
-<span class="r-in"><span><span class="fu">transmutate</span><span class="op">(</span><span class="va">emperors</span><span class="op">$</span><span class="va">wikipedia</span>, Beginning <span class="op">=</span> <span class="va">Beg</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">transmutate</span><span class="op">(</span><span class="va">emperors</span><span class="op">$</span><span class="va">wikipedia</span>, Beginning <span class="op">=</span> <span class="va">Begin</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 68 × 15</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    ID      End   FullName Birth Death CityBirth ProvinceBirth Rise  Cause Killer</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;mda&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
@@ -134,6 +130,7 @@ but, unlike <code><a href="https://dplyr.tidyverse.org/reference/transmute.html"
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 58 more rows</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 5 more variables: Dynasty &lt;chr&gt;, Era &lt;chr&gt;, Notes &lt;chr&gt;, Verif &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Beginning &lt;mdate&gt;</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

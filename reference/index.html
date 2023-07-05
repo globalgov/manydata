@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">manydata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.9.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,12 +27,6 @@
 <li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
-<li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/user.html">Use</a>
-  </div>
-</li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">News</a>
 </li>
@@ -46,6 +40,7 @@
     <a class="external-link dropdown-item" href="https://globalgov.github.io/manystates/">manystates</a>
     <a class="external-link dropdown-item" href="https://globalgov.github.io/manyenviron/">manyenviron</a>
     <a class="external-link dropdown-item" href="https://globalgov.github.io/manytrade/">manytrade</a>
+    <a class="external-link dropdown-item" href="https://globalgov.github.io/manyhealth/">manyhealth</a>
   </div>
 </li>
 <li class="nav-item">
@@ -65,9 +60,9 @@
     </div>
 
     <div class="section level2">
-      <h2 id="downloading-many-packages-and-inspecting-data">Downloading ‘many* packages’ and inspecting data<a class="anchor" aria-label="anchor" href="#downloading-many-packages-and-inspecting-data"></a></h2>
+      <h2 id="calling-many-packages">Calling ‘many’ packages<a class="anchor" aria-label="anchor" href="#calling-many-packages"></a></h2>
       
-      <p class="section-desc"></p><p>These functions assist data analysts with the download and inspection of ‘many* packages’ and their data</p>
+      <p class="section-desc"></p><p>These functions assist data analysts with the download of ‘many’ packages and their data</p>
 
       
     </div><div id="" class="section level2">
@@ -77,21 +72,26 @@
 
       <dl><dt>
           
-          <code><a href="get_packages.html">get_packages()</a></code> 
+          <code><a href="call_packages.html">call_packages()</a></code> 
         </dt>
-        <dd>Find and download packages in the many packages universe</dd>
+        <dd>Call, download, and update many packages</dd>
       </dl><dl><dt>
           
-          <code><a href="plot_releases.html">plot_releases()</a></code> 
+          <code><a href="call_releases.html">call_releases()</a></code> 
         </dt>
-        <dd>A plotting function that visualises historical milestones/releases</dd>
+        <dd>Call releases historical milestones/releases</dd>
       </dl><dl><dt>
           
-          <code><a href="report.html">data_source()</a></code> <code><a href="report.html">data_contrast()</a></code> <code><a href="report.html">data_evolution()</a></code> <code><a href="report.html">open_codebook()</a></code> 
+          <code><a href="call_sources.html">call_sources()</a></code> 
         </dt>
-        <dd>Set of data structure exploration functions for users</dd>
+        <dd>Call sources for datacubes and datasets in 'many' packages</dd>
+      </dl><dl><dt>
+          
+          <code><a href="call_treaties.html">call_treaties()</a></code> 
+        </dt>
+        <dd>Call treaties from 'many' datasets</dd>
       </dl></div><div class="section level2">
-      <h2 id="visualising-many-packages-data">Visualising ‘many’ packages data<a class="anchor" aria-label="anchor" href="#visualising-many-packages-data"></a></h2>
+      <h2 id="comparing-many-packages-data">Comparing ‘many’ packages data<a class="anchor" aria-label="anchor" href="#comparing-many-packages-data"></a></h2>
       
       <p class="section-desc"></p><p>These functions assist data analysts with the visualisation of data on particular domains of global governance</p>
 
@@ -103,11 +103,31 @@
 
       <dl><dt>
           
-          <code><a href="db_profile.html">db_plot()</a></code> <code><a href="db_profile.html">db_comp()</a></code> 
+          <code><a href="compare_categories.html">compare_categories()</a></code> 
         </dt>
-        <dd>Database profile functions</dd>
+        <dd>Compare categories in 'many' datacubes</dd>
+      </dl><dl><dt>
+          
+          <code><a href="compare_dimensions.html">compare_dimensions()</a></code> 
+        </dt>
+        <dd>Compare dimensions for 'many' data</dd>
+      </dl><dl><dt>
+          
+          <code><a href="compare_missing.html">compare_missing()</a></code> 
+        </dt>
+        <dd>Compare missing observations for 'many' data</dd>
+      </dl><dl><dt>
+          
+          <code><a href="compare_overlap.html">compare_overlap()</a></code> 
+        </dt>
+        <dd>Compare the overlap between datasets in 'many' datacubes</dd>
+      </dl><dl><dt>
+          
+          <code><a href="compare_ranges.html">compare_ranges()</a></code> 
+        </dt>
+        <dd>Compare ranges of variables in 'many' data</dd>
       </dl></div><div class="section level2">
-      <h2 id="consolidating-many-databases">Consolidating many databases<a class="anchor" aria-label="anchor" href="#consolidating-many-databases"></a></h2>
+      <h2 id="consolidating-many-packages-data">Consolidating ‘many’ packages data<a class="anchor" aria-label="anchor" href="#consolidating-many-packages-data"></a></h2>
       
       <p class="section-desc"></p><p>These functions assist data analysts with the analysis of data on particular domains of global governance</p>
 
@@ -121,17 +141,17 @@
           
           <code><a href="consolidate.html">consolidate()</a></code> 
         </dt>
-        <dd>Consolidate database into a single dataset</dd>
+        <dd>Consolidate datacube into a single dataset</dd>
       </dl><dl><dt>
           
           <code><a href="reexports.html">reexports</a></code> <code><a href="reexports.html">pluck</a></code> 
         </dt>
-        <dd>Selects a single dataset from a database</dd>
+        <dd>Selects a single dataset from a datacube</dd>
       </dl><dl><dt>
           
           <code><a href="favour.html">favour()</a></code> <code><a href="favour.html">favor()</a></code> 
         </dt>
-        <dd>Favour datasets in a database</dd>
+        <dd>Favour datasets in a datacube</dd>
       </dl></div><div class="section level2">
       <h2 id="data-wrangling-with-manydata">Data wrangling with manydata<a class="anchor" aria-label="anchor" href="#data-wrangling-with-manydata"></a></h2>
       
@@ -170,14 +190,9 @@
         <dd>Get first non-missing</dd>
       </dl><dl><dt>
           
-          <code><a href="retrieve_treaty.html">retrieve_bilaterals()</a></code> <code><a href="retrieve_treaty.html">retrieve_multilaterals()</a></code> <code><a href="retrieve_treaty.html">retrieve_membership_list()</a></code> <code><a href="retrieve_treaty.html">retrieve_links()</a></code> <code><a href="retrieve_treaty.html">retrieve_texts()</a></code> 
-        </dt>
-        <dd>Retrieve international treaties</dd>
-      </dl><dl><dt>
-          
           <code><a href="emperors.html">emperors</a></code> 
         </dt>
-        <dd>Emperors database documentation</dd>
+        <dd>Emperors datacube documentation</dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>

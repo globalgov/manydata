@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">manydata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.9.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,12 +27,6 @@
 <li class="nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
-<li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/user.html">Use</a>
-  </div>
-</li>
 <li class="active nav-item">
   <a class="nav-link" href="../news/index.html">News</a>
 </li>
@@ -46,6 +40,7 @@
     <a class="external-link dropdown-item" href="https://globalgov.github.io/manystates/">manystates</a>
     <a class="external-link dropdown-item" href="https://globalgov.github.io/manyenviron/">manyenviron</a>
     <a class="external-link dropdown-item" href="https://globalgov.github.io/manytrade/">manytrade</a>
+    <a class="external-link dropdown-item" href="https://globalgov.github.io/manyhealth/">manyhealth</a>
   </div>
 </li>
 <li class="nav-item">
@@ -66,7 +61,37 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.8.3" id="manydata-083">manydata 0.8.3<a class="anchor" aria-label="anchor" href="#manydata-083"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.9.0" id="manydata-090">manydata 0.9.0<a class="anchor" aria-label="anchor" href="#manydata-090"></a></h2>
+<div class="section level3">
+<h3 id="package-0-9-0">Package<a class="anchor" aria-label="anchor" href="#package-0-9-0"></a></h3>
+<ul><li>Closed <a href="https://github.com/globalgov/manydata/issues/259" class="external-link">#259</a> by revising CCC package structure and updating the package cheatsheet</li>
+<li>Updated documentation for ‘emperors’ data to new style to improve visibility and transparency</li>
+<li>Closed <a href="https://github.com/globalgov/manydata/issues/264" class="external-link">#264</a> by removing <a href="https://tibble.tidyverse.org/" class="external-link">tibble</a>and <a href="https://github.com/sfirke/janitor" class="external-link">janitor</a> package imports in DESCRIPTION file</li>
+<li>Closed <a href="https://github.com/globalgov/manydata/issues/276" class="external-link">#276</a> by reviewing package vignettes</li>
+<li>Closed <a href="https://github.com/globalgov/manydata/issues/277" class="external-link">#277</a> by updating ‘manydata-defunct’ file</li>
+<li>Closed <a href="https://github.com/globalgov/manydata/issues/284" class="external-link">#284</a> by removing vignette and updating README to include more information on how to use the package</li>
+<li>Updated all references and argument from ‘database’ to ‘datacube’</li>
+</ul></div>
+<div class="section level3">
+<h3 id="connection-0-9-0">Connection<a class="anchor" aria-label="anchor" href="#connection-0-9-0"></a></h3>
+<ul><li>Renamed and updated ‘call_’ family of functions
+<ul><li>Closed <a href="https://github.com/globalgov/manydata/issues/250" class="external-link">#250</a>, <a href="https://github.com/globalgov/manydata/issues/251" class="external-link">#251</a>, and <a href="https://github.com/globalgov/manydata/issues/262" class="external-link">#262</a> by renaming <code><a href="../reference/defunct.html">get_packages()</a></code> to <code><a href="../reference/call_packages.html">call_packages()</a></code> and updating how the function works and look up packages, version updates, and availailabity</li>
+<li>Closed <a href="https://github.com/globalgov/manydata/issues/269" class="external-link">#269</a> and # by adding a <code><a href="../reference/call_sources.html">call_sources()</a></code> function that displays sources and variable changes for datasets in datacubes</li>
+<li>Closed <a href="https://github.com/globalgov/manydata/issues/271" class="external-link">#271</a> by updating the <code>retrieve_</code> family of functions to <code>call_</code> functions</li>
+<li>Closed <a href="https://github.com/globalgov/manydata/issues/283" class="external-link">#283</a> by renaming <code><a href="../reference/defunct.html">plot_releases()</a></code> to <code>call_releases</code>
+</li>
+</ul></li>
+<li>Renamed and updated ‘compare_’ family of functions
+<ul><li>Closed <a href="https://github.com/globalgov/manydata/issues/243" class="external-link">#243</a> and <a href="https://github.com/globalgov/manydata/issues/257" class="external-link">#257</a> by creating a <code><a href="../reference/compare_missing.html">compare_missing()</a></code> function to compare missing values in datasets in a ‘many’ datacube</li>
+<li>Closed <a href="https://github.com/globalgov/manydata/issues/249" class="external-link">#249</a> and <a href="https://github.com/globalgov/manydata/issues/253" class="external-link">#253</a> by renaming <code><a href="../reference/defunct.html">db_plot()</a></code> function to <code><a href="../reference/compare_categories.html">compare_categories()</a></code> and updating variable categories</li>
+<li>Closed <a href="https://github.com/globalgov/manydata/issues/261" class="external-link">#261</a> by renaming and updating other <code>db_</code> functions to <code>compare_</code> functions</li>
+<li>Closed <a href="https://github.com/globalgov/manydata/issues/268" class="external-link">#268</a> by adding <code><a href="../reference/compare_overlap.html">compare_overlap()</a></code> to help users investigate overlap for datasets within datacubes</li>
+<li>Closed <a href="https://github.com/globalgov/manydata/issues/285" class="external-link">#285</a> by adding <code><a href="../reference/compare_dimensions.html">compare_dimensions()</a></code> and <code><a href="../reference/compare_ranges.html">compare_ranges()</a></code> to compare dimensions and ranges in datacubes</li>
+</ul></li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.8.3" id="manydata-083">manydata 0.8.3<a class="anchor" aria-label="anchor" href="#manydata-083"></a></h2><p class="text-muted">CRAN release: 2023-06-15</p>
 <div class="section level3">
 <h3 id="connection-0-8-3">Connection<a class="anchor" aria-label="anchor" href="#connection-0-8-3"></a></h3>
 <ul><li>Made ´network_map()´ function defunct</li>
@@ -76,9 +101,9 @@
 <h2 class="pkg-version" data-toc-text="0.8.2" id="manydata-082">manydata 0.8.2<a class="anchor" aria-label="anchor" href="#manydata-082"></a></h2><p class="text-muted">CRAN release: 2022-11-19</p>
 <div class="section level3">
 <h3 id="connection-0-8-2">Connection<a class="anchor" aria-label="anchor" href="#connection-0-8-2"></a></h3>
-<ul><li>Updated ´consolidate()´ to require two keys when joining memberships’ databases</li>
-<li>Updated ´db_comp()´ to follow consolidation defaults for memberships’ databases</li>
-<li>Closed <a href="https://github.com/globalgov/manydata/issues/231" class="external-link">#231</a> by adding a ´retrieve_texts()´ function to retrieve treaty texts from other ‘many’ packages</li>
+<ul><li>Updated <code><a href="../reference/consolidate.html">consolidate()</a></code> to require two keys when joining memberships’ databases</li>
+<li>Updated <code><a href="../reference/defunct.html">db_comp()</a></code> to follow consolidation defaults for memberships’ databases</li>
+<li>Closed <a href="https://github.com/globalgov/manydata/issues/231" class="external-link">#231</a> by adding a <code>retrieve_texts()</code> function to retrieve treaty texts from other ‘many’ packages</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -86,7 +111,7 @@
 <div class="section level3">
 <h3 id="package-0-8-1">Package<a class="anchor" aria-label="anchor" href="#package-0-8-1"></a></h3>
 <ul><li>Added ‘RDataTmp’ files to Rbuildignore and .gitignore</li>
-<li>Updated ´data_evolution()´ to use ´inherits()´ instead of ´class()´ for condition comparison</li>
+<li>Updated <code><a href="../reference/defunct.html">data_evolution()</a></code> to use <code><a href="https://rdrr.io/r/base/class.html" class="external-link">inherits()</a></code> instead of <code><a href="https://rdrr.io/r/base/class.html" class="external-link">class()</a></code> for condition comparison</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -100,22 +125,23 @@
 </ul></div>
 <div class="section level3">
 <h3 id="connection-0-8-0">Connection<a class="anchor" aria-label="anchor" href="#connection-0-8-0"></a></h3>
-<ul><li>Closed <a href="https://github.com/globalgov/manydata/issues/134" class="external-link">#134</a> by adding a ´data_evolution()´ function to the report family of functions that gets original datasets, if available, or opens the preparation scripts, if not available</li>
+<ul><li>Closed <a href="https://github.com/globalgov/manydata/issues/134" class="external-link">#134</a> by adding a <code><a href="../reference/defunct.html">data_evolution()</a></code> function to the report family of functions that gets original datasets, if available, or opens the preparation scripts, if not available</li>
 <li>Added ‘db_profile’ family of functions to visualise databases
-<ul><li>Closed <a href="https://github.com/globalgov/manydata/issues/214" class="external-link">#214</a> by adding ´db_plot()´ function to plot a profile of the database to facilitate comparison of matched observations across datasets</li>
-<li>Closed <a href="https://github.com/globalgov/manydata/issues/224" class="external-link">#224</a> by adding ´db_comp()´ function that creates a tibble of the database to facilitate comparison of matched observations across datasets</li>
+<ul><li>Closed <a href="https://github.com/globalgov/manydata/issues/214" class="external-link">#214</a> by adding <code><a href="../reference/defunct.html">db_plot()</a></code> function to plot a profile of the database to facilitate comparison of matched observations across datasets</li>
+<li>Closed <a href="https://github.com/globalgov/manydata/issues/224" class="external-link">#224</a> by adding <code><a href="../reference/defunct.html">db_comp()</a></code> function that creates a tibble of the database to facilitate comparison of matched observations across datasets</li>
 </ul></li>
-<li>Updated ´get_packages()´ function
-<ul><li>Closed <a href="https://github.com/globalgov/manydata/issues/215" class="external-link">#215</a> by making ´get_packages()´ interactive so that users can chose which branch to download</li>
-<li>Closed <a href="https://github.com/globalgov/manydata/issues/219" class="external-link">#219</a> by improving ´get_packages()´ printing</li>
-<li>Updated ´get_packages()´ and ´plot_releases()´ to use ´{messydates}´, instead of ´{lubridate}´, for dates coercion</li>
+<li>Updated <code><a href="../reference/defunct.html">get_packages()</a></code> function
+<ul><li>Closed <a href="https://github.com/globalgov/manydata/issues/215" class="external-link">#215</a> by making <code><a href="../reference/defunct.html">get_packages()</a></code> interactive so that users can chose which branch to download</li>
+<li>Closed <a href="https://github.com/globalgov/manydata/issues/219" class="external-link">#219</a> by improving <code><a href="../reference/defunct.html">get_packages()</a></code> printing</li>
+<li>Updated <code><a href="../reference/defunct.html">get_packages()</a></code> and <code><a href="../reference/defunct.html">plot_releases()</a></code> to use <code>{messydates}</code>, instead of <a href="https://lubridate.tidyverse.org" class="external-link">lubridate</a>, for dates coercion</li>
 </ul></li>
-<li>Closed <a href="https://github.com/globalgov/manydata/issues/222" class="external-link">#222</a> by adding ´network_map()´function for plotting geographical networks</li>
-<li>Updated ´consolidate()´function to make function over 20 times faster
-<ul><li>Closed <a href="https://github.com/globalgov/manydata/issues/227" class="external-link">#227</a> by making ´consolidate()´ ignore text related variables due to their size</li>
-<li>Closed <a href="https://github.com/globalgov/manydata/issues/230" class="external-link">#230</a> by making ´consolidate()´ more concise to avoid running into memory limits</li>
-<li>Closed <a href="https://github.com/globalgov/manydata/issues/228" class="external-link">#228</a> and <a href="https://github.com/globalgov/manydata/issues/232" class="external-link">#232</a> by replacing ´coalesce_compatible()´ for a faster approach to coalescing compatible missing observations that relies on ´zoo::na.locf()´</li>
-<li>Made ´coalesce_compatible()´ function defunct</li>
+<li>Closed <a href="https://github.com/globalgov/manydata/issues/222" class="external-link">#222</a> by adding <code><a href="../reference/defunct.html">network_map()</a></code> function for plotting geographical networks</li>
+<li>Updated <code><a href="../reference/consolidate.html">consolidate()</a></code>function to make function over 20 times faster
+<ul><li>Closed <a href="https://github.com/globalgov/manydata/issues/227" class="external-link">#227</a> by making <code><a href="../reference/consolidate.html">consolidate()</a></code> ignore text related variables due to their size</li>
+<li>Closed <a href="https://github.com/globalgov/manydata/issues/230" class="external-link">#230</a> by making <code><a href="../reference/consolidate.html">consolidate()</a></code> more concise to avoid running into memory limits</li>
+<li>Closed <a href="https://github.com/globalgov/manydata/issues/228" class="external-link">#228</a> and <a href="https://github.com/globalgov/manydata/issues/232" class="external-link">#232</a> by replacing <code><a href="../reference/defunct.html">coalesce_compatible()</a></code> for a faster approach to coalescing compatible missing observations that relies on <code><a href="https://rdrr.io/pkg/zoo/man/na.locf.html" class="external-link">zoo::na.locf()</a></code>
+</li>
+<li>Made <code><a href="../reference/defunct.html">coalesce_compatible()</a></code> function defunct</li>
 </ul></li>
 </ul></div>
 </div>
@@ -142,7 +168,7 @@
 <h2 class="pkg-version" data-toc-text="0.7.3" id="manydata-073">manydata 0.7.3<a class="anchor" aria-label="anchor" href="#manydata-073"></a></h2><p class="text-muted">CRAN release: 2022-04-01</p>
 <div class="section level3">
 <h3 id="connection-0-7-3">Connection<a class="anchor" aria-label="anchor" href="#connection-0-7-3"></a></h3>
-<ul><li>Updated how the <code><a href="../reference/get_packages.html">get_packages()</a></code> function identifies installed packages to avoid using <code><a href="https://rdrr.io/r/utils/installed.packages.html" class="external-link">installed.packages()</a></code>
+<ul><li>Updated how the <code><a href="../reference/defunct.html">get_packages()</a></code> function identifies installed packages to avoid using <code><a href="https://rdrr.io/r/utils/installed.packages.html" class="external-link">installed.packages()</a></code>
 </li>
 <li>Updated documentation for <code><a href="../reference/defunct.html">coalesce_compatible()</a></code> function to include the returns</li>
 </ul></div>
@@ -210,7 +236,7 @@
 </ul></li>
 <li>Closed <a href="https://github.com/globalgov/manydata/issues/185" class="external-link">#185</a> by making so that users can specify resolve argument differently for different variables</li>
 </ul></li>
-<li>Closed <a href="https://github.com/globalgov/manydata/issues/188" class="external-link">#188</a> by adding more informative warnings for GitHub download limits for <code><a href="../reference/get_packages.html">get_packages()</a></code> function</li>
+<li>Closed <a href="https://github.com/globalgov/manydata/issues/188" class="external-link">#188</a> by adding more informative warnings for GitHub download limits for <code><a href="../reference/defunct.html">get_packages()</a></code> function</li>
 <li>Added extraction functions to generate edgelists from agreements membership datasets
 <ul><li>Added <code>extract_bilaterals()</code> for extracting adjacency edgelist for bilateral agreements</li>
 <li>Added <code>extract_multilaterals()</code> for extracting adjacency edgelist for multilateral agreements</li>
