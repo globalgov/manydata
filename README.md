@@ -153,7 +153,7 @@ compare_dimensions(emperors)
 
     #> # A tibble: 3 × 5
     #>   Dataset    Observations Variables                    Earliest_Date Latest_Date
-    #>   <chr>      <chr>        <chr>                        <chr>         <chr>      
+    #>   <chr>      <chr>        <chr>                        <mdate>       <mdate>    
     #> 1 wikipedia  68           ID, Begin, End, FullName, B… -0026-01-16   0014-08-19 
     #> 2 UNRV       99           ID, Begin, End, Birth, Deat… -0014-01-01   -0027-12-31
     #> 3 britannica 87           ID, Begin, End               -0031-01-01   0014-12-31
@@ -167,14 +167,14 @@ compare_ranges(emperors, variable = c("Begin", "End"))
 ```
 
     #> # A tibble: 6 × 6
-    #>   Dataset    Variable Min         Max         Mean        Median     
-    #>   <chr>      <chr>    <chr>       <chr>       <chr>       <chr>      
-    #> 1 wikipedia  Begin    -0026-01-16 -0026-01-16 -0026-01-16 -0026-01-16
-    #> 2 wikipedia  End      0014-08-19  0014-08-19  0014-08-19  0014-08-19 
-    #> 3 UNRV       Begin    -0027-01-01 -0027-12-31 -0027-07-02 -0027-07-02
-    #> 4 UNRV       End      -0014-01-01 -0014-12-31 -0014-07-02 -0014-07-02
-    #> 5 britannica Begin    -0031-01-01 -0031-12-31 -0031-07-02 -0031-07-02
-    #> 6 britannica End      0014-01-01  0014-12-31  0014-07-02  0014-07-02
+    #>   Dataset    Variable Min        Max        Mean       Median    
+    #>   <chr>      <chr>    <chr>      <chr>      <chr>      <chr>     
+    #> 1 wikipedia  Begin    -026-01-16 -026-01-16 -026-01-16 -026-01-16
+    #> 2 wikipedia  End      0014-08-19 0014-08-19 0014-08-19 0014-08-19
+    #> 3 UNRV       Begin    -027-01-01 -027-12-31 -027-07-02 -027-07-02
+    #> 4 UNRV       End      -014-01-01 -014-12-31 -014-07-02 -014-07-02
+    #> 5 britannica Begin    -031-01-01 -031-12-31 -031-07-02 -031-07-02
+    #> 6 britannica End      0014-01-01 0014-12-31 0014-07-02 0014-07-02
 
 The `compare_overlap()` function returns a tibble with the number of
 overlapping observations for a specified variable (specify using the
@@ -400,16 +400,16 @@ consolidate(datacube = emperors, rows = "every", cols = "every", resolve = "rand
     #> # A tibble: 41 × 3
     #>    ID             Begin      End       
     #>    <chr>          <chr>      <chr>     
-    #>  1 Aemilian       0253-08-15 0253-12-31
-    #>  2 Augustus       -031-12-31 0014-12-31
-    #>  3 Aurelian       0270-12-31 0275-12-31
-    #>  4 Balbinus       0238-12-31 0238-12-31
+    #>  1 Aemilian       0253-12-31 0253-12-31
+    #>  2 Augustus       -031-12-31 -014-12-31
+    #>  3 Aurelian       0270-12-31 0275-09-15
+    #>  4 Balbinus       0238-04-22 0238-07-29
     #>  5 Caracalla      0198-12-31 0217-12-31
-    #>  6 Carinus        0283-08-01 0285-12-31
+    #>  6 Carinus        0283-12-31 0285-12-31
     #>  7 Carus          0282-12-31 0283-12-31
-    #>  8 Claudius       0041-01-25 0054-12-31
+    #>  8 Claudius       0041-12-31 0054-10-13
     #>  9 Commodus       0177-12-31 0192-12-31
-    #> 10 Constantine II 0337-05-22 0340-12-31
+    #> 10 Constantine II 0337-05-22 0340-01-01
     #> # ℹ 31 more rows
 
 Users can even specify how conflicts for different variables should be

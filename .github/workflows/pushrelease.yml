@@ -176,7 +176,7 @@ jobs:
 
   pkgdown:
     name: Build and deploy website
-    needs: render
+    needs: build
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
