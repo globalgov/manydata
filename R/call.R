@@ -59,6 +59,7 @@ call_packages <- function(package, develop = FALSE) {
     # get latest release
     repo$Latest <- get_latest_release(repo$full_name)
     repo <- subset(repo, !grepl("Unreleased", repo$Latest))
+    # format tibble
     repo <- repo %>%
       dplyr::bind_rows() %>%
       dplyr::select(-full_name) %>%
@@ -103,6 +104,11 @@ call_packages <- function(package, develop = FALSE) {
         }
       }
     }
+    # add message with hyperlinks
+    usethis::ui_info(c("For more information on each of the packages please see:",
+                       lapply(repo$Name, function(x) {
+                         cli::style_hyperlink(x, paste0("https://github.com/globalgov/", x))
+                       })))
   } else {
     # download package if declared
     tryCatch({
@@ -121,6 +127,9 @@ call_packages <- function(package, develop = FALSE) {
        Please download the package using:
               remotes::install_github(globalgov/", package, ")"))
     })
+    usethis::ui_info(paste0("Please see ",
+                            cli::style_hyperlink(package, paste0("https://github.com/globalgov/", package)),
+                            " for  more information."))
   }
 }
 
