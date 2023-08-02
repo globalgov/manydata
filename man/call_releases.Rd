@@ -33,6 +33,7 @@ specified GitHub repository.
 \examples{
 \donttest{
 #call_releases("globalgov/manydata")
+#call_releases("manypkgs")
 }
 }
 \seealso{
