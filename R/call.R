@@ -107,7 +107,7 @@ call_packages <- function(package, develop = FALSE) {
     # add message with hyperlinks
     usethis::ui_info(c("For more information on each of the packages please see:",
                        lapply(repo$Name, function(x) {
-                         cli::style_hyperlink(x, paste0("https://github.com/globalgov/", x))
+                         cli::style_hyperlink(x, paste0("https://globalgov.github.io/", x))
                        })))
   } else {
     # download package if declared
@@ -128,7 +128,7 @@ call_packages <- function(package, develop = FALSE) {
               remotes::install_github(globalgov/", package, ")"))
     })
     usethis::ui_info(paste0("Please see ",
-                            cli::style_hyperlink(package, paste0("https://github.com/globalgov/", package)),
+                            cli::style_hyperlink(package, paste0("https://globalgov.github.io/", package)),
                             " for  more information."))
   }
 }
@@ -183,42 +183,23 @@ get_latest_release <- function(full_name) {
 #' @examples
 #' \donttest{
 #' #call_releases("globalgov/manydata")
+#' #call_releases("manypkgs")
 #' }
 #' @export
 call_releases <- function(repo, begin = NULL, end = NULL) {
   # Step one: get releases from repo
   if (!is.data.frame(repo)) {
-    get_releases <- function(repo) {
-      repo <- paste0("https://api.github.com/repos/", repo, "/releases")
-      df <- httr::GET(repo, query = list(state = "all",
-                                         per_page = 100, page = 1))
-      httr::stop_for_status(df)
-      httr::warn_for_status(df)
-      df <- httr::content(df, type = "text", encoding = "UTF-8")
-      df <- jsonlite::fromJSON(df, flatten = TRUE)
-      df <- df[, c("tag_name", "url", "published_at")]
-      df$date <- stringr::str_remove(df$published_at, "T.*$")
-      df$date <- messydates::as_messydate(stringr::str_replace(df$date,
-                                                               "-[:digit:]*$",
-                                                               "-01"))
-      if(!is.null(begin)) df <- dplyr::filter(df, date >= begin)
-      if(!is.null(end)) df <- dplyr::filter(df, date <= end)
-      # Get milestones
-      code_milestone <- function(tag_name) {
-        tags <- c(tag_name, "v0.0.0")
-        test <- lapply(stringr::str_split(stringr::str_remove(tags, "v"),
-                                          "\\."), function(x) as.numeric(x))
-        elemt <- function(lst, n) {
-          sapply(lst, `[`, n)
-        }
-        ifelse(elemt(test, 3) > dplyr::lead(elemt(test, 3)), "Patch",
-               ifelse(elemt(test, 2) > dplyr::lead(elemt(test, 2)),
-                      "Minor", "Major"))[-length(tags)]
-      }
-      df$milestone <- code_milestone(df$tag_name)
-      df
+    if (!grepl("/", repo)) {
+      usethis::ui_info("Looking for package in 'globalgov' repo.")
+      repo <- paste0("globalgov/", repo)
     }
-    df <- get_releases(repo)
+    # return link for more information
+    usethis::ui_info(paste0("Please see ",
+                            cli::style_hyperlink(strsplit(repo, "/")[[1]][2],
+                                                 paste0("https://globalgov.github.io/",
+                                                        strsplit(repo, "/")[[1]][2])),
+                            " for  more information."))
+    df <- get_releases(repo = repo, begin = begin, end = end)
   } else df <- repo
   # Step two: assign colors to releases
   milestone <- NULL
@@ -305,6 +286,38 @@ call_releases <- function(repo, begin = NULL, end = NULL) {
   print(timeline_plot)
 }
 
+# Helper function for getting onformation from GitHub repos
+get_releases <- function(repo, begin, end) {
+  repo <- paste0("https://api.github.com/repos/", repo, "/releases")
+  df <- httr::GET(repo, query = list(state = "all",
+                                     per_page = 100, page = 1))
+  httr::stop_for_status(df)
+  httr::warn_for_status(df)
+  df <- httr::content(df, type = "text", encoding = "UTF-8")
+  df <- jsonlite::fromJSON(df, flatten = TRUE)
+  df <- df[, c("tag_name", "url", "published_at")]
+  df$date <- stringr::str_remove(df$published_at, "T.*$")
+  df$date <- messydates::as_messydate(stringr::str_replace(df$date,
+                                                           "-[:digit:]*$",
+                                                           "-01"))
+  if(!is.null(begin)) df <- dplyr::filter(df, date >= begin)
+  if(!is.null(end)) df <- dplyr::filter(df, date <= end)
+  # Get milestones
+  code_milestone <- function(tag_name) {
+    tags <- c(tag_name, "v0.0.0")
+    test <- lapply(stringr::str_split(stringr::str_remove(tags, "v"),
+                                      "\\."), function(x) as.numeric(x))
+    elemt <- function(lst, n) {
+      sapply(lst, `[`, n)
+    }
+    ifelse(elemt(test, 3) > dplyr::lead(elemt(test, 3)), "Patch",
+           ifelse(elemt(test, 2) > dplyr::lead(elemt(test, 2)),
+                  "Minor", "Major"))[-length(tags)]
+  }
+  df$milestone <- code_milestone(df$tag_name)
+  df
+}
+
 #' Call sources for datacubes and datasets in 'many' packages
 #' 
 #' @details `call_sources()` displays sources of the datacubes and datasets
@@ -340,6 +353,10 @@ call_releases <- function(repo, begin = NULL, end = NULL) {
 call_sources <- function(package, datacube, dataset = NULL,
                          open_script = FALSE, open_codebook = FALSE) {
   Dataset <- Source <- URL <- Mapping <- NULL
+  # return package link for help
+  usethis::ui_info(paste0("Please see ",
+                          cli::style_hyperlink(package, paste0("https://globalgov.github.io/", package)),
+                          " for  more information."))
   # get path
   helptext <- utils::help(topic = as.character(datacube),
                           package = as.character(package))
