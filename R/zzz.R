@@ -1,9 +1,3 @@
-globalCallingHandlers(message = function(condition) {
-  msg <- trimws(conditionMessage(condition))
-  writeLines(msg)
-  invokeRestart("muffleMessage")
-  })
-
 .onAttach <- function(lib, pkg) {
   msg <- c(paste0("manydata ", utils::packageVersion("manydata")),
            "\nPlease see ",
