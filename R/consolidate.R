@@ -279,7 +279,7 @@ resolve_median <- function(other_variables, out, key) {
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
       if (inherits(dates, "mdate")) {
-        dates <- suppressWarnings(as.Date(dates, max))
+        dates <- suppressWarnings(as.Date(dates, median))
         new_var[k] <- dates
       }
     }
@@ -304,7 +304,7 @@ resolve_mean <- function(other_variables, out, key) {
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
       if (inherits(dates, "mdate")) {
-        dates <- suppressWarnings(as.Date(dates, max))
+        dates <- suppressWarnings(as.Date(dates, mean))
         new_var[k] <- dates
       }
     }
@@ -329,7 +329,7 @@ resolve_random <- function(other_variables, out, key) {
     for (k in names(new_var)) {
       dates <- dplyr::pull(new_var, k)
       if (inherits(dates, "mdate")) {
-        dates <- suppressWarnings(as.Date(dates, max))
+        dates <- suppressWarnings(as.Date(dates, random))
         new_var[k] <- dates
       }
     }
