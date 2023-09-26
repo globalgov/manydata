@@ -1,5 +1,4 @@
 # Test call_ family of functions
-
 test_that("call_sources() returns the correct output format", {
   so <- call_sources("manydata", "emperors")
   expect_type(so, "list")
