@@ -394,6 +394,12 @@ call_sources <- function(package, datacube, dataset = NULL,
                              "", x))
     })))
   # add names to data frame
+  tryCatch({
+    colnames(out) <- sections
+  }, error = function(e) {
+    stop(paste0("Unable to get sources from documentation file,
+                please try the help file `?", package, "::", datacube, "`"))
+  })
   colnames(out) <- sections
   rownames(out) <- gsub(":", "", names)
   # clean variable mapping
