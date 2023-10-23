@@ -400,7 +400,6 @@ call_sources <- function(package, datacube, dataset = NULL,
     stop(paste0("Unable to get sources from documentation file,
                 please try the help file `?", package, "::", datacube, "`"))
   })
-  colnames(out) <- sections
   rownames(out) <- gsub(":", "", names)
   # clean variable mapping
   out$Mapping <- unlist(lapply(out$Mapping, function(x) {
