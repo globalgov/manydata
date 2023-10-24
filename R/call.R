@@ -367,11 +367,13 @@ call_sources <- function(package, datacube, dataset = NULL,
                                       "\\\n|\\{|\\}|\\\\tab$|\\\\cr$|^cc$")
   helptext <- paste(stringr::str_trim(helptext[nzchar(helptext)]),
                     collapse = " ")
+  # get names
+  names <- stringr::str_extract(helptext, "((following \\d datasets\\:)[^\\.]*)")
+  names <- trimws(unlist(strsplit(gsub("following \\d datasets\\:", "",
+                                       names), ", ")))
   # keep only portions we are interested in
   helptext <- paste0(sub('.*</div>', '', helptext), " \\item")
-  # get names and sections
-  names <- unique(unlist(stringr::str_extract_all(helptext, "\\w*:")))
-  names <- names[!grepl("https:", names)]
+  # get sections
   sections <- c(unlist(stringr::str_extract_all(helptext,
                                                 "section \\w*")), "Source")
   sections <- stringr::str_trim(gsub("section", "", sections))
@@ -389,9 +391,9 @@ call_sources <- function(package, datacube, dataset = NULL,
   out <- data.frame(do.call(rbind, out))
   # clean observations
   out <- data.frame(t(apply(out, 1, function(x) {
-    stringr::str_squish(gsub(paste0(paste(names, collapse = "|"),
-                                    "|\\\\item|\\\\tabular|\\\\url|\\\\emph|\\\\section|\\\\source|Variable Mapping"),
-                             "", x))
+    stringr::str_squish(gsub(
+      paste0(paste(names, collapse = "|"),
+             "|\\\\item|\\\\tabular|\\\\url|\\\\emph|\\\\section|\\\\source|Variable Mapping"), "", x))
     })))
   # add names to data frame
   tryCatch({
@@ -401,10 +403,11 @@ call_sources <- function(package, datacube, dataset = NULL,
                 please try the help file `?", package, "::", datacube, "`"))
   })
   rownames(out) <- gsub(":", "", names)
+  out <- data.frame(apply(out, 2, function(x) gsub("^: ", "", x)))
   # clean variable mapping
   out$Mapping <- unlist(lapply(out$Mapping, function(x) {
     gsub("\\|", " | ",
-         gsub("\\_", " ", 
+         gsub("\\_", " ",
               gsub("\\(|\\)", "",
                    gsub(" ", " - ",
                         gsub("(\\S* \\S*) ","\\1|",
