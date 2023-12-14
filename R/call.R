@@ -218,45 +218,34 @@ call_releases <- function(repo, begin = NULL, end = NULL) {
   df <- merge(df, line_pos, by = "date", all = TRUE)
   df <- df[with(df, order(date, milestone)), ]
   # Step four: get text in the right position
-  text_offset <- 0.05
   df$month_count <- stats::ave(df$date == df$date, df$date, FUN = cumsum)
-  df$text_position <- (df$month_count * text_offset *
-                         df$direction) + df$position
-  month_buffer <- 2
+  df$text_position <- (df$month_count * 0.05 * df$direction) + df$position
+  if (!messydates::is_messydate(df$date)) {
+    df$date <- as.Date(messydates::as_messydate(df$date), mean)
+  } else df$date <- as.Date(df$date, mean)
   # Step five: get months date range
-  month_date_range <- seq(as.Date(min(df$date)) - months(month_buffer),
-                          as.Date(max(df$date)) + months(month_buffer),
-                          by = "month")
+  month_date_range <- seq(min(as.Date(df$date, min)) - months(2),
+                          max(as.Date(df$date, max)) + months(2), by = "month")
   month_format <- format(month_date_range, "%b")
   month_df <- data.frame(month_date_range, month_format)
-  # Step five: get years date range
+  # Step six: get years date range
   year_date_range <- c(min(month_date_range), max(month_date_range))
   year_format <- format(year_date_range, "%Y")
   year_df <- data.frame(year_date_range, year_format)
   # Step seven: plot
   timeline_plot <- ggplot2::ggplot(df, ggplot2::aes(x = date, y = 0,
                                                     col = .data$milestone,
-                                                    label = .data$milestone))
-  timeline_plot <- timeline_plot + ggplot2::labs(col = "Milestones")
-  timeline_plot <- timeline_plot +
+                                                    label = .data$milestone)) + 
+    ggplot2::labs(col = "Milestones") +
     ggplot2::scale_color_manual(values = milestone_colors,
-                                labels = milestone_levels, drop = FALSE)
-  timeline_plot <- timeline_plot + ggplot2::theme_classic()
-  # Plot horizontal black line for timeline
-  timeline_plot <- timeline_plot + ggplot2::geom_hline(yintercept = 0,
-                                                       color = "black",
-                                                       linewidth = 0.3)
-  # Plot vertical segment lines for milestones
-  timeline_plot <- timeline_plot +
+                                labels = milestone_levels, drop = FALSE) + 
+    ggplot2::theme_classic() +
+    ggplot2::geom_hline(yintercept = 0, color = "black", linewidth = 0.3) +
     ggplot2::geom_segment(data = df[df$month_count == 1, ],
-                          ggplot2::aes(y = .data$position,
-                                       yend = 0, xend = date),
-                          color = "black", linewidth = 0.2)
-  # Plot scatter points at zero and date
-  timeline_plot <- timeline_plot +
-    ggplot2::geom_point(ggplot2::aes(y = 0), size = 3)
-  # Don't show axes, appropriately position legend
-  timeline_plot <- timeline_plot +
+                          ggplot2::aes(y = .data$position, yend = 0,
+                                       xend = date),
+                          color = "black", linewidth = 0.2) +
+    ggplot2::geom_point(ggplot2::aes(y = 0), size = 3) +
     ggplot2::theme(axis.line.y = ggplot2::element_blank(),
                    axis.text.y = ggplot2::element_blank(),
                    axis.title.x = ggplot2::element_blank(),
@@ -265,25 +254,21 @@ call_releases <- function(repo, begin = NULL, end = NULL) {
                    axis.text.x = ggplot2::element_blank(),
                    axis.ticks.x = ggplot2::element_blank(),
                    axis.line.x = ggplot2::element_blank(),
-                   legend.position = "bottom")
-  # Show text for each month
-  timeline_plot <- timeline_plot +
+                   legend.position = "bottom") +
     ggplot2::geom_text(data = month_df,
-                       ggplot2::aes(x = as.character(month_date_range),
+                       ggplot2::aes(x = month_date_range,
                                     y = -0.1, label = month_format),
                        size = 2.5, vjust = 0.5, color = "black", angle = 90)
   # Show year text if applicable
   if (nrow(month_df) > 12) timeline_plot <- timeline_plot +
-    ggplot2::geom_text(data = year_df, ggplot2::aes(x = as.character(year_date_range),
-                                                    y = -0.2,
-                                                    label = year_format,
-                                                    fontface = "bold"),
+    ggplot2::geom_text(data = year_df, ggplot2::aes(x = year_date_range,
+                                                    y = -0.2, fontface = "bold",
+                                                    label = year_format),
                        size = 2.5, color = "black")
   # Show text for each milestone
-  timeline_plot <- timeline_plot +
-    ggplot2::geom_text(ggplot2::aes(y = .data$text_position,
-                                    label = .data$tag_name), size = 2.5)
-  print(timeline_plot)
+  timeline_plot + ggplot2::geom_text(ggplot2::aes(y = .data$text_position,
+                                                  label = .data$tag_name),
+                                     size = 2.5)
 }
 
 # Helper function for getting onformation from GitHub repos
@@ -544,7 +529,7 @@ call_treaties <- function(dataset, treaty_type = NULL, variable = NULL,
       dplyr::summarise(Memberships = toString(Memberships)) %>%
       dplyr::ungroup() %>%
       dplyr::right_join(out, by = key) %>%
-      distinct()
+      dplyr::distinct()
   }
   out
 }
