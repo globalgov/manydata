@@ -41,6 +41,6 @@ test_that("call releases visualises historical
                                  milestone = c("Minor", "Patch"))
             testplot <- call_releases(testdf)
             expect_true(is.list(testplot))
-            expect_length(testplot, 9)
+            expect_length(testplot, length(ggplot()))
             expect_named(testplot[1:3], c("data", "layers", "scales"))
 })
