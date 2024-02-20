@@ -3,10 +3,9 @@
 test_that("plot for compare_categories returns the correct output format", {
   db <- plot(compare_categories(datacube = emperors, key = "ID"))
   expect_type(db, "list")
-  expect_length(db, 9)
+  expect_length(db, length(ggplot()))
   expect_true(ggplot2::is.ggplot(db))
-  expect_named(db, c("data", "layers", "scales", "mapping", "theme",
-                     "coordinates", "facet", "plot_env", "labels"))
+  expect_named(db, names(ggplot()))
 })
 
 test_that("compare_categories() returns the correct output format", {
@@ -52,10 +51,9 @@ test_that("compare_overlap() and plot_overlap() returns the correct output forma
   expect_s3_class(db, "tbl_df")
   pl <- plot(db)
   expect_type(pl, "list")
-  expect_length(pl, 9)
+  expect_length(pl, length(ggplot()))
   expect_true(ggplot2::is.ggplot(pl))
-  expect_named(pl, c("data", "layers", "scales", "mapping", "theme",
-                     "coordinates", "facet", "plot_env", "labels"))
+  expect_named(pl, names(ggplot()))
 })
 
 test_that("compare_missing() and plot_missing() returns the correct output format", {
@@ -65,8 +63,7 @@ test_that("compare_missing() and plot_missing() returns the correct output forma
   expect_s3_class(db, "tbl_df")
   pl <- plot(db)
   expect_type(pl, "list")
-  expect_length(pl, 9)
+  expect_length(pl, length(ggplot()))
   expect_true(ggplot2::is.ggplot(pl))
-  expect_named(pl, c("data", "layers", "scales", "mapping", "theme",
-                     "coordinates", "facet", "plot_env", "labels"))
+  expect_named(pl, names(ggplot()))
 })

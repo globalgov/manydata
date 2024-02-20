@@ -59,6 +59,7 @@ call_packages <- function(package, develop = FALSE) {
     # get latest release
     repo$Latest <- get_latest_release(repo$full_name)
     repo <- subset(repo, !grepl("Unreleased", repo$Latest))
+    # format tibble
     repo <- repo %>%
       dplyr::bind_rows() %>%
       dplyr::select(-full_name) %>%
@@ -103,6 +104,11 @@ call_packages <- function(package, develop = FALSE) {
         }
       }
     }
+    # add message with hyperlinks
+    usethis::ui_info(c("For more information on each of the packages please see:",
+                       lapply(repo$Name, function(x) {
+                         cli::style_hyperlink(x, paste0("https://globalgov.github.io/", x))
+                       })))
   } else {
     # download package if declared
     tryCatch({
@@ -121,6 +127,9 @@ call_packages <- function(package, develop = FALSE) {
        Please download the package using:
               remotes::install_github(globalgov/", package, ")"))
     })
+    usethis::ui_info(paste0("Please see ",
+                            cli::style_hyperlink(package, paste0("https://globalgov.github.io/", package)),
+                            " for  more information."))
   }
 }
 
@@ -174,42 +183,23 @@ get_latest_release <- function(full_name) {
 #' @examples
 #' \donttest{
 #' #call_releases("globalgov/manydata")
+#' #call_releases("manypkgs")
 #' }
 #' @export
 call_releases <- function(repo, begin = NULL, end = NULL) {
   # Step one: get releases from repo
   if (!is.data.frame(repo)) {
-    get_releases <- function(repo) {
-      repo <- paste0("https://api.github.com/repos/", repo, "/releases")
-      df <- httr::GET(repo, query = list(state = "all",
-                                         per_page = 100, page = 1))
-      httr::stop_for_status(df)
-      httr::warn_for_status(df)
-      df <- httr::content(df, type = "text", encoding = "UTF-8")
-      df <- jsonlite::fromJSON(df, flatten = TRUE)
-      df <- df[, c("tag_name", "url", "published_at")]
-      df$date <- stringr::str_remove(df$published_at, "T.*$")
-      df$date <- messydates::as_messydate(stringr::str_replace(df$date,
-                                                               "-[:digit:]*$",
-                                                               "-01"))
-      if(!is.null(begin)) df <- dplyr::filter(df, date >= begin)
-      if(!is.null(end)) df <- dplyr::filter(df, date <= end)
-      # Get milestones
-      code_milestone <- function(tag_name) {
-        tags <- c(tag_name, "v0.0.0")
-        test <- lapply(stringr::str_split(stringr::str_remove(tags, "v"),
-                                          "\\."), function(x) as.numeric(x))
-        elemt <- function(lst, n) {
-          sapply(lst, `[`, n)
-        }
-        ifelse(elemt(test, 3) > dplyr::lead(elemt(test, 3)), "Patch",
-               ifelse(elemt(test, 2) > dplyr::lead(elemt(test, 2)),
-                      "Minor", "Major"))[-length(tags)]
-      }
-      df$milestone <- code_milestone(df$tag_name)
-      df
+    if (!grepl("/", repo)) {
+      usethis::ui_info("Looking for package in 'globalgov' repo.")
+      repo <- paste0("globalgov/", repo)
     }
-    df <- get_releases(repo)
+    # return link for more information
+    usethis::ui_info(paste0("Please see ",
+                            cli::style_hyperlink(strsplit(repo, "/")[[1]][2],
+                                                 paste0("https://globalgov.github.io/",
+                                                        strsplit(repo, "/")[[1]][2])),
+                            " for  more information."))
+    df <- get_releases(repo = repo, begin = begin, end = end)
   } else df <- repo
   # Step two: assign colors to releases
   milestone <- NULL
@@ -228,45 +218,34 @@ call_releases <- function(repo, begin = NULL, end = NULL) {
   df <- merge(df, line_pos, by = "date", all = TRUE)
   df <- df[with(df, order(date, milestone)), ]
   # Step four: get text in the right position
-  text_offset <- 0.05
   df$month_count <- stats::ave(df$date == df$date, df$date, FUN = cumsum)
-  df$text_position <- (df$month_count * text_offset *
-                         df$direction) + df$position
-  month_buffer <- 2
+  df$text_position <- (df$month_count * 0.05 * df$direction) + df$position
+  if (!messydates::is_messydate(df$date)) {
+    df$date <- as.Date(messydates::as_messydate(df$date), mean)
+  } else df$date <- as.Date(df$date, mean)
   # Step five: get months date range
-  month_date_range <- seq(as.Date(min(df$date)) - months(month_buffer),
-                          as.Date(max(df$date)) + months(month_buffer),
-                          by = "month")
+  month_date_range <- seq(min(as.Date(df$date, min)) - months(2),
+                          max(as.Date(df$date, max)) + months(2), by = "month")
   month_format <- format(month_date_range, "%b")
   month_df <- data.frame(month_date_range, month_format)
-  # Step five: get years date range
+  # Step six: get years date range
   year_date_range <- c(min(month_date_range), max(month_date_range))
   year_format <- format(year_date_range, "%Y")
   year_df <- data.frame(year_date_range, year_format)
   # Step seven: plot
   timeline_plot <- ggplot2::ggplot(df, ggplot2::aes(x = date, y = 0,
                                                     col = .data$milestone,
-                                                    label = .data$milestone))
-  timeline_plot <- timeline_plot + ggplot2::labs(col = "Milestones")
-  timeline_plot <- timeline_plot +
+                                                    label = .data$milestone)) + 
+    ggplot2::labs(col = "Milestones") +
     ggplot2::scale_color_manual(values = milestone_colors,
-                                labels = milestone_levels, drop = FALSE)
-  timeline_plot <- timeline_plot + ggplot2::theme_classic()
-  # Plot horizontal black line for timeline
-  timeline_plot <- timeline_plot + ggplot2::geom_hline(yintercept = 0,
-                                                       color = "black",
-                                                       linewidth = 0.3)
-  # Plot vertical segment lines for milestones
-  timeline_plot <- timeline_plot +
+                                labels = milestone_levels, drop = FALSE) + 
+    ggplot2::theme_classic() +
+    ggplot2::geom_hline(yintercept = 0, color = "black", linewidth = 0.3) +
     ggplot2::geom_segment(data = df[df$month_count == 1, ],
-                          ggplot2::aes(y = .data$position,
-                                       yend = 0, xend = date),
-                          color = "black", linewidth = 0.2)
-  # Plot scatter points at zero and date
-  timeline_plot <- timeline_plot +
-    ggplot2::geom_point(ggplot2::aes(y = 0), size = 3)
-  # Don't show axes, appropriately position legend
-  timeline_plot <- timeline_plot +
+                          ggplot2::aes(y = .data$position, yend = 0,
+                                       xend = date),
+                          color = "black", linewidth = 0.2) +
+    ggplot2::geom_point(ggplot2::aes(y = 0), size = 3) +
     ggplot2::theme(axis.line.y = ggplot2::element_blank(),
                    axis.text.y = ggplot2::element_blank(),
                    axis.title.x = ggplot2::element_blank(),
@@ -275,25 +254,53 @@ call_releases <- function(repo, begin = NULL, end = NULL) {
                    axis.text.x = ggplot2::element_blank(),
                    axis.ticks.x = ggplot2::element_blank(),
                    axis.line.x = ggplot2::element_blank(),
-                   legend.position = "bottom")
-  # Show text for each month
-  timeline_plot <- timeline_plot +
+                   legend.position = "bottom") +
     ggplot2::geom_text(data = month_df,
-                       ggplot2::aes(x = as.character(month_date_range),
+                       ggplot2::aes(x = month_date_range,
                                     y = -0.1, label = month_format),
                        size = 2.5, vjust = 0.5, color = "black", angle = 90)
   # Show year text if applicable
   if (nrow(month_df) > 12) timeline_plot <- timeline_plot +
-    ggplot2::geom_text(data = year_df, ggplot2::aes(x = as.character(year_date_range),
-                                                    y = -0.2,
-                                                    label = year_format,
-                                                    fontface = "bold"),
+    ggplot2::geom_text(data = year_df, ggplot2::aes(x = year_date_range,
+                                                    y = -0.2, fontface = "bold",
+                                                    label = year_format),
                        size = 2.5, color = "black")
   # Show text for each milestone
-  timeline_plot <- timeline_plot +
-    ggplot2::geom_text(ggplot2::aes(y = .data$text_position,
-                                    label = .data$tag_name), size = 2.5)
-  print(timeline_plot)
+  timeline_plot + ggplot2::geom_text(ggplot2::aes(y = .data$text_position,
+                                                  label = .data$tag_name),
+                                     size = 2.5)
+}
+
+# Helper function for getting onformation from GitHub repos
+get_releases <- function(repo, begin, end) {
+  repo <- paste0("https://api.github.com/repos/", repo, "/releases")
+  df <- httr::GET(repo, query = list(state = "all",
+                                     per_page = 100, page = 1))
+  httr::stop_for_status(df)
+  httr::warn_for_status(df)
+  df <- httr::content(df, type = "text", encoding = "UTF-8")
+  df <- jsonlite::fromJSON(df, flatten = TRUE)
+  df <- df[, c("tag_name", "url", "published_at")]
+  df$date <- stringr::str_remove(df$published_at, "T.*$")
+  df$date <- messydates::as_messydate(stringr::str_replace(df$date,
+                                                           "-[:digit:]*$",
+                                                           "-01"))
+  if(!is.null(begin)) df <- dplyr::filter(df, date >= begin)
+  if(!is.null(end)) df <- dplyr::filter(df, date <= end)
+  # Get milestones
+  code_milestone <- function(tag_name) {
+    tags <- c(tag_name, "v0.0.0")
+    test <- lapply(stringr::str_split(stringr::str_remove(tags, "v"),
+                                      "\\."), function(x) as.numeric(x))
+    elemt <- function(lst, n) {
+      sapply(lst, `[`, n)
+    }
+    ifelse(elemt(test, 3) > dplyr::lead(elemt(test, 3)), "Patch",
+           ifelse(elemt(test, 2) > dplyr::lead(elemt(test, 2)),
+                  "Minor", "Major"))[-length(tags)]
+  }
+  df$milestone <- code_milestone(df$tag_name)
+  df
 }
 
 #' Call sources for datacubes and datasets in 'many' packages
@@ -331,6 +338,10 @@ call_releases <- function(repo, begin = NULL, end = NULL) {
 call_sources <- function(package, datacube, dataset = NULL,
                          open_script = FALSE, open_codebook = FALSE) {
   Dataset <- Source <- URL <- Mapping <- NULL
+  # return package link for help
+  usethis::ui_info(paste0("Please see ",
+                          cli::style_hyperlink(package, paste0("https://globalgov.github.io/", package)),
+                          " for  more information."))
   # get path
   helptext <- utils::help(topic = as.character(datacube),
                           package = as.character(package))
@@ -341,11 +352,13 @@ call_sources <- function(package, datacube, dataset = NULL,
                                       "\\\n|\\{|\\}|\\\\tab$|\\\\cr$|^cc$")
   helptext <- paste(stringr::str_trim(helptext[nzchar(helptext)]),
                     collapse = " ")
+  # get names
+  names <- stringr::str_extract(helptext, "((following \\d datasets\\:)[^\\.]*)")
+  names <- trimws(unlist(strsplit(gsub("following \\d datasets\\:", "",
+                                       names), ", ")))
   # keep only portions we are interested in
   helptext <- paste0(sub('.*</div>', '', helptext), " \\item")
-  # get names and sections
-  names <- unique(unlist(stringr::str_extract_all(helptext, "\\w*:")))
-  names <- names[!grepl("https:", names)]
+  # get sections
   sections <- c(unlist(stringr::str_extract_all(helptext,
                                                 "section \\w*")), "Source")
   sections <- stringr::str_trim(gsub("section", "", sections))
@@ -363,17 +376,23 @@ call_sources <- function(package, datacube, dataset = NULL,
   out <- data.frame(do.call(rbind, out))
   # clean observations
   out <- data.frame(t(apply(out, 1, function(x) {
-    stringr::str_squish(gsub(paste0(paste(names, collapse = "|"),
-                                    "|\\\\item|\\\\tabular|\\\\url|\\\\emph|\\\\section|\\\\source|Variable Mapping"),
-                             "", x))
+    stringr::str_squish(gsub(
+      paste0(paste(names, collapse = "|"),
+             "|\\\\item|\\\\tabular|\\\\url|\\\\emph|\\\\section|\\\\source|Variable Mapping"), "", x))
     })))
   # add names to data frame
-  colnames(out) <- sections
+  tryCatch({
+    colnames(out) <- sections
+  }, error = function(e) {
+    stop(paste0("Unable to get sources from documentation file,
+                please try the help file `?", package, "::", datacube, "`"))
+  })
   rownames(out) <- gsub(":", "", names)
+  out <- data.frame(apply(out, 2, function(x) gsub("^: ", "", x)))
   # clean variable mapping
   out$Mapping <- unlist(lapply(out$Mapping, function(x) {
     gsub("\\|", " | ",
-         gsub("\\_", " ", 
+         gsub("\\_", " ",
               gsub("\\(|\\)", "",
                    gsub(" ", " - ",
                         gsub("(\\S* \\S*) ","\\1|",
@@ -510,7 +529,7 @@ call_treaties <- function(dataset, treaty_type = NULL, variable = NULL,
       dplyr::summarise(Memberships = toString(Memberships)) %>%
       dplyr::ungroup() %>%
       dplyr::right_join(out, by = key) %>%
-      distinct()
+      dplyr::distinct()
   }
   out
 }

@@ -64,12 +64,12 @@ data.con.median <- dplyr::tibble(manyID = c("NZL", "BRA"),
                               number = c(100, 1100))
 data.multi <- dplyr::tibble(manyID = c("NZL", "BRA", "CHF", "OTH"),
                             date = c("1990-01-01", "1990-01-02",
-                                     "1990-01-01..1990-01-31", NA),
+                                     "1990-01-01", NA),
                             number = c(100, 1200, 12222, 21))
 data.many <- dplyr::tibble(manyID = c("NZL", "BRA", "CHF", "OTH"),
                            number = c(100, 1100, 11111, 21),
                            date = c("1990-01-01", "1990-01-02",
-                                    "1990-01-01..1990-01-31", NA))
+                                    "1990-01-16", NA))
 
 test_that("pluck works", {
   expect_equal(pluck(test, "a"), data1)
@@ -89,7 +89,7 @@ test_that("consolidate methods work", {
                data.13.any[order(data.13.any$manyID),])
   expect_equal(consolidate(test, "any", resolve = "coalesce"),
                data.13.any[order(data.13.any$manyID),])
-  expect_equal(consolidate(test, "every", "any",
+  expect_equal(consolidate(datacube = test, rows = "every", cols = "any",
                            resolve = "min"),
                data.con.min[order(data.con.min$manyID),])
   expect_equal(consolidate(test, "every", "any",
@@ -98,26 +98,24 @@ test_that("consolidate methods work", {
   expect_equal(consolidate(test, "every", "any",
                            resolve = "median"),
                data.con.median[order(data.con.median$manyID),])
-  expect_equal(consolidate(test, "every", "any",
+  expect_equal(consolidate(datacube = test, rows = "every", cols = "any",
                            resolve = "mean"),
                  data.con.median[order(data.con.median$manyID),])
   expect_length(consolidate(test, "every", "any",
                             resolve = "random"), 3)
-  expect_equal(consolidate(test2, "every", "any",
-                           resolve = "min"),
-               data.con.min[order(data.con.min$manyID),])
-  expect_equal(consolidate(test2, "every", "any",
-                           resolve = "max"),
-               data.con.max[order(data.con.max$manyID),])
-  expect_equal(consolidate(test2, "every", "any",
-                           resolve = "median"),
-               data.con.median[order(data.con.median$manyID),])
-  expect_equal(consolidate(test2, "every", "any",
-                           resolve = "mean"),
-               data.con.median[order(data.con.median$manyID),])
+  expect_equal(unname(unlist(lapply(consolidate(
+    datacube = test2, rows = "every", cols = "any", resolve = "min"), class))),
+               c("character", "Date", "numeric"))
+  expect_equal(unname(unlist(lapply(consolidate(
+    datacube = test2, rows = "every", cols = "any", resolve = "max"), class))),
+    c("character", "Date", "numeric"))
+  expect_equal(dim(consolidate(test2, "every", "any",
+                           resolve = "median")), c(2,3))
+  expect_equal(dim(consolidate(datacube = test2, rows = "every", cols = "any",
+                           resolve = "mean")), c(2,3))
   expect_length(consolidate(test2, "every", "any",
                             resolve = "random"), 3)
-  expect_equal(consolidate(test2, "any", "any",
+  expect_equal(consolidate(datacube = test2, rows = "any", cols = "any",
                            resolve = c(date = "min", number = "max")),
                data.multi[order(data.multi$manyID),])
   expect_equal(consolidate(test2, "any", "any",

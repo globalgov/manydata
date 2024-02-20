@@ -1,3 +1,17 @@
+# manydata 0.9.1
+
+## Package
+
+* Updated test expectations to make package compatible with the new release of `{ggplot2}`
+
+## Connection
+
+* Closed #266 by adding startup messages to 'many' packages
+* Closed #267 by adding links to package websites in console messages
+* Closed #282 by updating all references from 'database' to 'datacube'
+* Closed #293 by fixing bugs related to missing dates when using `consolidate()`
+* Closed #294 by updating how `call_sources()` identify datasets within datacubes
+
 # manydata 0.9.0
 
 ## Package

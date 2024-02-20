@@ -1,5 +1,4 @@
 # Test call_ family of functions
-
 test_that("call_sources() returns the correct output format", {
   so <- call_sources("manydata", "emperors")
   expect_type(so, "list")
@@ -42,6 +41,6 @@ test_that("call releases visualises historical
                                  milestone = c("Minor", "Patch"))
             testplot <- call_releases(testdf)
             expect_true(is.list(testplot))
-            expect_length(testplot, 9)
+            expect_length(testplot, length(ggplot()))
             expect_named(testplot[1:3], c("data", "layers", "scales"))
-            })
+})
