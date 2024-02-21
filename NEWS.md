@@ -1,3 +1,9 @@
+# manydata 0.9.2
+
+## Package
+
+* Fixed documentation issues with CRAN-SUBMISSION.
+
 # manydata 0.9.1
 
 ## Package
