@@ -97,15 +97,9 @@ Emperors datacube documentation
 \section{URL}{
 
 \itemize{
-\item{wikipedia: }{
-\url{https://en.wikipedia.org/wiki/List_of_Roman_emperors}
-}
-\item{UNRV: }{
-\url{https://www.unrv.com/government/emperor.php}
-}
-\item{britannica: }{
-\url{https://www.britannica.com/topic/list-of-Roman-emperors-2043294}
-}
+\item{wikipedia: }{\url{https://en.wikipedia.org/wiki/List_of_Roman_emperors}}
+\item{UNRV: }{\url{https://www.unrv.com/government/emperor.php}}
+\item{britannica: }{\url{https://www.britannica.com/topic/list-of-Roman-emperors-2043294}}
 }
 }
 
