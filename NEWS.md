@@ -1,3 +1,9 @@
+# manydata 0.9.2
+
+## Package
+
+* Fixed the `emperors` data documentation issues related to lost braces with CRAN submission
+
 # manydata 0.9.1
 
 ## Package

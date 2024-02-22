@@ -18,37 +18,24 @@
 #' following 3 variables: ID, Begin, End.}
 #' }
 #' @source
-#' \itemize{
-#' \item{wikipedia: }{
+#' * wikipedia:
 #' Wikipedia, List_of_Roman_emperors,
-#' \url{https://en.wikipedia.org/wiki/List_of_Roman_emperors}, Accessed on 2021-07-22
-#' }
-#' \item{UNRV: }{
+#' \url{https://en.wikipedia.org/wiki/List_of_Roman_emperors},
+#' Accessed on 2021-07-22
+#' * UNRV:
 #' UNRV, Roman Emperor list,
 #' \url{https://www.unrv.com/government/emperor.php},
 #' Accessed on 2021-07-22
-#' }
-#' \item{britannica: }{
+#' * britannica:
 #' Britannica, List of Roman emperors,
 #' \url{https://www.britannica.com/topic/list-of-Roman-emperors-2043294},
 #' Accessed on 2021-07-22
-#' }
-#' }
 #' @section URL:
-#' \itemize{
-#' \item{wikipedia: }{
-#' \url{https://en.wikipedia.org/wiki/List_of_Roman_emperors}
-#' }
-#' \item{UNRV: }{
-#' \url{https://www.unrv.com/government/emperor.php}
-#' }
-#' \item{britannica: }{
-#' \url{https://www.britannica.com/topic/list-of-Roman-emperors-2043294}
-#' }
-#' }
+#' * wikipedia: \url{https://en.wikipedia.org/wiki/List_of_Roman_emperors}
+#' * UNRV: \url{https://www.unrv.com/government/emperor.php}
+#' * britannica: \url{https://www.britannica.com/topic/list-of-Roman-emperors-2043294}
 #' @section Mapping:
-#' \itemize{
-#' \item{wikipedia: }{
+#' * wikipedia:
 #' Variable Mapping
 #' 
 #' |  *from*  | *to*
@@ -69,8 +56,7 @@
 #' | notes | Notes |
 #' | verif.who | Verif |
 #' 
-#' }
-#' \item{UNRV: }{
+#' * UNRV:
 #' Variable Mapping
 #' 
 #' |  *from*  | *to*
@@ -80,8 +66,7 @@
 #' | 'Full Name/Imperial Name' | FullName |
 #' | 'Dynasty/Class/Notes' | Dynasty |
 #' 
-#' }
-#' \item{britannica: }{
+#' * britannica:
 #' Variable Mapping
 #' 
 #' |  *from*  | *to*
@@ -90,8 +75,6 @@
 #' | reign_start | Begin |
 #' | reign_end | End |
 #' 
-#' }
-#' }
 #' @md
 #' @details
 #' ``` {r, echo = FALSE, warning = FALSE}
