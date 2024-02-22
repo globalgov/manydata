@@ -1,3 +1,7 @@
+This is a resubmission. In this version I have:
+
+Fixed the `emperors` data documentation issues related to lost braces.
+
 ## Test environments
 
 * local R installation, x86_64-apple-darwin17.0, R 4.2.0

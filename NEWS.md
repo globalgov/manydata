@@ -2,7 +2,7 @@
 
 ## Package
 
-* Fixed documentation issues with CRAN-SUBMISSION.
+* Fixed the `emperors` data documentation issues related to lost braces with CRAN submission
 
 # manydata 0.9.1
 
