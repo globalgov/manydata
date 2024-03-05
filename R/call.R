@@ -387,7 +387,7 @@ call_sources <- function(package, datacube, dataset = NULL,
     stop(paste0("Unable to get sources from documentation file,
                 please try the help file `?", package, "::", datacube, "`"))
   })
-  rownames(out) <- gsub(":", "", names)
+  if (is.null(dataset)) rownames(out) <- gsub(":", "", names) else rownames(out) <- dataset
   out <- data.frame(apply(out, 2, function(x) gsub("^: ", "", x)))
   # clean variable mapping
   out$Mapping <- unlist(lapply(out$Mapping, function(x) {
