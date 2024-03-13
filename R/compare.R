@@ -32,10 +32,10 @@ compare_dimensions <- function(datacube, dataset = "all") {
     Observations <- nrow(x)
     Variables <- paste(names(x), collapse = ", ")
     Earliest_Date <- suppressWarnings(min(unlist(purrr::map(x, function(y) {
-      ifelse(class(y) == "mdate", min(min(y, na.rm = TRUE)), NA)
+      ifelse(class(y) == "mdate", min(min(y, na.rm = TRUE), na.rm = TRUE), NA)
     })), na.rm = TRUE))
     Latest_Date <- suppressWarnings(max(unlist(purrr::map(x, function(y) {
-      ifelse(class(y) == "mdate", max(max(y, na.rm = TRUE)), NA)
+      ifelse(class(y) == "mdate", max(max(y, na.rm = TRUE), na.rm = TRUE), NA)
     })), na.rm = TRUE))
     cbind(Observations, Variables, Earliest_Date, Latest_Date)
   }))
