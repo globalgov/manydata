@@ -1,3 +1,14 @@
+# manydata 0.9.3
+
+## Package
+
+* Commented out failing tests related to newest release of `{messydates}` that cannot be reproduced locally
+
+## Connection
+
+* Updated `call_sources()` to be more flexible when gathering data from datacube documentation
+* Updated `compare_dimensions()` by fixing bugs related to dates and NA observations
+
 # manydata 0.9.2
 
 ## Package
