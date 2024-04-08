@@ -7,6 +7,7 @@
 ## Connection
 
 * Updated `call_sources()` to be more flexible when gathering data from datacube documentation
+* Closed #279 by updating documentation across many packages to be compatible with `call_sources()`
 * Updated `compare_dimensions()` by fixing bugs related to dates and NA observations
 
 # manydata 0.9.2
