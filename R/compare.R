@@ -243,8 +243,8 @@ compare_missing <- function(datacube, dataset = "all", variable = "all") {
 plot.compare_missing <- function(x, ...) {
   'Percent Missing' <- Variable <- Dataset <- NULL
   # Plot missing proportions for variables
-  ggplot(x, aes(reorder(Dataset, `Percent Missing`, decreasing = TRUE),
-                  reorder(Variable, `Percent Missing`))) +
+  ggplot2::ggplot(x, aes(reorder(Dataset, `Percent Missing`, decreasing = TRUE),
+                         reorder(Variable, `Percent Missing`))) +
     geom_tile(aes(fill = `Percent Missing`)) +
     scale_fill_gradient(low = "darkgreen", high = "red3", na.value = NA,
                         name = "Proportion\nof missing\nobservations") +
