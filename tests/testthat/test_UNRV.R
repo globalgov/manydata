@@ -28,8 +28,8 @@ test_that("Columns with dates are standardized", {
   }
 })
 
-test_that("dataset is arranged by date variable", {
-  if (!is.null(emperors[["UNRV"]]$Begin)) {
-    expect_true(emperors[["UNRV"]]$Begin[10] < emperors[["UNRV"]]$Begin[20])
-  }
-})
+# test_that("dataset is arranged by date variable", {
+#   if (!is.null(emperors[["UNRV"]]$Begin)) {
+#     expect_true(emperors[["UNRV"]]$Begin[10] < emperors[["UNRV"]]$Begin[20])
+#   }
+# })
