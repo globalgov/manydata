@@ -36,7 +36,7 @@ britannica$reign_end[29] <- "0238-04"
 britannica$reign_end[30] <- "0238-07-29"
 britannica$reign_end[31] <- "0238-07-29"
 britannica$reign_end[44] <- "0276-09"
-britannica$reign_end[76] <- "0455-05-32"
+britannica$reign_end[76] <- "0455-05-31"
 britannica$reign_end[81] <- "0472-11"
 # Replace some unicode characters
 britannica$reign_end[1] <- "14 CE"
