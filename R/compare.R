@@ -43,9 +43,9 @@ find_date <- function(x, type) {
     class(y) == "mdate" | class(y) == "date",
     FUN.VALUE = logical(1)))
   if (type == "earliest") {
-    out <- Reduce(min, lapply(out, function(y) min(messydates::as_messydate(y))))
+    out <- min(as.Date(as_messydate(unlist(out)), min), na.rm = TRUE)
   } else if (type == "latest") {
-    out <- Reduce(max, lapply(out, function(y) max(messydates::as_messydate(y))))
+    out <- max(as.Date(as_messydate(unlist(out)), max), na.rm = TRUE)
   }
   messydates::as_messydate(out)
 }
@@ -92,22 +92,22 @@ compare_ranges <- function(datacube, dataset = "all", variable) {
     Variable <- names(x)
     Min <- unlist(lapply(x, function(y) {
       ifelse(grepl("date", class(y), ignore.case = TRUE),
-             as.character(as.Date(messydates::as_messydate(y), min)),
+             as.character(min(as.Date(messydates::as_messydate(y), min), na.rm = TRUE)),
              as.character(min(y, na.rm = TRUE)))
     }))
     Max <- unlist(lapply(x, function(y) {
       ifelse(grepl("date", class(y), ignore.case = TRUE),
-             as.character(as.Date(messydates::as_messydate(y), max)),
+             as.character(max(as.Date(messydates::as_messydate(y), max), na.rm = TRUE)),
              as.character(max(y, na.rm = TRUE)))
     }))
     Mean <- unlist(lapply(x, function(y) {
       ifelse(grepl("date", class(y), ignore.case = TRUE),
-             as.character(as.Date(messydates::as_messydate(y), mean)),
+             as.character(mean(as.Date(messydates::as_messydate(y), mean), na.rm = TRUE)),
              as.character(mean(y, na.rm = TRUE)))
     }))
     Median <- unlist(lapply(x, function(y) {
       ifelse(grepl("date", class(y), ignore.case = TRUE),
-             as.character(as.Date(messydates::as_messydate(y), median)),
+             as.character(stats::median(as.Date(messydates::as_messydate(y), median), na.rm = TRUE)),
              as.character(stats::median(y, na.rm = TRUE)))
     }))
     data.frame(cbind(Variable, Min, Max, Mean, Median))
