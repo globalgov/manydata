@@ -33,12 +33,10 @@ test_that("compare_dimensions() returns the correct output format", {
   expect_type(db, "list")
   expect_length(db, 5)
   expect_s3_class(db, "tbl_df")
-  skip_on_ci()
-  skip_on_cran()
-  expect_equal(as.character(db$Earliest_Date[1]),
-               as.character(messydates::as_messydate("-0026-01-16")))
-  expect_equal(as.character(db$Latest_Date[1]),
-               as.character(messydates::as_messydate("0395-01-17")))
+  expect_equal(db$Earliest_Date,
+               messydates::as_messydate(c("-0026-01-16", "-0027-01-01", "-0031-01-01")))
+  expect_equal(db$Latest_Date,
+               messydates::as_messydate(c("0395-01-17", "0518-12-31", "0491-12-31")))
 })
 
 test_that("compare_ranges() returns the correct output format", {
