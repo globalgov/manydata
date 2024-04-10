@@ -31,17 +31,26 @@ compare_dimensions <- function(datacube, dataset = "all") {
   out <- do.call(rbind, lapply(datacube, function(x) {
     Observations <- nrow(x)
     Variables <- paste(names(x), collapse = ", ")
-    Earliest_Date <- suppressWarnings(min(unlist(purrr::map(x, function(y) {
-      ifelse(class(y) == "mdate", min(min(y, na.rm = TRUE), na.rm = TRUE), NA)
-    })), na.rm = TRUE))
-    Latest_Date <- suppressWarnings(max(unlist(purrr::map(x, function(y) {
-      ifelse(class(y) == "mdate", max(max(y, na.rm = TRUE), na.rm = TRUE), NA)
-    })), na.rm = TRUE))
+    Earliest_Date <- find_date(x, type = "earliest")
+    Latest_Date <- find_date(x, type = "latest")
     cbind(Observations, Variables, Earliest_Date, Latest_Date)
   }))
   dplyr::as_tibble(cbind(names, out)) %>%
     dplyr::mutate(Earliest_Date = messydates::as_messydate(Earliest_Date),
                   Latest_Date = messydates::as_messydate(Latest_Date))
+}
+
+find_date <- function(x, type) {
+  out <- dplyr::select_if(x, vapply(x, function(y) 
+    class(y) == "mdate" | class(y) == "date",
+    FUN.VALUE = logical(1)))
+  if (type == "earliest") {
+    for (i in seq_len(length(out)))
+    out <- Reduce(min, lapply(out, function(y) min(y)))
+  } else if (type == "latest") {
+    out <- Reduce(max, lapply(out, function(y) max(y)))
+  }
+  out
 }
 
 #' Compare ranges of variables in 'many' data
