@@ -34,9 +34,9 @@ test_that("compare_dimensions() returns the correct output format", {
   expect_length(db, 5)
   expect_s3_class(db, "tbl_df")
   expect_equal(db$Earliest_Date,
-               messydates::as_messydate(c("-0026-01-16", "-0027-01-01", "-0031-01-01")))
+               c("-26-01-16", "-27-01-01", "-31-01-01"))
   expect_equal(db$Latest_Date,
-               messydates::as_messydate(c("0395-01-17", "0518-12-31", "0491-12-31")))
+               c("395-01-17", "518-12-31", "491-12-31"))
 })
 
 test_that("compare_ranges() returns the correct output format", {
@@ -46,9 +46,13 @@ test_that("compare_ranges() returns the correct output format", {
   expect_type(db, "list")
   expect_length(db, 6)
   expect_s3_class(db, "tbl_df")
+  expect_equal(db$Min[1], "-26-01-16")
+  expect_equal(db$Max[4], "518-12-31")
+  expect_equal(db$Mean[5], "275-04-23")
+  expect_equal(db$Median[6], "276-09-16")
 })
 
-test_that("compare_overlap() and plot_overlap() returns the correct output format", {
+test_that("compare_overlap() and return the correct output format", {
   db <- compare_overlap(emperors, key = "ID")
   expect_type(db, "list")
   expect_length(db, 2)
