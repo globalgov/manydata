@@ -43,9 +43,9 @@ find_date <- function(x, type) {
     class(y) == "mdate" | class(y) == "date",
     FUN.VALUE = logical(1)))
   if (type == "earliest") {
-    out <- Reduce(min, lapply(out, function(y) as.Date(as_messydate(y), min)))
+    out <- Reduce(min, lapply(out, function(y) min(messydates::as_messydate(y))))
   } else if (type == "latest") {
-    out <- Reduce(max, lapply(out, function(y) as.Date(as_messydate(y), max)))
+    out <- Reduce(max, lapply(out, function(y) max(messydates::as_messydate(y))))
   }
   messydates::as_messydate(out)
 }
