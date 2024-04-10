@@ -52,7 +52,7 @@ britannica <- as_tibble(britannica) %>%
 # Stage three: Connecting data
 # Next run the following line to make britannica available
 # within the qPackage.
-manypkgs::export_data(britannica, database = "emperors",
+manypkgs::export_data(britannica, datacube = "emperors",
                       URL = "https://www.britannica.com/topic/list-of-Roman-emperors-2043294")
 # This function also does two additional things.
 # First, it creates a set of tests for this object to ensure adherence

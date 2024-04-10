@@ -116,7 +116,7 @@ wikipedia <- as_tibble(wikipedia) %>%
 # Stage three: Connecting data
 # Next run the following line to make Wikipedia available
 # within the qPackage.
-manypkgs::export_data(wikipedia,  database = "emperors", URL = "https://github.com/zonination/emperors")
+manypkgs::export_data(wikipedia,  datacube = "emperors", URL = "https://github.com/zonination/emperors")
 # This function also does two additional things.
 # First, it creates a set of tests for this object to ensure adherence
 # to certain standards.You can hit Cmd-Shift-T (Mac) or Ctrl-Shift-T (Windows)
