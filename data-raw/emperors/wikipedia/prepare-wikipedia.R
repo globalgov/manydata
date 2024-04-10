@@ -53,7 +53,7 @@ for(i in c(17, 56)) { # death and reign end are estimates
   wikipedia$death[i] <-  paste0(wikipedia$death[i], "~")
   wikipedia$reign.end[i] <-  paste0(wikipedia$reign.end[i], "~") 
 }
-for(i in 62){ 
+for(i in 62) { 
   # birth and reign start are estimates
   wikipedia$birth[i] <-  paste0(wikipedia$birth[i], "~")
   wikipedia$reign.start[i] <-  paste0(wikipedia$reign.start[i], "~")
@@ -80,21 +80,22 @@ for(i in c(34, 35, 36, 37, 38, 39, 40, 41, 45, 46, 60)){
 # Let's also keep the year only for those dates which
 # the notes detail only year in certain.
 for(i in c(18, 22, 23)){ # reign start year only
-  wikipedia$reign.start[i] <-  stringr::str_extract(wikipedia$reign.start[i], "^[0-9]{4}")
+  wikipedia$reign.start[i] <-  stringr::str_extract(wikipedia$reign.start[i],
+                                                    "^[0-9]{3}")
 }
 # birth year only
-wikipedia$birth[24] <-  stringr::str_extract(wikipedia$birth[24], "^[0-9]{4}")
+wikipedia$birth[24] <-  stringr::str_extract(wikipedia$birth[24], "^[0-9]{3}")
 # Finally, some dates appear to be ranges.
 # `{messydates}` deals with ranges with a ".." separator.
 wikipedia$birth[20] <-  paste0(wikipedia$birth[20], "..", "0137-02-02")
 wikipedia$birth[66] <-  paste0(wikipedia$birth[66], "..", "0359-05-23")
 # Remove non-ASCII characters
-wikipedia <- apply(wikipedia, 2, stringi::stri_enc_toascii)
+wikipedia <- purrr::map(wikipedia, stringi::stri_enc_toascii)
 # Let's standardise dates and variable names
 wikipedia <- as_tibble(wikipedia) %>%
-  manydata::transmutate(ID = name,
-                        Begin = messydates::as_messydate(reign.start),
-                        End = messydates::as_messydate(reign.end)) %>%
+  transmutate(ID = name,
+              Begin = messydates::as_messydate(reign.start),
+              End = messydates::as_messydate(reign.end)) %>%
   dplyr::rename(FullName = name.full,
                 Birth = birth,
                 Death = death,

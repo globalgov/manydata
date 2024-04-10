@@ -45,7 +45,6 @@ find_date <- function(x, type) {
     class(y) == "mdate" | class(y) == "date",
     FUN.VALUE = logical(1)))
   if (type == "earliest") {
-    for (i in seq_len(length(out)))
     out <- Reduce(min, lapply(out, function(y) min(y)))
   } else if (type == "latest") {
     out <- Reduce(max, lapply(out, function(y) max(y)))

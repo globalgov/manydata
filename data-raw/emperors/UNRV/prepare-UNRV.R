@@ -19,7 +19,8 @@ UNRV <- tibble::as_tibble(UNRV) %>%
   dplyr::rename(ID = "Common Name",
          FullName = "Full Name/Imperial Name",
          Dynasty = "Dynasty/Class/Notes") %>%
-  dplyr::relocate(ID, Begin, End)
+  dplyr::relocate(ID, Begin, End) %>% 
+  dplyr::select(-Beg)
 # manydata includes several functions that should help cleaning
 # and standardising your data.
 # Please see the vignettes or website for more details.
