@@ -35,9 +35,7 @@ compare_dimensions <- function(datacube, dataset = "all") {
     Latest_Date <- find_date(x, type = "latest")
     cbind(Observations, Variables, Earliest_Date, Latest_Date)
   }))
-  dplyr::as_tibble(cbind(names, out)) %>%
-    dplyr::mutate(Earliest_Date = messydates::as_messydate(Earliest_Date),
-                  Latest_Date = messydates::as_messydate(Latest_Date))
+  dplyr::as_tibble(cbind(names, out))
 }
 
 find_date <- function(x, type) {
@@ -45,11 +43,11 @@ find_date <- function(x, type) {
     class(y) == "mdate" | class(y) == "date",
     FUN.VALUE = logical(1)))
   if (type == "earliest") {
-    out <- Reduce(min, lapply(out, function(y) min(y)))
+    out <- Reduce(min, lapply(out, function(y) as.Date(as_messydate(y), min)))
   } else if (type == "latest") {
-    out <- Reduce(max, lapply(out, function(y) max(y)))
+    out <- Reduce(max, lapply(out, function(y) as.Date(as_messydate(y), max)))
   }
-  out
+  messydates::as_messydate(out)
 }
 
 #' Compare ranges of variables in 'many' data
