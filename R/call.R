@@ -400,7 +400,7 @@ call_sources <- function(package, datacube, dataset = NULL,
   # open codebook if declared
   if (open_codebook == TRUE & !is.null(dataset)) {
     url <- paste0("https://github.com/globalgov/", package, "/raw/develop/data-raw/",
-                  datacube, "/", dataset,"/", dataset)
+                  datacube, "/", dataset)
     tryCatch({
       utils::browseURL(paste0(url, "/", "OriginalCodebook.pdf"),
                        browser = getOption("browser"), encodeIfNeeded = FALSE)
