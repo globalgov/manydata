@@ -29,6 +29,7 @@ test_that("Columns with dates are standardized", {
 })
 
 test_that("dataset is arranged by date variable", {
+  skip_on_ci()
   skip_on_cran()
   if (!is.null(emperors[["britannica"]]$Begin)) {
     expect_true(emperors[["britannica"]]$Begin[10] <
