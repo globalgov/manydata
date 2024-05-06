@@ -19,7 +19,8 @@ UNRV <- tibble::as_tibble(UNRV) %>%
   dplyr::rename(ID = "Common Name",
          FullName = "Full Name/Imperial Name",
          Dynasty = "Dynasty/Class/Notes") %>%
-  dplyr::relocate(ID, Begin, End)
+  dplyr::relocate(ID, Begin, End) %>% 
+  dplyr::select(-Beg)
 # manydata includes several functions that should help cleaning
 # and standardising your data.
 # Please see the vignettes or website for more details.
@@ -27,7 +28,7 @@ UNRV <- tibble::as_tibble(UNRV) %>%
 # Stage three: Connecting data
 # Next run the following line to make UNRV available
 # within the qPackage.
-manypkgs::export_data(UNRV, database = "emperors", URL = "https://www.unrv.com/government/emperor.php")
+manypkgs::export_data(UNRV, datacube = "emperors", URL = "https://www.unrv.com/government/emperor.php")
 # This function also does two additional things.
 # First, it creates a set of tests for this object to ensure adherence
 # to certain standards.You can hit Cmd-Shift-T (Mac) or Ctrl-Shift-T (Windows)

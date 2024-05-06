@@ -31,19 +31,23 @@ compare_dimensions <- function(datacube, dataset = "all") {
   out <- do.call(rbind, lapply(datacube, function(x) {
     Observations <- nrow(x)
     Variables <- paste(names(x), collapse = ", ")
-    Earliest_Date <- suppressWarnings(min(unlist(purrr::map(x, function(y) {
-      ifelse(grepl("date", class(y), ignore.case = TRUE),
-             min(y, na.rm = TRUE), NA)
-    })), na.rm = TRUE))
-    Latest_Date <- suppressWarnings(max(unlist(purrr::map(x, function(y) {
-      ifelse(grepl("date", class(y), ignore.case = TRUE),
-             max(y, na.rm = TRUE), NA)
-    })), na.rm = TRUE))
+    Earliest_Date <- find_date(x, type = "earliest")
+    Latest_Date <- find_date(x, type = "latest")
     cbind(Observations, Variables, Earliest_Date, Latest_Date)
   }))
-  dplyr::as_tibble(cbind(names, out)) %>%
-    dplyr::mutate(Earliest_Date = messydates::as_messydate(Earliest_Date),
-                  Latest_Date = messydates::as_messydate(Latest_Date))
+  dplyr::as_tibble(cbind(names, out))
+}
+
+find_date <- function(x, type) {
+  out <- dplyr::select_if(x, vapply(x, function(y) 
+    class(y) == "mdate" | class(y) == "date",
+    FUN.VALUE = logical(1)))
+  if (type == "earliest") {
+    out <- min(as.Date(as_messydate(unlist(out)), min), na.rm = TRUE)
+  } else if (type == "latest") {
+    out <- max(as.Date(as_messydate(unlist(out)), max), na.rm = TRUE)
+  }
+  messydates::as_messydate(out)
 }
 
 #' Compare ranges of variables in 'many' data
@@ -88,22 +92,22 @@ compare_ranges <- function(datacube, dataset = "all", variable) {
     Variable <- names(x)
     Min <- unlist(lapply(x, function(y) {
       ifelse(grepl("date", class(y), ignore.case = TRUE),
-             as.character(as.Date(messydates::as_messydate(y), min)),
+             as.character(min(as.Date(messydates::as_messydate(y), min), na.rm = TRUE)),
              as.character(min(y, na.rm = TRUE)))
     }))
     Max <- unlist(lapply(x, function(y) {
       ifelse(grepl("date", class(y), ignore.case = TRUE),
-             as.character(as.Date(messydates::as_messydate(y), max)),
+             as.character(max(as.Date(messydates::as_messydate(y), max), na.rm = TRUE)),
              as.character(max(y, na.rm = TRUE)))
     }))
     Mean <- unlist(lapply(x, function(y) {
       ifelse(grepl("date", class(y), ignore.case = TRUE),
-             as.character(as.Date(messydates::as_messydate(y), mean)),
+             as.character(mean(as.Date(messydates::as_messydate(y), mean), na.rm = TRUE)),
              as.character(mean(y, na.rm = TRUE)))
     }))
     Median <- unlist(lapply(x, function(y) {
       ifelse(grepl("date", class(y), ignore.case = TRUE),
-             as.character(as.Date(messydates::as_messydate(y), median)),
+             as.character(stats::median(as.Date(messydates::as_messydate(y), median), na.rm = TRUE)),
              as.character(stats::median(y, na.rm = TRUE)))
     }))
     data.frame(cbind(Variable, Min, Max, Mean, Median))
@@ -245,8 +249,8 @@ compare_missing <- function(datacube, dataset = "all", variable = "all") {
 plot.compare_missing <- function(x, ...) {
   'Percent Missing' <- Variable <- Dataset <- NULL
   # Plot missing proportions for variables
-  ggplot(x, aes(reorder(Dataset, `Percent Missing`, decreasing = TRUE),
-                  reorder(Variable, `Percent Missing`))) +
+  ggplot2::ggplot(x, aes(reorder(Dataset, `Percent Missing`, decreasing = TRUE),
+                         reorder(Variable, `Percent Missing`))) +
     geom_tile(aes(fill = `Percent Missing`)) +
     scale_fill_gradient(low = "darkgreen", high = "red3", na.value = NA,
                         name = "Proportion\nof missing\nobservations") +

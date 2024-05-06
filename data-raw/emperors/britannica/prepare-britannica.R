@@ -36,7 +36,7 @@ britannica$reign_end[29] <- "0238-04"
 britannica$reign_end[30] <- "0238-07-29"
 britannica$reign_end[31] <- "0238-07-29"
 britannica$reign_end[44] <- "0276-09"
-britannica$reign_end[76] <- "0455-05-32"
+britannica$reign_end[76] <- "0455-05-31"
 britannica$reign_end[81] <- "0472-11"
 # Replace some unicode characters
 britannica$reign_end[1] <- "14 CE"
@@ -52,7 +52,7 @@ britannica <- as_tibble(britannica) %>%
 # Stage three: Connecting data
 # Next run the following line to make britannica available
 # within the qPackage.
-manypkgs::export_data(britannica, database = "emperors",
+manypkgs::export_data(britannica, datacube = "emperors",
                       URL = "https://www.britannica.com/topic/list-of-Roman-emperors-2043294")
 # This function also does two additional things.
 # First, it creates a set of tests for this object to ensure adherence

@@ -3,9 +3,9 @@
 test_that("plot for compare_categories returns the correct output format", {
   db <- plot(compare_categories(datacube = emperors, key = "ID"))
   expect_type(db, "list")
-  expect_length(db, length(ggplot()))
+  expect_length(db, 11)
   expect_true(ggplot2::is.ggplot(db))
-  expect_named(db, names(ggplot()))
+  expect_named(db, names(ggplot2::ggplot()))
 })
 
 test_that("compare_categories() returns the correct output format", {
@@ -33,6 +33,10 @@ test_that("compare_dimensions() returns the correct output format", {
   expect_type(db, "list")
   expect_length(db, 5)
   expect_s3_class(db, "tbl_df")
+  expect_equal(db$Earliest_Date,
+               c("-26-01-16", "-27-01-01", "-31-01-01"))
+  expect_equal(db$Latest_Date,
+               c("395-01-17", "518-12-31", "491-12-31"))
 })
 
 test_that("compare_ranges() returns the correct output format", {
@@ -42,18 +46,22 @@ test_that("compare_ranges() returns the correct output format", {
   expect_type(db, "list")
   expect_length(db, 6)
   expect_s3_class(db, "tbl_df")
+  expect_equal(db$Min[1], "-26-01-16")
+  expect_equal(db$Max[4], "518-12-31")
+  expect_equal(db$Mean[5], "275-04-23")
+  expect_equal(db$Median[6], "276-09-16")
 })
 
-test_that("compare_overlap() and plot_overlap() returns the correct output format", {
+test_that("compare_overlap() and return the correct output format", {
   db <- compare_overlap(emperors, key = "ID")
   expect_type(db, "list")
   expect_length(db, 2)
   expect_s3_class(db, "tbl_df")
   pl <- plot(db)
   expect_type(pl, "list")
-  expect_length(pl, length(ggplot()))
+  expect_length(pl, length(ggplot2::ggplot()))
   expect_true(ggplot2::is.ggplot(pl))
-  expect_named(pl, names(ggplot()))
+  expect_named(pl, names(ggplot2::ggplot()))
 })
 
 test_that("compare_missing() and plot_missing() returns the correct output format", {
@@ -63,7 +71,7 @@ test_that("compare_missing() and plot_missing() returns the correct output forma
   expect_s3_class(db, "tbl_df")
   pl <- plot(db)
   expect_type(pl, "list")
-  expect_length(pl, length(ggplot()))
+  expect_length(pl, length(ggplot2::ggplot()))
   expect_true(ggplot2::is.ggplot(pl))
-  expect_named(pl, names(ggplot()))
+  expect_named(pl, names(ggplot2::ggplot()))
 })

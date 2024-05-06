@@ -342,38 +342,28 @@ call_sources <- function(package, datacube, dataset = NULL,
   usethis::ui_info(paste0("Please see ",
                           cli::style_hyperlink(package, paste0("https://globalgov.github.io/", package)),
                           " for  more information."))
-  # get path
-  helptext <- utils::help(topic = as.character(datacube),
-                          package = as.character(package))
-  # get help file as text
-  helptext <- as.character(get_help_file(helptext))
-  # clean text
-  helptext <- stringr::str_remove_all(helptext,
-                                      "\\\n|\\{|\\}|\\\\tab$|\\\\cr$|^cc$")
-  helptext <- paste(stringr::str_trim(helptext[nzchar(helptext)]),
-                    collapse = " ")
-  # get names
-  names <- stringr::str_extract(helptext, "((following \\d datasets\\:)[^\\.]*)")
-  names <- trimws(unlist(strsplit(gsub("following \\d datasets\\:", "",
-                                       names), ", ")))
+  # get help file as clean(ish) text
+  helptext <- get_help_file(utils::help(topic = as.character(datacube),
+                                        package = as.character(package)))
+  # get names if one or more datasets are declared
+  if (!is.null(dataset)) {
+    names <- unlist(dataset)
+  } else {
+    names <- trimws(unlist(strsplit(gsub(
+      "following \\d datasets\\:", "", stringr::str_extract(
+        helptext, "((following \\d datasets\\:)[^\\.]*)")), ", ")))
+  }
   # keep only portions we are interested in
   helptext <- paste0(sub('.*</div>', '', helptext), " \\item")
   # get sections
-  sections <- c(unlist(stringr::str_extract_all(helptext,
-                                                "section \\w*")), "Source")
-  sections <- stringr::str_trim(gsub("section", "", sections))
+  sections <- .get_sections(helptext)
   # organize information into lists of list
   out <- list()
   for (i in names) {
-    out[i] <- stringr::str_extract_all(helptext,
-                                       paste0(i, "\\s*(.*?)\\s*\\\\item"))
-  }
-  # if one or more datasets are declared
-  if(!is.null(dataset)) {
-    out <- out[grepl(dataset, names(out))]
+    out[i] <- stringr::str_extract_all(helptext, paste0(i, "\\s*(.*?)\\s*\\\\item"))
   }
   # bind list
-  out <- data.frame(do.call(rbind, out))
+  out <- .check_and_bind_df(out, names)
   # clean observations
   out <- data.frame(t(apply(out, 1, function(x) {
     stringr::str_squish(gsub(
@@ -388,16 +378,12 @@ call_sources <- function(package, datacube, dataset = NULL,
                 please try the help file `?", package, "::", datacube, "`"))
   })
   rownames(out) <- gsub(":", "", names)
-  out <- data.frame(apply(out, 2, function(x) gsub("^: ", "", x)))
+  out[] <- lapply(out, function(x) gsub("^: ", "", x))
   # clean variable mapping
   out$Mapping <- unlist(lapply(out$Mapping, function(x) {
-    gsub("\\|", " | ",
-         gsub("\\_", " ",
-              gsub("\\(|\\)", "",
-                   gsub(" ", " - ",
-                        gsub("(\\S* \\S*) ","\\1|",
-                             gsub("\\s+(?=[^()]*\\))", "_",
-                                  gsub("('.*?')", "(\\1)", x), perl=TRUE))))))
+    gsub("\\|", " | ", gsub("\\_", " ", gsub("\\(|\\)", "", gsub(
+      " ", " - ", gsub("(\\S* \\S*) ","\\1|", gsub(
+        "\\s+(?=[^()]*\\))", "_", gsub("('.*?')", "(\\1)", x), perl=TRUE))))))
   }))
   # open preparation script if declared
   if (open_script == TRUE & !is.null(dataset)) {
@@ -414,7 +400,7 @@ call_sources <- function(package, datacube, dataset = NULL,
   # open codebook if declared
   if (open_codebook == TRUE & !is.null(dataset)) {
     url <- paste0("https://github.com/globalgov/", package, "/raw/develop/data-raw/",
-                  datacube, "/", dataset,"/", dataset)
+                  datacube, "/", dataset)
     tryCatch({
       utils::browseURL(paste0(url, "/", "OriginalCodebook.pdf"),
                        browser = getOption("browser"), encodeIfNeeded = FALSE)
@@ -449,7 +435,38 @@ get_help_file <- function(file) {
                                            datafile, compressed, envhook)
     fetch(key)
   }
-  lazyLoadDBexec(RdDB, fetchRdDB)
+  out <- as.character(lazyLoadDBexec(RdDB, fetchRdDB))
+  out <- stringr::str_remove_all(out, "\\\n|\\{|\\}|\\\\tab$|\\\\cr$|^cc$")
+  out <- paste(stringr::str_trim(out[nzchar(out)]), collapse = " ")
+  out
+}
+
+# Helper function to get sections
+.get_sections <- function(x) {
+  sections <- c(unlist(stringr::str_extract_all(x, "section \\w*")), "Source")
+  sections <- stringr::str_trim(gsub("section", "", sections))
+  sections
+}
+
+# Helper file for checking information
+.check_and_bind_df <- function(x, names) {
+  if (length(names) == 1) {
+    x <- data.frame(x[[1]])
+  } else {
+    if (length(unique(lengths(x))) > 1) {
+      for (i in names(x)) {
+        if (length(x[[i]]) < 3) {
+          if (all(!grepl("\\url", x[[i]]))) {
+            x[[i]] <- c(paste0(i, ": \\url NA \\item"), x[[i]])
+          } else if (all(!grepl("Variable Mapping", x[[i]]))) {
+            x[[i]] <- c(x[[i]][1], paste0(i, ": Variable Mapping \\tabular  \\emph from   \\emph to  NA NA \\item"), x[[i]][2])
+          } else x[[i]] <- c(x[[i]], paste0(i, ": NA \\item"))
+        }
+      }
+    }
+    x <- data.frame(do.call(rbind, x))
+  }
+  x
 }
 
 #' Call treaties from 'many' datasets
