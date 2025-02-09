@@ -79,21 +79,29 @@
 #' }
 #' @export
 consolidate <- function(datacube, rows = "any", cols = "any",
-                        resolve = "coalesce", key = "manyID") {
+                        resolve = "coalesce", key = NULL) {
+  
   # Step 1: check that datacube has multiple datasets
   if (length(datacube) == 1) {
     dataset <- names(datacube)
     dat <- deparse(substitute(datacube))
     message(paste0(dat, " contains only the ", dataset,
-                " dataset and cannot be consolidated."))
+                " dataset and cannot be consolidated further."))
     purrr::pluck(datacube, dataset)
   }
-  # Step 2: check if multiple keys for memberships' datacubes
+  
+  # Step 2: check keys are correct
+  if(is.null(key)){
+    recog_keys <- c("stateID","stateID1","stateID2","manyID","leaderID","igoID")
+    key <- recog_keys[recog_keys %in% names(datacube[[1]])]
+    if(length(key)==0) cli::cli_abort("Please specify a {.var key} variable.")
+  }
   if (grepl("membership", deparse(substitute(datacube)), ignore.case = TRUE) &
       length(key) == 1) {
-    stop("For memberships datacube please indicate two keys, one identifying the
-    agreements and one identifying the actors (e.g. key = c('manyID', 'CountryID')).")
+    cli::cli_abort("For memberships datacube please indicate two keys, one identifying the
+    agreements and one identifying the actors (e.g. {.var key = c('stateID', 'manyID')}).")
   }
+  
   # Step 3: inform users about duplicates
   if (length(key) == 1) {
     cat("There were", sum(duplicated(unname(unlist(purrr::map(datacube, key))))),
