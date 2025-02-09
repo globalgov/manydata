@@ -104,9 +104,9 @@ consolidate <- function(datacube, rows = "any", cols = "any",
   
   # Step 3: inform users about duplicates
   if (length(key) == 1) {
-    cat("There were", sum(duplicated(unname(unlist(purrr::map(datacube, key))))),
-        "matched observations by", key, "variable across datasets in datacube.")
+    cli::cli_alert_info(paste("There were {prettyNum(sum(duplicated(unname(unlist(purrr::map(datacube, key))))), big.mark = ',')} matched observations by {.var key} variable{?s} across datasets in {.var {deparse(substitute(datacube))}}.\n"))
   }
+  
   # Step 4: drop any unwanted columns (including text variables)
   all_variables <- grep("text", unname(unlist(purrr::map(datacube, names))),
                         ignore.case = TRUE, value = TRUE, invert = TRUE)
