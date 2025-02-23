@@ -101,7 +101,7 @@ consolidate <- function(datacube, rows = "any", cols = "any",
     return(purrr::pluck(datacube, dataset))
   }
   
-  # Step 2: check keys are correct
+  # Step 2: check keys are correct ####
   if(is.null(key)){
     recog_keys <- c("stateID","stateID1","stateID2","manyID","leaderID","igoID")
     key <- recog_keys[recog_keys %in% names(datacube[[1]])]
@@ -113,9 +113,13 @@ consolidate <- function(datacube, rows = "any", cols = "any",
     agreements and one identifying the actors (e.g. {.var key = c('stateID', 'manyID')}).")
   }
   
-  # Step 3: inform users about duplicates
+  # Step 3: inform users about duplicates ####
+  cli::cli_progress_message("Using {.var {key}} for matching observations across datasets...")
   if (length(key) == 1) {
-    cli::cli_alert_info(paste("There were {prettyNum(sum(duplicated(unname(unlist(purrr::map(datacube, key))))), big.mark = ',')} matched observations by {.var key} variable{?s} across datasets in {.var {deparse(substitute(datacube))}}.\n"))
+    cli::cli_alert_success(paste("Matched",
+                              prettyNum(sum(duplicated(unname(unlist(purrr::map(datacube, key))))), big.mark = ','), 
+                              "observations by {.var {key}} variable{?s}",
+                              "in {.var {deparse(substitute(datacube))}} datasets.\n"))
   }
   
   # Step 4: drop any unwanted columns (including text variables)
@@ -136,8 +140,10 @@ consolidate <- function(datacube, rows = "any", cols = "any",
     out <- dplyr::select(out, dplyr::all_of(key),
                          dplyr::starts_with(all_variables))
   }
-  # Step 6: resolve conflicts
-  usethis::ui_info("Resolving conflicts...")
+  
+  # Step 6: resolve conflicts ####
+  cli::cli_progress_message("Resolving conflicts by {.var {resolve}}...")
+  old_cols <- ncol(out)
   if (length(resolve) < 2) {
     other_variables <- unique(all_variables[!all_variables %in% key])
     if (resolve == "coalesce") {
@@ -157,12 +163,17 @@ consolidate <- function(datacube, rows = "any", cols = "any",
     resolve <- data.frame(var = names(resolve), resolve = resolve)
     out <- resolve_multiple(resolve, out, key)
   }
-  # Step 7: remove duplicates and fill NA values
-  usethis::ui_info("Coalescing compatible rows...")
+  cli::cli_alert_success("Resolved {old_cols - ncol(out)} columns.")
+  
+  # Step 7: remove duplicates and fill NA values ####
+  cli::cli_progress_message("Coalescing compatible rows...")
+  old_rows <- nrow(out)
   out <- plyr::ddply(out, key, zoo::na.locf, na.rm = FALSE) %>%
     dplyr::as_tibble() %>%
     dplyr::select(-dplyr::starts_with("dplyr")) %>%
     dplyr::distinct()
+  cli::cli_alert_success("Coalesced {old_rows - nrow(out)} rows.")
+  
   out
 }
 
