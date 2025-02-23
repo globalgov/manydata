@@ -84,11 +84,21 @@ consolidate <- function(datacube, rows = "any", cols = "any",
   
   # Step 1: check that datacube has multiple datasets
   if (length(datacube) == 1) {
+  
+  # Step 1: Check datacube is not already consolidated ####
+  if (!inherits(datacube, "list")) {
+    dat <- deparse(substitute(datacube))
+    cli::cli_alert_warning(paste(dat,"already consolidated."))
+    cli::cli_alert_success(paste("Returning", dat))
+    return(datacube)
+  }
+  if (inherits(datacube, "list") & length(datacube)==1) {
     dataset <- names(datacube)
     dat <- deparse(substitute(datacube))
-    message(paste0(dat, " contains only the ", dataset,
+    cli::cli_alert_warning(paste0(dat, " contains only the ", dataset,
                 " dataset and cannot be consolidated further."))
-    purrr::pluck(datacube, dataset)
+    cli::cli_alert_success(paste("Returning", dataset))
+    return(purrr::pluck(datacube, dataset))
   }
   
   # Step 2: check keys are correct
