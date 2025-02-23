@@ -159,21 +159,21 @@ consolidate <- function(datacube,
   if (length(resolve) < 2) {
     other_variables <- unique(all_variables[!all_variables %in% key])
     if (resolve == "coalesce") {
-      out <- resolve_coalesce(other_variables, out, key)
+      out <- resolve_coalesce(out, key, other_variables)
     } else if (resolve == "min") {
-      out <- resolve_min(other_variables, out, key)
+      out <- resolve_min(out, key, other_variables)
     } else if (resolve == "max") {
-      out <- resolve_max(other_variables, out, key)
+      out <- resolve_max(out, key, other_variables)
     } else if (resolve == "median") {
-      out <- resolve_median(other_variables, out, key)
+      out <- resolve_median(out, key, other_variables)
     } else if (resolve == "mean") {
-      out <- resolve_mean(other_variables, out, key)
+      out <- resolve_mean(out, key, other_variables)
     } else if (resolve == "random") {
-      out <- resolve_random(other_variables, out, key)
+      out <- resolve_random(out, key, other_variables)
     }
   } else {
     resolve <- data.frame(var = names(resolve), resolve = resolve)
-    out <- resolve_multiple(resolve, out, key)
+    out <- resolve_multiple(out, key, resolve)
   }
   cli::cli_alert_success("Resolved {old_cols - ncol(out)} columns.")
   
@@ -193,7 +193,137 @@ consolidate <- function(datacube,
   x[intersect(y, names(x))]
 }
 
-resolve_multiple <- function(resolve, out, key) {
+resolve_coalesce <- function(out, key, other_variables) {
+  for (var in other_variables) {
+    vars_to_combine <- grep(paste0("^", var, "$|^", var, "\\_"),
+                            names(out), value = TRUE)
+    new_var <- if (any(lapply(out[vars_to_combine], class) == "mdate")) {
+      apply(out[vars_to_combine], 2, as.character)
+    } else out[vars_to_combine]
+    new_var <- dplyr::coalesce(!!!data.frame(new_var))
+    out[, names(out) %in% vars_to_combine] <- NULL
+    # out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
+    out[, var] <- new_var
+  }
+  if (length(other_variables) == 1) {
+    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
+  }
+  out
+}
+
+resolve_min <- function(out, key, other_variables) {
+  for (var in other_variables) {
+    vars_to_combine <- grep(paste0("^", var, "$|^", var, "\\_"),
+                            names(out), value = TRUE)
+    new_var <- purrr::map_df(out[vars_to_combine], function(x) {
+      if (messydates::is_messydate(x)) as.Date(x, min) else x
+    })
+    new_var <- suppressWarnings(do.call("c", purrr::pmap(
+      new_var, ~ min(c(...), na.rm = TRUE))))
+    if (any(grepl("^Inf$|^NaN$", new_var))) {
+      new_var <- gsub("^Inf$|^NaN$", NA, new_var)
+    }
+    # out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
+    out[, names(out) %in% vars_to_combine] <- NULL
+    out[, var] <- new_var
+  }
+  if (length(other_variables) == 1) {
+    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
+  }
+  out
+}
+
+resolve_max <- function(out, key, other_variables) {
+  for (var in other_variables) {
+    vars_to_combine <- grep(paste0("^", var, "$|^", var, "\\_"),
+                            names(out), value = TRUE)
+    new_var <- purrr::map_df(out[vars_to_combine], function(x) {
+      if (messydates::is_messydate(x)) as.Date(x, max) else x
+    })
+    new_var <- suppressWarnings(do.call("c", purrr::pmap(
+      new_var, ~ max(c(...), na.rm = TRUE))))
+    if (any(grepl("^Inf$|^NaN$", new_var))) {
+      new_var <- gsub("^Inf$|^NaN$", NA, new_var)
+    }
+    # out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
+    out[, names(out) %in% vars_to_combine] <- NULL
+    out[, var] <- new_var
+  }
+  if (length(other_variables) == 1) {
+    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
+  }
+  out
+}
+
+resolve_median <- function(out, key, other_variables) {
+  for (var in other_variables) {
+    vars_to_combine <- grep(paste0("^", var, "$|^", var, "\\_"),
+                            names(out), value = TRUE)
+    new_var <- purrr::map_df(out[vars_to_combine], function(x) {
+      if (messydates::is_messydate(x)) as.Date(x, median) else x
+    })
+    new_var <- suppressWarnings(do.call("c", purrr::pmap(
+      new_var, ~ stats::median(c(...), na.rm = TRUE))))
+    if (any(grepl("^Inf$|^NaN$", new_var))) {
+      new_var <- gsub("^Inf$|^NaN$", NA, new_var)
+    }
+    # out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
+    out[, names(out) %in% vars_to_combine] <- NULL
+    out[, var] <- new_var
+  }
+  if (length(other_variables) == 1) {
+    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
+  }
+  out
+}
+
+resolve_mean <- function(out, key, other_variables) {
+  for (var in other_variables) {
+    vars_to_combine <- grep(paste0("^", var, "$|^", var, "\\_"),
+                            names(out), value = TRUE)
+    new_var <- purrr::map_df(out[vars_to_combine], function(x) {
+      if (messydates::is_messydate(x)) as.Date(x, mean) else x
+    })
+    if (any(lapply(new_var, class) == "character")) {
+      message("Calculating the mean is not possible for character(s) variables.
+              Returning first non-missing value instead.")
+      new_var <- dplyr::coalesce(!!!out[vars_to_combine])
+    } else {
+      new_var <- suppressWarnings(do.call("c", purrr::pmap(
+        new_var, ~ mean(c(...), na.rm = TRUE))))
+    }
+    if (any(grepl("^Inf$|^NaN$", new_var))) {
+      new_var <- gsub("^Inf$|^NaN$", NA, new_var)
+    }
+    # out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
+    out[, names(out) %in% vars_to_combine] <- NULL
+    out[, var] <- new_var
+  }
+  if (length(other_variables) == 1) {
+    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
+  }
+  out
+}
+
+resolve_random <- function(out, key, other_variables) {
+  for (var in other_variables) {
+    vars_to_combine <- grep(paste0("^", var, "$|^", var, "\\_"),
+                            names(out), value = TRUE)
+    new_var <- purrr::map_df(out[vars_to_combine], function(x) {
+      if (messydates::is_messydate(x)) as.Date(x, random) else x
+    })
+    new_var <- apply(new_var, 1, function(x) sample(x, size = 1))
+    # out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
+    out[, names(out) %in% vars_to_combine] <- NULL
+    out[, var] <- new_var
+  }
+  if (length(other_variables) == 1) {
+    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
+  }
+  out
+}
+
+resolve_multiple <- function(out, key, resolve) {
   for (k in seq_len(nrow(resolve))) {
     if (resolve$resolve[k] == "coalesce") {
       rco <- resolve_coalesce(resolve$var[k], out, key)
@@ -233,130 +363,6 @@ resolve_multiple <- function(resolve, out, key) {
   }
   if (exists("rra")) {
     out <- dplyr::full_join(out, rra, by = key)
-  }
-  out
-}
-
-resolve_coalesce <- function(other_variables, out, key) {
-  for (var in other_variables) {
-    vars_to_combine <- grep(paste0("^", var, "$|^", var, "\\."),
-                            names(out), value = TRUE)
-    new_var <- if (any(lapply(out[vars_to_combine], class) == "mdate")) {
-      apply(out[vars_to_combine], 2, as.character)
-    } else out[vars_to_combine]
-    new_var <- dplyr::coalesce(!!!data.frame(new_var))
-    out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
-    out[, var] <- new_var
-  }
-  if (length(other_variables) == 1) {
-    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
-  }
-  out
-}
-
-resolve_min <- function(other_variables, out, key) {
-  for (var in other_variables) {
-    vars_to_combine <- grep(paste0("^", var, "$|^", var, "\\."),
-                            names(out), value = TRUE)
-    new_var <- purrr::map_df(out[vars_to_combine], function(x) {
-        if (messydates::is_messydate(x)) as.Date(x, min) else x
-      })
-    new_var <- suppressWarnings(do.call("c", purrr::pmap(
-      new_var, ~ min(c(...), na.rm = TRUE))))
-    if (any(grepl("^Inf$|^NaN$", new_var))) {
-      new_var <- gsub("^Inf$|^NaN$", NA, new_var)
-    }
-    out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
-    out[, var] <- new_var
-  }
-  if (length(other_variables) == 1) {
-    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
-  }
-  out
-}
-
-resolve_max <- function(other_variables, out, key) {
-  for (var in other_variables) {
-    vars_to_combine <- grep(paste0("^", var, "$|^", var, "\\."),
-                            names(out), value = TRUE)
-    new_var <- purrr::map_df(out[vars_to_combine], function(x) {
-      if (messydates::is_messydate(x)) as.Date(x, max) else x
-      })
-    new_var <- suppressWarnings(do.call("c", purrr::pmap(
-      new_var, ~ max(c(...), na.rm = TRUE))))
-    if (any(grepl("^Inf$|^NaN$", new_var))) {
-      new_var <- gsub("^Inf$|^NaN$", NA, new_var)
-    }
-    out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
-    out[, var] <- new_var
-  }
-  if (length(other_variables) == 1) {
-    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
-  }
-  out
-}
-
-resolve_median <- function(other_variables, out, key) {
-  for (var in other_variables) {
-    vars_to_combine <- grep(paste0("^", var, "$|^", var, "\\."),
-                            names(out), value = TRUE)
-    new_var <- purrr::map_df(out[vars_to_combine], function(x) {
-      if (messydates::is_messydate(x)) as.Date(x, median) else x
-      })
-    new_var <- suppressWarnings(do.call("c", purrr::pmap(
-      new_var, ~ stats::median(c(...), na.rm = TRUE))))
-    if (any(grepl("^Inf$|^NaN$", new_var))) {
-      new_var <- gsub("^Inf$|^NaN$", NA, new_var)
-    }
-    out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
-    out[, var] <- new_var
-  }
-  if (length(other_variables) == 1) {
-    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
-  }
-  out
-}
-
-resolve_mean <- function(other_variables, out, key) {
-  for (var in other_variables) {
-    vars_to_combine <- grep(paste0("^", var, "$|^", var, "\\."),
-                            names(out), value = TRUE)
-    new_var <- purrr::map_df(out[vars_to_combine], function(x) {
-      if (messydates::is_messydate(x)) as.Date(x, mean) else x
-      })
-    if (any(lapply(new_var, class) == "character")) {
-      message("Calculating the mean is not possible for character(s) variables.
-              Returning first non-missing value instead.")
-      new_var <- dplyr::coalesce(!!!out[vars_to_combine])
-    } else {
-      new_var <- suppressWarnings(do.call("c", purrr::pmap(
-        new_var, ~ mean(c(...), na.rm = TRUE))))
-    }
-    if (any(grepl("^Inf$|^NaN$", new_var))) {
-      new_var <- gsub("^Inf$|^NaN$", NA, new_var)
-    }
-    out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
-    out[, var] <- new_var
-  }
-  if (length(other_variables) == 1) {
-    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
-  }
-  out
-}
-
-resolve_random <- function(other_variables, out, key) {
-  for (var in other_variables) {
-    vars_to_combine <- grep(paste0("^", var, "$|^", var, "\\."),
-                            names(out), value = TRUE)
-    new_var <- purrr::map_df(out[vars_to_combine], function(x) {
-      if (messydates::is_messydate(x)) as.Date(x, random) else x
-      })
-    new_var <- apply(new_var, 1, function(x) sample(x, size = 1))
-    out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
-    out[, var] <- new_var
-  }
-  if (length(other_variables) == 1) {
-    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
   }
   out
 }
@@ -412,3 +418,4 @@ favour <- function(datacube, dataset) {
 #' @rdname favour
 #' @export
 favor <- favour
+
