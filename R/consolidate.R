@@ -79,11 +79,13 @@
 #' key = c("ID", "Begin"))
 #' }
 #' @export
-consolidate <- function(datacube, rows = "any", cols = "any",
+consolidate <- function(datacube, 
+                        rows = "any", 
+                        join = c("full", "inner", "left"),
+                        cols = "any",
                         resolve = "coalesce", key = NULL) {
   
-  # Step 1: check that datacube has multiple datasets
-  if (length(datacube) == 1) {
+  join <- match.arg(join)
   
   # Step 1: Check datacube is not already consolidated ####
   if (!inherits(datacube, "list")) {
@@ -129,6 +131,20 @@ consolidate <- function(datacube, rows = "any", cols = "any",
   vars_subset <- c(unique(all_variables), key)
   out <- purrr::map(datacube, .extract_if_present, vars_subset)
   
+  # Step 5: join datasets by ID and keep pertinent rows ####
+  cli::cli_progress_message("Joining {length(datacube)} datasets...")
+  out <- purrr::reduce(out, collapse::join, on = key, how = join, 
+                       multiple = TRUE, verbose = 0)
+  cli::cli_alert_success("Joined {length(datacube)} datasets.")
+  
+  # if (rows == "any") {
+  #   cli::cli_alert_info("Joining datasets to observations in any dataset.")
+  #   out <- purrr::map(out, tidyr::drop_na, dplyr::all_of(key)) %>%
+  #     purrr::reduce(dplyr::full_join, by = key)
+  # } else if (rows == "every") {
+  #   cli::cli_alert_info("Joining datasets to observations shared by every dataset.")
+  #   out <- purrr::reduce(out, dplyr::inner_join, by = key)
+  # }
   if (cols == "every") {
     cli::cli_progress_message("Dropping unique variables...")
     shared_variables <- names(table(all_variables)[table(all_variables) ==
