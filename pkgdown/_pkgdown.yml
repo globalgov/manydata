@@ -26,6 +26,7 @@ navbar:
     home:
       icon: fa-home fa-lg
       href: index.html
+      aria-label: Go to home
     reference:
       text: Reference
       href: reference/index.html
@@ -40,6 +41,7 @@ navbar:
     github:
       icon: "fab fa-github fa-lg"
       href: https://github.com/globalgov/manydata
+      aria-label: View on Github
     packages:
       text: Other packages
       menu:
@@ -47,12 +49,12 @@ navbar:
           href: https://globalgov.github.io/manypkgs/
         - text: manystates
           href: https://globalgov.github.io/manystates/
-        - text: manyenviron
-          href: https://globalgov.github.io/manyenviron/
-        - text: manytrade
-          href: https://globalgov.github.io/manytrade/
-        - text: manyhealth
-          href: https://globalgov.github.io/manyhealth/
+        # - text: manyenviron
+        #   href: https://globalgov.github.io/manyenviron/
+        # - text: manytrade
+        #   href: https://globalgov.github.io/manytrade/
+        # - text: manyhealth
+        #   href: https://globalgov.github.io/manyhealth/
 reference:
   - title: "Calling 'many' packages"
     desc: "These functions assist data analysts with the download of 'many' packages and their data"

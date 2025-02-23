@@ -339,7 +339,7 @@ call_sources <- function(package, datacube, dataset = NULL,
                          open_script = FALSE, open_codebook = FALSE) {
   Dataset <- Source <- URL <- Mapping <- NULL
   # return package link for help
-  usethis::ui_info(paste0("Please see ",
+  cli::cli_alert_info(paste0("Please see ",
                           cli::style_hyperlink(package, paste0("https://globalgov.github.io/", package)),
                           " for  more information."))
   # get help file as clean(ish) text
