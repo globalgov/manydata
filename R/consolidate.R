@@ -122,23 +122,19 @@ consolidate <- function(datacube, rows = "any", cols = "any",
                               "in {.var {deparse(substitute(datacube))}} datasets.\n"))
   }
   
-  # Step 4: drop any unwanted columns (including text variables)
+  # Step 4: drop any unwanted columns (including text variables) ####
+  cli::cli_progress_message("Dropping text variables...")
   all_variables <- grep("text", unname(unlist(purrr::map(datacube, names))),
                         ignore.case = TRUE, value = TRUE, invert = TRUE)
   vars_subset <- c(unique(all_variables), key)
-  out <- purrr::map(datacube, extract_if_present, vars_subset)
-  # Step 5: join datasets by ID and keep pertinent rows
-  if (rows == "any") {
-    out <- purrr::map(out, tidyr::drop_na, dplyr::all_of(key)) %>%
-      purrr::reduce(dplyr::full_join, by = key)
-  } else if (rows == "every") {
-    out <- purrr::reduce(out, dplyr::inner_join, by = key)
-  }
+  out <- purrr::map(datacube, .extract_if_present, vars_subset)
+  
   if (cols == "every") {
-    all_variables <- names(table(all_variables)[table(all_variables) ==
+    cli::cli_progress_message("Dropping unique variables...")
+    shared_variables <- names(table(all_variables)[table(all_variables) ==
                                                   length(datacube)])
     out <- dplyr::select(out, dplyr::all_of(key),
-                         dplyr::starts_with(all_variables))
+                         dplyr::starts_with(shared_variables))
   }
   
   # Step 6: resolve conflicts ####
@@ -177,7 +173,7 @@ consolidate <- function(datacube, rows = "any", cols = "any",
   out
 }
 
-extract_if_present <- function(x, y) {
+.extract_if_present <- function(x, y) {
   x[intersect(y, names(x))]
 }
 
