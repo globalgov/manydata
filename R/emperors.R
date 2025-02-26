@@ -78,6 +78,6 @@
 #' @md
 #' @details
 #' ``` {r, echo = FALSE, warning = FALSE}
-#' lapply(emperors, messydates::mreport)
+#' lapply(emperors, mreport)
 #' ```
 "emperors"
