@@ -58,3 +58,13 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
+Config/Needs/build: 
+    roxygen2, 
+    devtools
+Config/Needs/check: 
+    covr,
+    lintr,
+    spelling
+Config/Needs/website:
+    pkgdown
+
