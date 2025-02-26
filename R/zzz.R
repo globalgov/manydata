@@ -7,3 +7,8 @@
   packageStartupMessage(msg)      
   invisible()
 }
+
+#' @importFrom dplyr %>%
+#' @export
+dplyr::`%>%`
+
