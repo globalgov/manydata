@@ -43,9 +43,9 @@ find_date <- function(x, type) {
     class(y) == "mdate" | class(y) == "date",
     FUN.VALUE = logical(1)))
   if (type == "earliest") {
-    out <- min(as.Date(as_messydate(unlist(out)), min), na.rm = TRUE)
+    out <- min(as_messydate(unlist(out)), recursive = TRUE)
   } else if (type == "latest") {
-    out <- max(as.Date(as_messydate(unlist(out)), max), na.rm = TRUE)
+    out <- max(as_messydate(unlist(out)), recursive = TRUE)
   }
   messydates::as_messydate(out)
 }
@@ -92,22 +92,22 @@ compare_ranges <- function(datacube, dataset = "all", variable) {
     Variable <- names(x)
     Min <- unlist(lapply(x, function(y) {
       ifelse(grepl("date", class(y), ignore.case = TRUE),
-             as.character(min(as.Date(messydates::as_messydate(y), min), na.rm = TRUE)),
+             as.character(min(messydates::as_messydate(y), recursive = TRUE)),
              as.character(min(y, na.rm = TRUE)))
     }))
     Max <- unlist(lapply(x, function(y) {
       ifelse(grepl("date", class(y), ignore.case = TRUE),
-             as.character(max(as.Date(messydates::as_messydate(y), max), na.rm = TRUE)),
+             as.character(max(messydates::as_messydate(y), recursive = TRUE)),
              as.character(max(y, na.rm = TRUE)))
     }))
     Mean <- unlist(lapply(x, function(y) {
       ifelse(grepl("date", class(y), ignore.case = TRUE),
-             as.character(mean(as.Date(messydates::as_messydate(y), mean), na.rm = TRUE)),
+             as.character(mean(messydates::as_messydate(y), recursive = TRUE)),
              as.character(mean(y, na.rm = TRUE)))
     }))
     Median <- unlist(lapply(x, function(y) {
       ifelse(grepl("date", class(y), ignore.case = TRUE),
-             as.character(stats::median(as.Date(messydates::as_messydate(y), median), na.rm = TRUE)),
+             as.character(median(messydates::as_messydate(y), recursive = TRUE)),
              as.character(stats::median(y, na.rm = TRUE)))
     }))
     data.frame(cbind(Variable, Min, Max, Mean, Median))
@@ -223,7 +223,7 @@ compare_missing <- function(datacube, dataset = "all", variable = "all") {
     all_variables <- all_variables[all_variables %in% variable]
   }
   # Report on datasets in datacube
-  out <- purrr::map(datacube, extract_if_present, all_variables)
+  out <- purrr::map(datacube, .extract_if_present, all_variables)
   for (n in names(out)) out[[n]]['Dataset'] = n
   out <- do.call(rbind, lapply(out, function(x) {
     varnames <- names(x)
@@ -322,9 +322,7 @@ compare_categories <- function(datacube,
   # Step 4: inform users about duplicates
   if (length(key) == 1) {
     db_size <- sum(duplicated(unname(unlist(purrr::map(datacube, key)))))
-    cat("There were", db_size,
-        "matched observations by", key,
-        "variable across datasets in datacube.")
+    cli::cli_inform("There were {db_size} matched observations by {key} variable across datasets in datacube.")
   }
   # Step 5: get variable(s) of interest if declared
   all_variables <- unique(unname(unlist(purrr::map(datacube, names))))
@@ -339,7 +337,7 @@ compare_categories <- function(datacube,
   } else {
     all_variables <- all_variables[all_variables %in% variable]
   }
-  out <- purrr::map(datacube, extract_if_present, c(key, all_variables))
+  out <- purrr::map(datacube, .extract_if_present, c(key, all_variables))
   # Step 6: reduce and join data
   out <- purrr::map(out, tidyr::drop_na, dplyr::all_of(key)) %>%
     purrr::reduce(dplyr::full_join, by = key)
