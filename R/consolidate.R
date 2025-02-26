@@ -16,10 +16,13 @@
 #'   We offer a number of resolve methods that enable
 #'   users to choose how conflicts between observations are resolved.
 #' @param datacube A datacube from one of the many packages
-#' @param rows Which rows or units to retain.
-#'   By default "any" (or all) units are retained,
-#'   but another option is "every",
-#'   which retains only those units that appear in all parent datasets.
+#' @param join Which join procedure to use.
+#'   By default "full" so that all observations are retained,
+#'   but other options include "left" for basing the consolidated dataset
+#'   on observations present in the first dataset 
+#'   (reorder the datasets to favour another dataset),
+#'   and "inner" for a consolidated dataset that includes only observations
+#'   that are present in all datasets.
 #' @param cols Which columns or variables to retain.
 #'   By default "any" (or all) variables are retained,
 #'   but another option is "every",
@@ -80,7 +83,6 @@
 #' }
 #' @export
 consolidate <- function(datacube, 
-                        rows = "any", 
                         join = c("full", "inner", "left"),
                         cols = "any",
                         resolve = "coalesce", key = NULL) {

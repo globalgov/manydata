@@ -6,19 +6,22 @@
 \usage{
 consolidate(
   datacube,
-  rows = "any",
+  join = c("full", "inner", "left"),
   cols = "any",
   resolve = "coalesce",
-  key = "manyID"
+  key = NULL
 )
 }
 \arguments{
 \item{datacube}{A datacube from one of the many packages}
 
-\item{rows}{Which rows or units to retain.
-By default "any" (or all) units are retained,
-but another option is "every",
-which retains only those units that appear in all parent datasets.}
+\item{join}{Which join procedure to use.
+By default "full" so that all observations are retained,
+but other options include "left" for basing the consolidated dataset
+on observations present in the first dataset
+(reorder the datasets to favour another dataset),
+and "inner" for a consolidated dataset that includes only observations
+that are present in all datasets.}
 
 \item{cols}{Which columns or variables to retain.
 By default "any" (or all) variables are retained,
@@ -54,9 +57,11 @@ Missing observations in the key variable are removed.}
 A single tibble/data frame.
 }
 \description{
-This function consolidates a set of datasets in a 'many* package' datacube
+This function consolidates a set of datasets in a 'many*' package datacube
 into a single dataset with some combination of the rows, columns,
 and observations of the datasets in the datacube.
+}
+\details{
 The function includes separate arguments for the rows and columns,
 as well as for how to resolve conflicts for observations across datasets.
 This provides users with considerable flexibility in how they combine data.
@@ -68,8 +73,7 @@ Even then there may be conflicts, as the actual unit-variable
 observations may differ from dataset to dataset.
 We offer a number of resolve methods that enable
 users to choose how conflicts between observations are resolved.
-}
-\details{
+
 Text variables are dropped for more efficient consolidation.
 }
 \examples{
