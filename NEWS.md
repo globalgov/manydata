@@ -1,3 +1,25 @@
+# manydata 0.9.4
+
+## Package
+
+* Updated GitHub checks and release actions
+* Fixes to URLs
+* Updated website
+
+## Collection
+* Updated emperors dataset with zero-padded messydates
+
+## Connection
+
+* Improved `consolidate`
+  * Uses cli progress messages and success alerts to give user information
+  * More clarity about dropped text variables
+  * Runs faster now using collapse::join() in place of dplyr::full_join() or equivalent
+  * Takes 'join' argument which can be "full", "inner", or "left"
+  * Improved resolve functionsto expect pipeable ordering, use non-unique variable names, and recursive resolving
+* Updated tests for `consolidate` to use new 'join' argument
+* Moved `mreport` from messydates
+
 # manydata 0.9.3
 
 ## Connection
