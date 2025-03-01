@@ -182,27 +182,39 @@
 
 #' @export
 call_sources <- function(x){
-  if(is.list(x)){
-    datacube <- deparse(substitute(x))
-    cinfo <- get(paste0("info_",datacube))
-  } else if(is.character(x) & !grepl("\\$",x)){
-    cinfo <- get(paste0("info_",x))
-  } else cli::cli_abort("Sorry, no information found for {x}.")
+  if(is.list(x)) datacube <- deparse(substitute(x)) else 
+    datacube <- as.character(x)
+  if(grepl("\\$", datacube)){
+    dataset <- strsplit(datacube, "\\$")[[1]]
+    datacube <- dataset[1]
+    dataset <- dataset[2]
+  } else dataset <- NULL
+  infos <- paste0("info_",datacube)
+  if(exists(infos)) cinfo <- get(infos) else return(invisible())
+  if(!is.null(dataset)) cinfo <- dplyr::filter(cinfo, Dataset == dataset)
+  if(length(cinfo)==0) cli::cli_abort("Sorry, no information found for {x}.")
   cinfo
 }
 
 #' @export
 call_citations <- function(x, output = c("console","help")){
-  if(is.list(x)){
-    datacube <- deparse(substitute(x))
-    cinfo <- get(paste0("info_",datacube))
-  } else if(is.character(x) & !grepl("\\$",x)){
-    cinfo <- get(paste0("info_",x))
-  } else cli::cli_abort("Sorry, no citation data found for {x}.")
-  
+  if(is.list(x)) datacube <- deparse(substitute(x)) else 
+    datacube <- as.character(x)
+  if(grepl("\\$", datacube)){
+    dataset <- strsplit(datacube, "\\$")[[1]]
+    datacube <- dataset[1]
+    dataset <- dataset[2]
+  } else dataset <- NULL
+  infos <- paste0("info_",datacube)
+  if(exists(infos)) cinfo <- get(infos) else return(invisible())
+  if(!is.null(dataset)) cinfo <- dplyr::filter(cinfo, Dataset == dataset)
+  if(length(cinfo)==0) cli::cli_abort("Sorry, no citation data found for {x}.")
+
   output <- match.arg(output)
   if(output == "console"){
-    cat("Please cite the included datasets: \n")
+    if(nrow(cinfo)>1)
+      cat("Please cite the included datasets: \n") else 
+        cat("Please cite the dataset: \n")
     cli::cat_bullet(cinfo$Source) 
   } else if(output == "help"){
     paste0("* ", cinfo$Source, collapse = "\n\n")
