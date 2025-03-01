@@ -40,6 +40,11 @@ mreport.default <- function(data) {
 }
 
 #' @export
+mreport.list <- function(data) {
+  lapply(data, mreport)
+}
+
+#' @export
 print.mreport <- function(x, ...) {
   columns <- c("  Variable  ", "  Class  ", "  Obs  ",
                "  Missing  ", "  Miss %  ")
@@ -72,3 +77,4 @@ print.mreport <- function(x, ...) {
   cat(rep("-", dash), sep = "")
   cat("\n\n")
 }
+
