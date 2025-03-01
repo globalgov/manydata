@@ -368,20 +368,24 @@ resolve_multiple <- function(out, key, resolve) {
   }
   out
 }
+# Pluck ####
 
 #' Selects a single dataset from a datacube
-#'
+#' @description This function is reexported from the `{purrr}` package.
+#'   It allows users to select a single dataset from one
+#'   of the datacubes available across the 'many* packages'.
+#'.  It additionally invites users to cite the 
 #' @importFrom purrr pluck
 #' @return The selected dataset
-#' @details This function is reexported from the purrr package.
-#' It allows users to select a single dataset from one
-#' of the datacubes available across the 'many* packages'.
 #' @examples
 #' \donttest{
 #' pluck(emperors, "UNRV")
 #' }
 #' @export
-purrr::pluck
+pluck <- function(.x, ..., .default = NULL){
+  call_citations(paste0(deparse(substitute(.x)), "$", list(...)[[1]]))
+  purrr::pluck(.x = .x, ..., .default = .default)
+}
 
 #' Favour datasets in a datacube
 #'
