@@ -160,6 +160,8 @@ get_latest_release <- function(full_name) {
   unlist(latest)
 }
 
+# Call releases ####
+
 #' Call releases historical milestones/releases
 #'
 #' The function will take a data frame that details this information,
@@ -223,8 +225,8 @@ call_releases <- function(repo, begin = NULL, end = NULL) {
   df$month_count <- stats::ave(df$date == df$date, df$date, FUN = cumsum)
   df$text_position <- (df$month_count * 0.05 * df$direction) + df$position
   if (!messydates::is_messydate(df$date)) {
-    df$date <- as.Date(messydates::as_messydate(df$date), mean)
-  } else df$date <- as.Date(df$date, mean)
+    df$date <- as.Date(messydates::as_messydate(df$date), vmin)
+  } else df$date <- as.Date(df$date, vmin)
   # Step five: get months date range
   month_date_range <- seq(min(as.Date(df$date, min)) - months(2),
                           max(as.Date(df$date, max)) + months(2), by = "month")
