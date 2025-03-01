@@ -1,3 +1,4 @@
+battles <- messydates::battles
 test_that("report function work properly", {
   expect_error(mreport("a"), "Data must be a `data.frame` or `tibble`.")
   report <- mreport(battles)
