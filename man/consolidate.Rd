@@ -7,7 +7,6 @@
 consolidate(
   datacube,
   join = c("full", "inner", "left"),
-  cols = "any",
   resolve = "coalesce",
   key = NULL
 )
@@ -22,12 +21,6 @@ on observations present in the first dataset
 (reorder the datasets to favour another dataset),
 and "inner" for a consolidated dataset that includes only observations
 that are present in all datasets.}
-
-\item{cols}{Which columns or variables to retain.
-By default "any" (or all) variables are retained,
-but another option is "every",
-which retains only those variables that appear
-in all parent datasets.}
 
 \item{resolve}{How should conflicts between observations be resolved?
 By default "coalesce",
@@ -52,6 +45,12 @@ all the datasets in the datacube (e.g. \code{key = c("key1", "key2")}).
 For equivalent key columns with different names across datasets,
 matching is possible if keys are declared (e.g. \code{key = c("key1" = "key2")}).
 Missing observations in the key variable are removed.}
+
+\item{cols}{Which columns or variables to retain.
+By default "any" (or all) variables are retained,
+but another option is "every",
+which retains only those variables that appear
+in all parent datasets.}
 }
 \value{
 A single tibble/data frame.

@@ -79,6 +79,7 @@ reference:
       - repaint
       - coalesce_rows
       - emperors
+      - mreport
 footer:
   structure:
     left: package

@@ -1,3 +1,5 @@
+# Consolidate ####
+
 #' Consolidate datacube into a single dataset
 #' @description
 #'   This function consolidates a set of datasets in a 'many*' package datacube
@@ -84,12 +86,12 @@
 #' @export
 consolidate <- function(datacube, 
                         join = c("full", "inner", "left"),
-                        cols = "any",
+                        # cols = "any",
                         resolve = "coalesce", key = NULL) {
   
   join <- match.arg(join)
   
-  # Step 1: Check datacube is not already consolidated ####
+  # Step 1: Check datacube not already consolidated ####
   if (!inherits(datacube, "list")) {
     dat <- deparse(substitute(datacube))
     cli::cli_alert_warning(paste(dat,"already consolidated."))
@@ -105,9 +107,9 @@ consolidate <- function(datacube,
     return(purrr::pluck(datacube, dataset))
   }
   
-  # Step 2: check keys are correct ####
+  # Step 2: Check keys correct ####
   if(is.null(key)){
-    recog_keys <- c("stateID","stateID1","stateID2","manyID","leaderID","igoID")
+    recog_keys <- c("stateID","stateID1","stateID2","manyID","leaderID","igoID","treatyID","ID")
     key <- recog_keys[recog_keys %in% names(datacube[[1]])]
     if(length(key)==0) cli::cli_abort("Please specify a {.var key} variable.")
   }
@@ -117,7 +119,7 @@ consolidate <- function(datacube,
     agreements and one identifying the actors (e.g. {.var key = c('stateID', 'manyID')}).")
   }
   
-  # Step 3: inform users about duplicates ####
+  # Step 3: Inform about duplicates ####
   cli::cli_progress_message("Using {.var {key}} for matching observations across datasets...")
   if (length(key) == 1) {
     cli::cli_alert_success(paste("Matched",
