@@ -32,13 +32,12 @@ URL: https://globalgov.github.io/manydata, https://manydata.ch/
 BugReports: https://github.com/globalgov/manydata/issues
 Depends:
     R (>= 3.5.0),
-    cli
+    cli,
+    dplyr
 Imports:
-    dplyr,
     messydates (>= 0.4.1),
     purrr,
     stringr,
-    usethis,
     jsonlite,
     remotes,
     httr,

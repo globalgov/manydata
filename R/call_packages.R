@@ -21,6 +21,7 @@
 #' @importFrom httr GET content
 #' @importFrom remotes install_github
 #' @importFrom utils packageVersion askYesNo
+#' @importFrom cli cli_alert_info
 #' @examples
 #' \donttest{
 #' #call_packages()
@@ -107,7 +108,7 @@ call_packages <- function(package, develop = FALSE) {
       }
     }
     # add message with hyperlinks
-    usethis::ui_info(c("For more information on each of the packages please see:",
+    cli::cli_alert_info(c("For more information on each of the packages please see:",
                        lapply(repo$Name, function(x) {
                          cli::style_hyperlink(x, paste0("https://globalgov.github.io/", x))
                        })))
@@ -129,7 +130,7 @@ call_packages <- function(package, develop = FALSE) {
        Please download the package using:
               remotes::install_github(globalgov/", package, ")"))
     })
-    usethis::ui_info(paste0("Please see ",
+    cli::cli_alert_info(paste0("Please see ",
                             cli::style_hyperlink(package, paste0("https://globalgov.github.io/", package)),
                             " for  more information."))
   }
@@ -194,11 +195,11 @@ call_releases <- function(repo, begin = NULL, end = NULL) {
   # Step one: get releases from repo
   if (!is.data.frame(repo)) {
     if (!grepl("/", repo)) {
-      usethis::ui_info("Looking for package in 'globalgov' repo.")
+      cli::cli_alert_info("Looking for package in 'globalgov' repo.")
       repo <- paste0("globalgov/", repo)
     }
     # return link for more information
-    usethis::ui_info(paste0("Please see ",
+    cli::cli_alert_info(paste0("Please see ",
                             cli::style_hyperlink(strsplit(repo, "/")[[1]][2],
                                                  paste0("https://globalgov.github.io/",
                                                         strsplit(repo, "/")[[1]][2])),
