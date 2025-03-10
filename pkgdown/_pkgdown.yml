@@ -77,7 +77,7 @@ reference:
       - recollect
       - reunite
       - repaint
-      - coalesce_rows
+      # - coalesce_rows
       - emperors
       - mreport
 footer:
