@@ -6,14 +6,21 @@
 \usage{
 pluck(.x, ..., .default = NULL)
 }
+\arguments{
+\item{.x}{The datacube}
+
+\item{...}{The name of the dataset in the datacube}
+
+\item{.default}{Value to use if target is \code{NULL} or absent.}
+}
 \value{
 The selected dataset
 }
 \description{
-This function is reexported from the \code{{purrr}} package.
+This function is reexported/wrapped from the \code{{purrr}} package.
 It allows users to select a single dataset from one
 of the datacubes available across the 'many* packages'.
-.  It additionally invites users to cite the
+It additionally invites users to cite the selected dataset.
 }
 \examples{
 \donttest{

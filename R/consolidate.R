@@ -190,11 +190,14 @@ consolidate <- function(datacube,
 # Pluck ####
 
 #' Selects a single dataset from a datacube
-#' @description This function is reexported from the `{purrr}` package.
+#' @description This function is reexported/wrapped from the `{purrr}` package.
 #'   It allows users to select a single dataset from one
 #'   of the datacubes available across the 'many* packages'.
-#'.  It additionally invites users to cite the 
+#'   It additionally invites users to cite the selected dataset.
 #' @importFrom purrr pluck
+#' @param .x The datacube
+#' @param ... The name of the dataset in the datacube
+#' @param .default Value to use if target is `NULL` or absent.
 #' @return The selected dataset
 #' @examples
 #' \donttest{
