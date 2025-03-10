@@ -43,77 +43,80 @@ find_date <- function(x, type) {
     class(y) == "mdate" | class(y) == "date",
     FUN.VALUE = logical(1)))
   if (type == "earliest") {
-    out <- min(as_messydate(unlist(out)), recursive = TRUE)
+    out <- min(messydates::as_messydate(unlist(out)), recursive = TRUE)
   } else if (type == "latest") {
-    out <- max(as_messydate(unlist(out)), recursive = TRUE)
+    out <- max(messydates::as_messydate(unlist(out)), recursive = TRUE)
   }
   messydates::as_messydate(out)
 }
 
-#' Compare ranges of variables in 'many' data
-#'
-#' @details `compare_ranges()` compares the number of observations, variables,
-#' the earliest and latest date in each dataset in a 'many' datacube.
-#' @family compare_
-#' @param datacube A datacube from one of the many packages.
-#' @param dataset A dataset in a datacube from one of the many packages.
-#' By default, "all".
-#' That is, all datasets in the datacube are used.
-#' To select two or more datasets, please declare them as a vector.
-#' @param variable Please declare a variable present in one or more
-#' datasets in the 'many' datacube.
-#' For multiple variables, please declare variable names as a vector.
-#' @import messydates
-#' @importFrom purrr map
-#' @importFrom dplyr as_tibble
-#' @importFrom stats median
-#' @examples
-#' \donttest{
-#' compare_ranges(emperors, variable = c("Begin", "End"))
-#' }
-#' @return
-#' `compare_ranges()` returns a tibble with information about the minimal,
-#' maximal, average, and median values for selected variables in datacubes.
-#' @export
-compare_ranges <- function(datacube, dataset = "all", variable) {
-  if (any(dataset != "all")) {
-    if (length(dataset) < 2) stop("Please declare 2 or more datasets for comparison.")
-    datacube <- datacube[grepl(paste(dataset, collapse = "|"), names(datacube))]
-  }
-  if (missing(variable)) stop("Please declare one or more variables.")
-  datacube <- lapply(datacube, function(x) {
-    x[grepl(paste(variable, collapse = "|"), names(x))]
-  })
-  names <- data.frame(
-    Dataset = unlist(lapply(names(datacube), function(x) {
-    rep(x, length(variable))
-  })))
-  out <- suppressWarnings(do.call(rbind, lapply(datacube, function(x) {
-    Variable <- names(x)
-    Min <- unlist(lapply(x, function(y) {
-      ifelse(grepl("date", class(y), ignore.case = TRUE),
-             as.character(min(messydates::as_messydate(y), recursive = TRUE)),
-             as.character(min(y, na.rm = TRUE)))
-    }))
-    Max <- unlist(lapply(x, function(y) {
-      ifelse(grepl("date", class(y), ignore.case = TRUE),
-             as.character(max(messydates::as_messydate(y), recursive = TRUE)),
-             as.character(max(y, na.rm = TRUE)))
-    }))
-    Mean <- unlist(lapply(x, function(y) {
-      ifelse(grepl("date", class(y), ignore.case = TRUE),
-             as.character(mean(messydates::as_messydate(y), recursive = TRUE)),
-             as.character(mean(y, na.rm = TRUE)))
-    }))
-    Median <- unlist(lapply(x, function(y) {
-      ifelse(grepl("date", class(y), ignore.case = TRUE),
-             as.character(median(messydates::as_messydate(y), recursive = TRUE)),
-             as.character(stats::median(y, na.rm = TRUE)))
-    }))
-    data.frame(cbind(Variable, Min, Max, Mean, Median))
-  })))
-  dplyr::as_tibble(cbind(names, out))
-}
+# #' Compare ranges of variables in 'many' data
+# #' @details `compare_ranges()` compares the number of observations, variables,
+# #'   the earliest and latest date in each dataset in a 'many' datacube.
+# #' @family compare_
+# #' @param datacube A datacube from one of the many packages.
+# #' @param dataset A dataset in a datacube from one of the many packages.
+# #'   By default, "all".
+# #'   That is, all datasets in the datacube are used.
+# #'   To select two or more datasets, please declare them as a vector.
+# #' @param variable Please declare a variable present in one or more
+# #'   datasets in the 'many' datacube.
+# #'   For multiple variables, please declare variable names as a vector.
+# #' @import messydates
+# #' @importFrom purrr map
+# #' @importFrom dplyr as_tibble
+# #' @importFrom stats median
+# #' @examples
+# #' \donttest{
+# #' compare_ranges(emperors, variable = c("Begin", "End"))
+# #' }
+# #' @return
+# #' `compare_ranges()` returns a tibble with information about the minimal,
+# #' maximal, average, and median values for selected variables in datacubes.
+# #' @export
+# compare_ranges <- function(datacube, dataset = "all", variable) {
+#   if (any(dataset != "all")) {
+#     if (length(dataset) < 2) stop("Please declare 2 or more datasets for comparison.")
+#     datacube <- datacube[grepl(paste(dataset, collapse = "|"), names(datacube))]
+#   }
+#   if (missing(variable)){
+#     if("Begin" %in% names(datacube[[1]]) & "End" %in% names(datacube[[1]]))
+#       variable <- c("Begin","End") else
+#         cli::cli_abort("Please declare one or more variables.")
+#   }
+#   datacube <- lapply(datacube, function(x) {
+#     x[grepl(paste(variable, collapse = "|"), names(x))]
+#   })
+#   names <- data.frame(
+#     Dataset = unlist(lapply(names(datacube), function(x) {
+#     rep(x, length(variable))
+#   })))
+#   out <- suppressWarnings(do.call(rbind, lapply(datacube, function(x) {
+#     Variable <- names(x)
+#     Min <- unlist(lapply(x, function(y) {
+#       ifelse(grepl("date", class(y), ignore.case = TRUE),
+#              as.character(min(messydates::as_messydate(y), recursive = TRUE)),
+#              as.character(min(y, na.rm = TRUE)))
+#     }))
+#     Max <- unlist(lapply(x, function(y) {
+#       ifelse(grepl("date", class(y), ignore.case = TRUE),
+#              as.character(max(messydates::as_messydate(y), recursive = TRUE)),
+#              as.character(max(y, na.rm = TRUE)))
+#     }))
+#     Mean <- unlist(lapply(x, function(y) {
+#       ifelse(grepl("date", class(y), ignore.case = TRUE),
+#              as.character(mean(messydates::as_messydate(y), recursive = TRUE)),
+#              as.character(mean(y, na.rm = TRUE)))
+#     }))
+#     Median <- unlist(lapply(x, function(y) {
+#       ifelse(grepl("date", class(y), ignore.case = TRUE),
+#              as.character(median(messydates::as_messydate(y), recursive = TRUE)),
+#              as.character(stats::median(y, na.rm = TRUE)))
+#     }))
+#     data.frame(cbind(Variable, Min, Max, Mean, Median))
+#   })))
+#   dplyr::as_tibble(cbind(names, out))
+# }
 
 #' Compare the overlap between datasets in 'many' datacubes
 #' 
@@ -260,36 +263,35 @@ plot.compare_missing <- function(x, ...) {
 }
 
 #' Compare categories in 'many' datacubes
-#' 
 #' @details Confirmed values are the same in all datasets in datacube.
-#' Unique values appear once in datasets in datacube.
-#' Missing values are missing in all datasets in datacube.
-#' Conflict values are different in the same number of datasets in datacube.
-#' Majority values have the same value in multiple, but not all,
-#' datasets in datacube.
+#'   Unique values appear once in datasets in datacube.
+#'   Missing values are missing in all datasets in datacube.
+#'   Conflict values are different in the same number of datasets in datacube.
+#'   Majority values have the same value in multiple, but not all,
+#'   datasets in datacube.
 #' @family compare_
 #' @param datacube A datacube from one of the many packages.
 #' @param dataset A dataset in a datacube from one of the many packages.
-#' By default "all".
-#' That is, all datasets in the datacube are used.
-#' To select two or more datasets, please declare them as a vector.
+#'   By default "all".
+#'   That is, all datasets in the datacube are used.
+#'   To select two or more datasets, please declare them as a vector.
 #' @param key A variable key to join datasets.
-#' 'manyID' by default.
+#'   'manyID' by default.
 #' @param variable Would you like to focus on one, or more, specific variables
-#' present in one or more datasets in the 'many' datacube?
-#' By default "all".
-#' For multiple variables, please declare variable names as a vector.
+#'   present in one or more datasets in the 'many' datacube?
+#'   By default "all".
+#'   For multiple variables, please declare variable names as a vector.
 #' @param category Would you like to focus on one specific code category?
-#' By default "all" are returned.
-#' Other options include "confirmed", "unique", "missing", "conflict",
-#' or "majority".
-#' For multiple variables, please declare categories as a vector.
+#'   By default "all" are returned.
+#'   Other options include "confirmed", "unique", "missing", "conflict",
+#'   or "majority".
+#'   For multiple variables, please declare categories as a vector.
 #' @importFrom dplyr full_join filter_all %>% all_of group_by distinct any_vars
-#' starts_with mutate tibble
+#'   starts_with mutate tibble
 #' @importFrom purrr reduce map
 #' @importFrom tidyr drop_na
 #' @importFrom stringr str_count str_remove_all str_split str_extract_all
-#' str_replace_all
+#'   str_replace_all
 #' @examples
 #' \donttest{
 #' compare_categories(emperors, key = "ID")

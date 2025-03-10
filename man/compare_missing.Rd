@@ -41,7 +41,6 @@ plot(compare_missing(emperors))
 Other compare_: 
 \code{\link{compare_categories}()},
 \code{\link{compare_dimensions}()},
-\code{\link{compare_overlap}()},
-\code{\link{compare_ranges}()}
+\code{\link{compare_overlap}()}
 }
 \concept{compare_}
