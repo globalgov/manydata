@@ -180,6 +180,19 @@
 #   x
 # }
 
+
+#' Call sources and citations
+#' @description
+#'   These functions call any source or citation information that is available 
+#'   for a datacube or dataset.
+#'   The function can be used on its own to the console, 
+#'   called during another function call such as `consolidate()` or `pluck()`,
+#'   or is used to automatically and consistently populate help files.
+#' @name call_sources
+NULL
+
+#' @rdname call_sources
+#' @param x A datacube or dataset
 #' @export
 call_sources <- function(x){
   if(is.list(x)) datacube <- deparse(substitute(x)) else 
@@ -196,6 +209,10 @@ call_sources <- function(x){
   cinfo
 }
 
+
+#' @rdname call_sources
+#' @param output Whether the output should be formatted for "console"
+#'   or the "help" page.
 #' @export
 call_citations <- function(x, output = c("console","help")){
   if(is.list(x)) datacube <- deparse(substitute(x)) else 
