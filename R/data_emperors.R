@@ -17,9 +17,9 @@
 #' @source
 #'   `r call_citations(emperors, output = "help")`
 #' @section URL:
-#' * wikipedia: \url{https://en.wikipedia.org/wiki/List_of_Roman_emperors}
+#' * Wikipedia: \url{https://en.wikipedia.org/wiki/List_of_Roman_emperors}
 #' * UNRV: \url{https://www.unrv.com/government/emperor.php}
-#' * britannica: \url{https://www.britannica.com/topic/list-of-Roman-emperors-2043294}
+#' * Britannica: \url{https://www.britannica.com/topic/list-of-Roman-emperors-2043294}
 #' @section Mapping:
 #' * wikipedia:
 #' Variable Mapping
@@ -70,7 +70,7 @@
 
 info_emperors <- tibble::tibble(Dataset = c("Wikipedia","UNRV","Britannica"),
                                 Source = c("Wikipedia, 'List_of_Roman_emperors',  https://en.wikipedia.org/wiki/List_of_Roman_emperors, Accessed on 2021-07-22.",
-                                           "UNRV, 'Roman Emperor list', https://www.unrv.com/government/emperor.php, Accessed on 2021-07-22.",
+                                           "United Nations of Roma Victrix, 'Roman Emperor list', https://www.unrv.com/government/emperor.php, Accessed on 2021-07-22.",
                                            "Britannica, 'List of Roman emperors', https://www.britannica.com/topic/list-of-Roman-emperors-2043294, Accessed on 2021-07-22."),
                                 URL = c("https://en.wikipedia.org/wiki/List_of_Roman_emperors",
                                         "https://www.unrv.com/government/emperor.php",

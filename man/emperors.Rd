@@ -21,7 +21,7 @@ following 3 variables: ID, Begin, End.}
 \source{
 \itemize{
 \item Wikipedia, 'List_of_Roman_emperors',  https://en.wikipedia.org/wiki/List_of_Roman_emperors, Accessed on 2021-07-22.
-\item UNRV, 'Roman Emperor list', https://www.unrv.com/government/emperor.php, Accessed on 2021-07-22.
+\item United Nations of Roma Victrix, 'Roman Emperor list', https://www.unrv.com/government/emperor.php, Accessed on 2021-07-22.
 \item Britannica, 'List of Roman emperors', https://www.britannica.com/topic/list-of-Roman-emperors-2043294, Accessed on 2021-07-22.
 }
 }
@@ -32,58 +32,15 @@ emperors
 The \code{emperors} datacube is a list containing 3 datasets: Wikipedia, UNRV, and Britannica
 }
 \details{
-\if{html}{\out{<div class="sourceCode">}}\preformatted{#> $Wikipedia
-#> --------------------------------------------------------
-#> |  Variable   |  Class  |  Obs  |  Missing  |  Miss \%  |
-#> --------------------------------------------------------
-#> |ID           |character|     68|          0|         0|
-#> |Begin        |mdate    |     68|          0|         0|
-#> |End          |mdate    |     68|          0|         0|
-#> |FullName     |character|     68|          0|         0|
-#> |Birth        |mdate    |     63|          5|      7.35|
-#> |Death        |mdate    |     68|          0|         0|
-#> |CityBirth    |character|     51|         17|        25|
-#> |ProvinceBirth|character|     68|          0|         0|
-#> |Rise         |character|     68|          0|         0|
-#> |Cause        |character|     68|          0|         0|
-#> |Killer       |character|     68|          0|         0|
-#> |Dynasty      |character|     68|          0|         0|
-#> |Era          |character|     68|          0|         0|
-#> |Notes        |character|     46|         22|     32.35|
-#> |Verif        |character|     11|         57|     83.82|
-#> --------------------------------------------------------
-#> 
-#> 
-#> $UNRV
-#> -------------------------------------------------------
-#> |  Variable  |  Class  |  Obs  |  Missing  |  Miss \%  |
-#> -------------------------------------------------------
-#> |ID          |character|     99|          0|         0|
-#> |Begin       |mdate    |     99|          0|         0|
-#> |End         |mdate    |     99|          0|         0|
-#> |Birth       |mdate    |     75|         24|     24.24|
-#> |Death       |mdate    |     99|          0|         0|
-#> |FullName    |character|     94|          5|      5.05|
-#> |Dynasty     |character|     62|         37|     37.37|
-#> -------------------------------------------------------
-#> 
-#> 
-#> $Britannica
-#> -------------------------------------------------------
-#> |  Variable  |  Class  |  Obs  |  Missing  |  Miss \%  |
-#> -------------------------------------------------------
-#> |ID          |character|     87|          0|         0|
-#> |Begin       |mdate    |     87|          0|         0|
-#> |End         |mdate    |     87|          0|         0|
-#> -------------------------------------------------------
+\if{html}{\out{<div class="sourceCode {r, echo = FALSE, warning = FALSE}">}}\preformatted{lapply(emperors, mreport)
 }\if{html}{\out{</div>}}
 }
 \section{URL}{
 
 \itemize{
-\item wikipedia: \url{https://en.wikipedia.org/wiki/List_of_Roman_emperors}
+\item Wikipedia: \url{https://en.wikipedia.org/wiki/List_of_Roman_emperors}
 \item UNRV: \url{https://www.unrv.com/government/emperor.php}
-\item britannica: \url{https://www.britannica.com/topic/list-of-Roman-emperors-2043294}
+\item Britannica: \url{https://www.britannica.com/topic/list-of-Roman-emperors-2043294}
 }
 }
 
