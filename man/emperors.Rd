@@ -32,7 +32,49 @@ emperors
 The \code{emperors} datacube is a list containing 3 datasets: Wikipedia, UNRV, and Britannica
 }
 \details{
-\if{html}{\out{<div class="sourceCode {r, echo = FALSE, warning = FALSE}">}}\preformatted{lapply(emperors, mreport)
+\if{html}{\out{<div class="sourceCode">}}\preformatted{#> $Wikipedia
+#> --------------------------------------------------------
+#> |  Variable   |  Class  |  Obs  |  Missing  |  Miss \%  |
+#> --------------------------------------------------------
+#> |ID           |character|     69|          0|         0|
+#> |Begin        |mdate    |     69|          0|         0|
+#> |End          |mdate    |     69|          0|         0|
+#> |FullName     |character|     68|          1|      1.45|
+#> |Birth        |mdate    |     63|          6|       8.7|
+#> |Death        |mdate    |     68|          1|      1.45|
+#> |CityBirth    |character|     51|         18|     26.09|
+#> |ProvinceBirth|character|     68|          1|      1.45|
+#> |Rise         |character|     68|          1|      1.45|
+#> |Cause        |character|     68|          1|      1.45|
+#> |Killer       |character|     68|          1|      1.45|
+#> |Dynasty      |character|     68|          1|      1.45|
+#> |Era          |character|     68|          1|      1.45|
+#> |Notes        |character|     46|         23|     33.33|
+#> --------------------------------------------------------
+#> 
+#> 
+#> $UNRV
+#> -------------------------------------------------------
+#> |  Variable  |  Class  |  Obs  |  Missing  |  Miss \%  |
+#> -------------------------------------------------------
+#> |ID          |character|     98|          0|         0|
+#> |Begin       |mdate    |     98|          0|         0|
+#> |End         |mdate    |     98|          0|         0|
+#> |Birth       |mdate    |     74|         24|     24.49|
+#> |Death       |mdate    |     98|          0|         0|
+#> |FullName    |character|     93|          5|       5.1|
+#> |Dynasty     |character|     61|         37|     37.76|
+#> -------------------------------------------------------
+#> 
+#> 
+#> $Britannica
+#> -------------------------------------------------------
+#> |  Variable  |  Class  |  Obs  |  Missing  |  Miss \%  |
+#> -------------------------------------------------------
+#> |ID          |character|     87|          0|         0|
+#> |Begin       |mdate    |     87|          0|         0|
+#> |End         |mdate    |     87|          0|         0|
+#> -------------------------------------------------------
 }\if{html}{\out{</div>}}
 }
 \section{URL}{

@@ -19,7 +19,7 @@ test_that("compare_categories() returns the correct output format", {
   expect_s3_class(db, "tbl")
   expect_s3_class(db1, "tbl")
   expect_s3_class(db2, "tbl")
-  expect_length(db, 37)
+  expect_length(db, 35)
   expect_length(db1, 5)
   expect_length(db2, 9)
   expect_equal(nrow(db), nrow(db1))
@@ -36,7 +36,7 @@ test_that("compare_dimensions() returns the correct output format", {
   expect_equal(db$Earliest_Date,
                c("-0062-09-23", "-0063-01-01", "-0031-01-01"))
   expect_equal(db$Latest_Date,
-               c("0395-01-17", "0518-12-31", "0491-12-31"))
+               c("0421-09-02", "0518-12-31", "0491-12-31"))
 })
 
 test_that("compare_overlap() and return the correct output format", {
