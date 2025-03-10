@@ -45,12 +45,6 @@ all the datasets in the datacube (e.g. \code{key = c("key1", "key2")}).
 For equivalent key columns with different names across datasets,
 matching is possible if keys are declared (e.g. \code{key = c("key1" = "key2")}).
 Missing observations in the key variable are removed.}
-
-\item{cols}{Which columns or variables to retain.
-By default "any" (or all) variables are retained,
-but another option is "every",
-which retains only those variables that appear
-in all parent datasets.}
 }
 \value{
 A single tibble/data frame.
@@ -77,23 +71,8 @@ Text variables are dropped for more efficient consolidation.
 }
 \examples{
 \donttest{
-consolidate(datacube = emperors, key = "ID")
-consolidate(datacube = favour(emperors, "UNRV"), rows = "every",
-cols = "every", resolve = "coalesce", key = "ID")
-consolidate(datacube = emperors, rows = "any", cols = "every",
-resolve = "min", key = "ID")
-consolidate(datacube = emperors, rows = "every", cols = "any",
-resolve = "max", key = "ID")
-consolidate(datacube = emperors, rows = "every", cols = "every",
-resolve = "median", key = "ID")
-consolidate(datacube = emperors, rows = "every", cols = "every",
-resolve = "mean", key = "ID")
-consolidate(datacube = emperors, rows = "every", cols = "every",
-resolve = "random", key = "ID")
-consolidate(datacube = emperors, rows = "every", cols = "every",
-resolve = c(Begin = "min", End = "max"), key = "ID")
-consolidate(datacube = emperors, rows = "any", cols = "any",
-resolve = c(Death = "max", Cause = "coalesce"),
-key = c("ID", "Begin"))
+consolidate(emperors, join = "full", resolve = "coalesce", key = "ID")
+consolidate(emperors, join = "inner", resolve = "min", key = "ID")
+consolidate(emperors, join = "left", resolve = "max", key = "ID")
 }
 }

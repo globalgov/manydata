@@ -35,16 +35,15 @@ Depends:
     cli,
     dplyr
 Imports:
-    messydates (>= 0.4.1),
-    purrr,
-    stringr,
-    jsonlite,
-    remotes,
-    httr,
+    dtplyr,
     ggplot2 (>= 3.4.0),
-    tidyr,
-    plyr,
-    zoo
+    httr,
+    jsonlite,
+    messydates (>= 0.5.0),
+    purrr,
+    remotes,
+    stringr,
+    tidyr
 Suggests:
     testthat,
     readr,

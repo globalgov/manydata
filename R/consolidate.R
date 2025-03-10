@@ -25,11 +25,6 @@
 #'   (reorder the datasets to favour another dataset),
 #'   and "inner" for a consolidated dataset that includes only observations
 #'   that are present in all datasets.
-#' @param cols Which columns or variables to retain.
-#'   By default "any" (or all) variables are retained,
-#'   but another option is "every",
-#'   which retains only those variables that appear
-#'   in all parent datasets.
 #' @param resolve How should conflicts between observations be resolved?
 #'   By default "coalesce",
 #'   but other options include: "min", "max", "mean", "median", and "random".
@@ -57,31 +52,14 @@
 #' @importFrom dplyr select full_join inner_join distinct all_of
 #' @importFrom dplyr group_by %>% mutate_at as_tibble
 #' @importFrom tidyr drop_na
-#' @importFrom plyr ddply
-#' @importFrom zoo na.locf
-#' @importFrom usethis ui_info
+#' @importFrom dtplyr lazy_dt
 #' @importFrom messydates as_messydate
 #' @return A single tibble/data frame.
 #' @examples
 #' \donttest{
-#' consolidate(datacube = emperors, key = "ID")
-#' consolidate(datacube = favour(emperors, "UNRV"), rows = "every",
-#' cols = "every", resolve = "coalesce", key = "ID")
-#' consolidate(datacube = emperors, rows = "any", cols = "every",
-#' resolve = "min", key = "ID")
-#' consolidate(datacube = emperors, rows = "every", cols = "any",
-#' resolve = "max", key = "ID")
-#' consolidate(datacube = emperors, rows = "every", cols = "every",
-#' resolve = "median", key = "ID")
-#' consolidate(datacube = emperors, rows = "every", cols = "every",
-#' resolve = "mean", key = "ID")
-#' consolidate(datacube = emperors, rows = "every", cols = "every",
-#' resolve = "random", key = "ID")
-#' consolidate(datacube = emperors, rows = "every", cols = "every",
-#' resolve = c(Begin = "min", End = "max"), key = "ID")
-#' consolidate(datacube = emperors, rows = "any", cols = "any",
-#' resolve = c(Death = "max", Cause = "coalesce"),
-#' key = c("ID", "Begin"))
+#' consolidate(emperors, join = "full", resolve = "coalesce", key = "ID")
+#' consolidate(emperors, join = "inner", resolve = "min", key = "ID")
+#' consolidate(emperors, join = "left", resolve = "max", key = "ID")
 #' }
 #' @export
 consolidate <- function(datacube, 
@@ -128,18 +106,32 @@ consolidate <- function(datacube,
                               "in {.var {deparse(substitute(datacube))}} datasets.\n"))
   }
   
-  # Step 4: drop any unwanted columns (including text variables) ####
-  cli::cli_progress_message("Dropping text variables...")
-  all_variables <- grep("text", unname(unlist(purrr::map(datacube, names))),
-                        ignore.case = TRUE, value = TRUE, invert = TRUE)
+  # # Step 4: Drop unwanted columns (including text variables) ####
+  # cli::cli_progress_message("Dropping text variables...")
+  # all_variables <- grep("text", unname(unlist(purrr::map(datacube, names))),
+  #                       ignore.case = TRUE, value = TRUE, invert = TRUE)
+  # out <- purrr::map(datacube, .extract_if_present, vars_subset)
+  all_variables <- unname(unlist(purrr::map(datacube, names)))
   vars_subset <- c(unique(all_variables), key)
-  out <- purrr::map(datacube, .extract_if_present, vars_subset)
+  out <- datacube
   
-  # Step 5: join datasets by ID and keep pertinent rows ####
-  cli::cli_progress_message("Joining {length(datacube)} datasets...")
-  out <- purrr::reduce(out, collapse::join, on = key, how = join, 
-                       multiple = TRUE, verbose = 0)
-  cli::cli_alert_success("Joined {length(datacube)} datasets.")
+  # Step 5: Join datasets by ID ####
+  cli::cli_progress_message("Joining {length(datacube)} datasets using a {join} join...")
+  # out <- purrr::reduce(out, dplyr::full_join, by = key)
+  out <- suppressWarnings(switch(join,
+                full = purrr::reduce(purrr::map(out, dtplyr::lazy_dt, key_by = key),
+                                     dplyr::full_join, by = key) %>% as_tibble(),
+                inner = purrr::reduce(out,
+                                      dplyr::inner_join, by = key) %>% as_tibble(),
+                left = purrr::reduce(out,
+                                     dplyr::left_join, by = key) %>% as_tibble()))
+  # out <- purrr::reduce(purrr::map(out, dtplyr::lazy_dt, key_by = key),
+  #                      dplyr::full_join, by = key) %>% as_tibble()
+  # out <- purrr::reduce(out, collapse::join, on = key, how = join,
+  #                      multiple = FALSE, verbose = 0)
+  cli::cli_alert_success("Joined {length(datacube)} datasets using a {join} join.")
+  if(interactive())
+    call_citations(deparse(substitute(datacube)), output = "console")
   
   # if (rows == "any") {
   #   cli::cli_alert_info("Joining datasets to observations in any dataset.")
@@ -149,13 +141,13 @@ consolidate <- function(datacube,
   #   cli::cli_alert_info("Joining datasets to observations shared by every dataset.")
   #   out <- purrr::reduce(out, dplyr::inner_join, by = key)
   # }
-  if (cols == "every") {
-    cli::cli_progress_message("Dropping unique variables...")
-    shared_variables <- names(table(all_variables)[table(all_variables) ==
-                                                  length(datacube)])
-    out <- dplyr::select(out, dplyr::all_of(key),
-                         dplyr::starts_with(shared_variables))
-  }
+  # if (cols == "every") {
+  #   cli::cli_progress_message("Dropping unique variables...")
+  #   shared_variables <- names(table(all_variables)[table(all_variables) ==
+  #                                                 length(datacube)])
+  #   out <- dplyr::select(out, dplyr::all_of(key),
+  #                        dplyr::starts_with(shared_variables))
+  # }
   
   # Step 6: resolve conflicts ####
   cli::cli_progress_message("Resolving conflicts by {.var {resolve}}...")
@@ -179,16 +171,16 @@ consolidate <- function(datacube,
     resolve <- data.frame(var = names(resolve), resolve = resolve)
     out <- resolve_multiple(out, key, resolve)
   }
-  cli::cli_alert_success("Resolved {old_cols - ncol(out)} columns.")
+  cli::cli_alert_success("Resolved {old_cols - ncol(out)} shared variables.")
   
   # Step 7: remove duplicates and fill NA values ####
-  cli::cli_progress_message("Coalescing compatible rows...")
-  old_rows <- nrow(out)
-  out <- plyr::ddply(out, key, zoo::na.locf, na.rm = FALSE) %>%
-    dplyr::as_tibble() %>%
-    dplyr::select(-dplyr::starts_with("dplyr")) %>%
-    dplyr::distinct()
-  cli::cli_alert_success("Coalesced {old_rows - nrow(out)} rows.")
+  # cli::cli_progress_message("Coalescing compatible observations...")
+  # old_rows <- nrow(out)
+  # out <- plyr::ddply(out, key, zoo::na.locf, na.rm = FALSE) %>%
+  #   dplyr::as_tibble() %>%
+  #   dplyr::select(-dplyr::starts_with("dplyr")) %>%
+  #   dplyr::distinct()
+  # cli::cli_alert_success("Coalesced {old_rows - nrow(out)} observations")
   
   out
 }
@@ -197,179 +189,6 @@ consolidate <- function(datacube,
   x[intersect(y, names(x))]
 }
 
-resolve_coalesce <- function(out, key, other_variables) {
-  for (var in other_variables) {
-    vars_to_combine <- grep(paste0("^", var, "$|^", var, "\\_"),
-                            names(out), value = TRUE)
-    new_var <- if (any(lapply(out[vars_to_combine], class) == "mdate")) {
-      apply(out[vars_to_combine], 2, as.character)
-    } else out[vars_to_combine]
-    new_var <- dplyr::coalesce(!!!data.frame(new_var))
-    out[, names(out) %in% vars_to_combine] <- NULL
-    # out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
-    out[, var] <- new_var
-  }
-  if (length(other_variables) == 1) {
-    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
-  }
-  out
-}
-
-resolve_min <- function(out, key, other_variables) {
-  for (var in other_variables) {
-    vars_to_combine <- grep(paste0("^", var, "$|^", var, "\\_"),
-                            names(out), value = TRUE)
-    new_var <- purrr::map_df(out[vars_to_combine], function(x) {
-      if (messydates::is_messydate(x)) as.Date(x, min) else x
-    })
-    new_var <- suppressWarnings(do.call("c", purrr::pmap(
-      new_var, ~ min(c(...), na.rm = TRUE))))
-    if (any(grepl("^Inf$|^NaN$", new_var))) {
-      new_var <- gsub("^Inf$|^NaN$", NA, new_var)
-    }
-    # out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
-    out[, names(out) %in% vars_to_combine] <- NULL
-    out[, var] <- new_var
-  }
-  if (length(other_variables) == 1) {
-    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
-  }
-  out
-}
-
-resolve_max <- function(out, key, other_variables) {
-  for (var in other_variables) {
-    vars_to_combine <- grep(paste0("^", var, "$|^", var, "\\_"),
-                            names(out), value = TRUE)
-    new_var <- purrr::map_df(out[vars_to_combine], function(x) {
-      if (messydates::is_messydate(x)) as.Date(x, max) else x
-    })
-    new_var <- suppressWarnings(do.call("c", purrr::pmap(
-      new_var, ~ max(c(...), na.rm = TRUE))))
-    if (any(grepl("^Inf$|^NaN$", new_var))) {
-      new_var <- gsub("^Inf$|^NaN$", NA, new_var)
-    }
-    # out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
-    out[, names(out) %in% vars_to_combine] <- NULL
-    out[, var] <- new_var
-  }
-  if (length(other_variables) == 1) {
-    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
-  }
-  out
-}
-
-resolve_median <- function(out, key, other_variables) {
-  for (var in other_variables) {
-    vars_to_combine <- grep(paste0("^", var, "$|^", var, "\\_"),
-                            names(out), value = TRUE)
-    new_var <- purrr::map_df(out[vars_to_combine], function(x) {
-      if (messydates::is_messydate(x)) as.Date(x, median) else x
-    })
-    new_var <- suppressWarnings(do.call("c", purrr::pmap(
-      new_var, ~ stats::median(c(...), na.rm = TRUE))))
-    if (any(grepl("^Inf$|^NaN$", new_var))) {
-      new_var <- gsub("^Inf$|^NaN$", NA, new_var)
-    }
-    # out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
-    out[, names(out) %in% vars_to_combine] <- NULL
-    out[, var] <- new_var
-  }
-  if (length(other_variables) == 1) {
-    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
-  }
-  out
-}
-
-resolve_mean <- function(out, key, other_variables) {
-  for (var in other_variables) {
-    vars_to_combine <- grep(paste0("^", var, "$|^", var, "\\_"),
-                            names(out), value = TRUE)
-    new_var <- purrr::map_df(out[vars_to_combine], function(x) {
-      if (messydates::is_messydate(x)) as.Date(x, mean) else x
-    })
-    if (any(lapply(new_var, class) == "character")) {
-      message("Calculating the mean is not possible for character(s) variables.
-              Returning first non-missing value instead.")
-      new_var <- dplyr::coalesce(!!!out[vars_to_combine])
-    } else {
-      new_var <- suppressWarnings(do.call("c", purrr::pmap(
-        new_var, ~ mean(c(...), na.rm = TRUE))))
-    }
-    if (any(grepl("^Inf$|^NaN$", new_var))) {
-      new_var <- gsub("^Inf$|^NaN$", NA, new_var)
-    }
-    # out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
-    out[, names(out) %in% vars_to_combine] <- NULL
-    out[, var] <- new_var
-  }
-  if (length(other_variables) == 1) {
-    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
-  }
-  out
-}
-
-resolve_random <- function(out, key, other_variables) {
-  for (var in other_variables) {
-    vars_to_combine <- grep(paste0("^", var, "$|^", var, "\\_"),
-                            names(out), value = TRUE)
-    new_var <- purrr::map_df(out[vars_to_combine], function(x) {
-      if (messydates::is_messydate(x)) as.Date(x, random) else x
-    })
-    new_var <- apply(new_var, 1, function(x) sample(x, size = 1))
-    # out <- dplyr::select(out, -dplyr::all_of(vars_to_combine))
-    out[, names(out) %in% vars_to_combine] <- NULL
-    out[, var] <- new_var
-  }
-  if (length(other_variables) == 1) {
-    out <- dplyr::select(out, dplyr::all_of(key), dplyr::all_of(other_variables))
-  }
-  out
-}
-
-resolve_multiple <- function(out, key, resolve) {
-  for (k in seq_len(nrow(resolve))) {
-    if (resolve$resolve[k] == "coalesce") {
-      rco <- resolve_coalesce(resolve$var[k], out, key)
-    }
-    if (resolve$resolve[k] == "min") {
-      rmin <- resolve_min(resolve$var[k], out, key)
-    }
-    if (resolve$resolve[k] == "max") {
-      rmax <- resolve_max(resolve$var[k], out, key)
-    }
-    if (resolve$resolve[k] == "median") {
-      rmd <- resolve_median(resolve$var[k], out, key)
-    }
-    if (resolve$resolve[k] == "mean") {
-      rme <- resolve_mean(resolve$var[k], out, key)
-    }
-    if (resolve$resolve[k] == "random") {
-      rra <- resolve_random(resolve$var[k], out, key)
-    }
-  }
-  if (exists("rco")) {
-    out <- rco
-  } else {
-    out <- dplyr::select(out, dplyr::all_of(key))
-  }
-  if (exists("rmin")) {
-    out <- dplyr::full_join(out, rmin, by = key)
-  }
-  if (exists("rmax")) {
-    out <- dplyr::full_join(out, rmax, by = key)
-  }
-  if (exists("rmd")) {
-    out <- dplyr::full_join(out, rmd, by = key)
-  }
-  if (exists("rme")) {
-    out <- dplyr::full_join(out, rme, by = key)
-  }
-  if (exists("rra")) {
-    out <- dplyr::full_join(out, rra, by = key)
-  }
-  out
-}
 # Pluck ####
 
 #' Selects a single dataset from a datacube
