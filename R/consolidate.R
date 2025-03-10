@@ -27,12 +27,10 @@
 #'   that are present in all datasets.
 #' @param resolve How should conflicts between observations be resolved?
 #'   By default "coalesce",
-#'   but other options include: "min", "max", "mean", "median", and "random".
+#'   but other options include: "min", "max", and "random".
 #'   "coalesce" takes the first non-NA value.
 #'   "max" takes the largest value.
 #'   "min" takes the smallest value.
-#'   "mean" takes the average value.
-#'   "median" takes the median value.
 #'   "random" takes a random value.
 #'   For different variables to be resolved differently,
 #'   you can specify the variables' names alongside
@@ -149,7 +147,7 @@ consolidate <- function(datacube,
   #                        dplyr::starts_with(shared_variables))
   # }
   
-  # Step 6: resolve conflicts ####
+  # Step 6: Resolve conflicts ####
   cli::cli_progress_message("Resolving conflicts by {.var {resolve}}...")
   old_cols <- ncol(out)
   if (length(resolve) < 2) {
@@ -160,10 +158,10 @@ consolidate <- function(datacube,
       out <- resolve_min(out, key, other_variables)
     } else if (resolve == "max") {
       out <- resolve_max(out, key, other_variables)
-    } else if (resolve == "median") {
-      out <- resolve_median(out, key, other_variables)
-    } else if (resolve == "mean") {
-      out <- resolve_mean(out, key, other_variables)
+    # } else if (resolve == "median") {
+    #   out <- resolve_median(out, key, other_variables)
+    # } else if (resolve == "mean") {
+    #   out <- resolve_mean(out, key, other_variables)
     } else if (resolve == "random") {
       out <- resolve_random(out, key, other_variables)
     }
