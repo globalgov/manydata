@@ -24,7 +24,7 @@ A function between dplyr's transmute and mutate
 }
 \examples{
 \donttest{
-pluck(emperors, "wikipedia")
-transmutate(emperors$wikipedia, Beginning = Begin)
+pluck(emperors, "Wikipedia")
+transmutate(emperors$Wikipedia, Beginning = Begin)
 }
 }

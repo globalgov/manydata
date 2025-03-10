@@ -11,8 +11,8 @@
 #' @source https://stackoverflow.com/questions/51428156/dplyr-mutate-transmute-drop-only-the-columns-used-in-the-formula
 #' @examples
 #' \donttest{
-#' pluck(emperors, "wikipedia")
-#' transmutate(emperors$wikipedia, Beginning = Begin)
+#' pluck(emperors, "Wikipedia")
+#' transmutate(emperors$Wikipedia, Beginning = Begin)
 #' }
 #' @export
 transmutate <- function(.data, ...) {
@@ -80,24 +80,24 @@ recollect <- function(x, collapse = "_") {
   na_if(paste(unique(na.omit(x)), collapse = collapse), "")
 }
 
-#' Get first non-missing
-#'
-#' For use with dplyr::summarise, for example
-#' @param x A vector
-#' @return A single value
-#' @details This function operates similarly to coalesce for columns,
-#' that is picking the first non-missing observation,
-#' but on observations rather than variables.
-#' @source https://stackoverflow.com/questions/40515180/dplyr-how-to-find-the-first-non-missing-string-by-groups
-#' @examples
-#' \donttest{
-#' dplyr::reframe(emperors$wikipedia, coalesce_rows(emperors$wikipedia))
-#' coalesce_rows(emperors$wikipedia$Begin)
-#' }
-#' @export
-coalesce_rows <- function(x) {
-  x[which(!is.na(x))[1]]
-}
+# #' Get first non-missing
+# #'
+# #' For use with dplyr::summarise, for example
+# #' @param x A vector
+# #' @return A single value
+# #' @details This function operates similarly to coalesce for columns,
+# #' that is picking the first non-missing observation,
+# #' but on observations rather than variables.
+# #' @source https://stackoverflow.com/questions/40515180/dplyr-how-to-find-the-first-non-missing-string-by-groups
+# #' @examples
+# #' \donttest{
+# #' dplyr::reframe(emperors$wikipedia, coalesce_rows(emperors$wikipedia))
+# #' coalesce_rows(emperors$wikipedia$Begin)
+# #' }
+# #' @export
+# coalesce_rows <- function(x) {
+#   x[which(!is.na(x))[1]]
+# }
 
 #' Fills missing data by lookup
 #'
