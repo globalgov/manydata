@@ -15,6 +15,21 @@ resolving_coalesce <- function(.data, vars){
     dplyr::pull(var = -1)
 }
 
+#' @rdname resolving
+#' @section Unite: 
+#'   Note that uniting always returns a character/string vector.
+#'   Values are separated by commas and a set is contained within braces.
+#' @examples
+#' resolving_unite(test)
+#' @export
+resolving_unite <- function(.data, vars){
+  if(missing(vars)) vars <- names(.data)
+  toRes <- dplyr::select(.data, dplyr::all_of(vars))
+  apply(toRes, 1, function(x) paste0("{", paste(unique(na.omit(x)), 
+                                                  collapse = ","),
+                                       "}"))
+}
+
 resolve_coalesce <- function(out, key, other_variables) {
   for (var in other_variables) {
     vars_to_combine <- grep(paste0("^", var, "$|^", var, "\\."),
