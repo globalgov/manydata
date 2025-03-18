@@ -62,6 +62,16 @@ resolving_random <- function(.data, vars){
               nrow = nrow(toRes))]
 }
 
+#' @rdname resolving
+#' @examples
+#' resolving_precision(test)
+#' @export
+resolving_precision <- function(.data, vars){
+  if(missing(vars)) vars <- names(.data)
+  toRes <- dplyr::select(.data, dplyr::all_of(vars))
+  apply(toRes, 1, function(x) x[which.max(precision(x))])
+}
+
 resolve_coalesce <- function(out, key, other_variables) {
   for (var in other_variables) {
     vars_to_combine <- grep(paste0("^", var, "$|^", var, "\\."),
