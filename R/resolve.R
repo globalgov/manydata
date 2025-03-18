@@ -1,3 +1,20 @@
+#' Resolving multiple observations of the same variable into one
+#' @name resolving
+NULL
+
+#' @rdname resolving
+#' @examples
+#' test <- data.frame(bloop.x = c(1,6,NA), 
+#'                    bloop.y = c(2,NA,3), bloop = c(NA,3,4))
+#' resolving_coalesce(test)
+#' @export
+resolving_coalesce <- function(.data, vars){
+  if(missing(vars)) vars <- names(.data)
+  toCoal <- dplyr::select(.data, vars)
+  .data %>% dplyr::mutate(dplyr::coalesce(!!!as.data.frame(toCoal))) %>% 
+    dplyr::pull(var = -1)
+}
+
 resolve_coalesce <- function(out, key, other_variables) {
   for (var in other_variables) {
     vars_to_combine <- grep(paste0("^", var, "$|^", var, "\\."),
