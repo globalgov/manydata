@@ -50,6 +50,18 @@ resolving_max <- function(.data, vars){
   apply(toRes, 1, function(x) max(x, na.rm = TRUE))
 }
 
+#' @rdname resolving
+#' @examples
+#' resolving_random(test)
+#' @export
+resolving_random <- function(.data, vars){
+  if(missing(vars)) vars <- names(.data)
+  toRes <- dplyr::select(.data, dplyr::all_of(vars))
+  toRes[matrix(c(seq.int(nrow(toRes)), 
+                sample.int(ncol(toRes), nrow(toRes), replace = TRUE)),
+              nrow = nrow(toRes))]
+}
+
 resolve_coalesce <- function(out, key, other_variables) {
   for (var in other_variables) {
     vars_to_combine <- grep(paste0("^", var, "$|^", var, "\\."),

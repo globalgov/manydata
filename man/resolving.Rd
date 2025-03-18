@@ -6,6 +6,7 @@
 \alias{resolving_unite}
 \alias{resolving_min}
 \alias{resolving_max}
+\alias{resolving_random}
 \title{Resolving multiple observations of the same variable into one}
 \usage{
 resolving_coalesce(.data, vars)
@@ -15,6 +16,8 @@ resolving_unite(.data, vars)
 resolving_min(.data, vars)
 
 resolving_max(.data, vars)
+
+resolving_random(.data, vars)
 
 }
 \description{
@@ -33,4 +36,5 @@ resolving_coalesce(test)
 resolving_unite(test)
 resolving_min(test)
 resolving_max(test)
+resolving_random(test)
 }
