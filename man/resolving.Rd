@@ -4,11 +4,17 @@
 \alias{resolving}
 \alias{resolving_coalesce}
 \alias{resolving_unite}
+\alias{resolving_min}
+\alias{resolving_max}
 \title{Resolving multiple observations of the same variable into one}
 \usage{
 resolving_coalesce(.data, vars)
 
 resolving_unite(.data, vars)
+
+resolving_min(.data, vars)
+
+resolving_max(.data, vars)
 
 }
 \description{
@@ -25,4 +31,6 @@ test <- data.frame(bloop.x = c(1,6,NA),
                    bloop.y = c(2,NA,3), bloop = c(NA,3,4))
 resolving_coalesce(test)
 resolving_unite(test)
+resolving_min(test)
+resolving_max(test)
 }
