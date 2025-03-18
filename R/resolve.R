@@ -72,6 +72,37 @@ resolving_precision <- function(.data, vars){
   apply(toRes, 1, function(x) x[which.max(precision(x))])
 }
 
+
+#' @export
+precision.numeric <- function(x){
+
+  # Convert all to scientific notation
+  num_str <- format(x, scientific = TRUE, na.encode = FALSE)
+  num_str[grepl("NA",num_str)] <- NA
+  
+  # Extract significant digits
+  sig_digits <- gsub("e.*", "", num_str)  # Remove exponent part
+  sig_digits <- gsub("\\.", "", sig_digits) # Remove decimal point
+  
+  # Count nonzero significant digits
+  out <- nchar(gsub("^0+|0+$", "", sig_digits)) # Remove leading zeros and count
+  out/max(out, na.rm = TRUE)
+}
+
+#' @export
+precision.character <- function(x){
+  # Count characters
+  out <- nchar(x)
+  out/max(out)
+}
+
+#' @export
+precision.default <- function(x){
+  # Count characters
+  out <- nchar(x)
+  out/max(out)
+}
+
 resolve_coalesce <- function(out, key, other_variables) {
   for (var in other_variables) {
     vars_to_combine <- grep(paste0("^", var, "$|^", var, "\\."),
