@@ -127,6 +127,7 @@ consolidate <- function(datacube,
   #                      dplyr::full_join, by = key) %>% as_tibble()
   # out <- purrr::reduce(out, collapse::join, on = key, how = join,
   #                      multiple = FALSE, verbose = 0)
+  # duckplyr considered too, but difficulty in converting mdate class columns
   cli::cli_alert_success("Joined {length(datacube)} datasets using a {join} join.")
   if(interactive())
     call_citations(deparse(substitute(datacube)), output = "console")
