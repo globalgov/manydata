@@ -9,7 +9,7 @@
 }
 
 # defining global variables more centrally
-utils::globalVariables(c("Dataset","Source","URL","Mapping"))
+utils::globalVariables(c("Dataset","Source","URL","Mapping",":="))
 
 #' @importFrom dplyr %>%
 #' @export
