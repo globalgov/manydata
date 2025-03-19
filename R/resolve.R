@@ -69,9 +69,10 @@ resolving_max <- function(.data, vars){
 resolving_random <- function(.data, vars){
   if(missing(vars)) vars <- names(.data)
   toRes <- dplyr::select(.data, dplyr::all_of(vars))
-  toRes[matrix(c(seq.int(nrow(toRes)), 
-                sample.int(ncol(toRes), nrow(toRes), replace = TRUE)),
-              nrow = nrow(toRes))]
+  data.frame(toRes)[matrix(c(seq.int(nrow(toRes)), 
+                             sample.int(ncol(toRes), nrow(toRes), 
+                                        replace = TRUE)),
+                           nrow = nrow(toRes))]
 }
 
 #' @rdname resolving
@@ -83,7 +84,6 @@ resolving_precision <- function(.data, vars){
   toRes <- dplyr::select(.data, dplyr::all_of(vars))
   apply(toRes, 1, function(x) x[which.max(precision(x))])
 }
-
 
 #' @export
 precision.numeric <- function(x){
