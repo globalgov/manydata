@@ -10,9 +10,13 @@ NULL
 #' @export
 resolving_coalesce <- function(.data, vars){
   if(missing(vars)) vars <- names(.data)
-  toCoal <- dplyr::select(.data, vars)
-  .data %>% dplyr::mutate(dplyr::coalesce(!!!as.data.frame(toCoal))) %>% 
+  .data <- as.data.frame(.data)
+  toCoal <- dplyr::select(.data, dplyr::all_of(vars))
+  out <- .data %>% dplyr::mutate(dplyr::coalesce(!!!as.data.frame(toCoal))) %>% 
     dplyr::pull(var = -1)
+  if(class(out) != class(.data[,vars[1]]))
+    class(out) <- class(.data[,vars[1]])
+  out
 }
 
 #' @rdname resolving
@@ -36,8 +40,12 @@ resolving_unite <- function(.data, vars){
 #' @export
 resolving_min <- function(.data, vars){
   if(missing(vars)) vars <- names(.data)
+  .data <- as.data.frame(.data)
   toRes <- dplyr::select(.data, dplyr::all_of(vars))
-  apply(toRes, 1, function(x) min(x, na.rm = TRUE))
+  out <- apply(toRes, 1, function(x) min(x, na.rm = TRUE))
+  if(class(out) != class(.data[,vars[1]]))
+    class(out) <- class(.data[,vars[1]])
+  out
 }
 
 #' @rdname resolving
@@ -46,8 +54,12 @@ resolving_min <- function(.data, vars){
 #' @export
 resolving_max <- function(.data, vars){
   if(missing(vars)) vars <- names(.data)
+  .data <- as.data.frame(.data)
   toRes <- dplyr::select(.data, dplyr::all_of(vars))
-  apply(toRes, 1, function(x) max(x, na.rm = TRUE))
+  out <- apply(toRes, 1, function(x) max(x, na.rm = TRUE))
+  if(class(out) != class(.data[,vars[1]]))
+    class(out) <- class(.data[,vars[1]])
+  out
 }
 
 #' @rdname resolving
