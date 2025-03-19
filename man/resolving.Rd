@@ -22,6 +22,11 @@ resolving_random(.data, vars)
 
 resolving_precision(.data, vars)
 }
+\arguments{
+\item{.data}{A data frame or tibble containing the variables.}
+
+\item{vars}{A vector of variables from \code{.data} to be resolved or converged.}
+}
 \description{
 Resolving multiple observations of the same variable into one
 }
