@@ -68,6 +68,7 @@ reference:
     desc: "These functions assist data analysts with the analysis of data on particular domains of global governance"
     contents:
       - consolidate
+      - resolving
       - pluck
       - favour
   - title: "Data wrangling with manydata"
