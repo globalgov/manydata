@@ -21,33 +21,30 @@ Practices](https://bestpractices.coreinfrastructure.org/projects/4562/badge)](ht
 
 `{manydata}` is a portal to ‘many’ packages containing many datacubes,
 each containing many related datasets on many issue-domains, actors and
-institutions of global governance. These ‘many’ packages are: -
-`{manyenviron}`: contains data on international environmental
-agreements - `{manytrade}`: contains data on international trade
-agreements - `{manyhealth}`: contains data on international health
-agreements - `{manystates}`: contains data on states throughout history
+institutions of global governance. `{manytreaties}` contains data on
+international environmental, trade, and health agreements, and
+`{manystates}`: contains data on states throughout history.
 
 Datasets are related to one another within a datacube through a
 particular coding system which follows the same principles across the
 different packages.
 
-For instance, in the data packages on international agreements
-(including `{manyenviron}`, `{manytrade}`, and `{manyhealth}`), the
-`agreements` and `memberships` datacubes have standardised IDs
-(`manyID`), and date variables such as `Begin` and `End` that denote the
-beginning and end dates of treaties respectively. The beginning date is
-derived from the signature or entry into force date, whichever is the
-earliest available date for the treaty. Standardised IDs across datasets
-allow the same observations to be matched across datasets so that the
-values can be compared or expanded where relevant. These specific
-variable names allows the comparison of information across datasets that
-have different sources. It enables users to point out the recurrence,
-difference or absence of observations between the datasets and extract
-more robust data when researching on a particular governance domain.
+For instance, in `{manytreaties}`, the `agreements` and `parties`
+datacubes have standardised IDs (`manyID`), and date variables such as
+`Begin` and `End` that denote the beginning and end dates of treaties
+respectively. The beginning date is derived from the signature or entry
+into force date, whichever is the earliest available date for the
+treaty. Standardised IDs across datasets allow the same observations to
+be matched across datasets so that the values can be compared or
+expanded where relevant. These specific variable names allows the
+comparison of information across datasets that have different sources.
+It enables users to point out the recurrence, difference or absence of
+observations between the datasets and extract more robust data when
+researching on a particular governance domain.
 
-The memberships datacube contains additional date variables on each
-state member’s ratification, signature, entry into force, and end dates
-for each treaty. Data in the memberships datacube is comparable across
+The parties datacube contains additional date variables on each state
+member’s ratification, signature, entry into force, and end dates for
+each treaty. Data in the memberships datacube is comparable across
 datasets through standardised state names and stateIDs, made possible
 with the `manypkgs::code_states()` function. More information on each
 state, including its `Begin` and `End` date, can be found in the
