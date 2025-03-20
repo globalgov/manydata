@@ -114,27 +114,20 @@ consolidate <- function(datacube,
                               "in {.var {deparse(substitute(datacube))}} datasets.\n"))
   }
   
-  # # Step 4: Drop unwanted columns (including text variables) ####
-  # cli::cli_progress_message("Dropping text variables...")
-  # all_variables <- grep("text", unname(unlist(purrr::map(datacube, names))),
-  #                       ignore.case = TRUE, value = TRUE, invert = TRUE)
-  # out <- purrr::map(datacube, .extract_if_present, vars_subset)
+  # Step 4: Join datasets by ID ####
+  cli::cli_progress_message("Joining {length(datacube)} datasets using a {join} join...")
   all_variables <- unname(unlist(purrr::map(datacube, names)))
   vars_subset <- c(unique(all_variables), key)
   out <- datacube
-  
-  # Step 5: Join datasets by ID ####
-  cli::cli_progress_message("Joining {length(datacube)} datasets using a {join} join...")
-  # out <- purrr::reduce(out, dplyr::full_join, by = key)
   out <- suppressWarnings(switch(join,
-                full = purrr::reduce(purrr::map(out, dtplyr::lazy_dt, key_by = key),
+                full = purrr::reduce(ifelse(length(key)>1, 
+                                            purrr::map(out, dtplyr::lazy_dt, key_by = key),
+                                            out),
                                      dplyr::full_join, by = key) %>% as_tibble(),
                 inner = purrr::reduce(out,
                                       dplyr::inner_join, by = key) %>% as_tibble(),
                 left = purrr::reduce(out,
                                      dplyr::left_join, by = key) %>% as_tibble()))
-  # out <- purrr::reduce(purrr::map(out, dtplyr::lazy_dt, key_by = key),
-  #                      dplyr::full_join, by = key) %>% as_tibble()
   # out <- purrr::reduce(out, collapse::join, on = key, how = join,
   #                      multiple = FALSE, verbose = 0)
   # duckplyr considered too, but difficulty in converting mdate class columns
@@ -142,23 +135,7 @@ consolidate <- function(datacube,
   if(interactive())
     call_citations(deparse(substitute(datacube)), output = "console")
   
-  # if (rows == "any") {
-  #   cli::cli_alert_info("Joining datasets to observations in any dataset.")
-  #   out <- purrr::map(out, tidyr::drop_na, dplyr::all_of(key)) %>%
-  #     purrr::reduce(dplyr::full_join, by = key)
-  # } else if (rows == "every") {
-  #   cli::cli_alert_info("Joining datasets to observations shared by every dataset.")
-  #   out <- purrr::reduce(out, dplyr::inner_join, by = key)
-  # }
-  # if (cols == "every") {
-  #   cli::cli_progress_message("Dropping unique variables...")
-  #   shared_variables <- names(table(all_variables)[table(all_variables) ==
-  #                                                 length(datacube)])
-  #   out <- dplyr::select(out, dplyr::all_of(key),
-  #                        dplyr::starts_with(shared_variables))
-  # }
-  
-  # Step 6: Resolve conflicts ####
+  # Step 5: Resolve conflicts ####
   dupes <- grepl("\\.x|\\.y", names(out))
   if(any(dupes)){
     vars_to_resolve <- unique(gsub("\\.x|\\.y", "", names(out)[dupes]))
@@ -189,9 +166,9 @@ consolidate <- function(datacube,
   out
 }
 
-.extract_if_present <- function(x, y) {
-  x[intersect(y, names(x))]
-}
+# .extract_if_present <- function(x, y) {
+#   x[intersect(y, names(x))]
+# }
 
 # Pluck ####
 
