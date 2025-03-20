@@ -247,6 +247,10 @@ compare_missing <- function(datacube, dataset = "all", variable = "all") {
   out
 }
 
+.extract_if_present <- function(x, y) {
+  x[intersect(y, names(x))]
+}
+
 #' @import ggplot2
 #' @export
 plot.compare_missing <- function(x, ...) {

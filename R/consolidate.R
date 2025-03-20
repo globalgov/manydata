@@ -166,10 +166,6 @@ consolidate <- function(datacube,
   out
 }
 
-# .extract_if_present <- function(x, y) {
-#   x[intersect(y, names(x))]
-# }
-
 # Pluck ####
 
 #' Selects a single dataset from a datacube
