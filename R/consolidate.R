@@ -160,28 +160,30 @@ consolidate <- function(datacube,
   
   # Step 6: Resolve conflicts ####
   dupes <- grepl("\\.x|\\.y", names(out))
-  vars_to_resolve <- unique(gsub("\\.x|\\.y", "", names(out)[dupes]))
-  if(length(resolve)==1){
-    resolve <- data.frame(resolve, var = vars_to_resolve)
-  } else {
-    resolve <- dplyr::full_join(as_tibble(as.data.frame(resolve), 
-                                          rownames = "var"), 
-                                data.frame(var = vars_to_resolve), by = "var")
-    resolve$resolve[is.na(resolve$resolve)] <- "coalesce" # the default
+  if(any(dupes)){
+    vars_to_resolve <- unique(gsub("\\.x|\\.y", "", names(out)[dupes]))
+    if(length(resolve)==1){
+      resolve <- data.frame(resolve, var = vars_to_resolve)
+    } else {
+      resolve <- dplyr::full_join(as_tibble(as.data.frame(resolve), 
+                                            rownames = "var"), 
+                                  data.frame(var = vars_to_resolve), by = "var")
+      resolve$resolve[is.na(resolve$resolve)] <- "coalesce" # the default
+    }
+    cli::cli_progress_message("Found {sum(dupes)} conflicts to resolve by {.fn {unique(resolve$resolve)}}...")
+    # old_cols <- ncol(out)
+    other_variables <- unique(all_variables[!all_variables %in% key])
+    for(conf in 1:nrow(resolve)){
+      funny <- paste0("resolving_",resolve$resolve[conf])
+      vars <- grep(paste0("^", resolve$var[conf], "$|^", resolve$var[conf], "\\."),
+                   names(out), value = TRUE)
+      var <- resolve$var[conf]
+      out <- out %>% mutate("{var}" := get(funny)(out, all_of(vars)), .keep = "unused") %>% 
+        select(-all_of(setdiff(vars,var)))
+      cli::cli_alert_success("Resolved {length(vars)} related variables into {.var {var}}.")
+    }
+    out <- out[, all_variables[!duplicated(all_variables)]]
   }
-  cli::cli_progress_message("Found {sum(dupes)} conflicts to resolve by {.fn {unique(resolve$resolve)}}...")
-  # old_cols <- ncol(out)
-  other_variables <- unique(all_variables[!all_variables %in% key])
-  for(conf in 1:nrow(resolve)){
-    funny <- paste0("resolving_",resolve$resolve[conf])
-    vars <- grep(paste0("^", resolve$var[conf], "$|^", resolve$var[conf], "\\."),
-                 names(out), value = TRUE)
-    var <- resolve$var[conf]
-    out <- out %>% mutate("{var}" := get(funny)(out, all_of(vars)), .keep = "unused") %>% 
-      select(-all_of(setdiff(vars,var)))
-    cli::cli_alert_success("Resolved {length(vars)} related variables into {.var {var}}.")
-  }
-  out <- out[, all_variables[!duplicated(all_variables)]]
   # cli::cli_alert_success("Resolved {old_cols - ncol(out)} shared variables.")
   
   out
