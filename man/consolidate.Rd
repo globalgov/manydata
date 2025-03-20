@@ -22,18 +22,29 @@ on observations present in the first dataset
 and "inner" for a consolidated dataset that includes only observations
 that are present in all datasets.}
 
-\item{resolve}{How should conflicts between observations be resolved?
-By default "coalesce",
-but other options include: "min", "max", and "random".
-"coalesce" takes the first non-NA value.
-"max" takes the largest value.
-"min" takes the smallest value.
-"random" takes a random value.
-For different variables to be resolved differently,
-you can specify the variables' names alongside
-how each is to be resolved in a list
+\item{resolve}{Choice how (potentially conflicting) values from shared
+variables should be resolved. Options include:
+\itemize{
+\item "coalesce" (default): uses first non-NA value (if available) for
+each observation, essentially favouring the order the datasets are in
+in the datacube.
+\item "unite": combines the unique values for each observation across datasets
+as a set (separated by commas and surrounded by braces), which can be
+useful for retaining information.
+\item "random": selects values at random from among the observations from each
+dataset that observed that variable, of particular use for exploring the
+implications of dataset-related variation.
+\item "precise": selects the value that has the highest precision from among
+the observations from each dataset (see \code{resolving_precision()}),
+which favours more precise data.
+\item "min", "max": these options return the minimum or maximum values
+respectively, which can be useful for conservative temporal fixing.
+}
+
+To resolve variables by different functions,
+pass the argument a vector
 (e.g. \code{resolve = c(var1 = "min", var2 = "max")}).
-In this case, only the variables named will be resolved and returned.}
+Unnamed variables will be resolved according to the default ("coalesce").}
 
 \item{key}{An ID column to collapse by.
 By default "manyID".

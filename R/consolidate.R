@@ -25,18 +25,28 @@
 #'   (reorder the datasets to favour another dataset),
 #'   and "inner" for a consolidated dataset that includes only observations
 #'   that are present in all datasets.
-#' @param resolve How should conflicts between observations be resolved?
-#'   By default "coalesce",
-#'   but other options include: "min", "max", and "random".
-#'   "coalesce" takes the first non-NA value.
-#'   "max" takes the largest value.
-#'   "min" takes the smallest value.
-#'   "random" takes a random value.
-#'   For different variables to be resolved differently,
-#'   you can specify the variables' names alongside
-#'   how each is to be resolved in a list
+#' @param resolve Choice how (potentially conflicting) values from shared
+#'   variables should be resolved. Options include:
+#'   
+#'   - "coalesce" (default): uses first non-NA value (if available) for
+#'   each observation, essentially favouring the order the datasets are in
+#'   in the datacube.
+#'   - "unite": combines the unique values for each observation across datasets
+#'   as a set (separated by commas and surrounded by braces), which can be
+#'   useful for retaining information.
+#'   - "random": selects values at random from among the observations from each
+#'   dataset that observed that variable, of particular use for exploring the
+#'   implications of dataset-related variation.
+#'   - "precise": selects the value that has the highest precision from among 
+#'   the observations from each dataset (see `resolving_precision()`),
+#'   which favours more precise data.
+#'   - "min", "max": these options return the minimum or maximum values
+#'   respectively, which can be useful for conservative temporal fixing.
+#'   
+#'   To resolve variables by different functions, 
+#'   pass the argument a vector
 #'   (e.g. `resolve = c(var1 = "min", var2 = "max")`).
-#'   In this case, only the variables named will be resolved and returned.
+#'   Unnamed variables will be resolved according to the default ("coalesce").
 #' @param key An ID column to collapse by.
 #'   By default "manyID".
 #'   Users can also specify multiple key variables in a list.
@@ -62,8 +72,8 @@
 #' @export
 consolidate <- function(datacube, 
                         join = c("full", "inner", "left"),
-                        # cols = "any",
-                        resolve = "coalesce", key = NULL) {
+                        resolve = "coalesce", 
+                        key = NULL) {
   
   join <- match.arg(join)
   
