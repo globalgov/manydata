@@ -1,24 +1,64 @@
-# manydata 0.9.4
+# manydata 1.0.0
 
 ## Package
 
-* Updated GitHub checks and release actions
-* Fixes to URLs
-* Updated website
+- Updated GitHub checks and release actions
+- Fixes to URLs
+- Updated website
+- Improved ease of operation by making `{cli}`, `{dplyr}`, and `{messydates}` Depends
+- Dropped `{usethis}` Suggest
 
 ## Collection
-* Updated emperors dataset with zero-padded messydates
+
+- Updated `emperors` dataset
+  - Using zero-padded messydates
+  - Added citation prompts
+  - Datasets capitalised:
+    - `emperors$Wikipedia`
+    - `emperors$UNRV`
+    - `emperors$Britannica`
+  - Fixed non-unique IDs bugs
+  - Fixed inc
+
+## Calling
+
+- Added `call_citations()` to print citations added as hidden information
+- Fixed finicky `call_sources()` bug related to calling help files
+- Improved `call_sources()` and `call_citations()` to accept datacubes or datasets, as objects or characters 
+- Moved `mreport()` from messydates
+  - Added `mreport.list()` to make it easier to report on datacubes
+- Added `describe_data()` for describing key aspects of datasets in datacubes
+- Fixed `call_releases()` to use `messydates::vmin()`
 
 ## Connection
 
-* Improved `consolidate`
-  * Uses cli progress messages and success alerts to give user information
-  * More clarity about dropped text variables
-  * Runs faster now using collapse::join() in place of dplyr::full_join() or equivalent
-  * Takes 'join' argument which can be "full", "inner", or "left"
-  * Improved resolve functionsto expect pipeable ordering, use non-unique variable names, and recursive resolving
-* Updated tests for `consolidate` to use new 'join' argument
-* Moved `mreport` from messydates
+- Improved `pluck()`
+  - Function now wraps `dplyr::pluck()` but adds a citation prompt
+- Improved `consolidate()`
+  - Improved useability with `{cli}` progress messages and success alerts
+  - Improved speed using `{dtplyr}` in place of `dplyr::full_join()` (closes #288)
+    - `{duckplyr}` considered: faster, but couldn't handle `mdate` class
+    - `{collapse}` considered: even faster, but inconsistent output
+  - Improved compatibility by converting 'rows' argument to 'join' (breaking)
+    - "all" becomes "inner"
+    - "any" becomes "full"
+    - "favour" becomes "left"
+  - Fixed being passed a single dataset
+  - Prompts users to cite datasets (closes #280)
+  - Fixed bug in 'resolve' argument, named 'resolve' vector no longer has to be same length as variables
+  - Dropped 'cols' argument
+- Updated tests for `consolidate()` to use new 'join' argument
+  - testthat tests use `{cli}` on quiet mode
+- Added `resolving_coalesce()` for coalescing (taking first non-NA value)
+- Added `resolving_min()` and `resolving_max()` for returning min or max values
+- Added `resolving_precision()` for returning most precise values available (closes #265)
+  - Added `precision.numeric()` to return most significant figures
+  - Added `precision.character()` to return most characters
+- Added `resolving_unite()` for returning all possible values as a set
+- Added `resolving_random()` for returning random values sampling from those available
+- Dropped `coalesce_rows()` as no longer necessary
+- Dropped `resolve_median()` and `resolve_mean()` as uncommon choices
+- Dropped `resolve_multiple()` in favour of always using more flexible for loop
 
 # manydata 0.9.3
 
