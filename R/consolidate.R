@@ -154,7 +154,9 @@ consolidate <- function(datacube,
   if(length(resolve)==1){
     resolve <- data.frame(resolve, var = vars_to_resolve)
   } else {
-    resolve <- dplyr::full_join(resolve, data.frame(var = vars_to_resolve), by = "var")
+    resolve <- dplyr::full_join(as_tibble(as.data.frame(resolve), 
+                                          rownames = "var"), 
+                                data.frame(var = vars_to_resolve), by = "var")
     resolve$resolve[is.na(resolve$resolve)] <- "coalesce" # the default
   }
   cli::cli_progress_message("Found {sum(dupes)} conflicts to resolve by {.fn {unique(resolve$resolve)}}...")
