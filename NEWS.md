@@ -49,16 +49,17 @@
   - Dropped 'cols' argument
 - Updated tests for `consolidate()` to use new 'join' argument
   - testthat tests use `{cli}` on quiet mode
-- Added `resolving_coalesce()` for coalescing (taking first non-NA value)
-- Added `resolving_min()` and `resolving_max()` for returning min or max values
-- Added `resolving_precision()` for returning most precise values available (closes #265)
+- Updated `resolve_coalesce()` for coalescing (taking first non-NA value)
+- Updated `resolve_random()` for returning random values sampling from those available
+- Updated `resolve_min()` and `resolve_max()` for returning min or max values
+- Added `resolve_unite()` for returning all possible values as a set
+- Added `resolve_precision()` for returning most precise values available (closes #265)
   - Added `precision.numeric()` to return most significant figures
   - Added `precision.character()` to return most characters
-- Added `resolving_unite()` for returning all possible values as a set
-- Added `resolving_random()` for returning random values sampling from those available
-- Dropped `coalesce_rows()` as no longer necessary
 - Dropped `resolve_median()` and `resolve_mean()` as uncommon choices
 - Dropped `resolve_multiple()` in favour of always using more flexible for loop
+- Dropped `favour()` in favour of left joins and coalesces
+- Dropped `coalesce_rows()` as no longer necessary
 
 # manydata 0.9.3
 

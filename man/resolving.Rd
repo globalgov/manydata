@@ -2,25 +2,25 @@
 % Please edit documentation in R/resolve.R
 \name{resolving}
 \alias{resolving}
-\alias{resolving_coalesce}
-\alias{resolving_unite}
-\alias{resolving_min}
-\alias{resolving_max}
-\alias{resolving_random}
-\alias{resolving_precision}
+\alias{resolve_coalesce}
+\alias{resolve_unite}
+\alias{resolve_min}
+\alias{resolve_max}
+\alias{resolve_random}
+\alias{resolve_precision}
 \title{Resolving multiple observations of the same variable into one}
 \usage{
-resolving_coalesce(.data, vars)
+resolve_coalesce(.data, vars)
 
-resolving_unite(.data, vars)
+resolve_unite(.data, vars)
 
-resolving_min(.data, vars)
+resolve_min(.data, vars)
 
-resolving_max(.data, vars)
+resolve_max(.data, vars)
 
-resolving_random(.data, vars)
+resolve_random(.data, vars)
 
-resolving_precision(.data, vars)
+resolve_precision(.data, vars)
 }
 \arguments{
 \item{.data}{A data frame or tibble containing the variables.}
@@ -39,10 +39,10 @@ Values are separated by commas and a set is contained within braces.
 \examples{
 test <- data.frame(bloop.x = c(1,6,NA), 
                    bloop.y = c(2,NA,3), bloop = c(NA,3,4))
-resolving_coalesce(test)
-resolving_unite(test)
-resolving_min(test)
-resolving_max(test)
-resolving_random(test)
-resolving_precision(test)
+resolve_coalesce(test)
+resolve_unite(test)
+resolve_min(test)
+resolve_max(test)
+resolve_random(test)
+resolve_precision(test)
 }

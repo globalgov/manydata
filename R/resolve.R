@@ -8,9 +8,9 @@ NULL
 #' @examples
 #' test <- data.frame(bloop.x = c(1,6,NA), 
 #'                    bloop.y = c(2,NA,3), bloop = c(NA,3,4))
-#' resolving_coalesce(test)
+#' resolve_coalesce(test)
 #' @export
-resolving_coalesce <- function(.data, vars){
+resolve_coalesce <- function(.data, vars){
   if(missing(vars)) vars <- names(.data)
   .data <- as.data.frame(.data)
   toCoal <- dplyr::select(.data, dplyr::all_of(vars))
@@ -26,9 +26,9 @@ resolving_coalesce <- function(.data, vars){
 #'   Note that uniting always returns a character/string vector.
 #'   Values are separated by commas and a set is contained within braces.
 #' @examples
-#' resolving_unite(test)
+#' resolve_unite(test)
 #' @export
-resolving_unite <- function(.data, vars){
+resolve_unite <- function(.data, vars){
   if(missing(vars)) vars <- names(.data)
   toRes <- dplyr::select(.data, dplyr::all_of(vars))
   apply(toRes, 1, function(x) paste0("{", paste(unique(na.omit(x)), 
@@ -38,9 +38,9 @@ resolving_unite <- function(.data, vars){
 
 #' @rdname resolving
 #' @examples
-#' resolving_min(test)
+#' resolve_min(test)
 #' @export
-resolving_min <- function(.data, vars){
+resolve_min <- function(.data, vars){
   if(missing(vars)) vars <- names(.data)
   .data <- as.data.frame(.data)
   toRes <- dplyr::select(.data, dplyr::all_of(vars))
@@ -52,9 +52,9 @@ resolving_min <- function(.data, vars){
 
 #' @rdname resolving
 #' @examples
-#' resolving_max(test)
+#' resolve_max(test)
 #' @export
-resolving_max <- function(.data, vars){
+resolve_max <- function(.data, vars){
   if(missing(vars)) vars <- names(.data)
   .data <- as.data.frame(.data)
   toRes <- dplyr::select(.data, dplyr::all_of(vars))
@@ -66,9 +66,9 @@ resolving_max <- function(.data, vars){
 
 #' @rdname resolving
 #' @examples
-#' resolving_random(test)
+#' resolve_random(test)
 #' @export
-resolving_random <- function(.data, vars){
+resolve_random <- function(.data, vars){
   if(missing(vars)) vars <- names(.data)
   toRes <- dplyr::select(.data, dplyr::all_of(vars))
   data.frame(toRes)[matrix(c(seq.int(nrow(toRes)), 
@@ -79,9 +79,9 @@ resolving_random <- function(.data, vars){
 
 #' @rdname resolving
 #' @examples
-#' resolving_precision(test)
+#' resolve_precision(test)
 #' @export
-resolving_precision <- function(.data, vars){
+resolve_precision <- function(.data, vars){
   if(missing(vars)) vars <- names(.data)
   toRes <- dplyr::select(.data, dplyr::all_of(vars))
   apply(toRes, 1, function(x) x[which.max(precision(x))])

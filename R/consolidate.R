@@ -151,7 +151,7 @@ consolidate <- function(datacube,
     # old_cols <- ncol(out)
     other_variables <- unique(all_variables[!all_variables %in% key])
     for(conf in 1:nrow(resolve)){
-      funny <- paste0("resolving_",resolve$resolve[conf])
+      funny <- paste0("resolve_",resolve$resolve[conf])
       vars <- grep(paste0("^", resolve$var[conf], "$|^", resolve$var[conf], "\\."),
                    names(out), value = TRUE)
       var <- resolve$var[conf]
