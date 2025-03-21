@@ -227,12 +227,6 @@ Alternatively, users can "favour" a dataset in a datacube over others:
 consolidate(emperors[c("UNRV","Britannica","Wikipedia")], join = "left", resolve = "coalesce", key = "ID")
 ```
 
-## Cheatsheet
-
-Please see the cheat sheet below for a quick overview:
-
-<a href="https://github.com/globalgov/manydata/blob/develop/man/figures/cheatsheet.pdf"><img src="https://raw.githubusercontent.com/globalgov/manydata/develop/man/figures/cheatsheet.png" alt="manydata cheatsheet" width="525" height="378"/></a>
-
 ## Contributing to the many packages universe
 
 For more information for developers and data contributors to 'many packages', please see `{manypkgs}` [the website](https://globalgov.github.io/manypkgs/).
