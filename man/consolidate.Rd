@@ -6,40 +6,45 @@
 \usage{
 consolidate(
   datacube,
-  rows = "any",
-  cols = "any",
+  join = c("full", "inner", "left"),
   resolve = "coalesce",
-  key = "manyID"
+  key = NULL
 )
 }
 \arguments{
 \item{datacube}{A datacube from one of the many packages}
 
-\item{rows}{Which rows or units to retain.
-By default "any" (or all) units are retained,
-but another option is "every",
-which retains only those units that appear in all parent datasets.}
+\item{join}{Which join procedure to use.
+By default "full" so that all observations are retained,
+but other options include "left" for basing the consolidated dataset
+on observations present in the first dataset
+(reorder the datasets to favour another dataset),
+and "inner" for a consolidated dataset that includes only observations
+that are present in all datasets.}
 
-\item{cols}{Which columns or variables to retain.
-By default "any" (or all) variables are retained,
-but another option is "every",
-which retains only those variables that appear
-in all parent datasets.}
+\item{resolve}{Choice how (potentially conflicting) values from shared
+variables should be resolved. Options include:
+\itemize{
+\item "coalesce" (default): uses first non-NA value (if available) for
+each observation, essentially favouring the order the datasets are in
+in the datacube.
+\item "unite": combines the unique values for each observation across datasets
+as a set (separated by commas and surrounded by braces), which can be
+useful for retaining information.
+\item "random": selects values at random from among the observations from each
+dataset that observed that variable, of particular use for exploring the
+implications of dataset-related variation.
+\item "precise": selects the value that has the highest precision from among
+the observations from each dataset (see \code{resolving_precision()}),
+which favours more precise data.
+\item "min", "max": these options return the minimum or maximum values
+respectively, which can be useful for conservative temporal fixing.
+}
 
-\item{resolve}{How should conflicts between observations be resolved?
-By default "coalesce",
-but other options include: "min", "max", "mean", "median", and "random".
-"coalesce" takes the first non-NA value.
-"max" takes the largest value.
-"min" takes the smallest value.
-"mean" takes the average value.
-"median" takes the median value.
-"random" takes a random value.
-For different variables to be resolved differently,
-you can specify the variables' names alongside
-how each is to be resolved in a list
+To resolve variables by different functions,
+pass the argument a vector
 (e.g. \code{resolve = c(var1 = "min", var2 = "max")}).
-In this case, only the variables named will be resolved and returned.}
+Unnamed variables will be resolved according to the default ("coalesce").}
 
 \item{key}{An ID column to collapse by.
 By default "manyID".
@@ -54,9 +59,11 @@ Missing observations in the key variable are removed.}
 A single tibble/data frame.
 }
 \description{
-This function consolidates a set of datasets in a 'many* package' datacube
+This function consolidates a set of datasets in a 'many*' package datacube
 into a single dataset with some combination of the rows, columns,
 and observations of the datasets in the datacube.
+}
+\details{
 The function includes separate arguments for the rows and columns,
 as well as for how to resolve conflicts for observations across datasets.
 This provides users with considerable flexibility in how they combine data.
@@ -68,29 +75,13 @@ Even then there may be conflicts, as the actual unit-variable
 observations may differ from dataset to dataset.
 We offer a number of resolve methods that enable
 users to choose how conflicts between observations are resolved.
-}
-\details{
+
 Text variables are dropped for more efficient consolidation.
 }
 \examples{
 \donttest{
-consolidate(datacube = emperors, key = "ID")
-consolidate(datacube = favour(emperors, "UNRV"), rows = "every",
-cols = "every", resolve = "coalesce", key = "ID")
-consolidate(datacube = emperors, rows = "any", cols = "every",
-resolve = "min", key = "ID")
-consolidate(datacube = emperors, rows = "every", cols = "any",
-resolve = "max", key = "ID")
-consolidate(datacube = emperors, rows = "every", cols = "every",
-resolve = "median", key = "ID")
-consolidate(datacube = emperors, rows = "every", cols = "every",
-resolve = "mean", key = "ID")
-consolidate(datacube = emperors, rows = "every", cols = "every",
-resolve = "random", key = "ID")
-consolidate(datacube = emperors, rows = "every", cols = "every",
-resolve = c(Begin = "min", End = "max"), key = "ID")
-consolidate(datacube = emperors, rows = "any", cols = "any",
-resolve = c(Death = "max", Cause = "coalesce"),
-key = c("ID", "Begin"))
+consolidate(emperors, join = "full", resolve = "coalesce", key = "ID")
+consolidate(emperors, join = "inner", resolve = "min", key = "ID")
+consolidate(emperors, join = "left", resolve = "max", key = "ID")
 }
 }

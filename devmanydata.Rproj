@@ -1,4 +1,5 @@
 Version: 1.0
+ProjectId: b0503cd4-fb42-425f-b4f7-8ac9c645dde6
 
 RestoreWorkspace: Default
 SaveWorkspace: Default
@@ -15,4 +16,4 @@ LaTeX: XeLaTeX
 BuildType: Package
 PackageUseDevtools: Yes
 PackageInstallArgs: --no-multiarch --with-keep.source
-PackageRoxygenize: rd,collate,namespace
+PackageRoxygenize: rd,collate,namespace,vignette

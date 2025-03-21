@@ -38,7 +38,6 @@ plot(compare_overlap(emperors, key = "ID"))
 Other compare_: 
 \code{\link{compare_categories}()},
 \code{\link{compare_dimensions}()},
-\code{\link{compare_missing}()},
-\code{\link{compare_ranges}()}
+\code{\link{compare_missing}()}
 }
 \concept{compare_}

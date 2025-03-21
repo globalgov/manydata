@@ -7,7 +7,7 @@ knitr::opts_chunk$set(warning   = FALSE, message   = FALSE, out.width = "100%",
                       comment   = "#>", fig.path  = "man/figures/README-")
 ```
 
-# manydata <img src="man/figures/manydataLogo.png" align="right" width="220"/>
+# manydata <img src="man/figures/manydataLogo.png" alt="The manydata logo" align="right" width="220"/>
 
 <!-- badges: start -->
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
@@ -24,17 +24,12 @@ knitr::opts_chunk$set(warning   = FALSE, message   = FALSE, out.width = "100%",
 `{manydata}` is a portal to 'many' packages containing many datacubes,
 each containing many related datasets on many issue-domains,
 actors and institutions of global governance.
-These 'many' packages are:
-- `{manyenviron}`: contains data on international environmental agreements
-- `{manytrade}`: contains data on international trade agreements
-- `{manyhealth}`: contains data on international health agreements
-- `{manystates}`: contains data on states throughout history
+`{manytreaties}` contains data on international environmental, trade, and health agreements, and `{manystates}`: contains data on states throughout history.
 
 Datasets are related to one another within a datacube through a particular coding system which follows the same principles across the different packages.
 
-For instance, in the data packages on international agreements
-(including `{manyenviron}`, `{manytrade}`, and `{manyhealth}`),
-the `agreements` and `memberships` datacubes have standardised IDs (`manyID`),
+For instance, in `{manytreaties}`,
+the `agreements` and `parties` datacubes have standardised IDs (`manyID`),
 and date variables such as `Begin` and `End` that denote the beginning and end dates of treaties respectively.
 The beginning date is derived from the signature or entry into force date,
 whichever is the earliest available date for the treaty.
@@ -45,7 +40,7 @@ It enables users to point out the recurrence,
 difference or absence of observations between the datasets and
 extract more robust data when researching on a particular governance domain. 
 
-The memberships datacube contains additional date variables on each state member's ratification,
+The parties datacube contains additional date variables on each state member's ratification,
 signature, entry into force, and end dates for each treaty.
 Data in the memberships datacube is comparable across datasets through standardised state names and stateIDs,
 made possible with the `manypkgs::code_states()` function.
@@ -102,7 +97,7 @@ call_packages("manytrade") # downloads and installs this package
 The `call_sources()` function obtains information about the sources and original locations of the desired datasets.
 
 ```{r source}
-call_sources(package = "manydata", datacube = "emperors")
+call_sources("emperors")
 ```
 
 ## Comparing 'many' data
@@ -143,22 +138,22 @@ of each dataset within the specified datacube of a many package.
 compare_dimensions(emperors)
 ```
 
-The `compare_ranges()` function returns a tibble with the date range using the
-earliest and latest dates of each dataset within the specified datacube of a many package.
+<!-- The `compare_ranges()` function returns a tibble with the date range using the -->
+<!-- earliest and latest dates of each dataset within the specified datacube of a many package. -->
 
-```{r compare range}
-compare_ranges(emperors, variable = c("Begin", "End"))
-```
+<!-- ```{r compare range} -->
+<!-- compare_ranges(emperors, variable = c("Begin", "End")) -->
+<!-- ``` -->
 
 The `compare_overlap()` function returns a tibble with the number of overlapping observations for a specified variable (specify using the `key` argument) across datasets within the datacube.
 
-```{r overlap}
+```{r overlap, fig.alt="A Venn diagram of overlapping observations"}
 plot(compare_overlap(emperors, key = "ID"))
 ```
 
 The `compare_missing()` function returns a tibble with the number and percentage of missing observations in datasets within datacube.
 
-```{r missing}
+```{r missing, fig.alt="A heatmap of proportion missing observations"}
 plot(compare_missing(emperors))
 ```
 
@@ -171,7 +166,7 @@ and 'majority' if the non-NA values are the same across most datasets.
 'missing' observations indicate there are no non-NA values across all datasets for that variable.
 Observations are in 'conflict' if datasets have different non-NA values.
 
-```{r categories}
+```{r categories, fig.alt="Stack chart of observations that are missing, in conflict, etc"}
 plot(compare_categories(emperors, key = "ID"))
 ```
 
@@ -181,7 +176,7 @@ To retrieve an individual dataset from this datacube,
 we can use the `pluck()` function.
 
 ```{r pluck., eval=FALSE}
-pluck(emperors, "wikipedia")
+pluck(emperors, "Wikipedia")
 ```
 
 However, the real value of the various 'many packages' is that multiple datasets
@@ -205,9 +200,9 @@ datacube) or units and variables coded in "every" dataset (i.e. units or
 variables present in all of the datasets in the datacube).
 
 ```{r consolidate}
-consolidate(datacube = emperors, rows = "any", cols = "any",
+consolidate(datacube = emperors, join = "full",
             resolve = "coalesce", key = "ID")
-consolidate(datacube = emperors, rows = "every", cols = "every",
+consolidate(datacube = emperors, join = "inner",
             resolve = "coalesce", key = "ID")
 ```
 
@@ -222,37 +217,15 @@ Users can also choose how they want to resolve conflicts between observations in
 * random: a random value
 
 ```{r resolve}
-consolidate(datacube = emperors, rows = "any", cols = "every", resolve = "max", key = "ID")
-consolidate(datacube = emperors, rows = "every", cols = "any", resolve = "min", key = "ID")
-consolidate(datacube = emperors, rows = "every", cols = "every", resolve = "mean", key = "ID")
-consolidate(datacube = emperors, rows = "any", cols = "any", resolve = "median", key = "ID")
-consolidate(datacube = emperors, rows = "every", cols = "every", resolve = "random", key = "ID")
-```
-
-Users can even specify how conflicts for different variables should be 'resolved':
-
-```{r different}
-consolidate(datacube = emperors, rows = "any", cols = "every", resolve = c(Begin = "min", End = "max"), key = "ID")
+consolidate(datacube = emperors, join = "full", resolve = "max", key = "ID")
+consolidate(datacube = emperors, join = "inner", resolve = "min", key = "ID")
 ```
 
 Alternatively, users can "favour" a dataset in a datacube over others:
 
 ```{r favour}
-consolidate(datacube = favour(emperors, "UNRV"), rows = "every", cols = "any", resolve = "coalesce", key = "ID")
+consolidate(emperors[c("UNRV","Britannica","Wikipedia")], join = "left", resolve = "coalesce", key = "ID")
 ```
-
-Users can, even, declare multiple key ID columns to consolidate a datacube or multiple datasets:
-
-```{r multiple}
-consolidate(datacube = emperors, rows = "any", cols = "any", resolve = c(Death = "max", Cause = "coalesce"),
-            key = c("ID", "Begin"))
-```
-
-## Cheatsheet
-
-Please see the cheat sheet below for a quick overview:
-
-<a href="https://github.com/globalgov/manydata/blob/develop/man/figures/cheatsheet.pdf"><img src="https://raw.githubusercontent.com/globalgov/manydata/develop/man/figures/cheatsheet.png" width="525" height="378"/></a>
 
 ## Contributing to the many packages universe
 

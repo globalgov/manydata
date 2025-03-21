@@ -1,12 +1,9 @@
 #' Emperors datacube documentation
-#'
-#' @format The emperors datacube is a list that contains the
-#' following 3 datasets: wikipedia, UNRV, britannica.
-#' For more information and references to each of the datasets used,
-#' please use the `data_source()` and `data_contrast()`.
-#' functions.
+#' @description
+#'   `r describe_datacube(emperors)`
+#' @format 
 #' \describe{
-#' \item{wikipedia: }{A dataset with 68 observations and the
+#' \item{Wikipedia: }{A dataset with 68 observations and the
 #' following 15 variables:
 #' ID, Begin, End, FullName, Birth, Death,
 #' CityBirth, ProvinceBirth, Rise, Cause,
@@ -14,26 +11,15 @@
 #' \item{UNRV: }{A dataset with 99 observations and the
 #' following 7 variables: ID, Begin, End,
 #' Birth, Death, FullName, Dynasty.}
-#' \item{britannica: }{A dataset with 87 observations and the
+#' \item{Britannica: }{A dataset with 87 observations and the
 #' following 3 variables: ID, Begin, End.}
 #' }
 #' @source
-#' * wikipedia:
-#' Wikipedia, List_of_Roman_emperors,
-#' \url{https://en.wikipedia.org/wiki/List_of_Roman_emperors},
-#' Accessed on 2021-07-22
-#' * UNRV:
-#' UNRV, Roman Emperor list,
-#' \url{https://www.unrv.com/government/emperor.php},
-#' Accessed on 2021-07-22
-#' * britannica:
-#' Britannica, List of Roman emperors,
-#' \url{https://www.britannica.com/topic/list-of-Roman-emperors-2043294},
-#' Accessed on 2021-07-22
+#'   `r call_citations(emperors, output = "help")`
 #' @section URL:
-#' * wikipedia: \url{https://en.wikipedia.org/wiki/List_of_Roman_emperors}
+#' * Wikipedia: \url{https://en.wikipedia.org/wiki/List_of_Roman_emperors}
 #' * UNRV: \url{https://www.unrv.com/government/emperor.php}
-#' * britannica: \url{https://www.britannica.com/topic/list-of-Roman-emperors-2043294}
+#' * Britannica: \url{https://www.britannica.com/topic/list-of-Roman-emperors-2043294}
 #' @section Mapping:
 #' * wikipedia:
 #' Variable Mapping
@@ -78,6 +64,15 @@
 #' @md
 #' @details
 #' ``` {r, echo = FALSE, warning = FALSE}
-#' lapply(emperors, messydates::mreport)
+#' lapply(emperors, mreport)
 #' ```
 "emperors"
+
+info_emperors <- tibble::tibble(Dataset = c("Wikipedia","UNRV","Britannica"),
+                                Source = c("Wikipedia, 'List_of_Roman_emperors',  https://en.wikipedia.org/wiki/List_of_Roman_emperors, Accessed on 2021-07-22.",
+                                           "United Nations of Roma Victrix, 'Roman Emperor list', https://www.unrv.com/government/emperor.php, Accessed on 2021-07-22.",
+                                           "Britannica, 'List of Roman emperors', https://www.britannica.com/topic/list-of-Roman-emperors-2043294, Accessed on 2021-07-22."),
+                                URL = c("https://en.wikipedia.org/wiki/List_of_Roman_emperors",
+                                        "https://www.unrv.com/government/emperor.php",
+                                        "https://www.britannica.com/topic/list-of-Roman-emperors-2043294"))
+

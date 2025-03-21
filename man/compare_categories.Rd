@@ -59,7 +59,6 @@ key = "ID", variable = c("Beg", "End"), category = c("conflict", "unique")))
 Other compare_: 
 \code{\link{compare_dimensions}()},
 \code{\link{compare_missing}()},
-\code{\link{compare_overlap}()},
-\code{\link{compare_ranges}()}
+\code{\link{compare_overlap}()}
 }
 \concept{compare_}

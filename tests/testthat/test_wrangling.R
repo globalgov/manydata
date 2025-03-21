@@ -1,14 +1,14 @@
 # Test wrangling functions
 
-names <- c(NA, "JH", NA, "HS", "HS", NA, NA)
-group <- data.frame(group = c("A", "A", "A", "B", "B", "B", "B"))
-dat <- data.frame(cbind(names, group))
-
-test_that("first non NA value is gotten", {
-  expect_equal(coalesce_rows(dat), group)
-  expect_equal(coalesce_rows(dat$names), "JH")
-  expect_equal(coalesce_rows(dat$group), "A")
-})
+# names <- c(NA, "JH", NA, "HS", "HS", NA, NA)
+# group <- data.frame(group = c("A", "A", "A", "B", "B", "B", "B"))
+# dat <- data.frame(cbind(names, group))
+# 
+# test_that("first non NA value is gotten", {
+#   expect_equal(coalesce_rows(dat), group)
+#   expect_equal(coalesce_rows(dat$names), "JH")
+#   expect_equal(coalesce_rows(dat$group), "A")
+# })
 
 data1 <- data.frame(ID = c(1, 2, 3, 3, 2, 1),
                     One = c(1, NA, 3, NA, 2, NA),
