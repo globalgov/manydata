@@ -119,8 +119,9 @@ consolidate <- function(datacube,
   all_variables <- unname(unlist(purrr::map(datacube, names)))
   vars_subset <- c(unique(all_variables), key)
   out <- datacube
+  if(length(key)>1) cli::cli_alert_info("Note that this might be slow...")
   out <- suppressWarnings(switch(join,
-                full = purrr::reduce(ifelse(length(key)>1, 
+                full = purrr::reduce(`if`(length(key)==1, 
                                             purrr::map(out, dtplyr::lazy_dt, key_by = key),
                                             out),
                                      dplyr::full_join, by = key) %>% as_tibble(),

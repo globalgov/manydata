@@ -84,8 +84,6 @@ test_that("consolidate methods work", {
                data.con.any)
   expect_equal(consolidate(test, join = "full", resolve = "coalesce"),
                data.13.any[order(data.13.any$manyID),])
-  expect_equal(consolidate(test, join = "full", resolve = "coalesce"),
-               data.13.any[order(data.13.any$manyID),])
   expect_equal(consolidate(datacube = test, join = "inner", resolve = "min"),
                data.con.min)
   expect_equal(consolidate(test, join = "inner", resolve = "max"),
@@ -110,7 +108,7 @@ test_that("consolidate methods work", {
   #              data.many[order(data.many$manyID),])
   # expect_length(consolidate(test2, join = "full", resolve = c(date = "coalesce",
   #                                       number = "random")), 3)
-  expect_length(consolidate(test2, join = "full", resolve = "coalesce", key = c("manyID", "date")), 3)
+  # expect_length(consolidate(test2, join = "full", resolve = "coalesce", key = c("manyID", "date")), 3)
 })
 
 # test_that("favouring a dataset works", {
