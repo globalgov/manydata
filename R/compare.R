@@ -127,7 +127,6 @@ find_date <- function(x, type) {
 #' @param dataset A dataset in a datacube from one of the many packages.
 #' By default "all".
 #' That is, all datasets in the datacube are used.
-#' To select two or more datasets, please declare them as a vector.
 #' @param key A variable key to join datasets.
 #' 'manyID' by default.
 #' @importFrom dplyr select rename_with as_tibble
