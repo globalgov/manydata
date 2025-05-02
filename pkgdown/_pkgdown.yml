@@ -70,7 +70,6 @@ reference:
       - consolidate
       - resolving
       - pluck
-      - favour
   - title: "Data wrangling with manydata"
     desc: "Ensembled data adds special challenges to data wrangling. These functions assist analysts with wrangling such data"
     contents:
