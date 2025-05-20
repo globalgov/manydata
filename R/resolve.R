@@ -91,7 +91,35 @@ resolve_precision <- function(.data, vars){
 #' @examples
 #' resolve_mean(test)
 #' @export
-resolve_mean <- function(.data, vars, na = FALSE) {
+resolve_mean <- function(.data, vars, na.rm = FALSE) {
+  if (missing(vars)) vars <- names(.data)
+  toRes <- dplyr::select(.data, dplyr::all_of(vars))
+  
+  mat <- as.matrix(toRes)
+  rowMeans(mat, na.rm = na.rm)
+}
+
+#' @rdname resolving
+#' @examples
+#' test2 <- cbind(test, bloopy = c(2,NA,3))
+#' resolve_mode(test2)
+#' @export
+resolve_mode <- function(.data, vars, na.rm = FALSE) {
+  if (missing(vars)) vars <- names(.data)
+  toRes <- dplyr::select(.data, dplyr::all_of(vars))
+  
+  toRes %>%
+    mutate(.row = row_number()) %>%
+    pivot_longer(-.row) %>%
+    { if (na.rm) filter(., !is.na(value)) else . } %>%
+    group_by(.row, value) %>%
+    summarise(n = n(), .groups = "drop_last") %>%
+    filter(n == max(n, na.rm = TRUE)) %>%
+    slice(1) %>%  # break ties arbitrarily (first mode)
+    ungroup() %>%
+    arrange(.row) %>%
+    pull(value)
+}
 
 #' @rdname resolving
 #' @examples

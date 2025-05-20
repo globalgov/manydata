@@ -9,6 +9,7 @@
 \alias{resolve_random}
 \alias{resolve_precision}
 \alias{resolve_mean}
+\alias{resolve_mode}
 \alias{resolve_median}
 \title{Resolving multiple observations of the same variable into one}
 \usage{
@@ -26,6 +27,7 @@ resolve_precision(.data, vars)
 
 resolve_mean(.data, vars, na.rm = FALSE)
 
+resolve_mode(.data, vars, na.rm = FALSE)
 
 resolve_median(.data, vars, na.rm = FALSE)
 }
@@ -52,4 +54,8 @@ resolve_min(test)
 resolve_max(test)
 resolve_random(test)
 resolve_precision(test)
+resolve_mean(test)
+test2 <- cbind(test, bloopy = c(2,NA,3))
+resolve_mode(test2)
+resolve_median(test2)
 }
