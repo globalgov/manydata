@@ -45,17 +45,28 @@ Note that unlike how the \code{na.rm} argument operates in functions in
 base R, e.g. \code{max()}, here the default is TRUE.}
 }
 \description{
-Resolving multiple observations of the same variable into one
+This family of functions provides row-wise summarization for
+data frames or tibbles,
+returning a single value per row based on specified columns.
+They are useful for tasks like extracting typical or summary values from
+multiple variables, simplifying wide data structures,
+and imputing representative values.
 }
 \section{Unite}{
 
-Note that uniting always returns a character/string vector.
-Values are separated by commas and a set is contained within braces.
+Uniting returns all the unique values as a set,
+separated by commas and contained within braces.
+Note that uniting always returns a character/string vector,
+which enables it to accommodate different classes of variables.
+The order of the values reflects their first appearance;
+that is, they are not ordered by increasing value.
 }
 
 \examples{
 test <- data.frame(bloop.x = c(1,6,NA), 
-                   bloop.y = c(2,NA,3), bloop = c(NA,3,4))
+                   bloop.y = c(2,NA,3), 
+                   bloop = c(NA,3.1,4.1))
+test
 resolve_coalesce(test)
 resolve_unite(test)
 resolve_min(test)

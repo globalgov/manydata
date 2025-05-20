@@ -1,4 +1,11 @@
 #' Resolving multiple observations of the same variable into one
+#' @description
+#'   This family of functions provides row-wise summarization for 
+#'   data frames or tibbles, 
+#'   returning a single value per row based on specified columns.
+#'   They are useful for tasks like extracting typical or summary values from
+#'   multiple variables, simplifying wide data structures,
+#'   and imputing representative values.
 #' @param .data A data frame or tibble containing the variables.
 #' @param vars A vector of variables from `.data` to be resolved or converged.
 #' @param na.rm Logical whether missing values (NAs) should be removed
@@ -6,12 +13,15 @@
 #'   Note that unlike how the `na.rm` argument operates in functions in
 #'   base R, e.g. `max()`, here the default is TRUE.
 #' @name resolving
+#' @examples
+#' test <- data.frame(bloop.x = c(1,6,NA), 
+#'                    bloop.y = c(2,NA,3), 
+#'                    bloop = c(NA,3.1,4.1))
+#' test
 NULL
 
 #' @rdname resolving
 #' @examples
-#' test <- data.frame(bloop.x = c(1,6,NA), 
-#'                    bloop.y = c(2,NA,3), bloop = c(NA,3,4))
 #' resolve_coalesce(test)
 #' @export
 resolve_coalesce <- function(.data, vars){
@@ -27,8 +37,12 @@ resolve_coalesce <- function(.data, vars){
 
 #' @rdname resolving
 #' @section Unite: 
-#'   Note that uniting always returns a character/string vector.
-#'   Values are separated by commas and a set is contained within braces.
+#'   Uniting returns all the unique values as a set, 
+#'   separated by commas and contained within braces.
+#'   Note that uniting always returns a character/string vector,
+#'   which enables it to accommodate different classes of variables.
+#'   The order of the values reflects their first appearance;
+#'   that is, they are not ordered by increasing value.
 #' @examples
 #' resolve_unite(test)
 #' @export
