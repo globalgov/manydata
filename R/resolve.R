@@ -92,11 +92,17 @@ resolve_precision <- function(.data, vars){
 #' resolve_mean(test)
 #' @export
 resolve_mean <- function(.data, vars, na = FALSE) {
+
+#' @rdname resolving
+#' @examples
+#' resolve_median(test2)
+#' @export
+resolve_median <- function(.data, vars, na.rm = FALSE) {
   if (missing(vars)) vars <- names(.data)
   toRes <- dplyr::select(.data, dplyr::all_of(vars))
   
   mat <- as.matrix(toRes)
-  rowMeans(mat, na.rm = !na)
+  apply(mat, 1, median, na.rm = na.rm)
 }
 
 #' @export

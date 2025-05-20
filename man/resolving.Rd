@@ -8,6 +8,8 @@
 \alias{resolve_max}
 \alias{resolve_random}
 \alias{resolve_precision}
+\alias{resolve_mean}
+\alias{resolve_median}
 \title{Resolving multiple observations of the same variable into one}
 \usage{
 resolve_coalesce(.data, vars)
@@ -21,6 +23,11 @@ resolve_max(.data, vars)
 resolve_random(.data, vars)
 
 resolve_precision(.data, vars)
+
+resolve_mean(.data, vars, na.rm = FALSE)
+
+
+resolve_median(.data, vars, na.rm = FALSE)
 }
 \arguments{
 \item{.data}{A data frame or tibble containing the variables.}
