@@ -16,21 +16,21 @@
 \usage{
 resolve_coalesce(.data, vars)
 
-resolve_unite(.data, vars)
+resolve_unite(.data, vars, na.rm = TRUE)
 
-resolve_min(.data, vars)
+resolve_min(.data, vars, na.rm = TRUE)
 
-resolve_max(.data, vars)
+resolve_max(.data, vars, na.rm = TRUE)
 
-resolve_random(.data, vars)
+resolve_random(.data, vars, na.rm = TRUE)
 
 resolve_precision(.data, vars)
 
-resolve_mean(.data, vars, na.rm = FALSE)
+resolve_mean(.data, vars, na.rm = TRUE)
 
-resolve_mode(.data, vars, na.rm = FALSE)
+resolve_mode(.data, vars, na.rm = TRUE)
 
-resolve_median(.data, vars, na.rm = FALSE)
+resolve_median(.data, vars, na.rm = TRUE)
 
 resolve_consensus(.data, vars, na.rm = TRUE)
 }
@@ -38,6 +38,11 @@ resolve_consensus(.data, vars, na.rm = TRUE)
 \item{.data}{A data frame or tibble containing the variables.}
 
 \item{vars}{A vector of variables from \code{.data} to be resolved or converged.}
+
+\item{na.rm}{Logical whether missing values (NAs) should be removed
+before operation of the function.
+Note that unlike how the \code{na.rm} argument operates in functions in
+base R, e.g. \code{max()}, here the default is TRUE.}
 }
 \description{
 Resolving multiple observations of the same variable into one

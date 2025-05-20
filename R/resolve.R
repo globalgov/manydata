@@ -1,6 +1,10 @@
 #' Resolving multiple observations of the same variable into one
 #' @param .data A data frame or tibble containing the variables.
 #' @param vars A vector of variables from `.data` to be resolved or converged.
+#' @param na.rm Logical whether missing values (NAs) should be removed
+#'   before operation of the function.
+#'   Note that unlike how the `na.rm` argument operates in functions in
+#'   base R, e.g. `max()`, here the default is TRUE.
 #' @name resolving
 NULL
 
@@ -28,11 +32,11 @@ resolve_coalesce <- function(.data, vars){
 #' @examples
 #' resolve_unite(test)
 #' @export
-resolve_unite <- function(.data, vars){
+resolve_unite <- function(.data, vars, na.rm = TRUE){
   if(missing(vars)) vars <- names(.data)
   toRes <- dplyr::select(.data, dplyr::all_of(vars))
-  apply(toRes, 1, function(x) paste0("{", paste(unique(na.omit(x)), 
-                                                  collapse = ","),
+  apply(toRes, 1, function(x) paste0("{", paste(unique(
+    `if`(na.rm, na.omit(x), x)), collapse = ","),
                                        "}"))
 }
 
@@ -40,11 +44,11 @@ resolve_unite <- function(.data, vars){
 #' @examples
 #' resolve_min(test)
 #' @export
-resolve_min <- function(.data, vars){
+resolve_min <- function(.data, vars, na.rm = TRUE){
   if(missing(vars)) vars <- names(.data)
   .data <- as.data.frame(.data)
   toRes <- dplyr::select(.data, dplyr::all_of(vars))
-  out <- apply(toRes, 1, function(x) min(x, na.rm = TRUE))
+  out <- apply(toRes, 1, function(x) min(x, na.rm = na.rm))
   if(class(out) != class(.data[,vars[1]]))
     class(out) <- class(.data[,vars[1]])
   out
@@ -54,11 +58,11 @@ resolve_min <- function(.data, vars){
 #' @examples
 #' resolve_max(test)
 #' @export
-resolve_max <- function(.data, vars){
+resolve_max <- function(.data, vars, na.rm = TRUE){
   if(missing(vars)) vars <- names(.data)
   .data <- as.data.frame(.data)
   toRes <- dplyr::select(.data, dplyr::all_of(vars))
-  out <- apply(toRes, 1, function(x) max(x, na.rm = TRUE))
+  out <- apply(toRes, 1, function(x) max(x, na.rm = na.rm))
   if(class(out) != class(.data[,vars[1]]))
     class(out) <- class(.data[,vars[1]])
   out
@@ -68,13 +72,29 @@ resolve_max <- function(.data, vars){
 #' @examples
 #' resolve_random(test)
 #' @export
-resolve_random <- function(.data, vars){
-  if(missing(vars)) vars <- names(.data)
+resolve_random <- function(.data, vars, na.rm = TRUE) {
+  if (missing(vars)) vars <- names(.data)
   toRes <- dplyr::select(.data, dplyr::all_of(vars))
-  data.frame(toRes)[matrix(c(seq.int(nrow(toRes)), 
-                             sample.int(ncol(toRes), nrow(toRes), 
-                                        replace = TRUE)),
-                           nrow = nrow(toRes))]
+  
+  if (!na.rm) {
+    # Sample columns per row (including NAs)
+    mat <- as.matrix(toRes)
+    n <- nrow(mat)
+    m <- ncol(mat)
+    col_idx <- sample.int(m, n, replace = TRUE)
+    row_idx <- seq_len(n)
+    return(mat[cbind(row_idx, col_idx)])
+  } else {
+    # Long format: filter NAs, sample one value per row
+    toRes %>%
+      mutate(.row = row_number()) %>%
+      pivot_longer(-.row) %>%
+      filter(!is.na(value)) %>%
+      group_by(.row) %>%
+      slice_sample(n = 1) %>%
+      arrange(.row) %>%
+      pull(value)
+  }
 }
 
 #' @rdname resolving
@@ -91,7 +111,7 @@ resolve_precision <- function(.data, vars){
 #' @examples
 #' resolve_mean(test)
 #' @export
-resolve_mean <- function(.data, vars, na.rm = FALSE) {
+resolve_mean <- function(.data, vars, na.rm = TRUE) {
   if (missing(vars)) vars <- names(.data)
   toRes <- dplyr::select(.data, dplyr::all_of(vars))
   
@@ -104,7 +124,7 @@ resolve_mean <- function(.data, vars, na.rm = FALSE) {
 #' test2 <- cbind(test, bloopy = c(2,NA,3))
 #' resolve_mode(test2)
 #' @export
-resolve_mode <- function(.data, vars, na.rm = FALSE) {
+resolve_mode <- function(.data, vars, na.rm = TRUE) {
   if (missing(vars)) vars <- names(.data)
   toRes <- dplyr::select(.data, dplyr::all_of(vars))
   
@@ -125,7 +145,7 @@ resolve_mode <- function(.data, vars, na.rm = FALSE) {
 #' @examples
 #' resolve_median(test2)
 #' @export
-resolve_median <- function(.data, vars, na.rm = FALSE) {
+resolve_median <- function(.data, vars, na.rm = TRUE) {
   if (missing(vars)) vars <- names(.data)
   toRes <- dplyr::select(.data, dplyr::all_of(vars))
   
