@@ -11,6 +11,7 @@
 \alias{resolve_mean}
 \alias{resolve_mode}
 \alias{resolve_median}
+\alias{resolve_consensus}
 \title{Resolving multiple observations of the same variable into one}
 \usage{
 resolve_coalesce(.data, vars)
@@ -30,6 +31,8 @@ resolve_mean(.data, vars, na.rm = FALSE)
 resolve_mode(.data, vars, na.rm = FALSE)
 
 resolve_median(.data, vars, na.rm = FALSE)
+
+resolve_consensus(.data, vars, na.rm = TRUE)
 }
 \arguments{
 \item{.data}{A data frame or tibble containing the variables.}
@@ -58,4 +61,5 @@ resolve_mean(test)
 test2 <- cbind(test, bloopy = c(2,NA,3))
 resolve_mode(test2)
 resolve_median(test2)
+resolve_consensus(test[,1:2])
 }

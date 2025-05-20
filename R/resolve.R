@@ -133,6 +133,23 @@ resolve_median <- function(.data, vars, na.rm = FALSE) {
   apply(mat, 1, median, na.rm = na.rm)
 }
 
+#' @rdname resolving
+#' @examples
+#' resolve_consensus(test[,1:2])
+#' @export
+resolve_consensus <- function(.data, vars, na.rm = TRUE) {
+  if (missing(vars)) vars <- names(.data)
+  toRes <- dplyr::select(.data, dplyr::all_of(vars))
+  mat <- as.matrix(toRes)
+  
+  apply(mat, 1, function(row) {
+    values <- if (!na.rm) row else row[!is.na(row)]
+    if (length(values) == 0) return(NA)
+    if (length(unique(values)) == 1) return(values[1])
+    return(NA)
+  })
+}
+
 #' @export
 precision.numeric <- function(x){
 
