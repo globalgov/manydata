@@ -19,7 +19,7 @@
 #' @section URL:
 #' * Wikipedia: \url{https://en.wikipedia.org/wiki/List_of_Roman_emperors}
 #' * UNRV: \url{https://www.unrv.com/government/emperor.php}
-#' * Britannica: \url{https://www.britannica.com/topic/list-of-Roman-emperors-2043294}
+#' * Britannica: \url{https://www.britannica.com/place/list-of-Roman-emperors-2043294}
 #' @section Mapping:
 #' * wikipedia:
 #' Variable Mapping

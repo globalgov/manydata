@@ -11,8 +11,7 @@ compare_overlap(datacube, dataset = "all", key = "manyID")
 
 \item{dataset}{A dataset in a datacube from one of the many packages.
 By default "all".
-That is, all datasets in the datacube are used.
-To select two or more datasets, please declare them as a vector.}
+That is, all datasets in the datacube are used.}
 
 \item{key}{A variable key to join datasets.
 'manyID' by default.}
