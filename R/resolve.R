@@ -87,6 +87,18 @@ resolve_precision <- function(.data, vars){
   apply(toRes, 1, function(x) x[which.max(precision(x))])
 }
 
+#' @rdname resolving
+#' @examples
+#' resolve_mean(test)
+#' @export
+resolve_mean <- function(.data, vars, na = FALSE) {
+  if (missing(vars)) vars <- names(.data)
+  toRes <- dplyr::select(.data, dplyr::all_of(vars))
+  
+  mat <- as.matrix(toRes)
+  rowMeans(mat, na.rm = !na)
+}
+
 #' @export
 precision.numeric <- function(x){
 
