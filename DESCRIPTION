@@ -1,7 +1,7 @@
 Package: manydata
 Title: A Portal for Global Governance Data
 Version: 1.0.0
-Date: 2025-03-20
+Date: 2025-05-30
 Authors@R:
     c(person(given = "James",
              family = "Hollway",
@@ -28,7 +28,7 @@ Description: This is the core package for the many packages universe.
     It includes functions to help researchers work with and contribute to 
     event datasets on global governance.
 License: CC BY 4.0
-URL: https://globalgov.github.io/manydata, https://manydata.ch/
+URL: https://manydata.ch/
 BugReports: https://github.com/globalgov/manydata/issues
 Depends:
     R (>= 3.5.0),
