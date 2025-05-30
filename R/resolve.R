@@ -121,7 +121,7 @@ resolve_random <- function(.data, vars, na.rm = TRUE) {
     m <- ncol(mat)
     col_idx <- sample.int(m, n, replace = TRUE)
     row_idx <- seq_len(n)
-    return(mat[cbind(row_idx, col_idx)])
+    mat[cbind(row_idx, col_idx)]
   } else {
     # Long format: filter NAs, sample one value per row
     toRes %>%
@@ -220,9 +220,8 @@ resolve_consensus <- function(.data, vars, na.rm = TRUE) {
   
   apply(mat, 1, function(row) {
     values <- if (!na.rm) row else row[!is.na(row)]
-    if (length(values) == 0) return(NA)
-    if (length(unique(values)) == 1) return(values[1])
-    return(NA)
+    if (length(values) == 0) NA else if (length(unique(values)) == 1) 
+      values[1] else NA
   })
 }
 
