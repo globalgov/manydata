@@ -8,32 +8,19 @@
 #'   and imputing representative values.
 #' @param .data A data frame or tibble containing the variables.
 #' @param vars A vector of variables from `.data` to be resolved or converged.
+#'   If this argument is left unspecified, 
+#'   then all variables will be merged together.
 #' @param na.rm Logical whether missing values (NAs) should be removed
 #'   before operation of the function.
 #'   Note that unlike how the `na.rm` argument operates in functions in
 #'   base R, e.g. `max()`, here the default is TRUE.
 #' @name resolving
 #' @examples
-#' test <- data.frame(bloop.x = c(1,6,NA), 
-#'                    bloop.y = c(2,NA,3), 
-#'                    bloop = c(NA,3.1,4.1))
+#' test <- data.frame(preferred_dataset = c(1,6,NA), 
+#'                    more_comprehensive = c(1,3,3), 
+#'                    precise_where_available = c(NA,3.3,4.1))
 #' test
 NULL
-
-#' @rdname resolving
-#' @examples
-#' resolve_coalesce(test)
-#' @export
-resolve_coalesce <- function(.data, vars){
-  if(missing(vars)) vars <- names(.data)
-  .data <- as.data.frame(.data)
-  toCoal <- dplyr::select(.data, dplyr::all_of(vars))
-  out <- .data %>% dplyr::mutate(dplyr::coalesce(!!!as.data.frame(toCoal))) %>% 
-    dplyr::pull(var = -1)
-  if(class(out) != class(.data[,vars[1]]))
-    class(out) <- class(.data[,vars[1]])
-  out
-}
 
 #' @rdname resolving
 #' @section Unite: 
@@ -51,10 +38,39 @@ resolve_unite <- function(.data, vars, na.rm = TRUE){
   toRes <- dplyr::select(.data, dplyr::all_of(vars))
   apply(toRes, 1, function(x) paste0("{", paste(unique(
     `if`(na.rm, na.omit(x), x)), collapse = ","),
-                                       "}"))
+    "}"))
 }
 
 #' @rdname resolving
+#' @section Coalesce: 
+#'   Coalescing returns a vector of the first non-missing values
+#'   found when reading the variables from left to right.
+#'   That is, missing values in the first vector may be filled by
+#'   observations in the second vector, or later vectors if the second
+#'   vector also misses an observation for that cell.
+#'   Variables can be reordered manually.
+#' @examples
+#' resolve_coalesce(test)
+#' @export
+resolve_coalesce <- function(.data, vars){
+  if(missing(vars)) vars <- names(.data)
+  .data <- as.data.frame(.data)
+  toCoal <- dplyr::select(.data, dplyr::all_of(vars))
+  out <- .data %>% dplyr::mutate(dplyr::coalesce(!!!as.data.frame(toCoal))) %>% 
+    dplyr::pull(var = -1)
+  if(class(out) != class(.data[,vars[1]]))
+    class(out) <- class(.data[,vars[1]])
+  out
+}
+
+#' @rdname resolving
+#' @section Min and Max: 
+#'   These functions return a vector containing 
+#'   each row's minimum or maximum value.
+#'   Note that these functions work not only on numeric and date vectors,
+#'   but also on character string vectors.
+#'   For character data, these functions will return the shortest
+#'   or longest strings, respectively, in each row.
 #' @examples
 #' resolve_min(test)
 #' @export
@@ -83,6 +99,14 @@ resolve_max <- function(.data, vars, na.rm = TRUE){
 }
 
 #' @rdname resolving
+#' @section Random: 
+#'   This function returns a vector of values selected randomly
+#'   from among the values contained in each row.
+#'   Note that by default `na.rm = TRUE`, which means that missing data
+#'   will not be selected at random by default, 
+#'   which can also change the probability distribution by each row.
+#'   Where `na.rm = FALSE`, the probability of each value being selected 
+#'   is uniform.
 #' @examples
 #' resolve_random(test)
 #' @export
@@ -112,6 +136,17 @@ resolve_random <- function(.data, vars, na.rm = TRUE) {
 }
 
 #' @rdname resolving
+#' @section Precision: 
+#'   This function returns a vector that maximises the precision of the values
+#'   in each row. 
+#'   For numeric vectors, precision is expressed in significant digits,
+#'   such that 1.01 would be more precise than 1.
+#'   For character vectors, precision is expressed in terms of the 
+#'   character length proportional to the max character length in the row.
+#'   This applies also to messydates, meaning
+#'   precision is expressed in the lowest level date component specified,
+#'   such that 2008-10 would be more precise than 2008,
+#'   and 2008-10-10 would be more precise still.
 #' @examples
 #' resolve_precision(test)
 #' @export
@@ -122,6 +157,9 @@ resolve_precision <- function(.data, vars){
 }
 
 #' @rdname resolving
+#' @section Mean and median: 
+#'   These functions return a vector of the means or medians, respectively, 
+#'   of the values in each row.
 #' @examples
 #' resolve_mean(test)
 #' @export
@@ -135,8 +173,7 @@ resolve_mean <- function(.data, vars, na.rm = TRUE) {
 
 #' @rdname resolving
 #' @examples
-#' test2 <- cbind(test, bloopy = c(2,NA,3))
-#' resolve_mode(test2)
+#' resolve_mode(test)
 #' @export
 resolve_mode <- function(.data, vars, na.rm = TRUE) {
   if (missing(vars)) vars <- names(.data)
@@ -157,7 +194,7 @@ resolve_mode <- function(.data, vars, na.rm = TRUE) {
 
 #' @rdname resolving
 #' @examples
-#' resolve_median(test2)
+#' resolve_median(test)
 #' @export
 resolve_median <- function(.data, vars, na.rm = TRUE) {
   if (missing(vars)) vars <- names(.data)
@@ -168,8 +205,13 @@ resolve_median <- function(.data, vars, na.rm = TRUE) {
 }
 
 #' @rdname resolving
+#' @section Consensus: 
+#'   This function returns a vector of consensus values,
+#'   i.e. where there is no variation in values by each row.
+#'   If the values (excluding missing values by default) are not equivalent,
+#'   then an NA is returned for that row.
 #' @examples
-#' resolve_consensus(test[,1:2])
+#' resolve_consensus(test)
 #' @export
 resolve_consensus <- function(.data, vars, na.rm = TRUE) {
   if (missing(vars)) vars <- names(.data)

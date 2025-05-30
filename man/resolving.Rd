@@ -2,8 +2,8 @@
 % Please edit documentation in R/resolve.R
 \name{resolving}
 \alias{resolving}
-\alias{resolve_coalesce}
 \alias{resolve_unite}
+\alias{resolve_coalesce}
 \alias{resolve_min}
 \alias{resolve_max}
 \alias{resolve_random}
@@ -14,9 +14,9 @@
 \alias{resolve_consensus}
 \title{Resolving multiple observations of the same variable into one}
 \usage{
-resolve_coalesce(.data, vars)
-
 resolve_unite(.data, vars, na.rm = TRUE)
+
+resolve_coalesce(.data, vars)
 
 resolve_min(.data, vars, na.rm = TRUE)
 
@@ -37,7 +37,9 @@ resolve_consensus(.data, vars, na.rm = TRUE)
 \arguments{
 \item{.data}{A data frame or tibble containing the variables.}
 
-\item{vars}{A vector of variables from \code{.data} to be resolved or converged.}
+\item{vars}{A vector of variables from \code{.data} to be resolved or converged.
+If this argument is left unspecified,
+then all variables will be merged together.}
 
 \item{na.rm}{Logical whether missing values (NAs) should be removed
 before operation of the function.
@@ -62,20 +64,78 @@ The order of the values reflects their first appearance;
 that is, they are not ordered by increasing value.
 }
 
+\section{Coalesce}{
+
+Coalescing returns a vector of the first non-missing values
+found when reading the variables from left to right.
+That is, missing values in the first vector may be filled by
+observations in the second vector, or later vectors if the second
+vector also misses an observation for that cell.
+Variables can be reordered manually.
+}
+
+\section{Min and Max}{
+
+These functions return a vector containing
+each row's minimum or maximum value.
+Note that these functions work not only on numeric and date vectors,
+but also on character string vectors.
+For character data, these functions will return the shortest
+or longest strings, respectively, in each row.
+}
+
+\section{Random}{
+
+This function returns a vector of values selected randomly
+from among the values contained in each row.
+Note that by default \code{na.rm = TRUE}, which means that missing data
+will not be selected at random by default,
+which can also change the probability distribution by each row.
+Where \code{na.rm = FALSE}, the probability of each value being selected
+is uniform.
+}
+
+\section{Precision}{
+
+This function returns a vector that maximises the precision of the values
+in each row.
+For numeric vectors, precision is expressed in significant digits,
+such that 1.01 would be more precise than 1.
+For character vectors, precision is expressed in terms of the
+character length proportional to the max character length in the row.
+This applies also to messydates, meaning
+precision is expressed in the lowest level date component specified,
+such that 2008-10 would be more precise than 2008,
+and 2008-10-10 would be more precise still.
+}
+
+\section{Mean and median}{
+
+These functions return a vector of the means or medians, respectively,
+of the values in each row.
+}
+
+\section{Consensus}{
+
+This function returns a vector of consensus values,
+i.e. where there is no variation in values by each row.
+If the values (excluding missing values by default) are not equivalent,
+then an NA is returned for that row.
+}
+
 \examples{
-test <- data.frame(bloop.x = c(1,6,NA), 
-                   bloop.y = c(2,NA,3), 
-                   bloop = c(NA,3.1,4.1))
+test <- data.frame(preferred_dataset = c(1,6,NA), 
+                   more_comprehensive = c(1,3,3), 
+                   precise_where_available = c(NA,3.3,4.1))
 test
-resolve_coalesce(test)
 resolve_unite(test)
+resolve_coalesce(test)
 resolve_min(test)
 resolve_max(test)
 resolve_random(test)
 resolve_precision(test)
 resolve_mean(test)
-test2 <- cbind(test, bloopy = c(2,NA,3))
-resolve_mode(test2)
-resolve_median(test2)
-resolve_consensus(test[,1:2])
+resolve_mode(test)
+resolve_median(test)
+resolve_consensus(test)
 }
