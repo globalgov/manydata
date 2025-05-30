@@ -1,3 +1,18 @@
+# manydata 1.0.1
+
+## Package
+
+- Updated website
+
+## Connection
+
+- `resolve_*()` functions now have a parameter indicating whether missing values
+should be included; unlike base R, by default missing values are excluded
+- Restored `resolve_mean()` 
+- Restored `resolve_median()` 
+- Added `resolve_mode()` for retaining the most common values
+- Added `resolve_consensus()` for retaining only values where there are no conflicts
+
 # manydata 1.0.0
 
 ## Package
