@@ -1,84 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://globalgov.github.io/manydata/404.html</loc>
-  </url>
-  <url>
-    <loc>https://globalgov.github.io/manydata/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://globalgov.github.io/manydata/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>https://globalgov.github.io/manydata/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://globalgov.github.io/manydata/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://globalgov.github.io/manydata/index.html</loc>
-  </url>
-  <url>
-    <loc>https://globalgov.github.io/manydata/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://globalgov.github.io/manydata/reference/call_packages.html</loc>
-  </url>
-  <url>
-    <loc>https://globalgov.github.io/manydata/reference/call_releases.html</loc>
-  </url>
-  <url>
-    <loc>https://globalgov.github.io/manydata/reference/call_sources.html</loc>
-  </url>
-  <url>
-    <loc>https://globalgov.github.io/manydata/reference/call_treaties.html</loc>
-  </url>
-  <url>
-    <loc>https://globalgov.github.io/manydata/reference/coalesce_rows.html</loc>
-  </url>
-  <url>
-    <loc>https://globalgov.github.io/manydata/reference/compare_categories.html</loc>
-  </url>
-  <url>
-    <loc>https://globalgov.github.io/manydata/reference/compare_dimensions.html</loc>
-  </url>
-  <url>
-    <loc>https://globalgov.github.io/manydata/reference/compare_missing.html</loc>
-  </url>
-  <url>
-    <loc>https://globalgov.github.io/manydata/reference/compare_overlap.html</loc>
-  </url>
-  <url>
-    <loc>https://globalgov.github.io/manydata/reference/compare_ranges.html</loc>
-  </url>
-  <url>
-    <loc>https://globalgov.github.io/manydata/reference/consolidate.html</loc>
-  </url>
-  <url>
-    <loc>https://globalgov.github.io/manydata/reference/defunct.html</loc>
-  </url>
-  <url>
-    <loc>https://globalgov.github.io/manydata/reference/emperors.html</loc>
-  </url>
-  <url>
-    <loc>https://globalgov.github.io/manydata/reference/favour.html</loc>
-  </url>
-  <url>
-    <loc>https://globalgov.github.io/manydata/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://globalgov.github.io/manydata/reference/recollect.html</loc>
-  </url>
-  <url>
-    <loc>https://globalgov.github.io/manydata/reference/reexports.html</loc>
-  </url>
-  <url>
-    <loc>https://globalgov.github.io/manydata/reference/repaint.html</loc>
-  </url>
-  <url>
-    <loc>https://globalgov.github.io/manydata/reference/reunite.html</loc>
-  </url>
-  <url>
-    <loc>https://globalgov.github.io/manydata/reference/transmutate.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://globalgov.github.io/manydata/404.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/CONTRIBUTING.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/LICENSE.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/authors.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/index.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/news/index.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/reference/call_packages.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/reference/call_releases.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/reference/call_sources.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/reference/call_treaties.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/reference/compare_categories.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/reference/compare_dimensions.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/reference/compare_missing.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/reference/compare_overlap.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/reference/consolidate.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/reference/defunct.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/reference/describe.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/reference/emperors.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/reference/index.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/reference/pluck.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/reference/recollect.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/reference/reexports.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/reference/repaint.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/reference/resolving.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/reference/reunite.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/reference/transmutate.html</loc></url>
 </urlset>
+

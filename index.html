@@ -5,88 +5,66 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="This is the core package for the many packages universe. It includes functions to help researchers work with and contribute to event datasets on global governance.">
 <title>A Portal for Global Governance Data • manydata</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
 <meta property="og:title" content="A Portal for Global Governance Data">
+<meta name="description" content="This is the core package for the many packages universe. It includes functions to help researchers work with and contribute to event datasets on global governance.">
 <meta property="og:description" content="This is the core package for the many packages universe. It includes functions to help researchers work with and contribute to event datasets on global governance.">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
-    
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light" data-bs-theme="light"><div class="container">
-    
+
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="index.html">manydata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.9.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.1</small>
 
-    
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="active nav-item">
-  <a class="nav-link" href="index.html">
-    <span class="fa fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li class="nav-item">
-  <a class="nav-link" href="reference/index.html">Reference</a>
-</li>
-<li class="nav-item">
-  <a class="nav-link" href="news/index.html">News</a>
-</li>
+<li class="active nav-item"><a class="nav-link" href="index.html" aria-label="Go to home"><span class="fa fa-home fa-lg"></span></a></li>
+<li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="news/index.html">News</a></li>
       </ul>
-<form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
-</form>
-
-      <ul class="navbar-nav">
+<ul class="navbar-nav">
 <li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-other-packages">Other packages</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-other-packages">
-    <a class="external-link dropdown-item" href="https://globalgov.github.io/manypkgs/">manypkgs</a>
-    <a class="external-link dropdown-item" href="https://globalgov.github.io/manystates/">manystates</a>
-    <a class="external-link dropdown-item" href="https://globalgov.github.io/manyenviron/">manyenviron</a>
-    <a class="external-link dropdown-item" href="https://globalgov.github.io/manytrade/">manytrade</a>
-    <a class="external-link dropdown-item" href="https://globalgov.github.io/manyhealth/">manyhealth</a>
-  </div>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-other-packages" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Other packages</button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-other-packages">
+<li><a class="external-link dropdown-item" href="https://globalgov.github.io/manypkgs/">manypkgs</a></li>
+    <li><a class="external-link dropdown-item" href="https://globalgov.github.io/manystates/">manystates</a></li>
+  </ul>
 </li>
-<li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/globalgov/manydata">
-    <span class="fab fa fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
+</form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/globalgov/manydata" aria-label="View on Github"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
-    
+
   </div>
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="manydata-">manydata <img src="reference/figures/manydataLogo.png" align="right" width="220"><a class="anchor" aria-label="anchor" href="#manydata-"></a>
+<div class="page-header"><h1 id="manydata-">manydata <img src="reference/figures/manydataLogo.png" alt="The manydata logo" align="right" width="220"><a class="anchor" aria-label="anchor" href="#manydata-"></a>
 </h1></div>
 <!-- badges: start -->
 
-<p><a href="https://github.com/globalgov/manydata" class="external-link">manydata</a> is a portal to ‘many’ packages containing many datacubes, each containing many related datasets on many issue-domains, actors and institutions of global governance. These ‘many’ packages are: - <code>{manyenviron}</code>: contains data on international environmental agreements - <code>{manytrade}</code>: contains data on international trade agreements - <code>{manyhealth}</code>: contains data on international health agreements - <code>{manystates}</code>: contains data on states throughout history</p>
+<p><a href="https://manydata.ch/" class="external-link">manydata</a> is a portal to ‘many’ packages containing many datacubes, each containing many related datasets on many issue-domains, actors and institutions of global governance. <code>{manytreaties}</code> contains data on international environmental, trade, and health agreements, and <code>{manystates}</code>: contains data on states throughout history.</p>
 <p>Datasets are related to one another within a datacube through a particular coding system which follows the same principles across the different packages.</p>
-<p>For instance, in the data packages on international agreements (including <code>{manyenviron}</code>, <code>{manytrade}</code>, and <code>{manyhealth}</code>), the <code>agreements</code> and <code>memberships</code> datacubes have standardised IDs (<code>manyID</code>), and date variables such as <code>Begin</code> and <code>End</code> that denote the beginning and end dates of treaties respectively. The beginning date is derived from the signature or entry into force date, whichever is the earliest available date for the treaty. Standardised IDs across datasets allow the same observations to be matched across datasets so that the values can be compared or expanded where relevant. These specific variable names allows the comparison of information across datasets that have different sources. It enables users to point out the recurrence, difference or absence of observations between the datasets and extract more robust data when researching on a particular governance domain.</p>
-<p>The memberships datacube contains additional date variables on each state member’s ratification, signature, entry into force, and end dates for each treaty. Data in the memberships datacube is comparable across datasets through standardised state names and stateIDs, made possible with the <code>manypkgs::code_states()</code> function. More information on each state, including its <code>Begin</code> and <code>End</code> date, can be found in the <code>{manystates}</code> package.</p>
-<p>To enable users to work with the data in these packages, <a href="https://github.com/globalgov/manydata" class="external-link">manydata</a> contains tools for:</p>
+<p>For instance, in <code>{manytreaties}</code>, the <code>agreements</code> and <code>parties</code> datacubes have standardised IDs (<code>manyID</code>), and date variables such as <code>Begin</code> and <code>End</code> that denote the beginning and end dates of treaties respectively. The beginning date is derived from the signature or entry into force date, whichever is the earliest available date for the treaty. Standardised IDs across datasets allow the same observations to be matched across datasets so that the values can be compared or expanded where relevant. These specific variable names allows the comparison of information across datasets that have different sources. It enables users to point out the recurrence, difference or absence of observations between the datasets and extract more robust data when researching on a particular governance domain.</p>
+<p>The parties datacube contains additional date variables on each state member’s ratification, signature, entry into force, and end dates for each treaty. Data in the memberships datacube is comparable across datasets through standardised state names and stateIDs, made possible with the <code>manypkgs::code_states()</code> function. More information on each state, including its <code>Begin</code> and <code>End</code> date, can be found in the <code>{manystates}</code> package.</p>
+<p>To enable users to work with the data in these packages, <a href="https://manydata.ch/" class="external-link">manydata</a> contains tools for:</p>
 <ul>
 <li>
 <em>calling</em> data packages,</li>
@@ -95,7 +73,7 @@
 <li>
 <em>consolidating</em> datacubes in different ways.</li>
 </ul>
-<p>We intend for <a href="https://github.com/globalgov/manydata" class="external-link">manydata</a> to be useful:</p>
+<p>We intend for <a href="https://manydata.ch/" class="external-link">manydata</a> to be useful:</p>
 <ul>
 <li>at the <strong>start</strong> of a research project, to access and gather recent versions of well-regarded datasets, see what is available, describe, and explore the data,</li>
 <li>in the <strong>middle</strong> of a project, to facilitate analysis, comparison and modelling, and</li>
@@ -104,32 +82,32 @@
 <div class="section level2">
 <h2 id="call-many-packages">Call ‘many’ packages<a class="anchor" aria-label="anchor" href="#call-many-packages"></a>
 </h2>
-<p>The easiest way to install <a href="https://github.com/globalgov/manydata" class="external-link">manydata</a> is directly from CRAN.</p>
+<p>The easiest way to install <a href="https://manydata.ch/" class="external-link">manydata</a> is directly from CRAN.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"manydata"</span><span class="op">)</span></span></code></pre></div>
-<p>The development version of the package <a href="https://github.com/globalgov/manydata" class="external-link">manydata</a> can also be downloaded from GitHub.</p>
+<p>The development version of the package <a href="https://manydata.ch/" class="external-link">manydata</a> can also be downloaded from GitHub.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"globalgov/manydata"</span><span class="op">)</span></span></code></pre></div>
-<p>Once <a href="https://github.com/globalgov/manydata" class="external-link">manydata</a> is installed, the <code>call_</code> functions can be used to discover the ‘many packages’ currently available and/or download or update these packages when needed. For this, the <code><a href="reference/call_packages.html">call_packages()</a></code> can be used.</p>
+<p>Once <a href="https://manydata.ch/" class="external-link">manydata</a> is installed, the <code>call_</code> functions can be used to discover the ‘many packages’ currently available and/or download or update these packages when needed. For this, the <code><a href="reference/call_packages.html">call_packages()</a></code> can be used.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/globalgov/manydata" class="external-link">manydata</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://manydata.ch/" class="external-link">manydata</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/call_packages.html">call_packages</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># lists all packages currently available</span></span>
 <span><span class="fu"><a href="reference/call_packages.html">call_packages</a></span><span class="op">(</span><span class="st">"manytrade"</span><span class="op">)</span> <span class="co"># downloads and installs this package</span></span></code></pre></div>
 <p>The <code><a href="reference/call_sources.html">call_sources()</a></code> function obtains information about the sources and original locations of the desired datasets.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/call_sources.html">call_sources</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"manydata"</span>, datacube <span class="op">=</span> <span class="st">"emperors"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 4</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt;   Dataset    Source                                                URL   Mapping</span></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;                                                 &lt;chr&gt; &lt;chr&gt;  </span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; 1 wikipedia  Wikipedia, List_of_Roman_emperors, https://en.wikipe… http… from -…</span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; 2 UNRV       UNRV, Roman Emperor list, https://www.unrv.com/gover… http… from -…</span></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; 3 britannica Britannica, List of Roman emperors, https://www.brit… http… from -…</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/call_sources.html">call_sources</a></span><span class="op">(</span><span class="st">"emperors"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 3</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt;   Dataset    Source                                                        URL  </span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;                                                         &lt;chr&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; 1 Wikipedia  Wikipedia, 'List_of_Roman_emperors',  https://en.wikipedia.o… http…</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; 2 UNRV       United Nations of Roma Victrix, 'Roman Emperor list', https:… http…</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; 3 Britannica Britannica, 'List of Roman emperors', https://www.britannica… http…</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="comparing-many-data">Comparing ‘many’ data<a class="anchor" aria-label="anchor" href="#comparing-many-data"></a>
 </h2>
-<p>The first thing users of the data packages may want to do is to identify datasets that might contribute to their research goals. One major advantage of storing datasets in datacubes is that it facilitates the comparison and analysis of multiple datasets in a specific domain of global governance. To aid in the selection of datasets and the use of data within datacubes, the <code>compare_</code> functions in <a href="https://github.com/globalgov/manydata" class="external-link">manydata</a> allows users to quickly compare different information on datacubes and/or datasets across ‘many packages’. These include comparison for data observations, variables, and ranges, overlap among observations, missing observations, and conflicts among observations.</p>
+<p>The first thing users of the data packages may want to do is to identify datasets that might contribute to their research goals. One major advantage of storing datasets in datacubes is that it facilitates the comparison and analysis of multiple datasets in a specific domain of global governance. To aid in the selection of datasets and the use of data within datacubes, the <code>compare_</code> functions in <a href="https://manydata.ch/" class="external-link">manydata</a> allows users to quickly compare different information on datacubes and/or datasets across ‘many packages’. These include comparison for data observations, variables, and ranges, overlap among observations, missing observations, and conflicts among observations.</p>
 <p>For now, let’s work with the Roman Emperors datacube included in manydata. We can get a quick summary of the datasets included in this package with the following command:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"manydata"</span><span class="op">)</span></span>
@@ -141,85 +119,73 @@
 <code class="sourceCode R"><span><span class="fu"><a href="reference/compare_dimensions.html">compare_dimensions</a></span><span class="op">(</span><span class="va">emperors</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 5</span></span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">#&gt;   Dataset    Observations Variables                    Earliest_Date Latest_Date</span></span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;        &lt;chr&gt;                        &lt;mdate&gt;       &lt;mdate&gt;    </span></span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">#&gt; 1 wikipedia  68           ID, Begin, End, FullName, B… -0026-01-16   0014-08-19 </span></span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt; 2 UNRV       99           ID, Begin, End, Birth, Deat… -0014-01-01   -0027-12-31</span></span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#&gt; 3 britannica 87           ID, Begin, End               -0031-01-01   0014-12-31</span></span></code></pre></div>
-<p>The <code><a href="reference/compare_ranges.html">compare_ranges()</a></code> function returns a tibble with the date range using the earliest and latest dates of each dataset within the specified datacube of a many package.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/compare_ranges.html">compare_ranges</a></span><span class="op">(</span><span class="va">emperors</span>, variable <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Begin"</span>, <span class="st">"End"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 6</span></span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co">#&gt;   Dataset    Variable Min        Max        Mean       Median    </span></span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     </span></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co">#&gt; 1 wikipedia  Begin    -026-01-16 -026-01-16 -026-01-16 -026-01-16</span></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co">#&gt; 2 wikipedia  End      0014-08-19 0014-08-19 0014-08-19 0014-08-19</span></span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#&gt; 3 UNRV       Begin    -027-01-01 -027-12-31 -027-07-02 -027-07-02</span></span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt; 4 UNRV       End      -014-01-01 -014-12-31 -014-07-02 -014-07-02</span></span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#&gt; 5 britannica Begin    -031-01-01 -031-12-31 -031-07-02 -031-07-02</span></span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#&gt; 6 britannica End      0014-01-01 0014-12-31 0014-07-02 0014-07-02</span></span></code></pre></div>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;        &lt;chr&gt;                        &lt;chr&gt;         &lt;chr&gt;      </span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">#&gt; 1 Wikipedia  69           ID, Begin, End, FullName, B… -0062-09-23   0421-09-02 </span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt; 2 UNRV       98           ID, Begin, End, Birth, Deat… -0063-01-01   0518-12-31 </span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#&gt; 3 Britannica 87           ID, Begin, End               -0031-01-01   0491-12-31</span></span></code></pre></div>
+<!-- The `compare_ranges()` function returns a tibble with the date range using the -->
+<!-- earliest and latest dates of each dataset within the specified datacube of a many package. -->
+<!-- ```{r compare range} -->
+<!-- compare_ranges(emperors, variable = c("Begin", "End")) -->
+<!-- ``` -->
 <p>The <code><a href="reference/compare_overlap.html">compare_overlap()</a></code> function returns a tibble with the number of overlapping observations for a specified variable (specify using the <code>key</code> argument) across datasets within the datacube.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="reference/compare_overlap.html">compare_overlap</a></span><span class="op">(</span><span class="va">emperors</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-overlap-1.png" width="100%"></p>
+<p><img src="reference/figures/README-overlap-1.png" alt="A Venn diagram of overlapping observations" width="100%"></p>
 <p>The <code><a href="reference/compare_missing.html">compare_missing()</a></code> function returns a tibble with the number and percentage of missing observations in datasets within datacube.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="reference/compare_missing.html">compare_missing</a></span><span class="op">(</span><span class="va">emperors</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-missing-1.png" width="100%"></p>
+<p><img src="reference/figures/README-missing-1.png" alt="A heatmap of proportion missing observations" width="100%"></p>
 <p>Finally, the <code><a href="reference/compare_categories.html">compare_categories()</a></code> function help researchers identify how variables across datasets within a datacube relate to one another in five categories. Observations are matched by an “ID” variable to facilitate comparison. The categories here include ‘confirmed’, ‘majority’, ‘unique’, ‘missing’, and ‘conflict’. Observations are ‘confirmed’ if all non-NA values are the same across all datasets, and ‘majority’ if the non-NA values are the same across most datasets. ‘Unique’ observations are present in only one dataset and ‘missing’ observations indicate there are no non-NA values across all datasets for that variable. Observations are in ‘conflict’ if datasets have different non-NA values.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="reference/compare_categories.html">compare_categories</a></span><span class="op">(</span><span class="va">emperors</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="co">#&gt; There were 116 matched observations by ID variable across datasets in datacube.</span></span></code></pre></div>
-<p><img src="reference/figures/README-categories-1.png" width="100%"></p>
+<p><img src="reference/figures/README-categories-1.png" alt="Stack chart of observations that are missing, in conflict, etc" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="consolidating-many-data">Consolidating ‘many’ data<a class="anchor" aria-label="anchor" href="#consolidating-many-data"></a>
 </h2>
-<p>To retrieve an individual dataset from this datacube, we can use the <code><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck()</a></code> function.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="va">emperors</span>, <span class="st">"wikipedia"</span><span class="op">)</span></span></code></pre></div>
-<p>However, the real value of the various ‘many packages’ is that multiple datasets relating to the same phenomenon are presented together. <a href="https://github.com/globalgov/manydata" class="external-link">manydata</a> contains flexible methods for consolidating the different datasets in a datacube into a single dataset. For example, you could have the rows (observations) from one dataset, but add on some columns (variables) from another dataset. Where there are conflicts in the values across the different datasets, there are several ways that these may be resolved.</p>
+<p>To retrieve an individual dataset from this datacube, we can use the <code><a href="reference/pluck.html">pluck()</a></code> function.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/pluck.html">pluck</a></span><span class="op">(</span><span class="va">emperors</span>, <span class="st">"Wikipedia"</span><span class="op">)</span></span></code></pre></div>
+<p>However, the real value of the various ‘many packages’ is that multiple datasets relating to the same phenomenon are presented together. <a href="https://manydata.ch/" class="external-link">manydata</a> contains flexible methods for consolidating the different datasets in a datacube into a single dataset. For example, you could have the rows (observations) from one dataset, but add on some columns (variables) from another dataset. Where there are conflicts in the values across the different datasets, there are several ways that these may be resolved.</p>
 <p>The <code><a href="reference/consolidate.html">consolidate()</a></code> function facilitates consolidating a set of datasets, or a datacube, from a ‘many’ package into a single dataset with some combination of the rows and columns. The function includes separate arguments for rows and columns, as well as for how to resolve conflicts in observations across datasets. The key argument indicates the column to collapse datasets by. This provides users with considerable flexibility in how they combine data.</p>
 <p>For example, users may wish to see units and variables coded in “any” dataset (i.e. units or variables present in at least one of the datasets in the datacube) or units and variables coded in “every” dataset (i.e. units or variables present in all of the datasets in the datacube).</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/consolidate.html">consolidate</a></span><span class="op">(</span>datacube <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"any"</span>, cols <span class="op">=</span> <span class="st">"any"</span>,</span>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/consolidate.html">consolidate</a></span><span class="op">(</span>datacube <span class="op">=</span> <span class="va">emperors</span>, join <span class="op">=</span> <span class="st">"full"</span>,</span>
 <span>            resolve <span class="op">=</span> <span class="st">"coalesce"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb17"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="co">#&gt; There were 116 matched observations by ID variable across datasets in datacube.</span></span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 138 × 15</span></span>
-<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a><span class="co">#&gt;    ID         CityBirth ProvinceBirth Rise  Cause Killer Era   Notes Verif Birth</span></span>
-<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span></span>
-<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a><span class="co">#&gt;  1 Aemilian   &lt;NA&gt;      Africa        Appo… Assa… Other… Prin… birt… &lt;NA&gt;  0207…</span></span>
-<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a><span class="co">#&gt;  2 Allectus   &lt;NA&gt;      &lt;NA&gt;          &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  ?    </span></span>
-<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a><span class="co">#&gt;  3 Anastasius &lt;NA&gt;      &lt;NA&gt;          &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  430  </span></span>
-<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a><span class="co">#&gt;  4 Anthemius  &lt;NA&gt;      &lt;NA&gt;          &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  420  </span></span>
-<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a><span class="co">#&gt;  5 Antoninus… &lt;NA&gt;      &lt;NA&gt;          &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  86   </span></span>
-<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a><span class="co">#&gt;  6 Antonius … Lanuvium  Italia        Birt… Natu… Disea… Prin… &lt;NA&gt;  &lt;NA&gt;  0086…</span></span>
-<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a><span class="co">#&gt;  7 Arcadius   &lt;NA&gt;      &lt;NA&gt;          &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  377  </span></span>
-<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a><span class="co">#&gt;  8 Augustus   Rome      Italia        Birt… Assa… Wife   Prin… birt… Redd… 0062…</span></span>
-<span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a><span class="co">#&gt;  9 Aulus Vit… &lt;NA&gt;      &lt;NA&gt;          &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; </span></span>
-<span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a><span class="co">#&gt; 10 Aurelian   Sirmium   Pannonia      Appo… Assa… Praet… Prin… &lt;NA&gt;  &lt;NA&gt;  0214…</span></span>
-<span id="cb17-16"><a href="#cb17-16" tabindex="-1"></a><span class="co">#&gt; # ℹ 128 more rows</span></span>
-<span id="cb17-17"><a href="#cb17-17" tabindex="-1"></a><span class="co">#&gt; # ℹ 5 more variables: Death &lt;chr&gt;, FullName &lt;chr&gt;, Dynasty &lt;chr&gt;,</span></span>
-<span id="cb17-18"><a href="#cb17-18" tabindex="-1"></a><span class="co">#&gt; #   Begin &lt;mdate&gt;, End &lt;mdate&gt;</span></span></code></pre></div>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/consolidate.html">consolidate</a></span><span class="op">(</span>datacube <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"every"</span>, cols <span class="op">=</span> <span class="st">"every"</span>,</span>
+<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 69 × 14</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="co">#&gt;    ID       Begin End   FullName Birth Death CityBirth ProvinceBirth Rise  Cause</span></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;    &lt;mda&gt; &lt;mda&gt; &lt;chr&gt;    &lt;mda&gt; &lt;mda&gt; &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt;</span></span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="co">#&gt;  1 Augustus -002… 0014… Imperat… -006… 0014… Rome      Italia        Birt… Assa…</span></span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="co">#&gt;  2 Tiberius 0014… 0037… Tiberiv… -004… 0037… Rome      Italia        Birt… Assa…</span></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="co">#&gt;  3 Caligula 0037… 0041… Gaivs I… 0012… 0041… Antitum   Italia        Birt… Assa…</span></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="co">#&gt;  4 Claudius 0041… 0054… Tiberiv… -000… 0054… Lugdunum  Gallia Lugdu… Birt… Assa…</span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="co">#&gt;  5 Nero     0054… 0068… Nero Cl… 0037… 0068… Antitum   Italia        Birt… Suic…</span></span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a><span class="co">#&gt;  6 Galba    0068… 0069… Servivs… -000… 0069… Terracina Italia        Seiz… Assa…</span></span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a><span class="co">#&gt;  7 Otho     0069… 0069… Marcvs … 0032… 0069… Terentin… Italia        Appo… Suic…</span></span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a><span class="co">#&gt;  8 Vitelli… 0069… 0069… Avlvs V… 0015… 0069… Rome      Italia        Seiz… Assa…</span></span>
+<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a><span class="co">#&gt;  9 Vespasi… 0069… 0079… Titvs F… 0009… 0079… Falacrine Italia        Seiz… Natu…</span></span>
+<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a><span class="co">#&gt; 10 Titus    0079… 0081… Titvs F… 0039… 0081… Rome      Italia        Birt… Natu…</span></span>
+<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a><span class="co">#&gt; # ℹ 59 more rows</span></span>
+<span id="cb14-15"><a href="#cb14-15" tabindex="-1"></a><span class="co">#&gt; # ℹ 4 more variables: Killer &lt;chr&gt;, Dynasty &lt;chr&gt;, Era &lt;chr&gt;, Notes &lt;chr&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/consolidate.html">consolidate</a></span><span class="op">(</span>datacube <span class="op">=</span> <span class="va">emperors</span>, join <span class="op">=</span> <span class="st">"inner"</span>,</span>
 <span>            resolve <span class="op">=</span> <span class="st">"coalesce"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb19"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="co">#&gt; There were 116 matched observations by ID variable across datasets in datacube.</span></span>
-<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 41 × 3</span></span>
-<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a><span class="co">#&gt;    ID             Begin       End        </span></span>
-<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;          &lt;mdate&gt;     &lt;mdate&gt;    </span></span>
-<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a><span class="co">#&gt;  1 Aemilian       0253-08-15~ 0253-10-15~</span></span>
-<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a><span class="co">#&gt;  2 Augustus       -0026-01-16 0014-08-19 </span></span>
-<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a><span class="co">#&gt;  3 Aurelian       0270-09-15  0275-09-15 </span></span>
-<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a><span class="co">#&gt;  4 Balbinus       0238-04-22  0238-07-29 </span></span>
-<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a><span class="co">#&gt;  5 Caracalla      0198        0217-04-08 </span></span>
-<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a><span class="co">#&gt;  6 Carinus        0283-08-01~ 0285-08-01~</span></span>
-<span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a><span class="co">#&gt;  7 Carus          0282-10-01~ 0283-08-01~</span></span>
-<span id="cb19-13"><a href="#cb19-13" tabindex="-1"></a><span class="co">#&gt;  8 Claudius       0041-01-25  0054-10-13 </span></span>
-<span id="cb19-14"><a href="#cb19-14" tabindex="-1"></a><span class="co">#&gt;  9 Commodus       0177        0192-12-31 </span></span>
-<span id="cb19-15"><a href="#cb19-15" tabindex="-1"></a><span class="co">#&gt; 10 Constantine II 0337-05-22  0340-01-01 </span></span>
-<span id="cb19-16"><a href="#cb19-16" tabindex="-1"></a><span class="co">#&gt; # ℹ 31 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 65 × 14</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="co">#&gt;    ID       Begin End   FullName Birth Death CityBirth ProvinceBirth Rise  Cause</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;    &lt;mda&gt; &lt;mda&gt; &lt;chr&gt;    &lt;mda&gt; &lt;mda&gt; &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt;</span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="co">#&gt;  1 Augustus -002… 0014… Imperat… -006… 0014… Rome      Italia        Birt… Assa…</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="co">#&gt;  2 Tiberius 0014… 0037… Tiberiv… -004… 0037… Rome      Italia        Birt… Assa…</span></span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a><span class="co">#&gt;  3 Caligula 0037… 0041… Gaivs I… 0012… 0041… Antitum   Italia        Birt… Assa…</span></span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a><span class="co">#&gt;  4 Claudius 0041… 0054… Tiberiv… -000… 0054… Lugdunum  Gallia Lugdu… Birt… Assa…</span></span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a><span class="co">#&gt;  5 Nero     0054… 0068… Nero Cl… 0037… 0068… Antitum   Italia        Birt… Suic…</span></span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a><span class="co">#&gt;  6 Galba    0068… 0069… Servivs… -000… 0069… Terracina Italia        Seiz… Assa…</span></span>
+<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a><span class="co">#&gt;  7 Otho     0069… 0069… Marcvs … 0032… 0069… Terentin… Italia        Appo… Suic…</span></span>
+<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a><span class="co">#&gt;  8 Vitelli… 0069… 0069… Avlvs V… 0015… 0069… Rome      Italia        Seiz… Assa…</span></span>
+<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a><span class="co">#&gt;  9 Vespasi… 0069… 0079… Titvs F… 0009… 0079… Falacrine Italia        Seiz… Natu…</span></span>
+<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a><span class="co">#&gt; 10 Titus    0079… 0081… Titvs F… 0039… 0081… Rome      Italia        Birt… Natu…</span></span>
+<span id="cb16-14"><a href="#cb16-14" tabindex="-1"></a><span class="co">#&gt; # ℹ 55 more rows</span></span>
+<span id="cb16-15"><a href="#cb16-15" tabindex="-1"></a><span class="co">#&gt; # ℹ 4 more variables: Killer &lt;chr&gt;, Dynasty &lt;chr&gt;, Era &lt;chr&gt;, Notes &lt;chr&gt;</span></span></code></pre></div>
 <p>Users can also choose how they want to resolve conflicts between observations in <code><a href="reference/consolidate.html">consolidate()</a></code> with several ‘resolve’ methods:</p>
 <ul>
 <li>coalesce: the first non-NA value</li>
@@ -229,164 +195,58 @@
 <li>median: the median value</li>
 <li>random: a random value</li>
 </ul>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/consolidate.html">consolidate</a></span><span class="op">(</span>datacube <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"any"</span>, cols <span class="op">=</span> <span class="st">"every"</span>, resolve <span class="op">=</span> <span class="st">"max"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb21"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="co">#&gt; There were 116 matched observations by ID variable across datasets in datacube.</span></span>
-<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 138 × 3</span></span>
-<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a><span class="co">#&gt;    ID              Begin      End       </span></span>
-<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;           &lt;chr&gt;      &lt;chr&gt;     </span></span>
-<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a><span class="co">#&gt;  1 Aemilian        0253-12-31 0253-12-31</span></span>
-<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a><span class="co">#&gt;  2 Allectus        0293       0297      </span></span>
-<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a><span class="co">#&gt;  3 Anastasius      0491       0518      </span></span>
-<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a><span class="co">#&gt;  4 Anthemius       0467       0472      </span></span>
-<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a><span class="co">#&gt;  5 Antoninus Pius  0138       0161      </span></span>
-<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a><span class="co">#&gt;  6 Antonius Pius   0138-07-10 0161-03-07</span></span>
-<span id="cb21-12"><a href="#cb21-12" tabindex="-1"></a><span class="co">#&gt;  7 Arcadius        0395       0408      </span></span>
-<span id="cb21-13"><a href="#cb21-13" tabindex="-1"></a><span class="co">#&gt;  8 Augustus        -031-12-31 0014-12-31</span></span>
-<span id="cb21-14"><a href="#cb21-14" tabindex="-1"></a><span class="co">#&gt;  9 Aulus Vitellius 0069-07    0069-12   </span></span>
-<span id="cb21-15"><a href="#cb21-15" tabindex="-1"></a><span class="co">#&gt; 10 Aurelian        0270-12-31 0275-12-31</span></span>
-<span id="cb21-16"><a href="#cb21-16" tabindex="-1"></a><span class="co">#&gt; # ℹ 128 more rows</span></span></code></pre></div>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/consolidate.html">consolidate</a></span><span class="op">(</span>datacube <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"every"</span>, cols <span class="op">=</span> <span class="st">"any"</span>, resolve <span class="op">=</span> <span class="st">"min"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb23"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="co">#&gt; There were 116 matched observations by ID variable across datasets in datacube.</span></span>
-<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a></span>
-<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 41 × 15</span></span>
-<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a><span class="co">#&gt;    ID         CityBirth ProvinceBirth Rise  Cause Killer Era   Notes Verif Birth</span></span>
-<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span></span>
-<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a><span class="co">#&gt;  1 Aemilian   &lt;NA&gt;      Africa        Appo… Assa… Other… Prin… birt… &lt;NA&gt;  0207…</span></span>
-<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a><span class="co">#&gt;  2 Augustus   Rome      Italia        Birt… Assa… Wife   Prin… birt… Redd… 0062…</span></span>
-<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a><span class="co">#&gt;  3 Aurelian   Sirmium   Pannonia      Appo… Assa… Praet… Prin… &lt;NA&gt;  &lt;NA&gt;  0214…</span></span>
-<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a><span class="co">#&gt;  4 Balbinus   &lt;NA&gt;      Unknown       Appo… Assa… Praet… Prin… birt… &lt;NA&gt;  0178…</span></span>
-<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a><span class="co">#&gt;  5 Caracalla  Lugdunum  Gallia Lugdu… Birt… Assa… Other… Prin… reig… &lt;NA&gt;  0188…</span></span>
-<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a><span class="co">#&gt;  6 Carinus    &lt;NA&gt;      Unknown       Birt… Died… Oppos… Prin… deat… &lt;NA&gt;  ?    </span></span>
-<span id="cb23-12"><a href="#cb23-12" tabindex="-1"></a><span class="co">#&gt;  7 Carus      Narbo     Gallia Narbo… Seiz… Natu… Light… Prin… birt… &lt;NA&gt;  0230…</span></span>
-<span id="cb23-13"><a href="#cb23-13" tabindex="-1"></a><span class="co">#&gt;  8 Claudius   Lugdunum  Gallia Lugdu… Birt… Assa… Wife   Prin… birt… Redd… 0009…</span></span>
-<span id="cb23-14"><a href="#cb23-14" tabindex="-1"></a><span class="co">#&gt;  9 Commodus   Lanuvium  Italia        Birt… Assa… Praet… Prin… reig… &lt;NA&gt;  0161…</span></span>
-<span id="cb23-15"><a href="#cb23-15" tabindex="-1"></a><span class="co">#&gt; 10 Constanti… Arelate   Gallia Narbo… Birt… Exec… Other… Domi… birt… &lt;NA&gt;  0316…</span></span>
-<span id="cb23-16"><a href="#cb23-16" tabindex="-1"></a><span class="co">#&gt; # ℹ 31 more rows</span></span>
-<span id="cb23-17"><a href="#cb23-17" tabindex="-1"></a><span class="co">#&gt; # ℹ 5 more variables: Death &lt;chr&gt;, FullName &lt;chr&gt;, Dynasty &lt;chr&gt;, Begin &lt;chr&gt;,</span></span>
-<span id="cb23-18"><a href="#cb23-18" tabindex="-1"></a><span class="co">#&gt; #   End &lt;chr&gt;</span></span></code></pre></div>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/consolidate.html">consolidate</a></span><span class="op">(</span>datacube <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"every"</span>, cols <span class="op">=</span> <span class="st">"every"</span>, resolve <span class="op">=</span> <span class="st">"mean"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb25"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="co">#&gt; There were 116 matched observations by ID variable across datasets in datacube.</span></span>
-<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a></span>
-<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 41 × 3</span></span>
-<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a><span class="co">#&gt;    ID             Begin       End        </span></span>
-<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;          &lt;chr&gt;       &lt;chr&gt;      </span></span>
-<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a><span class="co">#&gt;  1 Aemilian       0253-08-15~ 0253-10-15~</span></span>
-<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a><span class="co">#&gt;  2 Augustus       -0026-01-16 0014-08-19 </span></span>
-<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a><span class="co">#&gt;  3 Aurelian       0270-09-15  0275-09-15 </span></span>
-<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a><span class="co">#&gt;  4 Balbinus       0238-04-22  0238-07-29 </span></span>
-<span id="cb25-10"><a href="#cb25-10" tabindex="-1"></a><span class="co">#&gt;  5 Caracalla      0198        0217-04-08 </span></span>
-<span id="cb25-11"><a href="#cb25-11" tabindex="-1"></a><span class="co">#&gt;  6 Carinus        0283-08-01~ 0285-08-01~</span></span>
-<span id="cb25-12"><a href="#cb25-12" tabindex="-1"></a><span class="co">#&gt;  7 Carus          0282-10-01~ 0283-08-01~</span></span>
-<span id="cb25-13"><a href="#cb25-13" tabindex="-1"></a><span class="co">#&gt;  8 Claudius       0041-01-25  0054-10-13 </span></span>
-<span id="cb25-14"><a href="#cb25-14" tabindex="-1"></a><span class="co">#&gt;  9 Commodus       0177        0192-12-31 </span></span>
-<span id="cb25-15"><a href="#cb25-15" tabindex="-1"></a><span class="co">#&gt; 10 Constantine II 0337-05-22  0340-01-01 </span></span>
-<span id="cb25-16"><a href="#cb25-16" tabindex="-1"></a><span class="co">#&gt; # ℹ 31 more rows</span></span></code></pre></div>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/consolidate.html">consolidate</a></span><span class="op">(</span>datacube <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"any"</span>, cols <span class="op">=</span> <span class="st">"any"</span>, resolve <span class="op">=</span> <span class="st">"median"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb27"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="co">#&gt; There were 116 matched observations by ID variable across datasets in datacube.</span></span>
-<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a></span>
-<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 138 × 15</span></span>
-<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a><span class="co">#&gt;    ID         CityBirth ProvinceBirth Rise  Cause Killer Era   Notes Verif Birth</span></span>
-<span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span></span>
-<span id="cb27-6"><a href="#cb27-6" tabindex="-1"></a><span class="co">#&gt;  1 Aemilian   &lt;NA&gt;      Africa        Appo… Assa… Other… Prin… birt… &lt;NA&gt;  0207…</span></span>
-<span id="cb27-7"><a href="#cb27-7" tabindex="-1"></a><span class="co">#&gt;  2 Allectus   &lt;NA&gt;      &lt;NA&gt;          &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  ?    </span></span>
-<span id="cb27-8"><a href="#cb27-8" tabindex="-1"></a><span class="co">#&gt;  3 Anastasius &lt;NA&gt;      &lt;NA&gt;          &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  430  </span></span>
-<span id="cb27-9"><a href="#cb27-9" tabindex="-1"></a><span class="co">#&gt;  4 Anthemius  &lt;NA&gt;      &lt;NA&gt;          &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  420  </span></span>
-<span id="cb27-10"><a href="#cb27-10" tabindex="-1"></a><span class="co">#&gt;  5 Antoninus… &lt;NA&gt;      &lt;NA&gt;          &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  86   </span></span>
-<span id="cb27-11"><a href="#cb27-11" tabindex="-1"></a><span class="co">#&gt;  6 Antonius … Lanuvium  Italia        Birt… Natu… Disea… Prin… &lt;NA&gt;  &lt;NA&gt;  0086…</span></span>
-<span id="cb27-12"><a href="#cb27-12" tabindex="-1"></a><span class="co">#&gt;  7 Arcadius   &lt;NA&gt;      &lt;NA&gt;          &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  377  </span></span>
-<span id="cb27-13"><a href="#cb27-13" tabindex="-1"></a><span class="co">#&gt;  8 Augustus   Rome      Italia        Birt… Assa… Wife   Prin… birt… Redd… 0062…</span></span>
-<span id="cb27-14"><a href="#cb27-14" tabindex="-1"></a><span class="co">#&gt;  9 Aulus Vit… &lt;NA&gt;      &lt;NA&gt;          &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt; </span></span>
-<span id="cb27-15"><a href="#cb27-15" tabindex="-1"></a><span class="co">#&gt; 10 Aurelian   Sirmium   Pannonia      Appo… Assa… Praet… Prin… &lt;NA&gt;  &lt;NA&gt;  0214…</span></span>
-<span id="cb27-16"><a href="#cb27-16" tabindex="-1"></a><span class="co">#&gt; # ℹ 128 more rows</span></span>
-<span id="cb27-17"><a href="#cb27-17" tabindex="-1"></a><span class="co">#&gt; # ℹ 5 more variables: Death &lt;chr&gt;, FullName &lt;chr&gt;, Dynasty &lt;chr&gt;, Begin &lt;chr&gt;,</span></span>
-<span id="cb27-18"><a href="#cb27-18" tabindex="-1"></a><span class="co">#&gt; #   End &lt;chr&gt;</span></span></code></pre></div>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/consolidate.html">consolidate</a></span><span class="op">(</span>datacube <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"every"</span>, cols <span class="op">=</span> <span class="st">"every"</span>, resolve <span class="op">=</span> <span class="st">"random"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb29"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="co">#&gt; There were 116 matched observations by ID variable across datasets in datacube.</span></span>
-<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a></span>
-<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 41 × 3</span></span>
-<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a><span class="co">#&gt;    ID             Begin      End       </span></span>
-<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;          &lt;chr&gt;      &lt;chr&gt;     </span></span>
-<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a><span class="co">#&gt;  1 Aemilian       0253-12-31 0253-12-31</span></span>
-<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a><span class="co">#&gt;  2 Augustus       -031-12-31 -014-12-31</span></span>
-<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a><span class="co">#&gt;  3 Aurelian       0270-12-31 0275-09-15</span></span>
-<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a><span class="co">#&gt;  4 Balbinus       0238-04-22 0238-07-29</span></span>
-<span id="cb29-10"><a href="#cb29-10" tabindex="-1"></a><span class="co">#&gt;  5 Caracalla      0198-12-31 0217-12-31</span></span>
-<span id="cb29-11"><a href="#cb29-11" tabindex="-1"></a><span class="co">#&gt;  6 Carinus        0283-12-31 0285-12-31</span></span>
-<span id="cb29-12"><a href="#cb29-12" tabindex="-1"></a><span class="co">#&gt;  7 Carus          0282-12-31 0283-12-31</span></span>
-<span id="cb29-13"><a href="#cb29-13" tabindex="-1"></a><span class="co">#&gt;  8 Claudius       0041-12-31 0054-10-13</span></span>
-<span id="cb29-14"><a href="#cb29-14" tabindex="-1"></a><span class="co">#&gt;  9 Commodus       0177-12-31 0192-12-31</span></span>
-<span id="cb29-15"><a href="#cb29-15" tabindex="-1"></a><span class="co">#&gt; 10 Constantine II 0337-05-22 0340-01-01</span></span>
-<span id="cb29-16"><a href="#cb29-16" tabindex="-1"></a><span class="co">#&gt; # ℹ 31 more rows</span></span></code></pre></div>
-<p>Users can even specify how conflicts for different variables should be ‘resolved’:</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/consolidate.html">consolidate</a></span><span class="op">(</span>datacube <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"any"</span>, cols <span class="op">=</span> <span class="st">"every"</span>, resolve <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Begin <span class="op">=</span> <span class="st">"min"</span>, End <span class="op">=</span> <span class="st">"max"</span><span class="op">)</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb31"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="co">#&gt; There were 116 matched observations by ID variable across datasets in datacube.</span></span>
-<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a></span>
-<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 138 × 3</span></span>
-<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a><span class="co">#&gt;    ID              Begin      End       </span></span>
-<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;           &lt;chr&gt;      &lt;chr&gt;     </span></span>
-<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a><span class="co">#&gt;  1 Aemilian        0253-01-01 0253-12-31</span></span>
-<span id="cb31-7"><a href="#cb31-7" tabindex="-1"></a><span class="co">#&gt;  2 Allectus        0293       0297      </span></span>
-<span id="cb31-8"><a href="#cb31-8" tabindex="-1"></a><span class="co">#&gt;  3 Anastasius      0491       0518      </span></span>
-<span id="cb31-9"><a href="#cb31-9" tabindex="-1"></a><span class="co">#&gt;  4 Anthemius       0467       0472      </span></span>
-<span id="cb31-10"><a href="#cb31-10" tabindex="-1"></a><span class="co">#&gt;  5 Antoninus Pius  0138       0161      </span></span>
-<span id="cb31-11"><a href="#cb31-11" tabindex="-1"></a><span class="co">#&gt;  6 Antonius Pius   0138-07-10 0161-03-07</span></span>
-<span id="cb31-12"><a href="#cb31-12" tabindex="-1"></a><span class="co">#&gt;  7 Arcadius        0395       0408      </span></span>
-<span id="cb31-13"><a href="#cb31-13" tabindex="-1"></a><span class="co">#&gt;  8 Augustus        -026-01-16 0014-12-31</span></span>
-<span id="cb31-14"><a href="#cb31-14" tabindex="-1"></a><span class="co">#&gt;  9 Aulus Vitellius 0069-07    0069-12   </span></span>
-<span id="cb31-15"><a href="#cb31-15" tabindex="-1"></a><span class="co">#&gt; 10 Aurelian        0270-01-01 0275-12-31</span></span>
-<span id="cb31-16"><a href="#cb31-16" tabindex="-1"></a><span class="co">#&gt; # ℹ 128 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/consolidate.html">consolidate</a></span><span class="op">(</span>datacube <span class="op">=</span> <span class="va">emperors</span>, join <span class="op">=</span> <span class="st">"full"</span>, resolve <span class="op">=</span> <span class="st">"max"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 69 × 14</span></span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a><span class="co">#&gt;    ID       Begin End   FullName Birth Death CityBirth ProvinceBirth Rise  Cause</span></span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;    &lt;mda&gt; &lt;mda&gt; &lt;chr&gt;    &lt;mda&gt; &lt;mda&gt; &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt;</span></span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a><span class="co">#&gt;  1 Augustus -002… 0014… Imperat… -006… 0014… Rome      Italia        Birt… Assa…</span></span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a><span class="co">#&gt;  2 Tiberius 0014… 0037… Tiberiv… -004… 0037… Rome      Italia        Birt… Assa…</span></span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a><span class="co">#&gt;  3 Caligula 0037… 0041… Gaivs I… 0012… 0041… Antitum   Italia        Birt… Assa…</span></span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a><span class="co">#&gt;  4 Claudius 0041… 0054… Tiberiv… -000… 0054… Lugdunum  Gallia Lugdu… Birt… Assa…</span></span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a><span class="co">#&gt;  5 Nero     0054… 0068… Nero Cl… 0037… 0068… Antitum   Italia        Birt… Suic…</span></span>
+<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a><span class="co">#&gt;  6 Galba    0068… 0069… Servivs… -000… 0069… Terracina Italia        Seiz… Assa…</span></span>
+<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a><span class="co">#&gt;  7 Otho     0069… 0069… Marcvs … 0032… 0069… Terentin… Italia        Appo… Suic…</span></span>
+<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a><span class="co">#&gt;  8 Vitelli… 0069… 0069… Avlvs V… 0015… 0069… Rome      Italia        Seiz… Assa…</span></span>
+<span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a><span class="co">#&gt;  9 Vespasi… 0069… 0079… Titvs F… 0009… 0079… Falacrine Italia        Seiz… Natu…</span></span>
+<span id="cb18-13"><a href="#cb18-13" tabindex="-1"></a><span class="co">#&gt; 10 Titus    0079… 0081… Titvs F… 0039… 0081… Rome      Italia        Birt… Natu…</span></span>
+<span id="cb18-14"><a href="#cb18-14" tabindex="-1"></a><span class="co">#&gt; # ℹ 59 more rows</span></span>
+<span id="cb18-15"><a href="#cb18-15" tabindex="-1"></a><span class="co">#&gt; # ℹ 4 more variables: Killer &lt;chr&gt;, Dynasty &lt;chr&gt;, Era &lt;chr&gt;, Notes &lt;chr&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/consolidate.html">consolidate</a></span><span class="op">(</span>datacube <span class="op">=</span> <span class="va">emperors</span>, join <span class="op">=</span> <span class="st">"inner"</span>, resolve <span class="op">=</span> <span class="st">"min"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 65 × 14</span></span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a><span class="co">#&gt;    ID       Begin End   FullName Birth Death CityBirth ProvinceBirth Rise  Cause</span></span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;    &lt;mda&gt; &lt;mda&gt; &lt;chr&gt;    &lt;mda&gt; &lt;mda&gt; &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt;</span></span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a><span class="co">#&gt;  1 Augustus -002… -0014 Gaius J… -006… 0014  Rome      Italia        Birt… Assa…</span></span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a><span class="co">#&gt;  2 Tiberius 0014… 0037  Tiberiu… -004… 0037  Rome      Italia        Birt… Assa…</span></span>
+<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a><span class="co">#&gt;  3 Caligula 0037… 0041  Gaius C… 0012… 0014  Antitum   Italia        Birt… Assa…</span></span>
+<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a><span class="co">#&gt;  4 Claudius 0041… 0054  Tiberiu… -000… 0041  Lugdunum  Gallia Lugdu… Birt… Assa…</span></span>
+<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a><span class="co">#&gt;  5 Nero     0054… 0068  Claudiu… 0037… 0068  Antitum   Italia        Birt… Suic…</span></span>
+<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a><span class="co">#&gt;  6 Galba    0068… 0069  Servius… -000… 0069  Terracina Italia        Seiz… Assa…</span></span>
+<span id="cb20-10"><a href="#cb20-10" tabindex="-1"></a><span class="co">#&gt;  7 Otho     0069… 0069  Marcus … 0032… 0069  Terentin… Italia        Appo… Suic…</span></span>
+<span id="cb20-11"><a href="#cb20-11" tabindex="-1"></a><span class="co">#&gt;  8 Vitelli… 0069… 0069  Aulus V… 0015… 0069  Rome      Italia        Seiz… Assa…</span></span>
+<span id="cb20-12"><a href="#cb20-12" tabindex="-1"></a><span class="co">#&gt;  9 Vespasi… 0069… 0079  Titus F… 0009… 0079  Falacrine Italia        Seiz… Natu…</span></span>
+<span id="cb20-13"><a href="#cb20-13" tabindex="-1"></a><span class="co">#&gt; 10 Titus    0079… 0081  Titus F… 0039… 0079  Rome      Italia        Birt… Natu…</span></span>
+<span id="cb20-14"><a href="#cb20-14" tabindex="-1"></a><span class="co">#&gt; # ℹ 55 more rows</span></span>
+<span id="cb20-15"><a href="#cb20-15" tabindex="-1"></a><span class="co">#&gt; # ℹ 4 more variables: Killer &lt;chr&gt;, Dynasty &lt;chr&gt;, Era &lt;chr&gt;, Notes &lt;chr&gt;</span></span></code></pre></div>
 <p>Alternatively, users can “favour” a dataset in a datacube over others:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/consolidate.html">consolidate</a></span><span class="op">(</span>datacube <span class="op">=</span> <span class="fu"><a href="reference/favour.html">favour</a></span><span class="op">(</span><span class="va">emperors</span>, <span class="st">"UNRV"</span><span class="op">)</span>, rows <span class="op">=</span> <span class="st">"every"</span>, cols <span class="op">=</span> <span class="st">"any"</span>, resolve <span class="op">=</span> <span class="st">"coalesce"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb33"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="co">#&gt; There were 116 matched observations by ID variable across datasets in datacube.</span></span>
-<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a></span>
-<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 41 × 15</span></span>
-<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a><span class="co">#&gt;    ID    FullName Birth Death CityBirth ProvinceBirth Rise  Cause Killer Dynasty</span></span>
-<span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  </span></span>
-<span id="cb33-6"><a href="#cb33-6" tabindex="-1"></a><span class="co">#&gt;  1 Aemi… "Marcus… 207?  253   &lt;NA&gt;      Africa        Appo… Assa… Other… Gordian</span></span>
-<span id="cb33-7"><a href="#cb33-7" tabindex="-1"></a><span class="co">#&gt;  2 Augu… "Gaius … 63 BC 14    Rome      Italia        Birt… Assa… Wife   Julio-…</span></span>
-<span id="cb33-8"><a href="#cb33-8" tabindex="-1"></a><span class="co">#&gt;  3 Aure… "Lucius… 214   275   Sirmium   Pannonia      Appo… Assa… Praet… Gordian</span></span>
-<span id="cb33-9"><a href="#cb33-9" tabindex="-1"></a><span class="co">#&gt;  4 Balb… "Decimu… 170?  238   &lt;NA&gt;      Unknown       Appo… Assa… Praet… Gordian</span></span>
-<span id="cb33-10"><a href="#cb33-10" tabindex="-1"></a><span class="co">#&gt;  5 Cara… "born L… 188   217   Lugdunum  Gallia Lugdu… Birt… Assa… Other… Severan</span></span>
-<span id="cb33-11"><a href="#cb33-11" tabindex="-1"></a><span class="co">#&gt;  6 Cari… "Marcus… ?     285   &lt;NA&gt;      Unknown       Birt… Died… Oppos… co-emp…</span></span>
-<span id="cb33-12"><a href="#cb33-12" tabindex="-1"></a><span class="co">#&gt;  7 Carus "Marcus… 230?  283   Narbo     Gallia Narbo… Seiz… Natu… Light… .      </span></span>
-<span id="cb33-13"><a href="#cb33-13" tabindex="-1"></a><span class="co">#&gt;  8 Clau… "Tiberi… 10 BC 41    Lugdunum  Gallia Lugdu… Birt… Assa… Wife   Julio-…</span></span>
-<span id="cb33-14"><a href="#cb33-14" tabindex="-1"></a><span class="co">#&gt;  9 Comm… "Marcus… 161   192   Lanuvium  Italia        Birt… Assa… Praet… Adopti…</span></span>
-<span id="cb33-15"><a href="#cb33-15" tabindex="-1"></a><span class="co">#&gt; 10 Cons… "Flaviu… 317   340   Arelate   Gallia Narbo… Birt… Exec… Other… House …</span></span>
-<span id="cb33-16"><a href="#cb33-16" tabindex="-1"></a><span class="co">#&gt; # ℹ 31 more rows</span></span>
-<span id="cb33-17"><a href="#cb33-17" tabindex="-1"></a><span class="co">#&gt; # ℹ 5 more variables: Era &lt;chr&gt;, Notes &lt;chr&gt;, Verif &lt;chr&gt;, Begin &lt;mdate&gt;,</span></span>
-<span id="cb33-18"><a href="#cb33-18" tabindex="-1"></a><span class="co">#&gt; #   End &lt;mdate&gt;</span></span></code></pre></div>
-<p>Users can, even, declare multiple key ID columns to consolidate a datacube or multiple datasets:</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/consolidate.html">consolidate</a></span><span class="op">(</span>datacube <span class="op">=</span> <span class="va">emperors</span>, rows <span class="op">=</span> <span class="st">"any"</span>, cols <span class="op">=</span> <span class="st">"any"</span>, resolve <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Death <span class="op">=</span> <span class="st">"max"</span>, Cause <span class="op">=</span> <span class="st">"coalesce"</span><span class="op">)</span>,</span>
-<span>            key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ID"</span>, <span class="st">"Begin"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb35"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 202 × 4</span></span>
-<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a><span class="co">#&gt;    ID             Begin       Cause          Death      </span></span>
-<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;          &lt;mdate&gt;     &lt;chr&gt;          &lt;chr&gt;      </span></span>
-<span id="cb35-4"><a href="#cb35-4" tabindex="-1"></a><span class="co">#&gt;  1 Aemilian       0253        &lt;NA&gt;           253        </span></span>
-<span id="cb35-5"><a href="#cb35-5" tabindex="-1"></a><span class="co">#&gt;  2 Aemilian       0253-08-15~ Assassination  0253-10-15~</span></span>
-<span id="cb35-6"><a href="#cb35-6" tabindex="-1"></a><span class="co">#&gt;  3 Allectus       0293        &lt;NA&gt;           297        </span></span>
-<span id="cb35-7"><a href="#cb35-7" tabindex="-1"></a><span class="co">#&gt;  4 Anastasius     0491        &lt;NA&gt;           518        </span></span>
-<span id="cb35-8"><a href="#cb35-8" tabindex="-1"></a><span class="co">#&gt;  5 Anthemius      0467        &lt;NA&gt;           472        </span></span>
-<span id="cb35-9"><a href="#cb35-9" tabindex="-1"></a><span class="co">#&gt;  6 Antoninus Pius 0138        &lt;NA&gt;           161        </span></span>
-<span id="cb35-10"><a href="#cb35-10" tabindex="-1"></a><span class="co">#&gt;  7 Antonius Pius  0138-07-10  Natural Causes 0161-03-07 </span></span>
-<span id="cb35-11"><a href="#cb35-11" tabindex="-1"></a><span class="co">#&gt;  8 Arcadius       0383        &lt;NA&gt;           &lt;NA&gt;       </span></span>
-<span id="cb35-12"><a href="#cb35-12" tabindex="-1"></a><span class="co">#&gt;  9 Arcadius       0395        &lt;NA&gt;           408        </span></span>
-<span id="cb35-13"><a href="#cb35-13" tabindex="-1"></a><span class="co">#&gt; 10 Augustus       -0026-01-16 Assassination  0014-08-19 </span></span>
-<span id="cb35-14"><a href="#cb35-14" tabindex="-1"></a><span class="co">#&gt; # ℹ 192 more rows</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="cheatsheet">Cheatsheet<a class="anchor" aria-label="anchor" href="#cheatsheet"></a>
-</h2>
-<p>Please see the cheat sheet below for a quick overview:</p>
-<p><a href="https://github.com/globalgov/manydata/blob/develop/man/figures/cheatsheet.pdf" class="external-link"><img src="https://raw.githubusercontent.com/globalgov/manydata/develop/man/figures/cheatsheet.png" width="525" height="378"></a></p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/consolidate.html">consolidate</a></span><span class="op">(</span><span class="va">emperors</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"UNRV"</span>,<span class="st">"Britannica"</span>,<span class="st">"Wikipedia"</span><span class="op">)</span><span class="op">]</span>, join <span class="op">=</span> <span class="st">"left"</span>, resolve <span class="op">=</span> <span class="st">"coalesce"</span>, key <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="co">#&gt; # A tibble: 98 × 14</span></span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a><span class="co">#&gt;    ID     Begin End   Birth Death FullName Dynasty CityBirth ProvinceBirth Rise </span></span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;  &lt;mda&gt; &lt;mda&gt; &lt;mda&gt; &lt;mda&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;</span></span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a><span class="co">#&gt;  1 Augus… -0027 -0014 -0063 0014  Gaius J… Julio-… Rome      Italia        Birt…</span></span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a><span class="co">#&gt;  2 Tiber… 0014  0037  -0042 0037  Tiberiu… Julio-… Rome      Italia        Birt…</span></span>
+<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a><span class="co">#&gt;  3 Calig… 0037  0041  0012  0014  Gaius C… Julio-… Antitum   Italia        Birt…</span></span>
+<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a><span class="co">#&gt;  4 Claud… 0041  0054  -0010 0041  Tiberiu… Julio-… Lugdunum  Gallia Lugdu… Birt…</span></span>
+<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a><span class="co">#&gt;  5 Nero   0054  0068  0037  0068  Claudiu… Julio-… Antitum   Italia        Birt…</span></span>
+<span id="cb22-9"><a href="#cb22-9" tabindex="-1"></a><span class="co">#&gt;  6 Galba  0068  0069  -0003 0069  Servius… Year o… Terracina Italia        Seiz…</span></span>
+<span id="cb22-10"><a href="#cb22-10" tabindex="-1"></a><span class="co">#&gt;  7 Otho   0069  0069  0032  0069  Marcus … Year o… Terentin… Italia        Appo…</span></span>
+<span id="cb22-11"><a href="#cb22-11" tabindex="-1"></a><span class="co">#&gt;  8 Vitel… 0069  0069  0015  0069  Aulus V… Year o… Rome      Italia        Seiz…</span></span>
+<span id="cb22-12"><a href="#cb22-12" tabindex="-1"></a><span class="co">#&gt;  9 Vespa… 0069  0079  0009  0079  Titus F… Year o… Falacrine Italia        Seiz…</span></span>
+<span id="cb22-13"><a href="#cb22-13" tabindex="-1"></a><span class="co">#&gt; 10 Titus  0079  0081  0039  0079  Titus F… Flavian Rome      Italia        Birt…</span></span>
+<span id="cb22-14"><a href="#cb22-14" tabindex="-1"></a><span class="co">#&gt; # ℹ 88 more rows</span></span>
+<span id="cb22-15"><a href="#cb22-15" tabindex="-1"></a><span class="co">#&gt; # ℹ 4 more variables: Cause &lt;chr&gt;, Killer &lt;chr&gt;, Era &lt;chr&gt;, Notes &lt;chr&gt;</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="contributing-to-the-many-packages-universe">Contributing to the many packages universe<a class="anchor" aria-label="anchor" href="#contributing-to-the-many-packages-universe"></a>
@@ -435,7 +295,7 @@
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>
-<a href="https://jameshollway.com" class="external-link">James Hollway</a> <br><small class="roles"> Maintainer, author, contributor </small> <a href="https://orcid.org/0000-0002-8361-9647" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<a href="https://jameshollway.com" class="external-link">James Hollway</a> <br><small class="roles"> Maintainer, author, contributor </small> <a href="https://orcid.org/0000-0002-8361-9647" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
 <li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
@@ -457,9 +317,9 @@
     </footer>
 </div>
 
-  
 
-  
+
+
 
   </body>
 </html>
