@@ -82,7 +82,7 @@ The \code{emperors} datacube is a list containing 3 datasets: Wikipedia, UNRV, a
 \itemize{
 \item Wikipedia: \url{https://en.wikipedia.org/wiki/List_of_Roman_emperors}
 \item UNRV: \url{https://www.unrv.com/government/emperor.php}
-\item Britannica: \url{https://www.britannica.com/topic/list-of-Roman-emperors-2043294}
+\item Britannica: \url{https://www.britannica.com/place/list-of-Roman-emperors-2043294}
 }
 }
 
