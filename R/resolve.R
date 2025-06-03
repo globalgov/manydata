@@ -201,7 +201,7 @@ resolve_median <- function(.data, vars, na.rm = TRUE) {
   toRes <- dplyr::select(.data, dplyr::all_of(vars))
   
   mat <- as.matrix(toRes)
-  apply(mat, 1, median, na.rm = na.rm)
+  apply(mat, 1, stats::median, na.rm = na.rm)
 }
 
 #' @rdname resolving
