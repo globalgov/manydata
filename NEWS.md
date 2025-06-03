@@ -1,3 +1,9 @@
+# manydata 1.0.2
+
+## Connection
+
+- Fixed global variables in several `resolve_*()` functions
+
 # manydata 1.0.1
 
 ## Package
