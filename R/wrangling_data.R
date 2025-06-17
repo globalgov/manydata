@@ -128,3 +128,10 @@ repaint <- function(df, id, var) {
   }
   df
 }
+
+#' @export
+getID <- function(datacube){
+  if(grepl("ID", names(datacube[[1]])[2])){
+    c(names(datacube[[1]])[1], names(datacube[[1]])[2])
+  } else names(datacube[[1]])[1]
+}
