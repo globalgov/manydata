@@ -4,6 +4,8 @@
 
 - Added new `getID()` helper that obtains the one or two ID columns that appear
 as the first one or two columns in a datacube
+- `compare_overlap()` now returns a list of each datasets IDs to avoid issues
+with `{ggVennDiagram}`
 - Fixed testing of ggplot objects (closes #308)
 - Fixed how `plot.compare_categories()` treated identifier variables (closes #291)
 

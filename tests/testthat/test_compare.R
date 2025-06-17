@@ -40,8 +40,6 @@ test_that("compare_dimensions() returns the correct output format", {
 test_that("compare_overlap() and return the correct output format", {
   db <- compare_overlap(emperors, key = "ID")
   expect_type(db, "list")
-  expect_length(db, 2)
-  expect_s3_class(db, "tbl_df")
   pl <- plot(db)
   expect_true(inherits(pl, c("ggplot", "ggplot2::ggplot")))
   expect_length(pl, length(ggplot2::ggplot()))

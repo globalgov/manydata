@@ -140,8 +140,9 @@ find_date <- function(x, type) {
 #' `compare_overlap()` returns a tibble with information about each dataset
 #' and the number of overlapping observations.
 #' @export
-compare_overlap <- function(datacube, dataset = "all", key = "manyID") {
+compare_overlap <- function(datacube, dataset = "all", key = NULL) {
   name <- db_name <- NULL
+  if(is.null(key)) key <- getID(datacube)
   thisRequires("ggVennDiagram")
   if (any(dataset != "all")) {
     if (length(dataset) < 2) stop("Please declare 2 or more datasets for comparison.")
@@ -149,16 +150,16 @@ compare_overlap <- function(datacube, dataset = "all", key = "manyID") {
   }
   db_name <- deparse(substitute(datacube))
   out <- purrr::map(datacube, key)
-  out <- ggVennDiagram::Venn(out)
-  out <- ggVennDiagram::process_data(out)
-  out <- ggVennDiagram::venn_region(out)
-  out <- dplyr::as_tibble(out) %>%
-    dplyr::select(name, count) %>%
-    dplyr::rename_with(.fn = ~paste0("Datasets from ", db_name),
-                       .cols = name) %>%
-    dplyr::rename_with(.fn = ~paste0("Overlapping Observations by ", key),
-                       .cols = count)
-  class(out) <- c("compare_overlap", "tbl_df", "tbl", "data.frame")
+  # out <- ggVennDiagram::Venn(out)
+  # # out <- ggVennDiagram::process_data(out)
+  # # out <- ggVennDiagram::venn_region(out)
+  # out <- dplyr::as_tibble(out) %>%
+  #   dplyr::select(name, count) %>%
+  #   dplyr::rename_with(.fn = ~paste0("Datasets from ", db_name),
+  #                      .cols = name) %>%
+  #   dplyr::rename_with(.fn = ~paste0("Overlapping Observations by ", key),
+  #                      .cols = count)
+  class(out) <- c("compare_overlap", class(out))
   out
 }
 
