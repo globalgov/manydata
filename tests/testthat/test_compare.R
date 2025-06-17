@@ -11,9 +11,9 @@ test_that("compare_categories() returns the correct output format", {
   db1 <- compare_categories(datacube = emperors, key = "ID", variable = "Begin")
   db2 <- compare_categories(datacube = emperors, key = "ID",
                             variable = c("Begin", "End"), category = "conflict")
-  expect_true(inherits(db, c("compare_categories")))
-  expect_true(inherits(db1, c("compare_categories")))
-  expect_true(inherits(db2, c("compare_categories")))
+  expect_true(inherits(db, "compare_categories"))
+  expect_true(inherits(db1, "compare_categories"))
+  expect_true(inherits(db2, "compare_categories"))
   expect_s3_class(db, "tbl")
   expect_s3_class(db1, "tbl")
   expect_s3_class(db2, "tbl")
