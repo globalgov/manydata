@@ -41,10 +41,7 @@ test_that("compare_overlap() and return the correct output format", {
   db <- compare_overlap(emperors, key = "ID")
   expect_type(db, "list")
   pl <- plot(db)
-  expect_true(inherits(pl, c("ggplot", "ggplot2::ggplot")))
-  expect_length(pl, length(ggplot2::ggplot()))
-  expect_true(ggplot2::is_ggplot(pl))
-  expect_named(pl, names(ggplot2::ggplot()))
+  expect_true(inherits(pl, c("ggplot", "ggplot2::ggplot", "upset_plot")))
 })
 
 test_that("compare_missing() and plot_missing() returns the correct output format", {

@@ -168,15 +168,15 @@ compare_overlap <- function(datacube, dataset = "all", key = NULL) {
 #' @export
 plot.compare_overlap <- function(x, ...) {
   thisRequires("ggVennDiagram")
-  datacube <- get(stringr::word(names(x[1]),-1))
-  dataset <- grep("\\.\\.", unique(unname(unlist(x[,1]))),
-                  value = TRUE, invert = TRUE)
-  key <- stringr::word(names(x[2]),-1)
-  if (length(names(datacube)) != length(dataset)) {
-    datacube <- datacube[grepl(paste(dataset, collapse = "|"), names(datacube))]
-  }
-  out <- purrr::map(datacube, key)
-  ggVennDiagram::ggVennDiagram(out)
+  # datacube <- get(stringr::word(names(x[1]),-1))
+  # dataset <- grep("\\.\\.", unique(unname(unlist(x[,1]))),
+  #                 value = TRUE, invert = TRUE)
+  # key <- stringr::word(names(x[2]),-1)
+  # if (length(names(datacube)) != length(dataset)) {
+  #   datacube <- datacube[grepl(paste(dataset, collapse = "|"), names(datacube))]
+  # }
+  # out <- purrr::map(datacube, key)
+  ggVennDiagram::ggVennDiagram(x, force_upset = TRUE)
 }
 
 #' Compare missing observations for 'many' data
