@@ -428,11 +428,15 @@ compare_categories <- function(datacube,
 #' @export
 plot.compare_categories <- function(x, ...) {
   Category <- Variable <- Percentage <- Missing <- NULL # to avoid notes
+  
   # Step 1: remove extra variable level information
   db <- x[!grepl("\\$", names(x))]
   
+  # Step 2: remove row identifying information
+  db <- db[, grepl("\\(", names(db))]
+  
   # Step 3: gather and reshape the data
-  dbgather <- db[, -1] %>%
+  dbgather <- db %>%
     tidyr::pivot_longer(cols = everything(), names_to = "Variable",
                         values_to = "Category") %>%
     dplyr::group_by(Variable, Category) %>%
@@ -473,6 +477,6 @@ plot.compare_categories <- function(x, ...) {
     labs(title = deparse(substitute(datacube)),
          subtitle = paste0("Based on ", nrow(db),
                            " consolidated observations."),
-         caption = "In between the parenthesis are the number of datasets in which variable is present.",
+         caption = "The parentheses contain the number of datasets that include the variable.",
          x = "Variable")
 }

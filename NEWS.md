@@ -3,6 +3,7 @@
 ## Connection
 
 - Fixed testing of ggplot objects (closes #308)
+- Fixed how `plot.compare_categories()` treated identifier variables (closes #291)
 
 # manydata 1.0.2
 
