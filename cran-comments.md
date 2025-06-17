@@ -9,5 +9,4 @@
 
 0 errors | 0 warnings | 0 notes
 
-- This version requires `{messydates}` v0.5.3 for the tests to pass
-  - `{messydates}` v0.5.3 is accepted to CRAN but may not yet be available for all runners
+- This version fixes the global variables issues from the v1.0.1 submission

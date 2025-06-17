@@ -1,3 +1,9 @@
+# manydata 1.0.3
+
+## Connection
+
+- Fixed testing of ggplot objects (closes #308)
+
 # manydata 1.0.2
 
 ## Connection
