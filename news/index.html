@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">manydata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,6 +38,20 @@
       <small>Source: <a href="https://github.com/globalgov/manydata/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.0.3" id="manydata-103">manydata 1.0.3<a class="anchor" aria-label="anchor" href="#manydata-103"></a></h2>
+<div class="section level3">
+<h3 id="connection-1-0-3">Connection<a class="anchor" aria-label="anchor" href="#connection-1-0-3"></a></h3>
+<ul><li>Added new <code>getID()</code> helper that obtains the one or two ID columns that appear as the first one or two columns in a datacube</li>
+<li>
+<code><a href="../reference/compare_overlap.html">compare_overlap()</a></code> now returns a list of each datasets IDs to avoid issues with <a href="https://github.com/gaospecial/ggVennDiagram" class="external-link">ggVennDiagram</a>
+</li>
+<li>
+<code>plot.compare_overlap()</code> now always returns an upset plot (closes <a href="https://github.com/globalgov/manydata/issues/292" class="external-link">#292</a>)</li>
+<li>Fixed testing of ggplot objects (closes <a href="https://github.com/globalgov/manydata/issues/308" class="external-link">#308</a>)</li>
+<li>Fixed how <code>plot.compare_categories()</code> treated identifier variables (closes <a href="https://github.com/globalgov/manydata/issues/291" class="external-link">#291</a>)</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.2" id="manydata-102">manydata 1.0.2<a class="anchor" aria-label="anchor" href="#manydata-102"></a></h2><p class="text-muted">CRAN release: 2025-06-03</p>
 <div class="section level3">
