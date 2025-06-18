@@ -140,8 +140,9 @@ find_date <- function(x, type) {
 #' `compare_overlap()` returns a tibble with information about each dataset
 #' and the number of overlapping observations.
 #' @export
-compare_overlap <- function(datacube, dataset = "all", key = "manyID") {
+compare_overlap <- function(datacube, dataset = "all", key = NULL) {
   name <- db_name <- NULL
+  if(is.null(key)) key <- getID(datacube)
   thisRequires("ggVennDiagram")
   if (any(dataset != "all")) {
     if (length(dataset) < 2) stop("Please declare 2 or more datasets for comparison.")
@@ -149,16 +150,16 @@ compare_overlap <- function(datacube, dataset = "all", key = "manyID") {
   }
   db_name <- deparse(substitute(datacube))
   out <- purrr::map(datacube, key)
-  out <- ggVennDiagram::Venn(out)
-  out <- ggVennDiagram::process_data(out)
-  out <- ggVennDiagram::venn_region(out)
-  out <- dplyr::as_tibble(out) %>%
-    dplyr::select(name, count) %>%
-    dplyr::rename_with(.fn = ~paste0("Datasets from ", db_name),
-                       .cols = name) %>%
-    dplyr::rename_with(.fn = ~paste0("Overlapping Observations by ", key),
-                       .cols = count)
-  class(out) <- c("compare_overlap", "tbl_df", "tbl", "data.frame")
+  # out <- ggVennDiagram::Venn(out)
+  # # out <- ggVennDiagram::process_data(out)
+  # # out <- ggVennDiagram::venn_region(out)
+  # out <- dplyr::as_tibble(out) %>%
+  #   dplyr::select(name, count) %>%
+  #   dplyr::rename_with(.fn = ~paste0("Datasets from ", db_name),
+  #                      .cols = name) %>%
+  #   dplyr::rename_with(.fn = ~paste0("Overlapping Observations by ", key),
+  #                      .cols = count)
+  class(out) <- c("compare_overlap", class(out))
   out
 }
 
@@ -167,15 +168,15 @@ compare_overlap <- function(datacube, dataset = "all", key = "manyID") {
 #' @export
 plot.compare_overlap <- function(x, ...) {
   thisRequires("ggVennDiagram")
-  datacube <- get(stringr::word(names(x[1]),-1))
-  dataset <- grep("\\.\\.", unique(unname(unlist(x[,1]))),
-                  value = TRUE, invert = TRUE)
-  key <- stringr::word(names(x[2]),-1)
-  if (length(names(datacube)) != length(dataset)) {
-    datacube <- datacube[grepl(paste(dataset, collapse = "|"), names(datacube))]
-  }
-  out <- purrr::map(datacube, key)
-  ggVennDiagram::ggVennDiagram(out)
+  # datacube <- get(stringr::word(names(x[1]),-1))
+  # dataset <- grep("\\.\\.", unique(unname(unlist(x[,1]))),
+  #                 value = TRUE, invert = TRUE)
+  # key <- stringr::word(names(x[2]),-1)
+  # if (length(names(datacube)) != length(dataset)) {
+  #   datacube <- datacube[grepl(paste(dataset, collapse = "|"), names(datacube))]
+  # }
+  # out <- purrr::map(datacube, key)
+  ggVennDiagram::ggVennDiagram(x, force_upset = TRUE)
 }
 
 #' Compare missing observations for 'many' data
@@ -428,11 +429,15 @@ compare_categories <- function(datacube,
 #' @export
 plot.compare_categories <- function(x, ...) {
   Category <- Variable <- Percentage <- Missing <- NULL # to avoid notes
+  
   # Step 1: remove extra variable level information
   db <- x[!grepl("\\$", names(x))]
   
+  # Step 2: remove row identifying information
+  db <- db[, grepl("\\(", names(db))]
+  
   # Step 3: gather and reshape the data
-  dbgather <- db[, -1] %>%
+  dbgather <- db %>%
     tidyr::pivot_longer(cols = everything(), names_to = "Variable",
                         values_to = "Category") %>%
     dplyr::group_by(Variable, Category) %>%
@@ -473,6 +478,6 @@ plot.compare_categories <- function(x, ...) {
     labs(title = deparse(substitute(datacube)),
          subtitle = paste0("Based on ", nrow(db),
                            " consolidated observations."),
-         caption = "In between the parenthesis are the number of datasets in which variable is present.",
+         caption = "The parentheses contain the number of datasets that include the variable.",
          x = "Variable")
 }

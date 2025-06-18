@@ -4,7 +4,7 @@
 \alias{compare_overlap}
 \title{Compare the overlap between datasets in 'many' datacubes}
 \usage{
-compare_overlap(datacube, dataset = "all", key = "manyID")
+compare_overlap(datacube, dataset = "all", key = NULL)
 }
 \arguments{
 \item{datacube}{A datacube from one of the many packages.}
