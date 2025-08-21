@@ -20,6 +20,14 @@ score_obs_no <- function(df) {
   nrow(df)
 }
 
+#' @rdname scores
+#' @examples
+#' score_var_no(HUGGO)
+#' @export
+score_var_no <- function(df) {
+  ncol(df[,!grepl("ID", names(df))])
+}
+
 
 #' @rdname scores
 #' @param id_col The name of the column containing IDs. 
