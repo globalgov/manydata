@@ -28,6 +28,25 @@ score_var_no <- function(df) {
   ncol(df[,!grepl("ID", names(df))])
 }
 
+#' @rdname scores
+#' @examples
+#' score_completeness(emperors)
+#' @export
+score_completeness <- function(df) {
+  
+  # Count the number of missing values in each column
+  missing_counts <- colSums(is.na(df[,!grepl("ID", names(df))]))
+  
+  # Create a message with the number of missing values for each column
+  message(paste("Missing values per variable:", 
+                paste(names(missing_counts[missing_counts>0]), 
+                      missing_counts[missing_counts>0], 
+                      sep = ": ", collapse = ", ")))
+  
+  # Return the counts of missing values
+  return(1 - (sum(missing_counts)/sum(is.na(df[,!grepl("ID", names(df))])|!is.na(df[,!grepl("ID", names(df))]))))
+}
+
 
 #' @rdname scores
 #' @param id_col The name of the column containing IDs. 
