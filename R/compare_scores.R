@@ -17,6 +17,9 @@
 #' score_dataset(HUGGO)
 #' @export
 score_dataset <- function(df) {
+  if(is.list(df) && !is.data.frame(df)) { 
+    return(vapply(df, score_dataset, numeric(1))) 
+  }
   (score_obs_no(df) * score_var_no(df)) * score_completeness(df)
 }
 
