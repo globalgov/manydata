@@ -2,6 +2,15 @@
 #' @description A set of functions to score various aspects of data quality,
 #'   including date consistency, duplicates, recency, frequency, time, coding,
 #'   comments, sources, missing values, and variables.
+#'
+#'   According to the literature, data quality can be assessed
+#'   by checking for consistency, completeness, accuracy, timeliness, and
+#'   uniqueness of the data.
+#'   Consistency means that the data is logically coherent,
+#'   completeness means that all required data is present,
+#'   accuracy means that the data is correct and reliable,
+#'   timeliness means that the data is up-to-date,
+#'   and uniqueness means that there are no duplicate records.
 #' @param df A data frame to be scored.
 #' @details
 #'   These functions are designed to help assess the quality of data in a data frame.
@@ -10,6 +19,11 @@
 #'   The functions include:
 #'   - `score_date_consistency`: Proportion of invalid date pairs (End <= Begin).
 #'   - `score_duplicates`: Proportion of duplicate IDs.
+#' @references
+#'   Wang, R. Y., & Strong, D. M. (1996). Beyond accuracy: What data quality means to data consumers.
+#'   Journal of Management Information Systems, 12(4), 5-34.
+#' @examples
+#'   HUGGO <- manytreaties::agreements$HUGGO
 #' @name scores
 
 #' @rdname scores
