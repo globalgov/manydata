@@ -12,6 +12,14 @@
 #'   - `score_duplicates`: Proportion of duplicate IDs.
 #' @name scores
 
+#' @rdname scores
+#' @examples
+#' score_obs_no(HUGGO)
+#' @export
+score_obs_no <- function(df) {
+  nrow(df)
+}
+
 
 #' @rdname scores
 #' @param id_col The name of the column containing IDs. 
