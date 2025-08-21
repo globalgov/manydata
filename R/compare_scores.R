@@ -14,6 +14,14 @@
 
 #' @rdname scores
 #' @examples
+#' score_dataset(HUGGO)
+#' @export
+score_dataset <- function(df) {
+  (score_obs_no(df) * score_var_no(df)) * score_completeness(df)
+}
+
+#' @rdname scores
+#' @examples
 #' score_obs_no(HUGGO)
 #' @export
 score_obs_no <- function(df) {
