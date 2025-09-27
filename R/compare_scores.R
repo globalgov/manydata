@@ -22,13 +22,11 @@
 #' @references
 #'   Wang, R. Y., & Strong, D. M. (1996). Beyond accuracy: What data quality means to data consumers.
 #'   Journal of Management Information Systems, 12(4), 5-34.
-#' @examples
-#'   HUGGO <- manytreaties::agreements$HUGGO
 #' @name scores
 
 #' @rdname scores
 #' @examples
-#' score_dataset(HUGGO)
+#' score_dataset(emperors)
 #' @export
 score_dataset <- function(df) {
   if(is.list(df) && !is.data.frame(df)) { 
@@ -39,7 +37,7 @@ score_dataset <- function(df) {
 
 #' @rdname scores
 #' @examples
-#' score_obs_no(HUGGO)
+#' score_obs_no(emperors)
 #' @export
 score_obs_no <- function(df) {
   nrow(df)
@@ -47,7 +45,7 @@ score_obs_no <- function(df) {
 
 #' @rdname scores
 #' @examples
-#' score_var_no(HUGGO)
+#' score_var_no(emperors)
 #' @export
 score_var_no <- function(df) {
   ncol(df[,!grepl("ID", names(df))])
@@ -77,18 +75,19 @@ score_completeness <- function(df) {
 #' @param id_col The name of the column containing IDs. 
 #'   Default is "ID".
 #' @examples
-#' score_duplicates(emperors)
+#' score_obs_info(emperors)
 #' @export
-score_duplicates <- function(df, id_col = "ID") {
+score_obs_info <- function(df, id_col = "ID") {
   
   # If df is a list, apply the function to each element
   if(is.list(df) && !is.data.frame(df)) { 
-    return(vapply(df, score_duplicates, numeric(1))) 
+    return(vapply(df, score_obs_info, numeric(1))) 
   }
   
   # Count the number of duplicates in the specified ID column
   dupls <- find_duplicates(df, id_col)
-  sum_duplicated <- nrow(dupls)
+  if(is.null(dupls)) sum_duplicated <- 0 else 
+    sum_duplicated <- nrow(dupls)
 
   if (sum_duplicated > 0) {
     message(paste("There are", sum_duplicated, "duplicate IDs in the", id_col, "column."))
