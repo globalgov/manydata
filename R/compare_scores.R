@@ -40,6 +40,9 @@ score_dataset <- function(df) {
 #' score_obs_no(emperors)
 #' @export
 score_obs_no <- function(df) {
+  if(is.list(df) && !is.data.frame(df)) { 
+    return(vapply(df, score_obs_no, numeric(1))) 
+  }
   nrow(df)
 }
 
@@ -48,6 +51,9 @@ score_obs_no <- function(df) {
 #' score_var_no(emperors)
 #' @export
 score_var_no <- function(df) {
+  if(is.list(df) && !is.data.frame(df)) { 
+    return(vapply(df, score_var_no, numeric(1))) 
+  }
   ncol(df[,!grepl("ID", names(df))])
 }
 
@@ -56,6 +62,10 @@ score_var_no <- function(df) {
 #' score_completeness(emperors)
 #' @export
 score_completeness <- function(df) {
+  
+  if(is.list(df) && !is.data.frame(df)) { 
+    return(vapply(df, score_completeness, numeric(1))) 
+  }
   
   # Count the number of missing values in each column
   missing_counts <- colSums(is.na(df[,!grepl("ID", names(df))]))
