@@ -256,7 +256,7 @@ find_info <- function(infos, pkgs = c("manydata", "manystates", "manytreaties", 
       return(val)
     }
   }
-  warning("No information found.")
+  # warning("No information found.")
   return(NULL)
 }
 
