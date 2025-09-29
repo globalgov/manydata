@@ -248,6 +248,7 @@ call_citations <- function(x, output = c("console","help")){
 }
 
 find_info <- function(infos, pkgs = c("manydata", "manystates", "manytreaties", "manyios")) {
+  pkgs <- pkgs[pkgs %in% loadedNamespaces()]
   for (pkg in pkgs) {
     env <- asNamespace(pkg)
     val <- get0(infos, envir = env, inherits = FALSE)
