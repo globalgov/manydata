@@ -36,13 +36,16 @@ Depends:
     dplyr,
     messydates (>= 0.5.0)
 Imports:
+    caret,
     dtplyr,
     ggplot2 (>= 3.4.0),
+    glmnet,
     httr,
     jsonlite,
     purrr,
     remotes,
     stringr,
+    text2vec,
     tidyr
 Suggests:
     testthat,
@@ -55,7 +58,7 @@ Suggests:
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Config/Needs/build: 
     roxygen2, 
     devtools
