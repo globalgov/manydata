@@ -129,8 +129,15 @@ repaint <- function(df, id, var) {
   df
 }
 
-getID <- function(datacube){
-  if(grepl("ID", names(datacube[[1]])[2])){
-    c(names(datacube[[1]])[1], names(datacube[[1]])[2])
-  } else names(datacube[[1]])[1]
+#' Filtering datacube datasets to a certain date
+#' @param datacube A datacube, 
+#'   i.e. a list of data frames with Begin and End date variables.
+#' @param date A date (of class Date or character) at which to filter the datacube.
+#' @importFrom dplyr filter
+#' @examples
+#' filter_datacube(emperors, date = "0100")
+#' @export
+filter_datacube <- function(datacube, date = Sys.Date()){
+  lapply(datacube, function(x) dplyr::filter(x,
+                                             Begin <= date & End >= date))
 }

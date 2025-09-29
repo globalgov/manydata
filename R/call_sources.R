@@ -197,13 +197,17 @@ NULL
 call_sources <- function(x){
   if(is.list(x)) datacube <- deparse(substitute(x)) else 
     datacube <- as.character(x)
+  if(grepl("::", datacube)){
+    datacube <- strsplit(datacube, "::")[[1]][2]
+  }
   if(grepl("\\$", datacube)){
     dataset <- strsplit(datacube, "\\$")[[1]]
     datacube <- dataset[1]
     dataset <- dataset[2]
   } else dataset <- NULL
   infos <- paste0("info_",datacube)
-  if(exists(infos)) cinfo <- get(infos) else return(invisible())
+  cinfo <- find_info(infos)
+  if(is.null(cinfo)) return(invisible())
   if(!is.null(dataset)) cinfo <- dplyr::filter(cinfo, Dataset == dataset)
   if(length(cinfo)==0) cli::cli_abort("Sorry, no information found for {x}.")
   cinfo
@@ -215,15 +219,20 @@ call_sources <- function(x){
 #'   or the "help" page.
 #' @export
 call_citations <- function(x, output = c("console","help")){
-  if(is.list(x)) datacube <- deparse(substitute(x)) else 
-    datacube <- as.character(x)
+  if(is.list(x)){
+    datacube <- deparse(substitute(x))
+  } else datacube <- as.character(x)
+  if(grepl("::", datacube)){
+    datacube <- strsplit(datacube, "::")[[1]][2]
+  }
   if(grepl("\\$", datacube)){
     dataset <- strsplit(datacube, "\\$")[[1]]
     datacube <- dataset[1]
     dataset <- dataset[2]
   } else dataset <- NULL
   infos <- paste0("info_",datacube)
-  if(exists(infos)) cinfo <- get(infos) else return(invisible())
+  cinfo <- find_info(infos)
+  if(is.null(cinfo)) return(invisible())
   if(!is.null(dataset)) cinfo <- dplyr::filter(cinfo, Dataset == dataset)
   if(length(cinfo)==0) cli::cli_abort("Sorry, no citation data found for {x}.")
 
@@ -236,5 +245,19 @@ call_citations <- function(x, output = c("console","help")){
   } else if(output == "help"){
     paste0("* ", cinfo$Source, collapse = "\n\n")
   }
+}
+
+find_info <- function(infos, pkgs = c("manydata", "manystates", "manytreaties", "manyios")) {
+  pkgs <- pkgs[pkgs %in% loadedNamespaces()]
+  for (pkg in pkgs) {
+    env <- asNamespace(pkg)
+    val <- get0(infos, envir = env, inherits = FALSE)
+    if (!is.null(val)) {
+      # message("Found in: ", pkg)
+      return(val)
+    }
+  }
+  # warning("No information found.")
+  return(NULL)
 }
 

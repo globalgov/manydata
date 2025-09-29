@@ -1,14 +1,14 @@
 #' Compare dimensions for 'many' data
 #'
 #' @details `compare_dimensions()` compares the number of observations,
-#' variables, the earliest date, and the latest date in all observations
-#' for datasets in a 'many' datacube.
+#'   variables, the earliest date, and the latest date in all observations
+#'   for datasets in a 'many' datacube.
 #' @family compare_
 #' @param datacube A datacube from one of the many packages.
 #' @param dataset A dataset in a datacube from one of the many packages.
-#' By default, "all".
-#' That is, all datasets in the datacube are used.
-#' To select two or more datasets, please declare them as a vector.
+#'   By default, "all".
+#'   That is, all datasets in the datacube are used.
+#'   To select two or more datasets, please declare them as a vector.
 #' @import messydates
 #' @importFrom purrr map
 #' @importFrom dplyr as_tibble mutate
