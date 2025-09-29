@@ -64,12 +64,14 @@ reference:
     desc: "These functions assist data analysts with the visualisation of data on particular domains of global governance"
     contents:
       - starts_with("compare_")
+      - scores
   - title: "Consolidating 'many' packages data"
     desc: "These functions assist data analysts with the analysis of data on particular domains of global governance"
     contents:
       - consolidate
       - resolving
       - pluck
+      - filter_datacube
   - title: "Data wrangling with manydata"
     desc: "Ensembled data adds special challenges to data wrangling. These functions assist analysts with wrangling such data"
     contents:
@@ -77,9 +79,15 @@ reference:
       - recollect
       - reunite
       - repaint
+      - find
+      - find_year
       # - coalesce_rows
       - emperors
       - mreport
+  - title: "Maintaining many data"
+    desc: "Datasets in 'many' packages are updated frequently. These functions assist analysts with maintaining their data up to date"
+    contents:
+      - code_extend
 footer:
   structure:
     left: package
