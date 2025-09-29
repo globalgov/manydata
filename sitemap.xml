@@ -10,7 +10,9 @@
 <url><loc>https://globalgov.github.io/manydata/reference/call_releases.html</loc></url>
 <url><loc>https://globalgov.github.io/manydata/reference/call_sources.html</loc></url>
 <url><loc>https://globalgov.github.io/manydata/reference/call_treaties.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/reference/code_extend.html</loc></url>
 <url><loc>https://globalgov.github.io/manydata/reference/compare_categories.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/reference/compare_diff.html</loc></url>
 <url><loc>https://globalgov.github.io/manydata/reference/compare_dimensions.html</loc></url>
 <url><loc>https://globalgov.github.io/manydata/reference/compare_missing.html</loc></url>
 <url><loc>https://globalgov.github.io/manydata/reference/compare_overlap.html</loc></url>
@@ -18,6 +20,9 @@
 <url><loc>https://globalgov.github.io/manydata/reference/defunct.html</loc></url>
 <url><loc>https://globalgov.github.io/manydata/reference/describe.html</loc></url>
 <url><loc>https://globalgov.github.io/manydata/reference/emperors.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/reference/filter_datacube.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/reference/find.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/reference/find_year.html</loc></url>
 <url><loc>https://globalgov.github.io/manydata/reference/index.html</loc></url>
 <url><loc>https://globalgov.github.io/manydata/reference/pluck.html</loc></url>
 <url><loc>https://globalgov.github.io/manydata/reference/recollect.html</loc></url>
@@ -25,6 +30,7 @@
 <url><loc>https://globalgov.github.io/manydata/reference/repaint.html</loc></url>
 <url><loc>https://globalgov.github.io/manydata/reference/resolving.html</loc></url>
 <url><loc>https://globalgov.github.io/manydata/reference/reunite.html</loc></url>
+<url><loc>https://globalgov.github.io/manydata/reference/scores.html</loc></url>
 <url><loc>https://globalgov.github.io/manydata/reference/transmutate.html</loc></url>
 </urlset>
 

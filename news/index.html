@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">manydata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,30 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.3" id="manydata-103">manydata 1.0.3<a class="anchor" aria-label="anchor" href="#manydata-103"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.1.0" id="manydata-110">manydata 1.1.0<a class="anchor" aria-label="anchor" href="#manydata-110"></a></h2>
+<div class="section level3">
+<h3 id="package-1-1-0">Package<a class="anchor" aria-label="anchor" href="#package-1-1-0"></a></h3>
+<ul><li>Updated GitHub actions to use code coverage secrets</li>
+</ul></div>
+<div class="section level3">
+<h3 id="wrangling-1-1-0">Wrangling<a class="anchor" aria-label="anchor" href="#wrangling-1-1-0"></a></h3>
+<ul><li>Added <code><a href="../reference/filter_datacube.html">filter_datacube()</a></code> for filtering datasets in a datacube by date</li>
+<li>Added <code><a href="../reference/find.html">find_ID()</a></code> and <code><a href="../reference/find.html">find_common_ID()</a></code> for identifying ID columns in datasets</li>
+</ul></div>
+<div class="section level3">
+<h3 id="evaluation-1-1-0">Evaluation<a class="anchor" aria-label="anchor" href="#evaluation-1-1-0"></a></h3>
+<ul><li>Added <code><a href="../reference/find_year.html">find_year()</a></code> for extracting just the year from a date (potentially unnecessary if <code><a href="https://globalgov.github.io/messydates/reference/component_extract.html" class="external-link">messydates::year()</a></code> available)</li>
+<li>Added <code><a href="../reference/compare_diff.html">compare_new()</a></code> and <code><a href="../reference/compare_diff.html">compare_diff()</a></code> for comparing what is new or different in one dataset over another</li>
+<li>Added a range of <code>score_*()</code> functions for scoring datasets on various criteria, including consistency, completeness, accuracy, timeliness, and uniqueness of the data</li>
+</ul></div>
+<div class="section level3">
+<h3 id="maintaining-1-1-0">Maintaining<a class="anchor" aria-label="anchor" href="#maintaining-1-1-0"></a></h3>
+<ul><li>Added <code><a href="../reference/find.html">find_duplicates()</a></code> for identifying duplicate observations in datasets</li>
+<li>Added <code><a href="../reference/code_extend.html">code_extend_glove()</a></code> and <code><a href="../reference/code_extend.html">code_extend_bert()</a></code> for extending existing coding to new or missing data</li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.0.3" id="manydata-103">manydata 1.0.3<a class="anchor" aria-label="anchor" href="#manydata-103"></a></h2><p class="text-muted">CRAN release: 2025-06-18</p>
 <div class="section level3">
 <h3 id="connection-1-0-3">Connection<a class="anchor" aria-label="anchor" href="#connection-1-0-3"></a></h3>
 <ul><li>Added new <code>getID()</code> helper that obtains the one or two ID columns that appear as the first one or two columns in a datacube</li>
@@ -343,7 +366,7 @@
 <h2 class="pkg-version" data-toc-text="0.6.0" id="manydata-060">manydata 0.6.0<a class="anchor" aria-label="anchor" href="#manydata-060"></a></h2>
 <div class="section level3">
 <h3 id="package-0-6-0">Package<a class="anchor" aria-label="anchor" href="#package-0-6-0"></a></h3>
-<ul><li>Closed <a href="https://github.com/globalgov/manydata/issues/189" class="external-link">#189</a> by renaming package from <code>{qData}</code> to <a href="https://manydata.ch/" class="external-link">manydata</a>
+<ul><li>Closed <a href="https://github.com/globalgov/manydata/issues/189" class="external-link">#189</a> by renaming package from <code>{qData}</code> to <a href="https://globalgov.github.io/manydata">manydata</a>
 </li>
 <li>Updated user vignette to include more examples on working with <code><a href="../reference/consolidate.html">consolidate()</a></code>
 </li>
