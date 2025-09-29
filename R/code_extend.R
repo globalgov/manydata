@@ -274,7 +274,7 @@ code_extend_bert <- function(
   # reticulate::use_virtualenv("r-bert-clean", required = TRUE)
   
   # 1) Get contextual sentence embeddings (BERT family via 'text') ####
-  cli::cli_alert_info("Embedding titles with model: {model}")
+  # cli::cli_alert_info("Embedding titles with model: {model}")
   # emb <- text::textEmbed(texts = titles, model = model)
   # if (is.null(emb$texts)) stop("Embedding failed; 'text::textEmbed()' did not return embeddings in $texts.")
   # X <- as.matrix(emb$texts)
