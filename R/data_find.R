@@ -70,10 +70,9 @@ find_duplicates <- function(df, id_col = "ID"){
   id_col <- find_ID(df, id_col)
   
   # Find the duplicates for the specified ID column
-  out <- df[(duplicated(df[[id_col]][!is.na(df[[id_col]])], 
-                 fromLast = TRUE) | 
-        duplicated(df[[id_col]][!is.na(df[[id_col]])], 
-                   fromLast = FALSE)),]
+  non_na_ids <- !is.na(df[[id_col]])
+  dupes <- duplicated(df[[id_col]][non_na_ids]) | duplicated(df[[id_col]][non_na_ids], fromLast = TRUE)
+  out <- df[which(non_na_ids)[dupes], ]
   if(nrow(out)==0){
     message(paste("There are no duplicate IDs in the", id_col, "column."))
     return(NULL)
