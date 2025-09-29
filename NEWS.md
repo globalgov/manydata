@@ -4,6 +4,27 @@
 
 - Updated GitHub actions to use code coverage secrets
 
+## Wrangling
+
+- Added `filter_datacube()` for filtering datasets in a datacube by date
+- Added `find_ID()` and `find_common_ID()` for identifying ID columns in datasets
+
+## Evaluation
+
+- Added `find_year()` for extracting just the year from a date
+(potentially unnecessary if `messydates::year()` available)
+- Added `compare_new()` and `compare_diff()` for comparing what is new or
+different in one dataset over another
+- Added a range of `score_*()` functions for scoring datasets on various
+criteria, including consistency, completeness, accuracy, timeliness, and
+uniqueness of the data
+
+## Maintaining
+
+- Added `find_duplicates()` for identifying duplicate observations in datasets
+- Added `code_extend_glove()` and `code_extend_bert()` for extending existing
+coding to new or missing data
+
 # manydata 1.0.3
 
 ## Connection
