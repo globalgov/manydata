@@ -1,3 +1,9 @@
+# manydata 1.1.0
+
+## Package
+
+- Updated GitHub actions to use code coverage secrets
+
 # manydata 1.0.3
 
 ## Connection
