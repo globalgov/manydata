@@ -1,4 +1,4 @@
-url: https://globalgov.github.io/manydata/
+url: https://www.manydata.ch
 development:
     mode: auto
 template:
@@ -8,6 +8,8 @@ template:
 authors:
   James Hollway:
     href: https://jameshollway.com
+  Henrique Sposito:
+    href: https://henriquesposito.com
   Bernhard Bieri:
     href: https://bernhardbieri.ch
 navbar:
@@ -49,31 +51,38 @@ navbar:
           href: https://globalgov.github.io/manypkgs/
         - text: manystates
           href: https://globalgov.github.io/manystates/
-        # - text: manyenviron
-        #   href: https://globalgov.github.io/manyenviron/
-        # - text: manytrade
-        #   href: https://globalgov.github.io/manytrade/
-        # - text: manyhealth
-        #   href: https://globalgov.github.io/manyhealth/
+        - text: manytreaties
+          href: https://globalgov.github.io/manytreaties/
+        - text: manyios
+          href: https://globalgov.github.io/manyios/
 reference:
   - title: "Calling 'many' packages"
-    desc: "These functions assist data analysts with the download of 'many' packages and their data"
+    desc: |
+      These functions assist researchers with downloading 'many' packages 
+      and their data
     contents:
       - starts_with("call_")
-  - title: "Comparing 'many' packages data"
-    desc: "These functions assist data analysts with the visualisation of data on particular domains of global governance"
+  - title: "Comparing many data"
+    desc: |
+      These functions assist researchers with evaluating and comparing datasets
+      on global governance both visually and statistically.
     contents:
       - starts_with("compare_")
       - scores
-  - title: "Consolidating 'many' packages data"
-    desc: "These functions assist data analysts with the analysis of data on particular domains of global governance"
+  - title: "Consolidating many data"
+    desc: |
+      These functions assist researchers with working with multiple datasets
+      at once, including plucking individual datasets, 
+      consolidating multiple datasets into a single dataset, 
+      and resolving conflicts between datasets during this process.
     contents:
       - consolidate
       - resolving
       - pluck
       - filter_datacube
-  - title: "Data wrangling with manydata"
-    desc: "Ensembled data adds special challenges to data wrangling. These functions assist analysts with wrangling such data"
+  - title: "Wrangling many data"
+    desc: |
+      These functions assist researchers with wrangling datasets and datacubes.
     contents:
       - transmutate
       - recollect
@@ -85,7 +94,9 @@ reference:
       - emperors
       - mreport
   - title: "Maintaining many data"
-    desc: "Datasets in 'many' packages are updated frequently. These functions assist analysts with maintaining their data up to date"
+    desc: |
+      Datasets in 'many' packages are updated frequently. 
+      These functions assist analysts with maintaining their data up to date.
     contents:
       - code_extend
 footer:
