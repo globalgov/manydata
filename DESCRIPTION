@@ -28,7 +28,7 @@ Description: This is the core package for the many packages universe.
     It includes functions to help researchers work with and contribute to 
     event datasets on global governance.
 License: CC BY 4.0
-URL: https://globalgov.github.io/manydata
+URL: https://www.manydata.ch
 BugReports: https://github.com/globalgov/manydata/issues
 Depends:
     R (>= 3.5.0),
