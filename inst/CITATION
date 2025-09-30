@@ -10,6 +10,7 @@ bibentry(
        person("Henrique", "Sposito", 
          role = c("aut", "ctb"))
      ),
-     year = "2021",
-     url = "https://github.com/globalgov/manydata"
+     year = "2025",
+     doi = "10.5281/zenodo.5137594",
+     url = "https://www.manydata.ch"
 )

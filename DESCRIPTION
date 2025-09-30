@@ -24,9 +24,9 @@ Authors@R:
              family = "Tan",
              role = "ctb",
              comment = c("IHEID", ORCID = "0000-0002-6234-9764")))
-Description: This is the core package for the many packages universe.
-    It includes functions to help researchers work with and contribute to 
-    event datasets on global governance.
+Description: This is the core package offering a portal to the many packages universe.
+    It includes functions to help researchers access, work across, and maintain
+    ensembles of datasets on global governance called datacubes.
 License: CC BY 4.0
 URL: https://www.manydata.ch
 BugReports: https://github.com/globalgov/manydata/issues
