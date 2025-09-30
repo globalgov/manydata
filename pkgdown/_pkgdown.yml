@@ -51,12 +51,10 @@ navbar:
           href: https://globalgov.github.io/manypkgs/
         - text: manystates
           href: https://globalgov.github.io/manystates/
-        # - text: manyenviron
-        #   href: https://globalgov.github.io/manyenviron/
-        # - text: manytrade
-        #   href: https://globalgov.github.io/manytrade/
-        # - text: manyhealth
-        #   href: https://globalgov.github.io/manyhealth/
+        - text: manytreaties
+          href: https://globalgov.github.io/manytreaties/
+        - text: manyios
+          href: https://globalgov.github.io/manyios/
 reference:
   - title: "Calling 'many' packages"
     desc: |
