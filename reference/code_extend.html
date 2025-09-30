@@ -33,7 +33,7 @@ check existing codes for potential mismatches and report them."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">manydata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,6 +48,8 @@ check existing codes for potential mismatches and report them."></head><body>
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-other-packages" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Other packages</button>
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-other-packages"><li><a class="external-link dropdown-item" href="https://globalgov.github.io/manypkgs/">manypkgs</a></li>
     <li><a class="external-link dropdown-item" href="https://globalgov.github.io/manystates/">manystates</a></li>
+    <li><a class="external-link dropdown-item" href="https://globalgov.github.io/manytreaties/">manytreaties</a></li>
+    <li><a class="external-link dropdown-item" href="https://globalgov.github.io/manyios/">manyios</a></li>
   </ul></li>
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -146,26 +148,26 @@ sentence-level embeddings.</p></dd>
 <span class="r-in"><span><span class="va">glo</span> <span class="op">&lt;-</span> <span class="fu">code_extend_glove</span><span class="op">(</span><span class="va">titles</span>, </span></span>
 <span class="r-in"><span>           <span class="va">var</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Training GloVe model.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [23:11:19.775] epoch 1, loss 0.3661</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [23:11:19.801] epoch 2, loss 0.1794</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [23:11:19.805] epoch 3, loss 0.0667</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [23:11:19.806] epoch 4, loss 0.0330</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [23:11:19.807] epoch 5, loss 0.0219</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [23:11:19.808] epoch 6, loss 0.0149</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [23:11:19.809] epoch 7, loss 0.0107</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [23:11:19.810] epoch 8, loss 0.0078</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [23:11:19.811] epoch 9, loss 0.0058</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [23:11:19.812] epoch 10, loss 0.0044</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [23:11:19.813] epoch 11, loss 0.0034</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [23:11:19.815] epoch 12, loss 0.0026</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [23:11:19.816] epoch 13, loss 0.0020</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [23:11:19.818] epoch 14, loss 0.0016</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [23:11:19.819] epoch 15, loss 0.0013</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [23:11:19.820] epoch 16, loss 0.0010</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [23:11:19.823] epoch 17, loss 0.0008</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [23:11:19.825] epoch 18, loss 0.0007</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [23:11:19.826] epoch 19, loss 0.0005</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [23:11:19.827] epoch 20, loss 0.0004</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [10:13:17.960] epoch 1, loss 0.3661</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [10:13:17.978] epoch 2, loss 0.1794</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [10:13:17.983] epoch 3, loss 0.0667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [10:13:17.984] epoch 4, loss 0.0330</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [10:13:17.985] epoch 5, loss 0.0219</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [10:13:17.986] epoch 6, loss 0.0149</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [10:13:17.987] epoch 7, loss 0.0107</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [10:13:17.988] epoch 8, loss 0.0078</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [10:13:17.989] epoch 9, loss 0.0058</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [10:13:17.991] epoch 10, loss 0.0044</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [10:13:17.992] epoch 11, loss 0.0034</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [10:13:17.993] epoch 12, loss 0.0026</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [10:13:17.994] epoch 13, loss 0.0020</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [10:13:17.996] epoch 14, loss 0.0016</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [10:13:17.997] epoch 15, loss 0.0013</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [10:13:17.998] epoch 16, loss 0.0010</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [10:13:17.999] epoch 17, loss 0.0008</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [10:13:18.000] epoch 18, loss 0.0007</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [10:13:18.001] epoch 19, loss 0.0005</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO  [10:13:18.002] epoch 20, loss 0.0004</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Found 6 missing codes to infer.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Removing God codes from training data as they have fewer than 8 occurrences.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Training glmnet with 'logscaled' weights.</span>

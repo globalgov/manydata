@@ -5,15 +5,15 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>A Portal for Global Governance Data • manydata</title>
+<title>Many Global Governance Datacubes • manydata</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
-<meta property="og:title" content="A Portal for Global Governance Data">
-<meta name="description" content="This is the core package for the many packages universe. It includes functions to help researchers work with and contribute to event datasets on global governance.">
-<meta property="og:description" content="This is the core package for the many packages universe. It includes functions to help researchers work with and contribute to event datasets on global governance.">
+<meta property="og:title" content="Many Global Governance Datacubes">
+<meta name="description" content="This is the core package offering a portal to the many packages universe. It includes functions to help researchers access, work across, and maintain ensembles of datasets on global governance called datacubes.">
+<meta property="og:description" content="This is the core package offering a portal to the many packages universe. It includes functions to help researchers access, work across, and maintain ensembles of datasets on global governance called datacubes.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="index.html">manydata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,6 +42,8 @@
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-other-packages">
 <li><a class="external-link dropdown-item" href="https://globalgov.github.io/manypkgs/">manypkgs</a></li>
     <li><a class="external-link dropdown-item" href="https://globalgov.github.io/manystates/">manystates</a></li>
+    <li><a class="external-link dropdown-item" href="https://globalgov.github.io/manytreaties/">manytreaties</a></li>
+    <li><a class="external-link dropdown-item" href="https://globalgov.github.io/manyios/">manyios</a></li>
   </ul>
 </li>
 <li class="nav-item"><form class="form-inline" role="search">
@@ -60,11 +62,11 @@
 </h1></div>
 <!-- badges: start -->
 
-<p><a href="https://globalgov.github.io/manydata">manydata</a> is a portal to ‘many’ packages containing many datacubes, each containing many related datasets on many issue-domains, actors and institutions of global governance. <code>{manytreaties}</code> contains data on international environmental, trade, and health agreements, and <code>{manystates}</code>: contains data on states throughout history.</p>
+<p><a href="https://www.manydata.ch">manydata</a> is a portal to ‘many’ packages containing many datacubes, each containing many related datasets on many issue-domains, actors and institutions of global governance. <code>{manytreaties}</code> contains data on international environmental, trade, and health agreements, and <code>{manystates}</code>: contains data on states throughout history.</p>
 <p>Datasets are related to one another within a datacube through a particular coding system which follows the same principles across the different packages.</p>
 <p>For instance, in <code>{manytreaties}</code>, the <code>agreements</code> and <code>parties</code> datacubes have standardised IDs (<code>manyID</code>), and date variables such as <code>Begin</code> and <code>End</code> that denote the beginning and end dates of treaties respectively. The beginning date is derived from the signature or entry into force date, whichever is the earliest available date for the treaty. Standardised IDs across datasets allow the same observations to be matched across datasets so that the values can be compared or expanded where relevant. These specific variable names allows the comparison of information across datasets that have different sources. It enables users to point out the recurrence, difference or absence of observations between the datasets and extract more robust data when researching on a particular governance domain.</p>
 <p>The parties datacube contains additional date variables on each state member’s ratification, signature, entry into force, and end dates for each treaty. Data in the memberships datacube is comparable across datasets through standardised state names and stateIDs, made possible with the <code>manypkgs::code_states()</code> function. More information on each state, including its <code>Begin</code> and <code>End</code> date, can be found in the <code>{manystates}</code> package.</p>
-<p>To enable users to work with the data in these packages, <a href="https://globalgov.github.io/manydata">manydata</a> contains tools for:</p>
+<p>To enable users to work with the data in these packages, <a href="https://www.manydata.ch">manydata</a> contains tools for:</p>
 <ul>
 <li>
 <em>calling</em> data packages,</li>
@@ -73,7 +75,7 @@
 <li>
 <em>consolidating</em> datacubes in different ways.</li>
 </ul>
-<p>We intend for <a href="https://globalgov.github.io/manydata">manydata</a> to be useful:</p>
+<p>We intend for <a href="https://www.manydata.ch">manydata</a> to be useful:</p>
 <ul>
 <li>at the <strong>start</strong> of a research project, to access and gather recent versions of well-regarded datasets, see what is available, describe, and explore the data,</li>
 <li>in the <strong>middle</strong> of a project, to facilitate analysis, comparison and modelling, and</li>
@@ -82,16 +84,16 @@
 <div class="section level2">
 <h2 id="call-many-packages">Call ‘many’ packages<a class="anchor" aria-label="anchor" href="#call-many-packages"></a>
 </h2>
-<p>The easiest way to install <a href="https://globalgov.github.io/manydata">manydata</a> is directly from CRAN.</p>
+<p>The easiest way to install <a href="https://www.manydata.ch">manydata</a> is directly from CRAN.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"manydata"</span><span class="op">)</span></span></code></pre></div>
-<p>The development version of the package <a href="https://globalgov.github.io/manydata">manydata</a> can also be downloaded from GitHub.</p>
+<p>The development version of the package <a href="https://www.manydata.ch">manydata</a> can also be downloaded from GitHub.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"globalgov/manydata"</span><span class="op">)</span></span></code></pre></div>
-<p>Once <a href="https://globalgov.github.io/manydata">manydata</a> is installed, the <code>call_</code> functions can be used to discover the ‘many packages’ currently available and/or download or update these packages when needed. For this, the <code><a href="reference/call_packages.html">call_packages()</a></code> can be used.</p>
+<p>Once <a href="https://www.manydata.ch">manydata</a> is installed, the <code>call_</code> functions can be used to discover the ‘many packages’ currently available and/or download or update these packages when needed. For this, the <code><a href="reference/call_packages.html">call_packages()</a></code> can be used.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://globalgov.github.io/manydata">manydata</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.manydata.ch">manydata</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/call_packages.html">call_packages</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># lists all packages currently available</span></span>
 <span><span class="fu"><a href="reference/call_packages.html">call_packages</a></span><span class="op">(</span><span class="st">"manytrade"</span><span class="op">)</span> <span class="co"># downloads and installs this package</span></span></code></pre></div>
 <p>The <code><a href="reference/call_sources.html">call_sources()</a></code> function obtains information about the sources and original locations of the desired datasets.</p>
@@ -107,7 +109,7 @@
 <div class="section level2">
 <h2 id="comparing-many-data">Comparing ‘many’ data<a class="anchor" aria-label="anchor" href="#comparing-many-data"></a>
 </h2>
-<p>The first thing users of the data packages may want to do is to identify datasets that might contribute to their research goals. One major advantage of storing datasets in datacubes is that it facilitates the comparison and analysis of multiple datasets in a specific domain of global governance. To aid in the selection of datasets and the use of data within datacubes, the <code>compare_</code> functions in <a href="https://globalgov.github.io/manydata">manydata</a> allows users to quickly compare different information on datacubes and/or datasets across ‘many packages’. These include comparison for data observations, variables, and ranges, overlap among observations, missing observations, and conflicts among observations.</p>
+<p>The first thing users of the data packages may want to do is to identify datasets that might contribute to their research goals. One major advantage of storing datasets in datacubes is that it facilitates the comparison and analysis of multiple datasets in a specific domain of global governance. To aid in the selection of datasets and the use of data within datacubes, the <code>compare_</code> functions in <a href="https://www.manydata.ch">manydata</a> allows users to quickly compare different information on datacubes and/or datasets across ‘many packages’. These include comparison for data observations, variables, and ranges, overlap among observations, missing observations, and conflicts among observations.</p>
 <p>For now, let’s work with the Roman Emperors datacube included in manydata. We can get a quick summary of the datasets included in this package with the following command:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"manydata"</span><span class="op">)</span></span>
@@ -147,7 +149,7 @@
 <p>To retrieve an individual dataset from this datacube, we can use the <code><a href="reference/pluck.html">pluck()</a></code> function.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/pluck.html">pluck</a></span><span class="op">(</span><span class="va">emperors</span>, <span class="st">"Wikipedia"</span><span class="op">)</span></span></code></pre></div>
-<p>However, the real value of the various ‘many packages’ is that multiple datasets relating to the same phenomenon are presented together. <a href="https://globalgov.github.io/manydata">manydata</a> contains flexible methods for consolidating the different datasets in a datacube into a single dataset. For example, you could have the rows (observations) from one dataset, but add on some columns (variables) from another dataset. Where there are conflicts in the values across the different datasets, there are several ways that these may be resolved.</p>
+<p>However, the real value of the various ‘many packages’ is that multiple datasets relating to the same phenomenon are presented together. <a href="https://www.manydata.ch">manydata</a> contains flexible methods for consolidating the different datasets in a datacube into a single dataset. For example, you could have the rows (observations) from one dataset, but add on some columns (variables) from another dataset. Where there are conflicts in the values across the different datasets, there are several ways that these may be resolved.</p>
 <p>The <code><a href="reference/consolidate.html">consolidate()</a></code> function facilitates consolidating a set of datasets, or a datacube, from a ‘many’ package into a single dataset with some combination of the rows and columns. The function includes separate arguments for rows and columns, as well as for how to resolve conflicts in observations across datasets. The key argument indicates the column to collapse datasets by. This provides users with considerable flexibility in how they combine data.</p>
 <p>For example, users may wish to see units and variables coded in “any” dataset (i.e. units or variables present in at least one of the datasets in the datacube) or units and variables coded in “every” dataset (i.e. units or variables present in all of the datasets in the datacube).</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
@@ -296,6 +298,8 @@
 <ul class="list-unstyled">
 <li>
 <a href="https://jameshollway.com" class="external-link">James Hollway</a> <br><small class="roles"> Maintainer, author, contributor </small> <a href="https://orcid.org/0000-0002-8361-9647" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
+<li>
+<a href="https://henriquesposito.com" class="external-link">Henrique Sposito</a> <br><small class="roles"> Author, contributor </small> <a href="https://orcid.org/0000-0003-3420-6085" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
 <li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
