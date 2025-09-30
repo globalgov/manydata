@@ -1,3 +1,10 @@
+# manydata 1.1.1
+
+## Package
+
+- Updated website address
+- Updated authorship
+
 # manydata 1.1.0
 
 ## Package

@@ -5,8 +5,10 @@ bibentry(
      title = "manydata: The portal for global governance data",
      author = c(
        person("James", "Hollway", 
-       role = c("cre", "aut", "ctb"),
-       email = "james.hollway@graduateinstitute.ch")
+         role = c("cre", "aut", "ctb"),
+         email = "james.hollway@graduateinstitute.ch"),
+       person("Henrique", "Sposito", 
+         role = c("aut", "ctb"))
      ),
      year = "2021",
      url = "https://github.com/globalgov/manydata"
