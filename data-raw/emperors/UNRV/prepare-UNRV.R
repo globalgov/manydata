@@ -15,15 +15,16 @@ UNRV <- apply(UNRV, 2, stringi::stri_enc_toascii)
 # Let's standardise dates and variable names
 UNRV <- tibble::as_tibble(UNRV) |>
   dplyr::mutate(Begin = messydates::as_messydate(Beg),
-                End = messydates::as_messydate(End)) |>
+                End = messydates::as_messydate(End),
+                # A bare "?" marks an unknown date in the source,
+                # but is not a valid messydate, so it is treated as missing
+                Birth = messydates::as_messydate(dplyr::na_if(Birth, "?")),
+                Death = messydates::as_messydate(dplyr::na_if(Death, "?"))) |>
   dplyr::rename(ID = "Common Name",
          FullName = "Full Name/Imperial Name",
          Dynasty = "Dynasty/Class/Notes") |>
   dplyr::relocate(ID, Begin, End) |> 
   dplyr::select(-Beg)
-# Note that an unknown date of death ("?", Romulus Augustulus)
-# was set to NA in data/emperors.rda directly (v1.1.4),
-# as a bare "?" is not a valid messydate
 # manydata includes several functions that should help cleaning
 # and standardising your data.
 # Please see the vignettes or website for more details.
