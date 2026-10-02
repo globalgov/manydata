@@ -6,6 +6,8 @@
   - `code_extend_glove()` now checks whether `{text2vec}` is installed
 - Suggested packages now only offered for installation in interactive sessions
 - Examples and tests requiring suggested packages are now skipped if not installed
+- Now depends on R >= 4.1.0 and uses the native pipe `|>` internally
+  - `%>%` is still re-exported for users
 - Updated GitHub actions and PR template
   - PR checks now include PR metadata and reverse dependency checks
   - Releases now draw their notes from the NEWS file

@@ -92,10 +92,10 @@ wikipedia$birth[66] <-  paste0(wikipedia$birth[66], "..", "0359-05-23")
 # Remove non-ASCII characters
 wikipedia <- purrr::map(wikipedia, stringi::stri_enc_toascii)
 # Let's standardise dates and variable names
-wikipedia <- as_tibble(wikipedia) %>%
+wikipedia <- as_tibble(wikipedia) |>
   transmutate(ID = name,
               Begin = messydates::as_messydate(reign.start),
-              End = messydates::as_messydate(reign.end)) %>%
+              End = messydates::as_messydate(reign.end)) |>
   dplyr::rename(FullName = name.full,
                 Birth = birth,
                 Death = death,
@@ -107,8 +107,8 @@ wikipedia <- as_tibble(wikipedia) %>%
                 Dynasty = dynasty,
                 Era = era,
                 Notes = notes,
-                Verif = verif.who) %>%
-  dplyr::select(-index) %>%
+                Verif = verif.who) |>
+  dplyr::select(-index) |>
   dplyr::relocate(ID, Begin, End)
 # manydata includes several functions that should help cleaning
 # and standardising your data.

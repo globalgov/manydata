@@ -37,7 +37,7 @@ data.favour <- dplyr::tibble(manyID = c("NZL", "BRA"),
 data.con.any <- dplyr::tibble(manyID = c("NZL", "BRA"),
                               date = mdate(c("1990-01-01",
                                        "1990-01-02")),
-                              number = c(100, 1000)) %>% arrange(date)
+                              number = c(100, 1000)) |> arrange(date)
 data.13.any <- dplyr::tibble(manyID = c("NZL", "BRA", "CHF", "OTH"),
                                 date = mdate(c("1990-01-01", "1990-01-02",
                                          "1990-01-01..1990-01-31", NA)),
@@ -57,7 +57,7 @@ data.con.min <- dplyr::tibble(manyID = c("NZL", "BRA"),
 data.con.max <- dplyr::tibble(manyID = c("NZL", "BRA"),
                               date = mdate(c("1990-01-01",
                                        "1990-01-03")),
-                              number = c(100, 1200)) %>% arrange(date)
+                              number = c(100, 1200)) |> arrange(date)
 data.con.median <- dplyr::tibble(manyID = c("NZL", "BRA"),
                               date = mdate(c("1990-01-01",
                                        "1990-01-02")),

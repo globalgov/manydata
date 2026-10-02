@@ -220,8 +220,8 @@ code_extend_glove <- function(titles, var,
     cli::cli_alert_success("Predicted {length(na_codes)} missing codes")
     data.frame(title = titles[na_codes], 
                suggestion = as.vector(pred_class),
-               probability = max_prob) %>% 
-      dplyr::as_tibble() %>% dplyr::arrange(dplyr::desc(probability))
+               probability = max_prob) |> 
+      dplyr::as_tibble() |> dplyr::arrange(dplyr::desc(probability))
   } else {
     cli::cli_alert_info("Checking existing codes for possible errors.")
     pred_check <- stats::predict(fit, newx = X, s = "lambda.min", type = "response")
@@ -231,9 +231,9 @@ code_extend_glove <- function(titles, var,
     data.frame(title = titles, 
                current = var, 
                suggestion = as.vector(pred_class),
-               probability = max_prob) %>% 
-      dplyr::as_tibble() %>% 
-      dplyr::filter(current != suggestion) %>%
+               probability = max_prob) |> 
+      dplyr::as_tibble() |> 
+      dplyr::filter(current != suggestion) |>
       dplyr::arrange(dplyr::desc(probability))
     
   }
@@ -409,7 +409,7 @@ code_extend_bert <- function(
       probability= as.numeric(max_prob),
       stringsAsFactors = FALSE
     )
-    out <- dplyr::as_tibble(out)  %>% 
+    out <- dplyr::as_tibble(out)  |> 
       dplyr::arrange(dplyr::desc(probability))
     list(per_class_metrics = perf, suggestions = out)
   } else {
@@ -429,8 +429,8 @@ code_extend_bert <- function(
       probability = as.numeric(max_prob),
       stringsAsFactors = FALSE
     )
-    out <- dplyr::as_tibble(out) %>% 
-      dplyr::filter(current != suggestion) %>% 
+    out <- dplyr::as_tibble(out) |> 
+      dplyr::filter(current != suggestion) |> 
       dplyr::arrange(dplyr::desc(probability))
     list(per_class_metrics = perf, potential_mismatches = out)
   }

@@ -53,9 +53,9 @@ call_treaties <- function(dataset, treaty_type = NULL, variable = NULL,
   }
   # get variables, if declared
   if (!is.null(variable)) {
-    out <- dataset[,c(key, variable)] %>% dplyr::distinct()
+    out <- dataset[,c(key, variable)] |> dplyr::distinct()
   } else {
-    out <- dataset[,key] %>% dplyr::distinct()
+    out <- dataset[,key] |> dplyr::distinct()
   }
   # subset treaty types
   if (!is.null(treaty_type)) {
@@ -68,13 +68,13 @@ call_treaties <- function(dataset, treaty_type = NULL, variable = NULL,
   }
   # get memebership lists, if actor is declared
   if (!is.null(actor)) {
-    actors <- dataset[,c(key, actor)] %>% dplyr::distinct()
+    actors <- dataset[,c(key, actor)] |> dplyr::distinct()
     names(actors)[names(actors) == actor] <- "Memberships"
-    out <- actors %>%
-      dplyr::group_by(manyID) %>%
-      dplyr::summarise(Memberships = toString(Memberships)) %>%
-      dplyr::ungroup() %>%
-      dplyr::right_join(out, by = key) %>%
+    out <- actors |>
+      dplyr::group_by(manyID) |>
+      dplyr::summarise(Memberships = toString(Memberships)) |>
+      dplyr::ungroup() |>
+      dplyr::right_join(out, by = key) |>
       dplyr::distinct()
   }
   out

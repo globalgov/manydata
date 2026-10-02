@@ -56,7 +56,7 @@ resolve_coalesce <- function(.data, vars){
   if(missing(vars)) vars <- names(.data)
   .data <- as.data.frame(.data)
   toCoal <- dplyr::select(.data, dplyr::all_of(vars))
-  out <- .data %>% dplyr::mutate(dplyr::coalesce(!!!as.data.frame(toCoal))) %>% 
+  out <- .data |> dplyr::mutate(dplyr::coalesce(!!!as.data.frame(toCoal))) |> 
     dplyr::pull(var = -1)
   if(class(out) != class(.data[,vars[1]]))
     class(out) <- class(.data[,vars[1]])
@@ -124,13 +124,13 @@ resolve_random <- function(.data, vars, na.rm = TRUE) {
     mat[cbind(row_idx, col_idx)]
   } else {
     # Long format: filter NAs, sample one value per row
-    toRes %>%
-      mutate(.row = row_number()) %>%
-      pivot_longer(-.row) %>%
-      filter(!is.na(value)) %>%
-      group_by(.row) %>%
-      slice_sample(n = 1) %>%
-      arrange(.row) %>%
+    toRes |>
+      mutate(.row = row_number()) |>
+      pivot_longer(-.row) |>
+      filter(!is.na(value)) |>
+      group_by(.row) |>
+      slice_sample(n = 1) |>
+      arrange(.row) |>
       pull(value)
   }
 }
@@ -179,16 +179,16 @@ resolve_mode <- function(.data, vars, na.rm = TRUE) {
   if (missing(vars)) vars <- names(.data)
   toRes <- dplyr::select(.data, dplyr::all_of(vars))
   
-  toRes %>%
-    mutate(.row = row_number()) %>%
-    pivot_longer(-.row) %>%
-    { if (na.rm) filter(., !is.na(value)) else . } %>%
-    group_by(.row, value) %>%
-    summarise(n = n(), .groups = "drop_last") %>%
-    filter(n == max(n, na.rm = TRUE)) %>%
-    slice(1) %>%  # break ties arbitrarily (first mode)
-    ungroup() %>%
-    arrange(.row) %>%
+  toRes |>
+    mutate(.row = row_number()) |>
+    pivot_longer(-.row) |>
+    filter(!na.rm | !is.na(value)) |>
+    group_by(.row, value) |>
+    summarise(n = n(), .groups = "drop_last") |>
+    filter(n == max(n, na.rm = TRUE)) |>
+    slice(1) |>  # break ties arbitrarily (first mode)
+    ungroup() |>
+    arrange(.row) |>
     pull(value)
 }
 

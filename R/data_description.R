@@ -7,7 +7,6 @@
 #'   datacube.
 #' @param data A `{tibble}` or a `{data.frame}`.
 #' @return A data report of class 'mreport'.
-#' @importFrom dplyr %>%
 #' @importFrom stats na.omit
 #' @details 'mreport' displays the variable's name,
 #'   the variable type, the number of observations per variable,
