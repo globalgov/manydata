@@ -16,6 +16,7 @@
 \alias{data_contrast}
 \alias{data_evolution}
 \alias{plot_releases}
+\alias{code_extend_glove}
 \title{Functions that have been renamed, superseded, or are no longer working}
 \usage{
 coalesce_compatible(.data)
@@ -45,6 +46,8 @@ data_contrast(.data)
 data_evolution(.data)
 
 plot_releases(.data)
+
+code_extend_glove(titles, var, req_f1 = 0.8, rarity_threshold = 8)
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
@@ -84,6 +87,8 @@ wherever possible and update your scripts accordingly.
 \item \code{data_evolution()}: Removed on 2023-06-19.
 
 \item \code{plot_releases()}: Renamed on 2023-07-03.
+
+\item \code{code_extend_glove()}: Removed on 2026-10-02.
 
 }}
 \keyword{internal}

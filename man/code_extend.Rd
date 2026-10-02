@@ -2,11 +2,20 @@
 % Please edit documentation in R/code_extend.R
 \name{code_extend}
 \alias{code_extend}
-\alias{code_extend_glove}
+\alias{code_extend_dfm}
 \alias{code_extend_bert}
 \title{Extending codes}
 \usage{
-code_extend_glove(titles, var, req_f1 = 0.8, rarity_threshold = 8)
+code_extend(
+  titles,
+  var,
+  embedding = c("dfm", "bert", "glove"),
+  req_f1 = 0.8,
+  rarity_threshold = 8,
+  emb_texts
+)
+
+code_extend_dfm(titles, var, req_f1 = 0.8, rarity_threshold = 8)
 
 code_extend_bert(titles, var, req_f1 = 0.8, rarity_threshold = 8, emb_texts)
 }
@@ -20,6 +29,10 @@ The function will suggest codes for these entries.
 If no missing codes are present, the function will check existing codes
 for potential mismatches.}
 
+\item{embedding}{How the text should be embedded before training the model.
+One of "dfm" (default), "bert", or "glove" (no longer available).
+See the sections below for more details.}
+
 \item{req_f1}{The required macro-F1 score on the validation set
 before proceeding with inference.
 Default is 0.80.}
@@ -30,20 +43,27 @@ Codes with fewer occurrences are excluded from training
 to ensure sufficient data for learning.
 Default is 8.}
 
-\item{emb_texts}{For \code{code_extend_bert()}, pre-computed embeddings
-from \code{text::textEmbed()}.
+\item{emb_texts}{For \code{embedding = "bert"} or \code{code_extend_bert()},
+pre-computed embeddings from \code{text::textEmbed()}.
 This avoids re-computing embeddings if they have already been computed.
-A Hugging Face model can be specified via the \code{model} argument.
-Default is "sentence-transformers/all-MiniLM-L6-v2".
-Other models can be used, but they should produce
-sentence-level embeddings.}
+Any model can be used to compute them,
+e.g. "sentence-transformers/all-MiniLM-L6-v2",
+but it should produce sentence-level embeddings.}
+}
+\value{
+A list with the per-class precision, recall, and F1-score
+on the validation set (\code{per_class_metrics}),
+and a tibble of either the suggested codes for entries with missing codes
+(\code{suggestions}) or, if there are no missing codes,
+the entries where the current code differs from the model's suggestion
+(\code{potential_mismatches}).
+With the "dfm" embedding, \code{NULL} is returned if no model reaches
+the required macro-F1 score.
 }
 \description{
 These functions use text embeddings and multinomial logistic regression
 to suggest missing codes or flag potentially incorrect codes based on text data.
-Two approaches are provided: one using GloVe embeddings trained on the input text,
-and another using pre-trained BERT embeddings via the \code{{text}} package.
-Both functions require a vector of text (e.g., titles or descriptions)
+They require a vector of text (e.g., titles or descriptions)
 and a corresponding vector of categorical codes, with \code{NA} or empty strings
 indicating missing codes to be inferred.
 The functions train a multinomial logistic regression model
@@ -53,11 +73,49 @@ The functions also validate the model's performance
 on a holdout set and report per-class precision, recall, and F1-score.
 If no missing codes are present, the functions instead
 check existing codes for potential mismatches and report them.
-Note that \code{code_extend_glove()} requires the \code{{text2vec}} package
-to be installed.
+
+\code{code_extend()} is the main function,
+and the \code{embedding} argument chooses how the text is embedded.
+\code{code_extend_dfm()} and \code{code_extend_bert()} can also be called directly.
 }
+\section{DFM}{
+
+\code{embedding = "dfm"} (the default) or \code{code_extend_dfm()}
+represents each text by its row in a document-feature matrix
+with tf-idf weights, constructed using the \code{{quanteda}} package.
+The matrix is built from the input text only,
+so this option is quick and requires no other input.
+It works well for short texts such as titles,
+where the presence of particular words is informative about the code.
+}
+
+\section{BERT}{
+
+\code{embedding = "bert"} or \code{code_extend_bert()}
+uses pre-trained sentence embeddings (from the BERT family of models),
+as returned by \code{text::textEmbed()} and passed to the \code{emb_texts} argument.
+These embeddings draw on knowledge from outside the input text,
+and so can recognise similar meanings expressed in different words,
+but they must be computed by the user beforehand,
+which requires the \code{{text}} package and a Python installation.
+}
+
+\section{GloVe}{
+
+\code{embedding = "glove"} or \code{code_extend_glove()}
+trained GloVe word embeddings on the input text
+using the \code{{text2vec}} package.
+This option is no longer available since v1.2.0,
+because \code{{text2vec}} depends on packages scheduled for archival from CRAN.
+GloVe embeddings also need a large corpus to train on,
+and on short texts such as titles
+they performed less well than the DFM embedding in our tests
+(a mean macro-F1 of 0.68 against 0.79 on the \code{emperors} example).
+Please use \code{embedding = "dfm"} instead.
+}
+
 \examples{
-\dontshow{if (requireNamespace("text2vec", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (requireNamespace("quanteda", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 titles <- paste(emperors$Wikipedia$CityBirth,
                 emperors$Wikipedia$ProvinceBirth,
                 emperors$Wikipedia$Rise,
@@ -68,7 +126,6 @@ var[var=="Unknown"] <- NA
 var[var \%in\% c("Senate","Court Officials","Opposing Army")] <- "Enemies"
 var[var \%in\% c("Fire","Lightning","Aneurism","Heart Failure")] <- "God"
 var[var \%in\% c("Wife","Usurper","Praetorian Guard","Own Army")] <- "Friends"
-glo <- code_extend_glove(titles, 
-           var)
+code_extend(titles, var, embedding = "dfm", req_f1 = 0.6)
 \dontshow{\}) # examplesIf}
 }

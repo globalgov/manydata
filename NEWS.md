@@ -1,3 +1,17 @@
+# manydata 1.2.0
+
+## Coding
+
+- Added `code_extend()` with an `embedding` argument for choosing how texts are embedded ("dfm" or "bert")
+- Added `code_extend_dfm()` for extending codes using a document-feature matrix from `{quanteda}`
+  - Removed `code_extend_glove()`; please use `code_extend_dfm()` instead
+- Fixed `code_extend_bert()` erroring when checking existing codes for mismatches
+- Documented the embedding options in sections of the `code_extend()` help page
+
+## Package
+
+- Replaced `{text2vec}` with `{quanteda}` in Suggests
+
 # manydata 1.1.4
 
 ## Package

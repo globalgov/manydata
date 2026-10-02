@@ -2,9 +2,7 @@
 #' @description
 #'   These functions use text embeddings and multinomial logistic regression
 #'   to suggest missing codes or flag potentially incorrect codes based on text data.
-#'   Two approaches are provided: one using GloVe embeddings trained on the input text,
-#'   and another using pre-trained BERT embeddings via the `{text}` package.
-#'   Both functions require a vector of text (e.g., titles or descriptions)
+#'   They require a vector of text (e.g., titles or descriptions)
 #'   and a corresponding vector of categorical codes, with `NA` or empty strings
 #'   indicating missing codes to be inferred.
 #'   The functions train a multinomial logistic regression model
@@ -14,8 +12,37 @@
 #'   on a holdout set and report per-class precision, recall, and F1-score.
 #'   If no missing codes are present, the functions instead
 #'   check existing codes for potential mismatches and report them.
-#'   Note that `code_extend_glove()` requires the `{text2vec}` package
-#'   to be installed.
+#'
+#'   `code_extend()` is the main function,
+#'   and the `embedding` argument chooses how the text is embedded.
+#'   `code_extend_dfm()` and `code_extend_bert()` can also be called directly.
+#' @section DFM:
+#'   `embedding = "dfm"` (the default) or `code_extend_dfm()`
+#'   represents each text by its row in a document-feature matrix
+#'   with tf-idf weights, constructed using the `{quanteda}` package.
+#'   The matrix is built from the input text only,
+#'   so this option is quick and requires no other input.
+#'   It works well for short texts such as titles,
+#'   where the presence of particular words is informative about the code.
+#' @section BERT:
+#'   `embedding = "bert"` or `code_extend_bert()`
+#'   uses pre-trained sentence embeddings (from the BERT family of models),
+#'   as returned by `text::textEmbed()` and passed to the `emb_texts` argument.
+#'   These embeddings draw on knowledge from outside the input text,
+#'   and so can recognise similar meanings expressed in different words,
+#'   but they must be computed by the user beforehand,
+#'   which requires the `{text}` package and a Python installation.
+#' @section GloVe:
+#'   `embedding = "glove"` or `code_extend_glove()`
+#'   trained GloVe word embeddings on the input text
+#'   using the `{text2vec}` package.
+#'   This option is no longer available since v1.2.0,
+#'   because `{text2vec}` depends on packages scheduled for archival from CRAN.
+#'   GloVe embeddings also need a large corpus to train on,
+#'   and on short texts such as titles
+#'   they performed less well than the DFM embedding in our tests
+#'   (a mean macro-F1 of 0.68 against 0.79 on the `emperors` example).
+#'   Please use `embedding = "dfm"` instead.
 #' @name code_extend
 #' @importFrom caret confusionMatrix createDataPartition
 #' @importFrom glmnet cv.glmnet
@@ -26,6 +53,9 @@
 #'   The function will suggest codes for these entries.
 #'   If no missing codes are present, the function will check existing codes
 #'   for potential mismatches.
+#' @param embedding How the text should be embedded before training the model.
+#'   One of "dfm" (default), "bert", or "glove" (no longer available).
+#'   See the sections below for more details.
 #' @param req_f1 The required macro-F1 score on the validation set
 #'   before proceeding with inference.
 #'   Default is 0.80.
@@ -34,7 +64,21 @@
 #'   Codes with fewer occurrences are excluded from training
 #'   to ensure sufficient data for learning.
 #'   Default is 8.
-#' @examplesIf requireNamespace("text2vec", quietly = TRUE)
+#' @param emb_texts For `embedding = "bert"` or `code_extend_bert()`,
+#'   pre-computed embeddings from `text::textEmbed()`.
+#'   This avoids re-computing embeddings if they have already been computed.
+#'   Any model can be used to compute them,
+#'   e.g. "sentence-transformers/all-MiniLM-L6-v2",
+#'   but it should produce sentence-level embeddings.
+#' @return A list with the per-class precision, recall, and F1-score
+#'   on the validation set (`per_class_metrics`),
+#'   and a tibble of either the suggested codes for entries with missing codes
+#'   (`suggestions`) or, if there are no missing codes,
+#'   the entries where the current code differs from the model's suggestion
+#'   (`potential_mismatches`).
+#'   With the "dfm" embedding, `NULL` is returned if no model reaches
+#'   the required macro-F1 score.
+#' @examplesIf requireNamespace("quanteda", quietly = TRUE)
 #' titles <- paste(emperors$Wikipedia$CityBirth,
 #'                 emperors$Wikipedia$ProvinceBirth,
 #'                 emperors$Wikipedia$Rise,
@@ -45,208 +89,43 @@
 #' var[var %in% c("Senate","Court Officials","Opposing Army")] <- "Enemies"
 #' var[var %in% c("Fire","Lightning","Aneurism","Heart Failure")] <- "God"
 #' var[var %in% c("Wife","Usurper","Praetorian Guard","Own Army")] <- "Friends"
-#' glo <- code_extend_glove(titles, 
-#'            var)
+#' code_extend(titles, var, embedding = "dfm", req_f1 = 0.6)
 #' @export
-code_extend_glove <- function(titles, var, 
-                              req_f1 = 0.80,
-                              rarity_threshold = 8){
-  thisRequires("text2vec")
-
-  # Tokenize full corpus
-  tok <- text2vec::itoken(titles, tokenizer = text2vec::word_tokenizer, 
-                          progress_bar = FALSE)
-  vocab <- text2vec::create_vocabulary(tok)
-  vectorizer <- text2vec::vocab_vectorizer(vocab)
-  
-  # Term co-occurrence matrix for GloVe
-  tcm <- text2vec::create_tcm(it = tok, vectorizer = vectorizer, 
-                              skip_grams_window = 5)
-  
-  # Train GloVe
-  cli::cli_alert_info("Training GloVe model.")
-  glv <- text2vec::GlobalVectors$new(rank = 100, x_max = 10)
-  w_main <- glv$fit_transform(tcm, n_iter = 20)
-  w_ctx  <- glv$components
-  W <- w_main + t(w_ctx)   # combine main + context (transpose is crucial)
-  
-  # Build sentence embeddings by averaging word vectors
-  tokens_list <- text2vec::word_tokenizer(titles)
-  embed_title <- function(tokens, W) {
-    rows <- intersect(tokens, rownames(W))
-    if (length(rows) == 0) return(rep(0, ncol(W)))
-    colMeans(W[rows, , drop = FALSE])
-  }
-  X <- t(vapply(tokens_list, embed_title, W = W, FUN.VALUE = numeric(ncol(W))))
-  
-  # Split data into training and inference data
-  na_codes <- which(is.na(var) | var == "")
-  if (length(na_codes) > 0) {
-    cli::cli_alert_info("Found {length(na_codes)} missing codes to infer.")
-    X_inf <- X[na_codes, , drop = FALSE]
-    y_inf <- var[na_codes]
-    X_train <- X[-na_codes, , drop = FALSE]
-    y_train <- var[-na_codes]
-  } else {
-    cli::cli_alert_success("No additional coding required. Training for validation.")
-    X_train <- X
-    y_train <- var
-  }
-  
-  # Remove rare codes from training
-  few_codes <- which(y_train %in% names(which(table(y_train) < rarity_threshold)))
-  if (length(few_codes) > 0) {
-    cli::cli_alert_info("Removing {names(which(table(y_train) < rarity_threshold))} codes from training data as they have fewer than {rarity_threshold} occurrences.")
-    X_train <- X_train[-few_codes, , drop = FALSE]
-    y_train <- y_train[-few_codes]
-  }
-  
-  # Stratified sampling of training data into train and test sets
-  idx <- caret::createDataPartition(y_train, p = 0.75, list = FALSE)[,1]
-  X_tr <- X_train[idx, , drop = FALSE]
-  X_te <- X_train[-idx, , drop = FALSE]
-  y_tr <- y_train[idx]
-  y_te <- y_train[-idx]
-  
-  # Creates weights to help handle class imbalance
-  obs_weights <- data.frame(logscaled = as.vector((1/log1p(table(y_tr)))[y_tr]),
-                            smoothed = as.vector((1/(table(y_tr) + 5))[y_tr]),
-                            inverse = as.vector((1/(table(y_tr))[y_tr])),
-                            no = as.vector((table(y_tr)/length(y_tr))[y_tr]))
-  
-  # Ensure consistent factor levels
-  class_levels <- sort(unique(y_tr))
-  y_tr_f <- factor(y_tr, levels = class_levels)
-  y_te_f <- factor(y_te, levels = class_levels)
-  
-  # 5) Observation weights for imbalance ####
-  counts <- table(y_tr_f)
-  obs_weights <- list(
-    logscaled = as.vector((1 / log1p(counts))[y_tr_f]),
-    smoothed  = as.vector((1 / (counts + 5))[y_tr_f]),
-    inverse   = as.vector((1 / counts)[y_tr_f]),
-    no        = as.vector((counts / length(y_tr_f))[y_tr_f])
-  )
-  
-  # 6) Train with different weighting schemes; early-stop on macro-F1 ####
-  best_fit <- NULL
-  best_w   <- NULL
-  best_f1  <- -Inf
-  
-  for (w in names(obs_weights)) {
-    cli::cli_alert_info("Training glmnet with '{w}' weights.")
-    fit <- glmnet::cv.glmnet(
-      x = X_tr,
-      y = y_tr_f,
-      family = "multinomial",
-      weights = obs_weights[[w]]
-    )
-    cli::cli_alert_success("Model trained with '{w}' weights.")
-    
-    # Validate
-    cli::cli_alert_info("Validating on {length(y_te_f)} observations.")
-    pred_cls <- stats::predict(fit, newx = X_te, s = "lambda.min", type = "class")
-    pred_cls <- as.vector(pred_cls)
-    
-    f1 <- macro_f1(y_te_f, pred_cls, class_levels)
-    cli::cli_alert_info("Macro-F1 = {round(f1, 3)} with '{w}' weights.")
-    
-    if (f1 > best_f1) {
-      best_f1  <- f1
-      best_fit <- fit
-      best_w   <- w
-    }
-    if (f1 >= req_f1) break
-  }
-  
-  if (best_f1 < req_f1) {
-    cli::cli_alert_warning(
-      "Macro-F1 ({round(best_f1, 3)}) below requirement ({req_f1}). Consider more data or parameter changes."
-    )
-    return(NULL)
-  } else {
-    cli::cli_alert_success(
-      "Sufficient model found. Macro-F1 = {round(best_f1, 3)} with '{best_w}' weights."
-    )
-    # Report per-class metrics on the holdout
-    final_pred <- stats::predict(best_fit, newx = X_te, s = "lambda.min", type = "class")
-    final_pred <- as.vector(final_pred)
-    cm <- caret::confusionMatrix(
-      data = factor(final_pred, levels = class_levels),
-      reference = factor(y_te_f, levels = class_levels),
-      mode = "prec_recall"
-    )
-    # Return per-class metrics
-    perf <- cm$byClass[, c("Precision", "Recall", "F1"), drop = FALSE]
-  }
-  
-  # valid_acc <- 0
-  # for(w in names(obs_weights)){
-  #   cli::cli_alert_info("Training with {w} weights.")
-  #   # Multinomial glmnet on dense embeddings
-  #   fit <- glmnet::cv.glmnet(x = X_tr, y = y_tr, family = "multinomial",
-  #                            weights = obs_weights[[w]])
-  #   cli::cli_alert_success("Model trained with {w} weights.")
-  #   
-  #   # Validation
-  #   cli::cli_alert_info("Validating on {length(y_te)} observations.")
-  #   pred <- predict(fit, newx = X_te, s = "lambda.min", type = "class")
-  #   validation <- data.frame(#title = titles[-na_codes][-few_codes][-idx], 
-  #                            truth = y_te, 
-  #                            pred = as.vector(pred))
-  #   valid_acc <- round(mean(validation$truth == validation$pred), 3)
-  # 
-  #   if(valid_acc >= req_accuracy){
-  #     break
-  #   } else {
-  #     cli::cli_alert_warning("Overall accuracy too low ({valid_acc}) with {w} weights.")
-  #   }
-  # }
-  # 
-  # if(valid_acc < req_accuracy){
-  #   cli::cli_alert_warning("Consider retraining with more data or different parameters.")
-  #   return(NULL)
-  # } else {
-  #   cli::cli_alert_success("Sufficiently performant model found ({valid_acc}) with {w} weights.")
-  #   (caret::confusionMatrix(as.factor(pred[,1]), as.factor(y_te))$byClass)[,c("Precision", "Recall", "F1")]
-  # }
-  
-  if (length(na_codes) > 0) {
-    # Predict on inference data ####
-    cli::cli_alert_info("Proceeding with inference.")
-    pred_inf <- stats::predict(fit, newx = X_inf, s = "lambda.min", type = "response")
-    max_prob <- apply(pred_inf, 1, max)
-    pred_class <- apply(pred_inf, 1, function(x) rownames(x)[which.max(x)])
-    cli::cli_alert_success("Predicted {length(na_codes)} missing codes")
-    data.frame(title = titles[na_codes], 
-               suggestion = as.vector(pred_class),
-               probability = max_prob) |> 
-      dplyr::as_tibble() |> dplyr::arrange(dplyr::desc(probability))
-  } else {
-    cli::cli_alert_info("Checking existing codes for possible errors.")
-    pred_check <- stats::predict(fit, newx = X, s = "lambda.min", type = "response")
-    max_prob <- apply(pred_check, 1, max)
-    pred_class <- apply(pred_check, 1, function(x) rownames(x)[which.max(x)])
-    cli::cli_alert_success("Found {sum(pred_class != var)} unlikely codes")
-    data.frame(title = titles, 
-               current = var, 
-               suggestion = as.vector(pred_class),
-               probability = max_prob) |> 
-      dplyr::as_tibble() |> 
-      dplyr::filter(current != suggestion) |>
-      dplyr::arrange(dplyr::desc(probability))
-    
-  }
+code_extend <- function(titles, var,
+                        embedding = c("dfm", "bert", "glove"),
+                        req_f1 = 0.80,
+                        rarity_threshold = 8,
+                        emb_texts){
+  embedding <- match.arg(embedding)
+  switch(embedding,
+         dfm = code_extend_dfm(titles, var, req_f1 = req_f1,
+                               rarity_threshold = rarity_threshold),
+         bert = code_extend_bert(titles, var, req_f1 = req_f1,
+                                 rarity_threshold = rarity_threshold,
+                                 emb_texts = emb_texts),
+         glove = code_extend_glove(titles, var, req_f1 = req_f1,
+                                   rarity_threshold = rarity_threshold))
 }
 
 #' @rdname code_extend
-#' @param emb_texts For `code_extend_bert()`, pre-computed embeddings
-#'   from `text::textEmbed()`.
-#'   This avoids re-computing embeddings if they have already been computed.
-#'   A Hugging Face model can be specified via the `model` argument.
-#'   Default is "sentence-transformers/all-MiniLM-L6-v2".
-#'   Other models can be used, but they should produce
-#'   sentence-level embeddings.
+#' @export
+code_extend_dfm <- function(titles, var,
+                            req_f1 = 0.80,
+                            rarity_threshold = 8){
+  if (length(titles) != length(var)) stop("titles and var must be the same length.")
+  if (!is.character(titles)) stop("titles must be a character vector.")
+  thisRequires("quanteda")
+
+  # Document-feature matrix of the full corpus, weighted by tf-idf
+  toks <- quanteda::tokens(titles, remove_punct = TRUE)
+  X <- quanteda::dfm_tfidf(quanteda::dfm(toks))
+  X <- methods::as(X, "dgCMatrix")
+
+  code_extend_fit(X, titles, var, req_f1 = req_f1,
+                  rarity_threshold = rarity_threshold, enforce_f1 = TRUE)
+}
+
+#' @rdname code_extend
 #' @export
 code_extend_bert <- function(
     titles,
@@ -254,53 +133,42 @@ code_extend_bert <- function(
     req_f1 = 0.80,
     rarity_threshold = 8,
     emb_texts) {
-  # 0) Basic checks
   if (length(titles) != length(var)) stop("titles and var must be the same length.")
   if (!is.character(titles)) stop("titles must be a character vector.")
   if(missing(emb_texts)){
     stop("Please provide pre-computed embeddings from text::textEmbed() via the emb_texts argument.")
   }
-  
-  # py_required <- c("torch", "sentence_transformers", "nltk")
-  # for (pkg in py_required) {
-  #   if (!reticulate::py_module_available(pkg)) {
-  #     cli::cli_alert_info("Installing {pkg}...")
-  #     reticulate::py_install(pkg, pip = TRUE)
-  #     if(pkg == "nltk"){
-  #       nltk <- reticulate::import("nltk", delay_load = TRUE)
-  #       nltk$download("punkt")
-  #       nltk$download("punkt_tab")
-  #     }
-  #   }
-  # }
-  # reticulate::use_virtualenv("r-bert-clean", required = TRUE)
-  
-  # 1) Get contextual sentence embeddings (BERT family via 'text') ####
-  # cli::cli_alert_info("Embedding titles with model: {model}")
-  # emb <- text::textEmbed(texts = titles, model = model)
-  # if (is.null(emb$texts)) stop("Embedding failed; 'text::textEmbed()' did not return embeddings in $texts.")
-  # X <- as.matrix(emb$texts)
+
+  # Contextual sentence embeddings (BERT family via 'text')
   X <- as.matrix(emb_texts$texts)
   if (anyNA(X)) {
     cli::cli_alert_warning("Embeddings contain NA; replacing with 0.")
     X[is.na(X)] <- 0
   }
-  
-  # 2) Split into training vs inference set based on missing codes ####
+
+  code_extend_fit(X, titles, var, req_f1 = req_f1,
+                  rarity_threshold = rarity_threshold, enforce_f1 = FALSE)
+}
+
+# Trains and validates a multinomial model on the embedded texts (X),
+# and then uses it to infer missing codes or check existing codes
+code_extend_fit <- function(X, titles, var, req_f1, rarity_threshold,
+                            enforce_f1) {
+
+  # 1) Split into training vs inference set based on missing codes ####
   na_codes <- which(is.na(var) | var == "")
   if (length(na_codes) > 0) {
     cli::cli_alert_info("Found {length(na_codes)} missing codes to infer.")
-    X_inf   <- X[na_codes, ]
-    y_inf   <- var[na_codes]
-    X_train <- X[-na_codes, ]
+    X_inf   <- X[na_codes, , drop = FALSE]
+    X_train <- X[-na_codes, , drop = FALSE]
     y_train <- var[-na_codes]
   } else {
     cli::cli_alert_success("No additional coding required. Training for validation.")
     X_train <- X
     y_train <- var
   }
-  
-  # 3) Remove rare codes (based on training only) ####
+
+  # 2) Remove rare codes (based on training only) ####
   tab_train <- table(y_train)
   rare_levels <- names(tab_train[tab_train < rarity_threshold])
   if (length(rare_levels) > 0) {
@@ -311,26 +179,26 @@ code_extend_bert <- function(
     X_train  <- X_train[keep_idx, , drop = FALSE]
     y_train  <- y_train[keep_idx]
   }
-  
+
   # If everything got removed, exit early
   if (length(y_train) == 0) {
     cli::cli_alert_warning("No training data left after filtering rare classes.")
     return(NULL)
   }
-  
-  # 4) Stratified split for validation ####
+
+  # 3) Stratified split for validation ####
   idx <- caret::createDataPartition(y = y_train, p = 0.75, list = FALSE)[, 1]
   X_tr <- X_train[idx, , drop = FALSE]
   X_te <- X_train[-idx, , drop = FALSE]
   y_tr <- y_train[idx]
   y_te <- y_train[-idx]
-  
+
   # Ensure consistent factor levels
   class_levels <- sort(unique(y_tr))
   y_tr_f <- factor(y_tr, levels = class_levels)
   y_te_f <- factor(y_te, levels = class_levels)
-  
-  # 5) Observation weights for imbalance ####
+
+  # 4) Observation weights for imbalance ####
   counts <- table(y_tr_f)
   obs_weights <- list(
     logscaled = as.vector((1 / log1p(counts))[y_tr_f]),
@@ -338,12 +206,12 @@ code_extend_bert <- function(
     inverse   = as.vector((1 / counts)[y_tr_f]),
     no        = as.vector((counts / length(y_tr_f))[y_tr_f])
   )
-  
-  # 6) Train with different weighting schemes; early-stop on macro-F1 ####
+
+  # 5) Train with different weighting schemes; early-stop on macro-F1 ####
   best_fit <- NULL
   best_w   <- NULL
   best_f1  <- -Inf
-  
+
   for (w in names(obs_weights)) {
     cli::cli_alert_info("Training glmnet with '{w}' weights.")
     fit <- glmnet::cv.glmnet(
@@ -353,15 +221,15 @@ code_extend_bert <- function(
       weights = obs_weights[[w]]
     )
     cli::cli_alert_success("Model trained with '{w}' weights.")
-    
+
     # Validate
     cli::cli_alert_info("Validating on {length(y_te_f)} observations.")
     pred_cls <- stats::predict(fit, newx = X_te, s = "lambda.min", type = "class")
     pred_cls <- as.vector(pred_cls)
-    
+
     f1 <- macro_f1(y_te_f, pred_cls, class_levels)
     cli::cli_alert_info("Macro-F1 = {round(f1, 3)} with '{w}' weights.")
-    
+
     if (f1 > best_f1) {
       best_f1  <- f1
       best_fit <- fit
@@ -369,73 +237,76 @@ code_extend_bert <- function(
     }
     if (f1 >= req_f1) break
   }
-  
-  # if (best_f1 < req_f1) {
-  #   cli::cli_alert_warning(
-  #     "Macro-F1 ({round(best_f1, 3)}) below requirement ({req_f1}). Consider more data or parameter changes."
-  #   )
-  #   return(NULL)
-  # } else {
-    cli::cli_alert_success(
-      "Best model found. Macro-F1 = {round(best_f1, 3)} with '{best_w}' weights."
+
+  if (enforce_f1 && best_f1 < req_f1) {
+    cli::cli_alert_warning(
+      "Macro-F1 ({round(best_f1, 3)}) below requirement ({req_f1}). Consider more data or parameter changes."
     )
-    # Report per-class metrics on the holdout
-    final_pred <- stats::predict(best_fit, newx = X_te, s = "lambda.min", type = "class")
-    final_pred <- as.vector(final_pred)
-    cm <- caret::confusionMatrix(
-      data = factor(final_pred, levels = class_levels),
-      reference = factor(y_te_f, levels = class_levels),
-      mode = "prec_recall"
-    )
-    # Return per-class metrics
-    perf <- cm$byClass[, c("Precision", "Recall", "F1"), drop = FALSE]
-  # }
-  
-  # 7) Imputation or consistency check ####
+    return(NULL)
+  }
+  cli::cli_alert_success(
+    "Best model found. Macro-F1 = {round(best_f1, 3)} with '{best_w}' weights."
+  )
+  # Report per-class metrics on the holdout
+  final_pred <- stats::predict(best_fit, newx = X_te, s = "lambda.min", type = "class")
+  final_pred <- as.vector(final_pred)
+  cm <- caret::confusionMatrix(
+    data = factor(final_pred, levels = class_levels),
+    reference = factor(y_te_f, levels = class_levels),
+    mode = "prec_recall"
+  )
+  perf <- cm$byClass[, c("Precision", "Recall", "F1"), drop = FALSE]
+
+  # 6) Imputation or consistency check ####
   if (length(na_codes) > 0) {
     cli::cli_alert_info("Proceeding with inference on missing codes.")
-    pred_prob <- stats::predict(best_fit, newx = X_inf, s = "lambda.min", type = "response")
-    # cv.glmnet multinomial probabilities: [n, K, 1] array; convert to matrix
-    P <- if (length(dim(pred_prob)) == 3) pred_prob[, , 1] else pred_prob
-    # P <- as.matrix(P)
-    colnames(P) <- if (!is.null(colnames(P))) colnames(P) else class_levels
-    max_idx   <- max.col(P, ties.method = "first")
-    pred_lab  <- colnames(P)[max_idx]
-    max_prob  <- P[cbind(seq_len(nrow(P)), max_idx)]
-    
+    P <- prob_matrix(stats::predict(best_fit, newx = X_inf, s = "lambda.min",
+                                    type = "response"), class_levels)
+    max_idx <- max.col(P, ties.method = "first")
+
     out <- data.frame(
-      title      = titles[na_codes],
-      suggestion = as.vector(pred_lab),
-      probability= as.numeric(max_prob),
+      title       = titles[na_codes],
+      suggestion  = colnames(P)[max_idx],
+      probability = as.numeric(P[cbind(seq_len(nrow(P)), max_idx)]),
       stringsAsFactors = FALSE
     )
-    out <- dplyr::as_tibble(out)  |> 
+    out <- dplyr::as_tibble(out) |>
       dplyr::arrange(dplyr::desc(probability))
+    cli::cli_alert_success("Predicted {length(na_codes)} missing codes.")
     list(per_class_metrics = perf, suggestions = out)
   } else {
     cli::cli_alert_info("Checking existing codes for possible errors.")
-    pred_prob <- stats::predict(best_fit, newx = X, s = "lambda.min", type = "response")
-    P <- if (length(dim(pred_prob)) == 3) pred_prob[, , 1, drop = FALSE] else pred_prob
-    P <- as.matrix(P)
-    colnames(P) <- if (!is.null(colnames(P))) colnames(P) else class_levels
-    max_idx   <- max.col(P, ties.method = "first")
-    pred_lab  <- colnames(P)[max_idx]
-    max_prob  <- P[cbind(seq_len(nrow(P)), max_idx)]
-    
+    P <- prob_matrix(stats::predict(best_fit, newx = X, s = "lambda.min",
+                                    type = "response"), class_levels)
+    max_idx <- max.col(P, ties.method = "first")
+
     out <- data.frame(
       title       = titles,
       current     = var,
-      suggestion  = as.vector(pred_lab),
-      probability = as.numeric(max_prob),
+      suggestion  = colnames(P)[max_idx],
+      probability = as.numeric(P[cbind(seq_len(nrow(P)), max_idx)]),
       stringsAsFactors = FALSE
     )
-    out <- dplyr::as_tibble(out) |> 
-      dplyr::filter(current != suggestion) |> 
+    out <- dplyr::as_tibble(out) |>
+      dplyr::filter(current != suggestion) |>
       dplyr::arrange(dplyr::desc(probability))
+    cli::cli_alert_success("Found {nrow(out)} unlikely codes.")
     list(per_class_metrics = perf, potential_mismatches = out)
   }
 }
 
+# cv.glmnet multinomial probabilities are an [n, K, 1] array;
+# this converts them to an [n, K] matrix, also where n is 1
+prob_matrix <- function(pred_prob, class_levels) {
+  if (length(dim(pred_prob)) == 3) {
+    P <- matrix(pred_prob, nrow = dim(pred_prob)[1], ncol = dim(pred_prob)[2],
+                dimnames = dimnames(pred_prob)[1:2])
+  } else {
+    P <- as.matrix(pred_prob)
+  }
+  if (is.null(colnames(P))) colnames(P) <- class_levels
+  P
+}
 
 # Macro-F1 helper (treat NA as 0 to penalize classes with no correct preds)
 macro_f1 <- function(truth, pred, levels) {
@@ -449,4 +320,3 @@ macro_f1 <- function(truth, pred, levels) {
   f1[is.na(f1)] <- 0
   mean(f1)
 }
-

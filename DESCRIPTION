@@ -1,6 +1,6 @@
 Package: manydata
 Title: Many Global Governance Datacubes
-Version: 1.1.4
+Version: 1.2.0
 Authors@R:
     c(person(given = "James",
              family = "Hollway",
@@ -41,6 +41,7 @@ Imports:
     glmnet,
     httr,
     jsonlite,
+    methods,
     purrr,
     remotes,
     stringr,
@@ -52,7 +53,7 @@ Suggests:
     rmarkdown,
     ggVennDiagram,
     rlang,
-    text2vec
+    quanteda
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

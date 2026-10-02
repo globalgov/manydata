@@ -108,3 +108,9 @@ plot_releases <- function(.data) {
   .Deprecated(new = "manydata::call_releases()",
               package = "manydata")
 }
+
+#' @describeIn defunct Removed on 2026-10-02.
+#' @export
+code_extend_glove <- function(titles, var, req_f1 = 0.80, rarity_threshold = 8) {
+  .Defunct("manydata::code_extend_dfm()", package = "manydata")
+}
