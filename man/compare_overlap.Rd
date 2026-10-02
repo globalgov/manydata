@@ -28,15 +28,17 @@ Compare the overlap between datasets in 'many' datacubes
 in each dataset in a 'many' datacube.
 }
 \examples{
+\dontshow{if (requireNamespace("ggVennDiagram", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 \donttest{
 compare_overlap(emperors, key = "ID")
 plot(compare_overlap(emperors, key = "ID"))
 }
+\dontshow{\}) # examplesIf}
 }
 \seealso{
-Other compare_: 
-\code{\link{compare_categories}()},
-\code{\link{compare_dimensions}()},
-\code{\link{compare_missing}()}
+Other compare_:
+\code{\link[=compare_categories]{compare_categories()}},
+\code{\link[=compare_dimensions]{compare_dimensions()}},
+\code{\link[=compare_missing]{compare_missing()}}
 }
 \concept{compare_}

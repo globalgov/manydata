@@ -36,8 +36,8 @@ they can type the package name within the function.
 }
 }
 \seealso{
-Other call_: 
-\code{\link{call_releases}()},
-\code{\link{call_treaties}()}
+Other call_:
+\code{\link[=call_releases]{call_releases()}},
+\code{\link[=call_treaties]{call_treaties()}}
 }
 \concept{call_}

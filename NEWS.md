@@ -1,4 +1,17 @@
-# manydata 1.1.1
+# manydata 1.1.4
+
+## Package
+
+- Moved `{text2vec}` to Suggests because of archival of `{float}`
+  - `code_extend_glove()` now checks whether `{text2vec}` is installed
+- Suggested packages now only offered for installation in interactive sessions
+- Examples and tests requiring suggested packages are now skipped if not installed
+
+## Data
+
+- Fixed invalid date in `emperors$UNRV` causing an error in `consolidate()` eg
+
+# manydata 1.1.3
 
 ## Package
 

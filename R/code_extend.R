@@ -14,8 +14,9 @@
 #'   on a holdout set and report per-class precision, recall, and F1-score.
 #'   If no missing codes are present, the functions instead
 #'   check existing codes for potential mismatches and report them.
+#'   Note that `code_extend_glove()` requires the `{text2vec}` package
+#'   to be installed.
 #' @name code_extend
-#' @importFrom text2vec itoken create_vocabulary vocab_vectorizer
 #' @importFrom caret confusionMatrix createDataPartition
 #' @importFrom glmnet cv.glmnet
 #' @param titles A character vector of text entries (e.g., titles or descriptions).
@@ -33,7 +34,7 @@
 #'   Codes with fewer occurrences are excluded from training
 #'   to ensure sufficient data for learning.
 #'   Default is 8.
-#' @examples
+#' @examplesIf requireNamespace("text2vec", quietly = TRUE)
 #' titles <- paste(emperors$Wikipedia$CityBirth,
 #'                 emperors$Wikipedia$ProvinceBirth,
 #'                 emperors$Wikipedia$Rise,
@@ -50,6 +51,7 @@
 code_extend_glove <- function(titles, var, 
                               req_f1 = 0.80,
                               rarity_threshold = 8){
+  thisRequires("text2vec")
 
   # Tokenize full corpus
   tok <- text2vec::itoken(titles, tokenizer = text2vec::word_tokenizer, 

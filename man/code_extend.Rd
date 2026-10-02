@@ -53,8 +53,11 @@ The functions also validate the model's performance
 on a holdout set and report per-class precision, recall, and F1-score.
 If no missing codes are present, the functions instead
 check existing codes for potential mismatches and report them.
+Note that \code{code_extend_glove()} requires the \code{{text2vec}} package
+to be installed.
 }
 \examples{
+\dontshow{if (requireNamespace("text2vec", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 titles <- paste(emperors$Wikipedia$CityBirth,
                 emperors$Wikipedia$ProvinceBirth,
                 emperors$Wikipedia$Rise,
@@ -67,4 +70,5 @@ var[var \%in\% c("Fire","Lightning","Aneurism","Heart Failure")] <- "God"
 var[var \%in\% c("Wife","Usurper","Praetorian Guard","Own Army")] <- "Friends"
 glo <- code_extend_glove(titles, 
            var)
+\dontshow{\}) # examplesIf}
 }

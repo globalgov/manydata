@@ -131,7 +131,7 @@ find_date <- function(x, type) {
 #' 'manyID' by default.
 #' @importFrom dplyr select rename_with as_tibble
 #' @importFrom purrr map
-#' @examples
+#' @examplesIf requireNamespace("ggVennDiagram", quietly = TRUE)
 #' \donttest{
 #' compare_overlap(emperors, key = "ID")
 #' plot(compare_overlap(emperors, key = "ID"))

@@ -61,7 +61,7 @@ The \code{emperors} datacube is a list containing 3 datasets: Wikipedia, UNRV, a
 #> |Begin       |mdate    |     98|          0|         0|
 #> |End         |mdate    |     98|          0|         0|
 #> |Birth       |mdate    |     74|         24|     24.49|
-#> |Death       |mdate    |     98|          0|         0|
+#> |Death       |mdate    |     97|          1|      1.02|
 #> |FullName    |character|     93|          5|       5.1|
 #> |Dynasty     |character|     61|         37|     37.76|
 #> -------------------------------------------------------

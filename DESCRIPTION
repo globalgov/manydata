@@ -1,7 +1,7 @@
 Package: manydata
 Title: Many Global Governance Datacubes
-Version: 1.1.1
-Date: 2025-09-30
+Version: 1.1.4
+Date: 2026-10-02
 Authors@R:
     c(person(given = "James",
              family = "Hollway",
@@ -28,7 +28,7 @@ Description: This is the core package offering a portal to the many packages uni
     It includes functions to help researchers access, work across, and maintain
     ensembles of datasets on global governance called datacubes.
 License: CC BY 4.0
-URL: https://www.manydata.ch
+URL: https://www.manydata.ch/
 BugReports: https://github.com/globalgov/manydata/issues
 Depends:
     R (>= 3.5.0),
@@ -45,7 +45,6 @@ Imports:
     purrr,
     remotes,
     stringr,
-    text2vec,
     tidyr
 Suggests:
     testthat,
@@ -53,11 +52,11 @@ Suggests:
     knitr,
     rmarkdown,
     ggVennDiagram,
-    rlang
+    rlang,
+    text2vec
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 Config/Needs/build: 
     roxygen2, 
     devtools
@@ -70,3 +69,4 @@ Config/Needs/website:
 Config/testthat/parallel: true
 Config/testthat/edition: 3
 Config/testthat/start-first: compare
+Config/roxygen2/version: 8.1.0

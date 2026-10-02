@@ -74,63 +74,76 @@ import(dplyr)
 import(ggplot2)
 import(messydates)
 import(stringr)
-importFrom(caret,confusionMatrix)
-importFrom(caret,createDataPartition)
+importFrom(caret,
+  confusionMatrix,
+  createDataPartition
+)
 importFrom(cli,cli_alert_info)
-importFrom(dplyr,"%>%")
-importFrom(dplyr,all_of)
-importFrom(dplyr,anti_join)
-importFrom(dplyr,any_vars)
-importFrom(dplyr,arrange)
-importFrom(dplyr,as_tibble)
-importFrom(dplyr,bind_rows)
-importFrom(dplyr,distinct)
-importFrom(dplyr,filter)
-importFrom(dplyr,filter_all)
-importFrom(dplyr,full_join)
-importFrom(dplyr,group_by)
-importFrom(dplyr,inner_join)
-importFrom(dplyr,mutate)
-importFrom(dplyr,mutate_at)
-importFrom(dplyr,relocate)
-importFrom(dplyr,rename)
-importFrom(dplyr,rename_with)
-importFrom(dplyr,select)
-importFrom(dplyr,semi_join)
-importFrom(dplyr,starts_with)
-importFrom(dplyr,summarise)
-importFrom(dplyr,tibble)
+importFrom(dplyr,
+  "%>%",
+  all_of,
+  anti_join,
+  any_vars,
+  arrange,
+  as_tibble,
+  bind_rows,
+  distinct,
+  filter,
+  filter_all,
+  full_join,
+  group_by,
+  inner_join,
+  mutate,
+  mutate_at,
+  relocate,
+  rename,
+  rename_with,
+  select,
+  semi_join,
+  starts_with,
+  summarise,
+  tibble
+)
 importFrom(dtplyr,lazy_dt)
 importFrom(glmnet,cv.glmnet)
-importFrom(httr,GET)
-importFrom(httr,content)
-importFrom(httr,http_error)
-importFrom(httr,stop_for_status)
-importFrom(httr,warn_for_status)
+importFrom(httr,
+  GET,
+  content,
+  http_error,
+  stop_for_status,
+  warn_for_status
+)
 importFrom(jsonlite,fromJSON)
 importFrom(messydates,as_messydate)
-importFrom(purrr,map)
-importFrom(purrr,pluck)
-importFrom(purrr,reduce)
+importFrom(purrr,
+  map,
+  pluck,
+  reduce
+)
 importFrom(remotes,install_github)
-importFrom(stats,ave)
-importFrom(stats,na.omit)
-importFrom(stats,reorder)
-importFrom(stringr,str_count)
-importFrom(stringr,str_detect)
-importFrom(stringr,str_extract_all)
-importFrom(stringr,str_remove)
-importFrom(stringr,str_remove_all)
-importFrom(stringr,str_replace_all)
-importFrom(stringr,str_split)
-importFrom(stringr,word)
-importFrom(text2vec,create_vocabulary)
-importFrom(text2vec,itoken)
-importFrom(text2vec,vocab_vectorizer)
-importFrom(tidyr,drop_na)
-importFrom(tidyr,fill)
-importFrom(tidyr,pivot_longer)
-importFrom(tidyr,pivot_wider)
-importFrom(tidyr,replace_na)
-importFrom(utils,askYesNo)
-importFrom(utils,packageVersion)
+importFrom(stats,
+  ave,
+  na.omit,
+  reorder
+)
+importFrom(stringr,
+  str_count,
+  str_detect,
+  str_extract_all,
+  str_remove,
+  str_remove_all,
+  str_replace_all,
+  str_split,
+  word
+)
+importFrom(tidyr,
+  drop_na,
+  fill,
+  pivot_longer,
+  pivot_wider,
+  replace_na
+)
+importFrom(utils,
+  askYesNo,
+  packageVersion
+)

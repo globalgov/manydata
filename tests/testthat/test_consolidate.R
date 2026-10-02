@@ -111,6 +111,12 @@ test_that("consolidate methods work", {
   # expect_length(consolidate(test2, join = "full", resolve = "coalesce", key = c("manyID", "date")), 3)
 })
 
+test_that("consolidate works on the emperors datacube", {
+  out <- consolidate(emperors, join = "full", resolve = "coalesce", key = "ID")
+  expect_s3_class(out, "tbl_df")
+  expect_s3_class(out$Death, "mdate")
+})
+
 # test_that("favouring a dataset works", {
 #   expect_equal(consolidate(favour(test, "b"), "inner", "every",
 #                            resolve = "coalesce"),
