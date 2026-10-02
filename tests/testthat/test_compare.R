@@ -38,6 +38,7 @@ test_that("compare_dimensions() returns the correct output format", {
 })
 
 test_that("compare_overlap() and return the correct output format", {
+  skip_if_not_installed("ggVennDiagram")
   db <- compare_overlap(emperors, key = "ID")
   expect_type(db, "list")
   pl <- plot(db)

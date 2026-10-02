@@ -28,6 +28,16 @@ test_that("Columns with dates are standardized", {
   }
 })
 
+test_that("date columns only contain valid messy dates", {
+  for (var in names(emperors[["UNRV"]])) {
+    if (inherits(emperors[["UNRV"]][[var]], "mdate")) {
+      dates <- unclass(emperors[["UNRV"]][[var]])
+      dates <- dates[!is.na(dates) & dates != "NA"]
+      expect_true(all(grepl("[0-9]", dates)), info = var)
+    }
+  }
+})
+
 test_that("dataset is arranged by date variable", {
   skip_on_ci()
   skip_on_cran()

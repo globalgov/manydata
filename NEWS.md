@@ -1,4 +1,22 @@
-# manydata 1.1.1
+# manydata 1.1.4
+
+## Package
+
+- Moved `{text2vec}` to Suggests because of archival of `{float}`
+  - `code_extend_glove()` now checks whether `{text2vec}` is installed
+- Suggested packages now only offered for installation in interactive sessions
+- Examples and tests requiring suggested packages are now skipped if not installed
+- Now depends on R >= 4.1.0 and uses the native pipe `|>` internally
+  - `%>%` is still re-exported for users
+- Updated GitHub actions and PR template
+  - PR checks now include PR metadata and reverse dependency checks
+  - Releases now draw their notes from the NEWS file
+
+## Data
+
+- Fixed invalid date in `emperors$UNRV` causing an error in `consolidate()` eg
+
+# manydata 1.1.3
 
 ## Package
 

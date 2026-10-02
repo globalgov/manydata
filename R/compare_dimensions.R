@@ -131,7 +131,7 @@ find_date <- function(x, type) {
 #' 'manyID' by default.
 #' @importFrom dplyr select rename_with as_tibble
 #' @importFrom purrr map
-#' @examples
+#' @examplesIf requireNamespace("ggVennDiagram", quietly = TRUE)
 #' \donttest{
 #' compare_overlap(emperors, key = "ID")
 #' plot(compare_overlap(emperors, key = "ID"))
@@ -153,10 +153,10 @@ compare_overlap <- function(datacube, dataset = "all", key = NULL) {
   # out <- ggVennDiagram::Venn(out)
   # # out <- ggVennDiagram::process_data(out)
   # # out <- ggVennDiagram::venn_region(out)
-  # out <- dplyr::as_tibble(out) %>%
-  #   dplyr::select(name, count) %>%
+  # out <- dplyr::as_tibble(out) |>
+  #   dplyr::select(name, count) |>
   #   dplyr::rename_with(.fn = ~paste0("Datasets from ", db_name),
-  #                      .cols = name) %>%
+  #                      .cols = name) |>
   #   dplyr::rename_with(.fn = ~paste0("Overlapping Observations by ", key),
   #                      .cols = count)
   class(out) <- c("compare_overlap", class(out))
@@ -238,10 +238,10 @@ compare_missing <- function(datacube, dataset = "all", variable = "all") {
     cbind(Variable = varnames, Dataset = dataset, Class = datatype,
           Count = counts, Missing = mvalues, 'Percent Missing' = mvaluesper)
   }))
-  out <- dplyr::as_tibble(out) %>%
+  out <- dplyr::as_tibble(out) |>
     dplyr::mutate(Count = as.numeric(Count),
                   Missing = as.numeric(Missing),
-                  'Percent Missing' = as.numeric(`Percent Missing`)) %>%
+                  'Percent Missing' = as.numeric(`Percent Missing`)) |>
     dplyr::arrange(Variable)
   class(out) <- c("compare_missing", "tbl_df", "tbl", "data.frame")
   out
@@ -290,7 +290,7 @@ plot.compare_missing <- function(x, ...) {
 #'   Other options include "confirmed", "unique", "missing", "conflict",
 #'   or "majority".
 #'   For multiple variables, please declare categories as a vector.
-#' @importFrom dplyr full_join filter_all %>% all_of group_by distinct any_vars
+#' @importFrom dplyr full_join filter_all all_of group_by distinct any_vars
 #'   starts_with mutate tibble
 #' @importFrom purrr reduce map
 #' @importFrom tidyr drop_na
@@ -345,7 +345,7 @@ compare_categories <- function(datacube,
   }
   out <- purrr::map(datacube, .extract_if_present, c(key, all_variables))
   # Step 6: reduce and join data
-  out <- purrr::map(out, tidyr::drop_na, dplyr::all_of(key)) %>%
+  out <- purrr::map(out, tidyr::drop_na, dplyr::all_of(key)) |>
     purrr::reduce(dplyr::full_join, by = key)
   # create an empty data frame in case there is multiple variables
   db <- data.frame(out[, c(key)], stringsAsFactors = TRUE)
@@ -408,7 +408,7 @@ compare_categories <- function(datacube,
       db[, paste0(var, " (", length(vlb), ")")] <- value
     }
   }
-  db <- dplyr::tibble(db[unique(colnames(db))]) %>%
+  db <- dplyr::tibble(db[unique(colnames(db))]) |>
     select(-dplyr::starts_with("dplyr"))
   # Step 8: filter categories if necessary
   . <- NULL
@@ -422,7 +422,7 @@ compare_categories <- function(datacube,
 }
 
 #' @importFrom purrr map
-#' @importFrom dplyr summarise group_by mutate select %>% filter
+#' @importFrom dplyr summarise group_by mutate select filter
 #' @importFrom tidyr pivot_longer pivot_wider replace_na fill
 #' @importFrom stats reorder
 #' @import ggplot2
@@ -437,25 +437,25 @@ plot.compare_categories <- function(x, ...) {
   db <- db[, grepl("\\(", names(db))]
   
   # Step 3: gather and reshape the data
-  dbgather <- db %>%
+  dbgather <- db |>
     tidyr::pivot_longer(cols = everything(), names_to = "Variable",
-                        values_to = "Category") %>%
-    dplyr::group_by(Variable, Category) %>%
-    dplyr::summarise(count = n(), .groups = ) %>%
-    dplyr::mutate(Percentage = count / sum(count)) %>%
+                        values_to = "Category") |>
+    dplyr::group_by(Variable, Category) |>
+    dplyr::summarise(count = n(), .groups = ) |>
+    dplyr::mutate(Percentage = count / sum(count)) |>
     tidyr::pivot_wider(id_cols = Variable, names_from = Category,
-                       values_from = Percentage) %>%
-    dplyr::mutate(across(everything(), ~tidyr::replace_na(.x, 0))) %>%
+                       values_from = Percentage) |>
+    dplyr::mutate(across(everything(), ~tidyr::replace_na(.x, 0))) |>
     tidyr::pivot_longer(-Variable, names_to = "Category",
-                        values_to = "Percentage") %>%
+                        values_to = "Percentage") |>
     dplyr::mutate(Category = factor(Category, levels = c("missing",
                                                          "conflict",
                                                          "unique",
                                                          "majority",
                                                          "confirmed")),
                   Missing = ifelse(Category == "missing",
-                                   Percentage, NA_character_)) %>%
-    tidyr::fill(Missing, .direction = "downup") %>%
+                                   Percentage, NA_character_)) |>
+    tidyr::fill(Missing, .direction = "downup") |>
     dplyr::filter(Percentage != 0)
   # Step 4: set colors and plot
   cols <- c(confirmed = "deepskyblue3", majority = "aquamarine3",

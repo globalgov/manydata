@@ -15,7 +15,7 @@
 #' @param develop Would you like to download the develop
 #' version of the package?
 #' FALSE by default.
-#' @importFrom dplyr bind_rows rename relocate %>% as_tibble
+#' @importFrom dplyr bind_rows rename relocate as_tibble
 #' @importFrom stringr str_detect str_remove
 #' @importFrom jsonlite fromJSON
 #' @importFrom httr GET content
@@ -63,11 +63,11 @@ call_packages <- function(package, develop = FALSE) {
     repo$Latest <- get_latest_release(repo$full_name)
     repo <- subset(repo, !grepl("Unreleased", repo$Latest))
     # format tibble
-    repo <- repo %>%
-      dplyr::bind_rows() %>%
-      dplyr::select(-full_name) %>%
-      dplyr::rename(Name = name, Description = description) %>%
-      dplyr::relocate(Name, Description, Installed, Latest) %>%
+    repo <- repo |>
+      dplyr::bind_rows() |>
+      dplyr::select(-full_name) |>
+      dplyr::rename(Name = name, Description = description) |>
+      dplyr::relocate(Name, Description, Installed, Latest) |>
       dplyr::as_tibble()
     # prints tibble before asking about updates
     print(repo, justify = "right")

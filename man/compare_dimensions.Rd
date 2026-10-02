@@ -33,9 +33,9 @@ compare_dimensions(emperors)
 }
 }
 \seealso{
-Other compare_: 
-\code{\link{compare_categories}()},
-\code{\link{compare_missing}()},
-\code{\link{compare_overlap}()}
+Other compare_:
+\code{\link[=compare_categories]{compare_categories()}},
+\code{\link[=compare_missing]{compare_missing()}},
+\code{\link[=compare_overlap]{compare_overlap()}}
 }
 \concept{compare_}

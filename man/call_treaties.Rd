@@ -68,8 +68,8 @@ call_treaties(membs, variable = c("Title", "Begin"), actor = "stateID")
 }
 }
 \seealso{
-Other call_: 
-\code{\link{call_packages}()},
-\code{\link{call_releases}()}
+Other call_:
+\code{\link[=call_packages]{call_packages()}},
+\code{\link[=call_releases]{call_releases()}}
 }
 \concept{call_}

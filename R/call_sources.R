@@ -17,7 +17,7 @@
 # #' @param open_codebook Would you like to open the codebook for the dataset?
 # #' By default false.
 # #' @importFrom utils help browseURL
-# #' @importFrom dplyr relocate %>% as_tibble
+# #' @importFrom dplyr relocate as_tibble
 # #' @importFrom stringr str_extract_all str_remove_all str_trim
 # #' @examples
 # #' \donttest{
@@ -121,7 +121,7 @@
 #     message("Please declare a dataset to open codebook.")
 #   }
 #   # out a with a tibble
-#   dplyr::as_tibble(out, rownames = "Dataset") %>%
+#   dplyr::as_tibble(out, rownames = "Dataset") |>
 #     dplyr::relocate(Dataset, Source, URL, Mapping)
 # }
 # 

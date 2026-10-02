@@ -13,13 +13,17 @@ UNRV <- readxl::read_excel("data-raw/emperors/UNRV/UNRV.xlsx")
 # Remove non-ASCII characters
 UNRV <- apply(UNRV, 2, stringi::stri_enc_toascii)
 # Let's standardise dates and variable names
-UNRV <- tibble::as_tibble(UNRV) %>%
+UNRV <- tibble::as_tibble(UNRV) |>
   dplyr::mutate(Begin = messydates::as_messydate(Beg),
-                End = messydates::as_messydate(End)) %>%
+                End = messydates::as_messydate(End),
+                # A bare "?" marks an unknown date in the source,
+                # but is not a valid messydate, so it is treated as missing
+                Birth = messydates::as_messydate(dplyr::na_if(Birth, "?")),
+                Death = messydates::as_messydate(dplyr::na_if(Death, "?"))) |>
   dplyr::rename(ID = "Common Name",
          FullName = "Full Name/Imperial Name",
-         Dynasty = "Dynasty/Class/Notes") %>%
-  dplyr::relocate(ID, Begin, End) %>% 
+         Dynasty = "Dynasty/Class/Notes") |>
+  dplyr::relocate(ID, Begin, End) |> 
   dplyr::select(-Beg)
 # manydata includes several functions that should help cleaning
 # and standardising your data.

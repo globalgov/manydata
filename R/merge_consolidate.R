@@ -58,7 +58,7 @@
 #' @details Text variables are dropped for more efficient consolidation.
 #' @importFrom purrr reduce map pluck
 #' @importFrom dplyr select full_join inner_join distinct all_of
-#' @importFrom dplyr group_by %>% mutate_at as_tibble
+#' @importFrom dplyr group_by mutate_at as_tibble
 #' @importFrom tidyr drop_na
 #' @importFrom dtplyr lazy_dt
 #' @importFrom messydates as_messydate
@@ -124,11 +124,11 @@ consolidate <- function(datacube,
                 full = purrr::reduce(`if`(length(key)==1, 
                                             purrr::map(out, dtplyr::lazy_dt, key_by = key),
                                             out),
-                                     dplyr::full_join, by = key) %>% as_tibble(),
+                                     dplyr::full_join, by = key) |> as_tibble(),
                 inner = purrr::reduce(out,
-                                      dplyr::inner_join, by = key) %>% as_tibble(),
+                                      dplyr::inner_join, by = key) |> as_tibble(),
                 left = purrr::reduce(out,
-                                     dplyr::left_join, by = key) %>% as_tibble()))
+                                     dplyr::left_join, by = key) |> as_tibble()))
   # out <- purrr::reduce(out, collapse::join, on = key, how = join,
   #                      multiple = FALSE, verbose = 0)
   # duckplyr considered too, but difficulty in converting mdate class columns
@@ -156,7 +156,7 @@ consolidate <- function(datacube,
       vars <- grep(paste0("^", resolve$var[conf], "$|^", resolve$var[conf], "\\."),
                    names(out), value = TRUE)
       var <- resolve$var[conf]
-      out <- out %>% mutate("{var}" := get(funny)(out, all_of(vars)), .keep = "unused") %>% 
+      out <- out |> mutate("{var}" := get(funny)(out, all_of(vars)), .keep = "unused") |> 
         select(-all_of(setdiff(vars,var)))
       cli::cli_alert_success("Resolved {length(vars)} related variables into {.var {var}}.")
     }

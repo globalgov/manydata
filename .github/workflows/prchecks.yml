@@ -24,7 +24,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v7
 
       - uses: r-lib/actions/setup-r@v2
         with:
@@ -54,7 +54,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Save binary artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.config.asset_name }}
           path: build/
@@ -67,10 +67,145 @@ jobs:
 
       - name: Lint
         run: lintr::lint_package()
-        if: runner.os == 'macOS'
         shell: Rscript {0}
 
       - name: Spell check
         run: spelling::spell_check_package()
-        if: runner.os == 'macOS'
+        shell: Rscript {0}
+
+  pr-metadata:
+    name: PR metadata checks
+    runs-on: macOS-latest
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Check DESCRIPTION version is bumped
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          BASE_VERSION=$(git show "$BASE_SHA:DESCRIPTION" | grep -m1 '^Version:' | sed 's/Version: *//')
+          HEAD_VERSION=$(grep -m1 '^Version:' DESCRIPTION | sed 's/Version: *//')
+          echo "Base version: $BASE_VERSION"
+          echo "Head version: $HEAD_VERSION"
+          if [ "$BASE_VERSION" = "$HEAD_VERSION" ]; then
+            echo "::error::DESCRIPTION Version has not been bumped from $BASE_VERSION"
+            exit 1
+          fi
+          HIGHEST=$(printf '%s\n%s\n' "$BASE_VERSION" "$HEAD_VERSION" | sort -V | tail -n1)
+          if [ "$HIGHEST" != "$HEAD_VERSION" ]; then
+            echo "::error::DESCRIPTION Version $HEAD_VERSION is not greater than base version $BASE_VERSION"
+            exit 1
+          fi
+
+      - name: Check PR title mentions the new version number
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          HEAD_VERSION=$(grep -m1 '^Version:' DESCRIPTION | sed 's/Version: *//')
+          if [[ "$PR_TITLE" != *"$HEAD_VERSION"* ]]; then
+            echo "::error::PR title does not mention the new version number ($HEAD_VERSION): \"$PR_TITLE\""
+            exit 1
+          fi
+
+      - name: Check PR description itemizes changes under subsection titles
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          if ! grep -qE '^##[[:space:]]' <<< "$PR_BODY"; then
+            echo "::error::PR description does not itemize changes under subsection titles (e.g. \"## Data\")"
+            exit 1
+          fi
+
+  revdep:
+    name: Reverse dependencies
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'release'
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          cache-version: 2
+          needs: check
+
+      - name: Install the development version of manydata
+        run: R CMD INSTALL .
+
+      - name: Check reverse dependencies still find every manydata object they use
+        # Uses only base R and plain `R CMD check`, so no extra packages are
+        # installed just to run this. It does not run each revdep's full test
+        # suite (some carry unrelated, pre-existing failures); it reproduces the
+        # `checking dependencies in R code` step of R CMD check on each downstream
+        # package with THIS branch's manydata installed, which is what catches a
+        # downstream package referring to a manydata object that a PR has renamed
+        # or removed (e.g. a renamed consolidate()).
+        run: |
+          Sys.setenv("_R_CHECK_FORCE_SUGGESTS_" = "false")
+          rbin <- file.path(R.home("bin"), "R")
+          revdeps <- tools::package_dependencies(
+            "manydata", reverse = TRUE, which = "all",
+            db = available.packages()
+          )[["manydata"]]
+          if (length(revdeps) == 0) {
+            message("No reverse dependencies found on CRAN; nothing to check.")
+            quit(save = "no", status = 0)
+          }
+          message("Reverse dependencies: ", paste(revdeps, collapse = ", "))
+          patt <- paste0("Missing or unexported object[^;]*manydata|",
+                         "manydata[^;]*not exported|not exported by[^;]*manydata")
+          broken <- character(0)
+          for (pkg in revdeps) {
+            message("\n== ", pkg, " ==")
+            # Install the revdep's dependencies. An already-installed dependency
+            # that satisfies the version requirement is not reinstalled, so THIS
+            # branch's manydata stays in place rather than the CRAN version.
+            tryCatch(
+              utils::install.packages(pkg, quiet = TRUE),
+              error = function(e) message("  dependency install issue: ",
+                                          conditionMessage(e))
+            )
+            dl <- tryCatch(
+              utils::download.packages(pkg, destdir = tempdir(), type = "source"),
+              error = function(e) {
+                message("  could not download ", pkg, ": ", conditionMessage(e))
+                NULL
+              }
+            )
+            if (is.null(dl) || nrow(dl) == 0) next
+            out <- system2(
+              rbin,
+              c("CMD", "check", "--no-manual", "--no-build-vignettes",
+                "--no-vignettes", "--no-tests", "--no-examples",
+                shQuote(dl[1, 2])),
+              stdout = TRUE, stderr = TRUE
+            )
+            # Flatten the check output so the pattern can span its wrapped lines.
+            log <- gsub("[[:space:]]+", " ", paste(out, collapse = " "))
+            if (length(grep(patt, log, ignore.case = TRUE))) {
+              broken <- c(broken, pkg)
+              message("  BROKEN by this branch: references a renamed or removed ",
+                      "manydata object.")
+            } else {
+              message("  OK: all manydata objects resolve.")
+            }
+          }
+          if (length(broken)) {
+            stop("This branch breaks reverse dependencies: ",
+                 paste(unique(broken), collapse = ", "),
+                 ". A manydata object they use has been renamed or removed; ",
+                 "keep an alias or update the downstream package.")
+          }
+          message("\nAll reverse dependencies resolve every manydata object they use.")
         shell: Rscript {0}

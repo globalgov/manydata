@@ -18,3 +18,4 @@
 ^CRAN-SUBMISSION$
 ^.DS_Store$
 ^.RDataTmp$
+^Resolve Function Name\..*$

@@ -37,8 +37,8 @@ specified GitHub repository.
 }
 }
 \seealso{
-Other call_: 
-\code{\link{call_packages}()},
-\code{\link{call_treaties}()}
+Other call_:
+\code{\link[=call_packages]{call_packages()}},
+\code{\link[=call_treaties]{call_treaties()}}
 }
 \concept{call_}
